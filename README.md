@@ -25,7 +25,7 @@ AI-кабинет продавца для торговых точек Тараз
 - [План двух дней и защита](docs/team5/08_PLAN_DEMO_QA.md).
 - [Обзор рынка](docs/team5/01_TARAZ_MARKET.md).
 
-Исходный commit `d8989a5` содержал только README. В этой ветке объединены frontend кабинета, опубликованный в main bootstrap и одобренный backend `193f6e5`. Состояние частей и ограничения описаны ниже.
+Исходный commit `d8989a5` содержал только README. В этой ветке объединены frontend кабинета, опубликованный в main bootstrap и одобренный backend `193f6e5`. Отдельно принят только OpenAPI AI-backend `2d2fc56`, без его кода и миграций. Состояние частей и ограничения описаны ниже.
 
 ## Frontend кабинета (ветка feature/seller-dashboard)
 
@@ -37,9 +37,9 @@ npm ci
 npm run dev
 ```
 
-Откройте адрес Vite, затем `/login` для Supabase-входа или «Посмотреть демо» для учебного просмотра без записи. Live bindings `/me` и GET/POST customers подключены к OpenAPI одобренного 193f6e5; для живой работы нужен настроенный и запущенный backend/PostgreSQL. Публичная конфигурация хранится только в игнорируемом `.env.local`, шаблон — `apps/web/.env.example`.
+Откройте адрес Vite, затем `/login` для Supabase-входа или «Посмотреть демо» для учебного просмотра без записи. Live bindings `/me` и GET/POST customers совместимы с одобренным backend 193f6e5 и OpenAPI 0.3.0 из 2d2fc56; для живой работы нужен настроенный и запущенный backend/PostgreSQL. Публичная конфигурация хранится только в игнорируемом `.env.local`, шаблон — `apps/web/.env.example`. Используются `VITE_API_BASE_URL` (локально `http://127.0.0.1:8000/api/v1`), `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`. DB/AI secrets, service-role и access tokens во frontend env не помещать.
 
-Проверки из `apps/web`: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`. Браузер: `npx playwright install chromium`, затем `npm run test:e2e`. Production preview: `npm run preview`. Хостинг должен перенаправлять SPA-маршруты на `index.html`.
+Проверки из `apps/web`: `npm run generate:api`, `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`, `npm run format:check`. Перед первым browser-прогоном: `npx playwright install chromium`. Production preview: `npm run preview`. Хостинг должен перенаправлять SPA-маршруты на `index.html`.
 
 Типы принятого OpenAPI: `npm run generate:api`, проверка актуальности — `npm run check:api`. Состояние интеграции и ограничения: [SELLER_BACKEND_INTEGRATION_PLAN](docs/SELLER_BACKEND_INTEGRATION_PLAN.md). HTTP API заявок и публичного каталога пока нет.
 
@@ -54,6 +54,18 @@ Merchant UI адаптирован по принципам Polaris в собст
 ## Одобренный backend 193f6e5
 
 Из `backend/ledger-auth` принят ручной учёт: клиенты, продажи, погашения, история, отмены и итог дня с PostgreSQL и Supabase JWT. Запуск из `apps/api`: `uv sync --locked`, затем с серверным `.env` — `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`. Миграции, seed и привязку владельцев выполнять только на согласованной базе по [README API](apps/api/README.md). Схемы — в [packages/contracts](packages/contracts/README.md). AI и публичные методы ещё не реализованы, API не опубликован.
+
+## AI-backend 2d2fc56 — контракт отдельно от реализации
+
+Капитан опубликовал ручной учёт в [PR #4](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/4); следующий этап в `backend/ai-drafts` добавляет Gemini: RU/KK-текст или аудио → валидированный черновик → отдельное подтверждение существующим журналом. Источник этого обновления — точный commit `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`. В seller-ветку перенесён **только** `packages/contracts/openapi.json`, версия API 0.3.0, и воспроизводимо обновлён `apps/web/src/shared/api/generated.ts`. Добавлен POST `/api/v1/businesses/{id}/drafts`; существующие пути, 20 component schemas и Bearer security семантически не изменились. AI UI, запросы, код backend, миграции и денежная логика этим обновлением не подключаются.
+
+Инструкции капитана для AI snapshot сохранены в [README API на 2d2fc56](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c/apps/api/README.md), [AI integration guide](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c/packages/contracts/AI_INTEGRATION.md) и [backend handoff](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c/docs/handoffs/backend.md). Порядок запуска в подготовленном капитаном AI checkout: `cd apps/api`, `uv sync --locked`, настроить игнорируемый `.env`, согласованно `uv run alembic upgrade head` и `uv run python -m app.seed --demo`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`. Эти команды миграций/seed в seller-сессии не выполнялись. Для уже подготовленной общей БД повторное изменение данных отдельно согласуется.
+
+Серверные переменные: `DATABASE_URL`, `SUPABASE_URL`, `JWT_ISSUER`, `JWT_AUDIENCE`, `ALLOWED_ORIGINS`; для отдельной тестовой БД — `TEST_DATABASE_URL`; для AI snapshot — `AI_API_KEY`, `AI_MODEL`. Значения и пароли не хранить в Git. Проверки капитана выполняются в его checkout: `uv run python -m app.export_contracts --check`, ruff и pytest по инструкции API; PostgreSQL-тесты только на отдельной пустой `*_test`, не общей demo-БД.
+
+Локальный `apps/api` здесь остаётся на 193f6e5. Его exporter не содержит нового HTTP drafts: повторная генерация OpenAPI из локального Python по старой инструкции перезапишет согласованный 0.3.0. Для этого контрактного этапа используйте `npm run generate:api` / `npm run check:api` из `apps/web`; источник OpenAPI — опубликованный snapshot капитана, а не локальный Swagger старого backend. `examples.json` и demo seed остаются прежними: схемы совместимы, дополнительных файлов/внешних `$ref` новый OpenAPI не требует. Contract README дополнен этим уточнением источника без переноса других файлов AI-ветки.
+
+По результатам капитана на AI-ветке `0003_drafts` применена на Supabase qadam-demo, живой HTTP/JWT/Gemini/DB сценарий и 165 локальных backend-тестов прошли. В текущем задании капитан также подтвердил TypeScript-client smoke `/me`, customer create, sale, repayment, history и summary. Это **результаты капитана**, не browser-проверки seller-сессии. Здесь собственные проверки — frontend contract/component/E2E; живой браузерный вход, CORS, AI UI и HTTPS-деплой остаются неподтверждёнными.
 
 Плановая структура кода: `apps/api` — FastAPI, `apps/web` — единое React-приложение, `packages/contracts` — общие схемы. Эти директории создают владельцы соответствующих частей. Техническое задание находится в обычных файлах `docs/team5`, доступных после клонирования без распаковки архивов.
 

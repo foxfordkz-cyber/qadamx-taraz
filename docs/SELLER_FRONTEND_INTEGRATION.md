@@ -2,7 +2,7 @@
 
 Один проект `apps/web`: React 19 / TypeScript / Vite, Node.js 22.12+ либо 24, npm и существующий lock-файл. React Three Fiber 9 совместим с выбранным React; зависимости сцены/exports передаёт public-web. Рабочая ветка `feature/seller-dashboard`, Draft PR #3. Main и ветки других участников не изменять.
 
-Принят только одобренный backend `193f6e5` (этап A, commit `246851b`). Текущий `packages/contracts/openapi.json` — источник wire schemas. `npm run generate:api` обновляет `shared/api/generated.ts`, `npm run check:api` обнаруживает дрейф. Backend/контрактные экспорты капитана здесь не редактировались.
+Код backend принят на `193f6e5` (этап A, commit `246851b`), а OpenAPI отдельно обновлён до 0.3.0 из согласованного `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`. Перенесён только JSON без merge AI-ветки и без изменений apps/api. Текущий `packages/contracts/openapi.json` — источник wire schemas. `npm run generate:api` обновляет `shared/api/generated.ts`, `npm run check:api` обнаруживает дрейф. Старый локальный app.export_contracts не содержит нового HTTP drafts и перезапишет согласованный snapshot: его здесь не запускать. Backend export проверяет капитан в AI checkout. Examples/demo seed не менялись, contract README дополнен уточнением источника, зависимости нового JSON внутренние.
 
 ## Общие exports и runtime
 
@@ -38,6 +38,8 @@ Exports не удалялись. `useBusiness()` внутри `/seller/*` даё
 
 Bindings inquiries/catalog отсутствуют. Обращение к соответствующему gateway завершается CONTRACT_PENDING до HTTP, изменение статуса в live недоступно. Пути из продуктового ТЗ не являются доказательством готового endpoint. Не включать их или новые backend commits автоматически.
 
+OpenAPI 0.3.0 добавляет POST `/api/v1/businesses/{id}/drafts`, существующие paths, schemas и security семантически сохранены. **AI не активирован**: нет новых gateway/hooks/UI/requests. Multipart types сгенерированы без ручных изменений; текущий генератор не выражает XOR text/audio (`oneOf`/`not`), поэтому будущая отдельно согласованная интеграция должна валидировать форму на runtime и сверяться с JSON, а не полагаться только на тип. Код и денежные правила модуля ledger-web этим обновлением не менялись.
+
 `ApiError` и `shared/api/errors.ts` runtime-проверяют стандартный ErrorResponse; наружу передаются безопасные requestId/field codes. Сырые server messages не выводятся. RU/KZ состояния 401/403/404/409/422/429/500 доступны через ErrorMessage/ErrorState.
 
 ## Клиенты и CustomerPicker
@@ -67,5 +69,7 @@ Seller-owned routes: `/login`, `/seller`, `/seller/customers`, `/seller/inquirie
 `apps/web/.env.example` содержит VITE_API_BASE_URL, VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY. Реальные публичные значения только в игнорируемом `.env.local`. Service role, JWT secret, DB/AI keys запрещены. AuthProvider отвергает secret/service-role config, но VITE-переменные всегда публичны.
 
 Supabase provider поддерживает signInWithPassword/session restore/refresh/logout; это проверено test client. Серверного env/БД и тестовых паролей здесь нет; health дал ECONNREFUSED. Реальные Supabase/DB/CORS запросы не объявлены проверенными. Frontend origins капитана — localhost:5173 и 127.0.0.1:5173; production origin согласовать отдельно, backend config не менять самостоятельно.
+
+Отдельное подтверждение капитана: live TypeScript-client smoke /me, customer create, sale, repayment, history и summary прошёл в его среде. Seller-сессия его не повторяла; browser login и CORS этим не подтверждаются.
 
 Demo включается только кнопкой `/login`, fixtures read-only, banner на seller-экранах. Backend error не переводит в demo; reload завершает Demo. Для SPA hosting нужен index.html fallback; деплоя нет. Полные команды, результаты 71 unit/component и 8 E2E, следующий шаг — [handoff](SELLER_FRONTEND_HANDOFF.md).

@@ -1,10 +1,10 @@
 # feat: seller dashboard, authentication and shared frontend
 
-Кабинет продавца теперь использует одобренные `/me` и GET/POST customers из backend `193f6e5`, а интерфейс адаптирован под ежедневную работу продавца по принципам Polaris. Supabase остаётся единственной авторизацией; Shopify зависимости не добавлены. Отдельный Demo Mode явно помечен и запрещает записи.
+Кабинет продавца использует одобренные `/me` и GET/POST customers из backend `193f6e5`, а интерфейс адаптирован под ежедневную работу продавца по принципам Polaris. OpenAPI отдельно синхронизирован с согласованным AI snapshot `2d2fc56`, без подключения AI UI и без merge AI-кода. Supabase остаётся единственной авторизацией; Shopify зависимости не добавлены. Отдельный Demo Mode явно помечен и запрещает записи.
 
 ## Backend/Supabase — этап A
 
-По разрешению капитана принят **только 193f6e527d716549d759d805dc4b86db1d9e059e**, commit интеграции **246851b2d4df996f054c7b1a27b2ba2933d2b3ee**. Ранее согласованный main уже принят в feature-ветку. README/DECISIONS сохраняют обе части. `apps/api` и `packages/contracts` идентичны одобренному snapshot, backend не переписывался. Новые backend commits не включались автоматически.
+По разрешению капитана принят backend **193f6e527d716549d759d805dc4b86db1d9e059e**, commit интеграции **246851b2d4df996f054c7b1a27b2ba2933d2b3ee**. Ранее согласованный main уже принят в feature-ветку. README/DECISIONS сохраняют обе части. `apps/api` идентичен этому snapshot, backend не переписывался. Отдельное обновление контракта описано ниже; новые backend commits не объединялись автоматически.
 
 - Типы генерируются из принятого OpenAPI; runtime readers валидируют UUID, owner memberships, nullable/default fields, лимиты строк, cursor и safe integer balance_minor.
 - `/me` сверяется с текущим Supabase user; разрешённые точки берутся из ответа. GET/POST customers проверяют business_id. Query cache/drafts изолированы identity/точкой и очищаются при logout/смене пользователя.
@@ -21,20 +21,31 @@
 
 [Дизайн, контраст и 6 screenshots](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_DESIGN_NOTES.md): dashboard desktop/mobile, customers desktop/mobile, inquiries desktop, catalog mobile. Все кадры показывают **Demo**, не живой backend.
 
+## Контракт AI-backend — этап C
+
+По новому согласованию импортирован **только** `packages/contracts/openapi.json` из точного `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c` (`backend/ai-drafts`, blob `9a1ed34f189692d750161de4d4728f78159e83cd`). `generated.ts` обновлён существующим генератором. OpenAPI 0.3.0 добавляет POST `/api/v1/businesses/{id}/drafts`; все прежние paths, 20 component schemas и security семантически сохранены. Внешних/неразрешённых `$ref` нет, дополнительные files/examples/dependencies из AI-ветки не нужны. `/me` и customers совместимы.
+
+Backend-код, миграции, финансовая логика, AI gateway/hooks/UI не менялись. README и **docs/PROJECT_STATUS.md** согласованно объединяют инструкции обеих частей с атрибуцией результатов капитана и ссылками на точный AI snapshot. Локальный apps/api остаётся 193f6e5: его export не должен перезаписать новый OpenAPI; frontend генерируется из согласованного JSON. Contract README дополнен уточнением источника с сохранением backend-команд, handoff/integration/DECISIONS обновлены.
+
+Известное ограничение генератора: multipart XOR text/audio из `oneOf`/`not` не выражен полностью в TypeScript. Generated file не правился вручную; будущая отдельно согласованная AI-интеграция потребует runtime validation по исходному OpenAPI. Наличие type не активирует AI.
+
 ## Проверки
 
-Оба этапа отдельно прошли `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run check:api`, `npm run test:e2e`; Prettier также passed.
+Этапы A/B отдельно прошли `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run check:api`, `npm run test:e2e`; Prettier также passed. После C повторно прошли все восемь обязательных команд, включая generate:api и format:check. Повторная генерация побайтово стабильна; source OpenAPI совпадает с blob капитана. E2E после sandbox EACCES успешно повторены с разрешённым loopback; live backend не использовался.
 
 | Этап | Unit/component | Chromium E2E |
 |---|---|---|
 | A: Backend/Supabase bindings | 70, 6 файлов | 6 |
 | B: Merchant UI | 71, 6 файлов | 8 |
+| C: OpenAPI 0.3.0 / generated types | 71, 6 файлов | 8 |
 
 Browser matrix: **360/390/768/1440**, нет горизонтального overflow, RU/KZ, формы/фокус, Demo без writes/backend traffic. API/auth проверки используют contract fixtures, mock transport и внедрённый auth test client: session restore, ошибки, отсутствие token, identity/business guards, customer create/search/cache. Это не live-проверки Supabase/PostgreSQL.
 
 ## Что ожидает среды и других участников
 
 Публичная Supabase-конфигурация капитана задана только в игнорируемом `.env.local`; файл/значения в PR не включены. **Серверный apps/api/.env, PostgreSQL credentials и пароли владельцев отсутствуют**. Проба API health дала ECONNREFUSED. Реальные login/refresh, JWT/JWKS, GET/POST с БД, persistence после reload, 6/3 memberships, межпользовательский 404 и CORS остаются непроверенными до подготовки среды. Миграции и данные общей БД не менялись.
+
+Капитан отдельно подтвердил live TypeScript-client smoke `/me`, customer create, sale, repayment, history и summary, а в backend handoff описал AI HTTP/JWT/Gemini/DB проверки. Это результаты капитана, здесь не повторённые. Живой browser login, AI UI и CORS ими не подтверждаются.
 
 HTTP заявок/каталога ещё нет. `app/modules.ts` ждёт public pages участника 2 и sale/debts/history/summary участника 4, сейчас честные страницы ожидания. Деплоя нет.
 
