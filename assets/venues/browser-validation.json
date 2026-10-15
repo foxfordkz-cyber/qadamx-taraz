@@ -138,12 +138,13 @@
     }
   ],
   "not_tested": [
-    "React/R3F application integration: no frontend application scaffold in this checkout",
+    "Public React/R3F venue-viewer integration: latest main has seller ledger UI, but no public 3D scene; apps/web/public is not yet wired to root Vite publicDir",
     "Physical phone, touch gestures, mobile FPS and load performance",
     "Real WebGL context loss or missing asset requests",
     "Live API matching (manifest matches current demo-seed.json; recheck before integration)"
   ],
   "asset_revision": "reference-based reconstruction, after Astra audit corrections",
   "manifest_sha256": "1c5998195978fdc704a2598653fdacdff8a05234daee9a5c5e6fdb56ec790b23",
-  "viewer_sha256": "5e35e2e1fa2e3114d5fdb82e79cf112898c480f5ff64074a75bbef8dab00ce82"
+  "viewer_sha256": "5e35e2e1fa2e3114d5fdb82e79cf112898c480f5ff64074a75bbef8dab00ce82",
+  "integration_context_main_commit": "8c932dd49b8defa8456fd3b7015ed7828ddae3b7"
 }

@@ -11,3 +11,6 @@ backend/data/
 backend/.env
 .wheel-cache/
 .wheel-core.txt
+tmp/
+*.blend1
+*.blend2
