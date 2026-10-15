@@ -29,7 +29,13 @@
     "bounds_corners_in_frame_per_model": "8/8",
     "hotspots_clicked": 9,
     "horizontal_overflow": false,
-    "note": "Scrollbar and full-page screenshot capture can change content width by 15 px; camera refits on resize."
+    "note": "360px viewport includes a 15px scrollbar; 345px document clientWidth and scrollWidth, canvas319x350. This is a desktop browser viewport override.",
+    "minimum_hotspot_center_distance_css_pixels": 62,
+    "hotspot_circles_overlap": false,
+    "document_client_and_scroll_width_css_pixels": [
+      345,
+      345
+    ]
   },
   "fallback": {
     "trigger": "Показать изображение button (manual fallback)",
@@ -45,32 +51,89 @@
   "venues": [
     {
       "slug": "mart",
-      "triangles": 11072,
+      "triangles": 16076,
       "min_y": 0,
       "selected_slugs": [
         "mart-demo-clothes",
         "mart-demo-food",
         "mart-demo-home"
+      ],
+      "sha256": "5882231fb8ca0e09b0b31c99992e8bd1ee5ca8ecf417519b8a8e5d869b6b81cb",
+      "poster_sha256": "4c73f47966491f30304142399de88dd86262c441d1297949f30b4ceacd9f0104",
+      "hotspot_positions": [
+        [
+          -75,
+          7,
+          35.5
+        ],
+        [
+          -14,
+          7.1,
+          35.8
+        ],
+        [
+          57,
+          6.8,
+          35.8
+        ]
       ]
     },
     {
       "slug": "kaikarmet",
-      "triangles": 15684,
+      "triangles": 11448,
       "min_y": 0,
       "selected_slugs": [
         "kaikarmet-demo-clothes",
         "kaikarmet-demo-food",
         "kaikarmet-demo-home"
+      ],
+      "sha256": "35c4f0525d08a2b0bce9fcec3e452bd7fe3dcd09ee98eda52e5c0d576411a19b",
+      "poster_sha256": "30befbd9e0cf980ca606328e6394fdbdd4dc1426ada4ef8aa457b4313f2fceee",
+      "hotspot_positions": [
+        [
+          -24,
+          5.1,
+          19.3
+        ],
+        [
+          12,
+          5.1,
+          20.2
+        ],
+        [
+          42,
+          5.4,
+          -5.5
+        ]
       ]
     },
     {
       "slug": "auyl-bereke",
-      "triangles": 14004,
+      "triangles": 15748,
       "min_y": 0,
       "selected_slugs": [
         "auyl-bereke-demo-clothes",
         "auyl-bereke-demo-food",
         "auyl-bereke-demo-home"
+      ],
+      "sha256": "d2d36a95a4bf4df45966951e94bcbf220f3038fad20861036aa08faa35e2e35c",
+      "poster_sha256": "f57843e12fde27dcb01eae8b76a4ecfc309147360e307f0a603005346a8524cf",
+      "hotspot_positions": [
+        [
+          -21,
+          5.9,
+          -1
+        ],
+        [
+          -55,
+          2.5,
+          39
+        ],
+        [
+          54,
+          12.1,
+          0
+        ]
       ]
     }
   ],
@@ -79,5 +142,8 @@
     "Physical phone, touch gestures, mobile FPS and load performance",
     "Real WebGL context loss or missing asset requests",
     "Live API matching (manifest matches current demo-seed.json; recheck before integration)"
-  ]
+  ],
+  "asset_revision": "reference-based reconstruction, after Astra audit corrections",
+  "manifest_sha256": "1c5998195978fdc704a2598653fdacdff8a05234daee9a5c5e6fdb56ec790b23",
+  "viewer_sha256": "5e35e2e1fa2e3114d5fdb82e79cf112898c480f5ff64074a75bbef8dab00ce82"
 }

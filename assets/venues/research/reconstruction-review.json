@@ -1,0 +1,31 @@
+{
+  "checked_on": "2026-10-15",
+  "reviewer": "Independent Codex subagent using GPT-6 Astra with Ultra reasoning, as authorized by the user",
+  "scope": "Current geometry modules, research records, actual renders and primary photographs; not a dimensional survey or physical phone test",
+  "findings": [
+    {
+      "venue": "mart",
+      "issue": "Initial portal opening was too tall and sign backing was inside the opening",
+      "correction": "Opening apex20.4 relative to tower34; width16.6; broad cap with neutral sign backing at y26.3; broader simplified pale curls",
+      "status": "Applied; corrected render visually inspected by root"
+    },
+    {
+      "venue": "auyl-bereke",
+      "issue": "Nested reconstruction label was ignored by builder",
+      "correction": "Added top-level geometry_status, label_ru and label_kk; verified exported manifest and browser badge",
+      "status": "Resolved"
+    }
+  ],
+  "remaining_limits": [
+    "All metric dimensions estimated",
+    "MART rear and roof simplified",
+    "Kaikarmet roof interpretation and side-gate location estimated",
+    "Auyl Bereke covers entrance and adjacent rows, not complete market quarter",
+    "Ornament and horse sculptures are original simplified geometry"
+  ],
+  "final_model_sha256": {
+    "mart": "5882231fb8ca0e09b0b31c99992e8bd1ee5ca8ecf417519b8a8e5d869b6b81cb",
+    "kaikarmet": "35c4f0525d08a2b0bce9fcec3e452bd7fe3dcd09ee98eda52e5c0d576411a19b",
+    "auyl-bereke": "d2d36a95a4bf4df45966951e94bcbf220f3038fad20861036aa08faa35e2e35c"
+  }
+}
