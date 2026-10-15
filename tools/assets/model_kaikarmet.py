@@ -3,19 +3,25 @@
 Reference: Yandex entity 63595775026 (street panorama 2023 and gallery 2024-25),
 2GIS covered-market entity 70000001052970253, and undated Yandex satellite view.
 The signs read Sultan; the public map entities are not proof of legal identity.
-The long blue street facade and side gate are observed. Roof arrangement is
-interpreted from the satellite image; lengths, depth and unseen kiosk layout
-are illustrative, not a measured site plan. Lettering stays in frontend HTML.
+The long blue street facade, red Sultan/produce fascia letters and side gate
+are observed. Roof arrangement is interpreted from the satellite image;
+lengths, depth and unseen kiosk layout are illustrative, not a measured plan.
+The large observed facade signs are original low-poly geometry; UI labels and
+business names remain in frontend HTML.
 """
+import bmesh
+
 from venue_geometry import *
 
 PALETTE.update({
-    "kaika_blue": "204b94", "kaika_glass": "365d91",
-    "kaika_skyglass": "6384a5", "kaika_dark": "172a43",
-    "kaika_cream": "e9e4d0", "kaika_masonry": "d7cdb4",
+    "kaika_blue": "174185", "kaika_glass": "153257",
+    "kaika_skyglass": "284b75", "kaika_dark": "101e32",
+    "kaika_cream": "e9e7db", "kaika_masonry": "d7cdb4",
     "kaika_roof": "a8b3b9", "kaika_rib": "c8d1d4",
     "kaika_gate": "478e9d", "kaika_steel": "69787e",
-    "kaika_red": "a44542", "kaika_asphalt": "747979",
+    "kaika_red": "a44542", "kaika_sign": "801328",
+    "kaika_plinth": "62768b", "kaika_joint": "d1d2cc",
+    "kaika_asphalt": "747979",
     "kaika_car": "e1e2df", "kaika_tyre": "303638",
 })
 
@@ -44,33 +50,70 @@ def _long_roof(name, x, z, length, width, eave, rise, curved=False):
 
 
 def _street_glazing(left, right):
-    box("Street facade base", ((left + right) / 2, .8, 18.08),
-        (right - left, .6, .26), "kaika_masonry", 0)
+    box("Blue grey street facade plinth", ((left + right) / 2, .81, 18.08),
+        (right - left, .59, .26), "kaika_plinth", 0)
     count = round((right - left) / 1.55)
     step = (right - left) / count
     for i in range(count):
         x = left + (i + .5) * step
-        box("Blue glazed street bay", (x, 3.13, 18.12), (step - .08, 4.08, .12),
-            "kaika_skyglass" if i % 5 == 0 else "kaika_glass", 0)
+        box("Dark blue glazed street bay", (x, 2.91, 18.12), (step - .08, 3.75, .12),
+            "kaika_skyglass" if i % 7 in (0, 1) else "kaika_glass", 0)
     for i in range(count + 1):
-        box("Cobalt facade mullion", (left + i * step, 3.13, 18.23),
-            (.09, 4.2, .15), "kaika_blue", 0)
-    for y in (1.08, 2.55, 4.4, 5.18):
+        box("Cobalt facade mullion", (left + i * step, 2.91, 18.23),
+            (.11, 3.85, .16), "kaika_blue", 0)
+    for y in (1.02, 2.45, 3.72, 4.78):
         box("Facade transom", ((left + right) / 2, y, 18.24),
-            (right - left, .09, .17), "kaika_blue", 0)
+            (right - left, .095, .17), "kaika_blue", 0)
+
+
+def _facade_letters(name, value, x, y, size, spacing):
+    """Observed red fascia words, modeled as original geometry, no photo texture."""
+    data = bpy.data.curves.new(name, "FONT")
+    data.body = value
+    data.align_x = "CENTER"
+    data.align_y = "CENTER"
+    data.size = size
+    data.space_character = spacing
+    data.resolution_u = 2
+    data.extrude = .012
+    obj = bpy.data.objects.new(name, data)
+    bpy.context.collection.objects.link(obj)
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    obj.location = xyz((x, y, 18.58))
+    obj.rotation_euler[0] = math.pi / 2
+    bpy.ops.object.convert(target="MESH")
+    obj = bpy.context.object
+    # Blender font outlines have collinear points. Triangulating their n-gons
+    # during glTF export can emit zero-area faces; discard those here instead.
+    letters = bmesh.new()
+    letters.from_mesh(obj.data)
+    bmesh.ops.triangulate(letters, faces=list(letters.faces))
+    # Allow for float32 position rounding in GLB: sub-centimetre slivers from
+    # the font are invisible but can collapse to collinear exported vertices.
+    degenerate = [face for face in letters.faces if face.calc_area() <= 1e-5]
+    if degenerate:
+        bmesh.ops.delete(letters, geom=degenerate, context="FACES")
+    letters.to_mesh(obj.data)
+    letters.free()
+    obj.data.update()
+    finish(obj, name, "kaika_sign")
 
 
 def _awning(x, width=9.1):
     _section_along_x("Low corrugated street canopy",
-                     [(19.15, 3.65), (22.65, 3.28), (22.65, 3.12), (19.15, 3.49)],
+                     [(18.55, 3.84), (22.65, 3.48), (22.65, 3.32), (18.55, 3.67)],
                      x, width, "kaika_roof")
+    box("Canopy cobalt front edge", (x, 3.4, 22.66),
+        (width, .15, .12), "kaika_blue", 0)
     for side in (-1, 1):
         sx = x + side * (width / 2 - .15)
-        box("Canopy slender post", (sx, 1.91, 22.4), (.12, 2.82, .12), "kaika_steel", 0)
-        beam("Canopy brace", (sx, 2.58, 22.4), (sx, 3.52, 20.1), .09, "kaika_steel")
+        box("Canopy slender post", (sx, 2.01, 22.4), (.12, 2.98, .12), "kaika_steel", 0)
+        beam("Canopy brace", (sx, 2.65, 22.4), (sx, 3.69, 20.1), .09, "kaika_steel")
     for i in range(8):
         sx = x - width / 2 + width * i / 7
-        beam("Canopy sheet seam", (sx, 3.69, 19.15), (sx, 3.32, 22.65), .045, "kaika_rib")
+        beam("Canopy sheet seam", (sx, 3.88, 18.55), (sx, 3.52, 22.65), .045, "kaika_rib")
     for dx in (-2.2, 2.2):
         box("Illustrative street counter", (x + dx, 1.09, 21.45),
             (3.65, 1.18, 1.25), "kaika_masonry", .025)
@@ -127,29 +170,44 @@ def kaikarmet():
     box("Street parking apron", (0, .515, 28), (92, .03, 7.1), "kaika_asphalt", 0)
     box("Street frontage pavement", (0, .545, 21.2), (85, .09, 6.2), "stone", .025)
 
-    # Observed long blue street front. The interruption at x=8..16 is the
-    # recessed rectangular public entrance, not an invented monumental arch.
-    for left, right in ((-41, 8), (16, 41)):
-        box("Low continuous street gallery", ((left + right) / 2, 2.91, 13.5),
-            (right - left, 4.82, 9), "kaika_masonry", .035)
+    # The panorama shows one long low facade. The wide x=7..19 opening is
+    # recessed, while two distinct low corrugated canopies project to its left.
+    for left, right in ((-41, 7), (19, 41)):
+        box("Low continuous street gallery", ((left + right) / 2, 2.76, 13.5),
+            (right - left, 4.52, 9), "kaika_masonry", .035)
         _street_glazing(left, right)
-    box("Wide cream signage fascia", (0, 5.8, 18.12), (82.5, 1.18, .55), "kaika_cream", .025)
-    box("Narrow cobalt fascia band", (0, 5.19, 18.19), (82.6, .14, .64), "kaika_blue", 0)
-    box("Blue upper fascia edge", (0, 6.4, 18.12), (82.8, .12, .7), "kaika_blue", 0)
-    box("Street gallery shallow roof", (0, 6.21, 13.3), (83, .22, 9.5), "kaika_roof", .02)
+    box("Tall pale panel fascia", (0, 5.74, 18.16), (82.5, 1.72, .55), "kaika_cream", .025)
+    for x in range(-40, 41, 2):
+        box("Pale fascia panel joint", (x, 5.74, 18.448),
+            (.022, 1.68, .012), "kaika_joint", 0)
+    box("Deep cobalt band below signs", (0, 4.83, 18.26),
+        (82.7, .19, .68), "kaika_blue", 0)
+    box("Blue roofline trim", (0, 6.67, 18.18),
+        (82.8, .12, .72), "kaika_blue", 0)
+    box("Street gallery shallow roof", (0, 6.49, 13.3),
+        (83, .22, 9.5), "kaika_roof", .02)
     for x in range(-40, 41, 5):
-        box("Gallery roof sheet seam", (x, 6.335, 13.3), (.045, .025, 9.3), "kaika_rib", 0)
-    box("Entrance recess soffit", (12, 5.02, 15.4), (8.05, .18, 5.4), "kaika_cream", 0)
-    box("Entrance shadow", (12, 2.84, 12.68), (8, 4.68, .2), "kaika_dark", 0)
-    for x in (9.35, 11.1, 12.9, 14.65):
-        box("Recessed blue framed door", (x, 2.24, 12.85), (1.67, 3.45, .15), "kaika_blue", 0)
-        box("Entrance door glass", (x, 2.36, 12.95), (1.38, 2.9, .08), "kaika_glass", 0)
-    for x in (8.08, 15.92):
-        box("Wide entry blue jamb", (x, 2.79, 17.77), (.26, 4.58, .55), "kaika_blue", 0)
-    for x in (-8.4, 1.7):
-        _awning(x)
-    for x, mat in ((7, "kaika_cream"), (18.2, "kaika_red")):
-        box("Small entrance kiosk", (x, 1.81, 21.4), (1.5, 2.62, 1.8), mat, .035)
+        box("Gallery roof sheet seam", (x, 6.615, 13.3),
+            (.045, .025, 9.3), "kaika_rib", 0)
+    _facade_letters("Red SULTAN fascia sign", "СҰЛТАН", 14.6, 5.75, 1.45, 1.58)
+    _facade_letters("Red produce fascia sign", "ЖЕМІС-ЖИДЕКТЕР", -23, 5.75, 1.16, 1.08)
+    box("Entrance recess soffit", (13, 4.78, 15.4), (12.05, .18, 5.4), "kaika_dark", 0)
+    box("Entrance shadow", (13, 2.73, 12.68), (11.8, 4.43, .2), "kaika_dark", 0)
+    for x in (8.6, 10.8, 13, 15.2, 17.4):
+        box("Recessed blue framed door", (x, 2.17, 12.85),
+            (2.1, 3.34, .15), "kaika_blue", 0)
+        box("Entrance door glass", (x, 2.38, 12.95),
+            (1.78, 2.78, .08), "kaika_glass", 0)
+    for x in (7.08, 18.92):
+        box("Wide entry blue jamb", (x, 2.75, 17.77),
+            (.31, 4.48, .65), "kaika_blue", 0)
+    box("Entrance blue lintel", (13, 4.79, 18.08),
+        (12, .17, .35), "kaika_blue", 0)
+    for x in (-12.5, -1.5):
+        _awning(x, 10.7)
+    for x, mat in ((5.7, "kaika_cream"), (20.3, "kaika_red")):
+        box("Small entrance kiosk", (x, 1.81, 21.4),
+            (1.5, 2.62, 1.8), mat, .035)
         box("Kiosk dark opening", (x, 2, 22.32), (1.12, 1.54, .08), "kaika_dark", 0)
 
     # Satellite suggests parallel roof strips and a transverse interruption.
@@ -157,7 +215,7 @@ def kaikarmet():
     box("Rear low market strip", (-1, 2.55, -18.7), (80, 4.1, 8), "kaika_masonry", .035)
     _long_roof("Rear low pitched roof", -1, -18.7, 81, 9, 4.78, .85)
     for x in (-19.1, 17.1):
-        _long_roof("Covered market broad raised roof", x, -3, 34.4, 18, 6.18, 2.9, curved=True)
+        _long_roof("Covered market shallow raised roof", x, -3, 34.4, 18, 6.15, 1.85, curved=True)
     box("Transverse roof connection", (-1, 6.14, -3), (2.1, .18, 18.5), "kaika_steel", 0)
     box("Front roof link", (-1, 5.58, 7.3), (79.6, .22, 4.7), "kaika_roof", .015)
     box("Rear roof link", (-1, 4.6, -13), (79.6, .18, 3.7), "kaika_roof", .015)
@@ -165,8 +223,8 @@ def kaikarmet():
         for z in (-11.3, 5.3):
             box("Covered market steel column", (x, 3.34, z), (.15, 5.68, .15), "kaika_steel", 0)
         beam("Covered market roof tie", (x, 6.13, -11.3), (x, 6.13, 5.3), .12, "kaika_steel")
-        beam("Covered market roof brace", (x, 6.13, -11.3), (x, 8.88, -3), .12, "kaika_steel")
-        beam("Covered market roof brace", (x, 8.88, -3), (x, 6.13, 5.3), .12, "kaika_steel")
+        beam("Covered market roof brace", (x, 6.13, -11.3), (x, 7.94, -3), .12, "kaika_steel")
+        beam("Covered market roof brace", (x, 7.94, -3), (x, 6.13, 5.3), .12, "kaika_steel")
     for x in (-28, -17, -6, 5, 16, 27):
         for z in (-8.2, 2.3):
             box("Illustrative low stall under shared roof", (x, 1.9, z),
@@ -185,14 +243,16 @@ def kaikarmet():
 
 CONFIG = {
     "name": "Кайкармет", "build": kaikarmet,
-    "camera": [94, 66, 112], "target": [0, 3.5, 0], "render_scale": 116,
+    "camera": [26, 42, 108], "target": [0, 3.5, 8], "render_scale": 108,
+    "render_exposure": -.1,
+    "preview_camera": [10, 10, 62], "preview_target": [10, 3.1, 18], "preview_scale": 48,
     "hotspots": [[-24, 5.1, 19.3], [12, 5.1, 20.2], [42, 5.4, -5.5]],
     "geometry_status": "reference_based",
     "label_ru": "По фотографиям · размеры оценочные",
     "label_kk": "Фотосуреттер негізінде · өлшемдері болжамды",
     "reconstruction": {
-        "coverage": "Observed street facade and gate; interpreted connected roof composition. Non-survey reconstruction.",
-        "confirmed": ["Long blue glazed street frontage with cream fascia", "Wide recessed rectangular entrance",
+        "coverage": "Observed street facade, signs and gate; interpreted connected roof composition. Non-survey reconstruction.",
+        "confirmed": ["Long dark blue glazed street frontage with tall cream fascia and red Sultan/produce letters", "Wide recessed rectangular entrance",
                       "Low lean-to street canopies", "Steel-covered market aisles", "Cream side portal with turquoise bar gates"],
         "estimated": ["All metric dimensions and exact bay counts", "Central roof curvature and strip connections",
                       "Position of side gate within the complete footprint", "Unseen kiosk arrangement and anonymous parked cars"],

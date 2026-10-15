@@ -87,7 +87,7 @@
     "entrance": "Deep pointed arch cut into rectangular tower; broad cream intrados, dark recessed backing, pale scrolling screen suspended above glazed doors. Remove lime canopy and diagonal lattice from previous model.",
     "facade": "Four small semicircular blind arches on the right, cream brick infill above ground-floor storefront glass. Thin dark panel joints and regularly spaced projecting brick blocks in upper brown friezes. An extended right wing has strip glazing, pale fascia and ornament-panel rhythm. Left advertising wall represented without copying tenant marks.",
     "scale_convention": "Model units remain metres, but chosen dimensions are proportional modelling estimates. Keep conceptual_scale=true and explicitly avoid a 1:1 claim.",
-    "budget": "Target below 30,000 triangles and 1.5 MB. Small brick repeats use unbevelled solids; decorative screen uses original simplified flat ribbons. No photo textures, logos, external assets or decoder dependencies.",
+    "budget": "Target below 30,000 triangles and 1.5 MB. Small brick repeats use unbevelled solids; decorative screen uses original simplified flat ribbons. MART venue lettering and emblem are newly modelled geometry; no copied raster logo assets, tenant logos, photo textures, external assets or decoder dependencies.",
     "unverified_zones": ["Surveyed dimensions and heights", "Rear facade and service entries", "Complete roof geometry and plant", "Full right wing beyond photographic crop", "Actual current interior layout and tenant placement", "Exact decorative motif geometry"]
   }
 }
