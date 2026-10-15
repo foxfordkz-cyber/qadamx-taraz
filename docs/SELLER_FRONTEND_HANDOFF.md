@@ -6,7 +6,8 @@
 
 - Ранее согласованный main `ced32e7` принят merge-коммитом `3b03ed3fe74188d848693891fb6132515cb29627`.
 - Этап A опубликован: `246851b2d4df996f054c7b1a27b2ba2933d2b3ee` — одобренный backend и Supabase/customer bindings.
-- Этап B: merchant UI, поиск заявок, 6 новых screenshots и проверки завершены; hash публикации записывается после commit. Точный HEAD всегда: `git log -1 --format=%H`.
+- Этап B опубликован: `e8321f0cb5c7056d284c831d4e6ae7b0293424ca` — merchant UI, поиск заявок, 6 новых screenshots. Это последний commit реализации; завершающий commit обновляет только metadata передачи. Точный текущий HEAD: `git log -1 --format=%H`.
+- После A и B выполнены fetch, `pull --ff-only origin feature/seller-dashboard` (Already up to date), `push -u origin feature/seller-dashboard`; удалённый hash B совпал. Draft PR #3 обновлён и остаётся open/draft, merge не выполнялся.
 - Одобрен только backend `193f6e527d716549d759d805dc4b86db1d9e059e`, PR #4. Более новые backend commits автоматически не включать. README/DECISIONS сохраняют обе стороны. Проверка из корня `git diff 193f6e5 -- apps/api packages/contracts` должна быть пустой: backend и контракты капитана не редактировались.
 
 ## Что реализовано

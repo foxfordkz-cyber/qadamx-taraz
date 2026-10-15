@@ -2,7 +2,7 @@
 
 2026-10-15, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
 
-Завершены этап A (публикация `246851b2d4df996f054c7b1a27b2ba2933d2b3ee`) и этап B (Polaris-inspired UI). Принят только одобренный backend `193f6e5`; код apps/api и экспорт packages/contracts не редактировались. Актуальный HEAD: `git log -1 --format=%H`.
+Завершены этап A (публикация `246851b2d4df996f054c7b1a27b2ba2933d2b3ee`) и этап B (Polaris-inspired UI, `e8321f0cb5c7056d284c831d4e6ae7b0293424ca`). Оба отправлены после fetch/pull --ff-only; remote hash совпал. Draft PR #3 обновлён. Принят только одобренный backend `193f6e5`; код apps/api и экспорт packages/contracts не редактировались. Актуальный HEAD с завершающей metadata: `git log -1 --format=%H`.
 
 Live bindings /me и GET/POST customers используют OpenAPI, runtime validation, nullable contact, server balance_minor, identity/business guards, общие hooks и CustomerPicker. Supabase session restore/token/cache boundaries сохранены. Заявки/каталог live API не включены; Demo явно read-only.
 
