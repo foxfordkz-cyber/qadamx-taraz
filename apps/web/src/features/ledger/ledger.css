@@ -1,0 +1,34 @@
+.ledger-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.ledger-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-block: 16px;
+}
+.ledger-columns fieldset {
+  border: 0;
+  padding: 0;
+  min-width: 0;
+}
+.ledger-columns textarea {
+  min-height: 120px;
+  max-width: 100%;
+}
+.ledger-columns .button {
+  margin-block: 6px;
+}
+.ledger-columns small {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 700px) {
+  .ledger-columns {
+    grid-template-columns: 1fr;
+  }
+  .ledger-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -167,6 +167,46 @@ EXAMPLES["AIUnavailableErrorResponse"] = {
 }
 
 
+EXAMPLES["VenueResponse"] = dict(
+    id="10000000-0000-4000-8000-000000000001",
+    slug="mart",
+    name="MART",
+    address_label="Demo venue",
+    geometry_status="conceptual",
+    is_demo=True,
+)
+EXAMPLES["PublicBusiness"] = dict(
+    id="20000000-0000-4000-8000-000000000001",
+    venue_id=EXAMPLES["VenueResponse"]["id"],
+    slug="mart-demo-clothes",
+    name="Demo clothes",
+    category="clothes",
+    description="Synthetic demo",
+    is_demo=True,
+)
+EXAMPLES["CatalogResponse"] = dict(
+    id="30000000-0000-4000-8000-000000000001",
+    business_id=EXAMPLES["PublicBusiness"]["id"],
+    name="Demo item",
+    price_minor=300000,
+    available=True,
+    is_demo=True,
+)
+EXAMPLES["ShopResponse"] = dict(**EXAMPLES["PublicBusiness"], catalog=[EXAMPLES["CatalogResponse"]])
+EXAMPLES["InquiryReceipt"] = dict(
+    id="60000000-0000-4000-8000-000000000001", created_at="2026-10-15T10:00:00Z"
+)
+EXAMPLES["InquiryResponse"] = dict(
+    **EXAMPLES["InquiryReceipt"],
+    business_id=EXAMPLES["PublicBusiness"]["id"],
+    visitor_name="Demo visitor",
+    contact="@demo_contact",
+    message="Synthetic inquiry",
+    status="new",
+)
+EXAMPLES["InquiryUpdate"] = dict(status="in_progress")
+
+
 def model_for_example(name):
     if name in {"ClarificationDraftResponse", "RepaymentDraftResponse"}:
         return schemas.DraftResponse

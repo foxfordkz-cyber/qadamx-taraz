@@ -1,5 +1,7 @@
 # Qadam API — журнал и AI-черновики
 
+Интеграционная версия 0.4.0 добавляет публичный каталог и заявки. Единый запуск API/web, commits и проверка команды — [TEAM_INTEGRATION](../../docs/TEAM_INTEGRATION.md). Для общей Supabase на `0003_drafts` ничего мигрировать не нужно и в этой задаче запрещено; новые HTTP-методы используют существующие таблицы.
+
 [Передача AI-интеграции frontend](../../packages/contracts/AI_INTEGRATION.md): точный commit и примеры multipart/уточнения/подтверждения для PR #5.
 
 [Подключение команды](../../docs/BACKEND_FRONTEND_CONNECTION.md): проверенные PR #3/#4/#5, запуск, Base URL, публичные env, businessId и результаты независимых проверок.
@@ -77,7 +79,7 @@ Frontend передаёт `Authorization: Bearer <access_token>`; API не хр�
 
 ## Транзакции и схема
 
-Миграции `0001_catalog` → `0002_ledger` → `0003_drafts` создают девять таблиц в закрытой схеме `qadam`. Новая миграция добавляет только `drafts`; прежние миграции не переписаны. `inquiries` пока нужна для корректного счётчика summary, HTTP-методы заявок ещё не реализованы. `new_inquiries_count` — число обращений, созданных за выбранную дату, независимо от последующей смены статуса.
+Миграции `0001_catalog` → `0002_ledger` → `0003_drafts` создают закрытую схему `qadam`; прежние миграции не переписаны. Таблица `inquiries` теперь обслуживает публичный POST и защищённые GET/PATCH. `new_inquiries_count` — число обращений, созданных за выбранную дату, независимо от последующей смены статуса.
 
 Не публиковать `qadam` через Supabase Data API. Миграции отзывают права у `PUBLIC`, `anon`, `authenticated`. Составные FK не позволяют связать запись с клиентом/продажей другой точки. Trigger запрещает UPDATE/DELETE журнала: исправление — новая обратная строка. Миграции — отдельный release-step, не startup/request hook.
 
@@ -117,7 +119,7 @@ Smoke создаёт **учебную** продажу 3000 ₸ с оплато�
 
 В этой рабочей копии отдельный локальный PostgreSQL 17.11 расположен в игнорируемом `tmp/postgres`, данные — `tmp/qadam-pgdata-ledger`, порт `127.0.0.1:55432`, demo/test URLs — в `.env.local-postgres`. После перезапуска Windows его можно поднять из корня репозитория: `./tmp/postgres/pgsql/bin/pg_ctl.exe -D ./tmp/qadam-pgdata-ledger -l ./tmp/postgres.log -o "-h 127.0.0.1 -p 55432" -w start`. Бинарники и данные не входят в Git; на другой машине нужен свой PostgreSQL.
 
-Публичная витрина/каталог, HTTP-заявки и деплой не входят в этот этап. Доступные методы и схемы экспортированы в `packages/contracts`; фактические результаты — в `docs/handoffs/backend.md`.
+Каталог: публичные `GET /api/v1/venues`, `GET /api/v1/businesses?venue_id=&category=&q=`, `GET /api/v1/businesses/{slug}`. Списки возвращают items/next_cursor, цены — целые price_minor. Публичный POST `/businesses/{id}/inquiries` принимает InquiryCreate и возвращает только id/created_at; повтор client_request_id с другим телом — 409. Лимит 20 новых заявок/точку/минуту проверяется в PostgreSQL под блокировкой. Приватные GET и PATCH заявок требуют JWT/membership и проверяют принадлежность UUID. Деплой не выполнен. Методы и примеры — в `packages/contracts`, результаты — в `docs/handoffs/backend.md`.
 
 ## AI: текст, затем аудио, затем подтверждение
 

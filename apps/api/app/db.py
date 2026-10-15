@@ -19,6 +19,10 @@ def make_engine(settings):
 
 
 def session_for_request(request: Request, user: Annotated[UUID, Depends(current_user)]):
+    yield from public_session(request)
+
+
+def public_session(request: Request):
     engine = request.app.state.engine
     if engine is None:
         raise APIError(503, "DATABASE_UNAVAILABLE", "Database is not configured")

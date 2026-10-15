@@ -1,5 +1,7 @@
 # Контракты Qadam
 
+Текущая интеграционная версия — **0.4.0**, источник полностью в `apps/api`. Дополнительно реализованы публичные GET venues/businesses/shop, POST inquiry и защищённые GET/PATCH inquiries. Типы уже сгенерированы в едином `apps/web`. Запуск и точный состав — [TEAM_INTEGRATION](../../docs/TEAM_INTEGRATION.md); старый AI-only patch ниже служит историей и поверх 0.4.0 не применяется.
+
 [Передача AI-интеграции frontend](AI_INTEGRATION.md): точный проверенный commit, OpenAPI, multipart, уточнения, подтверждение и повтор запроса.
 
 [Подключение команды к backend](../../docs/BACKEND_FRONTEND_CONNECTION.md): Base URL, запуск, публичные переменные, учебные точки и совместимость опубликованных PR.
@@ -14,4 +16,4 @@
 
 `ClarificationDraftResponse` и `RepaymentDraftResponse` — варианты `DraftResponse`; `ConfirmedSaleCreate` — вариант `SaleCreate` с `draft_id`; `AIUnavailableErrorResponse` — вариант общей ошибки. Это имена примеров, не новые типы API. Неизвестная оплата — `null`, UI показывает вопросы и сохраняет ручную форму при ошибке AI.
 
-Общий текстовый контракт: `docs/team5/02_ARCHITECTURE_API.md`; настройка и ограничения: `apps/api/README.md`. `InquiryCreate` сохранён для следующего этапа, HTTP-заявки ещё не реализованы. Генерацию TypeScript-клиента подключает владелец seller-web. При подтверждении черновика передать проверенные продавцом поля и сохранить Idempotency-Key для повтора. Чужой автор/точка → 404, TTL 30 минут → `DRAFT_EXPIRED`, новый ключ использованного draft → `DRAFT_USED`; ручной ввод остаётся `draft_id=null`.
+Общий контракт: `docs/team5/02_ARCHITECTURE_API.md`; запуск: `apps/api/README.md`. `InquiryCreate` теперь используется публичным POST, ответ `InquiryReceipt` не содержит контакт или сообщение. `InquiryResponse` — только владельцу; `InquiryUpdate` меняет статус. `VenueResponse`, `PublicBusiness`, `ShopResponse`, `CatalogResponse` имеют явные публичные поля; деньги только `_minor`. Примеры всех новых схем есть в examples.json. При подтверждении AI передать проверенные продавцом поля и сохранить Idempotency-Key для повтора. Чужой автор/точка → 404, TTL 30 минут → `DRAFT_EXPIRED`, новый ключ использованного draft → `DRAFT_USED`; ручной ввод остаётся `draft_id=null`.

@@ -25,8 +25,14 @@ AI-кабинет продавца для торговых точек Тараз
 - [План двух дней и защита](docs/team5/08_PLAN_DEMO_QA.md).
 - [Обзор рынка](docs/team5/01_TARAZ_MARKET.md).
 
-Исходный commit `d8989a5` содержал только README. Ручной учёт с PostgreSQL и Supabase JWT опубликован в [PR #4](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/4), без слияния. Следующая ветка `backend/ai-drafts` добавляет Gemini: RU/KK-текст или аудио → валидированный черновик → отдельное подтверждение существующим журналом. Запуск из `apps/api`: `uv sync --locked`, настроить игнорируемый `.env`, `uv run alembic upgrade head`, `uv run python -m app.seed --demo`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`. Миграция `0003_drafts` применена на Supabase `qadam-demo`; полный живой HTTP-сценарий проверен с настоящими JWT/Gemini/БД, без очистки. Привязка владельцев, настройки AI, тестовая БД и запуск — в [README API](apps/api/README.md). Схемы и примеры — в [packages/contracts](packages/contracts/README.md), фактические результаты — в [backend handoff](docs/handoffs/backend.md). Frontend и публичные методы ещё не реализованы; API не опубликован на хостинге.
+## Единая интеграция
 
-Плановая структура кода: `apps/api` — FastAPI, `apps/web` — единое React-приложение, `packages/contracts` — общие схемы. Эти директории создают владельцы соответствующих частей. Техническое задание находится в обычных файлах `docs/team5`, доступных после клонирования без распаковки архивов.
+Ветка `integration/team-mvp` объединяет основной `apps/api` (FastAPI/PostgreSQL/Supabase/Gemini), Seller Frontend и ledger/voice/summary/public modules в одном `apps/web`. Второй backend и корневой frontend PR #7 удалены после переноса полезных сценариев, история сохранена.
 
-Демо использует учебные точки и операции. Подтверждённых партнёрств с площадками пока нет.
+**[Запуск, env, commits, API, тестовые точки и приёмка](docs/TEAM_INTEGRATION.md)**. Кратко: из `apps/api` — `uv sync --locked`, затем с настроенным серверным `.env` — `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`; из `apps/web` — `npm ci`, настроить публичный `.env.local`, `npm run dev -- --port 5173 --strictPort`.
+
+Base URL `http://127.0.0.1:8000/api/v1`, Swagger `/docs`, OpenAPI `/openapi.json`. Localhost доступен только на вашем компьютере. Секреты БД и Gemini никогда не имеют префикса VITE_. Общая Supabase — `0003_drafts`: не выполнять там seed, очищающие тесты или миграции. Каталог/заявки используют уже существующие таблицы, новая миграция не нужна.
+
+Проверки: API — `uv run python -m app.export_contracts --check`, ruff, pytest **только с отдельной test PostgreSQL** по [README API](apps/api/README.md). Web — `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`. Реальные и stub-результаты разделены в [backend handoff](docs/handoffs/backend.md).
+
+Учебные точки, клиенты и концептуальные 3D-модели не являются реальными партнёрами/долгами/навигацией. PR остаётся Draft до review команды; merge и деплой в этой задаче не выполняются.

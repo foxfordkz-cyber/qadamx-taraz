@@ -86,7 +86,10 @@ describe("approved 193f6e5 response bindings (contract fixtures, not a database)
   });
   it("keeps missing inquiries/catalog unbound and customer writes independent", async () => {
     const request = vi.fn();
-    const gateway = createLiveGateway({ request }, backendBindings);
+    const gateway = createLiveGateway(
+      { request },
+      { ...backendBindings, inquiries: undefined, catalog: undefined },
+    );
     expect(gateway.canCreateCustomer).toBe(true);
     expect(gateway.canUpdateInquiry).toBe(false);
     await expect(gateway.inquiries(business, null)).rejects.toMatchObject({

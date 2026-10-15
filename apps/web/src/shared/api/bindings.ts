@@ -112,8 +112,60 @@ export function customerBody(
     throw new ApiError(422, "VALIDATION_ERROR");
   return { display_name, note, contact };
 }
-/** Bind only endpoints present in approved 193f6e5. Inquiries/catalog remain unavailable. */
+export function readInquiries(raw: unknown): Page<Inquiry> {
+  const data = object(raw);
+  if (!Array.isArray(data.items)) return invalid();
+  return {
+    items: data.items.map((raw) => {
+      const r = object(raw);
+      if (!["new", "in_progress", "closed"].includes(String(r.status)))
+        return invalid();
+      return {
+        id: readUuid(r.id),
+        business_id: readUuid(r.business_id),
+        visitor_name: text(r.visitor_name, 1, 100),
+        contact: text(r.contact, 1, 200),
+        message: text(r.message, 1, 2000),
+        status: r.status as Inquiry["status"],
+        created_at: text(r.created_at, 1),
+      };
+    }),
+    next_cursor: data.next_cursor == null ? null : readUuid(data.next_cursor),
+  };
+}
+export function readCatalog(raw: unknown): Page<CatalogItem> {
+  const data = object(raw),
+    businessId = readUuid(data.id);
+  if (!Array.isArray(data.catalog)) return invalid();
+  return {
+    items: data.catalog.map((raw) => {
+      const r = object(raw);
+      if (
+        r.business_id !== businessId ||
+        !(
+          r.price_minor === null ||
+          (Number.isSafeInteger(r.price_minor) && Number(r.price_minor) >= 0)
+        ) ||
+        typeof r.available !== "boolean" ||
+        typeof r.is_demo !== "boolean"
+      )
+        return invalid();
+      return {
+        id: readUuid(r.id),
+        business_id: businessId,
+        name: text(r.name, 1),
+        price_minor: r.price_minor as number | null,
+        available: r.available,
+        is_demo: r.is_demo,
+      };
+    }),
+    next_cursor: null,
+  };
+}
+/** Bindings for the single API's generated 0.4.0 contract. */
 export const backendBindings: Partial<BackendBindings> = {
+  inquiries: readInquiries,
+  catalog: readCatalog,
   me: readMe,
   customers: readCustomers,
   customer: readCustomer,

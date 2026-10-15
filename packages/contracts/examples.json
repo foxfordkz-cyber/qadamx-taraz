@@ -199,5 +199,65 @@
       "fields": {}
     },
     "request_id": "70000000-0000-4000-8000-000000000001"
+  },
+  "VenueResponse": {
+    "id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart",
+    "name": "MART",
+    "address_label": "Demo venue",
+    "geometry_status": "conceptual",
+    "is_demo": true
+  },
+  "PublicBusiness": {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "venue_id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart-demo-clothes",
+    "name": "Demo clothes",
+    "category": "clothes",
+    "description": "Synthetic demo",
+    "is_demo": true
+  },
+  "CatalogResponse": {
+    "id": "30000000-0000-4000-8000-000000000001",
+    "business_id": "20000000-0000-4000-8000-000000000001",
+    "name": "Demo item",
+    "price_minor": 300000,
+    "available": true,
+    "is_demo": true
+  },
+  "ShopResponse": {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "venue_id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart-demo-clothes",
+    "name": "Demo clothes",
+    "category": "clothes",
+    "description": "Synthetic demo",
+    "is_demo": true,
+    "catalog": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "business_id": "20000000-0000-4000-8000-000000000001",
+        "name": "Demo item",
+        "price_minor": 300000,
+        "available": true,
+        "is_demo": true
+      }
+    ]
+  },
+  "InquiryReceipt": {
+    "id": "60000000-0000-4000-8000-000000000001",
+    "created_at": "2026-10-15T10:00:00Z"
+  },
+  "InquiryResponse": {
+    "id": "60000000-0000-4000-8000-000000000001",
+    "created_at": "2026-10-15T10:00:00Z",
+    "business_id": "20000000-0000-4000-8000-000000000001",
+    "visitor_name": "Demo visitor",
+    "contact": "@demo_contact",
+    "message": "Synthetic inquiry",
+    "status": "new"
+  },
+  "InquiryUpdate": {
+    "status": "in_progress"
   }
 }

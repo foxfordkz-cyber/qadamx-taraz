@@ -1,5 +1,7 @@
 # Точное обновление generated.ts для PR #5
 
+В `integration/team-mvp` generated.ts уже обновлён из общего OpenAPI **0.4.0**: добавлены публичные venues/businesses/shop, InquiryReceipt/Response/Update и private GET/PATCH inquiries; ledger/AI schemas сохранены. Из `apps/web` выполнить `npm run generate:api`, `npm run check:api`, `npm run typecheck`. Старый patch ниже относится только к переходу 0.2→0.3 и поверх актуального файла не применяется. Новый runtime также содержит bindings заявок/каталога и использует общие envelopes/price_minor. [Единое подключение](../../docs/TEAM_INTEGRATION.md).
+
 Исходный frontend: PR #3, **`9b4156122e22f12839f9f69384cb79a43e90c730`**. Контракт backend: PR #5, **`2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`**. Изменения проверены только в отдельной интеграционной копии; ветка автора frontend не менялась.
 
 - [OpenAPI проверенного backend](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c/packages/contracts/openapi.json)

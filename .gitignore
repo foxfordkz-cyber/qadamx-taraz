@@ -2,6 +2,10 @@ node_modules/
 dist/
 .env
 .env.local
+.env.*
+!.env.example
+.ruff_cache/
+*.tsbuildinfo
 *.log
 .venv/
 __pycache__/

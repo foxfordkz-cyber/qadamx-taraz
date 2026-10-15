@@ -141,6 +141,92 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/venues": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Venues */
+    get: operations["venues_api_v1_venues_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Businesses */
+    get: operations["businesses_api_v1_businesses_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{slug}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Shop */
+    get: operations["shop_api_v1_businesses__slug__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/inquiries": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Inquiries */
+    get: operations["inquiries_api_v1_businesses__id__inquiries_get"];
+    put?: never;
+    /** Create Inquiry */
+    post: operations["create_inquiry_api_v1_businesses__id__inquiries_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/inquiries/{inquiry_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    /** Update Inquiry */
+    patch: operations["update_inquiry_api_v1_businesses__id__inquiries__inquiry_id__patch"];
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -162,6 +248,27 @@ export interface components {
        * @constant
        */
       role: "owner";
+    };
+    /** CatalogResponse */
+    CatalogResponse: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /** Name */
+      name: string;
+      /** Price Minor */
+      price_minor: number | null;
+      /** Available */
+      available: boolean;
+      /** Is Demo */
+      is_demo: boolean;
     };
     /** CustomerCandidate */
     CustomerCandidate: {
@@ -288,6 +395,70 @@ export interface components {
        */
       stage: "manual-ledger";
     };
+    /** InquiryCreate */
+    InquiryCreate: {
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /** Visitor Name */
+      visitor_name: string;
+      /** Contact */
+      contact: string;
+      /** Message */
+      message: string;
+    };
+    /** InquiryReceipt */
+    InquiryReceipt: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+    };
+    /** InquiryResponse */
+    InquiryResponse: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /** Visitor Name */
+      visitor_name: string;
+      /** Contact */
+      contact: string;
+      /** Message */
+      message: string;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "new" | "in_progress" | "closed";
+    };
+    /** InquiryUpdate */
+    InquiryUpdate: {
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "new" | "in_progress" | "closed";
+    };
     /** MeResponse */
     MeResponse: {
       /**
@@ -384,6 +555,13 @@ export interface components {
       /** Next Cursor */
       next_cursor?: string | null;
     };
+    /** Page[InquiryResponse] */
+    Page_InquiryResponse_: {
+      /** Items */
+      items: components["schemas"]["InquiryResponse"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
     /** Page[OpenSale] */
     Page_OpenSale_: {
       /** Items */
@@ -397,6 +575,43 @@ export interface components {
       items: components["schemas"]["Operation"][];
       /** Next Cursor */
       next_cursor?: string | null;
+    };
+    /** Page[PublicBusiness] */
+    Page_PublicBusiness_: {
+      /** Items */
+      items: components["schemas"]["PublicBusiness"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
+    /** Page[VenueResponse] */
+    Page_VenueResponse_: {
+      /** Items */
+      items: components["schemas"]["VenueResponse"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
+    /** PublicBusiness */
+    PublicBusiness: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Venue Id
+       * Format: uuid
+       */
+      venue_id: string;
+      /** Slug */
+      slug: string;
+      /** Name */
+      name: string;
+      /** Category */
+      category: string;
+      /** Description */
+      description: string;
+      /** Is Demo */
+      is_demo: boolean;
     };
     /** RepaymentCreate */
     RepaymentCreate: {
@@ -440,6 +655,31 @@ export interface components {
       /** Received Minor */
       received_minor: number;
     };
+    /** ShopResponse */
+    ShopResponse: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Venue Id
+       * Format: uuid
+       */
+      venue_id: string;
+      /** Slug */
+      slug: string;
+      /** Name */
+      name: string;
+      /** Category */
+      category: string;
+      /** Description */
+      description: string;
+      /** Is Demo */
+      is_demo: boolean;
+      /** Catalog */
+      catalog: components["schemas"]["CatalogResponse"][];
+    };
     /** SummaryResponse */
     SummaryResponse: {
       /**
@@ -468,19 +708,23 @@ export interface components {
       /** New Inquiries Count */
       new_inquiries_count: number;
     };
-    /** InquiryCreate */
-    InquiryCreate: {
+    /** VenueResponse */
+    VenueResponse: {
       /**
-       * Client Request Id
+       * Id
        * Format: uuid
        */
-      client_request_id: string;
-      /** Visitor Name */
-      visitor_name: string;
-      /** Contact */
-      contact: string;
-      /** Message */
-      message: string;
+      id: string;
+      /** Slug */
+      slug: string;
+      /** Name */
+      name: string;
+      /** Address Label */
+      address_label: string;
+      /** Geometry Status */
+      geometry_status: string;
+      /** Is Demo */
+      is_demo: boolean;
     };
   };
   responses: never;
@@ -1222,6 +1466,434 @@ export interface operations {
       };
       /** @description Gateway Timeout */
       504: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  venues_api_v1_venues_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_VenueResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  businesses_api_v1_businesses_get: {
+    parameters: {
+      query?: {
+        venue_id?: string | null;
+        category?: string;
+        q?: string;
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_PublicBusiness_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  shop_api_v1_businesses__slug__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        slug: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ShopResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  inquiries_api_v1_businesses__id__inquiries_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_InquiryResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  create_inquiry_api_v1_businesses__id__inquiries_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["InquiryCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["InquiryReceipt"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  update_inquiry_api_v1_businesses__id__inquiries__inquiry_id__patch: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+        inquiry_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["InquiryUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["InquiryResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
         headers: {
           [name: string]: unknown;
         };

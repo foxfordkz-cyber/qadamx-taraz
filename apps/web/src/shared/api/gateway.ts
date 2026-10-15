@@ -69,9 +69,12 @@ export function createLiveGateway(
     async inquiries(b, cursor, signal) {
       const read = requireBinding("inquiries");
       const query = cursor ? `?cursor=${encodeURIComponent(cursor)}` : "";
-      return read(
+      const result = read(
         await api.request(`${path(b)}/inquiries${query}`, { signal }),
       );
+      if (result.items.some((row) => row.business_id !== b.id))
+        throw new ApiError(403, "ACCESS_DENIED");
+      return result;
     },
     async setInquiryStatus(b, id, status) {
       requireBinding("inquiries");
@@ -108,11 +111,14 @@ export function createLiveGateway(
     async catalog(b, signal) {
       const read = requireBinding("catalog");
       // Contract has no private GET /catalog. Use the documented public shop-by-slug endpoint.
-      return read(
+      const result = read(
         await api.request(`/businesses/${encodeURIComponent(b.slug)}`, {
           signal,
         }),
       );
+      if (result.items.some((row) => row.business_id !== b.id))
+        throw new ApiError(403, "ACCESS_DENIED");
+      return result;
     },
   };
 }

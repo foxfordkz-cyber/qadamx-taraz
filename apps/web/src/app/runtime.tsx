@@ -1,6 +1,7 @@
 import {
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -46,6 +47,16 @@ export function RuntimeProvider({
     [override, auth.demo, auth.session?.user.id, api],
   );
   const drafts = useRef(new Map<string, unknown>()).current;
+  useEffect(() => {
+    const guard = (event: BeforeUnloadEvent) => {
+      if ([...drafts.keys()].some((key) => key.endsWith(":money-pending"))) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    };
+    window.addEventListener("beforeunload", guard);
+    return () => window.removeEventListener("beforeunload", guard);
+  }, [drafts]);
   return (
     <RuntimeContext.Provider
       value={{ api, gateway, scope: auth.scope, drafts }}

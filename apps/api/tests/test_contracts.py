@@ -31,9 +31,19 @@ def test_openapi_refs_auth_and_operation_union():
                 walk(item)
 
     walk(schema)
+    public = {
+        ("/health", "get"),
+        ("/api/v1/health", "get"),
+        ("/api/v1/venues", "get"),
+        ("/api/v1/businesses", "get"),
+        ("/api/v1/businesses/{slug}", "get"),
+        ("/api/v1/businesses/{id}/inquiries", "post"),
+    }
     for path, methods in schema["paths"].items():
-        if not path.endswith("/health"):
-            for route in methods.values():
+        for method, route in methods.items():
+            if (path, method) in public:
+                assert not route.get("security")
+            else:
                 assert route["security"] == [{"HTTPBearer": []}]
     route = schema["paths"]["/api/v1/businesses/{id}/operations"]["post"]
     body = route["requestBody"]["content"]["application/json"]["schema"]

@@ -130,6 +130,55 @@ class InquiryCreate(Contract):
     message: Annotated[str, Field(min_length=1, max_length=2000)]
 
 
+class VenueResponse(Contract):
+    id: UUID
+    slug: str
+    name: str
+    address_label: str
+    geometry_status: str
+    is_demo: bool
+
+
+class PublicBusiness(Contract):
+    id: UUID
+    venue_id: UUID
+    slug: str
+    name: str
+    category: str
+    description: str
+    is_demo: bool
+
+
+class CatalogResponse(Contract):
+    id: UUID
+    business_id: UUID
+    name: str
+    price_minor: NonnegativeMoney | None
+    available: bool
+    is_demo: bool
+
+
+class ShopResponse(PublicBusiness):
+    catalog: list[CatalogResponse]
+
+
+class InquiryReceipt(Contract):
+    id: UUID
+    created_at: AwareDatetime
+
+
+class InquiryResponse(InquiryReceipt):
+    business_id: UUID
+    visitor_name: str
+    contact: str
+    message: str
+    status: Literal["new", "in_progress", "closed"]
+
+
+class InquiryUpdate(Contract):
+    status: Literal["new", "in_progress", "closed"]
+
+
 class BusinessMembership(Contract):
     id: UUID
     slug: str

@@ -17,11 +17,14 @@
     "format:check": "prettier --check src e2e scripts *.ts *.js *.json index.html"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "@supabase/supabase-js": "^2.0.0",
     "@tanstack/react-query": "^5.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.0.0"
+    "react-router-dom": "^7.0.0",
+    "three": "^0.186.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
@@ -32,6 +35,7 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.186.0",
     "@vitejs/plugin-react": "^5.0.0",
     "eslint": "^9.0.0",
     "eslint-plugin-react-hooks": "^5.2.0",

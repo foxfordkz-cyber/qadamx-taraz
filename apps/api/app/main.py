@@ -16,6 +16,7 @@ from app.config import Settings
 from app.db import make_engine
 from app.draft_routes import router as draft_router
 from app.errors import APIError
+from app.public_routes import router as public_router
 from app.routers import router
 from app.services.ai import GeminiProvider
 
@@ -43,10 +44,10 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.3.0",
+        version="0.4.0",
         lifespan=lifespan,
         description="Authenticated manual ledger and optional Gemini drafts. "
-        "AI never writes money. Public inquiry routes are not enabled.",
+        "AI never writes money. Public catalog and private seller inquiries.",
         responses={
             status: {"model": schemas.ErrorResponse} for status in (401, 404, 409, 422, 503)
         },
@@ -124,6 +125,7 @@ def create_app(settings: Settings | None = None):
 
     app.include_router(router)
     app.include_router(draft_router)
+    app.include_router(public_router)
 
     def openapi():
         if app.openapi_schema is None:
