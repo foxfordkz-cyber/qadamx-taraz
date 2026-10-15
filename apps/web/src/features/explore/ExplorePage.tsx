@@ -80,29 +80,39 @@ export default function ExplorePage() {
           <span className="section-note">{t('conceptual')}</span>
         </div>
         <State loading={loading} error={error} onRetry={reload}>
-          <ul className="cards">
-            {venues.map((v, index) => (
-              <li key={v.id}>
-                <Link
-                  className={`card venue-card venue-card--${(index % 3) + 1}`}
-                  to={`/venues/${v.slug}`}
-                  onMouseEnter={() => setHover(v.slug)} onMouseLeave={() => setHover(null)}
-                  onFocus={() => setHover(v.slug)} onBlur={() => setHover(null)}
-                >
-                  <span className="card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <span className="venue-art" aria-hidden="true">
-                    <span className="venue-art-hall venue-art-hall--one" />
-                    <span className="venue-art-hall venue-art-hall--two" />
-                    <span className="venue-art-stall" />
-                    <span className="venue-art-sun" />
-                  </span>
-                  <h3>{name(v)} <span className="card-arrow" aria-hidden="true">↗</span></h3>
-                  <p className="muted">{v.categories.join(', ')}</p>
-                  <span className="card-open">{t('open_venue')} <span aria-hidden="true">→</span></span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {venues.length === 0 ? (
+            <div className="state state--empty">
+              <span className="state-empty-mark" aria-hidden="true">Q</span>
+              <div>
+                <strong>{t('no_venues')}</strong>
+                <p>{t('no_venues_hint')}</p>
+              </div>
+            </div>
+          ) : (
+            <ul className="cards">
+              {venues.map((v, index) => (
+                <li key={v.id}>
+                  <Link
+                    className={`card venue-card venue-card--${(index % 3) + 1}`}
+                    to={`/venues/${v.slug}`}
+                    onMouseEnter={() => setHover(v.slug)} onMouseLeave={() => setHover(null)}
+                    onFocus={() => setHover(v.slug)} onBlur={() => setHover(null)}
+                  >
+                    <span className="card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="venue-art" aria-hidden="true">
+                      <span className="venue-art-hall venue-art-hall--one" />
+                      <span className="venue-art-hall venue-art-hall--two" />
+                      <span className="venue-art-stall" />
+                      <span className="venue-art-sun" />
+                    </span>
+                    <h3>{name(v)} <span className="card-arrow" aria-hidden="true">↗</span></h3>
+                    <p className="muted">{v.categories.join(', ')}</p>
+                    <span className="card-open">{t('open_venue')} <span aria-hidden="true">→</span></span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </State>
       </section>
     </main>

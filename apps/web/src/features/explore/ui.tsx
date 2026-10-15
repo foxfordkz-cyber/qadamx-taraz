@@ -20,11 +20,29 @@ export function State({ loading, error, onRetry, children }: {
   const { t } = useT();
   if (error)
     return (
-      <div className="state" role="alert">
-        <p>{t('load_error')}</p>
-        <button type="button" className="btn" onClick={onRetry}>{t('retry')}</button>
+      <div className="state state--error" role="alert">
+        <span className="state-symbol" aria-hidden="true">!</span>
+        <div className="state-copy">
+          <strong>{t('load_error')}</strong>
+          <p>{t('load_error_hint')}</p>
+        </div>
+        <button type="button" className="btn" onClick={onRetry}>
+          {t('retry')} <span aria-hidden="true">↻</span>
+        </button>
       </div>
     );
-  if (loading) return <p className="state" role="status" aria-busy="true">{t('loading')}</p>;
+  if (loading)
+    return (
+      <div className="state-skeleton" role="status" aria-label={t('loading')} aria-busy="true">
+        {[0, 1, 2].map((i) => (
+          <div className="skeleton-card" key={i}>
+            <span className="skeleton-line skeleton-line--short" />
+            <span className="skeleton-line skeleton-line--title" />
+            <span className="skeleton-line skeleton-line--body" />
+            <span className="skeleton-line skeleton-line--footer" />
+          </div>
+        ))}
+      </div>
+    );
   return <>{children}</>;
 }
