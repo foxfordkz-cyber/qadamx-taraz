@@ -13,7 +13,7 @@ export const ru = {
   saleHint: 'Голосовой и ручной учёт', debtsHint: 'Открытые продажи и оплаты', inquiriesHint: 'Обращения покупателей', summaryHint: 'Результаты за день',
   tools: 'Для вашей работы', more: 'Все разделы', open: 'Открыть', storefront: 'Публичная витрина',
   moduleTitle: 'Раздел готовится к подключению', moduleHint: 'Команда ещё работает над этим разделом. Возвращайтесь позже.',
-  back: 'В кабинет', loading: 'Загрузка…', saving: 'Сохранение…', retry: 'Повторить', cancel: 'Отмена', close: 'Закрыть',
+  back: 'В кабинет', loading: 'Загрузка…', saving: 'Сохранение…', save: 'Сохранить', retry: 'Повторить', cancel: 'Отмена', close: 'Закрыть',
   empty: 'Здесь пока ничего нет', inquiriesEmpty: 'Новых обращений пока нет', inquiriesEmptyHint: 'Заявки из витрины появятся здесь.',
   inquiriesSubtitle: 'Обращения покупателей к вашей торговой точке.', new: 'Новая', in_progress: 'В работе', closed: 'Закрыта', status: 'Статус заявки',
   contactAbsent: 'Контакт не указан', refresh: 'Обновить', updatedFromServer: 'Статус подтверждён сервером.',

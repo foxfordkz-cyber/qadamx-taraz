@@ -69,13 +69,17 @@ export function AuthProvider({ children, client = supabase }: { children: ReactN
   }
   async function getToken() {
     if (demoRef.current || !client) return null;
+    const expectedId = session?.user.id;
     const { data, error } = await client.auth.getSession();
-    if (error) return null;
+    if (error || !expectedId || identity.current !== expectedId || data.session?.user.id !== expectedId) return null;
     return data.session?.access_token ?? null;
   }
   return <AuthContext.Provider value={{ session, loading, demo, expired, configured: !!client,
     scope: `${demo ? 'demo' : session?.user.id ?? 'guest'}:${generation}`, signIn, signOut, enterDemo, getToken,
-    markExpired: () => { clearPrivateCache(queryClient); setExpired(true); },
+    markExpired: () => {
+      if (identity.current !== session?.user.id || demoRef.current) return;
+      clearPrivateCache(queryClient); setExpired(true);
+    },
   }}>{children}</AuthContext.Provider>;
 }
 export function useAuth() { const value = useContext(AuthContext); if (!value) throw new Error('AuthProvider required'); return value; }

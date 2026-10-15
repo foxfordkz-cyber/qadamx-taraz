@@ -13,7 +13,7 @@ function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
     <h2>{inquiry.visitor_name}</h2><p className="muted break-word">{inquiry.contact || t('contactAbsent')}</p><p className="message">{inquiry.message}</p>
     <div className="status-controls"><Select label={t('status')} value={chosen} onChange={e => { setChosen(e.target.value as InquiryStatus); update.reset(); }} disabled={!gateway.canWrite || update.isPending}>
       {(['new', 'in_progress', 'closed'] as const).map(status => <option key={status} value={status}>{t(status)}</option>)}
-    </Select><Button variant="secondary" disabled={!gateway.canWrite || chosen === inquiry.status || update.isPending} onClick={() => update.mutate({ id: inquiry.id, status: chosen })}>{t(update.isPending ? 'saving' : 'refresh')}</Button></div>
+    </Select><Button variant="secondary" disabled={!gateway.canWrite || chosen === inquiry.status || update.isPending} onClick={() => update.mutate({ id: inquiry.id, status: chosen })}>{t(update.isPending ? 'saving' : 'save')}</Button></div>
     {update.isError && <Alert tone="error">{t(errorKey(update.error))}</Alert>}
     {update.isSuccess && <Alert tone="success">{t('updatedFromServer')}</Alert>}
   </Card>;

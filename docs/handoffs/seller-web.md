@@ -1,6 +1,6 @@
 # Передача работы кабинета и каркаса
 
-Роль: seller-web. Статус: общий слой и компоненты написаны, typecheck пройден; подключение router и browser-проверки продолжаются. Последнее обновление: 2026-10-15.
+Роль: seller-web. Статус: приложение, router/layout и read-only demo подключены; build/typecheck/lint пройдены, browser-тесты следующий этап. Последнее обновление: 2026-10-15.
 
 Подробная актуальная передача: [SELLER_FRONTEND_HANDOFF.md](../SELLER_FRONTEND_HANDOFF.md). Ветка `feature/seller-dashboard`. Не считать работу слитой или опубликованной; live backend/Supabase пока отсутствуют.
 

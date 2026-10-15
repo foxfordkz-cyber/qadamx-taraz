@@ -14,7 +14,7 @@ export const kk: Record<keyof typeof ru, string> = {
   saleHint: 'Дауыспен және қолмен есеп жүргізу', debtsHint: 'Ашық сатылымдар мен төлемдер', inquiriesHint: 'Сатып алушылардың өтінімдері', summaryHint: 'Күн нәтижелері',
   tools: 'Жұмысыңызға қажет', more: 'Барлық бөлімдер', open: 'Ашу', storefront: 'Ашық витрина',
   moduleTitle: 'Бөлім қосылуға дайындалуда', moduleHint: 'Топ бұл бөліммен әлі жұмыс істеп жатыр. Кейінірек оралыңыз.',
-  back: 'Кабинетке', loading: 'Жүктелуде…', saving: 'Сақталуда…', retry: 'Қайталау', cancel: 'Бас тарту', close: 'Жабу',
+  back: 'Кабинетке', loading: 'Жүктелуде…', saving: 'Сақталуда…', save: 'Сақтау', retry: 'Қайталау', cancel: 'Бас тарту', close: 'Жабу',
   empty: 'Әзірге ештеңе жоқ', inquiriesEmpty: 'Әзірге жаңа өтінім жоқ', inquiriesEmptyHint: 'Витринадан келген өтінімдер осында көрсетіледі.',
   inquiriesSubtitle: 'Сауда нүктеңізге келген сатып алушылардың өтінімдері.', new: 'Жаңа', in_progress: 'Өңделуде', closed: 'Жабық', status: 'Өтінім күйі',
   contactAbsent: 'Байланыс көрсетілмеген', refresh: 'Жаңарту', updatedFromServer: 'Күйді сервер растады.',
