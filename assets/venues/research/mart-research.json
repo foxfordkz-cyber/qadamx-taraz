@@ -1,0 +1,93 @@
+{
+  "venue": "MART, Тараз",
+  "researched_on": "2026-10-15",
+  "method": "Web search plus visual inspection of all nine kr2b gallery slides, 2GIS map/indoor plan, two individual 2GIS exterior photos, FotoPlaneta and an El.kz exterior photograph in separate Chrome research tabs. No photographs are redistributed with the model.",
+  "model_status": "Reference-informed original exterior reconstruction; conceptual scale remains true. Not a measured or survey-grade digital twin.",
+  "sources": [
+    {
+      "id": "kr2b",
+      "url": "https://www.kr2b.com/taraz-mart",
+      "type": "Primary architectural project gallery",
+      "dates": "Project 2012–2018; a design sheet visibly dated 07/08/2013. Individual photographs undated.",
+      "facts": "Project area stated as 70,000 sqm; brick is identified as principal facade material. The gallery mixes construction photographs, completed-detail photographs, interior photographs and early conceptual renderings. It does not supply an exterior survey or measured footprint.",
+      "visually_confirmed": [
+        "Construction photograph: tall rectangular entrance tower, pointed arch, small projecting brick blocks in regular rows and cream blind infill in the smaller arches.",
+        "Completed entrance close-up: deep pointed opening, large pale scrolling ornamental screen, glazed entrance below; screen is not a diagonal diamond lattice.",
+        "Cladding close-up: brown brick panels, cream brick infill, narrow dark joints, raised small rectangular blocks. No white outline around every facade arch."
+      ],
+      "slides": [
+        {"number": 1, "kind": "interior photograph", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2lx6rbs1"},
+        {"number": 2, "kind": "2013 conceptual rendering, not as-built", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2lx6rbs2"},
+        {"number": 3, "kind": "conceptual frontal rendering", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2oht0uy"},
+        {"number": 4, "kind": "conceptual full elevation", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2oht0uw"},
+        {"number": 5, "kind": "construction photograph", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2oht0ux2", "image": "https://static.wixstatic.com/media/eed7eb_ae11163f3a874cc39d84bfa92bc06e3c~mv2.jpg/v1/fill/w_1237,h_708,al_c,q_85,enc_auto/eed7eb_ae11163f3a874cc39d84bfa92bc06e3c~mv2.jpg"},
+        {"number": 6, "kind": "completed entrance at night", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2lx6rbr", "image": "https://static.wixstatic.com/media/eed7eb_d3f34e3edb9d4b26a451d31c78c86693~mv2_d_1580_1600_s_2.jpg/v1/fill/w_933,h_945,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/eed7eb_d3f34e3edb9d4b26a451d31c78c86693~mv2_d_1580_1600_s_2.jpg"},
+        {"number": 7, "kind": "interior photograph", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2lx6rbs"},
+        {"number": 8, "kind": "interior design cutaway", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2lx6rbt"},
+        {"number": 9, "kind": "brick facade detail photograph", "url": "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2oht0ux1", "image": "https://static.wixstatic.com/media/eed7eb_73d54637227a49dbb2e3509699294a24~mv2.jpg/v1/fill/w_1156,h_837,al_c,q_85,enc_auto/eed7eb_73d54637227a49dbb2e3509699294a24~mv2.jpg"}
+      ],
+      "limits": "Early renderings show AVM TARAZ and speculative international retail logos; these are not evidence of current tenants, signage or built details. Roof and rear geometry are not comprehensively documented.",
+      "rights": "Copyright kr2b; no open image licence found. External reference only."
+    },
+    {
+      "id": "2gis-building",
+      "url": "https://2gis.kz/taraz/firm/70000001053119298",
+      "building_url": "https://2gis.kz/taraz/geo/70030076203041976",
+      "type": "Cartographic building card and visual indoor plan",
+      "facts": "Card identifies Tole bi 27, Taraz, and 4 floors. Map exposes floor selectors 0–4. Extended rectangular footprint is visibly divided into several inset/protruding volumes. The retail complex lies between the road-facing frontage and the long landscaped/canal side.",
+      "ratios": "Visual footprint estimate length/depth roughly 2.6–2.9, medium confidence; perspective map view and schematic outline prevent precise measurement. Main entrance is off-centre in the long frontage.",
+      "limits": "Floor selector and tenant labels are reference context only, not permission to assert current stall numbering or navigation. Cartographic outline is schematic; no exact metre dimensions recovered.",
+      "rights": "2GIS cartography and contributed photos retain their respective rights; do not redistribute tiles or images."
+    },
+    {
+      "id": "2gis-exterior-2025",
+      "url": "https://2gis.kz/taraz/gallery/firm/70000001053119298/photoId/30258560238906207",
+      "image": "https://i9.photo.2gis.com/photo-gallery/52a777f9-868c-417f-b742-3ce049f074e2.jpg",
+      "author": "erkerke",
+      "displayed_date": "2025-06-06",
+      "visually_confirmed": "Oblique view from the small-arch side: tall brown entrance tower; lower repeated narrow arches with cream solid infill; glazing confined to bottom zone; dark base; stepped facade heights; projecting square brick relief; simple paved forecourt, small trees and slim dark lamps.",
+      "limits": "Photo publication date is not necessarily capture date. Perspective prevents exact dimensions; cropped view does not prove complete bay count.",
+      "rights": "No open licence established. External reference only."
+    },
+    {
+      "id": "2gis-adwall-2026",
+      "url": "https://2gis.kz/taraz/gallery/firm/70000001053119298/photoId/30258560330555256",
+      "image": "https://i7.photo.2gis.com/photo-gallery/8e1c82be-885d-4d12-8639-b7e42c9871f4.jpg",
+      "author": "Umayka Maksatkyzy",
+      "displayed_date": "2026-08-08",
+      "visually_confirmed": "Tall advertising wall on the left of the entrance with pale brick side returns, dark horizontal/vertical divisions, large ground-floor glazing and a dark base. Facade is asymmetric. Night lighting changes apparent colour.",
+      "limits": "Brand panels change over time. Logos should not be copied into geometry; use a neutral advertising-panel rhythm and HTML venue label.",
+      "rights": "No open licence established. External reference only."
+    },
+    {
+      "id": "murzin-2025",
+      "url": "https://foto-planeta.com/photo/1156867.html",
+      "image": "https://photo.foto-planeta.com/view/1/1/5/6/8/taraz-1156867.jpg",
+      "author": "Сергей Мурзин",
+      "publication_date": "2025-05-26",
+      "visually_confirmed": "Four small arched bays to the right of a pale connector and the main portal are individually visible. Their upper arches are cream solid brick, with storefront glazing below. Brown friezes have relief blocks; a continuous grey upper mass rises behind. The entrance portal has a broad brown cap and large pointed recess, not a classical white arch trim.",
+      "limits": "Right end of full complex is cropped; no rear, roof or exact dimensions. Camera perspective exaggerates nearest bay widths.",
+      "rights": "Site requires an active source link if photo is reused; no open licence established. Photo is not included in delivery."
+    },
+    {
+      "id": "elkz-2023",
+      "url": "https://el.kz/ru/lyudey-iz-samogo-bolshogo-trts-v-taraze-evakuirovali-iz-za-zadymivshegosya-masla-vo-frityurnitse_91013/",
+      "image": "https://el.kz/storage/storage/element/2023/09/26/mainphoto/69919/1200x700_E1j5yLc5HdWppMtp9fdgnSUoYcgSdrGTfqbScm9S.jpg",
+      "publication_date": "2023-09-26",
+      "photo_credit": "Яндекс Карты (per article)",
+      "visually_confirmed": "Opposite oblique exterior view verifies the tall pointed entrance, four small arched blind bays and a lower right wing extending past them. The extended wing has an upper horizontal glass strip, pale horizontal fascia, repeated vertical piers and small pale ornamental panels. Grey upper cladding/plant enclosure runs behind the low facade. Main entrance screen consists of broad curls, with glazing and doors underneath.",
+      "limits": "Actual capture date unknown; lower wing is partially cropped. Exact complete repeated-panel count, roof plant and rear volumes remain unverified.",
+      "rights": "External reference only; no open image licence established."
+    }
+  ],
+  "modelling_brief": {
+    "priority": "Replace generic symmetric mall with a long asymmetric composition, deep pointed entrance, warm brown and cream brick fields, dark plinth and four blind-arch shopfront bays. Architectural colours should follow photographs, not Lime accent colours.",
+    "footprint": "Use a long low rectangular retail core, approximate length/depth 2.7. Portal is in left third of main frontage. Simple rear/roof remains explicitly an estimate.",
+    "height_tiers": "Main portal roughly 1.4–1.6 times lower arch-wing height. Advertising block at left lower than portal. Continuous recessed upper core/grey parapet behind lower facade. Avoid invented glass rooflights.",
+    "entrance": "Deep pointed arch cut into rectangular tower; broad cream intrados, dark recessed backing, pale scrolling screen suspended above glazed doors. Remove lime canopy and diagonal lattice from previous model.",
+    "facade": "Four small semicircular blind arches on the right, cream brick infill above ground-floor storefront glass. Thin dark panel joints and regularly spaced projecting brick blocks in upper brown friezes. An extended right wing has strip glazing, pale fascia and ornament-panel rhythm. Left advertising wall represented without copying tenant marks.",
+    "scale_convention": "Model units remain metres, but chosen dimensions are proportional modelling estimates. Keep conceptual_scale=true and explicitly avoid a 1:1 claim.",
+    "budget": "Target below 30,000 triangles and 1.5 MB. Small brick repeats use unbevelled solids; decorative screen uses original simplified flat ribbons. No photo textures, logos, external assets or decoder dependencies.",
+    "unverified_zones": ["Surveyed dimensions and heights", "Rear facade and service entries", "Complete roof geometry and plant", "Full right wing beyond photographic crop", "Actual current interior layout and tenant placement", "Exact decorative motif geometry"]
+  }
+}
