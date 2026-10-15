@@ -1,5 +1,7 @@
 # Единый Qadam Business: интеграционная ветка
 
+Публикация: **[Draft PR #8 в main](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/8)**. Без автоматического слияния и деплоя.
+
 Проверенный commit кода backend/frontend/контракта: **`dab0fe7f91b1dbf8c8d7522694759ae9b9cebfc6`**. [OpenAPI на этом commit](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/dab0fe7f91b1dbf8c8d7522694759ae9b9cebfc6/packages/contracts/openapi.json), [примеры](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/dab0fe7f91b1dbf8c8d7522694759ae9b9cebfc6/packages/contracts/examples.json). Последующие commits передачи меняют только документацию.
 
 Ветка `integration/team-mvp`, основа `main:8c932dd` с уже слитым PR #7. Рабочая копия капитана — `tmp/integration-team`; ветки друзей не изменялись. Единственные приложения: `apps/api` и `apps/web`. История merge PR #7 сохранена, полезные сценарии перенесены, его второй backend и корневой frontend удалены только здесь.
