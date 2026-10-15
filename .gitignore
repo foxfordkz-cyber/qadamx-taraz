@@ -11,3 +11,19 @@ backend/data/
 backend/.env
 .wheel-cache/
 .wheel-core.txt
+.codex-log/
+
+# Local data and Blender backups
+*.sqlite
+*.sqlite3
+*.blend1
+*.blend2
+tmp/
+recordings-private/
+
+# Keep package lock files, Alembic migrations and exported GLB/WebP in Git.
+
+# Frontend test artifacts
+test-results/
+playwright-report/
+*.local

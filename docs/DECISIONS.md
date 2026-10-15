@@ -17,6 +17,17 @@
 
 Для технических деталей использовать [архитектуру и API](team5/02_ARCHITECTURE_API.md). Для приоритетов — [продуктовое ТЗ](team5/00_PRODUCT_TZ.md).
 
+## Frontend — 2026-10-15, feature/seller-dashboard (до слияния)
+
+- Единый web bootstrap в `apps/web`: React 19 / Vite / React Router / TanStack Query. Для сцены потребуется React Three Fiber 9; интеграция и зависимости ждут public-web.
+- Locale кода `kk`, подпись переключателя KZ. Деньги форматируются из целых тиынов.
+- По прямому согласию капитана/пользователя принят только backend 193f6e5. Live bindings /me и GET/POST customers используют generated schemas и runtime validation. Публичная Supabase-конфигурация задана локально; серверный env/PostgreSQL ещё ожидаются. Demo остаётся отдельным read-only режимом без автоматической подмены live-ошибок.
+- BusinessMembership не содержит is_demo: frontend не выводит флаг из UUID/slug/name. balance_minor показывается из CustomerResponse без расчётов. Создание клиента разрешается отдельно от недоступного изменения заявки. Не подключать отсутствующие inquiries/catalog.
+- Контекст продолжения и проверки хранятся в `SELLER_FRONTEND_HANDOFF.md`; интерфейсы для соседних модулей — `SELLER_FRONTEND_INTEGRATION.md`.
+- Polaris применяется как UX-референс собственной React/CSS дизайн-системы; палитра Qadam и общие exports сохранены. Shopify API/Auth/App Bridge и новые Polaris зависимости не добавляются. Причины, адаптивность и screenshots — `SELLER_DESIGN_NOTES.md`.
+- По новому разрешению капитана OpenAPI 0.3.0 взят отдельно из `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c` и generated.ts обновлён воспроизводимо. Backend-код остаётся 193f6e5; вся AI-ветка, миграции, финансовая логика и AI UI не включаются. Не перезаписывать согласованный JSON экспортом старого локального Python. Остальные contract files не требуются: schemas прежние, `$ref` внутренние. Источник и ограничение multipart XOR генератора записаны в seller handoff.
+
+## Уточнения первого локального этапа — 2026-10-15
 ## Ручной backend — 2026-10-15, `backend/ledger-auth`
 
 - Лимит одной денежной суммы: 100 млн ₸ (`10_000_000_000` тиынов). Запросы используют JSON-целые, запрещены дополнительные поля баланса/времени. Схемы и примеры: `apps/api/app/schemas`, `packages/contracts`.

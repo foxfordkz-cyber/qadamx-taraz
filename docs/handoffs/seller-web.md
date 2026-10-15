@@ -1,27 +1,21 @@
-# Передача работы кабинета и каркаса
+# Seller web — передача
 
-Роль: seller-web. Начальный статус: запланировано, реализация не подтверждена. Последнее обновление: 2026-10-15.
+2026-10-15, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
 
-## Сделано
+Завершены этап A (публикация `246851b2d4df996f054c7b1a27b2ba2933d2b3ee`) и этап B (Polaris-inspired UI, `e8321f0cb5c7056d284c831d4e6ae7b0293424ca`). Оба отправлены после fetch/pull --ff-only; remote hash совпал. Последний опубликованный seller HEAD перед этапом C: `9b4156122e22f12839f9f69384cb79a43e90c730`. Код apps/api остаётся на одобренном `193f6e5`. Актуальный HEAD: `git log -1 --format=%H`.
 
-Подготовлено [ТЗ кабинета](../team5/05_TEAM_SELLER_FRONTEND.md). Приложение и общие компоненты ещё не созданы в начальном пакете.
+Этап C: согласованно взят только OpenAPI 0.3.0 из `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`, существующим генератором обновлён generated.ts. Добавлен HTTP POST drafts; старые paths/20 schemas/security семантически прежние. Все `$ref` внутренние, дополнительных файлов из AI-ветки не нужно. AI-код/миграции/UI/финансовая логика не включены. README и docs/PROJECT_STATUS.md объединены с сохранением обеих частей; собственные integration/PR/handoff docs обновлены. Не экспортировать новый JSON из старого локального Python backend. Известное ограничение multipart XOR генератора описано в основном handoff.
 
-## Файлы и интерфейсы
+Этап C опубликован: `b9fd3b41998b2cd1ce904f15e558408e13e3f135`, remote hash совпал после fetch/pull --ff-only/push; PR #3 обновлён и остаётся open/draft. Финальная запись меняет только документацию. При задержке общего fetch на новых pack адресный fetch рабочей ветки прошёл; детали в основном handoff.
 
-Зона: `apps/web/src/app`, `shared`, `features/seller`, зависимости web и router.
+Live bindings /me и GET/POST customers используют OpenAPI, runtime validation, nullable contact, server balance_minor, identity/business guards, общие hooks и CustomerPicker. Supabase session restore/token/cache boundaries сохранены. Заявки/каталог live API не включены; Demo явно read-only.
 
-## Проверки
+UI: dashboard/actions, desktop customer list / mobile cards, локальный поиск заявок, RU/KZ, 6 новых Demo screenshots. Shopify зависимости не добавлены. Проверки A: 70 unit/component и 6 E2E; B: 71 и 8; typecheck/lint/build/check:api/format:check passed, ширины B 360/390/768/1440.
 
-Команды установки, сборки и запуска требуется добавить после bootstrap. Авторизация ещё не проверена.
+Проверки C повторно прошли: generate:api/check:api/typecheck/lint/test/build/test:e2e/format:check, **71 unit/component и 8 E2E**. Повторная генерация побайтово стабильна; screenshots без изменений. E2E потребовали разрешённого loopback после sandbox EACCES. Root/contract README различают локальный backend 193f6e5 и согласованный контракт 0.3.0; примеры/seed прежние.
 
-## Зависимости и ограничения
+Публичная конфигурация только в игнорируемом apps/web/.env.local. Нет server env/БД/passwords, health ECONNREFUSED. Живые Supabase/DB/CORS проверки ожидают среды капитана. Денежные и публичные модули других участников не переписаны.
 
-Остальные frontend-разработчики ждут единый каркас; его ранняя передача приоритетна. Схемы предоставляет backend.
+Капитан подтвердил live TypeScript-client /me/customer create/sale/repayment/history/summary. Это не собственные browser-проверки seller-сессии. Browser login/CORS и AI UI ещё не подтверждены.
 
-## Следующий шаг
-
-Создать один React/TypeScript/Vite проект, базовые компоненты, router, локализацию и API-клиент. Передать интерфейсы страниц коллегам.
-
-## Перед завершением
-
-Записать ветку, доступные компоненты/пути, команды и результаты проверок, следующий шаг и ссылку PR после создания.
+Подробные файлы, архитектура, маршруты, точные команды и следующий шаг: [основной handoff](../SELLER_FRONTEND_HANDOFF.md). [Интерфейсы](../SELLER_FRONTEND_INTEGRATION.md), [дизайн/screenshots](../SELLER_DESIGN_NOTES.md). Следующий шаг — live acceptance при готовом серверном окружении; не повторять merge уже принятого snapshot.
