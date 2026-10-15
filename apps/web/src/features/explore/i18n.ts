@@ -4,8 +4,14 @@ export type Lang = 'ru' | 'kk';
 
 const ru = {
   hero_eyebrow: 'QADAM MARKET · TARAZ',
-  local_trade: 'МЕСТНАЯ ТОРГОВЛЯ',
   section_eyebrow: 'ВЫБЕРИТЕ СВОЮ ПЛОЩАДКУ',
+  venue_eyebrow: 'ПРОГУЛЯЙТЕСЬ ПО ПЛОЩАДКЕ',
+  browse_eyebrow: 'НАЙДИТЕ СВОЮ ТОЧКУ',
+  shop_eyebrow: 'МЕСТНЫЙ ПРОДАВЕЦ',
+  catalog_eyebrow: 'ЧТО МОЖНО НАЙТИ',
+  open_shop: 'Смотреть точку',
+  clear_search: 'Очистить поиск',
+  catalog_empty: 'Каталог пока не добавлен. Вы можете уточнить детали у продавца.',
   hero_title: 'Найдите магазин на рынке Тараза',
   hero_text: 'Выберите площадку, найдите точку и отправьте заявку продавцу.',
   find_shop: 'Найти магазин', seller_cabinet: 'Кабинет продавца',
@@ -33,8 +39,14 @@ const ru = {
 
 const kk: Record<keyof typeof ru, string> = {
   hero_eyebrow: 'QADAM MARKET · TARAZ',
-  local_trade: 'ЖЕРГІЛІКТІ САУДА',
   section_eyebrow: 'ӨЗІҢІЗГЕ КЕРЕК АЛАҢДЫ ТАҢДАҢЫЗ',
+  venue_eyebrow: 'АЛАҢДЫ АРАЛАП КӨРІҢІЗ',
+  browse_eyebrow: 'КЕРЕК НҮКТЕНІ ТАБЫҢЫЗ',
+  shop_eyebrow: 'ЖЕРГІЛІКТІ САТУШЫ',
+  catalog_eyebrow: 'МҰНДА НЕ БАР',
+  open_shop: 'Нүктені көру',
+  clear_search: 'Іздеуді тазарту',
+  catalog_empty: 'Каталог әлі қосылмады. Мәліметті сатушыдан нақтылауыңызға болады.',
   hero_title: 'Тараз базарынан дүкен табыңыз',
   hero_text: 'Алаңды таңдап, нүктені тауып, сатушыға өтінім жіберіңіз.',
   find_shop: 'Дүкен табу', seller_cabinet: 'Сатушы кабинеті',

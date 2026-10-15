@@ -57,12 +57,21 @@ export default function VenuePage() {
   return (
     <main className="ex">
       <header className="ex-top">
-        <Link to="/">← {t('back')}</Link>
+        <Link className="back-link" to="/"><span aria-hidden="true">←</span> {t('back')}</Link>
         <LangSwitch />
       </header>
 
-      <h1>{venue ? name(venue) : slug}</h1>
-      <p className="muted">{t('conceptual_hint')}</p>
+      <section className="venue-heading">
+        <div>
+          <span className="eyebrow eyebrow--dark">{t('venue_eyebrow')}</span>
+          <h1>{venue ? name(venue) : slug}</h1>
+          <p className="muted">{t('conceptual_hint')}</p>
+        </div>
+        <div className="venue-count">
+          <strong>{list.length.toString().padStart(2, '0')}</strong>
+          <span>{t('shops')}</span>
+        </div>
+      </section>
 
       <Suspense fallback={<p className="state" role="status" aria-busy="true">{t('loading_scene')}</p>}>
         <Scene
@@ -74,11 +83,20 @@ export default function VenuePage() {
         />
       </Suspense>
 
-      <div className="filters">
-        <label>
+      <div className="browse-heading">
+        <div>
+          <span className="eyebrow eyebrow--dark">{t('browse_eyebrow')}</span>
+          <h2>{t('shops')}</h2>
+        </div>
+        <label className="search-field">
+          <span className="search-icon" aria-hidden="true">⌕</span>
           <span className="sr-only">{t('search')}</span>
           <input type="search" placeholder={t('search')} value={text} onChange={(e) => setText(e.target.value)} />
+          {text && <button type="button" className="search-clear" onClick={() => setText('')} aria-label={t('clear_search')}>×</button>}
         </label>
+      </div>
+
+      <div className="filters">
         <div className="chips" role="group" aria-label={t('shops')}>
           <button type="button" aria-pressed={!category} onClick={() => setParam('category', '')}>{t('all_categories')}</button>
           {venue?.categories.map((c) => (
@@ -88,13 +106,13 @@ export default function VenuePage() {
       </div>
 
       <section aria-labelledby="shops-h">
-        <h2 id="shops-h">{t('shops')}</h2>
+        <h2 id="shops-h" className="sr-only">{t('shops')}</h2>
         <State loading={shops.loading && !shops.data} error={shops.error} onRetry={shops.reload}>
           {list.length === 0 ? (
             <p className="state">{t('no_shops')}</p>
           ) : (
             <ul className="cards">
-              {list.map((b) => (
+              {              list.map((b, index) => (
                 <li key={b.id}>
                   <Link
                     className="card"
@@ -102,8 +120,10 @@ export default function VenuePage() {
                     onMouseEnter={() => setHover(b.slug)} onMouseLeave={() => setHover(null)}
                     onFocus={() => setHover(b.slug)} onBlur={() => setHover(null)}
                   >
+                    <span className="card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
                     <h3>{b.name}</h3>
                     <p className="muted">{b.category}</p>
+                    <span className="card-open">{t('open_shop')} <span aria-hidden="true">→</span></span>
                   </Link>
                 </li>
               ))}

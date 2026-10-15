@@ -16,27 +16,55 @@ export default function ShopPage() {
   return (
     <main className="ex">
       <header className="ex-top">
-        {b?.venue_slug ? <Link to={`/venues/${b.venue_slug}`}>← {t('back')}</Link> : <Link to="/">← {t('back')}</Link>}
+        {b?.venue_slug ? (
+          <Link className="back-link" to={`/venues/${b.venue_slug}`}><span aria-hidden="true">←</span> {t('back')}</Link>
+        ) : (
+          <Link className="back-link" to="/"><span aria-hidden="true">←</span> {t('back')}</Link>
+        )}
         <LangSwitch />
       </header>
 
       <State loading={loading} error={error} onRetry={reload}>
         {b && (
           <>
-            <h1>{b.name}</h1>
-            <p className="muted">{b.category}</p>
-            <p>{b.description}</p>
+            <section className="shop-hero">
+              <div className="shop-hero-copy">
+                <span className="eyebrow eyebrow--dark">{t('shop_eyebrow')}</span>
+                <span className="category-pill"><span className="category-dot" />{b.category}</span>
+                <h1>{b.name}</h1>
+                <p>{b.description}</p>
+              </div>
+              <div className="shop-art" aria-hidden="true">
+                <span className="shop-art-orbit shop-art-orbit--one" />
+                <span className="shop-art-orbit shop-art-orbit--two" />
+                <span className="shop-art-step shop-art-step--one" />
+                <span className="shop-art-step shop-art-step--two" />
+                <span className="shop-art-step shop-art-step--three" />
+                <span className="shop-art-spark">✳</span>
+              </div>
+            </section>
 
-            <section aria-labelledby="cat-h">
-              <h2 id="cat-h">{t('catalog')} <span className="badge badge--warn">{t('demo_data')}</span></h2>
+            <section className="catalog-section" aria-labelledby="cat-h">
+              <div className="catalog-heading">
+                <div>
+                  <span className="eyebrow eyebrow--dark">{t('catalog_eyebrow')}</span>
+                  <h2 id="cat-h">{t('catalog')}</h2>
+                </div>
+                <span className="badge badge--warn">{t('demo_data')}</span>
+              </div>
+              {b.catalog?.length ? (
               <ul className="catalog">
-                {(b.catalog ?? []).map((i) => (
-                  <li key={i.id}>
-                    <span>{i.title}</span>
-                    <strong>{i.price_kzt == null ? t('price_ask') : fmt(i.price_kzt)}</strong>
+                {b.catalog.map((i, index) => (
+                  <li className="catalog-item" key={i.id}>
+                    <span className="catalog-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <span className="catalog-title">{i.title}</span>
+                    <strong className="catalog-price">{i.price_kzt == null ? t('price_ask') : fmt(i.price_kzt)}</strong>
                   </li>
                 ))}
               </ul>
+              ) : (
+                <p className="state">{t('catalog_empty')}</p>
+              )}
             </section>
 
             <InquiryForm businessId={b.id} />
