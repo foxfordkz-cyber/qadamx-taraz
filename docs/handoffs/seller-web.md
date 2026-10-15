@@ -4,6 +4,8 @@
 
 Полная передача с архитектурой, API, известными ограничениями, этапами и командами: [SELLER_FRONTEND_HANDOFF.md](../SELLER_FRONTEND_HANDOFF.md).
 
+Последний commit реализации: `c17efe903aee95385e44dc502b4e40c9d1b05cd3`, push успешен. [Draft PR #3](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3). Дополнительный commit после реализации фиксирует только документацию PR. Создание через GitHub-плагин вернуло 403; PR успешно создан через существующую аутентификацию Git Credential Manager, без вывода/сохранения credentials.
+
 Интерфейсы для коллег: [SELLER_FRONTEND_INTEGRATION.md](../SELLER_FRONTEND_INTEGRATION.md). `apps/web/src/app/modules.ts` подключает переданные страницы. Общие exports: shared/ui, shared/i18n, app/runtime, features/seller. Деньги — целые тиыны.
 
 Реализовано: единое приложение, router/layout, RU/KZ, UI-kit, auth provider и транспорт, заявки/клиенты/каталог, CustomerPicker и хуки. Demo Mode только для чтения с явным banner; реальные writes пока отключены до подтверждения schemas.
