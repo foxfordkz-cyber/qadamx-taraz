@@ -4,6 +4,8 @@
 
 [Подключение команды к backend](../../docs/BACKEND_FRONTEND_CONNECTION.md): Base URL, запуск, публичные переменные, учебные точки и совместимость опубликованных PR.
 
+[Точное обновление frontend generated.ts](FRONTEND_TYPES_UPDATE.md): проверенный patch и команды генерации по OpenAPI PR #5.
+
 Источник: `apps/api/app/schemas` и реально зарегистрированные FastAPI-маршруты. Из `apps/api`: `uv run python -m app.export_contracts`, проверка — та же команда с `--check`.
 
 - `openapi.json` — health, авторизация, журнал и текстовые/аудио AI-черновики; Bearer security, multipart XOR text/audio, параметры, discriminated sale/repayment, ответы и ошибки.

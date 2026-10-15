@@ -1,0 +1,263 @@
+diff --git a/apps/web/src/shared/api/generated.ts b/apps/web/src/shared/api/generated.ts
+index ba2bb69..56e30e1 100644
+--- a/apps/web/src/shared/api/generated.ts
++++ b/apps/web/src/shared/api/generated.ts
+@@ -121,6 +121,26 @@ export interface paths {
+     patch?: never;
+     trace?: never;
+   };
++  "/api/v1/businesses/{id}/drafts": {
++    parameters: {
++      query?: never;
++      header?: never;
++      path?: never;
++      cookie?: never;
++    };
++    get?: never;
++    put?: never;
++    /**
++     * Create Draft
++     * @description RU/KK text or audio → draft. No monetary write. Confirm via POST operations. Exactly one source; 30-minute expiry, author and business scoped, single use. AI failure leaves manual input available. Audio is decoded to WAV in memory.
++     */
++    post: operations["create_draft_api_v1_businesses__id__drafts_post"];
++    delete?: never;
++    options?: never;
++    head?: never;
++    patch?: never;
++    trace?: never;
++  };
+ }
+ export type webhooks = Record<string, never>;
+ export interface components {
+@@ -143,6 +163,16 @@ export interface components {
+        */
+       role: "owner";
+     };
++    /** CustomerCandidate */
++    CustomerCandidate: {
++      /**
++       * Id
++       * Format: uuid
++       */
++      id: string;
++      /** Display Name */
++      display_name: string;
++    };
+     /** CustomerCreate */
+     CustomerCreate: {
+       /** Display Name */
+@@ -179,6 +209,44 @@ export interface components {
+       /** Balance Minor */
+       balance_minor: number;
+     };
++    /** DraftResponse */
++    DraftResponse: {
++      /**
++       * Id
++       * Format: uuid
++       */
++      id: string;
++      /** Transcript */
++      transcript: string;
++      /**
++       * Kind
++       * @enum {string}
++       */
++      kind: "sale" | "repayment" | "unknown";
++      /** Customer Query */
++      customer_query: string | null;
++      /** Customer Candidates */
++      customer_candidates: components["schemas"]["CustomerCandidate"][];
++      /** Sale Candidates */
++      sale_candidates: components["schemas"]["OpenSale"][];
++      /** Description */
++      description: string | null;
++      /** Total Minor */
++      total_minor: number | null;
++      /** Received Minor */
++      received_minor: number | null;
++      /** Amount Minor */
++      amount_minor: number | null;
++      /** Missing Fields */
++      missing_fields: string[];
++      /** Questions */
++      questions: string[];
++      /**
++       * Expires At
++       * Format: date-time
++       */
++      expires_at: string;
++    };
+     /** ErrorDetail */
+     ErrorDetail: {
+       /** Code */
+@@ -400,54 +468,6 @@ export interface components {
+       /** New Inquiries Count */
+       new_inquiries_count: number;
+     };
+-    /** CustomerCandidate */
+-    CustomerCandidate: {
+-      /**
+-       * Id
+-       * Format: uuid
+-       */
+-      id: string;
+-      /** Display Name */
+-      display_name: string;
+-    };
+-    /** DraftResponse */
+-    DraftResponse: {
+-      /**
+-       * Id
+-       * Format: uuid
+-       */
+-      id: string;
+-      /** Transcript */
+-      transcript: string;
+-      /**
+-       * Kind
+-       * @enum {string}
+-       */
+-      kind: "sale" | "repayment" | "unknown";
+-      /** Customer Query */
+-      customer_query: string | null;
+-      /** Customer Candidates */
+-      customer_candidates: components["schemas"]["CustomerCandidate"][];
+-      /** Sale Candidates */
+-      sale_candidates: components["schemas"]["OpenSale"][];
+-      /** Description */
+-      description: string | null;
+-      /** Total Minor */
+-      total_minor: number | null;
+-      /** Received Minor */
+-      received_minor: number | null;
+-      /** Amount Minor */
+-      amount_minor: number | null;
+-      /** Missing Fields */
+-      missing_fields: string[];
+-      /** Questions */
+-      questions: string[];
+-      /**
+-       * Expires At
+-       * Format: date-time
+-       */
+-      expires_at: string;
+-    };
+     /** InquiryCreate */
+     InquiryCreate: {
+       /**
+@@ -1101,4 +1121,114 @@ export interface operations {
+       };
+     };
+   };
++  create_draft_api_v1_businesses__id__drafts_post: {
++    parameters: {
++      query?: never;
++      header?: never;
++      path: {
++        id: string;
++      };
++      cookie?: never;
++    };
++    requestBody: {
++      content: {
++        "multipart/form-data": {
++          text?: string;
++          /**
++           * Format: binary
++           * @description <=8 MiB, <=30s
++           */
++          audio?: string;
++          /**
++           * @default auto
++           * @enum {string}
++           */
++          locale?: "ru" | "kk" | "auto";
++        } & (unknown | unknown);
++      };
++    };
++    responses: {
++      /** @description Successful Response */
++      200: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["DraftResponse"];
++        };
++      };
++      /** @description Unauthorized */
++      401: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Not Found */
++      404: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Conflict */
++      409: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Request Entity Too Large */
++      413: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Unsupported Media Type */
++      415: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Unprocessable Entity */
++      422: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Service Unavailable */
++      503: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++      /** @description Gateway Timeout */
++      504: {
++        headers: {
++          [name: string]: unknown;
++        };
++        content: {
++          "application/json": components["schemas"]["ErrorResponse"];
++        };
++      };
++    };
++  };
+ }
