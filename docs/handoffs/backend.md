@@ -1,6 +1,6 @@
 # Передача работы backend
 
-Роль: капитан, весь backend. Обновлено: 2026-10-15. Ветка `backend/ledger-auth`, исходный commit `ee1847a`. Ручной backend реализован и проверен на локальном PostgreSQL и на выделенном Supabase demo с двумя реальными пользователями. Изменения пока не закоммичены, PR/merge/deploy не выполнялись.
+Роль: капитан, весь backend. Обновлено: 2026-10-15. Ветка `backend/ledger-auth`; ручной этап зафиксирован коммитом `78483b8`. Подготовлена интеграция с опубликованным bootstrap `origin/main` (`ced32e7`, PR #2): исходная миграция `0001_catalog` сохранена из main, тесты каркаса перенесены и адаптированы к ручному учёту. Ручной backend проверен на локальном PostgreSQL и выделенном Supabase demo с двумя реальными пользователями. PR журнала подготавливается; автоматическое слияние и деплой не выполняются.
 
 ## Сделано
 
@@ -30,7 +30,7 @@
 Все команды ниже из `apps/api`, Python 3.12.14. Cache/install Python находятся в игнорируемом `tmp/`.
 
 - `uv sync` / `uv sync --locked` — зависимости установлены и закреплены.
-- `.venv/Scripts/python scripts/with_env.py .env.local-postgres -m pytest -q` — **45 passed**, без skipped. Есть одно deprecation-предупреждение Starlette о TestClient/httpx; ошибок нет. Использован настоящий PostgreSQL 17.11, не SQLite. Тестовый JWT подписывается ES256 и проверяется через HTTP JWKS; production auth dependency не подменяется.
+- `.venv/Scripts/python scripts/with_env.py .env.local-postgres -m pytest -q` — **101 passed** после интеграции тестов bootstrap из main (до интеграции 45), без skipped. Есть одно deprecation-предупреждение Starlette о TestClient/httpx; ошибок нет. Использован настоящий PostgreSQL 17.11, не SQLite. Тестовый JWT подписывается ES256 и проверяется через HTTP JWKS; production auth dependency не подменяется.
 - Проверены: 300000−100000=200000; доплата 50000 → долг150000 без роста продаж; повтор после COMMIT; одновременный одинаковый ключ; два одновременных погашения 100000 при долге150000 → один200/один409, долг50000; изоляция A/B и подмена customer/sale/cursor; откат операции и идемпотентности при внедрённом сбое; отмены и неизменность журнала; местная полночь; повтор seed, FK и денежная валидация.
 - `.venv/Scripts/python -m ruff check app tests scripts migrations`, `ruff format --check app tests scripts migrations` — успешно.
 - `.venv/Scripts/python -m app.export_contracts` и `--check` — экспорт актуален, примеры валидируются, ссылки OpenAPI разрешаются, закрытые методы имеют Bearer security.
