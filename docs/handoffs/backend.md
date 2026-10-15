@@ -180,4 +180,8 @@ Both owner-a@example.test and owner-b@example.test exist in auth.users with conf
 
 ### Передача и следующий шаг
 
-OpenAPI/JSON-примеры в `packages/contracts` остаются совместимыми с `ad107f5`: поля и денежные правила не изменены. Для frontend нужен действующий Supabase access token и UUID точки из `/me`; схема `qadam` напрямую недоступна. Проверять форму перед отдельным подтверждением, сохранять Idempotency-Key при сетевом повторе, при 503/504 оставлять ручной ввод. Подробные multipart/уточнение/подтверждение передаются вместе с публикацией ветки. Сначала review двух PR по зависимости, затем подключение существующего frontend; автоматическое слияние запрещено. Новые функции backend не добавлять в этот интеграционный шаг.
+Проверенный backend commit: **`99ce3f3852d552cc1c59ae1c109020c8fcdacb07`**. Ветка `backend/ai-drafts` опубликована, создан [PR #5](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/5) в `backend/ledger-auth`; [PR #4](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/4) остаётся открытым в `main`. Автоматическое слияние не включалось. Следующий commit содержит только документацию передачи.
+
+Frontend получает [AI_INTEGRATION.md](../../packages/contracts/AI_INTEGRATION.md): ссылки на OpenAPI и валидированные примеры по точному commit, multipart text/audio, ответ с уточнением, тело подтверждения, обработку TTL/повторов/ошибок. OpenAPI/JSON-примеры остаются совместимыми с `ad107f5`: поля и денежные правила не изменены. Для frontend нужен действующий Supabase access token и UUID точки из `/me`; схема `qadam` напрямую недоступна. Проверять форму перед отдельным подтверждением, сохранять Idempotency-Key при сетевом повторе, при 503/504 оставлять ручной ввод.
+
+Следующий шаг: review двух PR с учётом зависимости, затем подключение формы frontend и браузерная проверка того же сценария. HTTPS API пока не опубликован. Новые функции backend не добавлять в этот интеграционный шаг.
