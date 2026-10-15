@@ -6,6 +6,8 @@
 
 Этап C: согласованно взят только OpenAPI 0.3.0 из `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`, существующим генератором обновлён generated.ts. Добавлен HTTP POST drafts; старые paths/20 schemas/security семантически прежние. Все `$ref` внутренние, дополнительных файлов из AI-ветки не нужно. AI-код/миграции/UI/финансовая логика не включены. README и docs/PROJECT_STATUS.md объединены с сохранением обеих частей; собственные integration/PR/handoff docs обновлены. Не экспортировать новый JSON из старого локального Python backend. Известное ограничение multipart XOR генератора описано в основном handoff.
 
+Этап C опубликован: `b9fd3b41998b2cd1ce904f15e558408e13e3f135`, remote hash совпал после fetch/pull --ff-only/push; PR #3 обновлён и остаётся open/draft. Финальная запись меняет только документацию. При задержке общего fetch на новых pack адресный fetch рабочей ветки прошёл; детали в основном handoff.
+
 Live bindings /me и GET/POST customers используют OpenAPI, runtime validation, nullable contact, server balance_minor, identity/business guards, общие hooks и CustomerPicker. Supabase session restore/token/cache boundaries сохранены. Заявки/каталог live API не включены; Demo явно read-only.
 
 UI: dashboard/actions, desktop customer list / mobile cards, локальный поиск заявок, RU/KZ, 6 новых Demo screenshots. Shopify зависимости не добавлены. Проверки A: 70 unit/component и 6 E2E; B: 71 и 8; typecheck/lint/build/check:api/format:check passed, ширины B 360/390/768/1440.

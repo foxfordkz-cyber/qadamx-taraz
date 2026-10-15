@@ -12,6 +12,8 @@
 
 ## Этап C — обновление контракта AI-backend без активации AI
 
+Последний проверенный commit контрактного этапа: **b9fd3b41998b2cd1ce904f15e558408e13e3f135**, опубликован в `feature/seller-dashboard`; remote hash совпал. Финальная запись передачи меняет только документацию, её HEAD: `git log -1 --format=%H`. Draft PR #3 обновлён, open/draft, merge не выполнен. Начальный полный fetch/pull прошёл; финальный общий fetch задержался на index-pack и был прерван без потери commit, адресные `git fetch origin feature/seller-dashboard` и `git pull --ff-only origin feature/seller-dashboard` прошли (Already up to date), `git push -u origin feature/seller-dashboard` успешен.
+
 Источник проверен: `origin/backend/ai-drafts` на `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`. Blob OpenAPI `9a1ed34f189692d750161de4d4728f78159e83cd` точно совпадает с принятым файлом. API version 0.2.0 → 0.3.0; единственный добавленный path — POST `/api/v1/businesses/{id}/drafts`. Все прежние paths, 20 component schemas и HTTPBearer security семантически неизменны; перестановка CustomerCandidate/DraftResponse в JSON не является изменением схем. Все `$ref` внутренние и разрешаются. Дополнительных файлов, examples, dependencies или migration из AI-ветки не потребовалось.
 
 Изменены `packages/contracts/openapi.json`, воспроизводимо сгенерированный `apps/web/src/shared/api/generated.ts`; объединены README и **docs/PROJECT_STATUS.md** (корневого PROJECT_STATUS.md в репозитории нет). Сохранены инструкции обеих частей, запуск, env, API, тестирование, ссылки на AI README/handoff с точным commit. Обновлены собственные handoff/integration/PR docs и запись DECISIONS. Auth, CustomerPicker, RU/KZ, UI, финансовая логика и dependencies не менялись.
