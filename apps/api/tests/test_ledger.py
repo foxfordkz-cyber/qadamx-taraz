@@ -233,7 +233,6 @@ def test_customers_history_open_sales_and_pagination(ledger_api):
         {"total_minor": "300000"},
         {"received_minor": True},
         {"customer_id": None},
-        {"draft_id": str(uuid4())},
         {"created_at": "2026-01-01T00:00:00Z"},
         {"total_minor": 100.0},
         {"total_minor": 10_000_000_001},

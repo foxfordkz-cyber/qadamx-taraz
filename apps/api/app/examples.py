@@ -111,17 +111,17 @@ EXAMPLES = {
     "ReverseCreate": {"description": "Исправление ошибочной записи"},
     "DraftResponse": {
         "id": "40000000-0000-4000-8000-000000000001",
-        "transcript": "Учебный пример",
-        "kind": "unknown",
-        "customer_query": None,
-        "customer_candidates": [],
+        "transcript": "Продал товар на 3000, Демо Асқар заплатил 1000",
+        "kind": "sale",
+        "customer_query": "Демо Асқар",
+        "customer_candidates": [{"id": CUSTOMER, "display_name": "Демо Асқар"}],
         "sale_candidates": [],
-        "description": None,
-        "total_minor": None,
-        "received_minor": None,
+        "description": "Товар",
+        "total_minor": 300000,
+        "received_minor": 100000,
         "amount_minor": None,
-        "missing_fields": ["kind"],
-        "questions": ["Что записать?"],
+        "missing_fields": [],
+        "questions": [],
         "expires_at": "2026-10-15T10:30:00Z",
     },
     "InquiryCreate": {
@@ -132,8 +132,48 @@ EXAMPLES = {
     },
 }
 
+EXAMPLES["ClarificationDraftResponse"] = {
+    **EXAMPLES["DraftResponse"],
+    "transcript": "Тауарды үш мың теңгеге саттым",
+    "customer_query": None,
+    "customer_candidates": [],
+    "received_minor": None,
+    "missing_fields": ["received_minor", "customer_id"],
+    "questions": ["Қазір қанша төленді?", "Клиентті таңдаңыз немесе қосыңыз."],
+}
+EXAMPLES["RepaymentDraftResponse"] = {
+    **EXAMPLES["DraftResponse"],
+    "transcript": "Демо Асқар вернул 500 тенге",
+    "kind": "repayment",
+    "description": "Погашение",
+    "total_minor": None,
+    "received_minor": None,
+    "amount_minor": 50000,
+    "sale_candidates": [EXAMPLES["OpenSale"]],
+    "missing_fields": ["sale_id"],
+    "questions": ["Выберите непогашенную продажу."],
+}
+EXAMPLES["ConfirmedSaleCreate"] = {
+    **EXAMPLES["SaleCreate"],
+    "draft_id": EXAMPLES["DraftResponse"]["id"],
+}
+EXAMPLES["AIUnavailableErrorResponse"] = {
+    **EXAMPLES["ErrorResponse"],
+    "error": {
+        "code": "AI_UNAVAILABLE",
+        "message": "AI unavailable; use manual input",
+        "fields": {},
+    },
+}
+
 
 def model_for_example(name):
+    if name in {"ClarificationDraftResponse", "RepaymentDraftResponse"}:
+        return schemas.DraftResponse
+    if name == "ConfirmedSaleCreate":
+        return schemas.SaleCreate
+    if name == "AIUnavailableErrorResponse":
+        return schemas.ErrorResponse
     return (
         schemas.OperationResponse
         if name == "RepaymentOperationResponse"

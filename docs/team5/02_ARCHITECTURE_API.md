@@ -19,7 +19,7 @@
 
 FastAPI описывает автоматические OpenAPI-схемы и проверку данных в [официальной документации](https://fastapi.tiangolo.com/features/). Возможность обработки аудио и структурированных ответов описана в [Gemini Audio](https://ai.google.dev/gemini-api/docs/audio) и [Structured outputs](https://ai.google.dev/gemini-api/docs/structured-output). Это не гарантирует точность на казахской речи в шумном базаре — её проверяют на примерах команды.
 
-Конкретный идентификатор модели хранится в `AI_MODEL`. В первый час выбрать доступную стабильную Flash-модель с поддержкой аудио и JSON-schema, проверить ключ, лимиты и десять пробных фраз. Подтверждённого API-ключа и Telegram-токена пока нет. При недоступности провайдера сначала проверить другого доступного провайдера через тот же адаптер; не представлять локальные заготовки настоящим AI.
+Конкретный идентификатор модели хранится в `AI_MODEL`. Выбирать доступную стабильную Flash-модель с поддержкой аудио и JSON-schema, проверять ключ, лимиты и пробные RU/KK-фразы. В ветке `backend/ai-drafts` ключ Gemini проверен, выбран `gemini-3.6-flash`; фактические live результаты — в backend handoff. Ключ хранится только в игнорируемом `.env`. Telegram не подключён. При недоступности провайдера сохраняется ручной ввод; локальные заготовки не выдаются за настоящий AI.
 
 Развёртывание FastAPI на Render подтверждено [официальной инструкцией](https://render.com/docs/deploy-fastapi). Тариф, доступность аккаунта, время запуска и лимит загрузки проверить в первый час. Платные ресурсы не подключаются автоматически этим ТЗ. Для выступления подготовить локальный сервер и запись реального успешного сценария как резерв.
 
@@ -91,7 +91,7 @@ Frontend №3 владеет корневыми зависимостями, ма
 | `memberships` | user_id, business_id, role; unique(user_id, business_id) |
 | `catalog_items` | id, business_id, name, price_minor nullable, available, is_demo |
 | `customers` | id, business_id, display_name, note, contact nullable |
-| `drafts` | id, business_id, creator_id, kind, extracted_json, missing_fields, expires_at, consumed_operation_id nullable |
+| `drafts` | id, business_id, created_by, created_at, response_json (валидированный DraftResponse), expires_at, consumed_operation_id nullable |
 | `operations` | id, business_id, customer_id nullable, sale_id, kind, sales_delta_minor, receipts_delta_minor, reversal_of nullable, description, created_at, created_by |
 | `idempotency_records` | business_id, key, request_hash, result_operation_id; unique(business_id, key) |
 | `inquiries` | id, business_id, visitor_name, contact, message, status, created_at, client_request_id |
@@ -156,6 +156,8 @@ Frontend получает access token через Supabase Auth; для API пе
 
 Создание черновика: `multipart/form-data`, поле `text` либо `audio`, ровно одно из двух; дополнительно `locale=ru|kk|auto`. Лимит файла 8 МБ, длительности 30 секунд. Сервер проверяет размер, MIME и допустимый тип файла; не скачивает произвольные внешние URL. Если формат записи браузера не поддерживается провайдером, показать текстовый ввод или загрузку поддерживаемого файла. Timeout запроса AI — 25 секунд; повтор не сохраняет операцию автоматически.
 
+Реализованные ограничения: текст 1–4000 символов; файл до 8 MiB; одна аудиодорожка без видео, mono/stereo, 8–192 kHz, до 30 секунд по декодированным отсчётам/времени. WAV, WebM/Opus, Ogg/Opus, MP3, M4A/MP4 и FLAC преобразуются в PCM WAV 16 kHz mono перед Gemini. Неверный MIME/контейнер — 415 `AUDIO_UNSUPPORTED`, размер — 413 `AUDIO_TOO_LARGE`, длительность — 422 `AUDIO_TOO_LONG`. `/drafts` возвращает 200; идемпотентный ключ нужен при подтверждении операции. Один повтор невалидного AI JSON/схемы укладывается в общий deadline 25 секунд. HTTP/квота/сеть не повторяются автоматически, возвращается 503, timeout — 504. `locale=auto` принимает смешанную речь, вопросы по умолчанию RU; `kk` — вопросы KZ. Без настроенного AI ручной ввод остаётся доступным.
+
 Пример ответа AI-черновика; UUID заменены условными метками только для читаемости:
 
 ```json
@@ -177,6 +179,8 @@ Frontend получает access token через Supabase Auth; для API пе
 ```
 
 Модель извлекает текстовые имена и суммы, backend добавляет кандидатов из своей БД. Модель не выбирает произвольный UUID и не получает доступ ко всем клиентам. `missing_fields` — список обязательных незаполненных данных. Для «продал на три тысячи» без указания оплаты нужно уточнение; для явного «всё в долг» начальная оплата равна нулю. `unknown` как kind означает запрос уточнения. Не показывать процент уверенности, придуманный моделью.
+
+Кандидаты ограничены 20 записями; при отсутствии/неоднозначности имени нужен выбор/создание клиента. Поиск — буквальная подстрока без нечёткого объединения имён, только внутри точки. Для полного списка используются существующие GET customers/operations. Погашение всегда возвращает `sale_id` в `missing_fields`, даже при единственном кандидате. После выбора конечные суммы и принадлежность сущностей повторно проверяются журналом. TTL запрещает потребление; плановая очистка сохранённых черновиков — отдельная эксплуатационная задача.
 
 Подтверждение продажи — `POST operations` с заголовком `Idempotency-Key` и JSON:
 
@@ -209,7 +213,7 @@ Frontend получает access token через Supabase Auth; для API пе
 
 Реализованные формы: `operation` содержит поля строки журнала из таблицы БД; `customer_balance_minor=null` у продажи без клиента. При `outstanding_only=true` элемент содержит `id`, `customer_id`, `description`, `total_minor`, `received_minor` (получено суммарно), `balance_minor`, `created_at`; `date` фильтрует дату исходной продажи, баланс всегда текущий. `CustomerCreate`: `display_name` (1–200), `note` (до 2000, по умолчанию пустая строка), `contact` (до 200 или null). Ответ клиента добавляет `id`, `business_id`, `balance_minor`. `/me`: `{id, businesses:[{id,slug,name,role}]}`. Создание клиента возвращает 201, денежные POST и их повторы — 200. Машиночитаемые схемы и валидные UUID-примеры: `packages/contracts`.
 
-Отмена принимает JSON `{"description":"Причина исправления"}` (1–1000 символов) и обязательный `Idempotency-Key`. В текущем ручном этапе `draft_id` должен быть null: ненулевой UUID возвращает 422 `DRAFT_NOT_SUPPORTED`, без обращения к AI и без записи операции. Дополнительные входные поля баланса/даты запрещены.
+Отмена принимает JSON `{"description":"Причина исправления"}` (1–1000 символов) и обязательный `Idempotency-Key`. Ненулевой `draft_id` в продаже/погашении проверяется по автору, точке, сроку и однократности. Чужой/отсутствующий черновик — 404, истёкший — 409 `DRAFT_EXPIRED`, использованный с новым ключом — 409 `DRAFT_USED`. Исходный ключ/тело возвращает сохранённый ответ даже после истечения TTL; автор проверяется и при повторе. Дополнительные входные поля баланса/даты запрещены.
 
 Идемпотентность: один ключ и одинаковое тело возвращают прежнюю операцию; тот же ключ и другое тело — `409 IDEMPOTENCY_CONFLICT`. Ключ хранится при сетевом повторе и меняется при новом действии. Сбой после COMMIT не приводит к повторному списанию/поступлению при следующем запросе. Идемпотентность реализуется и для отмены.
 
@@ -250,7 +254,7 @@ Frontend получает access token через Supabase Auth; для API пе
 
 Единая форма ошибки: `{error: {code, message, fields}, request_id}`. UI локализует известные codes и не показывает traceback пользователю.
 
-`fields` — объект «путь поля → массив кодов», по умолчанию `{}`. `request_id` — UUID, также в `X-Request-ID`. При отсутствии membership или принадлежности сущности возвращается 404 `NOT_FOUND`. Дополнительные коды ручного этапа: 401 `AUTH_REQUIRED`, 503 `AUTH_UNAVAILABLE`/`DATABASE_UNAVAILABLE`, 422 `DRAFT_NOT_SUPPORTED`/`INVALID_SALE`, 409 `ALREADY_REVERSED`. Длины обращения: имя 1–100, контакт 1–200, сообщение 1–2000 символов после trim.
+`fields` — объект «путь поля → массив кодов», по умолчанию `{}`. `request_id` — UUID, также в `X-Request-ID`. При отсутствии membership или принадлежности сущности возвращается 404 `NOT_FOUND`. Дополнительные коды: 401 `AUTH_REQUIRED`, 503 `AUTH_UNAVAILABLE`/`DATABASE_UNAVAILABLE`/`AI_UNAVAILABLE`, 504 `AI_TIMEOUT`, 422 `INVALID_SALE`/`AUDIO_TOO_LONG`, 409 `ALREADY_REVERSED`/`DRAFT_EXPIRED`/`DRAFT_USED`. Длины обращения: имя 1–100, контакт 1–200, сообщение 1–2000 символов после trim.
 
 | Код HTTP | Пример code | Действие UI |
 |---|---|---|
