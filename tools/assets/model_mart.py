@@ -258,7 +258,7 @@ CONFIG = {
     "geometry_status": "reference_based",
     "camera": [105, 92, 260], "target": [0, 10, 0], "render_scale": 222,
     "render_exposure": -.2,
-    "hotspots": [[-75, 7, 35.5], [-48, 7.1, 41.0], [9, 6.8, 35.8]],
+    "hotspots": [[-75, 7, 35.5], [-14, 7.1, 35.8], [57, 6.8, 35.8]],
     "reconstruction": {
         "researched_on": "2026-10-15",
         "accuracy": "Оригинальная реконструкция по фотографиям; не обмерная модель 1:1.",
