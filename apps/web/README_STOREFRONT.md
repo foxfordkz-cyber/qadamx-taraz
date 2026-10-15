@@ -2,6 +2,12 @@
 
 Зависимости: react-router-dom@6, three, @react-three/fiber (8 для React 18 / 9 для React 19), @react-three/drei.
 
+Команды запускаются из корня репозитория:
+```sh
+npm run dev
+npm run build
+```
+
 Маршруты (подключить в router участника №3):
 ```tsx
 <Route path="/" element={<ExplorePage />} />

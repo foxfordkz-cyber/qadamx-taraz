@@ -1,6 +1,6 @@
 import type { Business, InquiryInput, InquiryResult, Venue } from './types';
 
-const BASE = (import.meta as any).env?.VITE_API_URL ?? '/api';
+const BASE = import.meta.env.VITE_API_URL ?? '/api';
 
 export class ApiError extends Error {
   constructor(public status: number, message: string) {

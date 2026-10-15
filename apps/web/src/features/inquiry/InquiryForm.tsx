@@ -16,6 +16,13 @@ function validate(contact: string, message: string): Errors {
   if (!contact.trim()) e.contact = 'required';
   else if (contact.trim().length < 5) e.contact = 'too_short';
   else if (contact.length > 120) e.contact = 'too_long';
+  else {
+    const value = contact.trim();
+    const isTelegram = /^(?:@|(?:https?:\/\/)?t\.me\/)[A-Za-z][A-Za-z0-9_]{4,31}$/i.test(value);
+    const digits = value.replace(/\D/g, '').length;
+    const isPhone = /^\+?[\d\s().-]+$/.test(value) && digits >= 7 && digits <= 15;
+    if (!isTelegram && !isPhone) e.contact = 'contact_invalid';
+  }
   if (!message.trim()) e.message = 'required';
   else if (message.trim().length < 5) e.message = 'too_short';
   else if (message.length > 1000) e.message = 'too_long';
@@ -88,11 +95,13 @@ export default function InquiryForm({ businessId }: { businessId: string }) {
           {t('contact')}
           <input
             value={contact} maxLength={120} autoComplete="tel" inputMode="text"
-            aria-required="true" aria-invalid={!!errors.contact} aria-describedby="contact-hint"
+            aria-required="true"
+            aria-invalid={!!errors.contact}
+            aria-describedby={errors.contact ? 'contact-hint contact-error' : 'contact-hint'}
             onChange={(e) => setContact(e.target.value)}
           />
           <small id="contact-hint" className="muted">{t('contact_hint')}</small>
-          {errors.contact && <small className="err" role="alert">{t(errors.contact)}</small>}
+          {errors.contact && <small id="contact-error" className="err" role="alert">{t(errors.contact)}</small>}
         </label>
 
         <label>

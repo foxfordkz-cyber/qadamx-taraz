@@ -53,14 +53,14 @@ function Model({ url }: { url: string }) {
 }
 
 // Плавная камера; при reduced motion — мгновенно. Рендер по требованию: invalidate только пока едем.
-function Rig({ focus, resetKey, reduced }: { focus: THREE.Vector3 | null; resetKey: number; reduced: boolean }) {
+function Rig({ focus, reduced }: { focus: THREE.Vector3 | null; reduced: boolean }) {
   const { camera, controls, invalidate } = useThree();
   const goal = useRef({ pos: new THREE.Vector3(0, 14, 18), tgt: new THREE.Vector3() });
   const moving = useRef(false);
   const key = focus ? `${focus.x},${focus.z}` : '';
 
   useEffect(() => {
-    const c = controls as any;
+    const c = controls as (typeof controls & { target: THREE.Vector3; update: () => void });
     if (!c) return;
     const t = focus ? focus.clone() : new THREE.Vector3();
     goal.current.tgt.copy(t);
@@ -75,10 +75,10 @@ function Rig({ focus, resetKey, reduced }: { focus: THREE.Vector3 | null; resetK
       invalidate();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, resetKey, reduced, controls]);
+  }, [key, reduced, controls]);
 
   useFrame((_, dt) => {
-    const c = controls as any;
+    const c = controls as (typeof controls & { target: THREE.Vector3; update: () => void });
     if (!moving.current || !c) return;
     const k = 1 - Math.pow(0.001, dt);
     camera.position.lerp(goal.current.pos, k);
@@ -95,19 +95,24 @@ export default function Scene({ blocks, selectedId, hoverId, onSelect, modelUrl 
   const reduced = useMemo(() => matchMedia('(prefers-reduced-motion: reduce)').matches, []);
   const coarse = useMemo(() => matchMedia('(pointer: coarse)').matches, []);
   const [gl] = useState(hasWebGL);
-  const [reset, setReset] = useState(0);
+  const [overview, setOverview] = useState(true);
   const [touchOn, setTouchOn] = useState(false);
   const [modelFailed, setModelFailed] = useState(false);
 
   const sel = blocks.find((b) => b.id === selectedId);
   const focus = useMemo(() => (sel ? new THREE.Vector3(sel.x, sel.h / 2, sel.z) : null), [sel]);
+  const cameraFocus = overview ? null : focus;
+
+  useEffect(() => {
+    if (selectedId) setOverview(false);
+  }, [selectedId]);
 
   if (!gl) return <p className="scene-note" role="status">{t('scene_off')}</p>;
 
   const interactive = !coarse || touchOn; // на телефоне вертикальный скролл важнее жестов камеры
 
   return (
-    <div className={`scene${interactive ? '' : ' scene--locked'}`} role="img" aria-label={t('scene_label')}>
+    <div className={`scene${interactive ? '' : ' scene--locked'}`} role="region" aria-label={t('scene_label')}>
       <Boundary fallback={<p className="scene-note" role="alert">{t('scene_error')}</p>}>
         <Canvas
           frameloop="demand"
@@ -128,7 +133,12 @@ export default function Scene({ blocks, selectedId, hoverId, onSelect, modelUrl 
             </Boundary>
           )}
           {blocks.map((b) => (
-            <BlockMesh key={b.id} b={b} active={b.id === selectedId || b.id === hoverId} onSelect={onSelect} />
+            <BlockMesh
+              key={b.id}
+              b={b}
+              active={b.id === selectedId || b.id === hoverId}
+              onSelect={(id) => { setOverview(false); onSelect(id); }}
+            />
           ))}
           <OrbitControls
             makeDefault
@@ -138,12 +148,12 @@ export default function Scene({ blocks, selectedId, hoverId, onSelect, modelUrl 
             maxDistance={28}
             maxPolarAngle={Math.PI / 2 - 0.08} /* не уходим под землю */
           />
-          <Rig focus={focus} resetKey={reset} reduced={reduced} />
+          <Rig focus={cameraFocus} reduced={reduced} />
         </Canvas>
       </Boundary>
 
       <div className="scene-bar">
-        <button type="button" onClick={() => { setReset((r) => r + 1); }}>{t('overview')}</button>
+        <button type="button" onClick={() => setOverview(true)}>{t('overview')}</button>
         {coarse && (
           <button type="button" aria-pressed={touchOn} onClick={() => setTouchOn((v) => !v)}>
             {touchOn ? t('disable_3d') : t('enable_3d')}

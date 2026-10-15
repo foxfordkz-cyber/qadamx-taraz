@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { getBusinesses, getVenues } from './api';
 import { useFetch } from './hooks';
@@ -18,6 +18,8 @@ export default function VenuePage() {
   const category = sp.get('category') ?? '';
   const [text, setText] = useState(q);
   const [hover, setHover] = useState<string | null>(null);
+  const [selected, setSelected] = useState<string | null>(null);
+  const navigationTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const setParam = (k: string, v: string) => {
     const n = new URLSearchParams(sp);
@@ -30,6 +32,21 @@ export default function VenuePage() {
     const id = setTimeout(() => setParam('q', text.trim()), 300);
     return () => clearTimeout(id);
   }, [text]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => () => {
+    if (navigationTimer.current) clearTimeout(navigationTimer.current);
+  }, []);
+
+  const openShop = (id: string) => {
+    setSelected(id);
+    if (navigationTimer.current) clearTimeout(navigationTimer.current);
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) {
+      nav(`/shops/${id}`);
+      return;
+    }
+    navigationTimer.current = setTimeout(() => nav(`/shops/${id}`), 450);
+  };
 
   const venues = useFetch(getVenues, []);
   const venue = venues.data?.find((v) => v.slug === slug);
@@ -51,8 +68,9 @@ export default function VenuePage() {
         <Scene
           blocks={blocks}
           hoverId={hover}
+          selectedId={selected}
           modelUrl={venue?.model_url}
-          onSelect={(id) => nav(`/shops/${id}`)} // та же сущность, что и карточка в списке
+          onSelect={openShop} // та же сущность, что и карточка в списке
         />
       </Suspense>
 
