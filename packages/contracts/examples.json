@@ -1,0 +1,82 @@
+{
+  "SaleCreate": {
+    "kind": "sale",
+    "draft_id": null,
+    "customer_id": "20000000-0000-4000-8000-000000000001",
+    "description": "Учебный товар",
+    "total_minor": 300000,
+    "received_minor": 100000
+  },
+  "RepaymentCreate": {
+    "kind": "repayment",
+    "draft_id": null,
+    "sale_id": "30000000-0000-4000-8000-000000000001",
+    "amount_minor": 50000,
+    "description": "Учебная частичная оплата"
+  },
+  "DraftResponse": {
+    "id": "40000000-0000-4000-8000-000000000001",
+    "transcript": "Асқарға үш мың теңгеге тауар бердім, мыңын төледі",
+    "kind": "sale",
+    "customer_query": "Асқар",
+    "customer_candidates": [
+      {
+        "id": "20000000-0000-4000-8000-000000000001",
+        "display_name": "Демо Асқар"
+      }
+    ],
+    "sale_candidates": [],
+    "description": "Тауар",
+    "total_minor": 300000,
+    "received_minor": 100000,
+    "amount_minor": null,
+    "missing_fields": [],
+    "questions": [],
+    "expires_at": "2026-10-15T10:30:00Z"
+  },
+  "OperationResponse": {
+    "operation": {
+      "id": "30000000-0000-4000-8000-000000000001",
+      "business_id": "10000000-0000-4000-8000-000000000001",
+      "customer_id": "20000000-0000-4000-8000-000000000001",
+      "sale_id": "30000000-0000-4000-8000-000000000001",
+      "kind": "sale",
+      "sales_delta_minor": 300000,
+      "receipts_delta_minor": 100000,
+      "reversal_of": null,
+      "description": "Учебный товар",
+      "created_at": "2026-10-15T10:00:00Z",
+      "created_by": "50000000-0000-4000-8000-000000000001"
+    },
+    "sale_balance_minor": 200000,
+    "customer_balance_minor": 200000,
+    "created_at": "2026-10-15T10:00:00Z"
+  },
+  "SummaryResponse": {
+    "date": "2026-10-15",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "sales_minor": 300000,
+    "receipts_minor": 150000,
+    "outstanding_minor": 150000,
+    "new_inquiries_count": 1
+  },
+  "InquiryCreate": {
+    "client_request_id": "60000000-0000-4000-8000-000000000001",
+    "visitor_name": "Демо-покупатель",
+    "contact": "demo@example.test",
+    "message": "Есть ли школьный рюкзак до 15 000 тенге?"
+  },
+  "ErrorResponse": {
+    "error": {
+      "code": "CUSTOMER_REQUIRED",
+      "message": "A credit sale requires a customer",
+      "fields": {
+        "customer_id": [
+          "CUSTOMER_REQUIRED"
+        ]
+      }
+    },
+    "request_id": "70000000-0000-4000-8000-000000000001"
+  }
+}
