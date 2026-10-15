@@ -2,6 +2,8 @@
 
 [Передача AI-интеграции frontend](../../packages/contracts/AI_INTEGRATION.md): точный commit и примеры multipart/уточнения/подтверждения для PR #5.
 
+[Подключение команды](../../docs/BACKEND_FRONTEND_CONNECTION.md): проверенные PR #3/#4/#5, запуск, Base URL, публичные env, businessId и результаты независимых проверок.
+
 Python 3.12, FastAPI/Pydantic 2, SQLAlchemy 2, PostgreSQL, Alembic и Supabase JWT/JWKS. Работают клиенты, продажа, частичное погашение, история, открытые продажи, итог дня и отмена ошибочной записи. Опциональный Gemini разбирает текст RU/KK или аудио в черновик. Денежная запись выполняется только отдельным подтверждением продавца; ручной ввод (`draft_id=null`) работает без AI.
 
 ## Запуск
