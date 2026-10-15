@@ -105,21 +105,22 @@
   },
   "DraftResponse": {
     "id": "40000000-0000-4000-8000-000000000001",
-    "transcript": "Учебный пример",
-    "kind": "unknown",
-    "customer_query": null,
-    "customer_candidates": [],
+    "transcript": "Продал товар на 3000, Демо Асқар заплатил 1000",
+    "kind": "sale",
+    "customer_query": "Демо Асқар",
+    "customer_candidates": [
+      {
+        "id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+        "display_name": "Демо Асқар"
+      }
+    ],
     "sale_candidates": [],
-    "description": null,
-    "total_minor": null,
-    "received_minor": null,
+    "description": "Товар",
+    "total_minor": 300000,
+    "received_minor": 100000,
     "amount_minor": null,
-    "missing_fields": [
-      "kind"
-    ],
-    "questions": [
-      "Что записать?"
-    ],
+    "missing_fields": [],
+    "questions": [],
     "expires_at": "2026-10-15T10:30:00Z"
   },
   "InquiryCreate": {
@@ -127,5 +128,76 @@
     "visitor_name": "Демо",
     "contact": "demo@example.test",
     "message": "Учебная заявка"
+  },
+  "ClarificationDraftResponse": {
+    "id": "40000000-0000-4000-8000-000000000001",
+    "transcript": "Тауарды үш мың теңгеге саттым",
+    "kind": "sale",
+    "customer_query": null,
+    "customer_candidates": [],
+    "sale_candidates": [],
+    "description": "Товар",
+    "total_minor": 300000,
+    "received_minor": null,
+    "amount_minor": null,
+    "missing_fields": [
+      "received_minor",
+      "customer_id"
+    ],
+    "questions": [
+      "Қазір қанша төленді?",
+      "Клиентті таңдаңыз немесе қосыңыз."
+    ],
+    "expires_at": "2026-10-15T10:30:00Z"
+  },
+  "RepaymentDraftResponse": {
+    "id": "40000000-0000-4000-8000-000000000001",
+    "transcript": "Демо Асқар вернул 500 тенге",
+    "kind": "repayment",
+    "customer_query": "Демо Асқар",
+    "customer_candidates": [
+      {
+        "id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+        "display_name": "Демо Асқар"
+      }
+    ],
+    "sale_candidates": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+        "description": "Учебная продажа",
+        "total_minor": 300000,
+        "received_minor": 150000,
+        "balance_minor": 150000,
+        "created_at": "2026-10-15T10:00:00Z"
+      }
+    ],
+    "description": "Погашение",
+    "total_minor": null,
+    "received_minor": null,
+    "amount_minor": 50000,
+    "missing_fields": [
+      "sale_id"
+    ],
+    "questions": [
+      "Выберите непогашенную продажу."
+    ],
+    "expires_at": "2026-10-15T10:30:00Z"
+  },
+  "ConfirmedSaleCreate": {
+    "kind": "sale",
+    "draft_id": "40000000-0000-4000-8000-000000000001",
+    "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+    "description": "Учебная продажа",
+    "total_minor": 300000,
+    "received_minor": 100000
+  },
+  "AIUnavailableErrorResponse": {
+    "error": {
+      "code": "AI_UNAVAILABLE",
+      "message": "AI unavailable; use manual input",
+      "fields": {}
+    },
+    "request_id": "70000000-0000-4000-8000-000000000001"
   }
 }

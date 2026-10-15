@@ -14,8 +14,10 @@ from app import schemas
 from app.auth import TokenVerifier
 from app.config import Settings
 from app.db import make_engine
+from app.draft_routes import router as draft_router
 from app.errors import APIError
 from app.routers import router
+from app.services.ai import GeminiProvider
 
 
 def error_response(request, status, code, message, fields=None):
@@ -41,14 +43,16 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.2.0",
+        version="0.3.0",
         lifespan=lifespan,
-        description="Manual ledger. AI drafts and public inquiry routes are not enabled.",
+        description="Authenticated manual ledger and optional Gemini drafts. "
+        "AI never writes money. Public inquiry routes are not enabled.",
         responses={
             status: {"model": schemas.ErrorResponse} for status in (401, 404, 409, 422, 503)
         },
     )
     app.state.engine = make_engine(settings) if settings.database_url else None
+    app.state.ai = GeminiProvider(settings)
     app.state.verifier = (
         TokenVerifier(settings)
         if any((settings.supabase_url, settings.jwt_issuer, settings.jwt_audience))
@@ -119,6 +123,7 @@ def create_app(settings: Settings | None = None):
         return schemas.HealthResponse()
 
     app.include_router(router)
+    app.include_router(draft_router)
 
     def openapi():
         if app.openapi_schema is None:

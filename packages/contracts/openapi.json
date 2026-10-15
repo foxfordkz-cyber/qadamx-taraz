@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Qadam Business API",
-    "description": "Manual ledger. AI drafts and public inquiry routes are not enabled.",
-    "version": "0.2.0"
+    "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public inquiry routes are not enabled.",
+    "version": "0.3.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -964,6 +964,179 @@
           }
         }
       }
+    },
+    "/api/v1/businesses/{id}/drafts": {
+      "post": {
+        "tags": [
+          "drafts"
+        ],
+        "summary": "Create Draft",
+        "description": "RU/KK text or audio → draft. No monetary write. Confirm via POST operations. Exactly one source; 30-minute expiry, author and business scoped, single use. AI failure leaves manual input available. Audio is decoded to WAV in memory.",
+        "operationId": "create_draft_api_v1_businesses__id__drafts_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "audio": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "<=8 MiB, <=30s"
+                  },
+                  "locale": {
+                    "type": "string",
+                    "enum": [
+                      "ru",
+                      "kk",
+                      "auto"
+                    ],
+                    "default": "auto"
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "text"
+                    ],
+                    "not": {
+                      "required": [
+                        "audio"
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "audio"
+                    ],
+                    "not": {
+                      "required": [
+                        "text"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -998,6 +1171,26 @@
           "name"
         ],
         "title": "BusinessMembership"
+      },
+      "CustomerCandidate": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "display_name"
+        ],
+        "title": "CustomerCandidate",
+        "type": "object"
       },
       "CustomerCreate": {
         "properties": {
@@ -1084,6 +1277,141 @@
           "balance_minor"
         ],
         "title": "CustomerResponse"
+      },
+      "DraftResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "transcript": {
+            "title": "Transcript",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "sale",
+              "repayment",
+              "unknown"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "customer_query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Query"
+          },
+          "customer_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerCandidate"
+            },
+            "title": "Customer Candidates",
+            "type": "array"
+          },
+          "sale_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/OpenSale"
+            },
+            "title": "Sale Candidates",
+            "type": "array"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "maxLength": 1000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "total_minor": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "maximum": 10000000000,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Minor"
+          },
+          "received_minor": {
+            "anyOf": [
+              {
+                "maximum": 10000000000,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Received Minor"
+          },
+          "amount_minor": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "maximum": 10000000000,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Minor"
+          },
+          "missing_fields": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing Fields",
+            "type": "array"
+          },
+          "questions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "transcript",
+          "kind",
+          "customer_query",
+          "customer_candidates",
+          "sale_candidates",
+          "description",
+          "total_minor",
+          "received_minor",
+          "amount_minor",
+          "missing_fields",
+          "questions",
+          "expires_at"
+        ],
+        "title": "DraftResponse",
+        "type": "object"
       },
       "ErrorDetail": {
         "properties": {
@@ -1621,161 +1949,6 @@
           "new_inquiries_count"
         ],
         "title": "SummaryResponse"
-      },
-      "CustomerCandidate": {
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "format": "uuid",
-            "title": "Id",
-            "type": "string"
-          },
-          "display_name": {
-            "title": "Display Name",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "display_name"
-        ],
-        "title": "CustomerCandidate",
-        "type": "object"
-      },
-      "DraftResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "format": "uuid",
-            "title": "Id",
-            "type": "string"
-          },
-          "transcript": {
-            "title": "Transcript",
-            "type": "string"
-          },
-          "kind": {
-            "enum": [
-              "sale",
-              "repayment",
-              "unknown"
-            ],
-            "title": "Kind",
-            "type": "string"
-          },
-          "customer_query": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Customer Query"
-          },
-          "customer_candidates": {
-            "items": {
-              "$ref": "#/components/schemas/CustomerCandidate"
-            },
-            "title": "Customer Candidates",
-            "type": "array"
-          },
-          "sale_candidates": {
-            "items": {
-              "$ref": "#/components/schemas/OpenSale"
-            },
-            "title": "Sale Candidates",
-            "type": "array"
-          },
-          "description": {
-            "anyOf": [
-              {
-                "maxLength": 1000,
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description"
-          },
-          "total_minor": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0,
-                "maximum": 10000000000,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Total Minor"
-          },
-          "received_minor": {
-            "anyOf": [
-              {
-                "maximum": 10000000000,
-                "minimum": 0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Received Minor"
-          },
-          "amount_minor": {
-            "anyOf": [
-              {
-                "exclusiveMinimum": 0,
-                "maximum": 10000000000,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Amount Minor"
-          },
-          "missing_fields": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Missing Fields",
-            "type": "array"
-          },
-          "questions": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Questions",
-            "type": "array"
-          },
-          "expires_at": {
-            "format": "date-time",
-            "title": "Expires At",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "transcript",
-          "kind",
-          "customer_query",
-          "customer_candidates",
-          "sale_candidates",
-          "description",
-          "total_minor",
-          "received_minor",
-          "amount_minor",
-          "missing_fields",
-          "questions",
-          "expires_at"
-        ],
-        "title": "DraftResponse",
-        "type": "object"
       },
       "InquiryCreate": {
         "additionalProperties": false,

@@ -167,3 +167,24 @@ class Inquiry(Base):
         DateTime(timezone=True), server_default=func.clock_timestamp()
     )
     client_request_id: Mapped[UUID] = mapped_column(Uuid)
+
+
+class Draft(Base):
+    __tablename__ = "drafts"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["business_id", "consumed_operation_id"],
+            ["qadam.operations.business_id", "qadam.operations.id"],
+            name="fk_draft_operation_tenant",
+        ),
+        CheckConstraint("expires_at > created_at", name="expiry"),
+    )
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4)
+    business_id: Mapped[UUID] = mapped_column(ForeignKey("qadam.businesses.id"), index=True)
+    created_by: Mapped[UUID] = mapped_column(Uuid, index=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.clock_timestamp()
+    )
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
+    response_json: Mapped[dict] = mapped_column(JSONB)
+    consumed_operation_id: Mapped[UUID | None] = mapped_column(Uuid, unique=True)

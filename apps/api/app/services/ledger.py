@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, aliased
 
 from app import schemas
 from app.errors import APIError
-from app.models import Business, Customer, IdempotencyRecord, Inquiry, Membership, Operation
+from app.models import Business, Customer, Draft, IdempotencyRecord, Inquiry, Membership, Operation
 
 LOCAL_TZ = ZoneInfo("Asia/Almaty")
 
@@ -94,11 +94,32 @@ def write_operation(
     digest = hashlib.sha256(
         json.dumps(normalized, sort_keys=True, separators=(",", ":")).encode()
     ).hexdigest()
+    draft = None
+    if reverse_id is None and payload.draft_id is not None:
+        draft = session.scalar(
+            select(Draft)
+            .where(
+                Draft.id == payload.draft_id,
+                Draft.business_id == business_id,
+                Draft.created_by == user_id,
+            )
+            .with_for_update()
+        )
+        if draft is None:
+            raise APIError(404, "NOT_FOUND", "Draft not found")
     previous = session.get(IdempotencyRecord, (business_id, key))
     if previous:
         if previous.request_hash != digest:
             raise APIError(409, "IDEMPOTENCY_CONFLICT", "Key was used for another request")
         return schemas.OperationResponse.model_validate(previous.response_json)
+
+    if draft is not None:
+        if draft.consumed_operation_id is not None:
+            raise APIError(409, "DRAFT_USED", "Draft was already confirmed")
+        if draft.expires_at <= session.scalar(select(func.clock_timestamp())):
+            raise APIError(
+                409, "DRAFT_EXPIRED", "Draft expired; use manual input or create a new draft"
+            )
 
     operation_id = uuid4()
     if reverse_id is not None:
@@ -135,8 +156,6 @@ def write_operation(
             created_by=user_id,
         )
     else:
-        if payload.draft_id is not None:
-            raise APIError(422, "DRAFT_NOT_SUPPORTED", "Use manual input with draft_id=null")
         if isinstance(payload, schemas.SaleCreate):
             if payload.customer_id:
                 get_customer(session, business_id, payload.customer_id)
@@ -171,6 +190,8 @@ def write_operation(
             )
     session.add(row)
     session.flush()
+    if draft is not None:
+        draft.consumed_operation_id = row.id
     result = schemas.OperationResponse(
         operation=schemas.Operation.model_validate(row),
         created_at=row.created_at,

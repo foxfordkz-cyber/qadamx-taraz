@@ -1,6 +1,6 @@
 from urllib.parse import urlsplit
 
-from pydantic import SecretStr, field_validator
+from pydantic import Field, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy.engine import make_url
 
@@ -16,8 +16,12 @@ class Settings(BaseSettings):
     demo_owner_b_sub: str = ""
     demo_owner_a_token: SecretStr | None = None
     demo_owner_b_token: SecretStr | None = None
+    ai_api_key: SecretStr | None = None
+    ai_model: str = Field(default="", pattern=r"^(?:gemini-[a-zA-Z0-9._-]+)?$")
 
-    @field_validator("database_url", "demo_owner_a_token", "demo_owner_b_token", mode="before")
+    @field_validator(
+        "database_url", "demo_owner_a_token", "demo_owner_b_token", "ai_api_key", mode="before"
+    )
     @classmethod
     def blank_secret(cls, value):
         return None if value == "" else value
