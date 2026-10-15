@@ -79,7 +79,7 @@ Both owner-a@example.test and owner-b@example.test exist in auth.users with conf
 
 Настройка demo PostgreSQL и Auth завершена. Это не проверка браузерного frontend или полного денежного сценария. Следующий этап: отдельная тестовая PostgreSQL для транзакционных тестов журнала, затем интеграция frontend; TEST_DATABASE_URL пока пуст. Истёкшие demo токены требуют повторного входа, постоянными ключами они не являются.
 
-## Актуальный итог AI-этапа — 2026-10-15, `backend/ai-drafts`
+## Реализация AI-этапа — 2026-10-15, `ad107f5` (итог интеграции ниже)
 
 ### Сделано и границы публикации
 
@@ -130,3 +130,54 @@ Both owner-a@example.test and owner-b@example.test exist in auth.users with conf
 3. Для запуска AI на Supabase применить **только новую добавочную `0003_drafts`** отдельным release-step после review. Сейчас Supabase на `0002_ledger`; `.env` сохранён. Очищающие pytest туда не направлять. Затем проверить live draft без записи, отдельное подтверждение и повторы с реальными владельцами/обновлёнными access tokens.
 4. Передать frontend обновлённые OpenAPI/примеры: хранить форму при 503/504, показывать вопросы/кандидатов, отправлять выбранные поля с draft_id и стабильным Idempotency-Key; ручной путь сохраняется. Реальной интеграции UI/телефона/деплоя пока нет.
 5. Просроченные drafts остаются в БД; плановая очистка/политика хранения и лимит частоты AI-запросов пока не реализованы. Кандидаты ограничены 20 и буквальным поиском; для полного списка пользоваться GET. Следующий функциональный backend-этап — публичный каталог и заявки, затем общий пользовательский сценарий и HTTPS-деплой.
+
+## Актуальная интеграция AI + Supabase — 2026-10-15
+
+### Review и локальные тесты
+
+Проверен `ad107f5f7e883a8a1e7bf8e95d5c270aa74be071`: `0003_drafts`, модели, маршруты, авторизация, создание/подтверждение, тесты. Дефектов в проверках прав, TTL и транзакции потребления не обнаружено; изменения runtime-кода и миграции не потребовались. Денежные правила и функциональность не расширены. Исправлены устаревшие сообщения README/сводки о неприменённой Supabase-миграции и неподтверждённом полном сценарии.
+
+- `draft_id` ищется по id + business + created_by под блокировкой до возврата идемпотентного ответа. Даже совладелец не подтверждает/повторяет чужой draft. При создании membership проверяется повторно после Gemini.
+- Срок 30 минут задаётся по `clock_timestamp()` PostgreSQL. Проверка времени выполняется после ожидания бизнес-блокировки, чтобы просроченный в очереди запрос не прошёл.
+- При новом ключе consumed draft даёт 409; при исходном ключе/теле возвращается прежний ответ. Для разных ключей блокировки business/draft предотвращают вторую операцию; одинаковый ключ при гонке возвращает один ответ обоим запросам.
+- INSERT operation, UPDATE consumed_operation_id и INSERT idempotency_records выполняются одной SQLAlchemy-транзакцией. HTTP-успех — только после COMMIT. Тест перед COMMIT подтвердил откат всех трёх изменений.
+- В миграции проверены tenant FK, unique consumed_operation_id, expiry constraint, индексы, REVOKE PUBLIC/anon/authenticated. Прямые Supabase Data API роли не получают доступ к draft.
+
+Добавлены три содержательные проверки в `apps/api/tests/test_drafts.py`: гонка с одинаковым ключом, ошибка непосредственно перед COMMIT после flush всех трёх записей, истечение срока во время ожидания business lock. Команды из `apps/api`:
+
+```powershell
+.venv/Scripts/python scripts/with_env.py .env.local-postgres -m pytest tests/test_drafts.py tests/test_ledger.py tests/test_postgres.py -q --tb=short
+.venv/Scripts/python scripts/with_env.py .env.local-postgres -m pytest -q --tb=short
+.venv/Scripts/python -m ruff check app tests scripts migrations
+.venv/Scripts/python -m ruff format --check app tests scripts migrations
+.venv/Scripts/python -m app.export_contracts --check
+```
+
+Результат: **36 targeted passed, 165 total passed**, без skipped, одна прежняя deprecation Starlette/httpx. Ruff и экспорт успешно. Настоящая локальная PostgreSQL 17.11; Gemini в pytest — заглушка, JWT подписаны тестовым ключом и проверены через JWKS. На Supabase pytest/очистка не выполнялись.
+
+### Применение миграции на qadam-demo
+
+После локальных проверок выполнен `alembic upgrade 0003_drafts` через проверяющий локальный скрипт с контролем project reference и revision. Переход **0002_ledger → 0003_drafts** подтверждён. До/после миграции одинаковые количества: operations 2, idempotency_records 2, memberships 9, customers 9. Миграция добавочная; никаких truncate/delete/downgrade на Supabase.
+
+Проверены эффективные права: у `anon`/`authenticated` нет USAGE схемы `qadam` и ни одного из SELECT/INSERT/UPDATE/DELETE/TRUNCATE/REFERENCES/TRIGGER на `qadam.drafts`; PUBLIC grants отсутствуют. Контрольная сумма `.env` до и после миграции совпала; ключи/токены не выводились, файл не переписывался.
+
+После применения `.venv/Scripts/python -m alembic check` на Supabase завершился успешно: `No new upgrade operations detected.`
+
+### Живой Gemini и полный HTTP-сценарий
+
+`apps/api/scripts/smoke_draft_flow.py --demo` запустил собственный Uvicorn на случайном loopback-порту. Запросы прошли через настоящий HTTP, штатную авторизацию, настоящие Supabase PostgreSQL/JWKS и **живой `gemini-3.6-flash`**; ни auth, ни Gemini, ни БД не подменялись.
+
+1. Оба JWT действительны и соответствуют реальным subjects: A — 6 точек, B — 3; аноним получает 401. B не создаёт/не подтверждает draft в точке A — 404.
+2. В `mart-demo-food` текст «Продал товар на 3000 тенге, Демо Асқар заплатил 1000 тенге, остальное в долг» дал sale, `total_minor=300000`, `received_minor=100000`, кандидата учебного клиента. До подтверждения количество operations и summary не изменились.
+3. Скрипт отдельно подтвердил проверенные учебные поля с фиксированным `Idempotency-Key=ai-integration-2026-10-15-sale`. В журнале появилась **ровно одна** строка «Учебная AI-проверка интеграции 2026-10-15», draft consumed_operation_id указывает на неё, автор/точка совпадают.
+4. Повтор того же ключа/тела вернул идентичный ответ; новый ключ для consumed draft дал **409 DRAFT_USED**. В истории запись одна. Summary точки: sales_minor **300000**, receipts_minor **100000**, outstanding_minor **200000**.
+
+Команда: `.venv/Scripts/python scripts/smoke_draft_flow.py --demo` → **PASS, live-full-flow**. Скрипт оставляет учебную запись в demo и ничего не удаляет. Повторный запуск восстанавливает исходный draft по сохранённой операции и проверяет идемпотентность без повторного вызова Gemini; такой результат помечается `replay-only`.
+
+Второй запуск с новым процессом API также фактически выполнен: **PASS, replay-only**, итоги не изменились, второй продажи нет.
+
+Это отдельный живой интеграционный результат, а не один из 165 тестов с заглушкой. Предыдущие 11 RU/KZ/mixed-текстов и синтетическое RU-аудио остаются результатами этапа реализации; весь набор 20/20, реальное KZ-аудио и браузер/телефон в этом узком шаге не перепроверялись. HTTPS-деплой не выполнен.
+
+### Передача и следующий шаг
+
+OpenAPI/JSON-примеры в `packages/contracts` остаются совместимыми с `ad107f5`: поля и денежные правила не изменены. Для frontend нужен действующий Supabase access token и UUID точки из `/me`; схема `qadam` напрямую недоступна. Проверять форму перед отдельным подтверждением, сохранять Idempotency-Key при сетевом повторе, при 503/504 оставлять ручной ввод. Подробные multipart/уточнение/подтверждение передаются вместе с публикацией ветки. Сначала review двух PR по зависимости, затем подключение существующего frontend; автоматическое слияние запрещено. Новые функции backend не добавлять в этот интеграционный шаг.

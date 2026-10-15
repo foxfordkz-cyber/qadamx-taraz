@@ -13,7 +13,7 @@ from sqlalchemy.orm import Session
 from test_ai import TEXT, VALID, StubProvider
 from test_ledger import post, repayment, sale, summary
 
-from app.models import Customer, Draft, IdempotencyRecord, Membership, Operation
+from app.models import Business, Customer, Draft, IdempotencyRecord, Membership, Operation
 
 pytestmark = pytest.mark.postgres
 
@@ -188,6 +188,88 @@ def test_concurrent_confirmations_consume_once(ledger_api):
     assert sorted(response.status_code for response in results) == [200, 409]
     with Session(api["engine"]) as session:
         assert session.scalar(select(func.count()).select_from(Operation)) == 1
+
+
+def test_concurrent_same_key_confirmation_returns_same_operation(ledger_api):
+    api = ledger_api
+    id = draft(api).json()["id"]
+    barrier = Barrier(2)
+
+    def confirm(_):
+        barrier.wait(timeout=10)
+        return post(api, sale(api, draft_id=id), "same-draft-key")
+
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        results = list(pool.map(confirm, range(2)))
+    assert [response.status_code for response in results] == [200, 200]
+    assert results[0].json() == results[1].json()
+    with Session(api["engine"]) as session:
+        assert session.scalar(select(func.count()).select_from(Operation)) == 1
+        assert session.scalar(select(func.count()).select_from(IdempotencyRecord)) == 1
+        assert (
+            str(session.get(Draft, UUID(id)).consumed_operation_id)
+            == (results[0].json()["operation"]["id"])
+        )
+
+
+def test_failure_before_commit_rolls_back_all_three_records(ledger_api):
+    api = ledger_api
+    id = UUID(draft(api).json()["id"])
+
+    def fail_before_commit(session):
+        # write_operation has already flushed both inserts and the draft UPDATE.
+        assert session.get(Draft, id).consumed_operation_id is not None
+        assert session.scalar(select(func.count()).select_from(Operation)) == 1
+        assert session.scalar(select(func.count()).select_from(IdempotencyRecord)) == 1
+        raise RuntimeError("Injected immediately before COMMIT")
+
+    event.listen(Session, "before_commit", fail_before_commit)
+    try:
+        assert post(api, sale(api, draft_id=str(id)), "commit-retry").status_code == 500
+    finally:
+        event.remove(Session, "before_commit", fail_before_commit)
+    with Session(api["engine"]) as session:
+        assert session.get(Draft, id).consumed_operation_id is None
+        assert session.scalar(select(func.count()).select_from(Operation)) == 0
+        assert session.scalar(select(func.count()).select_from(IdempotencyRecord)) == 0
+    assert post(api, sale(api, draft_id=str(id)), "commit-retry").status_code == 200
+
+
+def test_expiry_is_checked_after_waiting_for_business_lock(ledger_api):
+    from threading import Event
+
+    api = ledger_api
+    id = UUID(draft(api).json()["id"])
+    lock_requested = Event()
+
+    def before_execute(conn, cursor, statement, parameters, context, executemany):
+        if "qadam.businesses" in statement and "FOR UPDATE" in statement:
+            lock_requested.set()
+
+    with Session(api["engine"]) as holder:
+        holder.execute(
+            select(Business.id).where(Business.id == api["business"]).with_for_update()
+        ).one()
+        event.listen(api["engine"], "before_cursor_execute", before_execute)
+        try:
+            with ThreadPoolExecutor(max_workers=1) as pool:
+                result = pool.submit(post, api, sale(api, draft_id=str(id)), "expires-in-queue")
+                try:
+                    assert lock_requested.wait(timeout=10)
+                    row = holder.get(Draft, id)
+                    row.created_at -= timedelta(hours=1)
+                    row.expires_at = holder.scalar(select(func.clock_timestamp()))
+                    holder.commit()  # Request now acquires the business lock, after TTL.
+                finally:
+                    holder.rollback()  # Also release lock if assertion failed.
+                response = result.result(timeout=10)
+        finally:
+            event.remove(api["engine"], "before_cursor_execute", before_execute)
+    assert response.status_code == 409
+    assert response.json()["error"]["code"] == "DRAFT_EXPIRED"
+    with Session(api["engine"]) as session:
+        assert session.get(Draft, id).consumed_operation_id is None
+        assert session.scalar(select(func.count()).select_from(Operation)) == 0
 
 
 @pytest.mark.parametrize(
