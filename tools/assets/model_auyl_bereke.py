@@ -185,11 +185,13 @@ def auyl_bereke():
 
 CONFIG = {
     "name":"Ауыл Береке", "build":auyl_bereke,
+    "geometry_status":"reference_based",
+    "label_ru":"Вход и ряды · размеры оценочные",
+    "label_kk":"Кіреберіс пен қатарлар · өлшемдері болжамды",
     "camera":[156,115,182], "target":[0,5,0], "render_scale":210,
     "hotspots":[[-21,5.9,-1],[-35,2.5,24],[39,12.1,20]],
     "reconstruction": {
         "coverage":"entrance_and_adjacent_rows_fragment",
-        "label_ru":"Вход и ряды · размеры оценочные",
         "confirmed":["Прямоугольные монументальные ворота, сине-серые колонны, золотистый фриз и парные кони", "Правый от входа крупный корпус со скатной/вальмовой серебристой крышей", "Открытый двор слева и протяжённые параллельные серебристые ряды за ним"],
         "estimated":["Метрические размеры и конечная граница фрагмента", "Высоты крыш и скрытые фасады", "Повторные проёмы, детали навесов и положения учебных точек"],
         "source_urls":["https://yandex.kz/maps/ru/org/auyl_bereke/161384481381/gallery/", "https://yandex.kz/maps/ru/org/auyl_bereke/161384481381/gallery/?l=sat&ll=71.411083%2C42.905850&z=19", "https://www.youtube.com/watch?v=UiR8DrhGLbY", "https://2gis.kz/taraz/firm/70000001054386766"]

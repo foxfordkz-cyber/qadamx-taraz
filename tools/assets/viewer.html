@@ -156,7 +156,8 @@
       const up = new THREE.Vector3().crossVectors(direction, right).normalize();
       const points = corners(box), vertical = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
       const horizontal = vertical * camera.aspect;
-      let distance = authoredOffset.length(), radius = 0;
+      // Preserve the authored direction; fit distance to the actual viewport.
+      let distance = 0, radius = 0;
       for (const point of points) {
         const local = point.clone().sub(target), depth = local.dot(direction);
         radius = Math.max(radius, local.length());
