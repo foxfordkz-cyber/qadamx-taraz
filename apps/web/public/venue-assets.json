@@ -5,11 +5,11 @@
     {
       "slug": "mart",
       "name": "MART",
-      "label_ru": "Концептуальная модель",
-      "label_kk": "Тұжырымдамалық модель",
+      "label_ru": "По фотографиям · размеры оценочные",
+      "label_kk": "Фотосуреттер бойынша · өлшемдері болжамды",
       "model_url": "/models/mart.glb",
       "poster_url": "/previews/mart.webp",
-      "geometry_status": "conceptual",
+      "geometry_status": "reference_based",
       "conceptual_scale": true,
       "units": "meters",
       "up_axis": "+Y",
@@ -20,23 +20,23 @@
         0
       ],
       "bounds_min": [
-        -28.0,
+        -99.0,
         0.0,
-        -21.0
+        -47.0
       ],
       "bounds_max": [
-        28.0,
-        14.2,
-        21.0
+        99.0,
+        34.24,
+        47.0
       ],
       "camera_position": [
-        50,
-        39,
-        60
+        105,
+        92,
+        260
       ],
       "camera_target": [
         0,
-        4.5,
+        10,
         0
       ],
       "camera_fov_degrees": 45,
@@ -46,9 +46,9 @@
           "business_slug": "mart-demo-clothes",
           "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
           "position": [
-            -13,
-            5.2,
-            11.5
+            -75,
+            7,
+            35.5
           ]
         },
         {
@@ -56,9 +56,9 @@
           "business_slug": "mart-demo-food",
           "business_id": "d96e604f-930b-59b5-a239-820d0ae1b02e",
           "position": [
-            0,
-            4.5,
-            14
+            -48,
+            7.1,
+            41.0
           ]
         },
         {
@@ -66,12 +66,42 @@
           "business_slug": "mart-demo-home",
           "business_id": "07691851-9886-5ce4-bb82-a3ed33630fe1",
           "position": [
-            13,
-            5.2,
-            11.5
+            9,
+            6.8,
+            35.8
           ]
         }
-      ]
+      ],
+      "reconstruction": {
+        "researched_on": "2026-10-15",
+        "accuracy": "Оригинальная реконструкция по фотографиям; не обмерная модель 1:1.",
+        "coverage": "Главный уличный фасад и вход изучены с нескольких ракурсов; контур сопоставлен с 2ГИС. Крыша, задняя сторона и дальний конец правого крыла подтверждены частично.",
+        "confirmed": [
+          "Вытянутый комплекс; главный вход смещён к левому краю уличного фасада.",
+          "Высокий прямоугольный кирпичный портал со стрельчатым проёмом и светлым растительным орнаментом.",
+          "Вершина проёма находится примерно на 55–60% высоты башни; над ней широкий кирпичный участок и плашка вывески.",
+          "Четыре небольшие арки справа от входа: светлое глухое заполнение сверху, остекление снизу.",
+          "Коричнево-серая кирпичная облицовка, мелкие выступающие блоки, тёмный цоколь и светлые вставки.",
+          "Плоская рекламная стена слева, низкое протяжённое крыло справа, отступающий верхний объём."
+        ],
+        "estimated": [
+          "Размер основного корпуса 180 × 66 м и высоты 20–34 м приняты по пропорциям; точных обмеров нет.",
+          "Отношение длины к глубине около 2.7:1 — визуальная оценка картографического контура.",
+          "Рисунок орнамента создан заново и упрощён; число кирпичных выступов и панелей дальнего крыла условное.",
+          "Крыша и закрытые стороны упрощены; оборудование и неподтверждённые проёмы не реконструированы.",
+          "Покрытие, деревья, светильники и учебные hotspot не задают точную планировку или путь к продавцу."
+        ],
+        "source_urls": [
+          "https://www.kr2b.com/taraz-mart",
+          "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2lx6rbr",
+          "https://www.kr2b.com/taraz-mart?lightbox=dataItem-k2oht0ux1",
+          "https://2gis.kz/taraz/geo/70030076203041976",
+          "https://2gis.kz/taraz/gallery/firm/70000001053119298/photoId/30258560238906207",
+          "https://2gis.kz/taraz/gallery/firm/70000001053119298/photoId/30258560330555256",
+          "https://foto-planeta.com/photo/1156867.html",
+          "https://el.kz/ru/lyudey-iz-samogo-bolshogo-trts-v-taraze-evakuirovali-iz-za-zadymivshegosya-masla-vo-frityurnitse_91013/"
+        ]
+      }
     },
     {
       "slug": "kaikarmet",
@@ -169,11 +199,11 @@
     {
       "slug": "auyl-bereke",
       "name": "Ауыл Береке",
-      "label_ru": "Концептуальная модель",
-      "label_kk": "Тұжырымдамалық модель",
+      "label_ru": "Вход и ряды · размеры оценочные",
+      "label_kk": "Кіреберіс пен қатарлар · өлшемдері болжамды",
       "model_url": "/models/auyl-bereke.glb",
       "poster_url": "/previews/auyl-bereke.webp",
-      "geometry_status": "conceptual",
+      "geometry_status": "reference_based",
       "conceptual_scale": true,
       "units": "meters",
       "up_axis": "+Y",
@@ -220,9 +250,9 @@
           "business_slug": "auyl-bereke-demo-food",
           "business_id": "a979445d-2261-5313-8fd2-16fc76e9279f",
           "position": [
-            -35,
+            -55,
             2.5,
-            24
+            39
           ]
         },
         {
@@ -230,15 +260,14 @@
           "business_slug": "auyl-bereke-demo-home",
           "business_id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
           "position": [
-            39,
+            54,
             12.1,
-            20
+            0
           ]
         }
       ],
       "reconstruction": {
         "coverage": "entrance_and_adjacent_rows_fragment",
-        "label_ru": "Вход и ряды · размеры оценочные",
         "confirmed": [
           "Прямоугольные монументальные ворота, сине-серые колонны, золотистый фриз и парные кони",
           "Правый от входа крупный корпус со скатной/вальмовой серебристой крышей",

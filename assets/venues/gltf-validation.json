@@ -3,7 +3,7 @@
   "reports": [
     {
       "slug": "mart",
-      "sha256": "25e7d93e80693e18ddd12a97735ce67661f449f8f88cb13f78f6173478eabb95",
+      "sha256": "5882231fb8ca0e09b0b31c99992e8bd1ee5ca8ecf417519b8a8e5d869b6b81cb",
       "validatorVersion": "2.0.0-dev.3.10",
       "issues": {
         "numErrors": 0,
@@ -21,18 +21,18 @@
             "pointer": "/buffers/0",
             "mimeType": "application/gltf-buffer",
             "storage": "glb",
-            "byteLength": 600360
+            "byteLength": 824328
           }
         ],
         "animationCount": 0,
-        "materialCount": 11,
+        "materialCount": 14,
         "hasMorphTargets": false,
         "hasSkins": false,
         "hasTextures": false,
         "hasDefaultScene": true,
-        "drawCallCount": 11,
-        "totalVertexCount": 22274,
-        "totalTriangleCount": 11072,
+        "drawCallCount": 14,
+        "totalVertexCount": 30328,
+        "totalTriangleCount": 16076,
         "maxUVs": 0,
         "maxInfluences": 0,
         "maxAttributes": 2
