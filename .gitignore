@@ -39,3 +39,8 @@ tmp/
 recordings-private/
 
 # Keep package lock files, Alembic migrations and exported GLB/WebP in Git.
+
+# Frontend test artifacts
+test-results/
+playwright-report/
+*.local
