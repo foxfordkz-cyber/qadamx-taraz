@@ -17,7 +17,7 @@
 - `e1839de`: PR #3 и metadata, push успешен.
 - `e05c1a107041113bc32d870f58c73f4b22b268d1`: фильтр заявок и debounce поиска; 41 unit/component + 6 E2E; fetch/pull --ff-only feature-ветки и push успешны.
 - `3b03ed3fe74188d848693891fb6132515cb29627`: согласованный merge main ced32e7; повтор 41 unit/component + 6 E2E, typecheck/lint/build; fetch/pull/push успешны.
-- Последний законченный этап после 3b03ed3: типы bootstrap, стандартные ошибки и план интеграции; 52 unit/component + 6 E2E, typecheck/lint/build/check:api прошли. Точный hash записи после commit — `git log -1 --format=%H` (собственный hash нельзя включить внутрь того же коммита).
+- `7e3d2abb08644ca9ee21f86a2dd8b02a51525bcc`: типы bootstrap, стандартные ошибки и план интеграции; 52 unit/component + 6 E2E, typecheck/lint/build/check:api прошли. Последующие fetch/pull --ff-only feature-ветки и push успешны; git ls-remote подтвердил этот hash. Последняя запись после реализации содержит только метаданные; точный HEAD — `git log -1 --format=%H` (собственный hash нельзя включить внутрь того же коммита).
 
 Перед каждым заданием: проверить branch/status, fetch, при чистом дереве `git pull --ff-only origin feature/seller-dashboard`. После этапа: проверки, add только своих файлов, commit, fetch, pull --ff-only feature-ветки, push. Если история разошлась, не force/reset/rebase автоматически. Pull feature не принимает main или другие ветки. Последний fetch перед подготовкой этого этапа не выявил чужих новых commits в feature.
 

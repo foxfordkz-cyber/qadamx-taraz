@@ -22,7 +22,7 @@
 
 ## Проверки
 
-Проверки запускаются из `apps/web`: typecheck, lint, unit/component tests, build, Chromium E2E и check:api. Итоговые количества и commit записаны в [handoff](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_FRONTEND_HANDOFF.md).
+Из `apps/web` успешно выполнены typecheck, lint, build, check:api и format:check; **52 unit/component tests и 6 Chromium E2E passed**. Последний проверенный commit реализации `7e3d2abb08644ca9ee21f86a2dd8b02a51525bcc` отправлен после fetch/pull --ff-only; удалённый hash совпал. Подробности в [handoff](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_FRONTEND_HANDOFF.md).
 
 E2E проверяют ширины 360/768/1440 без горизонтального overflow, фильтр/поиск RU/KZ, язык без потери полей, фокус диалога, выбор точки, дубликаты имён, demo read-only/без backend traffic и logout. HTTP ошибки/мутации и session restoration тестируются явно внедрёнными fixtures/test clients, не реальным Supabase/PostgreSQL.
 
