@@ -1,29 +1,13 @@
-# Передача работы кабинета и каркаса
+# Передача работы seller-web
 
-Роль: seller-web. Статус: приложение, router/layout и read-only demo подключены; build/typecheck/lint пройдены, browser-тесты следующий этап. Последнее обновление: 2026-10-15.
+Обновлено: 2026-10-15. Ветка `feature/seller-dashboard`. Независимая frontend-часть готова к review; backend/Supabase и модули участников 2/4 ожидаются. Не слито в main, публичного деплоя нет.
 
-Подробная актуальная передача: [SELLER_FRONTEND_HANDOFF.md](../SELLER_FRONTEND_HANDOFF.md). Ветка `feature/seller-dashboard`. Не считать работу слитой или опубликованной; live backend/Supabase пока отсутствуют.
+Полная передача с архитектурой, API, известными ограничениями, этапами и командами: [SELLER_FRONTEND_HANDOFF.md](../SELLER_FRONTEND_HANDOFF.md).
 
-## Сделано
+Интерфейсы для коллег: [SELLER_FRONTEND_INTEGRATION.md](../SELLER_FRONTEND_INTEGRATION.md). `apps/web/src/app/modules.ts` подключает переданные страницы. Общие exports: shared/ui, shared/i18n, app/runtime, features/seller. Деньги — целые тиыны.
 
-Подготовлен общий слой приложения `apps/web`, UI, API transport, Supabase provider, read-only Demo Mode, RU/KZ и компоненты экранов. Следующий этап — router/layout/entrypoint и проверка интерфейса. Подробности, ограничения и команды в основном handoff.
+Реализовано: единое приложение, router/layout, RU/KZ, UI-kit, auth provider и транспорт, заявки/клиенты/каталог, CustomerPicker и хуки. Demo Mode только для чтения с явным banner; реальные writes пока отключены до подтверждения schemas.
 
-## Файлы и интерфейсы
+Проверено: build/typecheck/lint; 36 unit/component tests; 5 Chromium E2E; ширины 360/768/1440, диалог/фокус, demo traffic/logout. Скриншоты в docs/screenshots. Живая авторизация, БД и финансовые сценарии не проверены.
 
-Зона: `apps/web/src/app`, `shared`, `features/seller`, зависимости web и router.
-
-## Проверки
-
-`cd apps/web; npm install --no-audit --no-fund` и `npm run typecheck` выполнены успешно. Build и browser-тесты ещё не выполнялись. Живая авторизация не проверена.
-
-## Зависимости и ограничения
-
-Остальные frontend-разработчики ждут единый каркас; его ранняя передача приоритетна. Схемы предоставляет backend.
-
-## Следующий шаг
-
-Создать один React/TypeScript/Vite проект, базовые компоненты, router, локализацию и API-клиент. Передать интерфейсы страниц коллегам.
-
-## Перед завершением
-
-Записать ветку, доступные компоненты/пути, команды и результаты проверок, следующий шаг и ссылку PR после создания.
+Следующий шаг: получить OpenAPI/URL/CORS и публичную конфигурацию Supabase, заполнить response bindings по реальным ответам, затем интегрировать переданные модули. Backend и чужие модули не менялись. Работать только в feature-ветке, не force push, не merge в main.

@@ -1,4 +1,11 @@
-import type { CatalogItem, Customer, CustomerInput, Inquiry, Page, SellerIdentity } from './models';
+import type {
+  CatalogItem,
+  Customer,
+  CustomerInput,
+  Inquiry,
+  Page,
+  SellerIdentity,
+} from "./models";
 
 /** The repository has a proposed contract, but no /me example, customer POST body,
  * catalog response envelope or OpenAPI. Leave these unbound rather than guess.
