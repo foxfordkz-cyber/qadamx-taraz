@@ -135,5 +135,3 @@ def base(width, depth):
 def pitched_roof(name, x, z, w, d, eave, rise, mat="metal"):
     p = [(x - w / 2, eave), (x, eave + rise), (x + w / 2, eave), (x + w / 2, eave - .24), (x, eave + rise - .24), (x - w / 2, eave - .24)]
     prism(name, p, z, d, mat)
-
-

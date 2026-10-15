@@ -1,4 +1,4 @@
-"""Reproducible original Qadam concept models. Run with Blender 4.5 LTS or bpy.
+"""Reproducible Qadam venue models. Run with Blender 4.5 LTS or bpy.
 
 All modeling helpers accept GLTF coordinates (X right, Y up, Z front), in metres.
 Blender stores X, -Z, Y; its standard exporter restores glTF +Y without a root rotation.
@@ -28,7 +28,7 @@ from model_auyl_bereke import CONFIG as AUYL_BEREKE
 CONFIGS = {"mart": MART, "kaikarmet": KAIKARMET, "auyl-bereke": AUYL_BEREKE}
 
 
-def render_setup(config, path, samples):
+def render_setup(config, path, samples, bounds_min, bounds_max):
     scene = bpy.context.scene
     scene.render.engine = "CYCLES"
     scene.cycles.device = "CPU"
@@ -43,7 +43,7 @@ def render_setup(config, path, samples):
     scene.world.node_tree.nodes["Background"].inputs[0].default_value = (.78, .77, .73, 1)
     scene.world.node_tree.nodes["Background"].inputs[1].default_value = .6
     scene.view_settings.view_transform = "AgX"
-    scene.view_settings.exposure = .7
+    scene.view_settings.exposure = config.get("render_exposure", .7)
     bpy.ops.mesh.primitive_plane_add(size=2000, location=(0, 0, -.025))
     ground = bpy.context.object
     ground.name = "RENDER ONLY studio ground"
@@ -53,13 +53,23 @@ def render_setup(config, path, samples):
     camera.name = "RENDER ONLY camera"
     camera.rotation_euler = (Vector(xyz(config["target"])) - camera.location).to_track_quat("-Z", "Y").to_euler()
     camera.data.type = "ORTHO"
-    camera.data.ortho_scale = 76
+    # Fit the actual export bounds instead of assuming the first concept's size.
+    rotation = camera.rotation_euler.to_quaternion().inverted()
+    target = Vector(xyz(config["target"]))
+    projected = [rotation @ (Vector(xyz((x, y, z))) - target)
+                 for x in (bounds_min[0], bounds_max[0])
+                 for y in (bounds_min[1], bounds_max[1])
+                 for z in (bounds_min[2], bounds_max[2])]
+    fit = max(max(abs(p.x) for p in projected) * 2,
+              max(abs(p.y) for p in projected) * 2 * 4 / 3) * 1.12
+    camera.data.ortho_scale = max(config.get("render_scale", 0), fit)
     scene.camera = camera
+    extent = max(bounds_max[0] - bounds_min[0], bounds_max[2] - bounds_min[2]) / 56
     for name, loc, power, size in [("Key", (-30, 55, 40), 45000, 35), ("Fill", (35, 35, 5), 18000, 30)]:
-        bpy.ops.object.light_add(type="AREA", location=xyz(loc))
+        bpy.ops.object.light_add(type="AREA", location=xyz([v * extent for v in loc]))
         light = bpy.context.object
         light.name = "RENDER ONLY " + name
-        light.data.energy, light.data.shape, light.data.size = power, "DISK", size
+        light.data.energy, light.data.shape, light.data.size = power * extent ** 2, "DISK", size * extent
         light.rotation_euler = (-light.location).to_track_quat("-Z", "Y").to_euler()
 
 
@@ -78,7 +88,7 @@ def build_one(slug, config, args):
     bounds_min = [bounds[0][0], bounds[0][2], -bounds[1][1]]
     bounds_max = [bounds[1][0], bounds[1][2], -bounds[0][1]]
     temp = args.render_dir / f"{slug}.png"
-    render_setup(config, temp, args.samples)
+    render_setup(config, temp, args.samples, bounds_min, bounds_max)
     bpy.ops.wm.save_as_mainfile(filepath=str(SOURCES / f"{slug}.blend"), compress=True)
     if not args.no_render:
         bpy.ops.render.render(write_still=True)
@@ -120,7 +130,10 @@ def build_one(slug, config, args):
     for cat, position in zip(("clothes", "food", "home"), config["hotspots"]):
         key = f"{slug}-demo-{cat}"
         hotspots.append({"id": key, "business_slug": key, "business_id": businesses[key]["id"], "position": position})
-    return {"slug": slug, "name": config["name"], "label_ru": "Концептуальная модель", "label_kk": "Тұжырымдамалық модель", "model_url": f"/models/{slug}.glb", "poster_url": f"/previews/{slug}.webp", "geometry_status": "conceptual", "conceptual_scale": True, "units": "meters", "up_axis": "+Y", "front_axis": "+Z", "center": [0, 0, 0], "bounds_min": bounds_min, "bounds_max": bounds_max, "camera_position": config["camera"], "camera_target": config["target"], "camera_fov_degrees": 45, "hotspots": hotspots}
+    entry = {"slug": slug, "name": config["name"], "label_ru": config.get("label_ru", "Концептуальная модель"), "label_kk": config.get("label_kk", "Тұжырымдамалық модель"), "model_url": f"/models/{slug}.glb", "poster_url": f"/previews/{slug}.webp", "geometry_status": config.get("geometry_status", "conceptual"), "conceptual_scale": True, "units": "meters", "up_axis": "+Y", "front_axis": "+Z", "center": [0, 0, 0], "bounds_min": bounds_min, "bounds_max": bounds_max, "camera_position": config["camera"], "camera_target": config["target"], "camera_fov_degrees": 45, "hotspots": hotspots}
+    if "reconstruction" in config:
+        entry["reconstruction"] = config["reconstruction"]
+    return entry
 
 
 def main():
@@ -138,7 +151,7 @@ def main():
     for slug, config in CONFIGS.items():
         if args.venue is None or slug == args.venue:
             venues[slug] = build_one(slug, config, args)
-            manifest = {"schema_version": 1, "note": "Концептуальные модели. Масштаб, расположение павильонов и учебных точек условные; не использовать для навигации на реальной площадке.", "venues": list(venues.values()), "required_venue_slugs": list(CONFIGS), "business_slug_pattern": "<venue-slug>-demo-<clothes|food|home>"}
+            manifest = {"schema_version": 1, "note": "Модели по открытым референсам. Точность зависит от площадки; размеры без обмеров оценочные. Учебные точки не задают маршрут к реальному продавцу.", "venues": list(venues.values()), "required_venue_slugs": list(CONFIGS), "business_slug_pattern": "<venue-slug>-demo-<clothes|food|home>"}
             manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             print(f"ASSET_READY {slug}", flush=True)
 
