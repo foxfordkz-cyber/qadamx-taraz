@@ -51,4 +51,4 @@ Public-web получает содержимое web bundle, подключае�
 
 ## Состояние Git
 
-Работа подготовлена в ветке `assets/venue-models`; ссылка PR будет добавлена после публикации.
+Ветка `assets/venue-models` опубликована: [draft PR #6](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/6). PR оставлен черновиком до интеграционной приёмки public-web; в `main` не слит.
