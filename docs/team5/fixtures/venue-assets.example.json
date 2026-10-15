@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "note": "Пример договора передачи. Координаты условные, заменить измерениями экспортированного GLB.",
+  "venues": [
+    {
+      "slug": "mart",
+      "model_url": "/models/mart.glb",
+      "poster_url": "/previews/mart.webp",
+      "geometry_status": "conceptual",
+      "conceptual_scale": true,
+      "units": "meters",
+      "up_axis": "+Y",
+      "front_axis": "+Z",
+      "center": [0, 0, 0],
+      "bounds_min": [-20, 0, -15],
+      "bounds_max": [20, 12, 15],
+      "camera_position": [45, 35, 45],
+      "camera_target": [0, 4, 0],
+      "hotspots": [
+        {"id": "mart-demo-clothes", "business_slug": "mart-demo-clothes", "position": [-10, 4, 10]},
+        {"id": "mart-demo-food", "business_slug": "mart-demo-food", "position": [0, 4, 10]},
+        {"id": "mart-demo-home", "business_slug": "mart-demo-home", "position": [10, 4, 10]}
+      ]
+    }
+  ],
+  "required_venue_slugs": ["mart", "kaikarmet", "auyl-bereke"],
+  "business_slug_pattern": "<venue-slug>-demo-<clothes|food|home>"
+}
