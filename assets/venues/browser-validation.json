@@ -1,0 +1,83 @@
+{
+  "checked_on": "2026-10-15",
+  "result": "passed_in_standalone_asset_viewer",
+  "viewer": "tools/assets/viewer.html",
+  "browser": "Codex in-app browser (Chromium), Windows",
+  "loader": "Three.js 0.180.0 GLTFLoader",
+  "observation_method": "UI controls, DOM QA panel, rendered screenshots, image natural dimensions",
+  "desktop": {
+    "canvas_css_pixels": [
+      1161,
+      570
+    ],
+    "device_pixel_ratio": 1,
+    "models_loaded": 3,
+    "bounds_corners_in_frame_per_model": "8/8",
+    "hotspots_clicked": 9
+  },
+  "narrow": {
+    "viewport_override_css_pixels": [
+      360,
+      800
+    ],
+    "canvas_css_pixels": [
+      319,
+      350
+    ],
+    "device_pixel_ratio": 1,
+    "models_loaded": 3,
+    "bounds_corners_in_frame_per_model": "8/8",
+    "hotspots_clicked": 9,
+    "horizontal_overflow": false,
+    "note": "Scrollbar and full-page screenshot capture can change content width by 15 px; camera refits on resize."
+  },
+  "fallback": {
+    "trigger": "Показать изображение button (manual fallback)",
+    "images_decoded": 3,
+    "image_dimensions": [
+      1024,
+      768
+    ],
+    "hotspots_clicked": 9,
+    "return_to_3d": "passed (MART)",
+    "reset_view": "passed (MART)"
+  },
+  "venues": [
+    {
+      "slug": "mart",
+      "triangles": 11072,
+      "min_y": 0,
+      "selected_slugs": [
+        "mart-demo-clothes",
+        "mart-demo-food",
+        "mart-demo-home"
+      ]
+    },
+    {
+      "slug": "kaikarmet",
+      "triangles": 15684,
+      "min_y": 0,
+      "selected_slugs": [
+        "kaikarmet-demo-clothes",
+        "kaikarmet-demo-food",
+        "kaikarmet-demo-home"
+      ]
+    },
+    {
+      "slug": "auyl-bereke",
+      "triangles": 14004,
+      "min_y": 0,
+      "selected_slugs": [
+        "auyl-bereke-demo-clothes",
+        "auyl-bereke-demo-food",
+        "auyl-bereke-demo-home"
+      ]
+    }
+  ],
+  "not_tested": [
+    "React/R3F application integration: no frontend application scaffold in this checkout",
+    "Physical phone, touch gestures, mobile FPS and load performance",
+    "Real WebGL context loss or missing asset requests",
+    "Live API matching (manifest matches current demo-seed.json; recheck before integration)"
+  ]
+}

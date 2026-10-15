@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "reports": [
+    {
+      "slug": "mart",
+      "sha256": "25e7d93e80693e18ddd12a97735ce67661f449f8f88cb13f78f6173478eabb95",
+      "validatorVersion": "2.0.0-dev.3.10",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0,
+        "messages": [],
+        "truncated": false
+      },
+      "info": {
+        "version": "2.0",
+        "generator": "Khronos glTF Blender I/O v4.5.51",
+        "resources": [
+          {
+            "pointer": "/buffers/0",
+            "mimeType": "application/gltf-buffer",
+            "storage": "glb",
+            "byteLength": 600360
+          }
+        ],
+        "animationCount": 0,
+        "materialCount": 11,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": true,
+        "drawCallCount": 11,
+        "totalVertexCount": 22274,
+        "totalTriangleCount": 11072,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 2
+      }
+    },
+    {
+      "slug": "kaikarmet",
+      "sha256": "af5af84ab94c58a8b77bb891eae2428a62d15d1e33efbb42e0a140f8543d4672",
+      "validatorVersion": "2.0.0-dev.3.10",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0,
+        "messages": [],
+        "truncated": false
+      },
+      "info": {
+        "version": "2.0",
+        "generator": "Khronos glTF Blender I/O v4.5.51",
+        "resources": [
+          {
+            "pointer": "/buffers/0",
+            "mimeType": "application/gltf-buffer",
+            "storage": "glb",
+            "byteLength": 850392
+          }
+        ],
+        "animationCount": 0,
+        "materialCount": 11,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": true,
+        "drawCallCount": 11,
+        "totalVertexCount": 31512,
+        "totalTriangleCount": 15684,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 2
+      }
+    },
+    {
+      "slug": "auyl-bereke",
+      "sha256": "480d3cd580e03effb8a2b5c50cdf95d8eea66a3d011168530fbabf96ad2502fa",
+      "validatorVersion": "2.0.0-dev.3.10",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0,
+        "messages": [],
+        "truncated": false
+      },
+      "info": {
+        "version": "2.0",
+        "generator": "Khronos glTF Blender I/O v4.5.51",
+        "resources": [
+          {
+            "pointer": "/buffers/0",
+            "mimeType": "application/gltf-buffer",
+            "storage": "glb",
+            "byteLength": 770328
+          }
+        ],
+        "animationCount": 0,
+        "materialCount": 11,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": true,
+        "drawCallCount": 11,
+        "totalVertexCount": 28596,
+        "totalTriangleCount": 14004,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 2
+      }
+    }
+  ]
+}

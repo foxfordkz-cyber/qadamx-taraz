@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "note": "Концептуальные модели. Масштаб, расположение павильонов и учебных точек условные; не использовать для навигации на реальной площадке.",
+  "venues": [
+    {
+      "slug": "mart",
+      "name": "MART",
+      "label_ru": "Концептуальная модель",
+      "label_kk": "Тұжырымдамалық модель",
+      "model_url": "/models/mart.glb",
+      "poster_url": "/previews/mart.webp",
+      "geometry_status": "conceptual",
+      "conceptual_scale": true,
+      "units": "meters",
+      "up_axis": "+Y",
+      "front_axis": "+Z",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "bounds_min": [
+        -28.0,
+        0.0,
+        -21.0
+      ],
+      "bounds_max": [
+        28.0,
+        14.2,
+        21.0
+      ],
+      "camera_position": [
+        50,
+        39,
+        60
+      ],
+      "camera_target": [
+        0,
+        4.5,
+        0
+      ],
+      "camera_fov_degrees": 45,
+      "hotspots": [
+        {
+          "id": "mart-demo-clothes",
+          "business_slug": "mart-demo-clothes",
+          "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+          "position": [
+            -13,
+            5.2,
+            11.5
+          ]
+        },
+        {
+          "id": "mart-demo-food",
+          "business_slug": "mart-demo-food",
+          "business_id": "d96e604f-930b-59b5-a239-820d0ae1b02e",
+          "position": [
+            0,
+            4.5,
+            14
+          ]
+        },
+        {
+          "id": "mart-demo-home",
+          "business_slug": "mart-demo-home",
+          "business_id": "07691851-9886-5ce4-bb82-a3ed33630fe1",
+          "position": [
+            13,
+            5.2,
+            11.5
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "kaikarmet",
+      "name": "Кайкармет",
+      "label_ru": "Концептуальная модель",
+      "label_kk": "Тұжырымдамалық модель",
+      "model_url": "/models/kaikarmet.glb",
+      "poster_url": "/previews/kaikarmet.webp",
+      "geometry_status": "conceptual",
+      "conceptual_scale": true,
+      "units": "meters",
+      "up_axis": "+Y",
+      "front_axis": "+Z",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "bounds_min": [
+        -25.0,
+        0.0,
+        -22.0
+      ],
+      "bounds_max": [
+        25.0,
+        6.7,
+        22.0
+      ],
+      "camera_position": [
+        47,
+        39,
+        58
+      ],
+      "camera_target": [
+        0,
+        2.8,
+        0
+      ],
+      "camera_fov_degrees": 45,
+      "hotspots": [
+        {
+          "id": "kaikarmet-demo-clothes",
+          "business_slug": "kaikarmet-demo-clothes",
+          "business_id": "99e2db7e-ba5f-5baa-a4e8-1a0882a3864a",
+          "position": [
+            -12.8,
+            4.8,
+            14
+          ]
+        },
+        {
+          "id": "kaikarmet-demo-food",
+          "business_slug": "kaikarmet-demo-food",
+          "business_id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
+          "position": [
+            0,
+            4.4,
+            4
+          ]
+        },
+        {
+          "id": "kaikarmet-demo-home",
+          "business_slug": "kaikarmet-demo-home",
+          "business_id": "048ae1c7-d583-501e-a84b-6654d83f8bb0",
+          "position": [
+            12.8,
+            4.8,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "auyl-bereke",
+      "name": "Ауыл Береке",
+      "label_ru": "Концептуальная модель",
+      "label_kk": "Тұжырымдамалық модель",
+      "model_url": "/models/auyl-bereke.glb",
+      "poster_url": "/previews/auyl-bereke.webp",
+      "geometry_status": "conceptual",
+      "conceptual_scale": true,
+      "units": "meters",
+      "up_axis": "+Y",
+      "front_axis": "+Z",
+      "center": [
+        0,
+        0,
+        0
+      ],
+      "bounds_min": [
+        -26.0,
+        0.0,
+        -22.0
+      ],
+      "bounds_max": [
+        26.0,
+        8.845,
+        22.0
+      ],
+      "camera_position": [
+        49,
+        41,
+        61
+      ],
+      "camera_target": [
+        0,
+        3,
+        0
+      ],
+      "camera_fov_degrees": 45,
+      "hotspots": [
+        {
+          "id": "auyl-bereke-demo-clothes",
+          "business_slug": "auyl-bereke-demo-clothes",
+          "business_id": "6bd09bf9-ee33-57b3-96d4-f069f742cf1b",
+          "position": [
+            -15,
+            4.5,
+            5.6
+          ]
+        },
+        {
+          "id": "auyl-bereke-demo-food",
+          "business_slug": "auyl-bereke-demo-food",
+          "business_id": "a979445d-2261-5313-8fd2-16fc76e9279f",
+          "position": [
+            0,
+            4.8,
+            3
+          ]
+        },
+        {
+          "id": "auyl-bereke-demo-home",
+          "business_slug": "auyl-bereke-demo-home",
+          "business_id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
+          "position": [
+            15,
+            4.5,
+            5.6
+          ]
+        }
+      ]
+    }
+  ],
+  "required_venue_slugs": [
+    "mart",
+    "kaikarmet",
+    "auyl-bereke"
+  ],
+  "business_slug_pattern": "<venue-slug>-demo-<clothes|food|home>"
+}
