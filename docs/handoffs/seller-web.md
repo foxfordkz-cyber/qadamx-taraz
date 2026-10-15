@@ -1,7 +1,13 @@
 # Seller web — передача
 
-2026-10-15, feature/seller-dashboard, Draft PR #3. Разрешение на backend 193f6e5 получено в новом задании. Только этот snapshot принят; README/DECISIONS сохраняют обе части, код backend/экспорт не менялись.
+2026-10-15, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
 
-Этап A: реальные bindings /me и GET/POST customers по OpenAPI + runtime validation, раздельные capabilities, nullable contact, server balance_minor, query invalidation/CustomerPicker. Inquiries/catalog live API не включены. Локальная публичная Supabase-конфигурация игнорируется Git; backend env/DB/passwords отсутствуют, health ECONNREFUSED. Живые проверки не объявлены успешными.
+Завершены этап A (публикация `246851b2d4df996f054c7b1a27b2ba2933d2b3ee`) и этап B (Polaris-inspired UI). Принят только одобренный backend `193f6e5`; код apps/api и экспорт packages/contracts не редактировались. Актуальный HEAD: `git log -1 --format=%H`.
 
-Проверки: typecheck/lint/build/check:api, 70 unit/component и 6 E2E прошли. Последний опубликованный hash до этапа: 27cfdae; актуальный — git log -1 --format=%H. После этапа commit/fetch/pull --ff-only feature/push. Далее этап B — Polaris-inspired UI и 6 screenshots, отдельные проверки/commit/push. Подробно: ../SELLER_FRONTEND_HANDOFF.md.
+Live bindings /me и GET/POST customers используют OpenAPI, runtime validation, nullable contact, server balance_minor, identity/business guards, общие hooks и CustomerPicker. Supabase session restore/token/cache boundaries сохранены. Заявки/каталог live API не включены; Demo явно read-only.
+
+UI: dashboard/actions, desktop customer list / mobile cards, локальный поиск заявок, RU/KZ, 6 новых Demo screenshots. Shopify зависимости не добавлены. Проверки A: 70 unit/component и 6 E2E; B: 71 и 8; typecheck/lint/build/check:api/format:check passed, ширины B 360/390/768/1440.
+
+Публичная конфигурация только в игнорируемом apps/web/.env.local. Нет server env/БД/passwords, health ECONNREFUSED. Живые Supabase/DB/CORS проверки ожидают среды капитана. Денежные и публичные модули других участников не переписаны.
+
+Подробные файлы, архитектура, маршруты, точные команды и следующий шаг: [основной handoff](../SELLER_FRONTEND_HANDOFF.md). [Интерфейсы](../SELLER_FRONTEND_INTEGRATION.md), [дизайн/screenshots](../SELLER_DESIGN_NOTES.md). Следующий шаг — live acceptance при готовом серверном окружении; не повторять merge уже принятого snapshot.

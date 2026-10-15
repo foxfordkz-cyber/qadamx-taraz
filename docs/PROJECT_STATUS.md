@@ -30,3 +30,7 @@
 `backend/ledger-auth`: реализован ручной учёт с PostgreSQL и Supabase JWT/JWKS — клиенты, продажи, погашения, история/долги, итог дня, отмены. Проверены конкурентные записи, идемпотентность и изоляция на отдельной локальной PostgreSQL; live smoke с двумя реальными Supabase-пользователями прошёл на выделенной demo-базе. В ней сохранены учебные продажа/доплата. Контракты экспортированы в `packages/contracts`. Детали и команды — в [backend handoff](handoffs/backend.md).
 
 Это результат рабочей ветки, не сообщение о merge или деплое. AI-черновики, публичные каталоги/заявки и интеграция frontend ещё впереди.
+
+## Seller frontend — feature/seller-dashboard, 2026-10-15
+
+По разрешению капитана snapshot backend `193f6e5` принят только в seller feature-ветку. Подключены `/me` и GET/POST customers по OpenAPI; выполнен merchant UI redesign, сохранены Demo и RU/KZ. Frontend typecheck/lint/build/check:api, 71 unit/component и 8 Chromium E2E прошли. Реальные Supabase/DB/CORS проверки ожидают серверного окружения и паролей; в этой копии API health недоступен. Заявки/каталог live HTTP и модули public/ledger ещё ожидаются. Draft PR #3 не слит, деплоя нет. Подробности — [seller handoff](SELLER_FRONTEND_HANDOFF.md).

@@ -236,6 +236,7 @@ export function CustomersPage() {
       <div className="toolbar">
         <Input
           type="search"
+          maxLength={200}
           label={t("search")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -249,6 +250,16 @@ export function CustomersPage() {
           {t("chooseCustomer")}
         </Button>
       </div>
+      {!customers.isPending &&
+        !customers.isError &&
+        !customers.isSearchPending && (
+          <div className="list-summary">
+            <span>
+              {t("shown")}: {items.length}
+            </span>
+            {customers.isFetching && <span role="status">{t("updating")}</span>}
+          </div>
+        )}
       {customers.isSearchPending ? (
         <p role="status">{t("searching")}</p>
       ) : customers.isPending ? (
@@ -258,30 +269,47 @@ export function CustomersPage() {
           error={customers.error}
           retry={() => void customers.refetch()}
         />
-      ) : items.length === 0 ? (
+      ) : !items.length ? (
         <EmptyState
           title={t("noCustomers")}
           description={t("noCustomersHint")}
+          action={
+            <Button variant="secondary" onClick={() => setCreating(true)}>
+              {t("createCustomer")}
+            </Button>
+          }
         />
       ) : (
-        <div className="card-grid">
+        <div className="customer-list">
+          <div className="customer-list-heading" aria-hidden="true">
+            <span>{t("customerColumn")}</span>
+            <span>{t("contactColumn")}</span>
+            <span>{t("outstanding")}</span>
+            <span />
+          </div>
           {items.map((customer) => (
-            <Card key={customer.id}>
-              <span className="avatar" aria-hidden="true">
-                {customer.display_name.slice(0, 1)}
-              </span>
-              <h2>{customer.display_name}</h2>
-              <p>{customer.note || t("noNote")}</p>
-              <p className="muted break-word">
+            <Card key={customer.id} className="customer-row">
+              <div className="customer-identity">
+                <span className="avatar" aria-hidden="true">
+                  {customer.display_name.slice(0, 1)}
+                </span>
+                <div>
+                  <h2>{customer.display_name}</h2>
+                  <p>{customer.note || t("noNote")}</p>
+                  <small className="customer-id">ID: {customer.id}</small>
+                </div>
+              </div>
+              <p className="muted break-word customer-contact">
                 {customer.contact || t("contactAbsent")}
               </p>
-              <small className="customer-id">ID: {customer.id}</small>
-              {customer.balance_minor !== undefined && (
-                <p className="customer-balance">
-                  {t("outstanding")}:{" "}
+              <p className="customer-balance">
+                <span className="mobile-only muted">{t("outstanding")}: </span>
+                {customer.balance_minor === undefined ? (
+                  <span className="muted">—</span>
+                ) : (
                   <strong>{formatKZT(customer.balance_minor, locale)}</strong>
-                </p>
-              )}
+                )}
+              </p>
               <Link
                 className="text-link"
                 to={`/seller/debts?customer_id=${encodeURIComponent(customer.id)}`}

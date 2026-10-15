@@ -24,6 +24,8 @@
 - По прямому согласию капитана/пользователя принят только backend 193f6e5. Live bindings /me и GET/POST customers используют generated schemas и runtime validation. Публичная Supabase-конфигурация задана локально; серверный env/PostgreSQL ещё ожидаются. Demo остаётся отдельным read-only режимом без автоматической подмены live-ошибок.
 - BusinessMembership не содержит is_demo: frontend не выводит флаг из UUID/slug/name. balance_minor показывается из CustomerResponse без расчётов. Создание клиента разрешается отдельно от недоступного изменения заявки. Не подключать отсутствующие inquiries/catalog.
 - Контекст продолжения и проверки хранятся в `SELLER_FRONTEND_HANDOFF.md`; интерфейсы для соседних модулей — `SELLER_FRONTEND_INTEGRATION.md`.
+- Polaris применяется как UX-референс собственной React/CSS дизайн-системы; палитра Qadam и общие exports сохранены. Shopify API/Auth/App Bridge и новые Polaris зависимости не добавляются. Причины, адаптивность и screenshots — `SELLER_DESIGN_NOTES.md`.
+
 ## Уточнения первого локального этапа — 2026-10-15
 ## Ручной backend — 2026-10-15, `backend/ledger-auth`
 

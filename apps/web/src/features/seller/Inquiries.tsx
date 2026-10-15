@@ -12,6 +12,7 @@ import {
   ErrorState,
   ErrorMessage,
   PageHeader,
+  Input,
   Select,
   Spinner,
 } from "../../shared/ui";
@@ -96,8 +97,13 @@ export function InquiriesPage() {
       .filter((i) => i.business_id === business.id)
       .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)) ??
     [];
+  const [search, setSearch] = useDraft(`${business.id}:inquiry-search`, "");
   const visible = items.filter(
-    (item) => filter === "all" || item.status === filter,
+    (item) =>
+      (filter === "all" || item.status === filter) &&
+      `${item.visitor_name} ${item.contact ?? ""} ${item.message}`
+        .toLocaleLowerCase()
+        .includes(search.trim().toLocaleLowerCase()),
   );
   return (
     <>
@@ -120,6 +126,12 @@ export function InquiriesPage() {
         </Alert>
       )}
       <div className="toolbar inquiry-filters">
+        <Input
+          label={t("inquirySearch")}
+          type="search"
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+        />
         <Select
           label={t("inquiryFilter")}
           value={filter}
@@ -137,6 +149,11 @@ export function InquiriesPage() {
         {filter !== "all" && (
           <Button variant="ghost" onClick={() => setFilter("all")}>
             {t("clearFilter")}
+          </Button>
+        )}
+        {search && (
+          <Button variant="ghost" onClick={() => setSearch("")}>
+            {t("clearSearch")}
           </Button>
         )}
         {!query.isPending && !query.isError && (
@@ -161,7 +178,13 @@ export function InquiriesPage() {
         <EmptyState
           title={t("noMatchingInquiries")}
           action={
-            <Button variant="secondary" onClick={() => setFilter("all")}>
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setFilter("all");
+                setSearch("");
+              }}
+            >
               {t("clearFilter")}
             </Button>
           }

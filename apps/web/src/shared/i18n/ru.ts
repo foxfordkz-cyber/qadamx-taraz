@@ -1,4 +1,13 @@
 export const ru = {
+  workspace: "Рабочее пространство",
+  liveMode: "Рабочие данные",
+  customerHelpTitle: "Клиенты всегда под рукой",
+  customerHelpHint:
+    "Находите покупателя по имени. Добавляйте заметку, чтобы различать клиентов с одинаковыми именами.",
+  customerColumn: "Клиент",
+  contactColumn: "Контакт",
+  updating: "Обновляем…",
+  inquirySearch: "Поиск по заявкам",
   supportCode: "Код для поддержки",
   dataChanged: "Данные изменились. Обновите список и повторите действие.",
   validationError: "Проверьте поля формы. Введённые данные сохранены.",
@@ -6,7 +15,7 @@ export const ru = {
   inquiryFilter: "Показать заявки",
   allInquiries: "Все заявки",
   clearFilter: "Сбросить фильтр",
-  noMatchingInquiries: "Нет заявок с таким статусом",
+  noMatchingInquiries: "Заявки не найдены",
   loadedInquiriesHint:
     "Фильтр применяется к загруженным заявкам. Нажмите «Показать ещё», чтобы проверить следующие.",
   shown: "Показано",

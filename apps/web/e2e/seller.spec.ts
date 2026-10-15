@@ -33,7 +33,7 @@ test("protected routes redirect to login; explicit demo has no writes or backend
   expect(backendTraffic).toEqual([]);
 });
 
-for (const width of [360, 768, 1440]) {
+for (const width of [360, 390, 768, 1440]) {
   test(`seller navigation and no horizontal overflow at ${width}px`, async ({
     page,
   }) => {

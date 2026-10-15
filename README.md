@@ -25,7 +25,7 @@ AI-кабинет продавца для торговых точек Тараз
 - [План двух дней и защита](docs/team5/08_PLAN_DEMO_QA.md).
 - [Обзор рынка](docs/team5/01_TARAZ_MARKET.md).
 
-Исходный commit `d8989a5` содержал только README. В этой ветке объединены frontend кабинета и опубликованный в main backend bootstrap. Состояние частей и ограничения описаны ниже.
+Исходный commit `d8989a5` содержал только README. В этой ветке объединены frontend кабинета, опубликованный в main bootstrap и одобренный backend `193f6e5`. Состояние частей и ограничения описаны ниже.
 
 ## Frontend кабинета (ветка feature/seller-dashboard)
 
@@ -42,6 +42,8 @@ npm run dev
 Проверки из `apps/web`: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`. Браузер: `npx playwright install chromium`, затем `npm run test:e2e`. Production preview: `npm run preview`. Хостинг должен перенаправлять SPA-маршруты на `index.html`.
 
 Типы принятого OpenAPI: `npm run generate:api`, проверка актуальности — `npm run check:api`. Состояние интеграции и ограничения: [SELLER_BACKEND_INTEGRATION_PLAN](docs/SELLER_BACKEND_INTEGRATION_PLAN.md). HTTP API заявок и публичного каталога пока нет.
+
+Merchant UI адаптирован по принципам Polaris в собственной React/CSS дизайн-системе: [дизайн и шесть Demo screenshots](docs/SELLER_DESIGN_NOTES.md). Проверки frontend: 71 unit/component и 8 Chromium E2E, включая 360/390/768/1440. Живые Supabase/DB/CORS проверки ожидают серверного окружения и тестовых паролей.
 
 Продолжение с другого аккаунта: [handoff](docs/SELLER_FRONTEND_HANDOFF.md). Подключение общих компонентов и страниц участников 2/4: [integration guide](docs/SELLER_FRONTEND_INTEGRATION.md). Изменения не слиты в main и не опубликованы как сайт.
 

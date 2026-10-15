@@ -8,6 +8,7 @@ import { makeQueryClient } from "./app/query";
 import { I18nProvider, useI18n } from "./shared/i18n";
 import { Button, ErrorState } from "./shared/ui";
 import "./shared/styles.css";
+import "./shared/merchant.css";
 function FatalError() {
   const { t } = useI18n();
   return (

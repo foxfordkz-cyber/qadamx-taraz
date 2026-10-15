@@ -141,6 +141,10 @@ export function DashboardPage() {
   const { business } = useBusiness();
   return (
     <>
+      <div className="workspace-heading">
+        <span className="workspace-kicker">QADAM BUSINESS</span>
+        <span className="muted">{t("workspace")}</span>
+      </div>
       <div className="welcome-panel">
         <div>
           <p className="eyebrow">{t("cabinet")}</p>
@@ -150,9 +154,10 @@ export function DashboardPage() {
             {business.name} {business.is_demo && <Badge>{t("demo")}</Badge>}
           </span>
         </div>
-        <span className="welcome-mark" aria-hidden="true">
-          q.
-        </span>
+        <Link className="button button-primary welcome-cta" to="/seller/sale">
+          <Icon name="sale" />
+          {t("sale")}
+        </Link>
       </div>
       <div className="page-header">
         <h2>{t("tools")}</h2>
@@ -184,6 +189,18 @@ export function DashboardPage() {
           </Link>
         ))}
       </div>
+      <Card className="workspace-help">
+        <div className="help-icon">
+          <Icon name="customers" />
+        </div>
+        <div>
+          <h2>{t("customerHelpTitle")}</h2>
+          <p className="muted">{t("customerHelpHint")}</p>
+        </div>
+        <Link className="button button-secondary" to="/seller/customers">
+          {t("customers")} →
+        </Link>
+      </Card>
       <p className="dashboard-note">Qadam Business · {t("cabinet")}</p>
     </>
   );

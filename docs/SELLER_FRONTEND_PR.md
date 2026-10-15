@@ -1,33 +1,43 @@
 # feat: seller dashboard, authentication and shared frontend
 
-Единое React/TypeScript/Vite приложение `apps/web`: кабинет продавца, RU/KZ, общая дизайн-система, Supabase AuthProvider и API transport. При отсутствии конфигурации доступен только явно выбранный read-only Demo Mode. Записи в демо запрещены.
+Кабинет продавца теперь использует одобренные `/me` и GET/POST customers из backend `193f6e5`, а интерфейс адаптирован под ежедневную работу продавца по принципам Polaris. Supabase остаётся единственной авторизацией; Shopify зависимости не добавлены. Отдельный Demo Mode явно помечен и запрещает записи.
 
-## Реализовано и улучшено
+## Backend/Supabase — этап A
 
-- `/login`, `/seller`, `/seller/inquiries`, `/seller/customers`, `/seller/catalog`; адаптивный layout, разрешённые точки, session/identity boundaries и очистка Query cache.
-- Заявки по новизне, три статуса; локальный фильтр по статусу с указанием границ загруженных страниц и сбросом. Никаких выдуманных query-параметров API.
-- Общий поиск клиентов с debounce 250 ms, trim/NFC, очисткой и скрытием устаревших результатов; отдельные одноимённые клиенты, необязательный контакт, форма и CustomerPicker/hooks для участника 4.
-- Каталог с ценой в KZT из integer tiyn, наличием и Demo label. Серверные успехи без backend не имитируются.
-- UI-kit, отдельные словари RU/KK, диалог Escape/focus restore, мобильная навигация и размеры действий от 44 px.
-- Генерация `shared/api/generated.ts` только из принятого `packages/contracts/openapi.json`, команды `generate:api` и `check:api` против дрейфа контракта.
-- Обработка опубликованного ErrorResponse с runtime-проверкой, безопасный request_id для поддержки, RU/KZ ошибки 401/403/404/409/422/429/500, без сырых server messages.
+По разрешению капитана принят **только 193f6e527d716549d759d805dc4b86db1d9e059e**, commit интеграции **246851b2d4df996f054c7b1a27b2ba2933d2b3ee**. Ранее согласованный main уже принят в feature-ветку. README/DECISIONS сохраняют обе части. `apps/api` и `packages/contracts` идентичны одобренному snapshot, backend не переписывался. Новые backend commits не включались автоматически.
 
-## Синхронизация команды
+- Типы генерируются из принятого OpenAPI; runtime readers валидируют UUID, owner memberships, nullable/default fields, лимиты строк, cursor и safe integer balance_minor.
+- `/me` сверяется с текущим Supabase user; разрешённые точки берутся из ответа. GET/POST customers проверяют business_id. Query cache/drafts изолированы identity/точкой и очищаются при logout/смене пользователя.
+- Поиск с debounce, пагинация по контракту, одноимённые клиенты с note/UUID, необязательный contact → null, создание/выбор через общий CustomerPicker. Список обновляется после ответа POST; баланс отображается с сервера без расчётов.
+- Отдельные canCreateCustomer/canUpdateInquiry сохраняют совместимость старого canWrite. Неподтверждённые HTTP API заявок и каталога не активированы, live-запросов к ним нет.
 
-По прямому согласованию пользователя `main` **ced32e7** принят в feature-ветку merge-коммитом **3b03ed3**. Конфликты README и DECISIONS разрешены с сохранением frontend/backend разделов. Backend и packages/contracts идентичны принятому main — код капитана не редактировался.
+## Merchant UI — этап B
 
-Обнаружен отдельный кандидат `backend/ledger-auth` **193f6e5**, PR #4: /me, GET/POST customers, JWT/JWKS и журнал. **Эта ветка НЕ объединена:** пользователь требует предварительного подтверждения капитана, которого пока нет. Выполнен только анализ; [план интеграции](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_BACKEND_INTEGRATION_PLAN.md) перечисляет schemas, отличия is_demo/balance_minor/contact, необходимые mappings, capabilities, CORS и проверки.
+- Dashboard с активной точкой, RU/KZ, одним основным CTA, четырьмя главными действиями и дополнительными разделами; без придуманных финансовых KPI.
+- Клиенты: аккуратный desktop список и mobile карточки, быстрый поиск, форма, полезное пустое состояние, loading/error.
+- Заявки: локальный поиск по загруженным имени/контакту/тексту вместе со статусным фильтром; без придуманных API query params. Live изменение статуса отключено.
+- Каталог: цена/отсутствие цены, наличие и Demo label; условная иконка без вымышленных API-фото.
+- Собственная React/CSS дизайн-система сохраняет палитру Qadam, общие exports, focus/Escape, крупные мобильные действия, RU/KZ и поля форм при смене языка. Денежные/public модули других участников не переписаны.
 
-В принятом bootstrap фактически реализованы только GET /health и GET /api/v1/health. Наличие компонентов схем не означает готовность endpoints. Bindings /me/customers/inquiries/catalog остаются неактивными. Supabase URL/public key, доступный API и browser accounts в этой копии не предоставлены; живая авторизация/БД/frontend интеграция не проверены. Результаты backend handoff капитана не выдаются за наши проверки.
+[Дизайн, контраст и 6 screenshots](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_DESIGN_NOTES.md): dashboard desktop/mobile, customers desktop/mobile, inquiries desktop, catalog mobile. Все кадры показывают **Demo**, не живой backend.
 
 ## Проверки
 
-Из `apps/web` успешно выполнены typecheck, lint, build, check:api и format:check; **52 unit/component tests и 6 Chromium E2E passed**. Последний проверенный commit реализации `7e3d2abb08644ca9ee21f86a2dd8b02a51525bcc` отправлен после fetch/pull --ff-only; удалённый hash совпал. Подробности в [handoff](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_FRONTEND_HANDOFF.md).
+Оба этапа отдельно прошли `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run check:api`, `npm run test:e2e`; Prettier также passed.
 
-E2E проверяют ширины 360/768/1440 без горизонтального overflow, фильтр/поиск RU/KZ, язык без потери полей, фокус диалога, выбор точки, дубликаты имён, demo read-only/без backend traffic и logout. HTTP ошибки/мутации и session restoration тестируются явно внедрёнными fixtures/test clients, не реальным Supabase/PostgreSQL.
+| Этап | Unit/component | Chromium E2E |
+|---|---|---|
+| A: Backend/Supabase bindings | 70, 6 файлов | 6 |
+| B: Merchant UI | 71, 6 файлов | 8 |
 
-## Передача и ограничения
+Browser matrix: **360/390/768/1440**, нет горизонтального overflow, RU/KZ, формы/фокус, Demo без writes/backend traffic. API/auth проверки используют contract fixtures, mock transport и внедрённый auth test client: session restore, ошибки, отсутствие token, identity/business guards, customer create/search/cache. Это не live-проверки Supabase/PostgreSQL.
 
-`app/modules.ts` ждёт public pages участника 2 и sale/debts/history/summary участника 4; вместо отсутствующих модулей честные страницы ожидания. Денежная логика и 3D не копировались. Обновлены README, integration guide, [handoff](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_FRONTEND_HANDOFF.md) и seller-web handoff, добавлен план backend интеграции для следующего аккаунта Codex.
+## Что ожидает среды и других участников
 
-Запуск: `cd apps/web` → `npm ci` → `npm run dev` → `/login` → «Посмотреть демо». Публичного деплоя нет. PR остаётся Draft; в Ready не переводить и merge в main не выполнять автоматически.
+Публичная Supabase-конфигурация капитана задана только в игнорируемом `.env.local`; файл/значения в PR не включены. **Серверный apps/api/.env, PostgreSQL credentials и пароли владельцев отсутствуют**. Проба API health дала ECONNREFUSED. Реальные login/refresh, JWT/JWKS, GET/POST с БД, persistence после reload, 6/3 memberships, межпользовательский 404 и CORS остаются непроверенными до подготовки среды. Миграции и данные общей БД не менялись.
+
+HTTP заявок/каталога ещё нет. `app/modules.ts` ждёт public pages участника 2 и sale/debts/history/summary участника 4, сейчас честные страницы ожидания. Деплоя нет.
+
+Запуск: `cd apps/web`, `npm ci`, `npm run dev`, затем `/login` → «Посмотреть демо». Для live нужны подготовленный backend и тестовые пароли безопасным каналом. [Handoff](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_FRONTEND_HANDOFF.md) содержит архитектуру, файлы, точные команды и план live acceptance; [integration guide](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/feature/seller-dashboard/docs/SELLER_FRONTEND_INTEGRATION.md) — общие exports/контракты.
+
+PR остаётся **Draft** для капитана. Merge в main и force push не выполнялись.

@@ -32,6 +32,24 @@ async function goTo(name: string) {
   await userEvent.click(screen.getAllByRole("link", { name })[0]);
 }
 describe("seller UI using explicitly injected test/demo gateways", () => {
+  it("searches inquiry text locally and keeps the search across language changes", async () => {
+    const inquiries = vi.fn(demoGateway.inquiries);
+    await openDemo({ ...demoGateway, inquiries });
+    await goTo("Заявки");
+    await screen.findByRole("heading", { name: "Әсел · Демо" });
+    await userEvent.type(
+      screen.getByLabelText("Поиск по заявкам"),
+      "Сәлеметсіз",
+    );
+    expect(
+      screen.queryByRole("heading", { name: "Демо-покупатель" }),
+    ).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "KZ" }));
+    expect(screen.getByLabelText("Өтінімдерден іздеу")).toHaveValue(
+      "Сәлеметсіз",
+    );
+    expect(inquiries).toHaveBeenCalledTimes(1);
+  });
   it("filters inquiries locally and preserves the selected status across languages", async () => {
     const inquiries = vi.fn(demoGateway.inquiries);
     await openDemo({ ...demoGateway, inquiries });

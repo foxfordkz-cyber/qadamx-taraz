@@ -1,5 +1,14 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  workspace: "Жұмыс кеңістігі",
+  liveMode: "Жұмыс деректері",
+  customerHelpTitle: "Клиенттер әрдайым қол астында",
+  customerHelpHint:
+    "Сатып алушыны есімі бойынша табыңыз. Аттас клиенттерді ажырату үшін ескертпе қосыңыз.",
+  customerColumn: "Клиент",
+  contactColumn: "Байланыс",
+  updating: "Жаңартылуда…",
+  inquirySearch: "Өтінімдерден іздеу",
   supportCode: "Қолдау коды",
   dataChanged: "Деректер өзгерді. Тізімді жаңартып, әрекетті қайталаңыз.",
   validationError: "Форма өрістерін тексеріңіз. Енгізілген деректер сақталды.",
@@ -7,7 +16,7 @@ export const kk: Record<keyof typeof ru, string> = {
   inquiryFilter: "Өтінімдерді көрсету",
   allInquiries: "Барлық өтінімдер",
   clearFilter: "Сүзгіні тазалау",
-  noMatchingInquiries: "Мұндай күйдегі өтінімдер жоқ",
+  noMatchingInquiries: "Өтінімдер табылмады",
   loadedInquiriesHint:
     "Сүзгі жүктелген өтінімдерге қолданылады. Келесі өтінімдерді тексеру үшін «Тағы көрсету» түймесін басыңыз.",
   shown: "Көрсетілді",

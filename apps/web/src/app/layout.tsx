@@ -86,6 +86,10 @@ export function SellerLayout() {
             ))}
           </Select>
           <div className="topbar-actions">
+            <span className="mode-label">
+              <span className="mode-dot" />
+              {t(auth.demo ? "demo" : "liveMode")}
+            </span>
             <LanguageSwitch />
             <Button
               variant="ghost"
