@@ -3,6 +3,9 @@ import { useSyncExternalStore } from 'react';
 export type Lang = 'ru' | 'kk';
 
 const ru = {
+  hero_eyebrow: 'QADAM MARKET · TARAZ',
+  local_trade: 'МЕСТНАЯ ТОРГОВЛЯ',
+  section_eyebrow: 'ВЫБЕРИТЕ СВОЮ ПЛОЩАДКУ',
   hero_title: 'Найдите магазин на рынке Тараза',
   hero_text: 'Выберите площадку, найдите точку и отправьте заявку продавцу.',
   find_shop: 'Найти магазин', seller_cabinet: 'Кабинет продавца',
@@ -29,6 +32,9 @@ const ru = {
 } as const;
 
 const kk: Record<keyof typeof ru, string> = {
+  hero_eyebrow: 'QADAM MARKET · TARAZ',
+  local_trade: 'ЖЕРГІЛІКТІ САУДА',
+  section_eyebrow: 'ӨЗІҢІЗГЕ КЕРЕК АЛАҢДЫ ТАҢДАҢЫЗ',
   hero_title: 'Тараз базарынан дүкен табыңыз',
   hero_text: 'Алаңды таңдап, нүктені тауып, сатушыға өтінім жіберіңіз.',
   find_shop: 'Дүкен табу', seller_cabinet: 'Сатушы кабинеті',

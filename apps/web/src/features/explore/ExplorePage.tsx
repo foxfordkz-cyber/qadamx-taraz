@@ -27,16 +27,27 @@ export default function ExplorePage() {
   return (
     <main className="ex">
       <header className="ex-top">
-        <strong>Qadam</strong>
+        <Link className="brand" to="/" aria-label="Qadam — главная">
+          <span className="brand-mark" aria-hidden="true">Q</span>
+          <span>qadam<span className="brand-period">.</span></span>
+        </Link>
+        <a className="top-link" href="#venues">{t('find_shop')} <span aria-hidden="true">↘</span></a>
         <LangSwitch />
       </header>
 
       <section className="hero">
-        <h1>{t('hero_title')}</h1>
-        <p>{t('hero_text')}</p>
-        <div className="actions">
-          <a className="btn btn--primary" href="#venues">{t('find_shop')}</a>
-          <Link className="btn" to="/cabinet">{t('seller_cabinet')}</Link>
+        <div className="hero-copy">
+          <span className="eyebrow"><span className="eyebrow-dot" /> {t('hero_eyebrow')}</span>
+          <h1>{t('hero_title')}</h1>
+          <p>{t('hero_text')}</p>
+          <div className="actions">
+            <a className="btn btn--primary" href="#venues">{t('find_shop')} <span aria-hidden="true">↗</span></a>
+            <Link className="btn btn--quiet" to="/cabinet">{t('seller_cabinet')}</Link>
+          </div>
+        </div>
+        <div className="hero-stamp" aria-hidden="true">
+          <span className="stamp-ring">Q</span>
+          <span>{t('local_trade')}</span>
         </div>
       </section>
 
@@ -47,10 +58,16 @@ export default function ExplorePage() {
       </Suspense>
 
       <section id="venues" aria-labelledby="venues-h">
-        <h2 id="venues-h">{t('venues')}</h2>
+        <div className="section-heading">
+          <div>
+            <span className="eyebrow eyebrow--dark">{t('section_eyebrow')}</span>
+            <h2 id="venues-h">{t('venues')}</h2>
+          </div>
+          <span className="section-note">{t('conceptual')}</span>
+        </div>
         <State loading={loading} error={error} onRetry={reload}>
           <ul className="cards">
-            {venues.map((v) => (
+            {venues.map((v, index) => (
               <li key={v.id}>
                 <Link
                   className="card"
@@ -58,9 +75,10 @@ export default function ExplorePage() {
                   onMouseEnter={() => setHover(v.slug)} onMouseLeave={() => setHover(null)}
                   onFocus={() => setHover(v.slug)} onBlur={() => setHover(null)}
                 >
-                  <h3>{name(v)}</h3>
+                  <span className="card-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <h3>{name(v)} <span className="card-arrow" aria-hidden="true">↗</span></h3>
                   <p className="muted">{v.categories.join(', ')}</p>
-                  <span className="badge badge--warn">{t('conceptual')}</span>
+                  <span className="card-open">{t('open_venue')} <span aria-hidden="true">→</span></span>
                 </Link>
               </li>
             ))}
