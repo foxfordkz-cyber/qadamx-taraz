@@ -1,0 +1,769 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Qadam Business API",
+    "description": "Local bootstrap. Only health is implemented. Components contain the first-stage frontend contracts; money, auth, AI and catalog routes are not implemented yet. Health checks the process only, not external services.",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status",
+            "default": "ok"
+          },
+          "service": {
+            "type": "string",
+            "const": "qadam-api",
+            "title": "Service",
+            "default": "qadam-api"
+          },
+          "stage": {
+            "type": "string",
+            "const": "bootstrap",
+            "title": "Stage",
+            "default": "bootstrap"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "HealthResponse"
+      },
+      "CustomerCandidate": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "display_name"
+        ],
+        "title": "CustomerCandidate",
+        "type": "object"
+      },
+      "DraftResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "transcript": {
+            "title": "Transcript",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "sale",
+              "repayment",
+              "unknown"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "customer_query": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Query"
+          },
+          "customer_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerCandidate"
+            },
+            "title": "Customer Candidates",
+            "type": "array"
+          },
+          "sale_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/SaleCandidate"
+            },
+            "title": "Sale Candidates",
+            "type": "array"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "maxLength": 1000,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "total_minor": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "maximum": 10000000000,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Minor"
+          },
+          "received_minor": {
+            "anyOf": [
+              {
+                "maximum": 10000000000,
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Received Minor"
+          },
+          "amount_minor": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0,
+                "maximum": 10000000000,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Amount Minor"
+          },
+          "missing_fields": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing Fields",
+            "type": "array"
+          },
+          "questions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Questions",
+            "type": "array"
+          },
+          "expires_at": {
+            "format": "date-time",
+            "title": "Expires At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "transcript",
+          "kind",
+          "customer_query",
+          "customer_candidates",
+          "sale_candidates",
+          "description",
+          "total_minor",
+          "received_minor",
+          "amount_minor",
+          "missing_fields",
+          "questions",
+          "expires_at"
+        ],
+        "title": "DraftResponse",
+        "type": "object",
+        "examples": [
+          {
+            "id": "40000000-0000-4000-8000-000000000001",
+            "transcript": "Асқарға үш мың теңгеге тауар бердім, мыңын төледі",
+            "kind": "sale",
+            "customer_query": "Асқар",
+            "customer_candidates": [
+              {
+                "id": "20000000-0000-4000-8000-000000000001",
+                "display_name": "Демо Асқар"
+              }
+            ],
+            "sale_candidates": [],
+            "description": "Тауар",
+            "total_minor": 300000,
+            "received_minor": 100000,
+            "amount_minor": null,
+            "missing_fields": [],
+            "questions": [],
+            "expires_at": "2026-10-15T10:30:00Z"
+          }
+        ]
+      },
+      "ErrorDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "fields": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Fields",
+            "type": "object"
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "title": "ErrorDetail",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorDetail"
+          },
+          "request_id": {
+            "format": "uuid",
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "request_id"
+        ],
+        "title": "ErrorResponse",
+        "type": "object",
+        "examples": [
+          {
+            "error": {
+              "code": "CUSTOMER_REQUIRED",
+              "message": "A credit sale requires a customer",
+              "fields": {
+                "customer_id": [
+                  "CUSTOMER_REQUIRED"
+                ]
+              }
+            },
+            "request_id": "70000000-0000-4000-8000-000000000001"
+          }
+        ]
+      },
+      "InquiryCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "format": "uuid",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "visitor_name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Visitor Name",
+            "type": "string"
+          },
+          "contact": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Contact",
+            "type": "string"
+          },
+          "message": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "visitor_name",
+          "contact",
+          "message"
+        ],
+        "title": "InquiryCreate",
+        "type": "object",
+        "examples": [
+          {
+            "client_request_id": "60000000-0000-4000-8000-000000000001",
+            "visitor_name": "Демо-покупатель",
+            "contact": "demo@example.test",
+            "message": "Есть ли школьный рюкзак до 15 000 тенге?"
+          }
+        ]
+      },
+      "Operation": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "business_id": {
+            "format": "uuid",
+            "title": "Business Id",
+            "type": "string"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "sale_id": {
+            "format": "uuid",
+            "title": "Sale Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "sale",
+              "repayment",
+              "reversal"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "sales_delta_minor": {
+            "title": "Sales Delta Minor",
+            "type": "integer"
+          },
+          "receipts_delta_minor": {
+            "title": "Receipts Delta Minor",
+            "type": "integer"
+          },
+          "reversal_of": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reversal Of"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "format": "uuid",
+            "title": "Created By",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "business_id",
+          "customer_id",
+          "sale_id",
+          "kind",
+          "sales_delta_minor",
+          "receipts_delta_minor",
+          "reversal_of",
+          "description",
+          "created_at",
+          "created_by"
+        ],
+        "title": "Operation",
+        "type": "object"
+      },
+      "OperationResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "sale_balance_minor": {
+            "minimum": 0,
+            "title": "Sale Balance Minor",
+            "type": "integer"
+          },
+          "customer_balance_minor": {
+            "anyOf": [
+              {
+                "minimum": 0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Balance Minor"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "operation",
+          "sale_balance_minor",
+          "customer_balance_minor",
+          "created_at"
+        ],
+        "title": "OperationResponse",
+        "type": "object",
+        "examples": [
+          {
+            "operation": {
+              "id": "30000000-0000-4000-8000-000000000001",
+              "business_id": "10000000-0000-4000-8000-000000000001",
+              "customer_id": "20000000-0000-4000-8000-000000000001",
+              "sale_id": "30000000-0000-4000-8000-000000000001",
+              "kind": "sale",
+              "sales_delta_minor": 300000,
+              "receipts_delta_minor": 100000,
+              "reversal_of": null,
+              "description": "Учебный товар",
+              "created_at": "2026-10-15T10:00:00Z",
+              "created_by": "50000000-0000-4000-8000-000000000001"
+            },
+            "sale_balance_minor": 200000,
+            "customer_balance_minor": 200000,
+            "created_at": "2026-10-15T10:00:00Z"
+          }
+        ]
+      },
+      "RepaymentCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "const": "repayment",
+            "title": "Kind",
+            "type": "string"
+          },
+          "draft_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Draft Id"
+          },
+          "sale_id": {
+            "format": "uuid",
+            "title": "Sale Id",
+            "type": "string"
+          },
+          "amount_minor": {
+            "exclusiveMinimum": 0,
+            "maximum": 10000000000,
+            "title": "Amount Minor",
+            "type": "integer"
+          },
+          "description": {
+            "maxLength": 1000,
+            "title": "Description",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "sale_id",
+          "amount_minor",
+          "description"
+        ],
+        "title": "RepaymentCreate",
+        "type": "object",
+        "examples": [
+          {
+            "kind": "repayment",
+            "draft_id": null,
+            "sale_id": "30000000-0000-4000-8000-000000000001",
+            "amount_minor": 50000,
+            "description": "Учебная частичная оплата"
+          }
+        ]
+      },
+      "SaleCandidate": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "total_minor": {
+            "exclusiveMinimum": 0,
+            "maximum": 10000000000,
+            "title": "Total Minor",
+            "type": "integer"
+          },
+          "received_minor": {
+            "maximum": 10000000000,
+            "minimum": 0,
+            "title": "Received Minor",
+            "type": "integer"
+          },
+          "balance_minor": {
+            "minimum": 0,
+            "title": "Balance Minor",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "customer_id",
+          "description",
+          "total_minor",
+          "received_minor",
+          "balance_minor"
+        ],
+        "title": "SaleCandidate",
+        "type": "object"
+      },
+      "SaleCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "const": "sale",
+            "title": "Kind",
+            "type": "string"
+          },
+          "draft_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Draft Id"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Customer Id"
+          },
+          "description": {
+            "maxLength": 1000,
+            "title": "Description",
+            "type": "string"
+          },
+          "total_minor": {
+            "exclusiveMinimum": 0,
+            "maximum": 10000000000,
+            "title": "Total Minor",
+            "type": "integer"
+          },
+          "received_minor": {
+            "maximum": 10000000000,
+            "minimum": 0,
+            "title": "Received Minor",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "kind",
+          "description",
+          "total_minor",
+          "received_minor"
+        ],
+        "title": "SaleCreate",
+        "type": "object",
+        "examples": [
+          {
+            "kind": "sale",
+            "draft_id": null,
+            "customer_id": "20000000-0000-4000-8000-000000000001",
+            "description": "Учебный товар",
+            "total_minor": 300000,
+            "received_minor": 100000
+          }
+        ]
+      },
+      "SummaryResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "date": {
+            "format": "date",
+            "title": "Date",
+            "type": "string"
+          },
+          "timezone": {
+            "const": "Asia/Almaty",
+            "default": "Asia/Almaty",
+            "title": "Timezone",
+            "type": "string"
+          },
+          "currency": {
+            "const": "KZT",
+            "default": "KZT",
+            "title": "Currency",
+            "type": "string"
+          },
+          "sales_minor": {
+            "title": "Sales Minor",
+            "type": "integer"
+          },
+          "receipts_minor": {
+            "title": "Receipts Minor",
+            "type": "integer"
+          },
+          "outstanding_minor": {
+            "minimum": 0,
+            "title": "Outstanding Minor",
+            "type": "integer"
+          },
+          "new_inquiries_count": {
+            "minimum": 0,
+            "title": "New Inquiries Count",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "date",
+          "sales_minor",
+          "receipts_minor",
+          "outstanding_minor",
+          "new_inquiries_count"
+        ],
+        "title": "SummaryResponse",
+        "type": "object",
+        "examples": [
+          {
+            "date": "2026-10-15",
+            "timezone": "Asia/Almaty",
+            "currency": "KZT",
+            "sales_minor": 300000,
+            "receipts_minor": 150000,
+            "outstanding_minor": 150000,
+            "new_inquiries_count": 1
+          }
+        ]
+      },
+      "OperationCreate": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/SaleCreate"
+          },
+          {
+            "$ref": "#/components/schemas/RepaymentCreate"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "kind",
+          "mapping": {
+            "sale": "#/components/schemas/SaleCreate",
+            "repayment": "#/components/schemas/RepaymentCreate"
+          }
+        }
+      }
+    }
+  }
+}
