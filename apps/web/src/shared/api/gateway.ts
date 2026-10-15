@@ -14,6 +14,8 @@ import type {
 export interface SellerGateway {
   readonly mode: "live" | "demo";
   readonly canWrite: boolean;
+  readonly canCreateCustomer?: boolean;
+  readonly canUpdateInquiry?: boolean;
   me(signal?: AbortSignal): Promise<SellerIdentity>;
   inquiries(
     business: Business,
@@ -38,6 +40,7 @@ export interface SellerGateway {
 export function createLiveGateway(
   api: ApiClient,
   bindings: Partial<BackendBindings>,
+  expectedUserId?: string,
 ): SellerGateway {
   const requireBinding = <K extends keyof BackendBindings>(
     key: K,
@@ -49,6 +52,8 @@ export function createLiveGateway(
   const path = (b: Business) => `/businesses/${encodeURIComponent(b.id)}`;
   return {
     mode: "live",
+    canCreateCustomer: !!(bindings.customerBody && bindings.customer),
+    canUpdateInquiry: !!bindings.inquiries,
     canWrite: !!(
       bindings.customerBody &&
       bindings.customer &&
@@ -56,7 +61,10 @@ export function createLiveGateway(
     ),
     async me(signal) {
       const raw = await api.request("/me", { signal });
-      return requireBinding("me")(raw);
+      const identity = requireBinding("me")(raw);
+      if (expectedUserId && identity.id !== expectedUserId)
+        throw new ApiError(403, "ACCESS_DENIED");
+      return identity;
     },
     async inquiries(b, cursor, signal) {
       const read = requireBinding("inquiries");
@@ -76,19 +84,26 @@ export function createLiveGateway(
       const read = requireBinding("customers");
       const query = new URLSearchParams({ q: search });
       if (cursor) query.set("cursor", cursor);
-      return read(
+      query.set("limit", "50");
+      const page = read(
         await api.request(`${path(b)}/customers?${query}`, { signal }),
       );
+      if (page.items.some((customer) => customer.business_id !== b.id))
+        throw new ApiError(403, "ACCESS_DENIED");
+      return page;
     },
     async createCustomer(b, input) {
       const body = requireBinding("customerBody")(input);
       const read = requireBinding("customer");
-      return read(
+      const customer = read(
         await api.request(`${path(b)}/customers`, {
           method: "POST",
           body: JSON.stringify(body),
         }),
       );
+      if (customer.business_id !== b.id)
+        throw new ApiError(403, "ACCESS_DENIED");
+      return customer;
     },
     async catalog(b, signal) {
       const read = requireBinding("catalog");

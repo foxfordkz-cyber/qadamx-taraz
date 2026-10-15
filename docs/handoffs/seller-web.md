@@ -1,15 +1,7 @@
-# Seller frontend — передача
+# Seller web — передача
 
-Срез 2026-10-15. Ветка **feature/seller-dashboard**, [Draft PR #3](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3). В Ready не переводить и в main не сливать без согласования.
+2026-10-15, feature/seller-dashboard, Draft PR #3. Разрешение на backend 193f6e5 получено в новом задании. Только этот snapshot принят; README/DECISIONS сохраняют обе части, код backend/экспорт не менялись.
 
-Последние опубликованные этапы: `e05c1a1` (фильтры/поиск), `3b03ed3fe74188d848693891fb6132515cb29627` (согласованный merge main ced32e7). Fetch/pull --ff-only feature-ветки и push прошли. Последующий этап добавляет типы bootstrap, стандартные ошибки и план интеграции; точный hash после записи — git log -1 --format=%H.
+Этап A: реальные bindings /me и GET/POST customers по OpenAPI + runtime validation, раздельные capabilities, nullable contact, server balance_minor, query invalidation/CustomerPicker. Inquiries/catalog live API не включены. Локальная публичная Supabase-конфигурация игнорируется Git; backend env/DB/passwords отсутствуют, health ECONNREFUSED. Живые проверки не объявлены успешными.
 
-Последний commit реализации: `7e3d2abb08644ca9ee21f86a2dd8b02a51525bcc`, push успешен, удалённый hash совпал. После него metadata-коммит фиксирует только эту передачу и описание существующего PR.
-
-**backend/ledger-auth 193f6e5 не объединена.** Капитан не подтвердил готовность; пользователь прямо требует отдельное подтверждение и согласование. Не активировать /me/customers из этой ветки. Backend/export идентичны принятому main ced32e7. Два конфликта README/DECISIONS разрешены с сохранением обеих сторон; код капитана не редактировался.
-
-Реализованы единое приложение, auth provider/cache isolation, RU/KZ, UI-kit, кабинет, заявки/клиенты/каталог и read-only Demo Mode. Новое: локальный фильтр заявок с честной пагинацией, debounce 250 ms/очистка поиска, generated types/check:api, ErrorResponse/request_id и локализованные 409/422/429. Shared компоненты клиентов доступны участнику 4. Модули участников 2/4 пока отсутствуют.
-
-Проверки: **52 unit/component + 6 Chromium E2E**, check:api/typecheck/lint/build успешны; 360/768/1440, focus/dialog, язык/поля, demo/выход. Реальный backend, PostgreSQL и Supabase/JWT/JWKS в этой frontend-сессии не проверены: нет конфигурации и аккаунтов.
-
-Полная передача: [SELLER_FRONTEND_HANDOFF](../SELLER_FRONTEND_HANDOFF.md). Интерфейсы: [INTEGRATION](../SELLER_FRONTEND_INTEGRATION.md). Подтверждённые формы кандидата и список будущих изменений: [BACKEND_INTEGRATION_PLAN](../SELLER_BACKEND_INTEGRATION_PLAN.md). Следующий шаг — подтверждение капитана, затем согласованный merge и runtime mappings; до этого никаких новых live endpoints и demo-writes.
+Проверки: typecheck/lint/build/check:api, 70 unit/component и 6 E2E прошли. Последний опубликованный hash до этапа: 27cfdae; актуальный — git log -1 --format=%H. После этапа commit/fetch/pull --ff-only feature/push. Далее этап B — Polaris-inspired UI и 6 screenshots, отдельные проверки/commit/push. Подробно: ../SELLER_FRONTEND_HANDOFF.md.

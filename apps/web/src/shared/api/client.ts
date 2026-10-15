@@ -17,7 +17,10 @@ export function createApiClient(options: {
       if (!path.startsWith("/") || path.startsWith("//") || path.includes(".."))
         throw new ApiError(0, "INVALID_PATH");
       const token = await options.getToken();
-      if (!token) throw new ApiError(401, "AUTH_REQUIRED");
+      if (!token) {
+        options.onUnauthorized?.();
+        throw new ApiError(401, "AUTH_REQUIRED");
+      }
       const headers = new Headers(init.headers);
       headers.set("Authorization", `Bearer ${token}`);
       headers.set("Accept", "application/json");

@@ -19,6 +19,7 @@ import { useInquiries, useInquiryStatus } from "./queries";
 function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
   const { t, locale } = useI18n();
   const { gateway } = useRuntime();
+  const canUpdate = gateway.canUpdateInquiry ?? gateway.canWrite;
   const update = useInquiryStatus();
   const [chosen, setChosen] = useState<InquiryStatus>(inquiry.status);
   return (
@@ -52,7 +53,7 @@ function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
             setChosen(e.target.value as InquiryStatus);
             update.reset();
           }}
-          disabled={!gateway.canWrite || update.isPending}
+          disabled={!canUpdate || update.isPending}
         >
           {(["new", "in_progress", "closed"] as const).map((status) => (
             <option key={status} value={status}>
@@ -62,9 +63,7 @@ function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
         </Select>
         <Button
           variant="secondary"
-          disabled={
-            !gateway.canWrite || chosen === inquiry.status || update.isPending
-          }
+          disabled={!canUpdate || chosen === inquiry.status || update.isPending}
           onClick={() => update.mutate({ id: inquiry.id, status: chosen })}
         >
           {t(update.isPending ? "saving" : "save")}
@@ -85,6 +84,7 @@ export function InquiriesPage() {
   const { t } = useI18n();
   const { business } = useBusiness();
   const { gateway } = useRuntime();
+  const canUpdate = gateway.canUpdateInquiry ?? gateway.canWrite;
   const query = useInquiries();
   const [filter, setFilter] = useDraft<"all" | InquiryStatus>(
     `${business.id}:inquiry-filter`,
@@ -114,7 +114,7 @@ export function InquiriesPage() {
           </Button>
         }
       />
-      {!gateway.canWrite && (
+      {!canUpdate && (
         <Alert>
           {t(gateway.mode === "demo" ? "demoWrites" : "contractPending")}
         </Alert>

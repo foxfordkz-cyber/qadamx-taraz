@@ -1,5 +1,3 @@
-"""Transport contracts. Database ownership and balances need service-level validation."""
-
 from datetime import date
 from typing import Annotated, Literal
 from uuid import UUID
@@ -7,7 +5,6 @@ from uuid import UUID
 from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, model_validator
 from pydantic_core import PydanticCustomError
 
-# 100 million KZT; keep values within JavaScript's exact integer range.
 MAX_OPERATION_MINOR = 10_000_000_000
 PositiveMoney = Annotated[int, Field(strict=True, gt=0, le=MAX_OPERATION_MINOR)]
 NonnegativeMoney = Annotated[int, Field(strict=True, ge=0, le=MAX_OPERATION_MINOR)]
@@ -17,7 +14,7 @@ Description = Annotated[str, Field(max_length=1000)]
 
 
 class Contract(BaseModel):
-    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True, from_attributes=True)
 
 
 class SaleCreate(Contract):
@@ -48,34 +45,25 @@ class RepaymentCreate(Contract):
 OperationCreate = Annotated[SaleCreate | RepaymentCreate, Field(discriminator="kind")]
 
 
-class CustomerCandidate(Contract):
-    id: UUID
-    display_name: str
+class ReverseCreate(Contract):
+    description: Annotated[str, Field(min_length=1, max_length=1000)]
 
 
-class SaleCandidate(Contract):
+class CustomerCreate(Contract):
+    display_name: Annotated[str, Field(min_length=1, max_length=200)]
+    note: Annotated[str, Field(max_length=2000)] = ""
+    contact: Annotated[str, Field(max_length=200)] | None = None
+
+
+class CustomerResponse(CustomerCreate):
     id: UUID
-    customer_id: UUID | None
-    description: str
-    total_minor: PositiveMoney
-    received_minor: NonnegativeMoney
+    business_id: UUID
     balance_minor: Balance
 
 
-class DraftResponse(Contract):
+class CustomerCandidate(Contract):
     id: UUID
-    transcript: str
-    kind: Literal["sale", "repayment", "unknown"]
-    customer_query: str | None
-    customer_candidates: list[CustomerCandidate]
-    sale_candidates: list[SaleCandidate]
-    description: Description | None
-    total_minor: PositiveMoney | None
-    received_minor: NonnegativeMoney | None
-    amount_minor: PositiveMoney | None
-    missing_fields: list[str]
-    questions: list[str]
-    expires_at: AwareDatetime
+    display_name: str
 
 
 class Operation(Contract):
@@ -90,6 +78,32 @@ class Operation(Contract):
     description: str
     created_at: AwareDatetime
     created_by: UUID
+
+
+class OpenSale(Contract):
+    id: UUID
+    customer_id: UUID | None
+    description: str
+    total_minor: PositiveMoney
+    received_minor: NonnegativeMoney
+    balance_minor: Balance
+    created_at: AwareDatetime
+
+
+class DraftResponse(Contract):
+    id: UUID
+    transcript: str
+    kind: Literal["sale", "repayment", "unknown"]
+    customer_query: str | None
+    customer_candidates: list[CustomerCandidate]
+    sale_candidates: list[OpenSale]
+    description: Description | None
+    total_minor: PositiveMoney | None
+    received_minor: NonnegativeMoney | None
+    amount_minor: PositiveMoney | None
+    missing_fields: list[str]
+    questions: list[str]
+    expires_at: AwareDatetime
 
 
 class OperationResponse(Contract):
@@ -116,6 +130,23 @@ class InquiryCreate(Contract):
     message: Annotated[str, Field(min_length=1, max_length=2000)]
 
 
+class BusinessMembership(Contract):
+    id: UUID
+    slug: str
+    name: str
+    role: Literal["owner"] = "owner"
+
+
+class MeResponse(Contract):
+    id: UUID
+    businesses: list[BusinessMembership]
+
+
+class Page[T](Contract):
+    items: list[T]
+    next_cursor: str | None = None
+
+
 class ErrorDetail(Contract):
     code: str
     message: str
@@ -130,15 +161,4 @@ class ErrorResponse(Contract):
 class HealthResponse(Contract):
     status: Literal["ok"] = "ok"
     service: Literal["qadam-api"] = "qadam-api"
-    stage: Literal["bootstrap"] = "bootstrap"
-
-
-SCHEMA_MODELS = (
-    SaleCreate,
-    RepaymentCreate,
-    DraftResponse,
-    OperationResponse,
-    SummaryResponse,
-    InquiryCreate,
-    ErrorResponse,
-)
+    stage: Literal["manual-ledger"] = "manual-ledger"

@@ -5,9 +5,10 @@ export interface Business {
   id: string;
   slug: string;
   name: string;
-  is_demo: boolean;
+  is_demo?: boolean;
 }
 export interface SellerIdentity {
+  id?: string;
   businesses: Business[];
 }
 export type InquiryStatus = "new" | "in_progress" | "closed";
@@ -21,6 +22,7 @@ export interface Inquiry {
   created_at: string;
 }
 export interface Customer {
+  balance_minor?: number;
   id: string;
   business_id: string;
   display_name: string;

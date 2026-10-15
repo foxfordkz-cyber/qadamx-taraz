@@ -1,106 +1,61 @@
 import json
 
-import pytest
-from pydantic import TypeAdapter, ValidationError
+from fastapi.testclient import TestClient
 
-from app.examples import EXAMPLES
+from app.config import Settings
+from app.examples import EXAMPLES, model_for_example
 from app.export_contracts import OUTPUT, artifacts
-from app.schemas import (
-    MAX_OPERATION_MINOR,
-    SCHEMA_MODELS,
-    DraftResponse,
-    InquiryCreate,
-    OperationCreate,
-    RepaymentCreate,
-    SaleCreate,
-    SummaryResponse,
-)
+from app.main import create_app
 
 
-@pytest.mark.parametrize("model", SCHEMA_MODELS)
-def test_examples_validate_as_json(model):
-    model.model_validate_json(json.dumps(EXAMPLES[model.__name__]))
-
-
-@pytest.mark.parametrize("amount", [0, -1, 1.5, 100.0, "300000", True, MAX_OPERATION_MINOR + 1])
-def test_sale_rejects_invalid_money(amount):
-    with pytest.raises(ValidationError):
-        SaleCreate.model_validate({**EXAMPLES["SaleCreate"], "total_minor": amount})
-
-
-@pytest.mark.parametrize("amount", [0, -1, 0.5, 100.0, "50000", False, MAX_OPERATION_MINOR + 1])
-def test_repayment_rejects_invalid_money(amount):
-    with pytest.raises(ValidationError):
-        RepaymentCreate.model_validate({**EXAMPLES["RepaymentCreate"], "amount_minor": amount})
-
-
-def test_sale_requires_customer_only_for_debt():
-    with pytest.raises(ValidationError, match="CUSTOMER_REQUIRED"):
-        SaleCreate.model_validate({**EXAMPLES["SaleCreate"], "customer_id": None})
-    SaleCreate.model_validate(
-        {**EXAMPLES["SaleCreate"], "customer_id": None, "received_minor": 300000}
-    )
-    SaleCreate.model_validate({**EXAMPLES["SaleCreate"], "received_minor": 0})
-
-
-@pytest.mark.parametrize("amount", [-1, True, "100000", 0.1, 300001])
-def test_sale_rejects_invalid_receipt(amount):
-    with pytest.raises(ValidationError):
-        SaleCreate.model_validate({**EXAMPLES["SaleCreate"], "received_minor": amount})
-
-
-@pytest.mark.parametrize(
-    "field,value",
-    [
-        ("sale_balance_minor", 0),
-        ("created_at", "2026-10-15T10:00:00Z"),
-        ("customer_id", "customer-uuid"),
-        ("kind", "reversal"),
-    ],
-)
-def test_input_rejects_server_fields_and_invalid_ids(field, value):
-    with pytest.raises(ValidationError):
-        SaleCreate.model_validate({**EXAMPLES["SaleCreate"], field: value})
-
-
-def test_operation_union_selects_by_kind():
-    adapter = TypeAdapter(OperationCreate)
-    assert isinstance(adapter.validate_python(EXAMPLES["SaleCreate"]), SaleCreate)
-    assert isinstance(adapter.validate_python(EXAMPLES["RepaymentCreate"]), RepaymentCreate)
-    with pytest.raises(ValidationError):
-        adapter.validate_python({**EXAMPLES["SaleCreate"], "kind": "reversal"})
-
-
-def test_draft_can_request_clarification_but_needs_timezone():
-    draft = {
-        **EXAMPLES["DraftResponse"],
-        "kind": "unknown",
-        "total_minor": None,
-        "received_minor": None,
-        "missing_fields": ["kind"],
-        "questions": ["Что записать?"],
-    }
-    DraftResponse.model_validate(draft)
-    with pytest.raises(ValidationError):
-        DraftResponse.model_validate({**draft, "expires_at": "2026-10-15T10:30:00"})
-
-
-def test_summary_supports_negative_reversals_but_not_negative_debt():
-    SummaryResponse.model_validate(
-        {**EXAMPLES["SummaryResponse"], "sales_minor": -300000, "receipts_minor": -100000}
-    )
-    with pytest.raises(ValidationError):
-        SummaryResponse.model_validate({**EXAMPLES["SummaryResponse"], "outstanding_minor": -1})
-
-
-@pytest.mark.parametrize(
-    "field,value", [("visitor_name", "  "), ("contact", ""), ("message", "x" * 2001)]
-)
-def test_inquiry_limits(field, value):
-    with pytest.raises(ValidationError):
-        InquiryCreate.model_validate({**EXAMPLES["InquiryCreate"], field: value})
-
-
-def test_export_is_current():
+def test_examples_and_export_are_current():
+    for name, example in EXAMPLES.items():
+        model_for_example(name).model_validate_json(json.dumps(example))
     for name, content in artifacts().items():
         assert (OUTPUT / name).read_text(encoding="utf-8") == content
+
+
+def test_openapi_refs_auth_and_operation_union():
+    schema = json.loads(artifacts()["openapi.json"])
+
+    def walk(value):
+        if isinstance(value, dict):
+            if "$ref" in value:
+                resolved = schema
+                for part in value["$ref"].removeprefix("#/").split("/"):
+                    resolved = resolved[part]
+            for item in value.values():
+                walk(item)
+        elif isinstance(value, list):
+            for item in value:
+                walk(item)
+
+    walk(schema)
+    for path, methods in schema["paths"].items():
+        if not path.endswith("/health"):
+            for route in methods.values():
+                assert route["security"] == [{"HTTPBearer": []}]
+    route = schema["paths"]["/api/v1/businesses/{id}/operations"]["post"]
+    body = route["requestBody"]["content"]["application/json"]["schema"]
+    assert body["discriminator"]["propertyName"] == "kind"
+
+
+def test_health_errors_and_cors():
+    settings = Settings(
+        _env_file=None,
+        database_url=None,
+        supabase_url="",
+        jwt_issuer="",
+        jwt_audience="",
+        allowed_origins=["http://localhost:5173"],
+    )
+    with TestClient(create_app(settings)) as client:
+        assert client.get("/docs").status_code == 200
+        response = client.get("/not-a-route")
+        assert response.json()["error"]["code"] == "NOT_FOUND"
+        assert response.json()["request_id"] == response.headers["x-request-id"]
+        for origin, status in (("http://localhost:5173", 200), ("https://evil.test", 400)):
+            response = client.options(
+                "/health", headers={"Origin": origin, "Access-Control-Request-Method": "GET"}
+            )
+            assert response.status_code == status

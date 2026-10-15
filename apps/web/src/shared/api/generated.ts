@@ -34,10 +34,171 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/me": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Me */
+    get: operations["me_api_v1_me_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/customers": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Customers */
+    get: operations["get_customers_api_v1_businesses__id__customers_get"];
+    put?: never;
+    /** Create Customer */
+    post: operations["create_customer_api_v1_businesses__id__customers_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/operations": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Operations */
+    get: operations["get_operations_api_v1_businesses__id__operations_get"];
+    put?: never;
+    /** Create Operation */
+    post: operations["create_operation_api_v1_businesses__id__operations_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/operations/{operation_id}/reverse": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Reverse Operation */
+    post: operations["reverse_operation_api_v1_businesses__id__operations__operation_id__reverse_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/summary": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Summary */
+    get: operations["get_summary_api_v1_businesses__id__summary_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /** BusinessMembership */
+    BusinessMembership: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Slug */
+      slug: string;
+      /** Name */
+      name: string;
+      /**
+       * Role
+       * @default owner
+       * @constant
+       */
+      role: "owner";
+    };
+    /** CustomerCreate */
+    CustomerCreate: {
+      /** Display Name */
+      display_name: string;
+      /**
+       * Note
+       * @default
+       */
+      note: string;
+      /** Contact */
+      contact?: string | null;
+    };
+    /** CustomerResponse */
+    CustomerResponse: {
+      /** Display Name */
+      display_name: string;
+      /**
+       * Note
+       * @default
+       */
+      note: string;
+      /** Contact */
+      contact?: string | null;
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /** Balance Minor */
+      balance_minor: number;
+    };
+    /** ErrorDetail */
+    ErrorDetail: {
+      /** Code */
+      code: string;
+      /** Message */
+      message: string;
+      /** Fields */
+      fields?: {
+        [key: string]: string[];
+      };
+    };
+    /** ErrorResponse */
+    ErrorResponse: {
+      error: components["schemas"]["ErrorDetail"];
+      /**
+       * Request Id
+       * Format: uuid
+       */
+      request_id: string;
+    };
     /** HealthResponse */
     HealthResponse: {
       /**
@@ -54,136 +215,43 @@ export interface components {
       service: "qadam-api";
       /**
        * Stage
-       * @default bootstrap
+       * @default manual-ledger
        * @constant
        */
-      stage: "bootstrap";
+      stage: "manual-ledger";
     };
-    /** CustomerCandidate */
-    CustomerCandidate: {
+    /** MeResponse */
+    MeResponse: {
       /**
        * Id
        * Format: uuid
        */
       id: string;
-      /** Display Name */
-      display_name: string;
+      /** Businesses */
+      businesses: components["schemas"]["BusinessMembership"][];
     };
-    /**
-     * DraftResponse
-     * @example {
-     *       "id": "40000000-0000-4000-8000-000000000001",
-     *       "transcript": "Асқарға үш мың теңгеге тауар бердім, мыңын төледі",
-     *       "kind": "sale",
-     *       "customer_query": "Асқар",
-     *       "customer_candidates": [
-     *         {
-     *           "id": "20000000-0000-4000-8000-000000000001",
-     *           "display_name": "Демо Асқар"
-     *         }
-     *       ],
-     *       "sale_candidates": [],
-     *       "description": "Тауар",
-     *       "total_minor": 300000,
-     *       "received_minor": 100000,
-     *       "amount_minor": null,
-     *       "missing_fields": [],
-     *       "questions": [],
-     *       "expires_at": "2026-10-15T10:30:00Z"
-     *     }
-     */
-    DraftResponse: {
+    /** OpenSale */
+    OpenSale: {
       /**
        * Id
        * Format: uuid
        */
       id: string;
-      /** Transcript */
-      transcript: string;
-      /**
-       * Kind
-       * @enum {string}
-       */
-      kind: "sale" | "repayment" | "unknown";
-      /** Customer Query */
-      customer_query: string | null;
-      /** Customer Candidates */
-      customer_candidates: components["schemas"]["CustomerCandidate"][];
-      /** Sale Candidates */
-      sale_candidates: components["schemas"]["SaleCandidate"][];
+      /** Customer Id */
+      customer_id: string | null;
       /** Description */
-      description: string | null;
+      description: string;
       /** Total Minor */
-      total_minor: number | null;
+      total_minor: number;
       /** Received Minor */
-      received_minor: number | null;
-      /** Amount Minor */
-      amount_minor: number | null;
-      /** Missing Fields */
-      missing_fields: string[];
-      /** Questions */
-      questions: string[];
+      received_minor: number;
+      /** Balance Minor */
+      balance_minor: number;
       /**
-       * Expires At
+       * Created At
        * Format: date-time
        */
-      expires_at: string;
-    };
-    /** ErrorDetail */
-    ErrorDetail: {
-      /** Code */
-      code: string;
-      /** Message */
-      message: string;
-      /** Fields */
-      fields?: {
-        [key: string]: string[];
-      };
-    };
-    /**
-     * ErrorResponse
-     * @example {
-     *       "error": {
-     *         "code": "CUSTOMER_REQUIRED",
-     *         "message": "A credit sale requires a customer",
-     *         "fields": {
-     *           "customer_id": [
-     *             "CUSTOMER_REQUIRED"
-     *           ]
-     *         }
-     *       },
-     *       "request_id": "70000000-0000-4000-8000-000000000001"
-     *     }
-     */
-    ErrorResponse: {
-      error: components["schemas"]["ErrorDetail"];
-      /**
-       * Request Id
-       * Format: uuid
-       */
-      request_id: string;
-    };
-    /**
-     * InquiryCreate
-     * @example {
-     *       "client_request_id": "60000000-0000-4000-8000-000000000001",
-     *       "visitor_name": "Демо-покупатель",
-     *       "contact": "demo@example.test",
-     *       "message": "Есть ли школьный рюкзак до 15 000 тенге?"
-     *     }
-     */
-    InquiryCreate: {
-      /**
-       * Client Request Id
-       * Format: uuid
-       */
-      client_request_id: string;
-      /** Visitor Name */
-      visitor_name: string;
-      /** Contact */
-      contact: string;
-      /** Message */
-      message: string;
+      created_at: string;
     };
     /** Operation */
     Operation: {
@@ -228,27 +296,7 @@ export interface components {
        */
       created_by: string;
     };
-    /**
-     * OperationResponse
-     * @example {
-     *       "operation": {
-     *         "id": "30000000-0000-4000-8000-000000000001",
-     *         "business_id": "10000000-0000-4000-8000-000000000001",
-     *         "customer_id": "20000000-0000-4000-8000-000000000001",
-     *         "sale_id": "30000000-0000-4000-8000-000000000001",
-     *         "kind": "sale",
-     *         "sales_delta_minor": 300000,
-     *         "receipts_delta_minor": 100000,
-     *         "reversal_of": null,
-     *         "description": "Учебный товар",
-     *         "created_at": "2026-10-15T10:00:00Z",
-     *         "created_by": "50000000-0000-4000-8000-000000000001"
-     *       },
-     *       "sale_balance_minor": 200000,
-     *       "customer_balance_minor": 200000,
-     *       "created_at": "2026-10-15T10:00:00Z"
-     *     }
-     */
+    /** OperationResponse */
     OperationResponse: {
       operation: components["schemas"]["Operation"];
       /** Sale Balance Minor */
@@ -261,27 +309,36 @@ export interface components {
        */
       created_at: string;
     };
-    /**
-     * RepaymentCreate
-     * @example {
-     *       "kind": "repayment",
-     *       "draft_id": null,
-     *       "sale_id": "30000000-0000-4000-8000-000000000001",
-     *       "amount_minor": 50000,
-     *       "description": "Учебная частичная оплата"
-     *     }
-     */
+    /** Page[CustomerResponse] */
+    Page_CustomerResponse_: {
+      /** Items */
+      items: components["schemas"]["CustomerResponse"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
+    /** Page[OpenSale] */
+    Page_OpenSale_: {
+      /** Items */
+      items: components["schemas"]["OpenSale"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
+    /** Page[Operation] */
+    Page_Operation_: {
+      /** Items */
+      items: components["schemas"]["Operation"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
+    /** RepaymentCreate */
     RepaymentCreate: {
       /**
        * @description discriminator enum property added by openapi-typescript
        * @enum {string}
        */
       kind: "repayment";
-      /**
-       * Draft Id
-       * @default null
-       */
-      draft_id: string | null;
+      /** Draft Id */
+      draft_id?: string | null;
       /**
        * Sale Id
        * Format: uuid
@@ -292,51 +349,22 @@ export interface components {
       /** Description */
       description: string;
     };
-    /** SaleCandidate */
-    SaleCandidate: {
-      /**
-       * Id
-       * Format: uuid
-       */
-      id: string;
-      /** Customer Id */
-      customer_id: string | null;
+    /** ReverseCreate */
+    ReverseCreate: {
       /** Description */
       description: string;
-      /** Total Minor */
-      total_minor: number;
-      /** Received Minor */
-      received_minor: number;
-      /** Balance Minor */
-      balance_minor: number;
     };
-    /**
-     * SaleCreate
-     * @example {
-     *       "kind": "sale",
-     *       "draft_id": null,
-     *       "customer_id": "20000000-0000-4000-8000-000000000001",
-     *       "description": "Учебный товар",
-     *       "total_minor": 300000,
-     *       "received_minor": 100000
-     *     }
-     */
+    /** SaleCreate */
     SaleCreate: {
       /**
        * @description discriminator enum property added by openapi-typescript
        * @enum {string}
        */
       kind: "sale";
-      /**
-       * Draft Id
-       * @default null
-       */
-      draft_id: string | null;
-      /**
-       * Customer Id
-       * @default null
-       */
-      customer_id: string | null;
+      /** Draft Id */
+      draft_id?: string | null;
+      /** Customer Id */
+      customer_id?: string | null;
       /** Description */
       description: string;
       /** Total Minor */
@@ -344,18 +372,7 @@ export interface components {
       /** Received Minor */
       received_minor: number;
     };
-    /**
-     * SummaryResponse
-     * @example {
-     *       "date": "2026-10-15",
-     *       "timezone": "Asia/Almaty",
-     *       "currency": "KZT",
-     *       "sales_minor": 300000,
-     *       "receipts_minor": 150000,
-     *       "outstanding_minor": 150000,
-     *       "new_inquiries_count": 1
-     *     }
-     */
+    /** SummaryResponse */
     SummaryResponse: {
       /**
        * Date
@@ -383,9 +400,68 @@ export interface components {
       /** New Inquiries Count */
       new_inquiries_count: number;
     };
-    OperationCreate:
-      | components["schemas"]["SaleCreate"]
-      | components["schemas"]["RepaymentCreate"];
+    /** CustomerCandidate */
+    CustomerCandidate: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Display Name */
+      display_name: string;
+    };
+    /** DraftResponse */
+    DraftResponse: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Transcript */
+      transcript: string;
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: "sale" | "repayment" | "unknown";
+      /** Customer Query */
+      customer_query: string | null;
+      /** Customer Candidates */
+      customer_candidates: components["schemas"]["CustomerCandidate"][];
+      /** Sale Candidates */
+      sale_candidates: components["schemas"]["OpenSale"][];
+      /** Description */
+      description: string | null;
+      /** Total Minor */
+      total_minor: number | null;
+      /** Received Minor */
+      received_minor: number | null;
+      /** Amount Minor */
+      amount_minor: number | null;
+      /** Missing Fields */
+      missing_fields: string[];
+      /** Questions */
+      questions: string[];
+      /**
+       * Expires At
+       * Format: date-time
+       */
+      expires_at: string;
+    };
+    /** InquiryCreate */
+    InquiryCreate: {
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /** Visitor Name */
+      visitor_name: string;
+      /** Contact */
+      contact: string;
+      /** Message */
+      message: string;
+    };
   };
   responses: never;
   parameters: never;
@@ -413,6 +489,51 @@ export interface operations {
           "application/json": components["schemas"]["HealthResponse"];
         };
       };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
     };
   };
   health_health_get: {
@@ -431,6 +552,551 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["HealthResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  me_api_v1_me_get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MeResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_customers_api_v1_businesses__id__customers_get: {
+    parameters: {
+      query?: {
+        q?: string;
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_CustomerResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  create_customer_api_v1_businesses__id__customers_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["CustomerCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["CustomerResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_operations_api_v1_businesses__id__operations_get: {
+    parameters: {
+      query?: {
+        date?: string | null;
+        customer_id?: string | null;
+        outstanding_only?: boolean;
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json":
+            | components["schemas"]["Page_Operation_"]
+            | components["schemas"]["Page_OpenSale_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  create_operation_api_v1_businesses__id__operations_post: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json":
+          | components["schemas"]["SaleCreate"]
+          | components["schemas"]["RepaymentCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["OperationResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  reverse_operation_api_v1_businesses__id__operations__operation_id__reverse_post: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path: {
+        id: string;
+        operation_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ReverseCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["OperationResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_summary_api_v1_businesses__id__summary_get: {
+    parameters: {
+      query?: {
+        date?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["SummaryResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
         };
       };
     };

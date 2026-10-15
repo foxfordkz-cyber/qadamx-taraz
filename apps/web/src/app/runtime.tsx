@@ -40,8 +40,10 @@ export function RuntimeProvider({
   const gateway = useMemo(
     () =>
       override ??
-      (auth.demo ? demoGateway : createLiveGateway(api, backendBindings)),
-    [override, auth.demo, api],
+      (auth.demo
+        ? demoGateway
+        : createLiveGateway(api, backendBindings, auth.session?.user.id)),
+    [override, auth.demo, auth.session?.user.id, api],
   );
   const drafts = useRef(new Map<string, unknown>()).current;
   return (

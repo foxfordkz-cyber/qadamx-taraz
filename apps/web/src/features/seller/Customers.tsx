@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useBusiness, useDraft, useRuntime } from "../../app/runtime";
 import type { Customer, CustomerInput } from "../../shared/api/models";
 import { LanguageSwitch, useI18n } from "../../shared/i18n";
+import { formatKZT } from "../../shared/format";
 import {
   Alert,
   Badge,
@@ -28,6 +29,7 @@ export function CreateCustomerForm({
   const { t } = useI18n();
   const { business } = useBusiness();
   const { gateway } = useRuntime();
+  const canCreate = gateway.canCreateCustomer ?? gateway.canWrite;
   const [input, setInput] = useDraft<CustomerInput>(
     `${business.id}:customer-form`,
     { display_name: "", note: "", contact: "" },
@@ -43,7 +45,7 @@ export function CreateCustomerForm({
           setInvalid(true);
           return;
         }
-        if (!gateway.canWrite || create.isPending) return;
+        if (!canCreate || create.isPending) return;
         create.mutate(
           { ...input, display_name: input.display_name.trim() },
           {
@@ -60,6 +62,7 @@ export function CreateCustomerForm({
           autoFocus
           label={t("name")}
           autoComplete="name"
+          maxLength={200}
           value={input.display_name}
           error={
             invalid && !input.display_name.trim()
@@ -73,6 +76,7 @@ export function CreateCustomerForm({
           <textarea
             id={noteId}
             rows={3}
+            maxLength={2000}
             value={input.note}
             onChange={(e) => setInput({ ...input, note: e.target.value })}
             aria-labelledby={`${noteId}-label`}
@@ -83,10 +87,11 @@ export function CreateCustomerForm({
         <Input
           label={t("contact")}
           autoComplete="off"
+          maxLength={200}
           value={input.contact}
           onChange={(e) => setInput({ ...input, contact: e.target.value })}
         />
-        {!gateway.canWrite && (
+        {!canCreate && (
           <Alert>
             {t(gateway.mode === "demo" ? "demoWrites" : "contractPending")}
           </Alert>
@@ -100,10 +105,7 @@ export function CreateCustomerForm({
           <Alert tone="success">{t("customerCreated")}</Alert>
         )}
         <div className="actions">
-          <Button
-            type="submit"
-            disabled={!gateway.canWrite || create.isPending}
-          >
+          <Button type="submit" disabled={!canCreate || create.isPending}>
             {t(create.isPending ? "saving" : "create")}
           </Button>
           {onCancel && (
@@ -123,7 +125,7 @@ export function CustomerPicker({
   value: Customer | null;
   onChange: (customer: Customer) => void;
 }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { business } = useBusiness();
   const [search, setSearch] = useState("");
   const [creating, setCreating] = useState(false);
@@ -168,6 +170,12 @@ export function CustomerPicker({
                 <span>
                   {customer.display_name}
                   <small>{customer.note || t("noNote")}</small>
+                  {customer.balance_minor !== undefined && (
+                    <small>
+                      {t("outstanding")}:{" "}
+                      {formatKZT(customer.balance_minor, locale)}
+                    </small>
+                  )}
                   <small className="customer-id">ID: {customer.id}</small>
                 </span>
                 {value?.id === customer.id && (
@@ -203,7 +211,7 @@ export function CustomerPicker({
   );
 }
 export function CustomersPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { business } = useBusiness();
   const [search, setSearch] = useDraft(`${business.id}:customer-search`, "");
   const [creating, setCreating] = useState(false);
@@ -268,6 +276,12 @@ export function CustomersPage() {
                 {customer.contact || t("contactAbsent")}
               </p>
               <small className="customer-id">ID: {customer.id}</small>
+              {customer.balance_minor !== undefined && (
+                <p className="customer-balance">
+                  {t("outstanding")}:{" "}
+                  <strong>{formatKZT(customer.balance_minor, locale)}</strong>
+                </p>
+              )}
               <Link
                 className="text-link"
                 to={`/seller/debts?customer_id=${encodeURIComponent(customer.id)}`}

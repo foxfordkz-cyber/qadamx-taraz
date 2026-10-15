@@ -1,3 +1,5 @@
+import { ApiError } from "./client";
+import type { components } from "./generated";
 import type {
   CatalogItem,
   Customer,
@@ -6,17 +8,114 @@ import type {
   Page,
   SellerIdentity,
 } from "./models";
-
-/** The repository has a proposed contract, but no /me example, customer POST body,
- * catalog response envelope or OpenAPI. Leave these unbound rather than guess.
- * Fill from captain-approved generated schemas and validated real examples.
- */
 export interface BackendBindings {
   me: (raw: unknown) => SellerIdentity;
   inquiries: (raw: unknown) => Page<Inquiry>;
   customers: (raw: unknown) => Page<Customer>;
-  customerBody: (input: CustomerInput) => unknown;
+  customerBody: (
+    input: CustomerInput,
+  ) => components["schemas"]["CustomerCreate"];
   customer: (raw: unknown) => Customer;
   catalog: (raw: unknown) => Page<CatalogItem>;
 }
-export const backendBindings: Partial<BackendBindings> = {};
+const invalid = (): never => {
+  throw new ApiError(0, "INVALID_RESPONSE");
+};
+function object(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== "object" || Array.isArray(value))
+    return invalid();
+  return value as Record<string, unknown>;
+}
+function text(value: unknown, min = 0, max = Infinity): string {
+  if (typeof value !== "string" || value.length < min || value.length > max)
+    return invalid();
+  return value;
+}
+export function readUuid(value: unknown): string {
+  const result = text(value);
+  if (
+    !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+      result,
+    )
+  )
+    return invalid();
+  return result;
+}
+export function readMe(raw: unknown): SellerIdentity {
+  const data = object(raw);
+  if (!Array.isArray(data.businesses)) return invalid();
+  const response: components["schemas"]["MeResponse"] = {
+    id: readUuid(data.id),
+    businesses: data.businesses.map((rawBusiness) => {
+      const business = object(rawBusiness);
+      if (business.role !== undefined && business.role !== "owner")
+        return invalid();
+      return {
+        id: readUuid(business.id),
+        slug: text(business.slug, 1),
+        name: text(business.name, 1),
+        role: "owner",
+      };
+    }),
+  };
+  if (
+    new Set(response.businesses.map((item) => item.id)).size !==
+    response.businesses.length
+  )
+    return invalid();
+  return response;
+}
+export function readCustomer(raw: unknown): Customer {
+  const data = object(raw);
+  if (
+    !Number.isSafeInteger(data.balance_minor) ||
+    (data.balance_minor as number) < 0
+  )
+    return invalid();
+  const response: components["schemas"]["CustomerResponse"] = {
+    id: readUuid(data.id),
+    business_id: readUuid(data.business_id),
+    display_name: text(data.display_name, 1, 200),
+    note: data.note === undefined ? "" : text(data.note, 0, 2000),
+    contact: data.contact == null ? null : text(data.contact, 0, 200),
+    balance_minor: data.balance_minor as number,
+  };
+  return {
+    ...response,
+    note: response.note ?? "",
+    contact: response.contact ?? null,
+  };
+}
+export function readCustomers(raw: unknown): Page<Customer> {
+  const data = object(raw);
+  if (!Array.isArray(data.items)) return invalid();
+  const items = data.items.map(readCustomer);
+  if (new Set(items.map((item) => item.id)).size !== items.length)
+    return invalid();
+  return {
+    items,
+    next_cursor: data.next_cursor == null ? null : readUuid(data.next_cursor),
+  };
+}
+export function customerBody(
+  input: CustomerInput,
+): components["schemas"]["CustomerCreate"] {
+  const display_name = input.display_name.trim();
+  const note = input.note.trim();
+  const contact = input.contact.trim() || null;
+  if (
+    !display_name ||
+    display_name.length > 200 ||
+    note.length > 2000 ||
+    (contact?.length ?? 0) > 200
+  )
+    throw new ApiError(422, "VALIDATION_ERROR");
+  return { display_name, note, contact };
+}
+/** Bind only endpoints present in approved 193f6e5. Inquiries/catalog remain unavailable. */
+export const backendBindings: Partial<BackendBindings> = {
+  me: readMe,
+  customers: readCustomers,
+  customer: readCustomer,
+  customerBody,
+};

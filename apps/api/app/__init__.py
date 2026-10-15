@@ -1,1 +1,1 @@
-"""Qadam Business backend."""
+"""Qadam Business API."""

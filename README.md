@@ -37,17 +37,21 @@ npm ci
 npm run dev
 ```
 
-Откройте адрес Vite, затем `/login` → «Посмотреть демо». Demo Mode использует только учебные данные, запись отключена. Живые backend/Supabase пока не подключены. Шаблон публичной конфигурации — `apps/web/.env.example`; реальные значения хранить только в игнорируемом `.env.local`.
+Откройте адрес Vite, затем `/login` для Supabase-входа или «Посмотреть демо» для учебного просмотра без записи. Live bindings `/me` и GET/POST customers подключены к OpenAPI одобренного 193f6e5; для живой работы нужен настроенный и запущенный backend/PostgreSQL. Публичная конфигурация хранится только в игнорируемом `.env.local`, шаблон — `apps/web/.env.example`.
 
 Проверки из `apps/web`: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`. Браузер: `npx playwright install chromium`, затем `npm run test:e2e`. Production preview: `npm run preview`. Хостинг должен перенаправлять SPA-маршруты на `index.html`.
 
-Типы принятого OpenAPI: `npm run generate:api`, проверка актуальности — `npm run check:api`. Пока в принятом bootstrap работают только health-маршруты. План будущего подключения `/me` и клиентов, без merge ветки капитана: [SELLER_BACKEND_INTEGRATION_PLAN](docs/SELLER_BACKEND_INTEGRATION_PLAN.md).
+Типы принятого OpenAPI: `npm run generate:api`, проверка актуальности — `npm run check:api`. Состояние интеграции и ограничения: [SELLER_BACKEND_INTEGRATION_PLAN](docs/SELLER_BACKEND_INTEGRATION_PLAN.md). HTTP API заявок и публичного каталога пока нет.
 
 Продолжение с другого аккаунта: [handoff](docs/SELLER_FRONTEND_HANDOFF.md). Подключение общих компонентов и страниц участников 2/4: [integration guide](docs/SELLER_FRONTEND_INTEGRATION.md). Изменения не слиты в main и не опубликованы как сайт.
 
-## Backend: опубликованный bootstrap
+## Первый backend-этап (история)
 
 Из `main` принят первый локальный этап API: health, OpenAPI, схемы и учебный seed. Запуск из `apps/api`: `uv sync --locked`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`. Подробные команды миграций, seed и проверок — в [README API](apps/api/README.md), схемы — в [packages/contracts](packages/contracts/README.md). В этом принятом этапе авторизация, прикладные API, AI и денежные методы ещё не реализованы. Публикация не выполнена.
+
+## Одобренный backend 193f6e5
+
+Из `backend/ledger-auth` принят ручной учёт: клиенты, продажи, погашения, история, отмены и итог дня с PostgreSQL и Supabase JWT. Запуск из `apps/api`: `uv sync --locked`, затем с серверным `.env` — `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`. Миграции, seed и привязку владельцев выполнять только на согласованной базе по [README API](apps/api/README.md). Схемы — в [packages/contracts](packages/contracts/README.md). AI и публичные методы ещё не реализованы, API не опубликован.
 
 Плановая структура кода: `apps/api` — FastAPI, `apps/web` — единое React-приложение, `packages/contracts` — общие схемы. Эти директории создают владельцы соответствующих частей. Техническое задание находится в обычных файлах `docs/team5`, доступных после клонирования без распаковки архивов.
 

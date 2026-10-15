@@ -2,8 +2,8 @@
   "SaleCreate": {
     "kind": "sale",
     "draft_id": null,
-    "customer_id": "20000000-0000-4000-8000-000000000001",
-    "description": "Учебный товар",
+    "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+    "description": "Учебная продажа",
     "total_minor": 300000,
     "received_minor": 100000
   },
@@ -12,44 +12,42 @@
     "draft_id": null,
     "sale_id": "30000000-0000-4000-8000-000000000001",
     "amount_minor": 50000,
-    "description": "Учебная частичная оплата"
-  },
-  "DraftResponse": {
-    "id": "40000000-0000-4000-8000-000000000001",
-    "transcript": "Асқарға үш мың теңгеге тауар бердім, мыңын төледі",
-    "kind": "sale",
-    "customer_query": "Асқар",
-    "customer_candidates": [
-      {
-        "id": "20000000-0000-4000-8000-000000000001",
-        "display_name": "Демо Асқар"
-      }
-    ],
-    "sale_candidates": [],
-    "description": "Тауар",
-    "total_minor": 300000,
-    "received_minor": 100000,
-    "amount_minor": null,
-    "missing_fields": [],
-    "questions": [],
-    "expires_at": "2026-10-15T10:30:00Z"
+    "description": "Доплата"
   },
   "OperationResponse": {
     "operation": {
       "id": "30000000-0000-4000-8000-000000000001",
-      "business_id": "10000000-0000-4000-8000-000000000001",
-      "customer_id": "20000000-0000-4000-8000-000000000001",
+      "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+      "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
       "sale_id": "30000000-0000-4000-8000-000000000001",
       "kind": "sale",
       "sales_delta_minor": 300000,
       "receipts_delta_minor": 100000,
       "reversal_of": null,
-      "description": "Учебный товар",
+      "description": "Учебная продажа",
       "created_at": "2026-10-15T10:00:00Z",
       "created_by": "50000000-0000-4000-8000-000000000001"
     },
     "sale_balance_minor": 200000,
     "customer_balance_minor": 200000,
+    "created_at": "2026-10-15T10:00:00Z"
+  },
+  "RepaymentOperationResponse": {
+    "operation": {
+      "id": "30000000-0000-4000-8000-000000000002",
+      "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+      "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+      "sale_id": "30000000-0000-4000-8000-000000000001",
+      "kind": "repayment",
+      "sales_delta_minor": 0,
+      "receipts_delta_minor": 50000,
+      "reversal_of": null,
+      "description": "Доплата",
+      "created_at": "2026-10-15T10:00:00Z",
+      "created_by": "50000000-0000-4000-8000-000000000001"
+    },
+    "sale_balance_minor": 150000,
+    "customer_balance_minor": 150000,
     "created_at": "2026-10-15T10:00:00Z"
   },
   "SummaryResponse": {
@@ -59,24 +57,75 @@
     "sales_minor": 300000,
     "receipts_minor": 150000,
     "outstanding_minor": 150000,
-    "new_inquiries_count": 1
+    "new_inquiries_count": 0
   },
-  "InquiryCreate": {
-    "client_request_id": "60000000-0000-4000-8000-000000000001",
-    "visitor_name": "Демо-покупатель",
-    "contact": "demo@example.test",
-    "message": "Есть ли школьный рюкзак до 15 000 тенге?"
+  "CustomerCreate": {
+    "display_name": "Демо Асқар",
+    "note": "Вымышленный покупатель",
+    "contact": null
+  },
+  "CustomerResponse": {
+    "id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "display_name": "Демо Асқар",
+    "note": "Вымышленный покупатель",
+    "contact": null,
+    "balance_minor": 150000
+  },
+  "OpenSale": {
+    "id": "30000000-0000-4000-8000-000000000001",
+    "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+    "description": "Учебная продажа",
+    "total_minor": 300000,
+    "received_minor": 150000,
+    "balance_minor": 150000,
+    "created_at": "2026-10-15T10:00:00Z"
   },
   "ErrorResponse": {
     "error": {
-      "code": "CUSTOMER_REQUIRED",
-      "message": "A credit sale requires a customer",
-      "fields": {
-        "customer_id": [
-          "CUSTOMER_REQUIRED"
-        ]
-      }
+      "code": "BALANCE_CHANGED",
+      "message": "Payment exceeds current balance",
+      "fields": {}
     },
     "request_id": "70000000-0000-4000-8000-000000000001"
+  },
+  "MeResponse": {
+    "id": "50000000-0000-4000-8000-000000000001",
+    "businesses": [
+      {
+        "id": "ad6203bc-7320-5b36-982b-135504c5af68",
+        "slug": "mart-demo-clothes",
+        "name": "Демо MART clothes",
+        "role": "owner"
+      }
+    ]
+  },
+  "ReverseCreate": {
+    "description": "Исправление ошибочной записи"
+  },
+  "DraftResponse": {
+    "id": "40000000-0000-4000-8000-000000000001",
+    "transcript": "Учебный пример",
+    "kind": "unknown",
+    "customer_query": null,
+    "customer_candidates": [],
+    "sale_candidates": [],
+    "description": null,
+    "total_minor": null,
+    "received_minor": null,
+    "amount_minor": null,
+    "missing_fields": [
+      "kind"
+    ],
+    "questions": [
+      "Что записать?"
+    ],
+    "expires_at": "2026-10-15T10:30:00Z"
+  },
+  "InquiryCreate": {
+    "client_request_id": "60000000-0000-4000-8000-000000000001",
+    "visitor_name": "Демо",
+    "contact": "demo@example.test",
+    "message": "Учебная заявка"
   }
 }
