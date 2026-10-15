@@ -13,3 +13,5 @@
 Проверено: build/typecheck/lint; 36 unit/component tests; 5 Chromium E2E; ширины 360/768/1440, диалог/фокус, demo traffic/logout. Скриншоты в docs/screenshots. Живая авторизация, БД и финансовые сценарии не проверены.
 
 Следующий шаг: получить OpenAPI/URL/CORS и публичную конфигурацию Supabase, заполнить response bindings по реальным ответам, затем интегрировать переданные модули. Backend и чужие модули не менялись. Работать только в feature-ветке, не force push, не merge в main.
+
+Продолжение 2026-10-15: feature-ветка синхронизирована; поиск клиентов получил debounce/очистку, заявки — локальный фильтр с учётом загруженных страниц. Typecheck/lint/build, 41 unit/component и 6 Chromium E2E прошли. В main найден backend bootstrap/OpenAPI; согласована интеграция ced32e7 в нашу ветку, следующие шаги и два конфликта документов перечислены в полном handoff. PR #3 остаётся Draft; готовых модулей 2/4 нет.

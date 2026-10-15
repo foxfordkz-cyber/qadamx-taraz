@@ -138,7 +138,14 @@ export function CustomerPicker({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      {customers.isPending ? (
+      {search && (
+        <Button variant="ghost" onClick={() => setSearch("")}>
+          {t("clearSearch")}
+        </Button>
+      )}
+      {customers.isSearchPending ? (
+        <p role="status">{t("searching")}</p>
+      ) : customers.isPending ? (
         <Spinner />
       ) : customers.isError ? (
         <ErrorState
@@ -223,11 +230,18 @@ export function CustomersPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
+        {search && (
+          <Button variant="ghost" onClick={() => setSearch("")}>
+            {t("clearSearch")}
+          </Button>
+        )}
         <Button variant="secondary" onClick={() => setPickerOpen(true)}>
           {t("chooseCustomer")}
         </Button>
       </div>
-      {customers.isPending ? (
+      {customers.isSearchPending ? (
+        <p role="status">{t("searching")}</p>
+      ) : customers.isPending ? (
         <Spinner />
       ) : customers.isError ? (
         <ErrorState
@@ -262,7 +276,7 @@ export function CustomersPage() {
           ))}
         </div>
       )}
-      {customers.hasNextPage && (
+      {!customers.isSearchPending && customers.hasNextPage && (
         <Button
           variant="secondary"
           disabled={customers.isFetchingNextPage}

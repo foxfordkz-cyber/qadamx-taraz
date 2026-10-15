@@ -1,4 +1,13 @@
 export const ru = {
+  inquiryFilter: "Показать заявки",
+  allInquiries: "Все заявки",
+  clearFilter: "Сбросить фильтр",
+  noMatchingInquiries: "Нет заявок с таким статусом",
+  loadedInquiriesHint:
+    "Фильтр применяется к загруженным заявкам. Нажмите «Показать ещё», чтобы проверить следующие.",
+  shown: "Показано",
+  clearSearch: "Очистить поиск",
+  searching: "Ищем клиентов…",
   app: "Qadam Business",
   cabinet: "Кабинет продавца",
   home: "Главная",

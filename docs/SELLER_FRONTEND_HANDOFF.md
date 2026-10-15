@@ -132,3 +132,13 @@ Node 22.12+ либо 24, npm. `.env.local` НЕ нужен для demo. Для �
 ## J. Демо / публикация
 
 Публичного URL нет. Локальный demo — /login → «Посмотреть демо». Скриншоты приложены в docs/screenshots. Не выдавать их за опубликованный работающий backend.
+
+## Продолжение: Git sync и удобство интерфейса — 2026-10-15
+
+Исходный HEAD `e1839ded4a0fb176f65da916700a8b1beb8b4c95`. Начальные fetch и pull --ff-only feature/seller-dashboard успешны, дерево было чистое. В origin/main найден backend PR #2 (`ced32e7`): FastAPI health и OpenAPI компонентов, без прикладных методов/auth. Веток/модулей участников 2/4 нет. PR #3 открыт, Draft, review/comments/CI runs отсутствуют; merge preview выявил только README.md и docs/DECISIONS.md. Пользователь согласовал merge ced32e7 в feature-ветку с сохранением обеих частей документов; интеграция выполняется следующим этапом, не в main.
+
+Завершён этап UI: локальная фильтрация заявок по статусу, явное ограничение загруженными страницами при pagination и сброс фильтра; выбор сохраняется по точке/identity и при смене языка. Поиск клиентов общий для списка и CustomerPicker: debounce 250 ms, trim/NFC, отмена таймера, отдельное состояние ожидания без выбора устаревших результатов, очистка поиска. Никаких новых query-параметров API или demo-writes.
+
+Файлы: features/seller/{Inquiries,Customers,queries}, shared/useDebouncedValue, словари ru/kk, styles, test/debounce.test, test/screens.test, e2e/seller.spec. Проверки: typecheck/lint/build успешно; 41 unit/component tests и 6 Chromium E2E успешно, ширины 360/768/1440. Это не проверки живого backend.
+
+Ветка feature/seller-dashboard. Последний опубликованный hash перед этим этапом: e1839de; новый hash — git log -1 --format=%H. После commit выполняются fetch, pull --ff-only этой же ветки и push; фактический результат фиксируется следующим этапом. Далее: согласованный merge main, генерация TS из предоставленного OpenAPI, стандартные ошибки и повтор проверок. Backend/Supabase URL и реальные accounts по-прежнему отсутствуют.

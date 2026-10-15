@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useBusiness, useRuntime } from "../../app/runtime";
+import { useBusiness, useDraft, useRuntime } from "../../app/runtime";
 import type { Inquiry, InquiryStatus } from "../../shared/api/models";
 import { formatDate } from "../../shared/format";
 import { useI18n } from "../../shared/i18n";
@@ -84,12 +84,19 @@ export function InquiriesPage() {
   const { business } = useBusiness();
   const { gateway } = useRuntime();
   const query = useInquiries();
+  const [filter, setFilter] = useDraft<"all" | InquiryStatus>(
+    `${business.id}:inquiry-filter`,
+    "all",
+  );
   const items =
     query.data?.pages
       .flatMap((page) => page.items)
       .filter((i) => i.business_id === business.id)
       .sort((a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)) ??
     [];
+  const visible = items.filter(
+    (item) => filter === "all" || item.status === filter,
+  );
   return (
     <>
       <PageHeader
@@ -110,6 +117,35 @@ export function InquiriesPage() {
           {t(gateway.mode === "demo" ? "demoWrites" : "contractPending")}
         </Alert>
       )}
+      <div className="toolbar inquiry-filters">
+        <Select
+          label={t("inquiryFilter")}
+          value={filter}
+          onChange={(event) =>
+            setFilter(event.target.value as "all" | InquiryStatus)
+          }
+        >
+          <option value="all">{t("allInquiries")}</option>
+          {(["new", "in_progress", "closed"] as const).map((status) => (
+            <option key={status} value={status}>
+              {t(status)}
+            </option>
+          ))}
+        </Select>
+        {filter !== "all" && (
+          <Button variant="ghost" onClick={() => setFilter("all")}>
+            {t("clearFilter")}
+          </Button>
+        )}
+        {!query.isPending && !query.isError && (
+          <p className="muted result-count" role="status">
+            {t("shown")}: {visible.length}
+          </p>
+        )}
+      </div>
+      {query.hasNextPage && (
+        <p className="muted filter-hint">{t("loadedInquiriesHint")}</p>
+      )}
       {query.isPending ? (
         <Spinner />
       ) : query.isError ? (
@@ -119,9 +155,18 @@ export function InquiriesPage() {
           title={t("inquiriesEmpty")}
           description={t("inquiriesEmptyHint")}
         />
+      ) : !visible.length ? (
+        <EmptyState
+          title={t("noMatchingInquiries")}
+          action={
+            <Button variant="secondary" onClick={() => setFilter("all")}>
+              {t("clearFilter")}
+            </Button>
+          }
+        />
       ) : (
         <div className="inquiry-list">
-          {items.map((item) => (
+          {visible.map((item) => (
             <InquiryCard key={`${item.id}:${item.status}`} inquiry={item} />
           ))}
         </div>

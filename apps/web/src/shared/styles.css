@@ -606,6 +606,21 @@ input[aria-invalid="true"] {
 .toolbar .field {
   flex: 1;
 }
+.inquiry-filters {
+  align-items: center;
+  flex-wrap: wrap;
+}
+.inquiry-filters .field {
+  flex: initial;
+  width: min(100%, 260px);
+}
+.result-count {
+  margin: 0;
+  font-size: 14px;
+}
+.filter-hint {
+  font-size: 13px;
+}
 .avatar {
   display: flex;
   align-items: center;

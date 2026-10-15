@@ -1,5 +1,14 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  inquiryFilter: "Өтінімдерді көрсету",
+  allInquiries: "Барлық өтінімдер",
+  clearFilter: "Сүзгіні тазалау",
+  noMatchingInquiries: "Мұндай күйдегі өтінімдер жоқ",
+  loadedInquiriesHint:
+    "Сүзгі жүктелген өтінімдерге қолданылады. Келесі өтінімдерді тексеру үшін «Тағы көрсету» түймесін басыңыз.",
+  shown: "Көрсетілді",
+  clearSearch: "Іздеуді тазалау",
+  searching: "Клиенттер ізделуде…",
   app: "Qadam Business",
   cabinet: "Сатушы кабинеті",
   home: "Басты бет",

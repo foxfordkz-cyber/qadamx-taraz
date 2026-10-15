@@ -32,6 +32,76 @@ async function goTo(name: string) {
   await userEvent.click(screen.getAllByRole("link", { name })[0]);
 }
 describe("seller UI using explicitly injected test/demo gateways", () => {
+  it("filters inquiries locally and preserves the selected status across languages", async () => {
+    const inquiries = vi.fn(demoGateway.inquiries);
+    await openDemo({ ...demoGateway, inquiries });
+    await goTo("Заявки");
+    await screen.findByRole("heading", { name: "Әсел · Демо" });
+    await userEvent.selectOptions(
+      screen.getByLabelText("Показать заявки"),
+      "in_progress",
+    );
+    expect(
+      screen.queryByRole("heading", { name: "Әсел · Демо" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Демо-покупатель" }),
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "KZ" }));
+    expect(screen.getByLabelText("Өтінімдерді көрсету")).toHaveValue(
+      "in_progress",
+    );
+    expect(inquiries).toHaveBeenCalledTimes(1);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Сүзгіні тазалау" }),
+    );
+    expect(screen.getByLabelText("Өтінімдерді көрсету")).toHaveValue("all");
+  });
+  it("does not claim no results in unrequested inquiry pages", async () => {
+    const inquiries: SellerGateway["inquiries"] = async (business, cursor) => {
+      const data = await demoGateway.inquiries(business, null);
+      return cursor
+        ? { items: [data.items[2]], next_cursor: null }
+        : { items: [data.items[0]], next_cursor: "test-next" };
+    };
+    await openDemo({ ...demoGateway, inquiries });
+    await goTo("Заявки");
+    await screen.findByRole("heading", { name: "Әсел · Демо" });
+    await userEvent.selectOptions(
+      screen.getByLabelText("Показать заявки"),
+      "closed",
+    );
+    expect(
+      screen.getByText(/Фильтр применяется к загруженным заявкам/),
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Показать ещё" }));
+    expect(
+      await screen.findByRole("heading", { name: "Демо-покупатель 02" }),
+    ).toBeInTheDocument();
+  });
+  it("waits for the settled customer search and hides stale results", async () => {
+    const customers = vi.fn(demoGateway.customers);
+    await openDemo({ ...demoGateway, customers });
+    await goTo("Клиенты");
+    await screen.findAllByRole("heading", { name: "Асқар" });
+    const search = screen.getByLabelText("Поиск по имени");
+    await userEvent.click(search);
+    await userEvent.paste("  Әсел  ");
+    expect(screen.getByText("Ищем клиентов…")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Асқар" }),
+    ).not.toBeInTheDocument();
+    expect(
+      await screen.findByRole("heading", { name: "Әсел" }),
+    ).toBeInTheDocument();
+    expect(customers.mock.calls.map((call) => call[1])).toEqual(["", "Әсел"]);
+    await userEvent.click(
+      screen.getByRole("button", { name: "Очистить поиск" }),
+    );
+    expect(
+      await screen.findAllByRole("heading", { name: "Асқар" }),
+    ).toHaveLength(2);
+  });
   it("retains form fields when changing language and disables demo saves", async () => {
     await openDemo();
     await goTo("Клиенты");

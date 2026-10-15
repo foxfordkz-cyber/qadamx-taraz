@@ -7,6 +7,7 @@ import {
 import { useBusiness, useRuntime } from "../../app/runtime";
 import { ApiError } from "../../shared/api/client";
 import type { CustomerInput, InquiryStatus } from "../../shared/api/models";
+import { useDebouncedValue } from "../../shared/useDebouncedValue";
 
 export function useInquiries() {
   const { gateway, scope } = useRuntime();
@@ -38,13 +39,16 @@ export function useInquiryStatus() {
 export function useCustomers(search: string) {
   const { gateway, scope } = useRuntime();
   const { business } = useBusiness();
-  return useInfiniteQuery({
-    queryKey: [scope, business.id, "customers", search],
+  const normalized = search.trim().normalize("NFC");
+  const settled = useDebouncedValue(normalized);
+  const query = useInfiniteQuery({
+    queryKey: [scope, business.id, "customers", settled],
     initialPageParam: null as string | null,
     queryFn: ({ signal, pageParam }) =>
-      gateway.customers(business, search, pageParam, signal),
+      gateway.customers(business, settled, pageParam, signal),
     getNextPageParam: (last) => last.next_cursor ?? undefined,
   });
+  return { ...query, isSearchPending: normalized !== settled };
 }
 export function useCreateCustomer() {
   const { gateway, scope } = useRuntime();

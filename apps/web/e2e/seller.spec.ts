@@ -118,3 +118,42 @@ test("catalog and duplicate customers, language persistence and real reload prot
   await expect(page).toHaveURL(/\/login/);
   await expect(page.locator("html")).toHaveAttribute("lang", "kk");
 });
+
+test("mobile inquiry filter and customer search work in RU and KZ", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 900 });
+  await page.goto("/login");
+  await page.getByRole("button", { name: /Посмотреть демо/ }).click();
+  await page.locator('a[href="/seller/inquiries"]:visible').first().click();
+  await page
+    .getByLabel("Показать заявки", { exact: true })
+    .selectOption("closed");
+  await expect(page.locator(".inquiry-card")).toHaveCount(1);
+  await expect(
+    page.getByRole("heading", { name: "Демо-покупатель 02" }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "KZ", exact: true }).click();
+  await expect(
+    page.getByLabel("Өтінімдерді көрсету", { exact: true }),
+  ).toHaveValue("closed");
+  await page.locator('a[href="/seller/customers"]:visible').first().click();
+  await page.getByLabel("Есімі бойынша іздеу", { exact: true }).fill("Әсел");
+  await expect(
+    page.getByRole("heading", { name: "Әсел", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Асқар", exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Іздеуді тазалау", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Асқар", exact: true }),
+  ).toHaveCount(2);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
