@@ -1,37 +1,37 @@
-"""Insert-only demo seed. Never deletes data or creates Supabase login accounts."""
+"""Insert-only demo data; real memberships require verified Supabase user tokens."""
 
 import argparse
 from uuid import UUID, uuid5
 
-from sqlalchemy import create_engine
+from sqlalchemy import delete
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.orm import Session
 
+from app.auth import TokenVerifier
 from app.config import Settings
+from app.db import make_engine
 from app.models import Business, CatalogItem, Customer, Membership, Venue
 
 NAMESPACE = UUID("82e5e51d-b06a-4b98-ab83-e1f051b97dd7")
 
 
-def demo_id(label: str) -> UUID:
+def demo_id(label):
     return uuid5(NAMESPACE, label)
 
 
-OWNER_A = demo_id("owner-a")
-OWNER_B = demo_id("owner-b")
+SYNTHETIC_OWNERS = {demo_id("owner-a"), demo_id("owner-b")}
 
 
 def demo_rows():
-    venues, businesses, memberships, catalog, customers = [], [], [], [], []
+    data = {Venue: [], Business: [], CatalogItem: [], Customer: []}
     for slug, name in (
         ("mart", "MART"),
         ("kaikarmet", "Кайкармет"),
         ("auyl-bereke", "Ауыл Береке"),
     ):
-        venue_id = demo_id(slug)
-        venues.append(
+        data[Venue].append(
             dict(
-                id=venue_id,
+                id=demo_id(slug),
                 slug=slug,
                 name=name,
                 address_label="Тараз — учебная площадка, адрес не подтверждён",
@@ -39,28 +39,21 @@ def demo_rows():
                 is_demo=True,
             )
         )
-        for number, category in enumerate(("clothes", "food", "home"), start=1):
+        for category in ("clothes", "food", "home"):
             business_slug = f"{slug}-demo-{category}"
             business_id = demo_id(business_slug)
-            businesses.append(
+            data[Business].append(
                 dict(
                     id=business_id,
-                    venue_id=venue_id,
+                    venue_id=demo_id(slug),
                     slug=business_slug,
-                    name=f"Демо {name} {number}",
+                    name=f"Демо {name} {category}",
                     category=category,
-                    description="Учебная точка. Не является партнёром площадки.",
+                    description="Учебная точка, не подтверждённый партнёр площадки.",
                     is_demo=True,
                 )
             )
-            memberships.append(
-                dict(
-                    user_id=OWNER_A if number != 3 else OWNER_B,
-                    business_id=business_id,
-                    role="owner",
-                )
-            )
-            catalog.append(
+            data[CatalogItem].append(
                 dict(
                     id=demo_id(business_slug + "-item"),
                     business_id=business_id,
@@ -70,7 +63,7 @@ def demo_rows():
                     is_demo=True,
                 )
             )
-            customers.append(
+            data[Customer].append(
                 dict(
                     id=demo_id(business_slug + "-customer"),
                     business_id=business_id,
@@ -79,35 +72,70 @@ def demo_rows():
                     contact=None,
                 )
             )
-    return {
-        Venue: venues,
-        Business: businesses,
-        Membership: memberships,
-        CatalogItem: catalog,
-        Customer: customers,
-    }
+    return data
 
 
-def seed(session: Session) -> None:
-    # One transaction, deterministic IDs, no overwrite of previously edited rows.
+def verified_owners(settings):
+    verifier = TokenVerifier(settings)
+    owners = []
+    for subject, token in (
+        (settings.demo_owner_a_sub, settings.demo_owner_a_token),
+        (settings.demo_owner_b_sub, settings.demo_owner_b_token),
+    ):
+        if not subject or not token:
+            raise ValueError("Set both DEMO_OWNER_*_SUB and DEMO_OWNER_*_TOKEN in .env")
+        user = verifier.verify(token.get_secret_value())
+        if user != UUID(subject) or user in SYNTHETIC_OWNERS:
+            raise ValueError("Owner subject must match the verified Supabase user token")
+        owners.append(user)
+    if owners[0] == owners[1]:
+        raise ValueError("Two distinct Supabase users are required")
+    return owners
+
+
+def seed(session: Session, owners=None):
     for model, rows in demo_rows().items():
-        primary_key = [column.name for column in model.__table__.primary_key]
         session.execute(
-            insert(model).values(rows).on_conflict_do_nothing(index_elements=primary_key)
+            insert(model)
+            .values(rows)
+            .on_conflict_do_nothing(
+                index_elements=[column.name for column in model.__table__.primary_key]
+            )
         )
+    # Remove only the two known historical synthetic owners, never real memberships.
+    business_ids = [row["id"] for row in demo_rows()[Business]]
+    session.execute(
+        delete(Membership).where(
+            Membership.business_id.in_(business_ids), Membership.user_id.in_(SYNTHETIC_OWNERS)
+        )
+    )
+    if owners is not None:
+        for row in demo_rows()[Business]:
+            owner = owners[1] if row["category"] == "home" else owners[0]
+            session.execute(
+                insert(Membership)
+                .values(user_id=owner, business_id=row["id"], role="owner")
+                .on_conflict_do_nothing()
+            )
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--demo", action="store_true", help="Confirm this is a dedicated demo DB")
+    parser.add_argument("--demo", action="store_true")
+    parser.add_argument("--bind-owners", action="store_true")
     args = parser.parse_args()
     if not args.demo:
         parser.error("Use --demo only with a dedicated demo database")
-    engine = create_engine(Settings().postgres_url())
+    settings = Settings()
+    owners = verified_owners(settings) if args.bind_owners else None
+    engine = make_engine(settings)
     with Session(engine) as session, session.begin():
-        seed(session)
-    print("Demo seed applied: 3 venues, 9 businesses, 2 synthetic owners, 9 items, 9 customers.")
-    print("Synthetic owner UUIDs are fixtures, not Supabase login accounts.")
+        seed(session, owners)
+    engine.dispose()
+    print("Demo seed applied: 3 venues, 9 businesses, 9 items, 9 customers.")
+    print(
+        "Verified owners bound." if owners else "No login memberships created; use --bind-owners."
+    )
 
 
 if __name__ == "__main__":

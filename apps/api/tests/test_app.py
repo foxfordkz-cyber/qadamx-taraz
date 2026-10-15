@@ -14,14 +14,18 @@ def test_health_without_database_or_keys():
         for path in ("/health", "/api/v1/health"):
             response = client.get(path)
             assert response.status_code == 200
-            assert response.json() == {"status": "ok", "service": "qadam-api", "stage": "bootstrap"}
+            assert response.json() == {
+                "status": "ok",
+                "service": "qadam-api",
+                "stage": "manual-ledger",
+            }
             UUID(response.headers["x-request-id"])
         assert client.get("/docs").status_code == 200
 
 
 def test_unknown_routes_are_errors_not_fake_success():
     with TestClient(create_app(Settings(_env_file=None))) as client:
-        response = client.post("/api/v1/businesses/123/operations", json={})
+        response = client.post("/api/v1/not-implemented", json={})
         assert response.status_code == 404
         assert response.json()["error"]["code"] == "NOT_FOUND"
         assert response.json()["request_id"] == response.headers["x-request-id"]
@@ -31,8 +35,8 @@ def test_unknown_routes_are_errors_not_fake_success():
 def test_openapi_contains_contracts_and_resolvable_refs():
     with TestClient(create_app(Settings(_env_file=None))) as client:
         schema = client.get("/openapi.json").json()
-    assert set(schema["paths"]) == {"/health", "/api/v1/health"}
-    assert "OperationCreate" in schema["components"]["schemas"]
+    assert {"/health", "/api/v1/health", "/api/v1/me"} <= set(schema["paths"])
+    assert "SaleCreate" in schema["components"]["schemas"]
 
     def walk(value):
         if isinstance(value, dict):
@@ -76,7 +80,7 @@ def test_wildcards_and_non_origins_are_rejected(origin):
 def test_database_config_does_not_fall_back_to_sqlite():
     with pytest.raises(ValueError, match="DATABASE_URL is required"):
         Settings(_env_file=None, database_url=None).postgres_url()
-    with pytest.raises(ValueError, match="Only PostgreSQL"):
+    with pytest.raises(ValueError, match="PostgreSQL"):
         Settings(_env_file=None, database_url="sqlite://").postgres_url()
 
 
@@ -90,7 +94,7 @@ def test_validation_errors_do_not_echo_sensitive_input():
     with TestClient(app) as client:
         response = client.post("/test-only-validation", json={"private-note": "DO_NOT_ECHO"})
     assert response.status_code == 422
-    assert response.json()["error"]["code"] == "VALIDATION_ERROR"
+    assert response.json()["error"]["code"] == "INVALID_AMOUNT"
     assert "DO_NOT_ECHO" not in response.text
     assert response.json()["request_id"] == response.headers["x-request-id"]
 

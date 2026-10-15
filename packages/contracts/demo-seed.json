@@ -1,5 +1,5 @@
 {
-  "note": "Synthetic fixtures, not live API data or Supabase accounts.",
+  "note": "Synthetic fixtures; no Supabase login accounts or memberships.",
   "tables": {
     "venues": [
       {
@@ -32,129 +32,82 @@
         "id": "ad6203bc-7320-5b36-982b-135504c5af68",
         "venue_id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
         "slug": "mart-demo-clothes",
-        "name": "Демо MART 1",
+        "name": "Демо MART clothes",
         "category": "clothes",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "d96e604f-930b-59b5-a239-820d0ae1b02e",
         "venue_id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
         "slug": "mart-demo-food",
-        "name": "Демо MART 2",
+        "name": "Демо MART food",
         "category": "food",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "07691851-9886-5ce4-bb82-a3ed33630fe1",
         "venue_id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
         "slug": "mart-demo-home",
-        "name": "Демо MART 3",
+        "name": "Демо MART home",
         "category": "home",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "99e2db7e-ba5f-5baa-a4e8-1a0882a3864a",
         "venue_id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
         "slug": "kaikarmet-demo-clothes",
-        "name": "Демо Кайкармет 1",
+        "name": "Демо Кайкармет clothes",
         "category": "clothes",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
         "venue_id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
         "slug": "kaikarmet-demo-food",
-        "name": "Демо Кайкармет 2",
+        "name": "Демо Кайкармет food",
         "category": "food",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "048ae1c7-d583-501e-a84b-6654d83f8bb0",
         "venue_id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
         "slug": "kaikarmet-demo-home",
-        "name": "Демо Кайкармет 3",
+        "name": "Демо Кайкармет home",
         "category": "home",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "6bd09bf9-ee33-57b3-96d4-f069f742cf1b",
         "venue_id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
         "slug": "auyl-bereke-demo-clothes",
-        "name": "Демо Ауыл Береке 1",
+        "name": "Демо Ауыл Береке clothes",
         "category": "clothes",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "a979445d-2261-5313-8fd2-16fc76e9279f",
         "venue_id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
         "slug": "auyl-bereke-demo-food",
-        "name": "Демо Ауыл Береке 2",
+        "name": "Демо Ауыл Береке food",
         "category": "food",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
       },
       {
         "id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
         "venue_id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
         "slug": "auyl-bereke-demo-home",
-        "name": "Демо Ауыл Береке 3",
+        "name": "Демо Ауыл Береке home",
         "category": "home",
-        "description": "Учебная точка. Не является партнёром площадки.",
+        "description": "Учебная точка, не подтверждённый партнёр площадки.",
         "is_demo": true
-      }
-    ],
-    "memberships": [
-      {
-        "user_id": "c08e0061-69eb-5f88-bdef-8373f5e6e4a9",
-        "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
-        "role": "owner"
-      },
-      {
-        "user_id": "c08e0061-69eb-5f88-bdef-8373f5e6e4a9",
-        "business_id": "d96e604f-930b-59b5-a239-820d0ae1b02e",
-        "role": "owner"
-      },
-      {
-        "user_id": "774a4d63-2b9a-53f1-8e57-c749861f1499",
-        "business_id": "07691851-9886-5ce4-bb82-a3ed33630fe1",
-        "role": "owner"
-      },
-      {
-        "user_id": "c08e0061-69eb-5f88-bdef-8373f5e6e4a9",
-        "business_id": "99e2db7e-ba5f-5baa-a4e8-1a0882a3864a",
-        "role": "owner"
-      },
-      {
-        "user_id": "c08e0061-69eb-5f88-bdef-8373f5e6e4a9",
-        "business_id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
-        "role": "owner"
-      },
-      {
-        "user_id": "774a4d63-2b9a-53f1-8e57-c749861f1499",
-        "business_id": "048ae1c7-d583-501e-a84b-6654d83f8bb0",
-        "role": "owner"
-      },
-      {
-        "user_id": "c08e0061-69eb-5f88-bdef-8373f5e6e4a9",
-        "business_id": "6bd09bf9-ee33-57b3-96d4-f069f742cf1b",
-        "role": "owner"
-      },
-      {
-        "user_id": "c08e0061-69eb-5f88-bdef-8373f5e6e4a9",
-        "business_id": "a979445d-2261-5313-8fd2-16fc76e9279f",
-        "role": "owner"
-      },
-      {
-        "user_id": "774a4d63-2b9a-53f1-8e57-c749861f1499",
-        "business_id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
-        "role": "owner"
       }
     ],
     "catalog_items": [

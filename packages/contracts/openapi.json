@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Qadam Business API",
-    "description": "Local bootstrap. Only health is implemented. Components contain the first-stage frontend contracts; money, auth, AI and catalog routes are not implemented yet. Health checks the process only, not external services.",
-    "version": "0.1.0"
+    "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public inquiry routes are not enabled.",
+    "version": "0.3.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -20,6 +20,56 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -44,6 +94,1046 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Me",
+        "operationId": "me_api_v1_me_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/businesses/{id}/customers": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Get Customers",
+        "operationId": "get_customers_api_v1_businesses__id__customers_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "maxLength": 200,
+              "default": "",
+              "title": "Q"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_CustomerResponse_"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Create Customer",
+        "operationId": "create_customer_api_v1_businesses__id__customers_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomerCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/operations": {
+      "post": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Create Operation",
+        "operationId": "create_operation_api_v1_businesses__id__operations_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "^[!-~]+$",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/SaleCreate"
+                  },
+                  {
+                    "$ref": "#/components/schemas/RepaymentCreate"
+                  }
+                ],
+                "discriminator": {
+                  "propertyName": "kind",
+                  "mapping": {
+                    "sale": "#/components/schemas/SaleCreate",
+                    "repayment": "#/components/schemas/RepaymentCreate"
+                  }
+                },
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Get Operations",
+        "operationId": "get_operations_api_v1_businesses__id__operations_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Customer Id"
+            }
+          },
+          {
+            "name": "outstanding_only",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Outstanding Only"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Page_Operation_"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Page_OpenSale_"
+                    }
+                  ],
+                  "title": "Response Get Operations Api V1 Businesses  Id  Operations Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/operations/{operation_id}/reverse": {
+      "post": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Reverse Operation",
+        "operationId": "reverse_operation_api_v1_businesses__id__operations__operation_id__reverse_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "operation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Operation Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "^[!-~]+$",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReverseCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/summary": {
+      "get": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Get Summary",
+        "operationId": "get_summary_api_v1_businesses__id__summary_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SummaryResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/drafts": {
+      "post": {
+        "tags": [
+          "drafts"
+        ],
+        "summary": "Create Draft",
+        "description": "RU/KK text or audio → draft. No monetary write. Confirm via POST operations. Exactly one source; 30-minute expiry, author and business scoped, single use. AI failure leaves manual input available. Audio is decoded to WAV in memory.",
+        "operationId": "create_draft_api_v1_businesses__id__drafts_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DraftResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "413": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Request Entity Too Large"
+          },
+          "415": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unsupported Media Type"
+          },
+          "504": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Gateway Timeout"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  },
+                  "audio": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "<=8 MiB, <=30s"
+                  },
+                  "locale": {
+                    "type": "string",
+                    "enum": [
+                      "ru",
+                      "kk",
+                      "auto"
+                    ],
+                    "default": "auto"
+                  }
+                },
+                "oneOf": [
+                  {
+                    "required": [
+                      "text"
+                    ],
+                    "not": {
+                      "required": [
+                        "audio"
+                      ]
+                    }
+                  },
+                  {
+                    "required": [
+                      "audio"
+                    ],
+                    "not": {
+                      "required": [
+                        "text"
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
           }
         }
       }
@@ -51,30 +1141,36 @@
   },
   "components": {
     "schemas": {
-      "HealthResponse": {
+      "BusinessMembership": {
         "properties": {
-          "status": {
+          "id": {
             "type": "string",
-            "const": "ok",
-            "title": "Status",
-            "default": "ok"
+            "format": "uuid",
+            "title": "Id"
           },
-          "service": {
+          "slug": {
             "type": "string",
-            "const": "qadam-api",
-            "title": "Service",
-            "default": "qadam-api"
+            "title": "Slug"
           },
-          "stage": {
+          "name": {
             "type": "string",
-            "const": "bootstrap",
-            "title": "Stage",
-            "default": "bootstrap"
+            "title": "Name"
+          },
+          "role": {
+            "type": "string",
+            "const": "owner",
+            "title": "Role",
+            "default": "owner"
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "title": "HealthResponse"
+        "required": [
+          "id",
+          "slug",
+          "name"
+        ],
+        "title": "BusinessMembership"
       },
       "CustomerCandidate": {
         "additionalProperties": false,
@@ -95,6 +1191,92 @@
         ],
         "title": "CustomerCandidate",
         "type": "object"
+      },
+      "CustomerCreate": {
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Note",
+            "default": ""
+          },
+          "contact": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "display_name"
+        ],
+        "title": "CustomerCreate"
+      },
+      "CustomerResponse": {
+        "properties": {
+          "display_name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Display Name"
+          },
+          "note": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Note",
+            "default": ""
+          },
+          "contact": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "balance_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Balance Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "display_name",
+          "id",
+          "business_id",
+          "balance_minor"
+        ],
+        "title": "CustomerResponse"
       },
       "DraftResponse": {
         "additionalProperties": false,
@@ -137,7 +1319,7 @@
           },
           "sale_candidates": {
             "items": {
-              "$ref": "#/components/schemas/SaleCandidate"
+              "$ref": "#/components/schemas/OpenSale"
             },
             "title": "Sale Candidates",
             "type": "array"
@@ -229,40 +1411,17 @@
           "expires_at"
         ],
         "title": "DraftResponse",
-        "type": "object",
-        "examples": [
-          {
-            "id": "40000000-0000-4000-8000-000000000001",
-            "transcript": "Асқарға үш мың теңгеге тауар бердім, мыңын төледі",
-            "kind": "sale",
-            "customer_query": "Асқар",
-            "customer_candidates": [
-              {
-                "id": "20000000-0000-4000-8000-000000000001",
-                "display_name": "Демо Асқар"
-              }
-            ],
-            "sale_candidates": [],
-            "description": "Тауар",
-            "total_minor": 300000,
-            "received_minor": 100000,
-            "amount_minor": null,
-            "missing_fields": [],
-            "questions": [],
-            "expires_at": "2026-10-15T10:30:00Z"
-          }
-        ]
+        "type": "object"
       },
       "ErrorDetail": {
-        "additionalProperties": false,
         "properties": {
           "code": {
-            "title": "Code",
-            "type": "string"
+            "type": "string",
+            "title": "Code"
           },
           "message": {
-            "title": "Message",
-            "type": "string"
+            "type": "string",
+            "title": "Message"
           },
           "fields": {
             "additionalProperties": {
@@ -271,299 +1430,86 @@
               },
               "type": "array"
             },
-            "title": "Fields",
-            "type": "object"
+            "type": "object",
+            "title": "Fields"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "code",
           "message"
         ],
-        "title": "ErrorDetail",
-        "type": "object"
+        "title": "ErrorDetail"
       },
       "ErrorResponse": {
-        "additionalProperties": false,
         "properties": {
           "error": {
             "$ref": "#/components/schemas/ErrorDetail"
           },
           "request_id": {
+            "type": "string",
             "format": "uuid",
-            "title": "Request Id",
-            "type": "string"
+            "title": "Request Id"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "error",
           "request_id"
         ],
-        "title": "ErrorResponse",
-        "type": "object",
-        "examples": [
-          {
-            "error": {
-              "code": "CUSTOMER_REQUIRED",
-              "message": "A credit sale requires a customer",
-              "fields": {
-                "customer_id": [
-                  "CUSTOMER_REQUIRED"
-                ]
-              }
-            },
-            "request_id": "70000000-0000-4000-8000-000000000001"
-          }
-        ]
+        "title": "ErrorResponse"
       },
-      "InquiryCreate": {
-        "additionalProperties": false,
+      "HealthResponse": {
         "properties": {
-          "client_request_id": {
-            "format": "uuid",
-            "title": "Client Request Id",
-            "type": "string"
+          "status": {
+            "type": "string",
+            "const": "ok",
+            "title": "Status",
+            "default": "ok"
           },
-          "visitor_name": {
-            "maxLength": 100,
-            "minLength": 1,
-            "title": "Visitor Name",
-            "type": "string"
+          "service": {
+            "type": "string",
+            "const": "qadam-api",
+            "title": "Service",
+            "default": "qadam-api"
           },
-          "contact": {
-            "maxLength": 200,
-            "minLength": 1,
-            "title": "Contact",
-            "type": "string"
-          },
-          "message": {
-            "maxLength": 2000,
-            "minLength": 1,
-            "title": "Message",
-            "type": "string"
+          "stage": {
+            "type": "string",
+            "const": "manual-ledger",
+            "title": "Stage",
+            "default": "manual-ledger"
           }
         },
-        "required": [
-          "client_request_id",
-          "visitor_name",
-          "contact",
-          "message"
-        ],
-        "title": "InquiryCreate",
-        "type": "object",
-        "examples": [
-          {
-            "client_request_id": "60000000-0000-4000-8000-000000000001",
-            "visitor_name": "Демо-покупатель",
-            "contact": "demo@example.test",
-            "message": "Есть ли школьный рюкзак до 15 000 тенге?"
-          }
-        ]
-      },
-      "Operation": {
         "additionalProperties": false,
+        "type": "object",
+        "title": "HealthResponse"
+      },
+      "MeResponse": {
         "properties": {
           "id": {
+            "type": "string",
             "format": "uuid",
-            "title": "Id",
-            "type": "string"
+            "title": "Id"
           },
-          "business_id": {
-            "format": "uuid",
-            "title": "Business Id",
-            "type": "string"
-          },
-          "customer_id": {
-            "anyOf": [
-              {
-                "format": "uuid",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Customer Id"
-          },
-          "sale_id": {
-            "format": "uuid",
-            "title": "Sale Id",
-            "type": "string"
-          },
-          "kind": {
-            "enum": [
-              "sale",
-              "repayment",
-              "reversal"
-            ],
-            "title": "Kind",
-            "type": "string"
-          },
-          "sales_delta_minor": {
-            "title": "Sales Delta Minor",
-            "type": "integer"
-          },
-          "receipts_delta_minor": {
-            "title": "Receipts Delta Minor",
-            "type": "integer"
-          },
-          "reversal_of": {
-            "anyOf": [
-              {
-                "format": "uuid",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reversal Of"
-          },
-          "description": {
-            "title": "Description",
-            "type": "string"
-          },
-          "created_at": {
-            "format": "date-time",
-            "title": "Created At",
-            "type": "string"
-          },
-          "created_by": {
-            "format": "uuid",
-            "title": "Created By",
-            "type": "string"
+          "businesses": {
+            "items": {
+              "$ref": "#/components/schemas/BusinessMembership"
+            },
+            "type": "array",
+            "title": "Businesses"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "id",
-          "business_id",
-          "customer_id",
-          "sale_id",
-          "kind",
-          "sales_delta_minor",
-          "receipts_delta_minor",
-          "reversal_of",
-          "description",
-          "created_at",
-          "created_by"
+          "businesses"
         ],
-        "title": "Operation",
-        "type": "object"
+        "title": "MeResponse"
       },
-      "OperationResponse": {
-        "additionalProperties": false,
-        "properties": {
-          "operation": {
-            "$ref": "#/components/schemas/Operation"
-          },
-          "sale_balance_minor": {
-            "minimum": 0,
-            "title": "Sale Balance Minor",
-            "type": "integer"
-          },
-          "customer_balance_minor": {
-            "anyOf": [
-              {
-                "minimum": 0,
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Customer Balance Minor"
-          },
-          "created_at": {
-            "format": "date-time",
-            "title": "Created At",
-            "type": "string"
-          }
-        },
-        "required": [
-          "operation",
-          "sale_balance_minor",
-          "customer_balance_minor",
-          "created_at"
-        ],
-        "title": "OperationResponse",
-        "type": "object",
-        "examples": [
-          {
-            "operation": {
-              "id": "30000000-0000-4000-8000-000000000001",
-              "business_id": "10000000-0000-4000-8000-000000000001",
-              "customer_id": "20000000-0000-4000-8000-000000000001",
-              "sale_id": "30000000-0000-4000-8000-000000000001",
-              "kind": "sale",
-              "sales_delta_minor": 300000,
-              "receipts_delta_minor": 100000,
-              "reversal_of": null,
-              "description": "Учебный товар",
-              "created_at": "2026-10-15T10:00:00Z",
-              "created_by": "50000000-0000-4000-8000-000000000001"
-            },
-            "sale_balance_minor": 200000,
-            "customer_balance_minor": 200000,
-            "created_at": "2026-10-15T10:00:00Z"
-          }
-        ]
-      },
-      "RepaymentCreate": {
-        "additionalProperties": false,
-        "properties": {
-          "kind": {
-            "const": "repayment",
-            "title": "Kind",
-            "type": "string"
-          },
-          "draft_id": {
-            "anyOf": [
-              {
-                "format": "uuid",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null,
-            "title": "Draft Id"
-          },
-          "sale_id": {
-            "format": "uuid",
-            "title": "Sale Id",
-            "type": "string"
-          },
-          "amount_minor": {
-            "exclusiveMinimum": 0,
-            "maximum": 10000000000,
-            "title": "Amount Minor",
-            "type": "integer"
-          },
-          "description": {
-            "maxLength": 1000,
-            "title": "Description",
-            "type": "string"
-          }
-        },
-        "required": [
-          "kind",
-          "sale_id",
-          "amount_minor",
-          "description"
-        ],
-        "title": "RepaymentCreate",
-        "type": "object",
-        "examples": [
-          {
-            "kind": "repayment",
-            "draft_id": null,
-            "sale_id": "30000000-0000-4000-8000-000000000001",
-            "amount_minor": 50000,
-            "description": "Учебная частичная оплата"
-          }
-        ]
-      },
-      "SaleCandidate": {
+      "OpenSale": {
         "additionalProperties": false,
         "properties": {
           "id": {
@@ -603,6 +1549,11 @@
             "minimum": 0,
             "title": "Balance Minor",
             "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
           }
         },
         "required": [
@@ -611,121 +1562,385 @@
           "description",
           "total_minor",
           "received_minor",
-          "balance_minor"
+          "balance_minor",
+          "created_at"
         ],
-        "title": "SaleCandidate",
+        "title": "OpenSale",
         "type": "object"
       },
-      "SaleCreate": {
-        "additionalProperties": false,
+      "Operation": {
         "properties": {
-          "kind": {
-            "const": "sale",
-            "title": "Kind",
-            "type": "string"
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
           },
-          "draft_id": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "customer_id": {
             "anyOf": [
               {
-                "format": "uuid",
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "sale_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Sale Id"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "sale",
+              "repayment",
+              "reversal"
+            ],
+            "title": "Kind"
+          },
+          "sales_delta_minor": {
+            "type": "integer",
+            "title": "Sales Delta Minor"
+          },
+          "receipts_delta_minor": {
+            "type": "integer",
+            "title": "Receipts Delta Minor"
+          },
+          "reversal_of": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reversal Of"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "created_by": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Created By"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "business_id",
+          "customer_id",
+          "sale_id",
+          "kind",
+          "sales_delta_minor",
+          "receipts_delta_minor",
+          "reversal_of",
+          "description",
+          "created_at",
+          "created_by"
+        ],
+        "title": "Operation"
+      },
+      "OperationResponse": {
+        "properties": {
+          "operation": {
+            "$ref": "#/components/schemas/Operation"
+          },
+          "sale_balance_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Sale Balance Minor"
+          },
+          "customer_balance_minor": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Balance Minor"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "operation",
+          "sale_balance_minor",
+          "customer_balance_minor",
+          "created_at"
+        ],
+        "title": "OperationResponse"
+      },
+      "Page_CustomerResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CustomerResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
                 "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "default": null,
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "Page[CustomerResponse]"
+      },
+      "Page_OpenSale_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/OpenSale"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "Page[OpenSale]"
+      },
+      "Page_Operation_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Operation"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "Page[Operation]"
+      },
+      "RepaymentCreate": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "repayment",
+            "title": "Kind"
+          },
+          "draft_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Draft Id"
+          },
+          "sale_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Sale Id"
+          },
+          "amount_minor": {
+            "type": "integer",
+            "maximum": 10000000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Amount Minor"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "title": "Description"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind",
+          "sale_id",
+          "amount_minor",
+          "description"
+        ],
+        "title": "RepaymentCreate"
+      },
+      "ReverseCreate": {
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Description"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "description"
+        ],
+        "title": "ReverseCreate"
+      },
+      "SaleCreate": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "const": "sale",
+            "title": "Kind"
+          },
+          "draft_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Draft Id"
           },
           "customer_id": {
             "anyOf": [
               {
-                "format": "uuid",
-                "type": "string"
+                "type": "string",
+                "format": "uuid"
               },
               {
                 "type": "null"
               }
             ],
-            "default": null,
             "title": "Customer Id"
           },
           "description": {
+            "type": "string",
             "maxLength": 1000,
-            "title": "Description",
-            "type": "string"
+            "title": "Description"
           },
           "total_minor": {
-            "exclusiveMinimum": 0,
-            "maximum": 10000000000,
-            "title": "Total Minor",
-            "type": "integer"
+            "type": "integer",
+            "maximum": 10000000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Total Minor"
           },
           "received_minor": {
-            "maximum": 10000000000,
-            "minimum": 0,
-            "title": "Received Minor",
-            "type": "integer"
+            "type": "integer",
+            "maximum": 10000000000.0,
+            "minimum": 0.0,
+            "title": "Received Minor"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "kind",
           "description",
           "total_minor",
           "received_minor"
         ],
-        "title": "SaleCreate",
-        "type": "object",
-        "examples": [
-          {
-            "kind": "sale",
-            "draft_id": null,
-            "customer_id": "20000000-0000-4000-8000-000000000001",
-            "description": "Учебный товар",
-            "total_minor": 300000,
-            "received_minor": 100000
-          }
-        ]
+        "title": "SaleCreate"
       },
       "SummaryResponse": {
-        "additionalProperties": false,
         "properties": {
           "date": {
+            "type": "string",
             "format": "date",
-            "title": "Date",
-            "type": "string"
+            "title": "Date"
           },
           "timezone": {
+            "type": "string",
             "const": "Asia/Almaty",
-            "default": "Asia/Almaty",
             "title": "Timezone",
-            "type": "string"
+            "default": "Asia/Almaty"
           },
           "currency": {
+            "type": "string",
             "const": "KZT",
-            "default": "KZT",
             "title": "Currency",
-            "type": "string"
+            "default": "KZT"
           },
           "sales_minor": {
-            "title": "Sales Minor",
-            "type": "integer"
+            "type": "integer",
+            "title": "Sales Minor"
           },
           "receipts_minor": {
-            "title": "Receipts Minor",
-            "type": "integer"
+            "type": "integer",
+            "title": "Receipts Minor"
           },
           "outstanding_minor": {
-            "minimum": 0,
-            "title": "Outstanding Minor",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Outstanding Minor"
           },
           "new_inquiries_count": {
-            "minimum": 0,
-            "title": "New Inquiries Count",
-            "type": "integer"
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "New Inquiries Count"
           }
         },
+        "additionalProperties": false,
+        "type": "object",
         "required": [
           "date",
           "sales_minor",
@@ -733,36 +1948,49 @@
           "outstanding_minor",
           "new_inquiries_count"
         ],
-        "title": "SummaryResponse",
-        "type": "object",
-        "examples": [
-          {
-            "date": "2026-10-15",
-            "timezone": "Asia/Almaty",
-            "currency": "KZT",
-            "sales_minor": 300000,
-            "receipts_minor": 150000,
-            "outstanding_minor": 150000,
-            "new_inquiries_count": 1
-          }
-        ]
+        "title": "SummaryResponse"
       },
-      "OperationCreate": {
-        "oneOf": [
-          {
-            "$ref": "#/components/schemas/SaleCreate"
+      "InquiryCreate": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "format": "uuid",
+            "title": "Client Request Id",
+            "type": "string"
           },
-          {
-            "$ref": "#/components/schemas/RepaymentCreate"
+          "visitor_name": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Visitor Name",
+            "type": "string"
+          },
+          "contact": {
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Contact",
+            "type": "string"
+          },
+          "message": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Message",
+            "type": "string"
           }
+        },
+        "required": [
+          "client_request_id",
+          "visitor_name",
+          "contact",
+          "message"
         ],
-        "discriminator": {
-          "propertyName": "kind",
-          "mapping": {
-            "sale": "#/components/schemas/SaleCreate",
-            "repayment": "#/components/schemas/RepaymentCreate"
-          }
-        }
+        "title": "InquiryCreate",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "HTTPBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

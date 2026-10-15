@@ -1,26 +1,26 @@
-"""Run from apps/api: uv run python -m app.export_contracts [--check]."""
-
 import argparse
 import json
 from pathlib import Path
 
 from app.config import Settings
-from app.examples import EXAMPLES
+from app.examples import EXAMPLES, model_for_example
 from app.main import create_app
-from app.schemas import SCHEMA_MODELS
 from app.seed import demo_rows
 
-OUTPUT = Path(__file__).resolve().parents[3] / "packages" / "contracts"
+OUTPUT = Path(__file__).resolve().parents[3] / "packages/contracts"
 
 
-def artifacts() -> dict[str, str]:
-    for model in SCHEMA_MODELS:
-        model.model_validate(EXAMPLES[model.__name__])
+def artifacts():
+    for name, example in EXAMPLES.items():
+        model_for_example(name).model_validate(example)
+    app = create_app(
+        Settings(_env_file=None, database_url=None, supabase_url="", jwt_issuer="", jwt_audience="")
+    )
     payloads = {
-        "openapi.json": create_app(Settings(_env_file=None)).openapi(),
+        "openapi.json": app.openapi(),
         "examples.json": EXAMPLES,
         "demo-seed.json": {
-            "note": "Synthetic fixtures, not live API data or Supabase accounts.",
+            "note": "Synthetic fixtures; no Supabase login accounts or memberships.",
             "tables": {model.__tablename__: rows for model, rows in demo_rows().items()},
         },
     }
@@ -31,14 +31,14 @@ def artifacts() -> dict[str, str]:
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     for name, content in artifacts().items():
         path = OUTPUT / name
         if args.check:
             if not path.exists() or path.read_text(encoding="utf-8") != content:
-                raise SystemExit(f"Contract export is stale: {path}")
+                raise SystemExit(f"Stale export: {name}")
         else:
             OUTPUT.mkdir(parents=True, exist_ok=True)
             path.write_text(content, encoding="utf-8", newline="\n")

@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from uuid import uuid4
 
 from fastapi import FastAPI, Request
@@ -6,36 +7,60 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
 from pydantic.json_schema import models_json_schema
+from sqlalchemy.exc import DBAPIError
 from starlette.exceptions import HTTPException
 
+from app import schemas
+from app.auth import TokenVerifier
 from app.config import Settings
-from app.examples import EXAMPLES
-from app.schemas import SCHEMA_MODELS, ErrorDetail, ErrorResponse, HealthResponse
+from app.db import make_engine
+from app.draft_routes import router as draft_router
+from app.errors import APIError
+from app.routers import router
+from app.services.ai import GeminiProvider
 
 
-def error_response(request: Request, status: int, code: str, message: str, fields=None):
-    body = ErrorResponse(
-        error=ErrorDetail(code=code, message=message, fields=fields or {}),
+def error_response(request, status, code, message, fields=None):
+    body = schemas.ErrorResponse(
+        error=schemas.ErrorDetail(code=code, message=message, fields=fields or {}),
         request_id=request.state.request_id,
     )
-    return JSONResponse(status_code=status, content=body.model_dump(mode="json"))
+    response = JSONResponse(status_code=status, content=body.model_dump(mode="json"))
+    response.headers["X-Request-ID"] = str(request.state.request_id)
+    if status == 401:
+        response.headers["WWW-Authenticate"] = "Bearer"
+    return response
 
 
-def create_app(settings: Settings | None = None) -> FastAPI:
+def create_app(settings: Settings | None = None):
     settings = settings or Settings()
+
+    @asynccontextmanager
+    async def lifespan(app):
+        yield
+        if app.state.engine is not None:
+            app.state.engine.dispose()
+
     app = FastAPI(
         title="Qadam Business API",
-        version="0.1.0",
-        description=(
-            "Local bootstrap. Only health is implemented. Components contain the first-stage "
-            "frontend contracts; money, auth, AI and catalog routes are not implemented yet. "
-            "Health checks the process only, not external services."
-        ),
+        version="0.3.0",
+        lifespan=lifespan,
+        description="Authenticated manual ledger and optional Gemini drafts. "
+        "AI never writes money. Public inquiry routes are not enabled.",
+        responses={
+            status: {"model": schemas.ErrorResponse} for status in (401, 404, 409, 422, 503)
+        },
+    )
+    app.state.engine = make_engine(settings) if settings.database_url else None
+    app.state.ai = GeminiProvider(settings)
+    app.state.verifier = (
+        TokenVerifier(settings)
+        if any((settings.supabase_url, settings.jwt_issuer, settings.jwt_audience))
+        else None
     )
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
-        allow_credentials=False,
         allow_methods=["GET", "POST", "PATCH", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type", "Idempotency-Key"],
         expose_headers=["X-Request-ID"],
@@ -48,62 +73,68 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         response.headers["X-Request-ID"] = str(request.state.request_id)
         return response
 
+    @app.exception_handler(APIError)
+    async def api_error(request, exc):
+        return error_response(request, exc.status, exc.code, exc.message, exc.fields)
+
     @app.exception_handler(HTTPException)
-    async def http_error(request: Request, exc: HTTPException):
-        codes = {404: "NOT_FOUND", 405: "METHOD_NOT_ALLOWED"}
+    async def http_error(request, exc):
         response = error_response(
-            request, exc.status_code, codes.get(exc.status_code, "HTTP_ERROR"), str(exc.detail)
+            request,
+            exc.status_code,
+            {404: "NOT_FOUND", 405: "METHOD_NOT_ALLOWED"}.get(exc.status_code, "HTTP_ERROR"),
+            str(exc.detail),
         )
         response.headers.update(exc.headers or {})
         return response
 
     @app.exception_handler(RequestValidationError)
-    async def validation_error(request: Request, exc: RequestValidationError):
-        fields: dict[str, list[str]] = {}
+    async def validation_error(request, exc):
+        fields = {}
         code = "VALIDATION_ERROR"
         for error in exc.errors():
-            field = ".".join(str(part) for part in error["loc"])
-            fields.setdefault(field, []).append(error["type"])
-            if error["type"] in {"INVALID_AMOUNT", "CUSTOMER_REQUIRED"}:
-                code = error["type"]
+            name = ".".join(str(part) for part in error["loc"])
+            kind = error["type"]
+            if kind in {"INVALID_AMOUNT", "CUSTOMER_REQUIRED"}:
+                code = kind
+                name = "customer_id" if kind == "CUSTOMER_REQUIRED" else "received_minor"
+            elif any(str(part).endswith("_minor") for part in error["loc"]):
+                code = "INVALID_AMOUNT"
+            fields.setdefault(name, []).append(kind)
         return error_response(request, 422, code, "Request validation failed", fields)
 
-    @app.exception_handler(Exception)
-    async def internal_error(request: Request, exc: Exception):
-        response = error_response(request, 500, "INTERNAL_ERROR", "Internal server error")
-        response.headers["X-Request-ID"] = str(request.state.request_id)
-        return response
+    @app.exception_handler(DBAPIError)
+    async def database_error(request, exc):
+        # No DSN, SQL, parameters or private customer data in HTTP errors.
+        return error_response(
+            request,
+            503,
+            "DATABASE_UNAVAILABLE",
+            "Database unavailable; retry with the same idempotency key",
+        )
 
-    @app.get("/health", response_model=HealthResponse, tags=["health"])
-    @app.get("/api/v1/health", response_model=HealthResponse, tags=["health"])
-    def health() -> HealthResponse:
-        return HealthResponse()
+    @app.exception_handler(Exception)
+    async def unexpected_error(request, exc):
+        return error_response(request, 500, "INTERNAL_ERROR", "Internal server error")
+
+    @app.get("/health", response_model=schemas.HealthResponse, tags=["health"])
+    @app.get("/api/v1/health", response_model=schemas.HealthResponse, tags=["health"])
+    def health():
+        return schemas.HealthResponse()
+
+    app.include_router(router)
+    app.include_router(draft_router)
 
     def openapi():
         if app.openapi_schema is None:
             schema = get_openapi(
                 title=app.title, version=app.version, description=app.description, routes=app.routes
             )
-            _, contracts = models_json_schema(
-                [(model, "validation") for model in SCHEMA_MODELS],
+            _, extra = models_json_schema(
+                [(schemas.DraftResponse, "validation"), (schemas.InquiryCreate, "validation")],
                 ref_template="#/components/schemas/{model}",
             )
-            schema.setdefault("components", {}).setdefault("schemas", {}).update(contracts["$defs"])
-            for name, example in EXAMPLES.items():
-                schema["components"]["schemas"][name]["examples"] = [example]
-            schema["components"]["schemas"]["OperationCreate"] = {
-                "oneOf": [
-                    {"$ref": f"#/components/schemas/{name}"}
-                    for name in ("SaleCreate", "RepaymentCreate")
-                ],
-                "discriminator": {
-                    "propertyName": "kind",
-                    "mapping": {
-                        "sale": "#/components/schemas/SaleCreate",
-                        "repayment": "#/components/schemas/RepaymentCreate",
-                    },
-                },
-            }
+            schema["components"]["schemas"].update(extra["$defs"])
             app.openapi_schema = schema
         return app.openapi_schema
 
