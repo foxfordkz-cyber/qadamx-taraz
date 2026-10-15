@@ -40,7 +40,7 @@
     },
     {
       "slug": "kaikarmet",
-      "sha256": "af5af84ab94c58a8b77bb891eae2428a62d15d1e33efbb42e0a140f8543d4672",
+      "sha256": "35c4f0525d08a2b0bce9fcec3e452bd7fe3dcd09ee98eda52e5c0d576411a19b",
       "validatorVersion": "2.0.0-dev.3.10",
       "issues": {
         "numErrors": 0,
@@ -58,18 +58,18 @@
             "pointer": "/buffers/0",
             "mimeType": "application/gltf-buffer",
             "storage": "glb",
-            "byteLength": 850392
+            "byteLength": 608256
           }
         ],
         "animationCount": 0,
-        "materialCount": 11,
+        "materialCount": 16,
         "hasMorphTargets": false,
         "hasSkins": false,
         "hasTextures": false,
         "hasDefaultScene": true,
-        "drawCallCount": 11,
-        "totalVertexCount": 31512,
-        "totalTriangleCount": 15684,
+        "drawCallCount": 16,
+        "totalVertexCount": 22482,
+        "totalTriangleCount": 11448,
         "maxUVs": 0,
         "maxInfluences": 0,
         "maxAttributes": 2
@@ -77,7 +77,7 @@
     },
     {
       "slug": "auyl-bereke",
-      "sha256": "480d3cd580e03effb8a2b5c50cdf95d8eea66a3d011168530fbabf96ad2502fa",
+      "sha256": "d2d36a95a4bf4df45966951e94bcbf220f3038fad20861036aa08faa35e2e35c",
       "validatorVersion": "2.0.0-dev.3.10",
       "issues": {
         "numErrors": 0,
@@ -95,18 +95,18 @@
             "pointer": "/buffers/0",
             "mimeType": "application/gltf-buffer",
             "storage": "glb",
-            "byteLength": 770328
+            "byteLength": 827112
           }
         ],
         "animationCount": 0,
-        "materialCount": 11,
+        "materialCount": 20,
         "hasMorphTargets": false,
         "hasSkins": false,
         "hasTextures": false,
         "hasDefaultScene": true,
-        "drawCallCount": 11,
-        "totalVertexCount": 28596,
-        "totalTriangleCount": 14004,
+        "drawCallCount": 20,
+        "totalVertexCount": 30526,
+        "totalTriangleCount": 15748,
         "maxUVs": 0,
         "maxInfluences": 0,
         "maxAttributes": 2

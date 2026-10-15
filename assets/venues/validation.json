@@ -32,25 +32,25 @@
     {
       "slug": "kaikarmet",
       "errors": [],
-      "bytes": 859988,
-      "triangles": 15684,
-      "stored_triangles": 15684,
-      "vertices": 31512,
-      "meshes": 11,
-      "primitives": 11,
+      "bytes": 622212,
+      "triangles": 11448,
+      "stored_triangles": 11448,
+      "vertices": 22482,
+      "meshes": 16,
+      "primitives": 16,
       "bounds_min": [
-        -25.0,
+        -47.0,
         0.0,
-        -22.0
+        -32.0
       ],
       "bounds_max": [
-        25.0,
-        6.699999809265137,
-        22.0
+        47.0,
+        9.14246654510498,
+        32.0
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 15156,
+      "poster_bytes": 16094,
       "poster_dimensions": [
         1024,
         768
@@ -59,25 +59,25 @@
     {
       "slug": "auyl-bereke",
       "errors": [],
-      "bytes": 779864,
-      "triangles": 14004,
-      "stored_triangles": 14004,
-      "vertices": 28596,
-      "meshes": 11,
-      "primitives": 11,
+      "bytes": 844364,
+      "triangles": 15748,
+      "stored_triangles": 15748,
+      "vertices": 30526,
+      "meshes": 20,
+      "primitives": 20,
       "bounds_min": [
-        -26.0,
+        -77.0,
         0.0,
-        -22.0
+        -75.0
       ],
       "bounds_max": [
-        26.0,
-        8.845000267028809,
-        22.0
+        77.0,
+        15.66874885559082,
+        75.0
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 11096,
+      "poster_bytes": 11240,
       "poster_dimensions": [
         1024,
         768

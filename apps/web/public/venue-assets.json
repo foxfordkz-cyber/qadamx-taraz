@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "note": "Концептуальные модели. Масштаб, расположение павильонов и учебных точек условные; не использовать для навигации на реальной площадке.",
+  "note": "Модели по открытым референсам. Точность зависит от площадки; размеры без обмеров оценочные. Учебные точки не задают маршрут к реальному продавцу.",
   "venues": [
     {
       "slug": "mart",
@@ -76,11 +76,11 @@
     {
       "slug": "kaikarmet",
       "name": "Кайкармет",
-      "label_ru": "Концептуальная модель",
-      "label_kk": "Тұжырымдамалық модель",
+      "label_ru": "По фотографиям · размеры оценочные",
+      "label_kk": "Фотосуреттер негізінде · өлшемдері болжамды",
       "model_url": "/models/kaikarmet.glb",
       "poster_url": "/previews/kaikarmet.webp",
-      "geometry_status": "conceptual",
+      "geometry_status": "reference_based",
       "conceptual_scale": true,
       "units": "meters",
       "up_axis": "+Y",
@@ -91,23 +91,23 @@
         0
       ],
       "bounds_min": [
-        -25.0,
+        -47.0,
         0.0,
-        -22.0
+        -32.0
       ],
       "bounds_max": [
-        25.0,
-        6.7,
-        22.0
+        47.0,
+        9.14247,
+        32.0
       ],
       "camera_position": [
-        47,
-        39,
-        58
+        94,
+        66,
+        112
       ],
       "camera_target": [
         0,
-        2.8,
+        3.5,
         0
       ],
       "camera_fov_degrees": 45,
@@ -117,9 +117,9 @@
           "business_slug": "kaikarmet-demo-clothes",
           "business_id": "99e2db7e-ba5f-5baa-a4e8-1a0882a3864a",
           "position": [
-            -12.8,
-            4.8,
-            14
+            -24,
+            5.1,
+            19.3
           ]
         },
         {
@@ -127,9 +127,9 @@
           "business_slug": "kaikarmet-demo-food",
           "business_id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
           "position": [
-            0,
-            4.4,
-            4
+            12,
+            5.1,
+            20.2
           ]
         },
         {
@@ -137,12 +137,34 @@
           "business_slug": "kaikarmet-demo-home",
           "business_id": "048ae1c7-d583-501e-a84b-6654d83f8bb0",
           "position": [
-            12.8,
-            4.8,
-            11
+            42,
+            5.4,
+            -5.5
           ]
         }
-      ]
+      ],
+      "reconstruction": {
+        "coverage": "Observed street facade and gate; interpreted connected roof composition. Non-survey reconstruction.",
+        "confirmed": [
+          "Long blue glazed street frontage with cream fascia",
+          "Wide recessed rectangular entrance",
+          "Low lean-to street canopies",
+          "Steel-covered market aisles",
+          "Cream side portal with turquoise bar gates"
+        ],
+        "estimated": [
+          "All metric dimensions and exact bay counts",
+          "Central roof curvature and strip connections",
+          "Position of side gate within the complete footprint",
+          "Unseen kiosk arrangement and anonymous parked cars"
+        ],
+        "source_urls": [
+          "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+          "https://yandex.com/maps/org/kaikarmet/63595775026/panorama/",
+          "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/?l=sat&ll=71.335908%2C42.885073&z=18",
+          "https://2gis.kz/taraz/firm/70000001052970253"
+        ]
+      }
     },
     {
       "slug": "auyl-bereke",
@@ -162,23 +184,23 @@
         0
       ],
       "bounds_min": [
-        -26.0,
+        -77.0,
         0.0,
-        -22.0
+        -75.0
       ],
       "bounds_max": [
-        26.0,
-        8.845,
-        22.0
+        77.0,
+        15.66875,
+        75.0
       ],
       "camera_position": [
-        49,
-        41,
-        61
+        156,
+        115,
+        182
       ],
       "camera_target": [
         0,
-        3,
+        5,
         0
       ],
       "camera_fov_degrees": 45,
@@ -188,9 +210,9 @@
           "business_slug": "auyl-bereke-demo-clothes",
           "business_id": "6bd09bf9-ee33-57b3-96d4-f069f742cf1b",
           "position": [
-            -15,
-            4.5,
-            5.6
+            -21,
+            5.9,
+            -1
           ]
         },
         {
@@ -198,9 +220,9 @@
           "business_slug": "auyl-bereke-demo-food",
           "business_id": "a979445d-2261-5313-8fd2-16fc76e9279f",
           "position": [
-            0,
-            4.8,
-            3
+            -35,
+            2.5,
+            24
           ]
         },
         {
@@ -208,12 +230,32 @@
           "business_slug": "auyl-bereke-demo-home",
           "business_id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
           "position": [
-            15,
-            4.5,
-            5.6
+            39,
+            12.1,
+            20
           ]
         }
-      ]
+      ],
+      "reconstruction": {
+        "coverage": "entrance_and_adjacent_rows_fragment",
+        "label_ru": "Вход и ряды · размеры оценочные",
+        "confirmed": [
+          "Прямоугольные монументальные ворота, сине-серые колонны, золотистый фриз и парные кони",
+          "Правый от входа крупный корпус со скатной/вальмовой серебристой крышей",
+          "Открытый двор слева и протяжённые параллельные серебристые ряды за ним"
+        ],
+        "estimated": [
+          "Метрические размеры и конечная граница фрагмента",
+          "Высоты крыш и скрытые фасады",
+          "Повторные проёмы, детали навесов и положения учебных точек"
+        ],
+        "source_urls": [
+          "https://yandex.kz/maps/ru/org/auyl_bereke/161384481381/gallery/",
+          "https://yandex.kz/maps/ru/org/auyl_bereke/161384481381/gallery/?l=sat&ll=71.411083%2C42.905850&z=19",
+          "https://www.youtube.com/watch?v=UiR8DrhGLbY",
+          "https://2gis.kz/taraz/firm/70000001054386766"
+        ]
+      }
     }
   ],
   "required_venue_slugs": [
