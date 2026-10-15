@@ -142,3 +142,9 @@ Node 22.12+ либо 24, npm. `.env.local` НЕ нужен для demo. Для �
 Файлы: features/seller/{Inquiries,Customers,queries}, shared/useDebouncedValue, словари ru/kk, styles, test/debounce.test, test/screens.test, e2e/seller.spec. Проверки: typecheck/lint/build успешно; 41 unit/component tests и 6 Chromium E2E успешно, ширины 360/768/1440. Это не проверки живого backend.
 
 Ветка feature/seller-dashboard. Последний опубликованный hash перед этим этапом: e1839de; новый hash — git log -1 --format=%H. После commit выполняются fetch, pull --ff-only этой же ветки и push; фактический результат фиксируется следующим этапом. Далее: согласованный merge main, генерация TS из предоставленного OpenAPI, стандартные ошибки и повтор проверок. Backend/Supabase URL и реальные accounts по-прежнему отсутствуют.
+
+## Согласованная синхронизация main
+
+UI-этап e05c1a107041113bc32d870f58c73f4b22b268d1 опубликован. По прямому согласию пользователя в feature-ветку интегрирован main ced32e7. Конфликты README.md и docs/DECISIONS.md разрешены вручную с сохранением обеих частей. apps/api и packages/contracts идентичны принятому commit main (git diff ced32e7 -- apps/api packages/contracts пуст). После интеграции повторены typecheck/lint/build, 41 unit/component и 6 E2E — успешно. Backend-тесты на этом этапе не запускались; PostgreSQL/секретов нет в нашей копии.
+
+Обнаружен следующий backend HEAD 193f6e527d716549d759d805dc4b86db1d9e059e, PR #4 от foxfordkz-cyber, open/non-Draft: /me, GET/POST customers, JWT/JWKS и журнал. Это не новая версия main. Пользователь уточнил условие: merge backend-ветки только при подтверждении готовности капитаном. До проверки подтверждения выполняется лишь анализ/подготовка frontend, без merge этой ветки и без изменения backend. Прикладных endpoints в принятом bootstrap всё ещё нет.
