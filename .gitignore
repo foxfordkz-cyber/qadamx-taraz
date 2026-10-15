@@ -1,41 +1,13 @@
-# Secrets and local credentials
-.env
-.env.*
-!.env.example
-!.env.*.example
-*.pem
-*.key
-credentials.json
-
-# Dependencies and build output
 node_modules/
-.venv/
-venv/
-__pycache__/
-*.py[cod]
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
 dist/
-build/
-coverage/
-htmlcov/
-.coverage
-*.tsbuildinfo
-
-# Local tooling and logs
-.vercel/
-.DS_Store
-Thumbs.db
+.env
+.env.local
 *.log
-.codex-log/
-
-# Local data and Blender backups
-*.sqlite
-*.sqlite3
-*.blend1
-*.blend2
-tmp/
-recordings-private/
-
-# Keep package lock files, Alembic migrations and exported GLB/WebP in Git.
+.venv/
+__pycache__/
+.pytest_cache/
+backend/data/
+*.sqlite3*
+backend/.env
+.wheel-cache/
+.wheel-core.txt
