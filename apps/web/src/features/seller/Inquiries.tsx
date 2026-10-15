@@ -10,10 +10,10 @@ import {
   Card,
   EmptyState,
   ErrorState,
+  ErrorMessage,
   PageHeader,
   Select,
   Spinner,
-  errorKey,
 } from "../../shared/ui";
 import { useInquiries, useInquiryStatus } from "./queries";
 function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
@@ -71,7 +71,9 @@ function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
         </Button>
       </div>
       {update.isError && (
-        <Alert tone="error">{t(errorKey(update.error))}</Alert>
+        <Alert tone="error">
+          <ErrorMessage error={update.error} />
+        </Alert>
       )}
       {update.isSuccess && (
         <Alert tone="success">{t("updatedFromServer")}</Alert>

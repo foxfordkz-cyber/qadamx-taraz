@@ -11,10 +11,10 @@ import {
   Dialog,
   EmptyState,
   ErrorState,
+  ErrorMessage,
   Input,
   PageHeader,
   Spinner,
-  errorKey,
 } from "../../shared/ui";
 import { useCreateCustomer, useCustomers } from "./queries";
 
@@ -92,7 +92,9 @@ export function CreateCustomerForm({
           </Alert>
         )}
         {create.isError && (
-          <Alert tone="error">{t(errorKey(create.error))}</Alert>
+          <Alert tone="error">
+            <ErrorMessage error={create.error} />
+          </Alert>
         )}
         {create.isSuccess && (
           <Alert tone="success">{t("customerCreated")}</Alert>

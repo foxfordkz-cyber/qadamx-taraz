@@ -1,11 +1,5 @@
-export class ApiError extends Error {
-  constructor(
-    public readonly status: number,
-    public readonly code: string,
-  ) {
-    super(code);
-  }
-}
+import { ApiError, parseApiError } from "./errors";
+export { ApiError } from "./errors";
 export interface ApiClient {
   request: (path: string, init?: RequestInit) => Promise<unknown>;
 }
@@ -41,8 +35,17 @@ export function createApiClient(options: {
       }
       if (!response.ok) {
         if (response.status === 401) options.onUnauthorized?.();
-        // Do not render arbitrary backend messages, traces or personal data.
-        throw new ApiError(response.status, `HTTP_${response.status}`);
+        let payload: unknown = null;
+        try {
+          payload = await response.json();
+        } catch {
+          /* Non-JSON errors still use the HTTP status. */
+        }
+        throw parseApiError(
+          response.status,
+          payload,
+          response.headers.get("X-Request-ID"),
+        );
       }
       if (response.status === 204) return null;
       try {

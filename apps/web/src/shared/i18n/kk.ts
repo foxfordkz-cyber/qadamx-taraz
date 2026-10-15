@@ -1,5 +1,9 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  supportCode: "Қолдау коды",
+  dataChanged: "Деректер өзгерді. Тізімді жаңартып, әрекетті қайталаңыз.",
+  validationError: "Форма өрістерін тексеріңіз. Енгізілген деректер сақталды.",
+  rateLimited: "Сұрау тым көп. Біраз күтіп, қайталаңыз.",
   inquiryFilter: "Өтінімдерді көрсету",
   allInquiries: "Барлық өтінімдер",
   clearFilter: "Сүзгіні тазалау",

@@ -1,19 +1,13 @@
-# Передача работы seller-web
+# Seller frontend — передача
 
-Обновлено: 2026-10-15. Ветка `feature/seller-dashboard`. Независимая frontend-часть готова к review; backend/Supabase и модули участников 2/4 ожидаются. Не слито в main, публичного деплоя нет.
+Срез 2026-10-15. Ветка **feature/seller-dashboard**, [Draft PR #3](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3). В Ready не переводить и в main не сливать без согласования.
 
-Полная передача с архитектурой, API, известными ограничениями, этапами и командами: [SELLER_FRONTEND_HANDOFF.md](../SELLER_FRONTEND_HANDOFF.md).
+Последние опубликованные этапы: `e05c1a1` (фильтры/поиск), `3b03ed3fe74188d848693891fb6132515cb29627` (согласованный merge main ced32e7). Fetch/pull --ff-only feature-ветки и push прошли. Последующий этап добавляет типы bootstrap, стандартные ошибки и план интеграции; точный hash после записи — git log -1 --format=%H.
 
-Последний commit реализации: `c17efe903aee95385e44dc502b4e40c9d1b05cd3`, push успешен. [Draft PR #3](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3). Дополнительный commit после реализации фиксирует только документацию PR. Создание через GitHub-плагин вернуло 403; PR успешно создан через существующую аутентификацию Git Credential Manager, без вывода/сохранения credentials.
+**backend/ledger-auth 193f6e5 не объединена.** Капитан не подтвердил готовность; пользователь прямо требует отдельное подтверждение и согласование. Не активировать /me/customers из этой ветки. Backend/export идентичны принятому main ced32e7. Два конфликта README/DECISIONS разрешены с сохранением обеих сторон; код капитана не редактировался.
 
-Интерфейсы для коллег: [SELLER_FRONTEND_INTEGRATION.md](../SELLER_FRONTEND_INTEGRATION.md). `apps/web/src/app/modules.ts` подключает переданные страницы. Общие exports: shared/ui, shared/i18n, app/runtime, features/seller. Деньги — целые тиыны.
+Реализованы единое приложение, auth provider/cache isolation, RU/KZ, UI-kit, кабинет, заявки/клиенты/каталог и read-only Demo Mode. Новое: локальный фильтр заявок с честной пагинацией, debounce 250 ms/очистка поиска, generated types/check:api, ErrorResponse/request_id и локализованные 409/422/429. Shared компоненты клиентов доступны участнику 4. Модули участников 2/4 пока отсутствуют.
 
-Реализовано: единое приложение, router/layout, RU/KZ, UI-kit, auth provider и транспорт, заявки/клиенты/каталог, CustomerPicker и хуки. Demo Mode только для чтения с явным banner; реальные writes пока отключены до подтверждения schemas.
+Проверки: **52 unit/component + 6 Chromium E2E**, check:api/typecheck/lint/build успешны; 360/768/1440, focus/dialog, язык/поля, demo/выход. Реальный backend, PostgreSQL и Supabase/JWT/JWKS в этой frontend-сессии не проверены: нет конфигурации и аккаунтов.
 
-Проверено: build/typecheck/lint; 36 unit/component tests; 5 Chromium E2E; ширины 360/768/1440, диалог/фокус, demo traffic/logout. Скриншоты в docs/screenshots. Живая авторизация, БД и финансовые сценарии не проверены.
-
-Следующий шаг: получить OpenAPI/URL/CORS и публичную конфигурацию Supabase, заполнить response bindings по реальным ответам, затем интегрировать переданные модули. Backend и чужие модули не менялись. Работать только в feature-ветке, не force push, не merge в main.
-
-Продолжение 2026-10-15: feature-ветка синхронизирована; поиск клиентов получил debounce/очистку, заявки — локальный фильтр с учётом загруженных страниц. Typecheck/lint/build, 41 unit/component и 6 Chromium E2E прошли. В main найден backend bootstrap/OpenAPI; согласована интеграция ced32e7 в нашу ветку, следующие шаги и два конфликта документов перечислены в полном handoff. PR #3 остаётся Draft; готовых модулей 2/4 нет.
-
-Main ced32e7 интегрирован по согласию пользователя; два конфликта документации разрешены с сохранением обеих сторон, backend не редактировался. Повторные 41 unit/component + 6 E2E, typecheck/lint/build прошли. Новая backend/ledger-auth (193f6e5, PR #4) анализируется отдельно: merge возможен только после подтверждения капитана согласно последнему уточнению пользователя.
+Полная передача: [SELLER_FRONTEND_HANDOFF](../SELLER_FRONTEND_HANDOFF.md). Интерфейсы: [INTEGRATION](../SELLER_FRONTEND_INTEGRATION.md). Подтверждённые формы кандидата и список будущих изменений: [BACKEND_INTEGRATION_PLAN](../SELLER_BACKEND_INTEGRATION_PLAN.md). Следующий шаг — подтверждение капитана, затем согласованный merge и runtime mappings; до этого никаких новых live endpoints и demo-writes.

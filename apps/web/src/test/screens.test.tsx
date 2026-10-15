@@ -148,7 +148,7 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
     ).toBeInTheDocument();
     expect(screen.queryByText("15 000 ₸")).not.toBeInTheDocument();
   });
-  it.each([401, 403, 404, 500])(
+  it.each([401, 403, 404, 409, 422, 429, 500])(
     "shows HTTP %i as error instead of empty/success",
     async (status) => {
       await openDemo({
@@ -170,6 +170,21 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
       ).not.toBeInTheDocument();
     },
   );
+  it("shows a support reference without rendering backend messages", async () => {
+    const requestId = "70000000-0000-4000-8000-000000000001";
+    await openDemo({
+      ...demoGateway,
+      catalog: async () => {
+        throw new ApiError(403, "ACCESS_DENIED", { requestId });
+      },
+    });
+    await goTo("Каталог");
+    expect(
+      await screen.findByText(`Код для поддержки: ${requestId}`),
+    ).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "KZ" }));
+    expect(screen.getByText(`Қолдау коды: ${requestId}`)).toBeInTheDocument();
+  });
   it("preserves customer fields after a rejected write and allows optional contact", async () => {
     const create = vi.fn().mockRejectedValue(new ApiError(500, "TEST_ERROR"));
     await openDemo({

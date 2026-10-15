@@ -156,12 +156,29 @@ export function errorKey(error: unknown): TranslationKey {
   if (error.status === 401) return "unauthorized";
   if (error.status === 403) return "forbidden";
   if (error.status === 404) return "notFound";
+  if (error.status === 409) return "dataChanged";
+  if (error.status === 422) return "validationError";
+  if (error.status === 429) return "rateLimited";
   if (error.status >= 500) return "serverError";
   if (error.code === "CONTRACT_PENDING") return "contractPending";
   if (error.code === "API_UNCONFIGURED") return "apiUnavailable";
   if (error.code === "DEMO_READ_ONLY") return "demoWrites";
   if (error.code === "NETWORK_ERROR") return "network";
+  if (error.code === "INVALID_RESPONSE") return "invalidResponse";
   return "saveFailed";
+}
+export function ErrorMessage({ error }: { error: unknown }) {
+  const { t } = useI18n();
+  return (
+    <>
+      <span>{t(errorKey(error))}</span>
+      {error instanceof ApiError && error.metadata.requestId && (
+        <small className="request-reference">
+          {t("supportCode")}: {error.metadata.requestId}
+        </small>
+      )}
+    </>
+  );
 }
 export function ErrorState({
   error,
@@ -174,7 +191,9 @@ export function ErrorState({
   return (
     <div className="error-state" role="alert">
       <h2>{t("errorTitle")}</h2>
-      <p>{t(errorKey(error))}</p>
+      <p>
+        <ErrorMessage error={error} />
+      </p>
       <div className="actions">
         {error instanceof ApiError && error.status === 401 ? (
           <Link className="button button-primary" to="/login">

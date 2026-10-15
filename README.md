@@ -41,6 +41,8 @@ npm run dev
 
 Проверки из `apps/web`: `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`. Браузер: `npx playwright install chromium`, затем `npm run test:e2e`. Production preview: `npm run preview`. Хостинг должен перенаправлять SPA-маршруты на `index.html`.
 
+Типы принятого OpenAPI: `npm run generate:api`, проверка актуальности — `npm run check:api`. Пока в принятом bootstrap работают только health-маршруты. План будущего подключения `/me` и клиентов, без merge ветки капитана: [SELLER_BACKEND_INTEGRATION_PLAN](docs/SELLER_BACKEND_INTEGRATION_PLAN.md).
+
 Продолжение с другого аккаунта: [handoff](docs/SELLER_FRONTEND_HANDOFF.md). Подключение общих компонентов и страниц участников 2/4: [integration guide](docs/SELLER_FRONTEND_INTEGRATION.md). Изменения не слиты в main и не опубликованы как сайт.
 
 ## Backend: опубликованный bootstrap

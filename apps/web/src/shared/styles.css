@@ -621,6 +621,12 @@ input[aria-invalid="true"] {
 .filter-hint {
   font-size: 13px;
 }
+.request-reference {
+  display: block;
+  margin-top: 8px;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
 .avatar {
   display: flex;
   align-items: center;

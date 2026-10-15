@@ -2,6 +2,12 @@
 
 Один проект `apps/web`. Node.js 22.12+ либо 24, npm, lock-файл обязателен. React 19 выбран совместимым с React Three Fiber 9 (R3F ещё не установлен: зависимости и экспорты сцены передаёт участник 2 владельцу web).
 
+Актуализация Git sync: bootstrap из main ced32e7 уже принят. `backend/ledger-auth` 193f6e5 **не принят**, пользователь требует подтверждения капитана. [План подключения /me и customers](SELLER_BACKEND_INTEGRATION_PLAN.md) содержит точные отличия схем и необходимые изменения. Пока bindings не активированы.
+
+Типы принятого OpenAPI: `shared/api/generated.ts`; `npm run generate:api` обновляет их из `packages/contracts/openapi.json`, `npm run check:api` проверяет соответствие. Генератор не добавляет отсутствующие endpoints. В bootstrap есть только health в paths и компоненты первого этапа. Стандартная ошибка проверяется на runtime в `shared/api/errors.ts`; `ApiError.metadata` хранит только валидный requestId и field codes, сырой message сервера не показывается. `ErrorMessage` локализует ошибку и показывает код для поддержки.
+
+Поиск клиентов теперь ждёт 250 ms после ввода, использует trim/NFC и возвращает `isSearchPending`; не показывайте/не выбирайте прежние результаты во время этой паузы. Заявки имеют локальный фильтр по статусу только среди загруженных страниц, без нового query-параметра API.
+
 ## Общий слой
 
 Примеры ниже используют относительные импорты из `src/features/<module>/Page.tsx`:
