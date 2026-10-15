@@ -1,0 +1,7 @@
+import React,{useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
+import {api} from '../../api.js';
+import {formatMoney as fmt,localDate} from '../../money.js';
+import {Title,QueryState} from '../../shared.jsx';
+export function Stats({date=localDate()}) {const query=useQuery({queryKey:['summary',date],queryFn:()=>api('/summary?date='+date)});return <><QueryState query={query}/>{query.data&&<div className="stats">{[['Сатылды',fmt(query.data.sales_minor),'Таңдалған күн ішінде'],['Түсті',fmt(query.data.receipts_minor),'Сатылымдар мен төлемдер'],['Маған қарыз',fmt(query.data.outstanding_minor),'Барлық уақыттағы қалдық'],['Жаңа өтінім',query.data.new_inquiries_count,'Таңдалған күн ішінде']].map(([label,value,note],i)=><article className={'stat stat-'+i} key={label}><p>{label}</p><strong>{value}</strong><small>{note}</small></article>)}</div>}</>}
+export function Summary(){const[date,setDate]=useState(localDate());return <><Title title="Күн қорытындысы">Нақты жазбаларға сүйенген күнделікті есеп.</Title><label className="date-label">Есеп күні<input type="date" value={date} onChange={e=>setDate(e.target.value)}/></label><Stats date={date}/><article><h2>Сандар нені білдіреді?</h2><p>Сатылды — сатылымдардың сомасы. Түсті — алынған ақша, оның ішінде бұрынғы қарыздардың төлемдері. Бұл пайда көрсеткіші емес.</p><p>Қорытынды түзету жазбаларын ескереді. «Маған қарыз» қазіргі барлық қарызға қатысты.</p></article></>}
