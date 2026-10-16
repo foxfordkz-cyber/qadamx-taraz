@@ -1,5 +1,29 @@
 # Архитектура и контракт Qadam Business
 
+## Действующее локальное дополнение — 2026-10-16
+
+Ветка `frontend/aidana-public-showcase` использует существующий корневой `backend/` (FastAPI/SQLite + cookie sessions) и `src/` (React/Vite). Остальной документ сохраняет целевую командную архитектуру. Прямых запросов к БД/AI из браузера нет.
+
+Публичные методы без авторизации:
+
+- `GET /api/v1/venues` → `{items:[{id,slug,name,address_label,geometry_status,is_demo}],next_cursor:null}`.
+- `GET /api/v1/businesses?venue_id=&category=&q=&cursor=0&limit=100` → `{items:[shop],next_cursor}`. `category`: `clothes|food|home`; `q` до 120 символов, сравнение без учёта регистра. Курсор — неотрицательное смещение, limit 1–100.
+- `GET /api/v1/businesses/{slug}` → `shop`. Только опубликованные записи, иначе 404.
+- `shop`: `{id,venue_id,slug,name,category,description,is_demo,catalog_items,accepts_inquiries,inquiry_mode}`. Каталог: `{id,business_id,name,price_minor,available,is_demo}`; `available:null` означает отсутствие подтверждения наличия. `inquiry_mode=training` у seed-точек без владельца; `seller` у явно опубликованной точки аккаунта. Все текущие точки учебные, это видно в UI.
+- `POST /api/v1/businesses/{id}/inquiries` принимает исходные `client_request_id` (UUID), `visitor_name` (1–100), `contact` (1–200), `message` (1–2000), пробелы по краям удаляются. Контакт — email или телефон с 10–15 цифрами. Дополнительные поля запрещены. Ответ 201: `{"id":"<uuid>","number":"Q-000001","status":"new"}`. Одинаковый ID/тело возвращает исходное подтверждение, другое тело — 409 `IDEMPOTENCY_CONFLICT`. Лимит 20 обращений/минуту на адрес источника. Публичного чтения обращений нет.
+
+Закрытые методы проверяют cookie и принадлежность `business_id` аккаунту:
+
+- `GET /api/v1/businesses/{business_id}/storefront` → собственная витрина + `published`, либо null.
+- `POST` того же пути: `{venue_id,name,category,description,published}`. Название 2–120, описание 10–2000 символов. Явная публикация/скрытие собственной учебной витрины; slug стабилен: `shop-{business_id}`. Клиенты, долги, контакты, email аккаунта не копируются. Каталог новой точки пуст до отдельного наполнения, UI предлагает уточнить товар.
+- `GET /api/v1/businesses/{business_id}/inquiries?cursor=0&limit=50` → `{items:[{id,number,visitor_name,contact,message,status,created_at}],next_cursor}`; только собственные обращения, новые сверху, limit 1–100.
+- `PATCH /api/v1/businesses/{business_id}/inquiries/{id}` с `{status:"new|in_progress|closed"}` → `{id,status}`. Денежная операция не создаётся.
+- Существующий `GET .../summary?date=YYYY-MM-DD`: `new_inquiries_count` теперь считает обращения выбранного дня в Asia/Almaty, ещё имеющие статус `new`.
+
+Учебный seed из пользовательского архива выполняется идемпотентно при startup и не содержит логинов/паролей. Существующая база не очищается. Seed-точки не назначаются случайному пользователю. Для приёмки «посетитель → владелец» следует сначала явно опубликовать свою витрину в `/seller/inquiries`.
+
+Проверки и ограничения: [передача публичного frontend](../handoffs/public-web.md).
+
 Это согласованный проект API для реализации за два дня, а не описание уже существующего backend. Капитан сохраняет его формы данных в Pydantic, публикует `/openapi.json` и передаёт frontend ответы-примеры до второй рабочей отметки. После этого изменение контракта согласуется со всеми тремя frontend-разработчиками.
 
 ## Выбранный стек

@@ -23,6 +23,7 @@ from starlette.concurrency import run_in_threadpool
 from . import ai
 from .db import initialize, transaction, balance
 from .schemas import Credentials, Registration, Customer, Operation, Extraction
+from .storefront import initialize_storefront, register_storefront
 
 ROOT = Path(__file__).resolve().parent
 COOKIE = 'qadam_session'
@@ -59,6 +60,7 @@ def create_app(database_path=None, ai_key=None):
     @asynccontextmanager
     async def lifespan(app):
         initialize(db_path)
+        initialize_storefront(db_path)
         yield
 
     app = FastAPI(title='Qadam Business API', version='1.0.0', lifespan=lifespan)
@@ -67,7 +69,7 @@ def create_app(database_path=None, ai_key=None):
     app.state.ai_model = os.getenv('AI_MODEL','gemini-3.5-flash-lite')
     app.state.ai_fallback_model = os.getenv('AI_FALLBACK_MODEL', 'gemini-3.8-flash')
     app.add_middleware(CORSMiddleware, allow_origins=allowed, allow_credentials=True,
-                       allow_methods=['GET','POST'], allow_headers=['Content-Type','Idempotency-Key'])
+                       allow_methods=['GET','POST','PATCH'], allow_headers=['Content-Type','Idempotency-Key'])
 
     @app.exception_handler(APIError)
     async def api_error(request, exc):
@@ -279,7 +281,8 @@ def create_app(database_path=None, ai_key=None):
         end=datetime.combine(date+timedelta(days=1),datetime.min.time(),tzinfo=tz).astimezone(timezone.utc).isoformat()
         with transaction(db_path) as db:
             totals=db.execute('SELECT COALESCE(SUM(sales_delta_minor),0), COALESCE(SUM(receipts_delta_minor),0) FROM operations WHERE business_id=? AND created_at>=? AND created_at<?',(business_id,start,end)).fetchone()
-            return {'date':date.isoformat(),'timezone':'Asia/Almaty','currency':'KZT','sales_minor':totals[0],'receipts_minor':totals[1],'outstanding_minor':balance(db,business_id),'new_inquiries_count':0}
+            inquiries = db.execute("SELECT COUNT(*) FROM inquiries i JOIN public_businesses b ON b.id=i.business_id WHERE b.owner_business_id=? AND i.status='new' AND i.created_at>=? AND i.created_at<?", (business_id,start,end)).fetchone()[0]
+            return {'date':date.isoformat(),'timezone':'Asia/Almaty','currency':'KZT','sales_minor':totals[0],'receipts_minor':totals[1],'outstanding_minor':balance(db,business_id),'new_inquiries_count':inquiries}
 
     @app.post(prefix+'/drafts')
     async def draft(business_id:str,text:str|None=Form(None),audio:UploadFile|None=File(None),locale:str=Form('auto'),user=Depends(member)):
@@ -336,6 +339,7 @@ def create_app(database_path=None, ai_key=None):
             db.execute('INSERT INTO drafts VALUES (?,?,?,?,?,NULL)',(result['id'],business_id,user['id'],json.dumps(result),result['expires_at']))
         return result
 
+    register_storefront(app, db_path, member, rate_limit, fail)
     return app
 
 

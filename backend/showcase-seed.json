@@ -1,0 +1,185 @@
+{
+  "venues": [
+    {
+      "id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
+      "slug": "mart",
+      "name": "MART",
+      "address_label": "Тараз — учебная площадка, адрес не подтверждён",
+      "geometry_status": "conceptual",
+      "is_demo": true
+    },
+    {
+      "id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
+      "slug": "kaikarmet",
+      "name": "Кайкармет",
+      "address_label": "Тараз — учебная площадка, адрес не подтверждён",
+      "geometry_status": "conceptual",
+      "is_demo": true
+    },
+    {
+      "id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
+      "slug": "auyl-bereke",
+      "name": "Ауыл Береке",
+      "address_label": "Тараз — учебная площадка, адрес не подтверждён",
+      "geometry_status": "conceptual",
+      "is_demo": true
+    }
+  ],
+  "businesses": [
+    {
+      "id": "ad6203bc-7320-5b36-982b-135504c5af68",
+      "venue_id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
+      "slug": "mart-demo-clothes",
+      "name": "Демо MART clothes",
+      "category": "clothes",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "d96e604f-930b-59b5-a239-820d0ae1b02e",
+      "venue_id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
+      "slug": "mart-demo-food",
+      "name": "Демо MART food",
+      "category": "food",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "07691851-9886-5ce4-bb82-a3ed33630fe1",
+      "venue_id": "e4b1e55f-44a2-5296-a4e0-864a85173eff",
+      "slug": "mart-demo-home",
+      "name": "Демо MART home",
+      "category": "home",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "99e2db7e-ba5f-5baa-a4e8-1a0882a3864a",
+      "venue_id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
+      "slug": "kaikarmet-demo-clothes",
+      "name": "Демо Кайкармет clothes",
+      "category": "clothes",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
+      "venue_id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
+      "slug": "kaikarmet-demo-food",
+      "name": "Демо Кайкармет food",
+      "category": "food",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "048ae1c7-d583-501e-a84b-6654d83f8bb0",
+      "venue_id": "b88ee168-ee76-5662-b6a7-8cdf32308176",
+      "slug": "kaikarmet-demo-home",
+      "name": "Демо Кайкармет home",
+      "category": "home",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "6bd09bf9-ee33-57b3-96d4-f069f742cf1b",
+      "venue_id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
+      "slug": "auyl-bereke-demo-clothes",
+      "name": "Демо Ауыл Береке clothes",
+      "category": "clothes",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "a979445d-2261-5313-8fd2-16fc76e9279f",
+      "venue_id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
+      "slug": "auyl-bereke-demo-food",
+      "name": "Демо Ауыл Береке food",
+      "category": "food",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    },
+    {
+      "id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
+      "venue_id": "f8688ba8-c0c7-5729-91b5-c9119f4051eb",
+      "slug": "auyl-bereke-demo-home",
+      "name": "Демо Ауыл Береке home",
+      "category": "home",
+      "description": "Учебная точка, не подтверждённый партнёр площадки.",
+      "is_demo": true
+    }
+  ],
+  "catalog_items": [
+    {
+      "id": "11159128-0494-59da-b0d5-292f8e140fe3",
+      "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "416ed0f1-9d09-5245-afd0-bd93a7c22a5f",
+      "business_id": "d96e604f-930b-59b5-a239-820d0ae1b02e",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "a2adcbec-f4df-59b7-b9bc-e9f57fcb031b",
+      "business_id": "07691851-9886-5ce4-bb82-a3ed33630fe1",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "0f0a2cc6-84bd-5e21-8724-571218c760de",
+      "business_id": "99e2db7e-ba5f-5baa-a4e8-1a0882a3864a",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "e08b8052-feed-5d69-9e37-c9275f2a63ff",
+      "business_id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "0372922b-71d8-5df0-a60c-565866e9c2e8",
+      "business_id": "048ae1c7-d583-501e-a84b-6654d83f8bb0",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "82fe0339-2d19-55c7-b71d-3a7bb98dbf08",
+      "business_id": "6bd09bf9-ee33-57b3-96d4-f069f742cf1b",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "083c93b7-ca49-5f4d-9acf-74f6e89ef5bb",
+      "business_id": "a979445d-2261-5313-8fd2-16fc76e9279f",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    },
+    {
+      "id": "27ec1dcc-b605-5b08-ada4-61c5dae97172",
+      "business_id": "2b3b3d90-8226-540c-b74e-3d4f2f4f093f",
+      "name": "Учебный товар",
+      "price_minor": 300000,
+      "available": null,
+      "is_demo": true
+    }
+  ]
+}
