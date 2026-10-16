@@ -1,18 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
-
-async function navigateSeller(page: Page, route: string) {
-  const href = `/seller${route ? `/${route}` : ""}`;
-  const visibleLink = page.locator(`a[href="${href}"]:visible`).first();
-  if ((await visibleLink.count()) > 0) {
-    await visibleLink.click();
-  } else {
-    await page.locator(".bottom-nav button").click();
-    const menu = page.getByRole("dialog");
-    await expect(menu).toBeVisible();
-    await menu.locator(`a[href="${href}"]`).click();
-    await expect(menu).not.toBeVisible();
-  }
-}
+import { expect, test } from "@playwright/test";
+import { navigateSeller } from "./helpers";
 
 test("protected routes redirect to login; explicit demo has no writes or backend traffic", async ({
   page,

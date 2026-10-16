@@ -1,25 +1,43 @@
-# Seller web — передача
+# Seller web — передача интегрированного дизайна
 
-2026-10-16, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
+2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.
 
-Этап D: кабинет согласован с настоящей публичной темой `feature/public-storefront` на 8818e8b73ecc2e2dd2f517f18796782b10d1872f (read-only reference, без merge). Shared tokens, Manrope+локальный Noto Kazakh fallback/OFL, green/lime qadam mark; Dashboard/Customers/Inquiries/Catalog и компактная mobile nav с Dialog «Ещё». Каталог фильтруется локально, API не расширен. Auth/runtime/shared API/backend/чужие frontend-модули и CustomerPicker exports сохранены. Прежняя красная тема B заменена по новому запросу.
+## Что сделано
 
-Финальные проверки D: typecheck/lint/build/check:api/format:check passed, **74 unit/component + 9 E2E**, 360/390/768/1440, RU/KZ, font faces, focus/Escape/skip link и touch targets. 10 реальных Demo screenshots в docs/screenshots; источники и галерея в SELLER_DESIGN_NOTES.md. Реализация D опубликована: **95e3bd4cd42d5642ac6f56e22815d1d1f820a321**, fetch/pull --ff-only (Already up to date) и push прошли, remote HEAD совпал; PR #3 обновлён, open/draft. Финальная запись меняет только handoff; актуальный HEAD: git log -1 --format=%H.
+Ограниченным diff перенесены Manrope с локальным fallback для казахских букв, Qadam tokens/brand, зелёная палитра, карточки, кнопки, формы, dashboard и мобильное меню. До переноса проверено: затронутые production-файлы не менялись между общей seller-основой b3d0328 и интеграцией 3d009dc. Пакеты, контракты и финансовые модули старой seller-ветки не переносились.
 
-Завершены этап A (публикация `246851b2d4df996f054c7b1a27b2ba2933d2b3ee`) и этап B (Polaris-inspired UI, `e8321f0cb5c7056d284c831d4e6ae7b0293424ca`). Оба отправлены после fetch/pull --ff-only; remote hash совпал. Последний опубликованный seller HEAD перед этапом C: `9b4156122e22f12839f9f69384cb79a43e90c730`. Код apps/api остаётся на одобренном `193f6e5`. Актуальный HEAD: `git log -1 --format=%H`.
+Мобильное меню закрывается после перехода, Escape и browser Back/Forward, возвращает фокус. Поиск клиентов/заявок и локальные фильтры каталога, RU/KZ, CustomerPicker сохранены. В финансовом Demo нет записи и вымышленных итогов: для долгов/истории/summary показано явное пояснение отсутствия серверных данных. До 1100 px финансовые формы располагаются в одну колонку, серверные KPI — в две; на desktop сохраняются две/четыре колонки.
 
-Этап C: согласованно взят только OpenAPI 0.3.0 из `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`, существующим генератором обновлён generated.ts. Добавлен HTTP POST drafts; старые paths/20 schemas/security семантически прежние. Все `$ref` внутренние, дополнительных файлов из AI-ветки не нужно. AI-код/миграции/UI/финансовая логика не включены. README и docs/PROJECT_STATUS.md объединены с сохранением обеих частей; собственные integration/PR/handoff docs обновлены. Не экспортировать новый JSON из старого локального Python backend. Известное ограничение multipart XOR генератора описано в основном handoff.
+Публичная витрина получает согласованную палитру и Manrope через CSS aliases `.ex`, без изменения её файлов. В `apps/web/.gitattributes` зафиксированы LF для JS/MJS/HTML: исправлена исходная Windows-проблема format:check при core.autocrlf=true.
 
-Этап C опубликован: `b9fd3b41998b2cd1ce904f15e558408e13e3f135`, remote hash совпал после fetch/pull --ff-only/push; PR #3 обновлён и остаётся open/draft. Финальная запись меняет только документацию. При задержке общего fetch на новых pack адресный fetch рабочей ветки прошёл; детали в основном handoff.
+## Что сохранено из Team MVP
 
-Live bindings /me и GET/POST customers используют OpenAPI, runtime validation, nullable contact, server balance_minor, identity/business guards, общие hooks и CustomerPicker. Supabase session restore/token/cache boundaries сохранены. Заявки/каталог live API не включены; Demo явно read-only.
+Без изменений: apps/api, OpenAPI 0.4.0 и generated.ts, API/bindings/gateway, auth/runtime/providers/router/modules.ts, queries, features/voice/ledger/summary/explore/inquiry, 3D assets, package/lock. Продажа, погашение, голос/ручной ввод, подтверждение, точное тело и Idempotency-Key при повторе, beforeunload money-pending guard, серверные балансы и итоги остаются кодом интеграции. Summary находится также на экране Sale; Dashboard не получает вымышленных KPI.
 
-UI: dashboard/actions, desktop customer list / mobile cards, локальный поиск заявок, RU/KZ, 6 новых Demo screenshots. Shopify зависимости не добавлены. Проверки A: 70 unit/component и 6 E2E; B: 71 и 8; typecheck/lint/build/check:api/format:check passed, ширины B 360/390/768/1440.
+Работают все интегрированные маршруты: /login; /seller; /seller/{customers,inquiries,catalog,sale,debts,history,summary}; /; /venues/:slug; /shops/:slug. Live API требует окружения капитана; Demo не заменяет живой сервер. GET/PATCH заявок и каталог через public shop уже есть в 0.4.0 — старые утверждения об отсутствии этих API больше не актуальны.
 
-Проверки C повторно прошли: generate:api/check:api/typecheck/lint/test/build/test:e2e/format:check, **71 unit/component и 8 E2E**. Повторная генерация побайтово стабильна; screenshots без изменений. E2E потребовали разрешённого loopback после sandbox EACCES. Root/contract README различают локальный backend 193f6e5 и согласованный контракт 0.3.0; примеры/seed прежние.
+## Проверки и ограничения
 
-Публичная конфигурация только в игнорируемом apps/web/.env.local. Нет server env/БД/passwords, health ECONNREFUSED. Живые Supabase/DB/CORS проверки ожидают среды капитана. Денежные и публичные модули других участников не переписаны.
+Из apps/web: npm ci; npm run check:api; npm run typecheck; npm run lint; npm test; npm run build; npm run test:e2e; npm run format:check. Фактические итоговые результаты фиксируются в [основном handoff](../SELLER_FRONTEND_HANDOFF.md) после завершения прогона. Чужие результаты backend/live не выдаются за собственные.
 
-Капитан подтвердил live TypeScript-client /me/customer create/sale/repayment/history/summary. Это не собственные browser-проверки seller-сессии. Browser login/CORS и AI UI ещё не подтверждены.
+Новые настоящие screenshots запущенного приложения: [team-mvp-design](../screenshots/team-mvp-design). Seller screenshots — явно read-only Demo, публичные — явно обозначенные API test fixtures. Финансовые операции не имитировались как успешные.
 
-Подробные файлы, архитектура, маршруты, точные команды и следующий шаг: [основной handoff](../SELLER_FRONTEND_HANDOFF.md). [Интерфейсы](../SELLER_FRONTEND_INTEGRATION.md), [дизайн/screenshots](../SELLER_DESIGN_NOTES.md). Следующий шаг — live acceptance при готовом серверном окружении; не повторять merge уже принятого snapshot.
+Собственный live acceptance **Blocked**: на 127.0.0.1:8000 connection refused, в новой рабочей копии нет apps/api/.env, apps/web/.env.local и паролей тестовых владельцев. Публичные настройки восстановить из защищённо переданного окружения; секреты/JWT не записывать в документы/Git. Общую БД не мигрировать и не очищать. Физический Android недоступен, выполнена только Chromium browser emulation.
+
+npm audit сообщает 3 унаследованных dev findings в Vitest/@vitest/mocker/Tinypool (1 moderate, 2 critical); audit --omit=dev — 0. Обновление тестового стека требует отдельной задачи; package/lock сохранены. Build сохраняет предупреждение о большом 3D chunk и пустом auth chunk при отсутствии публичной auth-конфигурации. Это не ошибки сборки.
+
+## Продолжение и Git
+
+Не делать merge в main или integration/team-mvp, не использовать force. Новый Draft PR должен иметь base integration/team-mvp, head feature/seller-design-integration, название `feat(seller): integrate merchant redesign into team MVP`. Итоговый commit/push/PR записаны в основном handoff; текущий точный HEAD — `git log -1 --format=%H`.
+
+Следующий шаг: review нового Draft PR капитаном, затем собственная live-приёмка Supabase login, /me, разрешённые точки, customers/create/reload/logout/cache и финансовых/публичных сценариев на согласованных учебных данных. Физический Android и настоящий микрофон проверить отдельно. QA-ветку и PR второго Codex не объединять автоматически.
+
+Полный состав файлов, команды и статус: [SELLER_FRONTEND_HANDOFF](../SELLER_FRONTEND_HANDOFF.md). Визуальные решения: [SELLER_DESIGN_NOTES](../SELLER_DESIGN_NOTES.md). История старых seller-этапов сохранена в Git (b3d0328 / a77f1a0), текущая база — Team MVP.
+
+## Проверено в новой design integration ветке
+
+Финальный прогон: npm ci, check:api, typecheck, lint, build, format:check — passed; **84 unit/component (8 файлов), 14 Chromium E2E**. Ширины360/390/768/1440, 20 новых PNG. История тестового WebGL stub/Windows LF исправлена без изменения production API/финансовых функций. Финальные Git refs/PR и подробные ограничения — в основном handoff. Это новые собственные результаты; live-результаты капитана не включены в эти числа.
+
+## Опубликовано
+
+Проверенный code commit **3faa4b23e6c973836ba1099e7695546ec427eb65**, push успешен и local/remote hash совпал; fetch/pull --ff-only своей ветки — Already up to date. Base повторно проверен:3d009dc86c93debcab05dedda530b7d1fe62a304. Новый **open Draft PR #11**: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/11, base integration/team-mvp. Эта запись отдельным docs commit дополняет проверенный код; актуальный итоговый HEAD — git log -1 --format=%H. Новому Codex продолжать только feature/seller-design-integration. Merge не выполнялся.

@@ -183,7 +183,12 @@ export function Sale() {
                 {l("prepare")}
               </Button>
             </fieldset>
-            {!!parseError && <ErrorMessage error={parseError} />}
+            {!!parseError && (
+              <div role="alert">
+                <p>{l("aiUnavailable")}</p>
+                <ErrorMessage error={parseError} />
+              </div>
+            )}
             <Button
               variant="secondary"
               disabled={disabled}

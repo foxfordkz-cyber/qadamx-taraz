@@ -17,13 +17,16 @@ vi.mock("../app/runtime", () => ({
 import { Sale } from "../features/voice/Sale";
 import { I18nProvider } from "../shared/i18n";
 describe("voice form with stub provider responses", () => {
-  it.each(["timeout", "invalid-json"])(
+  it.each(["timeout", "invalid-json", "rate-limit", "provider-unavailable"])(
     "keeps text and manual inputs after %s",
     async (kind) => {
       state.drafts.clear();
       state.api.request.mockReset().mockImplementation(async (path: string) => {
         if (path.endsWith("/drafts")) {
           if (kind === "timeout") throw new ApiError(504, "AI_TIMEOUT");
+          if (kind === "rate-limit") throw new ApiError(429, "RATE_LIMITED");
+          if (kind === "provider-unavailable")
+            throw new ApiError(503, "AI_UNAVAILABLE");
           return { not: "a draft" };
         }
         if (path.includes("/summary"))
@@ -64,10 +67,16 @@ describe("voice form with stub provider responses", () => {
           screen.getByRole("button", { name: "Ручной ввод" }),
         ).toBeEnabled(),
       );
+      expect(screen.getByRole("alert")).toHaveTextContent("Ввод сохранён");
       expect(screen.getByLabelText("Текст для AI")).toHaveValue(
         "unknown payment",
       );
       expect(screen.getByLabelText("Описание")).toHaveValue("manual retained");
+      expect(
+        state.api.request.mock.calls.filter(([path]) =>
+          String(path).endsWith("/drafts"),
+        ),
+      ).toHaveLength(1);
       expect(
         state.api.request.mock.calls.filter(
           ([path, init]) =>

@@ -1474,3 +1474,67 @@ dialog::backdrop {
     transition: none;
   }
 }
+
+/* Presentation bridge for the integrated ledger and public modules.
+   Keep their source, responsive structure and API behavior with their owners. */
+.app-shell .ledger-columns {
+  align-items: start;
+  gap: var(--qadam-space-5);
+}
+.app-shell .ledger-stats strong {
+  font-size: clamp(17px, 1.6vw, 24px);
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.app-shell .ledger-stats .card {
+  padding: 20px;
+}
+.app-shell .ledger-stats p {
+  color: var(--qadam-muted);
+  font-size: 12px;
+}
+.financial-demo-state {
+  display: grid;
+  justify-items: center;
+  padding: 32px 24px;
+  margin-block: 24px;
+  text-align: center;
+}
+.financial-demo-state > svg {
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border-radius: 16px;
+  background: var(--qadam-soft);
+  color: var(--qadam-green);
+}
+.financial-demo-state .empty-state {
+  padding: 16px 0 0;
+  margin: 0;
+  border: 0;
+  max-width: 480px;
+}
+.financial-demo-state .empty-mark {
+  display: none;
+}
+.ex {
+  --ink: var(--qadam-ink);
+  --muted: var(--qadam-muted);
+  --teal: var(--qadam-green);
+  --saffron: var(--qadam-orange);
+  --bg: var(--qadam-paper);
+  --card: var(--qadam-white);
+  --line: var(--qadam-line);
+  font-family: var(--qadam-font);
+}
+.ex .hotspot {
+  border-color: var(--qadam-green);
+}
+@media (max-width: 1100px) {
+  .app-shell .ledger-columns {
+    grid-template-columns: 1fr;
+  }
+  .app-shell .ledger-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

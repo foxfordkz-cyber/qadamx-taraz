@@ -72,3 +72,7 @@
 ## 2026-10-16: sixth role, mobile livestock
 
 apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, web remains apps/web. Livestock owner is the verified Supabase JWT subject, independent of shop memberships; existing ledger authorization is unchanged. Livestock never creates ledger entries. Today uses Asia/Almaty server date; price statistics exclude demo data and use asking prices, not transactions or AI. Photo publication requires private Storage and server-side decoding/re-encoding without EXIF. Proposed contract: packages/contracts/LIVESTOCK_API.md. Shared Supabase must not be migrated in this task.
+
+## Seller design integration — 2026-10-16
+
+В отдельной feature/seller-design-integration от integration/team-mvp:3d009dc переносится только визуальный delta готового seller a77f1a02. Канонические backend/OpenAPI0.4/runtime/API/modules и feature-модули других участников сохраняются. Общая Qadam палитра/Manrope определяются в shared/tokens.css, совместимые semantic aliases обслуживают существующий UI; public .ex получает CSS token bridge без переписывания витрины. Финансовые значения не подставляются в Demo, чужая денежная логика не меняется. Review выполняется отдельным Draft PR в integration/team-mvp, без merge в этой задаче. Детали, собственные проверки и ограничения — SELLER_FRONTEND_HANDOFF.md и handoffs/seller-web.md.
