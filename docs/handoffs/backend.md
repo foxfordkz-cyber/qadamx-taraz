@@ -387,3 +387,15 @@ Flutter уже может использовать актуальные OpenAPI/
 ### Публикация общей приёмки
 
 Создан **[open Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13)**, head `integration/local-combined-check`, base `backend/livestock`. Проверенный код `c5ecd5e5abb579e75121c9e05541b9b8d14a0591`; `17ee90f` и текущая запись добавляют только отчёт/публичные снимки/ссылку. Ветка опубликована без force push. Существующие PR и их базы не менялись, merge/deploy не выполнялись. [Инструкция и результаты](../COMBINED_ACCEPTANCE.md).
+
+### 2026-10-16 — общая Supabase: livestock и Storage подключены
+
+По прямому разрешению капитана применена `0004_livestock` на qadam-demo. Миграция добавочная, RLS включён на трёх новых таблицах; прямого SELECT у anon/authenticated нет. Полный backup не создавался: перед/после сверены ревизия и количества существующих записей. Сохранены 9 businesses, 9 catalog_items, 13 customers, 3 drafts, 11 idempotency_records, 2 inquiries, 9 memberships, 11 operations, 3 venues. Очищающие тесты и повторный seed не запускались в рамках настройки.
+
+Создан private bucket `livestock-photos`, JPEG, лимит 8 MiB. Policies на storage.objects отсутствуют. STORAGE_SERVICE_KEY, STORAGE_BUCKET и LIVESTOCK_DEMO_MODE=true сохранены только в существующем игнорируемом серверном .env основной рабочей копии. Секреты не выводились и не включены в Git. Новые процессы API должны загрузить обновлённое окружение; уже запущенный процесс автоматически настройки не получает.
+
+Живая проверка через FastAPI TestClient с настоящими Supabase JWT A/B, общей PostgreSQL и настоящим Supabase Storage: /me обоих владельцев; upload PNG с преобразованием в JPEG без EXIF; повтор upload возвращает тот же photo ID; публикация и повтор с прежним listing ID; чужое редактирование и приватное фото дают 404; confirm_today; публичное фото доступно до sell, после sell объявление и публичное фото дают 404, владельцу приватное фото доступно. PASS. Это API-проверка, не Flutter/браузерный UI-прогон.
+
+Оставлена учебная запись e93b4262-a6bf-4ddc-8665-3e2ee657ad35, is_demo=true, status=sold; фото 53120e8e-6156-5185-8b0c-cd4a08ba55c2 — синтетический цветной квадрат. Дополнительно в private Storage оставлен setup-check/7160de2d-2cc3-4c33-ab97-2af9c9ec5dea.jpg для проверки серверного адаптера. Прямое чтение объекта публичным URL и только publishable key отклонено (400), серверное чтение/загрузка PASS. Существующий денежный журнал не изменился.
+
+Остаются Flutter/физический телефон, проверка реальной смены суток и эксплуатационная очистка непривязанных объектов. Старые указания о текущей версии 0003 в документации являются историческими: общая БД теперь 0004_livestock. Merge/deploy не выполнялись.

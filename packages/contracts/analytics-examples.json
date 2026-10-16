@@ -1,0 +1,503 @@
+{
+  "empty": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "days": 7,
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "as_of": "2026-10-16T10:00:00Z",
+    "period_from": "2026-10-10",
+    "period_to": "2026-10-16",
+    "today_incomplete": true,
+    "cards": {
+      "sales_minor": 0,
+      "receipts_minor": 0,
+      "sales_count": 0,
+      "average_ticket_minor": null,
+      "outstanding_minor": 0,
+      "debtors_count": 0
+    },
+    "daily": [
+      {
+        "date": "2026-10-10",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-11",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-12",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-13",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-14",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-15",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-16",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": true
+      }
+    ],
+    "hourly": [
+      {
+        "hour": 0,
+        "sales_count": 0
+      },
+      {
+        "hour": 1,
+        "sales_count": 0
+      },
+      {
+        "hour": 2,
+        "sales_count": 0
+      },
+      {
+        "hour": 3,
+        "sales_count": 0
+      },
+      {
+        "hour": 4,
+        "sales_count": 0
+      },
+      {
+        "hour": 5,
+        "sales_count": 0
+      },
+      {
+        "hour": 6,
+        "sales_count": 0
+      },
+      {
+        "hour": 7,
+        "sales_count": 0
+      },
+      {
+        "hour": 8,
+        "sales_count": 0
+      },
+      {
+        "hour": 9,
+        "sales_count": 0
+      },
+      {
+        "hour": 10,
+        "sales_count": 0
+      },
+      {
+        "hour": 11,
+        "sales_count": 0
+      },
+      {
+        "hour": 12,
+        "sales_count": 0
+      },
+      {
+        "hour": 13,
+        "sales_count": 0
+      },
+      {
+        "hour": 14,
+        "sales_count": 0
+      },
+      {
+        "hour": 15,
+        "sales_count": 0
+      },
+      {
+        "hour": 16,
+        "sales_count": 0
+      },
+      {
+        "hour": 17,
+        "sales_count": 0
+      },
+      {
+        "hour": 18,
+        "sales_count": 0
+      },
+      {
+        "hour": 19,
+        "sales_count": 0
+      },
+      {
+        "hour": 20,
+        "sales_count": 0
+      },
+      {
+        "hour": 21,
+        "sales_count": 0
+      },
+      {
+        "hour": 22,
+        "sales_count": 0
+      },
+      {
+        "hour": 23,
+        "sales_count": 0
+      }
+    ]
+  },
+  "sale_and_repayment": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "days": 7,
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "as_of": "2026-10-16T10:00:00Z",
+    "period_from": "2026-10-10",
+    "period_to": "2026-10-16",
+    "today_incomplete": true,
+    "cards": {
+      "sales_minor": 300000,
+      "receipts_minor": 150000,
+      "sales_count": 1,
+      "average_ticket_minor": 300000,
+      "outstanding_minor": 150000,
+      "debtors_count": 1
+    },
+    "daily": [
+      {
+        "date": "2026-10-10",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-11",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-12",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-13",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-14",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-15",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-16",
+        "sales_minor": 300000,
+        "receipts_minor": 150000,
+        "sales_count": 1,
+        "is_partial": true
+      }
+    ],
+    "hourly": [
+      {
+        "hour": 0,
+        "sales_count": 0
+      },
+      {
+        "hour": 1,
+        "sales_count": 0
+      },
+      {
+        "hour": 2,
+        "sales_count": 0
+      },
+      {
+        "hour": 3,
+        "sales_count": 0
+      },
+      {
+        "hour": 4,
+        "sales_count": 0
+      },
+      {
+        "hour": 5,
+        "sales_count": 0
+      },
+      {
+        "hour": 6,
+        "sales_count": 0
+      },
+      {
+        "hour": 7,
+        "sales_count": 0
+      },
+      {
+        "hour": 8,
+        "sales_count": 0
+      },
+      {
+        "hour": 9,
+        "sales_count": 0
+      },
+      {
+        "hour": 10,
+        "sales_count": 0
+      },
+      {
+        "hour": 11,
+        "sales_count": 0
+      },
+      {
+        "hour": 12,
+        "sales_count": 0
+      },
+      {
+        "hour": 13,
+        "sales_count": 0
+      },
+      {
+        "hour": 14,
+        "sales_count": 0
+      },
+      {
+        "hour": 15,
+        "sales_count": 1
+      },
+      {
+        "hour": 16,
+        "sales_count": 0
+      },
+      {
+        "hour": 17,
+        "sales_count": 0
+      },
+      {
+        "hour": 18,
+        "sales_count": 0
+      },
+      {
+        "hour": 19,
+        "sales_count": 0
+      },
+      {
+        "hour": 20,
+        "sales_count": 0
+      },
+      {
+        "hour": 21,
+        "sales_count": 0
+      },
+      {
+        "hour": 22,
+        "sales_count": 0
+      },
+      {
+        "hour": 23,
+        "sales_count": 0
+      }
+    ]
+  },
+  "old_sale_reversed_today": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "days": 7,
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "as_of": "2026-10-16T10:00:00Z",
+    "period_from": "2026-10-10",
+    "period_to": "2026-10-16",
+    "today_incomplete": true,
+    "cards": {
+      "sales_minor": 0,
+      "receipts_minor": -100000,
+      "sales_count": 0,
+      "average_ticket_minor": null,
+      "outstanding_minor": 0,
+      "debtors_count": 0
+    },
+    "daily": [
+      {
+        "date": "2026-10-10",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-11",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-12",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-13",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-14",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-15",
+        "sales_minor": 0,
+        "receipts_minor": 0,
+        "sales_count": 0,
+        "is_partial": false
+      },
+      {
+        "date": "2026-10-16",
+        "sales_minor": 0,
+        "receipts_minor": -100000,
+        "sales_count": 0,
+        "is_partial": true
+      }
+    ],
+    "hourly": [
+      {
+        "hour": 0,
+        "sales_count": 0
+      },
+      {
+        "hour": 1,
+        "sales_count": 0
+      },
+      {
+        "hour": 2,
+        "sales_count": 0
+      },
+      {
+        "hour": 3,
+        "sales_count": 0
+      },
+      {
+        "hour": 4,
+        "sales_count": 0
+      },
+      {
+        "hour": 5,
+        "sales_count": 0
+      },
+      {
+        "hour": 6,
+        "sales_count": 0
+      },
+      {
+        "hour": 7,
+        "sales_count": 0
+      },
+      {
+        "hour": 8,
+        "sales_count": 0
+      },
+      {
+        "hour": 9,
+        "sales_count": 0
+      },
+      {
+        "hour": 10,
+        "sales_count": 0
+      },
+      {
+        "hour": 11,
+        "sales_count": 0
+      },
+      {
+        "hour": 12,
+        "sales_count": 0
+      },
+      {
+        "hour": 13,
+        "sales_count": 0
+      },
+      {
+        "hour": 14,
+        "sales_count": 0
+      },
+      {
+        "hour": 15,
+        "sales_count": 0
+      },
+      {
+        "hour": 16,
+        "sales_count": 0
+      },
+      {
+        "hour": 17,
+        "sales_count": 0
+      },
+      {
+        "hour": 18,
+        "sales_count": 0
+      },
+      {
+        "hour": 19,
+        "sales_count": 0
+      },
+      {
+        "hour": 20,
+        "sales_count": 0
+      },
+      {
+        "hour": 21,
+        "sales_count": 0
+      },
+      {
+        "hour": 22,
+        "sales_count": 0
+      },
+      {
+        "hour": 23,
+        "sales_count": 0
+      }
+    ]
+  }
+}
