@@ -17,6 +17,7 @@ import {
   Spinner,
 } from "../../shared/ui";
 import { useInquiries, useInquiryStatus } from "./queries";
+import { Icon } from "../../shared/ui/Icon";
 function InquiryCard({ inquiry }: { inquiry: Inquiry }) {
   const { t, locale } = useI18n();
   const { gateway } = useRuntime();
@@ -120,18 +121,19 @@ export function InquiriesPage() {
           </Button>
         }
       />
-      {!canUpdate && (
-        <Alert>
-          {t(gateway.mode === "demo" ? "demoWrites" : "contractPending")}
-        </Alert>
+      {!canUpdate && gateway.mode !== "demo" && (
+        <Alert>{t("contractPending")}</Alert>
       )}
       <div className="toolbar inquiry-filters">
-        <Input
-          label={t("inquirySearch")}
-          type="search"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
+        <div className="search-control">
+          <Input
+            label={t("inquirySearch")}
+            type="search"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <Icon name="search" />
+        </div>
         <Select
           label={t("inquiryFilter")}
           value={filter}

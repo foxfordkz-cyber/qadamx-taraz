@@ -1,6 +1,24 @@
 # Seller frontend — передача следующему Codex
 
-Обновлено 2026-10-15. Репозиторий: https://github.com/foxfordkz-cyber/qadamx-taraz. Работать только в `feature/seller-dashboard`. Draft PR: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Не merge в main, не force push. Секреты и локальные `.env*` не коммить.
+Обновлено 2026-10-16. Репозиторий: https://github.com/foxfordkz-cyber/qadamx-taraz. Работать только в `feature/seller-dashboard`. Draft PR: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Не merge в main, не force push. Секреты и локальные `.env*` не коммить.
+
+## Этап D — дизайн публичной витрины + Polaris, 2026-10-16
+
+Проверенная реализация D опубликована: **95e3bd4cd42d5642ac6f56e22815d1d1f820a321**. Финальные fetch рабочей ветки и pull --ff-only прошли (Already up to date), push origin feature/seller-dashboard успешен, remote HEAD совпал. Draft PR #3 обновлён и остаётся open/draft. Завершающий commit меняет только передачу; актуальный HEAD: `git log -1 --format=%H`. Весь код и screenshots доступны следующему аккаунту через Git.
+
+Последний опубликованный seller HEAD перед этапом D: `b3d03285b5661b9652e3c5b57e5ab1ce11eae5ab`. Исходное дерево чистое; адресный fetch/pull feature-ветки — Already up to date. Общий fetch вновь задержался на чужих Git objects и был прерван; reset/force/автоматических конфликтов не было. Никакие новые main/backend/public/ledger commits не объединялись.
+
+Визуальная основа — настоящая `feature/public-storefront` на **8818e8b73ecc2e2dd2f517f18796782b10d1872f**: Manrope, paper #F5F3EB, ink #172A26, green #164C3E/#103B31, lime #D7F36A, orange #F0A94B, white #FFFEFA, line #E1E2D8, ступенчатый знак qadam. Ветка изучена read-only. Новый запрос заменяет прежнюю красную тему B актуальной общей темой; CSS/код чужого frontend не импортированы. `shared/tokens.css` — один источник palette/radius/font/spacing с сохранёнными --bg/--text/--primary aliases. Muted затемнён до #58685F для контраста.
+
+Реализованы зелёный Dashboard с lime CTA, desktop/mobile список клиентов, обновлённые карточки заявок/каталога. Каталог получил локальные search/availability/count/no-results/reset только по loaded items; gateway и query params не менялись. На mobile вместо верхних повторных разделов — нижняя панель и «Ещё» с Dialog всех старых маршрутов. Escape/focus restore и доступ к публичной витрине сохранены. Дубликат «Демо» в названии точки устранён; общий явный read-only Demo notice остаётся. В заявках убран повторный Demo callout, live CONTRACT_PENDING сохранён.
+
+Локально включены Manrope variable и два официальных Noto Sans WOFF2 fallback subset для десяти отсутствующих Kazakh glyphs; все файлы неизменённые, OFL/source/hash в `apps/web/public/fonts/README.md`. Runtime Google Fonts requests не нужны. Browser проверяет загрузку Manrope и двух fallback faces для ӘҒҚҢҰ; KZ 360 screenshot проверен визуально. Для hero добавлен заметный lime keyboard outline, для sticky header — scroll-margin у skip target, touch targets nav/RU/KZ не меньше44×44.
+
+Проверки финальной версии D: **typecheck/lint/build/check:api/format:check passed; 74 unit/component (6 файлов), 9 Chromium E2E passed**. Проверены 360/390/768/1440, прежние маршруты/Auth/cache/isolation/CustomerPicker, локальная фильтрация без повторного gateway call, RU/KZ с сохранением полей, меню и focus, отсутствие overflow. Проверки выполнены здесь, не приписаны капитану. Chromium требует разрешённого loopback в Codex sandbox. Небольшая ошибка типов в новых test options и форматирование исправлены до финального прогона.
+
+Получены и визуально просмотрены **10 новых реальных browser screenshots**: Dashboard/Customers/Inquiries/Catalog desktop1440 и mobile390, Dashboard768 и Catalog KZ360. После визуальной проверки уплотнены mobile header/filter и product placeholder; финальный E2E повторён. Все кадры показывают Demo; живой browser login/DB/CORS ими не подтверждаются. [Источники, контраст и галерея](SELLER_DESIGN_NOTES.md).
+
+Изменённые файлы D: app/layout/pages, features/seller/{Catalog,Customers,Inquiries}, shared/{tokens,merchant,styles}.css, shared/ui/{Brand,Icon}, shared/i18n/{ru,kk}, main import, local public/fonts, src/test/screens.test.tsx, e2e/{seller,screenshots}.spec.ts и собственная документация/screenshots. **Не менялись** apps/api, packages/contracts, shared/api, auth/runtime/query, CustomerPicker exports, чужие features/explore/inquiry/ledger/voice/summary. Supabase env остаётся игнорируемым. Backend 193f6e5 и согласованный OpenAPI 2d2fc56 остаются как в этапе C. Новых backend или AI функций нет; live acceptance и модули других участников ожидаются по прежнему плану ниже.
 
 ## Завершённые этапы и Git
 

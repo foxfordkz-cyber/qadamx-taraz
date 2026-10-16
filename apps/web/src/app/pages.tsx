@@ -14,6 +14,7 @@ import {
   Spinner,
 } from "../shared/ui";
 import { Icon, type IconName } from "../shared/ui/Icon";
+import { Brand } from "../shared/ui/Brand";
 
 export const mainActions: {
   path: string;
@@ -46,12 +47,7 @@ export function LoginPage() {
   return (
     <div className="login-page">
       <header className="login-header">
-        <Link className="brand" to="/">
-          <span className="brand-mark">q.</span>
-          <span>
-            qadam<span className="brand-business">business</span>
-          </span>
-        </Link>
+        <Brand to="/" />
         <LanguageSwitch />
       </header>
       <main className="login-grid" id="main-content">
@@ -150,17 +146,33 @@ export function DashboardPage() {
           <p className="eyebrow">{t("cabinet")}</p>
           <h1>{t("dashboardTitle")}</h1>
           <p>{t("dashboardHint")}</p>
-          <span className="welcome-business">
-            {business.name} {business.is_demo && <Badge>{t("demo")}</Badge>}
-          </span>
+          <div className="welcome-actions">
+            <Link
+              className="button button-primary welcome-cta"
+              to="/seller/sale"
+            >
+              <Icon name="sale" />
+              {t("sale")}
+              <Icon name="arrow" />
+            </Link>
+            <Link className="welcome-link" to="/seller/customers">
+              {t("customers")} <span aria-hidden="true">↗</span>
+            </Link>
+          </div>
         </div>
-        <Link className="button button-primary welcome-cta" to="/seller/sale">
-          <Icon name="sale" />
-          {t("sale")}
-        </Link>
+        <div className="welcome-context">
+          <span className="welcome-context-icon">
+            <Icon name="shop" />
+          </span>
+          <p>{t("activeBusiness")}</p>
+          <strong>{business.name}</strong>
+          <span className="welcome-location">Taraz · Qadam Business</span>
+          {business.is_demo && <Badge>{t("demo")}</Badge>}
+        </div>
       </div>
-      <div className="page-header">
+      <div className="section-heading">
         <h2>{t("tools")}</h2>
+        <span>{t("quickActions")}</span>
       </div>
       <div className="action-grid">
         {mainActions.map((action, index) => (
@@ -169,12 +181,17 @@ export function DashboardPage() {
             className={`action-card action-${index}`}
             to={`/seller/${action.path}`}
           >
-            <span className="action-icon">
-              <Icon name={action.icon} />
-            </span>
+            <div className="action-card-top">
+              <span className="action-icon">
+                <Icon name={action.icon} />
+              </span>
+              <span className="action-number" aria-hidden="true">
+                0{index + 1}
+              </span>
+            </div>
             <h2>{t(action.label)}</h2>
             <p>{t(action.hint)}</p>
-            <span className="action-arrow">
+            <span className="action-arrow" aria-hidden="true">
               <Icon name="arrow" />
             </span>
           </Link>
@@ -184,7 +201,18 @@ export function DashboardPage() {
         {(["customers", "catalog", "history"] as const).map((key) => (
           <Link to={`/seller/${key}`} className="secondary-card" key={key}>
             <Icon name={key} />
-            <span>{t(key)}</span>
+            <span>
+              <strong>{t(key)}</strong>
+              <small>
+                {t(
+                  key === "customers"
+                    ? "customerDirectory"
+                    : key === "catalog"
+                      ? "catalogDirectory"
+                      : "historyDirectory",
+                )}
+              </small>
+            </span>
             <span aria-hidden="true">↗</span>
           </Link>
         ))}

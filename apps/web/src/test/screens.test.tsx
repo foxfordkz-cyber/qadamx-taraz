@@ -32,6 +32,76 @@ async function goTo(name: string) {
   await userEvent.click(screen.getAllByRole("link", { name })[0]);
 }
 describe("seller UI using explicitly injected test/demo gateways", () => {
+  it("navigates through the mobile menu and closes it after selecting a section", async () => {
+    await openDemo();
+    const more = screen.getByRole("button", {
+      name: "Все разделы",
+    });
+    await userEvent.click(more);
+    const menu = screen.getByRole("dialog", { name: "Все разделы" });
+    expect(
+      within(menu).getByRole("link", { name: /Публичная витрина/ }),
+    ).toHaveAttribute("href", "/");
+    await userEvent.click(within(menu).getByRole("link", { name: "Каталог" }));
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(await screen.findByText("15 000 ₸")).toBeInTheDocument();
+    await userEvent.click(more);
+    await userEvent.click(
+      within(screen.getByRole("dialog")).getByRole("button", {
+        name: "Закрыть",
+      }),
+    );
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(more).toHaveFocus();
+  });
+  it("filters loaded catalog items locally and preserves filters across languages", async () => {
+    const catalog = vi.fn(demoGateway.catalog);
+    await openDemo({ ...demoGateway, catalog });
+    await goTo("Каталог");
+    await screen.findByText("15 000 ₸");
+    await userEvent.type(screen.getByLabelText("Поиск по каталогу"), "рюкзак");
+    await userEvent.selectOptions(
+      screen.getByLabelText("Наличие"),
+      "available",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Рюкзак · Демо" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("heading", { name: "Сөмке · Демо" }),
+    ).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "KZ" }));
+    expect(screen.getByLabelText("Каталогтан іздеу")).toHaveValue("рюкзак");
+    expect(screen.getByLabelText("Қолжетімділік")).toHaveValue("available");
+    expect(screen.getByText("15 000 ₸")).toBeInTheDocument();
+    expect(catalog).toHaveBeenCalledTimes(1);
+  });
+  it("resets catalog search and availability after a no-results state", async () => {
+    const catalog = vi.fn(demoGateway.catalog);
+    await openDemo({ ...demoGateway, catalog });
+    await goTo("Каталог");
+    await screen.findByText("15 000 ₸");
+    await userEvent.type(screen.getByLabelText("Поиск по каталогу"), "рюкзак");
+    await userEvent.selectOptions(
+      screen.getByLabelText("Наличие"),
+      "unavailable",
+    );
+    expect(
+      screen.getByRole("heading", { name: "Товары не найдены" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByText("15 000 ₸")).not.toBeInTheDocument();
+    await userEvent.click(
+      screen.getByRole("button", { name: "Сбросить поиск и фильтры" }),
+    );
+    expect(screen.getByLabelText("Поиск по каталогу")).toHaveValue("");
+    expect(screen.getByLabelText("Наличие")).toHaveValue("all");
+    expect(screen.getByText("15 000 ₸")).toBeInTheDocument();
+    expect(screen.getByText("Цена не указана")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: "Тауар · Демо" }),
+    ).toBeInTheDocument();
+    expect(catalog).toHaveBeenCalledTimes(1);
+  });
   it("searches inquiry text locally and keeps the search across language changes", async () => {
     const inquiries = vi.fn(demoGateway.inquiries);
     await openDemo({ ...demoGateway, inquiries });

@@ -56,7 +56,7 @@ OpenAPI 0.3.0 добавляет POST `/api/v1/businesses/{id}/drafts`, суще
 
 Seller-owned routes: `/login`, `/seller`, `/seller/customers`, `/seller/inquiries`, `/seller/catalog`. Последние два используют данные только в Demo до backend HTTP API.
 
-`shared/merchant.css` подключён после исходных токенов: адаптация общего UI-kit без новых Shopify зависимостей и удаления exports. Цвета Qadam сохранены. Повторно проверять новых потребителей на 360/390/768/1440; применять Card/Button/Input/Dialog из общего UI, не второй дизайн-каркас. [Дизайн и screenshots](SELLER_DESIGN_NOTES.md).
+`shared/tokens.css` содержит актуальные paper/green/lime palette, Manrope/Kazakh font faces, radius/spacing и совместимые --bg/--text/--primary aliases. Тема согласована с public storefront 8818e8b по запросу от 2026-10-16; чужой код/CSS не объединён. `styles.css` использует semantic tokens, `merchant.css` адаптирует UI-kit без новых Shopify dependencies и удаления exports. Локальные шрифты/OFL — public/fonts. На mobile дополнительные маршруты доступны через Dialog «Ещё», Escape и focus restore сохранены. Каталог фильтруется только локально по loaded items, API params не добавляются. Повторно проверять потребителей на 360/390/768/1440; применять Card/Button/Input/Dialog из общего UI. [Дизайн и screenshots](SELLER_DESIGN_NOTES.md).
 
 ## RU/KZ, деньги и drafts
 
@@ -72,4 +72,4 @@ Supabase provider поддерживает signInWithPassword/session restore/re
 
 Отдельное подтверждение капитана: live TypeScript-client smoke /me, customer create, sale, repayment, history и summary прошёл в его среде. Seller-сессия его не повторяла; browser login и CORS этим не подтверждаются.
 
-Demo включается только кнопкой `/login`, fixtures read-only, banner на seller-экранах. Backend error не переводит в demo; reload завершает Demo. Для SPA hosting нужен index.html fallback; деплоя нет. Полные команды, результаты 71 unit/component и 8 E2E, следующий шаг — [handoff](SELLER_FRONTEND_HANDOFF.md).
+Demo включается только кнопкой `/login`, fixtures read-only, banner на seller-экранах. Backend error не переводит в demo; reload завершает Demo. Для SPA hosting нужен index.html fallback; деплоя нет. Полные команды, результаты 74 unit/component и 9 E2E, следующий шаг — [handoff](SELLER_FRONTEND_HANDOFF.md).

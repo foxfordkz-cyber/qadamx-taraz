@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import {
+  Link,
+  NavLink,
+  Outlet,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { useAuth } from "./auth";
 import { useBusiness } from "./runtime";
 import { mainActions } from "./pages";
 import { LanguageSwitch, useI18n, type TranslationKey } from "../shared/i18n";
-import { Alert, Badge, Button, Select } from "../shared/ui";
+import { Alert, Badge, Button, Dialog, Select } from "../shared/ui";
+import { Brand, QadamMark } from "../shared/ui/Brand";
 import { Icon, type IconName } from "../shared/ui/Icon";
 
 const links: { path: string; label: TranslationKey; icon: IconName }[] = [
@@ -19,6 +26,8 @@ export function SellerLayout() {
   const auth = useAuth();
   const { business, businesses, selectBusiness } = useBusiness();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [menuOpen, setMenuOpen] = useState(false);
   const [logoutPending, setLogoutPending] = useState(false);
   const [logoutError, setLogoutError] = useState(false);
   async function logout() {
@@ -39,12 +48,7 @@ export function SellerLayout() {
         {t("skip")}
       </a>
       <aside className="sidebar">
-        <Link className="brand" to="/seller">
-          <span className="brand-mark">q.</span>
-          <span>
-            qadam<span className="brand-business">business</span>
-          </span>
-        </Link>
+        <Brand to="/seller" />
         <p className="sidebar-label">{t("cabinet")}</p>
         <nav aria-label={t("more")}>
           {links.map((link) => (
@@ -54,37 +58,42 @@ export function SellerLayout() {
               to={`/seller${link.path ? `/${link.path}` : ""}`}
             >
               <Icon name={link.icon} />
-              {t(link.label)}
+              <span>{t(link.label)}</span>
             </NavLink>
           ))}
         </nav>
         <div className="sidebar-footer">
-          <span className="sidebar-dot" />
-          Qadam Business
-          <br />
-          <small>Taraz · RU / KZ</small>
-          <Link to="/">{t("storefront")} ↗</Link>
+          <Icon name="shop" />
+          <strong>Qadam · Taraz</strong>
+          <small>{t("storefrontHint")}</small>
+          <Link to="/">
+            {t("storefront")} <span aria-hidden="true">↗</span>
+          </Link>
         </div>
       </aside>
       <div className="workspace">
         <header className="topbar">
           <div className="mobile-brand">
-            <Link to="/seller" className="brand-mark" aria-label={t("home")}>
-              q.
+            <Link to="/seller" aria-label={t("home")}>
+              <QadamMark />
             </Link>
           </div>
-          <Select
-            label={t("business")}
-            value={business.id}
-            onChange={(e) => selectBusiness(e.target.value)}
-          >
-            {businesses.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-                {item.is_demo ? ` · ${t("demo")}` : ""}
-              </option>
-            ))}
-          </Select>
+          <div className="business-control">
+            <span className="business-control-icon">
+              <Icon name="shop" />
+            </span>
+            <Select
+              label={t("business")}
+              value={business.id}
+              onChange={(e) => selectBusiness(e.target.value)}
+            >
+              {businesses.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+            </Select>
+          </div>
           <div className="topbar-actions">
             <span className="mode-label">
               <span className="mode-dot" />
@@ -111,30 +120,69 @@ export function SellerLayout() {
             </div>
           )}
           {logoutError && <Alert tone="error">{t("signoutError")}</Alert>}
-          <nav className="mobile-sections" aria-label={t("more")}>
-            {(["customers", "catalog", "history"] as const).map((key) => (
-              <NavLink key={key} to={`/seller/${key}`}>
-                {t(key)}
-              </NavLink>
-            ))}
-          </nav>
           <main id="main-content" tabIndex={-1} key={business.id}>
             <Outlet />
           </main>
         </div>
       </div>
       <nav className="bottom-nav" aria-label={t("cabinet")}>
-        {links.slice(0, 5).map((link) => (
-          <NavLink
-            key={link.path}
-            end
-            to={`/seller${link.path ? `/${link.path}` : ""}`}
-          >
-            <Icon name={link.icon} />
-            <span>{t(link.label)}</span>
-          </NavLink>
-        ))}
+        {links
+          .filter((link) =>
+            ["", "sale", "customers", "inquiries"].includes(link.path),
+          )
+          .map((link) => (
+            <NavLink
+              key={link.path}
+              end
+              to={`/seller${link.path ? `/${link.path}` : ""}`}
+            >
+              <Icon name={link.icon} />
+              <span>{t(link.label)}</span>
+            </NavLink>
+          ))}
+        <button
+          type="button"
+          aria-label={t("more")}
+          aria-haspopup="dialog"
+          aria-expanded={menuOpen}
+          className={
+            ["debts", "summary", "catalog", "history"].some(
+              (path) => pathname === `/seller/${path}`,
+            )
+              ? "is-active"
+              : ""
+          }
+          onClick={() => setMenuOpen(true)}
+        >
+          <Icon name="menu" />
+          <span>{t("menu")}</span>
+        </button>
       </nav>
+      <Dialog
+        title={t("more")}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+      >
+        <nav className="section-menu" aria-label={t("more")}>
+          {links.map((link) => (
+            <NavLink
+              key={link.path}
+              end
+              to={`/seller${link.path ? `/${link.path}` : ""}`}
+              onClick={() => setMenuOpen(false)}
+            >
+              <Icon name={link.icon} />
+              <span>{t(link.label)}</span>
+              <span aria-hidden="true">→</span>
+            </NavLink>
+          ))}
+          <Link to="/" onClick={() => setMenuOpen(false)}>
+            <Icon name="shop" />
+            <span>{t("storefront")}</span>
+            <span aria-hidden="true">↗</span>
+          </Link>
+        </nav>
+      </Dialog>
     </div>
   );
 }

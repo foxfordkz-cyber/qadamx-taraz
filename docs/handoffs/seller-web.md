@@ -1,6 +1,10 @@
 # Seller web — передача
 
-2026-10-15, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
+2026-10-16, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
+
+Этап D: кабинет согласован с настоящей публичной темой `feature/public-storefront` на 8818e8b73ecc2e2dd2f517f18796782b10d1872f (read-only reference, без merge). Shared tokens, Manrope+локальный Noto Kazakh fallback/OFL, green/lime qadam mark; Dashboard/Customers/Inquiries/Catalog и компактная mobile nav с Dialog «Ещё». Каталог фильтруется локально, API не расширен. Auth/runtime/shared API/backend/чужие frontend-модули и CustomerPicker exports сохранены. Прежняя красная тема B заменена по новому запросу.
+
+Финальные проверки D: typecheck/lint/build/check:api/format:check passed, **74 unit/component + 9 E2E**, 360/390/768/1440, RU/KZ, font faces, focus/Escape/skip link и touch targets. 10 реальных Demo screenshots в docs/screenshots; источники и галерея в SELLER_DESIGN_NOTES.md. Реализация D опубликована: **95e3bd4cd42d5642ac6f56e22815d1d1f820a321**, fetch/pull --ff-only (Already up to date) и push прошли, remote HEAD совпал; PR #3 обновлён, open/draft. Финальная запись меняет только handoff; актуальный HEAD: git log -1 --format=%H.
 
 Завершены этап A (публикация `246851b2d4df996f054c7b1a27b2ba2933d2b3ee`) и этап B (Polaris-inspired UI, `e8321f0cb5c7056d284c831d4e6ae7b0293424ca`). Оба отправлены после fetch/pull --ff-only; remote hash совпал. Последний опубликованный seller HEAD перед этапом C: `9b4156122e22f12839f9f69384cb79a43e90c730`. Код apps/api остаётся на одобренном `193f6e5`. Актуальный HEAD: `git log -1 --format=%H`.
 
