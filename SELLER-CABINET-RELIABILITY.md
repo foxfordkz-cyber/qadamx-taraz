@@ -74,9 +74,12 @@ The backend rollout blocker is cleared. Live acceptance still requires a
 configured frontend auth environment and an approved training account/session
 with the two training points plus a known foreign test point. This checkout has
 no Vite/Supabase environment configured; the only live identity probe returned
-401. Until that access is available, no customer creation or common-database
-mutation was attempted. The requested live create/lost-response/reload,
-CustomerPicker, A/B, and foreign-point checks remain pending.
+401. CORS preflight returns 200 only for the approved temporary preview origin
+tested; both localhost origins return 400. Until the branch is served from the
+approved origin (or the owner explicitly authorizes a local origin), no
+customer creation or common-database mutation was attempted. The requested
+live create/lost-response/reload, CustomerPicker, A/B, and foreign-point
+checks remain pending.
 
 PR #31 overlaps in `apps/web/src/app/auth.tsx`. Its registration behavior is
 not merged into this branch; integration must combine both sets of guards,
