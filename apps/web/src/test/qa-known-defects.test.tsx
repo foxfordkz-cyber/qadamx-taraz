@@ -15,10 +15,9 @@ import {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
+  window.localStorage.clear();
 });
-// Deliberately normal assertions, not skip/todo/it.fails: defects must keep the
-// regression gate red until their owners fix them. See docs/qa report.
-describe("QA known defects — desired behaviour, production unchanged", () => {
+describe("QA regressions — required behaviour", () => {
   it("QA-001: a late 401 from the first A session cannot expire a new A session after A/B/A", async () => {
     const late = deferred<Response>();
     const fetcher = vi.fn<typeof fetch>((input, init) =>

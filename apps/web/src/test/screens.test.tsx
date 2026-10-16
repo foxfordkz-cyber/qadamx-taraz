@@ -280,6 +280,10 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
       mode: "live",
       canWrite: true,
       createCustomer: create,
+      customerCreationResult: async () => ({
+        status: "not_observed",
+        customer: null,
+      }),
     });
     await goTo("Клиенты");
     await userEvent.click(screen.getByRole("button", { name: /Новый клиент/ }));
@@ -312,6 +316,10 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
       mode: "live",
       canWrite: true,
       createCustomer,
+      customerCreationResult: async () => ({
+        status: "not_observed",
+        customer: null,
+      }),
     });
     await goTo("Клиенты");
     await userEvent.click(

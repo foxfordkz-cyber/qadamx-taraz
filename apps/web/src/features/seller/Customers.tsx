@@ -1,7 +1,8 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useBusiness, useDraft, useRuntime } from "../../app/runtime";
 import type { Customer, CustomerInput } from "../../shared/api/models";
+import { customerInputErrors } from "../../shared/api/bindings";
 import { LanguageSwitch, useI18n } from "../../shared/i18n";
 import { formatKZT } from "../../shared/format";
 import {
@@ -17,45 +18,50 @@ import {
   PageHeader,
   Spinner,
 } from "../../shared/ui";
-import { useCreateCustomer, useCustomers } from "./queries";
+import { useCustomerCreationRecovery, useCustomers } from "./queries";
 import { Icon } from "../../shared/ui/Icon";
+
+type CustomerRecovery = ReturnType<typeof useCustomerCreationRecovery>;
 
 export function CreateCustomerForm({
   onCreated,
   onCancel,
+  recovery: sharedRecovery,
 }: {
   onCreated?: (customer: Customer) => void;
   onCancel?: () => void;
+  recovery?: CustomerRecovery;
 }) {
   const { t } = useI18n();
   const { business } = useBusiness();
   const { gateway } = useRuntime();
   const canCreate = gateway.canCreateCustomer ?? gateway.canWrite;
+  const localRecovery = useCustomerCreationRecovery(!sharedRecovery);
+  const recovery = sharedRecovery ?? localRecovery;
   const [input, setInput] = useDraft<CustomerInput>(
     `${business.id}:customer-form`,
     { display_name: "", note: "", contact: "" },
   );
   const [invalid, setInvalid] = useState(false);
-  const create = useCreateCustomer();
+  const errors = invalid ? customerInputErrors(input) : {};
+  const lastHandledCustomer = useRef(recovery.resolvedCustomer?.id ?? null);
   const noteId = useId();
+  useEffect(() => {
+    const customer = recovery.resolvedCustomer;
+    if (!customer || customer.id === lastHandledCustomer.current) return;
+    lastHandledCustomer.current = customer.id;
+    setInvalid(false);
+    setInput({ display_name: "", note: "", contact: "" });
+    onCreated?.(customer);
+  }, [onCreated, recovery.resolvedCustomer, setInput]);
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (!input.display_name.trim()) {
-          setInvalid(true);
-          return;
-        }
-        if (!canCreate || create.isPending) return;
-        create.mutate(
-          { ...input, display_name: input.display_name.trim() },
-          {
-            onSuccess: (customer) => {
-              setInput({ display_name: "", note: "", contact: "" });
-              onCreated?.(customer);
-            },
-          },
-        );
+        setInvalid(true);
+        if (Object.keys(customerInputErrors(input)).length) return;
+        if (!canCreate || recovery.busy) return;
+        void recovery.create(input);
       }}
     >
       <div className="form-stack">
@@ -67,10 +73,13 @@ export function CreateCustomerForm({
           maxLength={400}
           value={input.display_name}
           error={
-            invalid && !input.display_name.trim()
+            errors.display_name === "required"
               ? t("nameRequired")
-              : undefined
+              : errors.display_name
+                ? t("customerNameTooLong")
+                : undefined
           }
+          disabled={recovery.busy}
           onChange={(e) => setInput({ ...input, display_name: e.target.value })}
         />
         <label className="field" htmlFor={noteId}>
@@ -80,38 +89,98 @@ export function CreateCustomerForm({
             rows={3}
             maxLength={4000}
             value={input.note}
+            disabled={recovery.busy}
             onChange={(e) => setInput({ ...input, note: e.target.value })}
             aria-labelledby={`${noteId}-label`}
-            aria-describedby={`${noteId}-hint`}
+            aria-invalid={!!errors.note}
+            aria-describedby={`${noteId}-hint${errors.note ? ` ${noteId}-error` : ""}`}
           />
           <small id={`${noteId}-hint`}>{t("noteHint")}</small>
+          {errors.note && (
+            <small id={`${noteId}-error`} className="field-error" role="alert">
+              {t("customerNoteTooLong")}
+            </small>
+          )}
         </label>
         <Input
           label={t("contact")}
           autoComplete="off"
           maxLength={400}
           value={input.contact}
+          disabled={recovery.busy}
+          error={errors.contact ? t("customerContactTooLong") : undefined}
           onChange={(e) => setInput({ ...input, contact: e.target.value })}
         />
+        {Object.keys(errors).length > 0 && (
+          <p className="field-error" role="alert">
+            {t("validationError")}
+          </p>
+        )}
         {!canCreate && (
           <Alert>
             {t(gateway.mode === "demo" ? "demoWrites" : "contractPending")}
           </Alert>
         )}
-        {create.isError && (
+        {recovery.state === "checking" && recovery.record && (
+          <Alert>{t("customerRecoveryChecking")}</Alert>
+        )}
+        {recovery.state === "unknown" && recovery.record && (
           <Alert tone="error">
-            <ErrorMessage error={create.error} />
+            <p>{t("customerRecoveryUnknown")}</p>
+            {recovery.bodyMismatch && (
+              <p>{t("customerRecoveryBodyMismatch")}</p>
+            )}
+            {recovery.error !== null && <ErrorMessage error={recovery.error} />}
           </Alert>
         )}
-        {create.isSuccess && (
-          <Alert tone="success">{t("customerCreated")}</Alert>
+        {recovery.state === "unavailable" && recovery.error !== null && (
+          <Alert tone="error">
+            <p>{t("customerRecoveryUnavailable")}</p>
+            <ErrorMessage error={recovery.error} />
+          </Alert>
+        )}
+        {recovery.state === "storage-error" && (
+          <Alert tone="error">{t("customerRecoveryStorageError")}</Alert>
+        )}
+        {recovery.state === "idle" && recovery.error !== null && (
+          <Alert tone="error">
+            <ErrorMessage error={recovery.error} />
+          </Alert>
+        )}
+        {recovery.state === "complete" && (
+          <Alert tone="success">
+            <p>{t("customerCreated")}</p>
+            {recovery.error !== null && (
+              <p>{t("customerRecoveryStorageError")}</p>
+            )}
+          </Alert>
+        )}
+        {recovery.record && (
+          <Button
+            variant="secondary"
+            disabled={recovery.busy}
+            onClick={() => void recovery.check()}
+          >
+            {t("customerRecoveryCheck")}
+          </Button>
         )}
         <div className="actions">
-          <Button type="submit" disabled={!canCreate || create.isPending}>
-            {t(create.isPending ? "saving" : "create")}
+          <Button
+            type="submit"
+            disabled={
+              !canCreate || recovery.busy || recovery.state === "storage-error"
+            }
+          >
+            {recovery.busy
+              ? t("saving")
+              : t(recovery.record ? "customerRecoveryRetry" : "create")}
           </Button>
           {onCancel && (
-            <Button variant="secondary" onClick={onCancel}>
+            <Button
+              variant="secondary"
+              disabled={recovery.busy}
+              onClick={onCancel}
+            >
               {t("cancel")}
             </Button>
           )}
@@ -221,6 +290,7 @@ export function CustomersPage() {
   const [creating, setCreating] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [chosen, setChosen] = useState<Customer | null>(null);
+  const recovery = useCustomerCreationRecovery();
   const customers = useCustomers(search);
   const items =
     customers.data?.pages
@@ -237,6 +307,39 @@ export function CustomersPage() {
           </Button>
         }
       />
+      {recovery.state === "checking" && recovery.record && (
+        <Alert>{t("customerRecoveryChecking")}</Alert>
+      )}
+      {recovery.state === "unknown" && recovery.record && (
+        <Alert tone="error">
+          <p>{t("customerRecoveryUnknown")}</p>
+          {recovery.error !== null && <ErrorMessage error={recovery.error} />}
+          <Button
+            variant="secondary"
+            disabled={recovery.busy}
+            onClick={() => void recovery.check()}
+          >
+            {t("customerRecoveryCheck")}
+          </Button>
+        </Alert>
+      )}
+      {recovery.state === "unavailable" && recovery.error !== null && (
+        <Alert tone="error">
+          <p>{t("customerRecoveryUnavailable")}</p>
+          <ErrorMessage error={recovery.error} />
+        </Alert>
+      )}
+      {recovery.state === "storage-error" && (
+        <Alert tone="error">{t("customerRecoveryStorageError")}</Alert>
+      )}
+      {recovery.state === "complete" && (
+        <Alert tone="success">
+          <p>{t("customerCreated")}</p>
+          {recovery.error !== null && (
+            <p>{t("customerRecoveryStorageError")}</p>
+          )}
+        </Alert>
+      )}
       <div className="toolbar">
         <div className="search-control">
           <Input
@@ -345,6 +448,7 @@ export function CustomersPage() {
       >
         <LanguageSwitch />
         <CreateCustomerForm
+          recovery={recovery}
           onCreated={() => setCreating(false)}
           onCancel={() => setCreating(false)}
         />

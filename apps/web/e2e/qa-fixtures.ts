@@ -66,6 +66,7 @@ export async function mockServices(page: Page) {
     customerStatus: 200,
     postStatus: 201,
     invalidPostJson: false,
+    losePostResponse: false,
     foreignCustomer: false,
     loginStatus: 200,
     postGate: null as Promise<void> | null,
@@ -78,6 +79,13 @@ export async function mockServices(page: Page) {
     }[],
     unexpected: [] as string[],
     created: [] as components["schemas"]["CustomerResponse"][],
+    intents: new Map<
+      string,
+      {
+        body: unknown;
+        customer: components["schemas"]["CustomerResponse"];
+      }
+    >(),
   };
   await page.route("**/*", async (route) => {
     const request = route.request();
@@ -135,26 +143,51 @@ export async function mockServices(page: Page) {
       return error(401);
     if (path === "/api/v1/me")
       return state.meStatus === 200 ? send(me[account]) : error(state.meStatus);
+    const resultMatch = path.match(
+      /^\/api\/v1\/businesses\/([^/]+)\/customer-creation-result$/,
+    );
+    if (resultMatch) {
+      const businessId = resultMatch[1];
+      if (!me[account].businesses.some((b) => b.id === businessId))
+        return error(404);
+      const key = request.headers()["idempotency-key"];
+      if (!key) return error(422);
+      const intent = state.intents.get(`${account}:${businessId}:${key}`);
+      return intent
+        ? send({ status: "completed", customer: intent.customer })
+        : send({ status: "not_observed", customer: null });
+    }
     const match = path.match(/^\/api\/v1\/businesses\/([^/]+)\/customers$/);
     if (match) {
       const businessId = match[1];
       if (!me[account].businesses.some((b) => b.id === businessId))
         return error(404);
       if (method === "POST") {
+        const key = request.headers()["idempotency-key"];
+        if (!key) return error(422);
         if (state.postGate) await state.postGate;
         if (state.postStatus !== 201) return error(state.postStatus);
-        if (state.invalidPostJson)
-          return route.fulfill({
-            status: 201,
-            contentType: "application/json",
-            body: "<invalid-json>",
-          });
+        const intentKey = `${account}:${businessId}:${key}`;
+        const previous = state.intents.get(intentKey);
+        if (previous) {
+          if (JSON.stringify(previous.body) !== JSON.stringify(body))
+            return error(409);
+          return send(previous.customer, 201);
+        }
         const created = {
           ...customer(businessId, body.display_name),
           ...body,
           id: qaIds.created,
         };
         state.created.push(created);
+        state.intents.set(intentKey, { body, customer: created });
+        if (state.losePostResponse) return route.abort("failed");
+        if (state.invalidPostJson)
+          return route.fulfill({
+            status: 201,
+            contentType: "application/json",
+            body: "<invalid-json>",
+          });
         return send(created, 201);
       }
       if (state.customerStatus !== 200) return error(state.customerStatus);

@@ -40,6 +40,11 @@ for (const width of [360, 390, 768, 1440]) {
   }) => {
     await page.setViewportSize({ width, height: 1000 });
     await page.goto("/login");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
     await page.getByRole("button", { name: /Посмотреть демо/ }).click();
     await expect(
       page.getByRole("heading", { name: "Хорошего рабочего дня!" }),
@@ -55,6 +60,7 @@ for (const width of [360, 390, 768, 1440]) {
       "sale",
       "debts",
       "history",
+      "analytics",
       "summary",
     ]) {
       // Client navigation preserves explicit in-memory demo selection.
