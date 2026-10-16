@@ -4,6 +4,8 @@
 
 ## Этап D — дизайн публичной витрины + Polaris, 2026-10-16
 
+Проверенная реализация D опубликована: **95e3bd4cd42d5642ac6f56e22815d1d1f820a321**. Финальные fetch рабочей ветки и pull --ff-only прошли (Already up to date), push origin feature/seller-dashboard успешен, remote HEAD совпал. Draft PR #3 обновлён и остаётся open/draft. Завершающий commit меняет только передачу; актуальный HEAD: `git log -1 --format=%H`. Весь код и screenshots доступны следующему аккаунту через Git.
+
 Последний опубликованный seller HEAD перед этапом D: `b3d03285b5661b9652e3c5b57e5ab1ce11eae5ab`. Исходное дерево чистое; адресный fetch/pull feature-ветки — Already up to date. Общий fetch вновь задержался на чужих Git objects и был прерван; reset/force/автоматических конфликтов не было. Никакие новые main/backend/public/ledger commits не объединялись.
 
 Визуальная основа — настоящая `feature/public-storefront` на **8818e8b73ecc2e2dd2f517f18796782b10d1872f**: Manrope, paper #F5F3EB, ink #172A26, green #164C3E/#103B31, lime #D7F36A, orange #F0A94B, white #FFFEFA, line #E1E2D8, ступенчатый знак qadam. Ветка изучена read-only. Новый запрос заменяет прежнюю красную тему B актуальной общей темой; CSS/код чужого frontend не импортированы. `shared/tokens.css` — один источник palette/radius/font/spacing с сохранёнными --bg/--text/--primary aliases. Muted затемнён до #58685F для контраста.
