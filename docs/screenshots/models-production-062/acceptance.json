@@ -1,0 +1,283 @@
+{
+  "released_commit": "a8e358f9d3f555bb1456847f980e931597bfd6a6",
+  "deployment_evidence": {
+    "sha": "a8e358f9d3f555bb1456847f980e931597bfd6a6",
+    "state": "success",
+    "statuses": [
+      {
+        "context": "Vercel",
+        "state": "success",
+        "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/Dqtc8FnqY4QGcfM3WKxWDQxuvmpV",
+        "updated_at": "2026-10-16T19:22:18Z"
+      }
+    ],
+    "deployments": []
+  },
+  "models": {
+    "unchanged_hotspots": true,
+    "models": [
+      {
+        "slug": "mart",
+        "new_bytes": 1441176,
+        "new_sha256": "d9adafa2a1363026ac3f6859bbea4f5757876392200d590422fd9bd9492a45ee",
+        "published_sha256": "d9adafa2a1363026ac3f6859bbea4f5757876392200d590422fd9bd9492a45ee",
+        "published_matches_old": false,
+        "published_matches_new": true
+      },
+      {
+        "slug": "kaikarmet",
+        "new_bytes": 717596,
+        "new_sha256": "b119bfb35e4d81e68ce9633b5c94fb9f4364efe69d1987a6c073576476a5d2a1",
+        "published_sha256": "b119bfb35e4d81e68ce9633b5c94fb9f4364efe69d1987a6c073576476a5d2a1",
+        "published_matches_old": false,
+        "published_matches_new": true
+      },
+      {
+        "slug": "auyl-bereke",
+        "new_bytes": 746584,
+        "new_sha256": "d1c397dc38ade6d0470c39e291976bf21f8675f51b6b0538c58e4988bffdf0a5",
+        "published_sha256": "d1c397dc38ade6d0470c39e291976bf21f8675f51b6b0538c58e4988bffdf0a5",
+        "published_matches_old": false,
+        "published_matches_new": true
+      }
+    ],
+    "api_hotspot_uuid_slug_match": true
+  },
+  "browser_public": {
+    "checks": [
+      {
+        "width": 360,
+        "venue": "mart",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 360,
+        "venue": "kaikarmet",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 360,
+        "venue": "auyl-bereke",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "venue": "mart",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "venue": "kaikarmet",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 390,
+        "venue": "auyl-bereke",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 1440,
+        "venue": "mart",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 1440,
+        "venue": "kaikarmet",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "width": 1440,
+        "venue": "auyl-bereke",
+        "hotspots": 3,
+        "canvas": true,
+        "overflow": false
+      },
+      {
+        "failure": "webgl",
+        "venue": "mart",
+        "preview": true,
+        "shops": 3
+      },
+      {
+        "failure": "webgl",
+        "venue": "kaikarmet",
+        "preview": true,
+        "shops": 3
+      },
+      {
+        "failure": "webgl",
+        "venue": "auyl-bereke",
+        "preview": true,
+        "shops": 3
+      },
+      {
+        "failure": "glb",
+        "venue": "mart",
+        "preview": true,
+        "shops": 3
+      },
+      {
+        "failure": "glb",
+        "venue": "kaikarmet",
+        "preview": true,
+        "shops": 3
+      },
+      {
+        "failure": "glb",
+        "venue": "auyl-bereke",
+        "preview": true,
+        "shops": 3
+      }
+    ],
+    "writesBlocked": 0,
+    "apiSource": "production Vercel to Render; no API interception",
+    "softwareWebGL": true
+  },
+  "browser_auth": {
+    "real_auth": true,
+    "shared_database_writes": 0,
+    "ai_provider_called": false,
+    "physical_device": false,
+    "a_memberships": 6,
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "analytics_7": {
+      "days": 7,
+      "status": 200
+    },
+    "analytics_30": {
+      "days": 30,
+      "status": 200
+    },
+    "history": {
+      "browser_api_status": 200
+    },
+    "summary": {
+      "browser_api_status": 200
+    },
+    "customers": {
+      "browser_api_status": 200
+    },
+    "synthetic_failure_preserves_input": true,
+    "manual_form_without_money_write": true,
+    "b_memberships": 3,
+    "no_localhost_or_tunnel_requests": true,
+    "completed": true
+  },
+  "api_readonly": {
+    "phase": "models-production",
+    "paid_ai_requests": 0,
+    "application_writes": 0,
+    "checks": {
+      "health": {
+        "status": 200,
+        "duration_ms": 1079
+      },
+      "openapi": {
+        "status": 200,
+        "duration_ms": 343
+      },
+      "me_A": {
+        "status": 200,
+        "business_count": 6
+      },
+      "me_B": {
+        "status": 200,
+        "business_count": 3
+      }
+    },
+    "public_commit_fields": [],
+    "version": "0.6.2",
+    "schema_equal": true,
+    "anonymous_me": 401,
+    "isolation": [
+      {
+        "owner": "A",
+        "route": "customers",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "A",
+        "route": "operations",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "A",
+        "route": "summary",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "A",
+        "route": "analytics?days=7",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "B",
+        "route": "customers",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "B",
+        "route": "operations",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "B",
+        "route": "summary",
+        "own": 200,
+        "foreign": 404
+      },
+      {
+        "owner": "B",
+        "route": "analytics?days=7",
+        "own": 200,
+        "foreign": 404
+      }
+    ],
+    "cors": {
+      "status": 200,
+      "allow_origin": "https://qadamx-taraz.vercel.app"
+    },
+    "cors_untrusted": {
+      "status": 400,
+      "allow_origin": null
+    },
+    "response_privacy": {
+      "checked_count": 21,
+      "status_codes": [
+        200,
+        401,
+        404,
+        422
+      ],
+      "diagnostic_fields_or_known_secrets_found": false,
+      "error_shape_unchanged": true
+    },
+    "render_management_available": false
+  },
+  "physical_phone": false,
+  "paid_ai_calls": 0,
+  "financial_writes": 0,
+  "recovery_included": false
+}
