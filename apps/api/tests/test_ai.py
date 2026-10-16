@@ -47,6 +47,20 @@ def test_invalid_json_retries_once_within_same_extraction():
     assert [call["retry"] for call in stub.calls] == [False, True]
 
 
+@pytest.mark.parametrize("status,code", [(429, "AI_QUOTA_EXCEEDED"), (503, "AI_UNAVAILABLE")])
+def test_provider_rejection_is_safe_actionable_and_not_retried(status, code):
+    request = httpx.Request("POST", "https://provider.example/test")
+    response = httpx.Response(status, request=request, text="private provider diagnostics")
+    stub = StubProvider(
+        httpx.HTTPStatusError("private provider diagnostics", request=request, response=response)
+    )
+    with pytest.raises(APIError) as error:
+        asyncio.run(extract(stub, text=TEXT))
+    assert (error.value.status, error.value.code) == (503, code)
+    assert "private" not in error.value.message
+    assert len(stub.calls) == 1
+
+
 @pytest.mark.parametrize(
     "raw",
     [

@@ -10,6 +10,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { I18nProvider } from "../shared/i18n";
+import { ApiError } from "../shared/api/client";
+import {
+  normalizeAudioFile,
+  validAudio,
+} from "../features/voice/audioContract";
 import {
   deferred,
   microphoneHarness,
@@ -21,7 +26,7 @@ const state = vi.hoisted(() => ({
   business: { id: "business-A" },
   scope: "account-A",
   drafts: new Map<string, unknown>(),
-  gateway: { mode: "live" },
+  gateway: { mode: "live", customers: vi.fn() },
   api: { request: vi.fn() },
 }));
 vi.mock("../app/runtime", () => ({
@@ -50,6 +55,19 @@ beforeEach(() => {
   state.business = { id: "business-A" };
   state.scope = "account-A";
   state.drafts.clear();
+  state.gateway.customers.mockReset().mockResolvedValue({
+    items: [
+      {
+        id: "customer-A",
+        business_id: "business-A",
+        display_name: "Учебный клиент",
+        note: "",
+        contact: null,
+        balance_minor: 0,
+      },
+    ],
+    next_cursor: null,
+  });
   state.api.request.mockReset().mockImplementation(async (path: string) => {
     if (path.includes("/summary"))
       return {
@@ -73,6 +91,220 @@ beforeEach(() => {
   vi.spyOn(HTMLMediaElement.prototype, "pause").mockImplementation(() => {});
   vi.spyOn(HTMLMediaElement.prototype, "load").mockImplementation(() => {});
   vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
+});
+
+describe("archive AI flow adapted to the shared contract", () => {
+  function answerWith(value: unknown = draft) {
+    const fallback = state.api.request.getMockImplementation()!;
+    state.api.request.mockImplementation(
+      async (path: string, init?: RequestInit) => {
+        if (path.endsWith("/drafts")) return value;
+        return fallback(path, init);
+      },
+    );
+  }
+  it.each([
+    ["ru", "Продал на 3000, получил 1000"],
+    ["kk", "3000 теңгеге саттым, 1000 теңге алдым"],
+    ["auto", "Продал 3000 теңгеге, алдым 1000"],
+  ])(
+    "%s text uses one source and cannot create debt without a selected customer",
+    async (language, phrase) => {
+      answerWith({ ...draft, transcript: phrase });
+      renderSale();
+      fireEvent.change(screen.getByLabelText("Язык записи"), {
+        target: { value: language },
+      });
+      fireEvent.change(screen.getByLabelText("Текст для AI"), {
+        target: { value: phrase },
+      });
+      await act(async () =>
+        fireEvent.click(
+          screen.getByRole("button", { name: "Подготовить черновик" }),
+        ),
+      );
+      const form = draftCalls()[0][1].body as FormData;
+      expect([...form.keys()].sort()).toEqual(["locale", "text"]);
+      expect(form.get("locale")).toBe(language);
+      expect(form.get("text")).toBe(phrase);
+      expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("3000");
+      expect(screen.getByLabelText("Получено, ₸")).toHaveValue("1000");
+      expect(screen.getByText(/Долг по этой продаже/)).toHaveTextContent(
+        /2\s*000/,
+      );
+      fireEvent.click(
+        screen.getByRole("button", { name: "Подтвердить запись" }),
+      );
+      expect(financialCalls()).toHaveLength(0);
+      fireEvent.click(screen.getByRole("button", { name: "Выбрать клиента" }));
+      fireEvent.click(
+        await screen.findByRole("button", { name: /Учебный клиент/ }),
+      );
+      const confirmation = deferred<unknown>();
+      const fallback = state.api.request.getMockImplementation()!;
+      state.api.request.mockImplementation(
+        (path: string, init?: RequestInit) =>
+          path.endsWith("/operations") && init?.method === "POST"
+            ? confirmation.promise
+            : fallback(path, init),
+      );
+      const confirm = screen.getByRole("button", {
+        name: "Подтвердить запись",
+      });
+      fireEvent.click(confirm);
+      fireEvent.click(confirm);
+      expect(financialCalls()).toHaveLength(1);
+      const [path, init] = financialCalls()[0];
+      expect(path).toBe("/businesses/business-A/operations");
+      expect(JSON.parse(init.body)).toMatchObject({
+        draft_id: draft.id,
+        customer_id: "customer-A",
+        total_minor: 300000,
+        received_minor: 100000,
+      });
+      await act(async () =>
+        confirmation.resolve({
+          operation: { id: "op-A", business_id: "business-A" },
+          sale_balance_minor: 200000,
+        }),
+      );
+      expect(
+        await screen.findByText("Запись сохранена сервером"),
+      ).toBeVisible();
+    },
+  );
+
+  it("clarification includes original transcript, replaces only the draft and blocks stale confirmation", async () => {
+    answerWith();
+    renderSale();
+    await prepare();
+    fireEvent.change(screen.getByLabelText("Уточнение"), {
+      target: { value: "Сумма 3500, получил 2000" },
+    });
+    expect(
+      screen.getByRole("button", { name: "Подтвердить запись" }),
+    ).toBeDisabled();
+    answerWith({
+      ...draft,
+      id: "corrected",
+      total_minor: 350000,
+      received_minor: 200000,
+    });
+    await act(async () =>
+      fireEvent.click(
+        screen.getByRole("button", { name: "Уточнить и пересчитать черновик" }),
+      ),
+    );
+    const form = draftCalls()[1][1].body as FormData;
+    expect(form.get("text")).toBe(
+      `${draft.transcript}\nНақтылау / Уточнение: Сумма 3500, получил 2000`,
+    );
+    expect(form.has("audio")).toBe(false);
+    expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("3500");
+    expect(screen.getByLabelText("Получено, ₸")).toHaveValue("2000");
+    expect(financialCalls()).toHaveLength(0);
+    fireEvent.change(screen.getByLabelText("Текст для AI"), {
+      target: { value: "Другая продажа" },
+    });
+    expect(screen.queryByLabelText("Уточнение")).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Текст для AI")).toHaveValue("Другая продажа");
+    expect(
+      screen.getByRole("button", { name: "Подтвердить запись" }),
+    ).toBeDisabled();
+    fireEvent.click(screen.getByRole("button", { name: "Ручной ввод" }));
+    expect(
+      screen.getByRole("button", { name: "Подтвердить запись" }),
+    ).toBeEnabled();
+  });
+
+  it("a cancelled clarification keeps the checked fields but cannot confirm the old draft", async () => {
+    answerWith();
+    renderSale();
+    await prepare();
+    const late = holdAnalysis();
+    fireEvent.change(screen.getByLabelText("Уточнение"), {
+      target: { value: "Итого 9000" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "Уточнить и пересчитать черновик" }),
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Отменить анализ" }));
+    await act(async () => late.resolve({ ...draft, total_minor: 900000 }));
+    expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("3000");
+    expect(
+      screen.getByRole("button", { name: "Подтвердить запись" }),
+    ).toBeDisabled();
+    expect(financialCalls()).toHaveLength(0);
+  });
+
+  it("rejects combined clarification over the API limit without a request", async () => {
+    answerWith({ ...draft, transcript: "а".repeat(3990) });
+    renderSale();
+    await prepare();
+    fireEvent.change(screen.getByLabelText("Уточнение"), {
+      target: { value: "Исправить сумму" },
+    });
+    fireEvent.click(
+      screen.getByRole("button", { name: "Уточнить и пересчитать черновик" }),
+    );
+    expect(screen.getByRole("alert")).toHaveTextContent("4000");
+    expect(draftCalls()).toHaveLength(1);
+  });
+
+  it.each([
+    [429, "AI_QUOTA_EXCEEDED", "Лимит AI"],
+    [503, "AI_QUOTA_EXCEEDED", "Лимит AI"],
+    [0, "NETWORK_ERROR", "Проверьте интернет"],
+    [503, "AI_UNAVAILABLE", "не смог обработать"],
+  ])(
+    "AI error %s preserves input, offers manual/retry and never invents an answer",
+    async (status, code, message) => {
+      const fallback = state.api.request.getMockImplementation()!;
+      state.api.request.mockImplementation(
+        (path: string, init?: RequestInit) =>
+          path.endsWith("/drafts")
+            ? Promise.reject(new ApiError(status, code))
+            : fallback(path, init),
+      );
+      renderSale();
+      await prepare();
+      expect(screen.getByRole("alert")).toHaveTextContent(message);
+      expect(screen.getByLabelText("Текст для AI")).toHaveValue(
+        "Продал на 3000, получил 1000",
+      );
+      expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("");
+      expect(screen.getByRole("button", { name: "Ручной ввод" })).toBeEnabled();
+      answerWith();
+      await act(async () =>
+        fireEvent.click(
+          screen.getByRole("button", { name: "Повторить анализ" }),
+        ),
+      );
+      expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("3000");
+      expect(financialCalls()).toHaveLength(0);
+    },
+  );
+
+  it("normalizes missing picker MIME without admitting arbitrary files or unsupported AAC", () => {
+    expect(
+      validAudio(normalizeAudioFile(new File(["audio"], "voice.M4A"))),
+    ).toBe(true);
+    expect(
+      normalizeAudioFile(
+        new File(["audio"], "voice.m4a", { type: "video/mp4" }),
+      ).type,
+    ).toBe("audio/mp4");
+    expect(
+      validAudio(normalizeAudioFile(new File(["audio"], "voice.aac"))),
+    ).toBe(false);
+    expect(
+      validAudio(
+        normalizeAudioFile(
+          new File(["bad"], "file.wav", { type: "text/plain" }),
+        ),
+      ),
+    ).toBe(false);
+  });
 });
 afterEach(() => {
   cleanup();
