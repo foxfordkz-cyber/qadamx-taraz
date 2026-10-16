@@ -1,0 +1,21 @@
+.voice-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.voice-actions .button {
+  min-height: 44px;
+  white-space: normal;
+}
+.voice-preview {
+  margin-block: 12px;
+  min-width: 0;
+}
+.voice-preview audio {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+.voice-preview p {
+  overflow-wrap: anywhere;
+}
