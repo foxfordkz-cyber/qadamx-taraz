@@ -1,5 +1,7 @@
 # Общие решения команды
 
+**Перенос после приёмки:** `deploy-062` запускает production Vercel. Изменения сначала проверяются в отдельной общей ветке с сохранением всего актуального deploy-кода, включая вручную работающий Render e699158. Push/PR не означает deployment; в отчётах отдельно указываются GitHub, Vercel, Render и конкретный APK. Проверочная интеграция новых GLB описана в [MODELS_DEPLOY_REVIEW](MODELS_DEPLOY_REVIEW.md); production refs пока не меняются.
+
 ## 2026-10-16 — разрешённый OpenAI-адаптер, отдельно от rollout
 
 Капитан разрешил OpenAI для AI-черновиков и небольшие платные проверки до $2. Серверный явный `AI_PROVIDER` сохраняет единый draft/clarification/confirmation контракт; default Gemini, автоматический fallback выключен. Ключ `OPENAI_API_KEY` только в игнорируемом серверном env. После проверки документации, проектного списка моделей и живых запросов кандидат: `gpt-6-luna` + транскрипция `gpt-transcribe`. Mini STT не подходит наблюдавшимся KZ/mixed; новая комбинация ещё не прошла RU из-за двух extraction timeout. [Результаты и расходы](OPENAI_DRAFT_EVALUATION.md).
