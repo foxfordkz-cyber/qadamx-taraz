@@ -103,3 +103,11 @@ Review нового Draft PR в integration/team-mvp, затем собстве�
 20 новых PNG в docs/screenshots/team-mvp-design: desktop1440/mobile390 для dashboard, customers, sale, debts, history, summary, inquiries, catalog; public home/shop имеют api-stub в имени и тексте. Репрезентативные desktop/mobile кадры визуально просмотрены. Старые снимки не обновлялись и не выдавались за новые.
 
 Функциональный код завершён и проверен. Незавершённых frontend-изменений нет; live acceptance, физический Android/микрофон, настоящая GLB-сцена/hotspots с API и обновление dev audit findings остаются отдельными задачами. Публикация подтверждается отдельной записью ниже после успешного push.
+
+## Публикация и точка продолжения
+
+Проверенный UI/code commit: **3faa4b23e6c973836ba1099e7695546ec427eb65**. Ветка **feature/seller-design-integration**, upstream **origin/feature/seller-design-integration**. `git push -u origin feature/seller-design-integration` завершился успешно, remote HEAD совпал. Последующие `git fetch origin integration/team-mvp feature/seller-design-integration` и `git pull --ff-only origin feature/seller-design-integration` прошли: **Already up to date**. Base по повторной проверке остаётся **3d009dc86c93debcab05dedda530b7d1fe62a304**; дополнительная интеграция не потребовалась.
+
+Создан отдельный **open Draft PR #11**: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/11, base integration/team-mvp, head feature/seller-design-integration, title `feat(seller): integrate merchant redesign into team MVP`. Он содержит проверки, ограничения и ссылки на все20PNG. Старые PR #3/#8, main, integration/team-mvp и QA-ветка не менялись; merge/force push не выполнялись.
+
+Эта финальная запись сохраняется отдельным docs commit поверх указанного проверенного code commit. Точный текущий (включая metadata) HEAD всегда получать `git log -1 --format=%H`; `git log -2 --oneline` показывает обе точки. После получения новым аккаунтом повторить branch/status/fetch/pull --ff-only только своей ветки. Незавершённых локальных изменений к передаче не планируется; push документации и совпадение refs проверяются перед финальным отчётом.
