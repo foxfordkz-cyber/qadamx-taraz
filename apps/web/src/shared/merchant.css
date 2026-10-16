@@ -8,7 +8,7 @@
   width: 42px;
   height: 42px;
   padding: 7px;
-  border-radius: 13px;
+  border-radius: var(--qadam-radius-control);
   background: var(--qadam-green);
   fill: var(--qadam-lime);
 }
@@ -47,7 +47,7 @@
 .button-primary {
   background: var(--qadam-green);
   color: var(--qadam-white);
-  box-shadow: 0 2px 3px #103b3110;
+  box-shadow: var(--qadam-shadow);
 }
 .button-primary:hover:enabled {
   background: var(--qadam-green-deep);
@@ -55,14 +55,46 @@
 .button-secondary {
   background: var(--qadam-white);
   border-color: var(--qadam-line);
-  box-shadow: 0 1px 2px #103b3108;
+  box-shadow: var(--qadam-shadow);
 }
 .button-secondary:hover:enabled {
   background: var(--qadam-soft);
-  border-color: #b9c8bb;
+  border-color: var(--qadam-line-hover);
 }
 .button-ghost:hover:enabled {
   background: var(--qadam-soft);
+}
+/* Disabled reads as unavailable but stays legible (no translucent green). */
+.button-primary:disabled {
+  background: var(--qadam-surface-muted);
+  color: var(--qadam-muted);
+  box-shadow: none;
+  opacity: 1;
+}
+.button-secondary:disabled,
+.button-ghost:disabled {
+  color: var(--qadam-muted);
+  box-shadow: none;
+  opacity: 1;
+}
+.field input[type="file"] {
+  padding-block: 6px;
+}
+.field input[type="file"]::file-selector-button {
+  min-height: 32px;
+  margin-right: 12px;
+  padding: 6px 14px;
+  border: 1px solid var(--qadam-line-strong);
+  border-radius: var(--qadam-radius-small);
+  background: var(--qadam-surface-subtle);
+  color: var(--qadam-ink);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.field input[type="file"]:disabled::file-selector-button {
+  color: var(--qadam-muted);
+  cursor: not-allowed;
 }
 .button svg {
   width: 19px;
@@ -99,7 +131,7 @@
 .field select,
 .field textarea {
   border-radius: var(--qadam-radius-control);
-  border-color: #bac6ba;
+  border-color: var(--qadam-line-hover);
   background: var(--qadam-white);
   min-height: 46px;
 }
@@ -120,28 +152,28 @@
   gap: 6px;
 }
 .badge-green {
-  background: #e1edce;
-  color: #294d2c;
+  background: var(--qadam-success-soft);
+  color: var(--qadam-success);
 }
 .badge-neutral {
-  background: #efefe5;
-  color: #526046;
+  background: var(--qadam-surface-subtle);
+  color: var(--qadam-muted);
 }
 .badge-red {
-  background: #fbe7da;
-  color: #8b3821;
+  background: var(--qadam-danger-soft);
+  color: var(--qadam-danger);
 }
 .alert {
-  border-radius: 14px;
+  border-radius: var(--qadam-radius-control);
   font-size: 13px;
   padding: 12px 16px;
 }
 .alert-info {
   background: var(--qadam-soft);
-  border-color: #d3dece;
+  border-color: var(--qadam-line-strong);
 }
 .alert-error {
-  color: #8b3821;
+  color: var(--qadam-danger);
 }
 .app-shell {
   grid-template-columns: 236px minmax(0, 1fr);
@@ -156,7 +188,7 @@
 }
 .sidebar-label {
   margin: 42px 14px 14px;
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
   font-weight: 700;
   letter-spacing: 1.4px;
   color: var(--qadam-muted);
@@ -166,7 +198,7 @@
 }
 .sidebar nav a {
   min-height: 46px;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   padding: 12px 14px;
   gap: 12px;
   font-size: 13px;
@@ -177,12 +209,12 @@
   height: 20px;
 }
 .sidebar nav a:hover {
-  background: #e8eade;
+  background: var(--qadam-surface-muted);
 }
 .sidebar nav a[aria-current="page"] {
   background: var(--qadam-green);
   color: var(--qadam-white);
-  box-shadow: 0 4px 10px #164c3e12;
+  box-shadow: var(--qadam-shadow);
   font-weight: 700;
 }
 .sidebar nav a[aria-current="page"] svg {
@@ -193,9 +225,9 @@
   gap: 8px;
   margin-top: auto;
   padding: 20px 15px;
-  border: 1px solid #d9dece;
-  border-radius: 18px;
-  background: #eaeede;
+  border: 1px solid var(--qadam-line-strong);
+  border-radius: var(--qadam-radius-card);
+  background: var(--qadam-surface-muted);
   font-size: 12px;
 }
 .sidebar-footer > svg {
@@ -204,7 +236,7 @@
 }
 .sidebar-footer small {
   color: var(--qadam-muted);
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.6;
 }
 .sidebar-footer a {
@@ -213,8 +245,8 @@
   align-items: center;
   min-height: 44px;
   margin-top: 3px;
-  border-top: 1px solid #d2dac8;
-  font-size: 11px;
+  border-top: 1px solid var(--qadam-line-strong);
+  font-size: var(--qadam-text-xs);
   color: var(--qadam-green);
   font-weight: 750;
 }
@@ -242,7 +274,7 @@
   width: 40px;
   height: 40px;
   flex-shrink: 0;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   color: var(--qadam-green);
   background: var(--qadam-soft);
 }
@@ -255,7 +287,7 @@
   gap: 2px;
 }
 .business-control .field > span {
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
   font-weight: 500;
   color: var(--qadam-muted);
 }
@@ -296,26 +328,26 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #eeefdf;
-  border: 1px solid #dedfc9;
-  border-radius: 12px;
+  background: var(--qadam-surface-subtle);
+  border: 1px solid var(--qadam-line-strong);
+  border-radius: var(--qadam-radius-control);
   padding: 11px 16px;
   margin-bottom: 26px;
-  color: #536147;
+  color: var(--qadam-muted);
 }
 .demo-banner strong {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   font-weight: 750;
 }
 .demo-banner p {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.5;
   margin: 3px 0 0;
 }
 .demo-banner > .badge {
-  background: #dfe5c5;
-  color: #455339;
-  font-size: 10px;
+  background: var(--qadam-soft);
+  color: var(--qadam-muted);
+  font-size: var(--qadam-text-label);
   flex-shrink: 0;
 }
 .workspace-heading {
@@ -324,10 +356,10 @@
   justify-content: space-between;
   gap: 14px;
   margin-bottom: 20px;
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
 }
 .workspace-kicker {
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
   font-weight: 800;
   letter-spacing: 1.8px;
   color: var(--qadam-green);
@@ -359,12 +391,12 @@
 }
 .welcome-panel p {
   font-size: 13px;
-  color: #dbe7dc;
+  color: var(--qadam-on-dark-muted);
   margin-bottom: 23px;
   line-height: 1.6;
 }
 .welcome-panel .eyebrow {
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
   font-weight: 700;
   letter-spacing: 1.4px;
   color: var(--qadam-lime);
@@ -387,7 +419,7 @@
   box-shadow: none;
 }
 .welcome-cta:hover {
-  background: #e5ff89;
+  background: var(--qadam-lime-hover);
 }
 .welcome-cta svg:last-child {
   margin-left: 16px;
@@ -403,7 +435,7 @@
   gap: 10px;
   text-decoration: underline;
   text-underline-offset: 5px;
-  text-decoration-color: #789a83;
+  text-decoration-color: var(--qadam-line-hover);
 }
 .welcome-panel a:focus-visible {
   outline-color: var(--qadam-lime);
@@ -417,7 +449,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  border-left: 1px solid #ffffff24;
+  border-left: 1px solid var(--qadam-on-dark-line);
   padding-left: 28px;
   min-width: 0;
 }
@@ -426,14 +458,14 @@
   place-items: center;
   width: 38px;
   height: 38px;
-  background: #ffffff12;
-  border: 1px solid #ffffff20;
-  border-radius: 12px;
+  background: var(--qadam-on-dark-fill);
+  border: 1px solid var(--qadam-on-dark-line);
+  border-radius: var(--qadam-radius-control);
   color: var(--qadam-lime);
   margin-bottom: 15px;
 }
 .welcome-context p {
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   margin: 0 0 8px;
 }
 .welcome-context strong {
@@ -442,15 +474,15 @@
   overflow-wrap: anywhere;
 }
 .welcome-location {
-  color: #c3d7c8;
-  font-size: 10px;
+  color: var(--qadam-on-dark-muted);
+  font-size: var(--qadam-text-xs);
   margin-top: 8px;
 }
 .welcome-context .badge {
   margin-top: 13px;
-  background: #ffffff17;
-  color: #e0edcf;
-  font-size: 10px;
+  background: var(--qadam-on-dark-fill);
+  color: var(--qadam-on-dark-muted);
+  font-size: var(--qadam-text-label);
 }
 .section-heading {
   display: flex;
@@ -484,8 +516,8 @@
 }
 .action-card:hover {
   transform: none;
-  border-color: #b7c7b5;
-  box-shadow: 0 6px 16px #164c3e09;
+  border-color: var(--qadam-line-hover);
+  box-shadow: var(--qadam-shadow);
 }
 .action-card-top {
   display: flex;
@@ -499,7 +531,7 @@
   width: 38px;
   height: 38px;
   margin: 0;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   color: var(--qadam-green);
   background: var(--qadam-soft);
 }
@@ -513,7 +545,7 @@
 }
 .action-number {
   color: var(--qadam-muted);
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
 }
 .action-card h2 {
   font-size: 15px;
@@ -522,7 +554,7 @@
 .action-card p,
 .action-0 p {
   color: var(--qadam-muted);
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.55;
   margin: 0;
   padding: 0;
@@ -536,8 +568,8 @@
   right: 16px;
   width: 24px;
   height: 24px;
-  background: #f8e5c8;
-  color: #79521f;
+  background: var(--qadam-warning-soft);
+  color: var(--qadam-warning);
   border-radius: 50%;
 }
 .action-arrow svg {
@@ -557,11 +589,11 @@
   gap: 12px;
   background: var(--qadam-white);
   padding: 17px;
-  border-radius: 16px;
+  border-radius: var(--qadam-radius-card);
   font-size: 12px;
 }
 .secondary-card:hover {
-  border-color: #b7c7b5;
+  border-color: var(--qadam-line-hover);
 }
 .secondary-card > svg {
   color: var(--qadam-green);
@@ -576,7 +608,7 @@
 .secondary-card small {
   display: block;
   color: var(--qadam-muted);
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   margin-top: 4px;
 }
 .secondary-card > span:last-child {
@@ -589,8 +621,8 @@
   gap: 18px;
   padding: 22px 24px;
   margin-top: 28px;
-  background: #eaf0e3;
-  border: 1px solid #d8e1d0;
+  background: var(--qadam-soft);
+  border: 1px solid var(--qadam-line-strong);
   box-shadow: none;
 }
 .help-icon {
@@ -599,7 +631,7 @@
   width: 44px;
   height: 44px;
   flex-shrink: 0;
-  border-radius: 14px;
+  border-radius: var(--qadam-radius-control);
   background: var(--qadam-white);
   color: var(--qadam-green);
 }
@@ -608,17 +640,17 @@
   margin-bottom: 6px;
 }
 .workspace-help p {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   max-width: 560px;
   margin: 0;
 }
 .workspace-help .button {
   margin-left: auto;
   flex-shrink: 0;
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
 }
 .dashboard-note {
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   margin-top: 24px;
   color: var(--qadam-muted);
 }
@@ -645,7 +677,7 @@
   gap: 14px;
   background: var(--qadam-white);
   border: 1px solid var(--qadam-line);
-  border-radius: 18px;
+  border-radius: var(--qadam-radius-card);
   padding: 18px;
   margin-bottom: 0;
 }
@@ -675,12 +707,12 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 17px 4px;
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   color: var(--qadam-muted);
 }
 .customer-list {
   border: 1px solid var(--qadam-line);
-  border-radius: 18px;
+  border-radius: var(--qadam-radius-card);
   background: var(--qadam-white);
   overflow: hidden;
   box-shadow: var(--qadam-shadow);
@@ -696,8 +728,8 @@
 }
 .customer-list-heading {
   padding: 14px 22px;
-  background: #eeefe4;
-  font-size: 10px;
+  background: var(--qadam-surface-subtle);
+  font-size: var(--qadam-text-label);
   color: var(--qadam-muted);
   border-bottom: 1px solid var(--qadam-line);
   font-weight: 700;
@@ -726,7 +758,7 @@
   width: 38px;
   height: 38px;
   margin: 0;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   background: var(--qadam-soft);
   color: var(--qadam-green);
   font-weight: 700;
@@ -738,20 +770,20 @@
   margin: 0 0 6px;
 }
 .customer-row p {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   margin: 0;
 }
 .customer-row .customer-id {
   margin: 8px 0 0;
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
   line-height: 1.6;
   color: var(--qadam-muted);
 }
 .customer-row .text-link {
   color: var(--qadam-green);
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   text-decoration: underline;
-  text-decoration-color: #b5c4af;
+  text-decoration-color: var(--qadam-line-hover);
   text-underline-offset: 4px;
 }
 .customer-balance {
@@ -780,31 +812,31 @@
   min-width: 220px;
 }
 .inquiry-filters .result-count {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   align-self: center;
   margin-left: auto;
 }
 .inquiry-card {
   padding: 22px 24px;
-  border-radius: 18px;
+  border-radius: var(--qadam-radius-card);
 }
 .card-top {
   margin-bottom: 16px;
 }
 .card-top time {
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
 }
 .inquiry-card h2 {
   font-size: 16px;
   margin-bottom: 5px;
 }
 .inquiry-card > .muted {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
 }
 .inquiry-card .message {
   font-size: 14px;
   line-height: 1.7;
-  border-left: 2px solid #dbe3c8;
+  border-left: 2px solid var(--qadam-line-strong);
   padding-left: 15px;
   margin: 18px 0 22px;
 }
@@ -820,7 +852,7 @@
   min-height: 46px;
 }
 .filter-hint {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   margin: 14px 4px;
 }
 .catalog-filters > .field {
@@ -832,17 +864,17 @@
 }
 .product-card {
   padding: 14px 14px 22px;
-  border-radius: 20px;
+  border-radius: var(--qadam-radius-card);
 }
 .product-visual {
   display: flex;
   flex-direction: column;
   gap: 12px;
   aspect-ratio: 1.8;
-  background: #eaeddf;
-  border-radius: 13px;
+  background: var(--qadam-surface-muted);
+  border-radius: var(--qadam-radius-control);
   margin-bottom: 18px;
-  color: #55745a;
+  color: var(--qadam-muted);
 }
 .product-visual svg {
   width: 44px;
@@ -877,7 +909,7 @@
   margin-top: 20px;
   padding: 44px 22px;
   border: 1px solid var(--qadam-line);
-  border-radius: 18px;
+  border-radius: var(--qadam-radius-card);
   background: var(--qadam-white);
 }
 .empty-state h2,
@@ -890,12 +922,12 @@
 }
 dialog {
   padding: 26px;
-  border-radius: 22px;
+  border-radius: var(--qadam-radius-card);
   background: var(--qadam-white);
-  box-shadow: 0 24px 100px #103b3130;
+  box-shadow: var(--qadam-shadow-overlay);
 }
 dialog::backdrop {
-  background: #102c2466;
+  background: var(--qadam-backdrop);
   backdrop-filter: blur(4px);
 }
 .dialog-heading {
@@ -917,7 +949,7 @@ dialog::backdrop {
   gap: 14px;
   min-height: 50px;
   padding: 12px 14px;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   font-size: 13px;
 }
 .section-menu a:hover {
@@ -937,7 +969,7 @@ dialog::backdrop {
   margin-left: auto;
 }
 .login-card {
-  border-radius: 24px;
+  border-radius: var(--qadam-radius-card);
 }
 .login-page .brand-art > span {
   background: var(--qadam-green);
@@ -991,7 +1023,7 @@ dialog::backdrop {
     padding-left: 22px;
   }
   .secondary-card small {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
   }
 }
 @media (min-width: 761px) and (max-width: 980px) {
@@ -1032,7 +1064,7 @@ dialog::backdrop {
   }
   .welcome-context {
     border-left: 0;
-    border-top: 1px solid #ffffff24;
+    border-top: 1px solid var(--qadam-on-dark-line);
     padding: 18px 0 0;
     display: block;
   }
@@ -1042,7 +1074,7 @@ dialog::backdrop {
     display: none;
   }
   .welcome-context p {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
     margin-bottom: 5px;
   }
   .welcome-context strong {
@@ -1092,7 +1124,7 @@ dialog::backdrop {
     width: 36px;
     height: 36px;
     padding: 6px;
-    border-radius: 11px;
+    border-radius: var(--qadam-radius-small);
   }
   .business-control {
     max-width: none;
@@ -1121,7 +1153,7 @@ dialog::backdrop {
   }
   .topbar-actions .mode-label {
     display: inline-flex;
-    font-size: 10px;
+    font-size: var(--qadam-text-label);
     margin-left: 0;
     margin-right: auto;
     order: 0;
@@ -1131,7 +1163,7 @@ dialog::backdrop {
   }
   .topbar-actions .button {
     order: 0;
-    font-size: 11px;
+    font-size: var(--qadam-text-xs);
     padding: 10px 8px;
   }
   .language-switch button {
@@ -1146,38 +1178,38 @@ dialog::backdrop {
     padding: 9px 12px;
     margin-bottom: 20px;
     gap: 9px;
-    border-radius: 11px;
+    border-radius: var(--qadam-radius-small);
   }
   .demo-banner strong {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
   }
   .demo-banner p {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
     line-height: 1.45;
     margin-top: 2px;
   }
   .demo-banner > .badge {
     padding: 5px 7px;
-    font-size: 9px;
+    font-size: var(--qadam-text-label);
   }
   .workspace-heading {
     margin-bottom: 15px;
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
     flex-wrap: wrap;
     gap: 5px;
   }
   .workspace-kicker {
-    font-size: 9px;
+    font-size: var(--qadam-text-label);
   }
   .welcome-panel {
     display: block;
     padding: 25px 23px;
-    border-radius: 22px;
+    border-radius: var(--qadam-radius-card);
     min-height: 0;
     margin-bottom: 25px;
   }
   .welcome-panel .eyebrow {
-    font-size: 9px;
+    font-size: var(--qadam-text-label);
   }
   .welcome-panel h1 {
     font-size: 29px;
@@ -1199,7 +1231,7 @@ dialog::backdrop {
     font-size: 12px;
   }
   .welcome-link {
-    font-size: 11px;
+    font-size: var(--qadam-text-xs);
   }
   .welcome-context {
     display: none;
@@ -1211,7 +1243,7 @@ dialog::backdrop {
     font-size: 15px;
   }
   .section-heading > span {
-    font-size: 10px;
+    font-size: var(--qadam-text-label);
   }
   .action-grid {
     gap: 11px;
@@ -1219,7 +1251,7 @@ dialog::backdrop {
   .action-card {
     min-height: 167px;
     padding: 16px;
-    border-radius: 16px;
+    border-radius: var(--qadam-radius-card);
   }
   .action-card-top {
     margin-bottom: 18px;
@@ -1227,14 +1259,14 @@ dialog::backdrop {
   .action-icon {
     width: 34px;
     height: 34px;
-    border-radius: 10px;
+    border-radius: var(--qadam-radius-small);
   }
   .action-card h2 {
     font-size: 13px;
     margin-bottom: 7px;
   }
   .action-card p {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
     max-width: 110px;
     padding-right: 10px;
   }
@@ -1254,7 +1286,7 @@ dialog::backdrop {
   }
   .secondary-card {
     padding: 14px 16px;
-    border-radius: 14px;
+    border-radius: var(--qadam-radius-control);
   }
   .secondary-card small {
     margin-top: 3px;
@@ -1273,7 +1305,7 @@ dialog::backdrop {
     font-size: 13px;
   }
   .workspace-help p {
-    font-size: 11px;
+    font-size: var(--qadam-text-xs);
   }
   .workspace-help .button {
     width: 100%;
@@ -1308,7 +1340,7 @@ dialog::backdrop {
   .toolbar {
     padding: 14px;
     gap: 12px;
-    border-radius: 16px;
+    border-radius: var(--qadam-radius-card);
     align-items: stretch;
     flex-direction: column;
   }
@@ -1343,7 +1375,7 @@ dialog::backdrop {
   }
   .list-summary {
     padding: 15px 3px;
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
   }
   .customer-list {
     display: grid;
@@ -1362,7 +1394,7 @@ dialog::backdrop {
     gap: 12px;
     padding: 18px;
     border: 1px solid var(--qadam-line);
-    border-radius: 16px;
+    border-radius: var(--qadam-radius-card);
   }
   .customer-identity {
     grid-column: 1 / -1;
@@ -1378,7 +1410,7 @@ dialog::backdrop {
     padding-left: 50px;
   }
   .customer-row .customer-id {
-    font-size: 10px;
+    font-size: var(--qadam-text-label);
   }
   .customer-balance {
     grid-column: 1;
@@ -1399,7 +1431,7 @@ dialog::backdrop {
   }
   .inquiry-card {
     padding: 20px;
-    border-radius: 16px;
+    border-radius: var(--qadam-radius-card);
   }
   .inquiry-card h2 {
     font-size: 15px;
@@ -1425,7 +1457,7 @@ dialog::backdrop {
     background: var(--qadam-white);
     border-color: var(--qadam-line);
     padding: 7px 10px calc(8px + env(safe-area-inset-bottom));
-    box-shadow: 0 -6px 25px #164c3e08;
+    box-shadow: var(--qadam-shadow-bar);
     gap: 2px;
   }
   .bottom-nav a,
@@ -1438,12 +1470,12 @@ dialog::backdrop {
     min-width: 44px;
     min-height: 56px;
     padding: 7px 2px;
-    font-size: 9px;
+    font-size: var(--qadam-text-label);
     font-weight: 600;
     line-height: 1.3;
     border: 0;
     background: transparent;
-    border-radius: 12px;
+    border-radius: var(--qadam-radius-control);
     color: var(--qadam-muted);
   }
   .bottom-nav a[aria-current="page"],
@@ -1459,7 +1491,7 @@ dialog::backdrop {
   }
   dialog {
     padding: 20px;
-    border-radius: 20px;
+    border-radius: var(--qadam-radius-card);
   }
   .section-menu a {
     min-height: 46px;
@@ -1504,7 +1536,7 @@ dialog::backdrop {
   width: 48px;
   height: 48px;
   padding: 12px;
-  border-radius: 16px;
+  border-radius: var(--qadam-radius-card);
   background: var(--qadam-soft);
   color: var(--qadam-green);
 }

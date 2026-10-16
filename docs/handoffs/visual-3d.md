@@ -29,6 +29,8 @@
 
 Этап A: аудит 13 страниц на 1440/768/390/360, токены направления, единая палитра и шрифт витрины с казахским fallback, touch-цели 44 px на витрине и в выборе точки, вписывание камеры площадки по габаритам, порядок карточек по маркерам. Подробности и метрики — [VISUAL_AUDIT](../VISUAL_AUDIT.md).
 
+Этап B (`feature/unified-visual-3d-b`, поверх A): токены вместо 137 цветовых литералов, единые радиусы и тени, нижние границы шрифта 12/11 px, читаемые disabled, общий фокус витрины, стиль выбора файла. Изменены только `shared/{tokens,styles,merchant}.css`, `features/explore/explore.css`, `features/seller/analytics/analytics.css`; разметка и логика не менялись. Подробности — раздел «Этап B» в [VISUAL_AUDIT](../VISUAL_AUDIT.md).
+
 ## Проверки
 
 typecheck, lint, format:check, build — passed. Unit/component 207 passed. E2E в установленном Chrome: Analytics-конфиг 24 passed, QA-конфиг 21 passed. Снимки до/после — локально в игнорируемой `tmp/screenshots/{before,after}`; физический телефон не проверялся, только эмуляция ширин в headless Chrome.
@@ -51,4 +53,4 @@ typecheck, lint, format:check, build — passed. Unit/component 207 passed. E2E 
 
 ## Следующий шаг
 
-Этап B — общие стили и компоненты по списку путей выше; затем этап C — 3D. Каждый этап — отдельный проверяемый Draft PR в `integration/seller-analytics-061`.
+Этап C — 3D: свет и стартовые камеры, обзор главной из настоящих моделей или превью, сцена «Мал базар — демонстрационная схема». Для пересборки GLB нужен Blender 4.5 LTS. Каждый этап — отдельный проверяемый Draft PR в `integration/seller-analytics-061`.

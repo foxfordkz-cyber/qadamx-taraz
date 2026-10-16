@@ -53,9 +53,13 @@
   white-space: nowrap;
   border: 0;
 }
+/* Same focus ring as the seller cabinet; lime on the deep green hero. */
 .ex :focus-visible {
-  outline: 3px solid #c17b18;
-  outline-offset: 4px;
+  outline: var(--qadam-focus-ring);
+  outline-offset: 3px;
+}
+.ex .hero :focus-visible {
+  outline-color: var(--qadam-lime);
 }
 
 .ex .ex-top {
@@ -83,7 +87,7 @@
   height: 38px;
   padding: 8px;
   box-sizing: border-box;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   background: var(--green);
   fill: var(--lime);
 }
@@ -102,21 +106,21 @@
   font-weight: 700;
 }
 .ex .top-link span {
-  color: #d98334;
+  color: var(--qadam-orange-deep);
 }
 .ex .lang {
   display: flex;
   gap: 3px;
   padding: 4px;
   background: var(--qadam-surface-muted);
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
 }
 .ex .lang button,
 .ex .chips button,
 .ex .scene-bar button {
   border: 0;
   background: transparent;
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
   padding: 7px 13px;
   min-height: var(--qadam-control-height);
   min-width: var(--qadam-control-height);
@@ -128,7 +132,7 @@
 .ex .chips button[aria-pressed="true"],
 .ex .scene-bar button[aria-pressed="true"] {
   background: var(--green);
-  color: #fff;
+  color: var(--qadam-white);
 }
 
 .ex .hero {
@@ -139,9 +143,13 @@
   align-items: center;
   min-height: 370px;
   padding: clamp(28px, 6vw, 72px);
-  border-radius: 28px;
-  background: linear-gradient(125deg, #164b3e 0%, #10382f 100%);
-  color: #fff;
+  border-radius: var(--qadam-radius-hero);
+  background: linear-gradient(
+    125deg,
+    var(--qadam-green) 0%,
+    var(--qadam-green-deep) 100%
+  );
+  color: var(--qadam-white);
 }
 .ex .hero-copy {
   position: relative;
@@ -177,10 +185,10 @@
   height: 8px;
   border-radius: 50%;
   background: var(--lime);
-  box-shadow: 0 0 18px var(--lime);
+  box-shadow: none;
 }
 .ex .hero h1 {
-  color: #fff;
+  color: var(--qadam-white);
 }
 .ex .hero-copy > p {
   max-width: 47ch;
@@ -200,7 +208,7 @@
   gap: 12px;
   min-height: 50px;
   padding: 0 21px;
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
   border: 1px solid var(--green);
   background: var(--white);
   color: var(--green) !important;
@@ -214,7 +222,7 @@
 }
 .ex .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(12, 34, 28, 0.13);
+  box-shadow: var(--qadam-shadow-raised);
 }
 .ex .btn--primary {
   background: var(--lime);
@@ -224,10 +232,12 @@
 .ex .hero .btn--quiet {
   background: transparent;
   border-color: rgba(255, 255, 255, 0.3);
-  color: #fff !important;
+  color: var(--qadam-white) !important;
 }
 .ex .btn:disabled {
-  opacity: 0.6;
+  background: var(--qadam-surface-muted);
+  border-color: transparent;
+  color: var(--qadam-muted);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
@@ -241,7 +251,7 @@
   border: 1px solid #d4ddd0;
   margin: 22px 0 64px;
   background: radial-gradient(ellipse at 50% 40%, #f8f2df, #dfe9db 72%);
-  box-shadow: 0 18px 50px rgba(26, 55, 43, 0.1);
+  box-shadow: var(--qadam-shadow-raised);
 }
 .ex .scene canvas {
   display: block;
@@ -258,7 +268,7 @@
   flex-wrap: wrap;
   padding: 5px;
   border: 1px solid rgba(23, 42, 38, 0.1);
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
   background: rgba(255, 254, 250, 0.88);
   backdrop-filter: blur(12px);
 }
@@ -272,7 +282,7 @@
 }
 .ex .scene-note {
   padding: 14px 18px;
-  border-radius: 14px;
+  border-radius: var(--qadam-radius-control);
   background: var(--white);
   border: 1px solid var(--line);
 }
@@ -289,13 +299,13 @@
   font-size: 0.76rem;
   font-weight: 700;
   padding: 6px 12px;
-  border-radius: 999px;
-  background: #fff;
+  border-radius: var(--qadam-radius-pill);
+  background: var(--qadam-white);
 }
 .ex .badge--warn {
-  background: #fff2cf;
-  color: #704b12;
-  border: 1px solid #f2d68c;
+  background: var(--qadam-warning-soft);
+  color: var(--qadam-warning);
+  border: 1px solid var(--qadam-warning-line);
 }
 
 .ex .section-heading {
@@ -306,14 +316,14 @@
   margin: 0 0 20px;
 }
 .ex .eyebrow--dark {
-  color: #788174;
-  font-size: 0.68rem;
+  color: var(--qadam-muted);
+  font-size: var(--qadam-text-label);
 }
 .ex .section-note {
   padding: 7px 12px;
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
   background: var(--qadam-surface-muted);
-  color: #5e6d62;
+  color: var(--qadam-muted);
   font-size: 0.77rem;
   font-weight: 700;
 }
@@ -338,7 +348,7 @@
   flex-direction: column;
   min-height: 192px;
   padding: 23px;
-  border-radius: 20px;
+  border-radius: var(--qadam-radius-card);
   background: var(--white);
   border: 1px solid var(--line);
   color: inherit !important;
@@ -350,13 +360,13 @@
 }
 .ex .card:hover {
   transform: translateY(-4px);
-  border-color: #98b69a;
-  box-shadow: 0 16px 32px rgba(29, 52, 40, 0.09);
+  border-color: var(--qadam-line-hover);
+  box-shadow: var(--qadam-shadow-raised);
 }
 .ex .card-index {
   align-self: flex-start;
   margin-bottom: 24px;
-  color: #8b9789;
+  color: var(--qadam-muted);
   font: 700 0.75rem var(--qadam-font);
   letter-spacing: 0.08em;
 }
@@ -369,7 +379,7 @@
   letter-spacing: -0.04em;
 }
 .ex .card-arrow {
-  color: #df8b38;
+  color: var(--qadam-orange-deep);
   transition: transform 0.2s ease;
 }
 .ex .card:hover .card-arrow {
@@ -474,7 +484,7 @@
   width: 13px;
   height: 13px;
   border-radius: 50%;
-  background: #f0a94b;
+  background: var(--qadam-orange);
   box-shadow: 0 0 0 6px rgba(240, 169, 75, 0.13);
 }
 
@@ -497,7 +507,7 @@
   box-sizing: border-box;
   padding: 13px 15px;
   border: 1px solid var(--qadam-line-strong);
-  border-radius: 13px;
+  border-radius: var(--qadam-radius-control);
   font: inherit;
   background: var(--white);
   color: var(--ink);
@@ -505,7 +515,6 @@
 .ex .filters input:focus,
 .ex .inq input:focus,
 .ex .inq textarea:focus {
-  outline: 3px solid rgba(22, 76, 62, 0.18);
   border-color: var(--green);
 }
 .ex .chips {
@@ -521,7 +530,7 @@
   margin: 0;
   padding: 4px 18px;
   border: 1px solid var(--line);
-  border-radius: 18px;
+  border-radius: var(--qadam-radius-card);
   background: var(--white);
 }
 .ex .catalog li {
@@ -537,9 +546,9 @@
 .ex .inq {
   margin-top: 32px;
   padding: clamp(20px, 4vw, 34px);
-  border-radius: 22px;
-  background: #e8eee4;
-  border: 1px solid #d8e0d4;
+  border-radius: var(--qadam-radius-card);
+  background: var(--qadam-soft);
+  border: 1px solid var(--qadam-line-strong);
 }
 .ex .inq h2 {
   margin-top: 0;
@@ -561,22 +570,22 @@
   justify-self: start;
 }
 .ex .err {
-  color: #a33024;
+  color: var(--qadam-danger);
   margin: 0;
 }
 .ex .inq--ok {
   border-color: var(--green);
-  background: #e3f0df;
+  background: var(--qadam-success-soft);
 }
 .ex .state {
   padding: 24px;
   text-align: center;
-  border-radius: 16px;
+  border-radius: var(--qadam-radius-card);
   background: var(--white);
   border: 1px solid var(--line);
 }
 .ex .state[role="alert"] {
-  color: #42534b;
+  color: var(--qadam-muted);
 }
 .ex .state[role="alert"] .btn {
   margin-top: 6px;
@@ -594,9 +603,9 @@
   place-items: center;
   width: 42px;
   height: 42px;
-  border-radius: 15px;
-  background: #fff0d9;
-  color: #9a5b16;
+  border-radius: var(--qadam-radius-control);
+  background: var(--qadam-warning-soft);
+  color: var(--qadam-warning);
   font-size: 1.2rem;
   font-weight: 800;
 }
@@ -633,7 +642,7 @@
   flex: none;
   width: 42px;
   height: 42px;
-  border-radius: 15px;
+  border-radius: var(--qadam-radius-control);
   background: var(--green);
   color: var(--lime);
   font-size: 1.15rem;
@@ -650,13 +659,13 @@
   min-height: 190px;
   padding: 23px;
   border: 1px solid var(--line);
-  border-radius: 20px;
+  border-radius: var(--qadam-radius-card);
   background: rgba(255, 254, 250, 0.72);
 }
 .ex .skeleton-line {
   display: block;
   height: 11px;
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
   background: linear-gradient(
     90deg,
     var(--qadam-surface-muted) 20%,
@@ -699,7 +708,7 @@
   .ex .hero {
     min-height: 320px;
     padding: 32px;
-    border-radius: 22px;
+    border-radius: var(--qadam-radius-card);
   }
   .ex .hero-art {
     display: none;
@@ -755,7 +764,7 @@
     width: 32px;
     height: 32px;
     padding: 7px;
-    border-radius: 10px;
+    border-radius: var(--qadam-radius-small);
   }
   .ex .top-link {
     font-size: 0.78rem;
@@ -771,7 +780,7 @@
   .ex .hero {
     min-height: 0;
     padding: 28px 23px 30px;
-    border-radius: 19px;
+    border-radius: var(--qadam-radius-card);
   }
   .ex .hero h1 {
     font-size: clamp(2.45rem, 12vw, 3.6rem);
@@ -793,13 +802,13 @@
   .ex .scene {
     height: 290px;
     margin: 14px 0 42px;
-    border-radius: 18px;
+    border-radius: var(--qadam-radius-card);
   }
   .ex .scene .badge {
     right: 10px;
     top: 10px;
     max-width: calc(100% - 20px);
-    font-size: 0.65rem;
+    font-size: var(--qadam-text-label);
   }
   .ex .scene-bar {
     left: 9px;
@@ -816,7 +825,7 @@
   }
   .ex .card {
     padding: 19px;
-    border-radius: 17px;
+    border-radius: var(--qadam-radius-card);
   }
   .ex .state--error {
     grid-template-columns: 38px minmax(0, 1fr);
@@ -827,7 +836,7 @@
   .ex .state-symbol {
     width: 36px;
     height: 36px;
-    border-radius: 13px;
+    border-radius: var(--qadam-radius-control);
   }
   .ex .state--error .btn {
     grid-column: 1/-1;
@@ -840,7 +849,7 @@
   .ex .state-empty-mark {
     width: 36px;
     height: 36px;
-    border-radius: 13px;
+    border-radius: var(--qadam-radius-control);
   }
   .ex .state-copy p {
     font-size: 0.82rem;
@@ -857,7 +866,7 @@
   }
   .ex .inq {
     padding: 19px;
-    border-radius: 18px;
+    border-radius: var(--qadam-radius-card);
   }
   .ex .inq .btn {
     width: 100%;
@@ -953,7 +962,7 @@
   position: absolute;
   left: 14px;
   z-index: 1;
-  color: #758278;
+  color: var(--qadam-muted);
   font-size: 1.5rem;
   line-height: 1;
   transform: rotate(-20deg);
@@ -1001,7 +1010,7 @@
   padding: 17px 0 !important;
 }
 .ex .catalog-index {
-  color: #8b9789;
+  color: var(--qadam-muted);
   font-size: 0.76rem;
   font-weight: 800;
 }
@@ -1021,8 +1030,12 @@
   align-items: center;
   min-height: 330px;
   padding: clamp(26px, 5vw, 56px);
-  border-radius: 26px;
-  background: linear-gradient(120deg, #e7eee2 0%, #f0eee2 100%);
+  border-radius: var(--qadam-radius-hero);
+  background: linear-gradient(
+    120deg,
+    var(--qadam-soft) 0%,
+    var(--qadam-surface-subtle) 100%
+  );
 }
 .ex .shop-hero-copy {
   position: relative;
@@ -1036,7 +1049,7 @@
 }
 .ex .shop-hero-copy > p {
   max-width: 54ch;
-  color: #56675e;
+  color: var(--qadam-muted);
   font-size: 1.05rem;
 }
 .ex .category-pill {
@@ -1046,7 +1059,7 @@
   margin-top: 26px;
   padding: 7px 12px;
   border: 1px solid rgba(22, 76, 62, 0.13);
-  border-radius: 999px;
+  border-radius: var(--qadam-radius-pill);
   background: rgba(255, 254, 250, 0.7);
   color: var(--green);
   font-size: 0.8rem;
@@ -1056,7 +1069,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #e99b43;
+  background: var(--qadam-orange);
 }
 .ex .shop-art {
   position: absolute;
@@ -1089,8 +1102,12 @@
   width: 74px;
   border: 1px solid rgba(255, 255, 255, 0.65);
   border-radius: 12px 12px 4px 4px;
-  background: linear-gradient(145deg, #d7f36a, #b4d84c);
-  box-shadow: 0 14px 22px rgba(22, 76, 62, 0.12);
+  background: linear-gradient(
+    145deg,
+    var(--qadam-lime),
+    var(--qadam-lime-deep)
+  );
+  box-shadow: var(--qadam-shadow-raised);
   transform: skewY(-25deg);
 }
 .ex .shop-art-step--one {
@@ -1102,19 +1119,27 @@
   height: 100px;
   left: 120px;
   bottom: 55px;
-  background: linear-gradient(145deg, #fffefa, #e5e9da);
+  background: linear-gradient(
+    145deg,
+    var(--qadam-white),
+    var(--qadam-surface-muted)
+  );
 }
 .ex .shop-art-step--three {
   height: 145px;
   left: 185px;
   bottom: 70px;
-  background: linear-gradient(145deg, #164c3e, #103b31);
+  background: linear-gradient(
+    145deg,
+    var(--qadam-green),
+    var(--qadam-green-deep)
+  );
 }
 .ex .shop-art-spark {
   position: absolute;
   top: 30px;
   right: 45px;
-  color: #e89c43;
+  color: var(--qadam-orange-deep);
   font-size: 2.3rem;
 }
 .ex .shop-hero + .catalog-section {
@@ -1193,7 +1218,7 @@
   .ex .shop-hero {
     min-height: 300px;
     padding: 25px 20px;
-    border-radius: 20px;
+    border-radius: var(--qadam-radius-card);
   }
   .ex .shop-hero-copy {
     max-width: 100%;
@@ -1228,7 +1253,7 @@
   max-width: 110px;
   padding: 6px;
   border-radius: 50%;
-  border: 2px solid #0b7a75;
+  border: 2px solid var(--qadam-green);
   background: white;
   cursor: pointer;
   min-height: 44px;
