@@ -255,7 +255,15 @@ EXAMPLES["PriceStats"] = dict(
 )
 
 
+EXAMPLES["CustomerPage"] = {
+    "items": [EXAMPLES["CustomerResponse"]],
+    "next_cursor": CUSTOMER,
+}
+
+
 def model_for_example(name):
+    if name == "CustomerPage":
+        return schemas.Page[schemas.CustomerResponse]
     if hasattr(livestock_schemas, name):
         return getattr(livestock_schemas, name)
     if name in {"ClarificationDraftResponse", "RepaymentDraftResponse"}:

@@ -67,6 +67,7 @@ export function AuthProvider({
   const identity = useRef<string | null>(null);
   const demoRef = useRef(false);
   const [generation, setGeneration] = useState(0);
+  const generationRef = useRef(0);
   useEffect(() => {
     if (!client) return;
     // Synchronous callback: never await another Supabase call inside the auth lock.
@@ -74,7 +75,7 @@ export function AuthProvider({
       if (identity.current !== (next?.user.id ?? null)) {
         identity.current = next?.user.id ?? null;
         clearPrivateCache(queryClient);
-        setGeneration((value) => value + 1);
+        setGeneration(++generationRef.current);
       }
       if (!demoRef.current) setSession(next);
       if (next) setExpired(false);
@@ -102,7 +103,7 @@ export function AuthProvider({
     setSession(null);
     setDemo(false);
     setExpired(false);
-    setGeneration((v) => v + 1);
+    setGeneration(++generationRef.current);
   }
   function enterDemo() {
     clearPrivateCache(queryClient);
@@ -110,14 +111,17 @@ export function AuthProvider({
     setDemo(true);
     setSession(null);
     setExpired(false);
-    setGeneration((v) => v + 1);
+    setGeneration(++generationRef.current);
   }
   async function getToken() {
-    if (demoRef.current || !client) return null;
+    if (demoRef.current || !client || generationRef.current !== generation)
+      return null;
     const expectedId = session?.user.id;
     const { data, error } = await client.auth.getSession();
     if (
       error ||
+      demoRef.current ||
+      generationRef.current !== generation ||
       !expectedId ||
       identity.current !== expectedId ||
       data.session?.user.id !== expectedId
@@ -139,7 +143,12 @@ export function AuthProvider({
         enterDemo,
         getToken,
         markExpired: () => {
-          if (identity.current !== session?.user.id || demoRef.current) return;
+          if (
+            generationRef.current !== generation ||
+            identity.current !== session?.user.id ||
+            demoRef.current
+          )
+            return;
           clearPrivateCache(queryClient);
           setExpired(true);
         },

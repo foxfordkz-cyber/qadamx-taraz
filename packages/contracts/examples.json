@@ -324,5 +324,18 @@
     "median_price_per_head_minor": null,
     "status": "insufficient_data",
     "source": "asking_prices"
+  },
+  "CustomerPage": {
+    "items": [
+      {
+        "id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+        "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+        "display_name": "Демо Асқар",
+        "note": "Вымышленный покупатель",
+        "contact": null,
+        "balance_minor": 150000
+      }
+    ],
+    "next_cursor": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0"
   }
 }

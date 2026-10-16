@@ -63,7 +63,8 @@ export function CreateCustomerForm({
           autoFocus
           label={t("name")}
           autoComplete="name"
-          maxLength={200}
+          // HTML counts UTF-16 units; bindings enforce 200 Unicode code points.
+          maxLength={400}
           value={input.display_name}
           error={
             invalid && !input.display_name.trim()
@@ -77,7 +78,7 @@ export function CreateCustomerForm({
           <textarea
             id={noteId}
             rows={3}
-            maxLength={2000}
+            maxLength={4000}
             value={input.note}
             onChange={(e) => setInput({ ...input, note: e.target.value })}
             aria-labelledby={`${noteId}-label`}
@@ -88,7 +89,7 @@ export function CreateCustomerForm({
         <Input
           label={t("contact")}
           autoComplete="off"
-          maxLength={200}
+          maxLength={400}
           value={input.contact}
           onChange={(e) => setInput({ ...input, contact: e.target.value })}
         />
@@ -141,7 +142,9 @@ export function CustomerPicker({
         label={t("search")}
         type="search"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) =>
+          setSearch(Array.from(e.target.value).slice(0, 200).join(""))
+        }
       />
       {search && (
         <Button variant="ghost" onClick={() => setSearch("")}>
@@ -238,10 +241,12 @@ export function CustomersPage() {
         <div className="search-control">
           <Input
             type="search"
-            maxLength={200}
+            maxLength={400}
             label={t("search")}
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) =>
+              setSearch(Array.from(e.target.value).slice(0, 200).join(""))
+            }
           />
           <Icon name="search" />
         </div>

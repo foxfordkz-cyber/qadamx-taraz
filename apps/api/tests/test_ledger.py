@@ -338,3 +338,17 @@ def test_seed_twice_and_real_foreign_keys(ledger_api):
                 )
             )
             session.flush()
+
+
+def test_customer_unicode_codepoint_boundary(ledger_api):
+    api = ledger_api
+    base = f"/api/v1/businesses/{api['business']}/customers"
+    name = "\U0001f600" * 200
+    created = api["client"].post(base, json={"display_name": name}, headers=api["a"])
+    assert created.status_code == 201
+    assert created.json()["display_name"] == name
+    found = api["client"].get(base, params={"q": name}, headers=api["a"])
+    assert found.status_code == 200
+    assert [row["id"] for row in found.json()["items"]] == [created.json()["id"]]
+    rejected = api["client"].post(base, json={"display_name": name + "x"}, headers=api["a"])
+    assert rejected.status_code == 422
