@@ -1,0 +1,28 @@
+{
+  "implementation": "713f00f0450ddc1f0e6d10727270ef8e9f3602bb",
+  "pr32_base": "649bbb303471abe79dd08d61f76bce52ee10e266",
+  "backend_target": "4e983b42a2a0466d2fc07e4de09becf87a8ef7d5",
+  "api_version": "0.6.2",
+  "patches": {
+    "backend.patch": {
+      "sha256": "fd1e7be0ceb67619d23f7c4694c12961dfd8bc2e6e74e8f7d0eef706020afc04",
+      "bytes": 7430
+    },
+    "contract-notes-062.patch": {
+      "sha256": "4a6c50af2b581c30bef5343bb17a664a512ba3f32ade8f484ba6386d8640de93",
+      "bytes": 4613
+    },
+    "frontend.patch": {
+      "sha256": "606d42791546a12e479b6e60f7231ad25c3b23cdf06804cf99209ea65bd1528d",
+      "bytes": 32507
+    },
+    "openai-quota-test-062.patch": {
+      "sha256": "ce472e523360b4924b6133ce4cbcaf81f3d4623d2e7911449611fa49d4c05219",
+      "bytes": 622
+    },
+    "voice-prerequisite-pr23.patch": {
+      "sha256": "abc0ebbe1a0435c33ec9add7652290f5e99043b68d111336e7fc166ee96dffc1",
+      "bytes": 102956
+    }
+  }
+}
