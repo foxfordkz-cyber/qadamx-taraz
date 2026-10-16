@@ -15,7 +15,9 @@
 
 Свежие проверки исходной базы в новой копии: npm ci, check:api, typecheck, lint, build, format:check — PASS; **142/142 unit/component**, **13/13 scoped seller/integration E2E**, ширины 360/390/768/1440. Новых playback/cancel tests здесь ещё нет; весь default/QA/microphone E2E не заявляется пройденным. Остались прежние 3 dependency audit findings и предупреждения build empty-auth/large-3D; зависимости не обновлялись.
 
-Physical Android **Blocked**: свежая adb-проверка — 0 устройств, HTTPS frontend preview не предоставлен. Live Backend/AI/audio в этой задаче не проверялся. Следующее действие — согласовать с капитаном/участником №4 единственного исполнителя и исходный commit, затем повторить обязательный fetch/PR/instructions audit. Актуальный commit этой ветки: `git log -1 --format=%H`; публикация отражена в отдельном Draft PR.
+Physical Android **Blocked**: свежая adb-проверка — 0 устройств, HTTPS frontend preview не предоставлен. Live Backend/AI/audio в этой задаче не проверялся. Следующее действие — согласовать с капитаном/участником №4 единственного исполнителя и исходный commit, затем повторить обязательный fetch/PR/instructions audit.
+
+Аудит опубликован: commit `03226ff6f59a6eeae2338c8e5d000657b5400a82`, push успешен, local/remote совпали. [Draft PR #21](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/21): `feature/voice-playback-cancel` → `integration/local-combined-check`; конфликтов на первом published HEAD нет. Этот следующий docs commit фиксирует публикацию, production-кода не добавляет. Точный актуальный HEAD: `git log -1 --format=%H`; PR содержит актуальный hash. Реализация по-прежнему ожидает одного согласованного исполнителя.
 
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.
 

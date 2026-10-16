@@ -163,3 +163,12 @@ PR #11/#14 → integration/team-mvp; #16/#17/#19/#20 → integration/local-combi
 #18 → integration/livestock-https; #13 → backend/livestock. All open Draft and mergeable at initial inspection.
 No PR for head feature/aidana-ai-assistant was returned by the repository PR search.
 Do not merge PR #14 again, or assume other branches' features are part of this base.
+
+## Publication of the completed preparation
+
+Audit commit: `03226ff6f59a6eeae2338c8e5d000657b5400a82`, pushed successfully to
+`origin/feature/voice-playback-cancel` with equal local/remote HEAD.
+[Draft PR #21](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/21) targets the exact base above;
+mergeable at the first published audit HEAD. This subsequent documentation commit records publication only.
+The current exact HEAD is available via `git log -1 --format=%H` and in the PR description.
+No executor confirmation had arrived before publication; implementation remains blocked by section 3.
