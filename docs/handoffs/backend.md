@@ -634,3 +634,12 @@ Vercel GLB по SHA-256 всё ещё совпадают со старым 0f97c
 **Бюджет:** прежнийreserve1.40+0.10наприсланные/неопределённыеusercalls+6×0.05=**$1.80/$2**,осталось$0.20защитногорезерва. Доступная новаяestimate$0.0008595толькоизSTTлога;usageшестипроб недоступен,billingнеизвестен,нулевойрасходнеприписываем. Платныевызовыостановлены. КлючизIDEпопалвчат:капитанпредупреждёнонеобходимостиотзыва/замены;значениевGit/артефакты/логи не переносилось.
 
 Следующее: review diagnosticpatch; подтвердитьLivecommit/model/SSL, при необходимости согласованно применитьpatch и одинраз воспроизвести разрешённый originalaudio в оставшемся резерве. Полнуюhostingприёмку money/photo/coldstart завершить отдельно послеприоритетногоAI. Бекзат исправляетcoordinatorfd21874 ипринимаетcallbackcontract;10d9bbaрегистрацияещёнедопущена,демоmembershipsневыдавались. Aidana7c19a22прочитанкакhandoffк713f00f,повторногomergeнет. FlutterPR25/421b2fbполучаетpublicконфигдляпересборкииchecklistустройствачерезкапитана. Main/веткикоманды/БД/Storage/Auth/туннелинеизменялись.
+
+
+### 2026-10-17 — recovery review и отдельный выпуск моделей
+
+Проверен remote recovery **9a3c868**: 50 авторских customer/Auth тестов PASS, новый regression late-success-after-unmount **FAIL**. Поздний ответ K1 удаляет новый unknown intent K2; recovery остаётся вне релиза. Бекзату переданы воспроизведение и требования compare-and-clear/scope fencing; legacy intent без API origin также требует безопасной обработки. Ветка автора не менялась.
+
+Отдельная сборка от принятого PR38/5118fd1 сохраняет e699158, API0.6.2, Auth/AI/аналитику/контракты и новые GLB. Повторно: 265 frontend tests, 24 synthetic Chrome E2E, typecheck/lint/build/check:api и asset validator PASS. Код приложения/контрактов не менялся. До production push сохранены прежний deployment DpvX4gCcsQ9RNCw62u5DxqGhKFqy, commit0f97c44 и хеши production GLB; это GitHub status + HTTP evidence, не management API alias lookup. Render/main/БД/миграции/туннели не меняются.
+
+Капитан подтвердил отсутствие исходного recording.webm. Точный повтор невозможен, старый инцидент не закрыт. Подготовлена инструкция сохранения нового файла телефона: новая запись считается новым сценарием; платные вызовы не выполнялись. [Полный review, rollback и передача команде](../MODELS_PRODUCTION_ACCEPTANCE.md). Результаты фактического Vercel deployment будут дописаны отдельно после проверки.
