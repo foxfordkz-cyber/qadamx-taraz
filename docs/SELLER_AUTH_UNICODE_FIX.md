@@ -49,3 +49,17 @@ Live Backend/Supabase/JWT/JWKS/CORS/DB persistence в этой задаче не
 ## Совместимость с design PR #11
 
 Production diff отдельно проверен через git apply --check в чистой рабочей копии feature/seller-design-integration:c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b: применяется без конфликтов. Это только проверка патча, файлы/ветка/PR11 не менялись. Полный regression набор выполнен на указанной base Team MVP; отдельное применение дизайна остаётся за review капитана.
+
+## Git и Draft PR
+
+Создан **open Draft PR #14**: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/14. Base integration/team-mvp:3d009dc86c93debcab05dedda530b7d1fe62a304, head fix/seller-auth-unicode. Проверено GitHub mergeability перед финальной передачей; результат подтверждается в финальном отчёте.
+
+По уточнению пользователя ещё неопубликованный общий commit разделён без изменения проверенного tree:
+
+- **7cf974471565df8df6ea3efb01c82e363f7c22b0** — Auth epoch и связанные regression tests.
+- **8f0776f7bd968e1200c5c38fc8d9b93ccd02dee1** — Unicode validator/form/reader и regression tests.
+- **e993a6b5dc2fe4ad59ef933fa6433770ce39ec49** — общие E2E tests и документация.
+
+git diff исходного проверенного snapshot с разделённой историей пустой, все passing tests сохранены. git fetch origin integration/team-mvp подтвердил прежнюю base3d009dc; удалённой fix-ветки до первой публикации не было. `git push -u origin fix/seller-auth-unicode` успешен, remote HEAD совпал с e993a6b. После этой записи добавляется только documentation commit; текущий точный HEAD получать git log -1 --format=%H. Перед финальным ответом повторяются fetch/pull --ff-only/push собственной ветки и проверка совпадения refs.
+
+QA-002 оставлен до решения капитана. Backend/OpenAPI/generated/financial logic, main и PR11/12 не изменены; merge и force push не выполнялись. Работа над /seller/analytics не начиналась: после публикации агент останавливается до отдельного задания.

@@ -4,6 +4,8 @@
 
 25 связанных regression и полный прогон 106 unit/component прошли; typecheck/lint/build/check:api и targeted Prettier успешны. Полный E2E: 11/11 passed (8 прежних + 3 новых). Git/PR результат — в [SELLER_AUTH_UNICODE_FIX](../SELLER_AUTH_UNICODE_FIX.md). Там же точные команды и ограничения live. Эта ветка не заменяет отдельный design PR11, не начинает новый редизайн.
 
+Публикация: Draft PR #14 https://github.com/foxfordkz-cyber/qadamx-taraz/pull/14 в integration/team-mvp. Отдельные commits: Auth7cf9744, Unicode8f0776f, общие E2E/docs e993a6b; push успешен, local/remote совпали. Финальный docs commit фиксирует эту передачу, полный HEAD получать git log -1 --format=%H. Тесты:106unit/component и11E2E passed. QA-002/live acceptance остаются отдельно; analytics не начинался.
+
 Ниже сохранена историческая передача старых seller-этапов; её прежние branch/API ограничения не задают текущую fix-задачу.
 
 ---
