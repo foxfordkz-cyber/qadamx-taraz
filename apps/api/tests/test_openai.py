@@ -447,7 +447,10 @@ def test_real_http_disconnect_cancels_before_draft_save(ledger_api):
     listener.bind(("127.0.0.1", 0))
     port = listener.getsockname()[1]
     server = uvicorn.Server(
-        uvicorn.Config(api["app"], lifespan="off", access_log=False, log_level="critical")
+        # Do not replace pytest's logging handlers/levels for subsequent diagnostic tests.
+        uvicorn.Config(
+            api["app"], lifespan="off", access_log=False, log_config=None, log_level=None
+        )
     )
     thread = threading.Thread(target=server.run, kwargs={"sockets": [listener]}, daemon=True)
     thread.start()
