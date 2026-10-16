@@ -43,7 +43,7 @@ npm run dev
 
 Типы принятого OpenAPI: `npm run generate:api`, проверка актуальности — `npm run check:api`. Состояние интеграции и ограничения: [SELLER_BACKEND_INTEGRATION_PLAN](docs/SELLER_BACKEND_INTEGRATION_PLAN.md). HTTP API заявок и публичного каталога пока нет.
 
-Merchant UI адаптирован по принципам Polaris в собственной React/CSS дизайн-системе: [дизайн и шесть Demo screenshots](docs/SELLER_DESIGN_NOTES.md). Проверки frontend: 71 unit/component и 8 Chromium E2E, включая 360/390/768/1440. Живые Supabase/DB/CORS проверки ожидают серверного окружения и тестовых паролей.
+Merchant UI адаптирован по принципам Polaris в собственной React/CSS дизайн-системе и согласован с актуальной public storefront темой Qadam: общие paper/green/lime tokens, Manrope, локальные Kazakh fallback fonts, mobile меню всех разделов. [Дизайн и десять новых Demo screenshots](docs/SELLER_DESIGN_NOTES.md). Проверки frontend: 74 unit/component и 9 Chromium E2E, включая 360/390/768/1440. Живые Supabase/DB/CORS проверки ожидают серверного окружения и тестовых паролей; чужие модули не объединялись.
 
 Продолжение с другого аккаунта: [handoff](docs/SELLER_FRONTEND_HANDOFF.md). Подключение общих компонентов и страниц участников 2/4: [integration guide](docs/SELLER_FRONTEND_INTEGRATION.md). Изменения не слиты в main и не опубликованы как сайт.
 
