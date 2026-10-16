@@ -109,7 +109,11 @@ Demo restrictions дополнены негативными live-ветками 
 
 Clone/fetch прошли. Удалённая QA-ветка при начале отсутствовала; локальная создана от принятой frontend-ветки. Upstream frontend снят, чтобы обычный push/pull не затронул чужую ветку.
 
-Предварительный push dry-run заблокирован: `fatal: could not read Username for 'https://github.com': terminal prompts disabled`. Нет настроенной GitHub-аутентификации; GitHub integration предложена, подключение не подтверждено. Финальные commit/push результаты записываются ниже после выполнения.
+Commit с тестами: `45714f69a9a08321f310f0cd0f077b4ffca92c7b` (`test(seller): auth, API and regression coverage`). После commit выполнен `git fetch origin`: успешно. Повторный `git ls-remote --heads` показал прежний HEAD frontend `a77f1a0` и отсутствие `test/seller-regression`. Поэтому pull своей ветки не применим до её первой публикации; pull чужой frontend-ветки не выполнялся.
+
+Предварительный dry-run и фактический `GIT_TERMINAL_PROMPT=0 git push -u origin test/seller-regression` завершились exit 128: `fatal: could not read Username for 'https://github.com': terminal prompts disabled`. Нет настроенной GitHub-аутентификации; интеграция GitHub предложена, подключение не подтверждено. Удалённый QA HEAD отсутствует, совпадение local/remote HEAD подтвердить невозможно. Последующая запись этого результата — отдельный documentation commit; конечный local hash получать через `git log -1 --format=%H`.
+
+**Draft PR не создан:** push заблокирован, удалённой compare-ветки нет, авторизованный GitHub connector/CLI недоступен. Ссылки на созданный PR нет. Для завершения публикации нужен GitHub-доступ на запись к этому репозиторию. Переносимый patch с обоими локальными commit и отчётами подготовлен отдельно на случай продолжения в другом окружении.
 
 Цель Draft PR: base `feature/seller-dashboard`, compare `test/seller-regression`, title `test(seller): auth, API and regression coverage`. Merge/force push запрещены и не выполнялись.
 
