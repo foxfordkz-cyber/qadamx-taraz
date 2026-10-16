@@ -193,7 +193,7 @@ class MeResponse(Contract):
 
 class Page[T](Contract):
     items: list[T]
-    next_cursor: str | None = None
+    next_cursor: UUID | None = None
 
 
 class ErrorDetail(Contract):

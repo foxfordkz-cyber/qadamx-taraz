@@ -1,31 +1,27 @@
-# Qadam merchant redesign — этап B
+# Qadam — дизайн Seller в Team MVP
 
-Референс: [официальный Polaris](https://shopify.dev/docs/api/polaris). Из принципов взяты ясная иерархия, последовательные интервалы, предсказуемые формы и адаптивная плотность. Семантические подписи, клавиатурная навигация и фокус соответствуют подходу из [раздела Accessibility](https://shopify.dev/docs/api/polaris/using-polaris-web-components#accessibility); реализация остаётся собственной React/CSS.
+Интеграция 2026-10-16 из a77f1a02 в отдельную feature/seller-design-integration от integration/team-mvp:3d009dc. Это перенос готового UI ограниченным diff, без cherry-pick старой архитектуры. Подробности и команды — [handoff](SELLER_FRONTEND_HANDOFF.md).
 
-Shopify API, Auth, App Bridge и Polaris React/Web Components не устанавливались. Массовой миграции и заимствованного брендинга нет. Auth по-прежнему Supabase; бизнес-логика и exports общих компонентов сохранены.
+## Визуальная система
 
-## Изменения
+Референс — [официальный Polaris](https://shopify.dev/docs/api/polaris): последовательные формы, ясная иерархия и адаптивная плотность. Реализация остаётся React/CSS Qadam без Shopify API/Auth/App Bridge.
 
-- `shared/merchant.css` — отдельный слой поверх существующих токенов и UI: радиусы 8/12 px, интервалы 12/16/24/32, спокойные разделители, уменьшенная высота шапки и единая плотность карточек. Палитра #F7F3EB / #172A27 / #B32918 / #D9EEDB сохранена.
-- Dashboard: один основной CTA, компактная выбранная точка, четыре понятных действия и дополнительные разделы, полезный блок о клиентах. Финансовых KPI без данных нет.
-- Клиенты: визуальные колонки на desktop и компактные карточки на mobile, видимые различающие заметки/UUID, серверный balance_minor, поиск с debounce, полезное действие пустого списка, общая форма и CustomerPicker. Прочерк означает отсутствие значения, а не нулевой долг.
-- Заявки: поиск по загруженным имени/контакту/тексту вместе со статусным фильтром; никаких придуманных API params. Live-изменения отключены до endpoint, Demo только read-only.
-- Каталог: аккуратные карточки с ценой/наличием и Demo label, условная иконка без вымышленных API-фотографий.
-- Мобильные проверки: 360/390/768/1440, нижняя навигация не меньше 44×44, dialogs/focus/reduced-motion и RU/KZ сохранены. Необрезанный контент проверяется сравнением scrollWidth с viewport.
+Токены shared/tokens.css: paper #F5F3EB, ink #172A26, green #164C3E, deep green #103B31, lime #D7F36A, orange #F0A94B, white #FFFEFA, line #E1E2D8, muted #58685F. Spacing 4/8/12/16/24/32/48; controls12, cards20, hero28. Семантические aliases совместимы с существующими общими UI.
 
-## Контраст и QA
+Manrope локально, недостающие казахские буквы дополняются локальными NotoSans unicode-range. Источники и OFL лицензии — apps/web/public/fonts/README.md. Нет внешнего font CDN. Brand соответствует подготовленному seller-дизайну и палитре витрины. Текстовые контрастные пары рассчитаны: white/green 9.74, ink/paper 13.54, muted/paper 5.31, lime/green 7.91. Это проверка этих пар, не полный аудит WCAG.
 
-Рассчитаны отношения относительной яркости: white/#B32918 — 6.47, #172A27/#F7F3EB — 13.58, muted #53615b/#F7F3EB — 5.88, green text/background — 7.66, red status text/background — 6.56. Это проверка выбранных текстовых пар, не заявление о полном аудите всех состояний.
+Dashboard, карточки клиентов, поиск/фильтры заявок и каталога, диалоги и меню перенесены вместе с keyboard/focus/reduced-motion. Зелёный активный пункт, lime основной CTA, orange вторичные акценты. Суммы tabular-nums, значения исключительно серверные.
 
-71 unit/component и 8 Chromium E2E прошли. Визуально просмотрены все 6 кадров; после уточнения цветов и мобильных карточек browser-проверки повторены. Источник воспроизводимых снимков — `apps/web/e2e/screenshots.spec.ts`. Все снимки с учебными данными и явным Demo banner:
+## Адаптация соседних модулей
 
-| Экран | Размер | Файл |
-|---|---|---|
-| Dashboard Desktop | 1440×1000 | [dashboard-desktop](screenshots/dashboard-desktop.png) |
-| Dashboard Mobile | 390×844 | [dashboard-mobile](screenshots/dashboard-mobile.png) |
-| Customers Desktop | 1440×1000 | [customers-desktop](screenshots/customers-desktop.png) |
-| Customers Mobile | 390×844 | [customers-mobile](screenshots/customers-mobile.png) |
-| Inquiries Desktop | 1440, full page | [inquiries-desktop](screenshots/inquiries-desktop.png) |
-| Catalog Mobile | 390×844 | [catalog-mobile](screenshots/catalog-mobile.png) |
+Файлы voice/ledger/summary не изменены. Shared UI и scoped .app-shell .ledger-\* CSS объединяют оформление; breakpoint1100 устраняет узкие две формы/четыре KPI рядом с sidebar на планшете. Финансовые Demo страницы поясняют отсутствие серверных данных без фиктивных нулей/записей. Native Back/Forward больше не открывает закрытое меню повторно.
 
-Живая авторизация/БД не изображаются этими screenshots: серверное окружение отсутствует, health-проверка дала ECONNREFUSED. Для live-acceptance нужны API/PostgreSQL и тестовые пароли от капитана. Это зафиксировано в основном handoff.
+Public explore/inquiry/3D source сохранён. CSS .ex переназначает его существующие aliases на Qadam tokens и Manrope; hotspot border согласован. Сохранены публичные сетки/брейкпоинты, предупреждения, WebGL fallback и маршруты.
+
+## Проверка и screenshots
+
+Browser emulation 360/390/768/1440 проверяет все seller routes, overflow, финансовые поля, RU/KZ, 44px navigation/language controls, выбор точки/logout, menu Escape/focus/history, шрифты и skip-link. Public fixture test проверяет root→venue→shop, каталог, форму/валидацию, RU/KZ и WebGL fallback, перехватывая API и запрещая writes. Физический Android/микрофон не проверены.
+
+Новые реальные снимки запущенного приложения — [screenshots/team-mvp-design](screenshots/team-mvp-design). Для dashboard/customers/sale/debts/history/summary/inquiries/catalog сняты desktop1440 и mobile390. Seller — явный read-only Demo; public home/shop — подписанные API test fixtures. Это не доказательство живого Supabase/backend или финансового сохранения. Воспроизводятся npm run test:e2e, копия по QADAM_SCREENSHOT_OUTPUT.
+
+Итоговые test counts и commit/push/PR — в [основной передаче](SELLER_FRONTEND_HANDOFF.md). Старые screenshots и история предыдущих этапов не выдаются за текущую интеграцию.

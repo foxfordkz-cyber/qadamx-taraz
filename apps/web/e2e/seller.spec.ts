@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { navigateSeller } from "./helpers";
 
 test("protected routes redirect to login; explicit demo has no writes or backend traffic", async ({
   page,
@@ -19,7 +20,7 @@ test("protected routes redirect to login; explicit demo has no writes or backend
   await expect(
     page.getByRole("heading", { name: "Хорошего рабочего дня!" }),
   ).toBeVisible();
-  await page.locator('a[href="/seller/inquiries"]:visible').first().click();
+  await navigateSeller(page, "inquiries");
   await expect(
     page.getByRole("heading", { name: "Әсел · Демо" }),
   ).toBeVisible();
@@ -57,7 +58,7 @@ for (const width of [360, 390, 768, 1440]) {
       "summary",
     ]) {
       // Client navigation preserves explicit in-memory demo selection.
-      await page.locator(`a[href="/seller/${route}"]:visible`).first().click();
+      await navigateSeller(page, route);
       await expect(page).toHaveURL(new RegExp(`/seller/${route}$`));
       await expect(page.locator("#main-content h1")).toBeVisible();
       expect(
@@ -66,7 +67,7 @@ for (const width of [360, 390, 768, 1440]) {
         ),
       ).toBe(true);
     }
-    await page.locator('a[href="/seller/customers"]:visible').first().click();
+    await navigateSeller(page, "customers");
     await page.getByRole("button", { name: /Новый клиент/ }).click();
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
@@ -96,7 +97,7 @@ test("catalog and duplicate customers, language persistence and real reload prot
 }) => {
   await page.goto("/login");
   await page.getByRole("button", { name: /Посмотреть демо/ }).click();
-  await page.locator('a[href="/seller/customers"]:visible').first().click();
+  await navigateSeller(page, "customers");
   await page
     .getByRole("button", { name: "Выбрать клиента", exact: true })
     .click();
@@ -105,7 +106,7 @@ test("catalog and duplicate customers, language persistence and real reload prot
   await expect(options).toHaveCount(2);
   await options.nth(1).click();
   await expect(page.getByText("Выбран: Асқар · Демо · доставка")).toBeVisible();
-  await page.locator('a[href="/seller/catalog"]:visible').first().click();
+  await navigateSeller(page, "catalog");
   await expect(page.getByText("15 000 ₸")).toBeVisible();
   await page
     .getByLabel("Торговая точка", { exact: true })
@@ -125,7 +126,7 @@ test("mobile inquiry filter and customer search work in RU and KZ", async ({
   await page.setViewportSize({ width: 360, height: 900 });
   await page.goto("/login");
   await page.getByRole("button", { name: /Посмотреть демо/ }).click();
-  await page.locator('a[href="/seller/inquiries"]:visible').first().click();
+  await navigateSeller(page, "inquiries");
   await page
     .getByLabel("Показать заявки", { exact: true })
     .selectOption("closed");
@@ -137,7 +138,7 @@ test("mobile inquiry filter and customer search work in RU and KZ", async ({
   await expect(
     page.getByLabel("Өтінімдерді көрсету", { exact: true }),
   ).toHaveValue("closed");
-  await page.locator('a[href="/seller/customers"]:visible').first().click();
+  await navigateSeller(page, "customers");
   await page.getByLabel("Есімі бойынша іздеу", { exact: true }).fill("Әсел");
   await expect(
     page.getByRole("heading", { name: "Әсел", exact: true }),
@@ -151,6 +152,92 @@ test("mobile inquiry filter and customer search work in RU and KZ", async ({
   await expect(
     page.getByRole("heading", { name: "Асқар", exact: true }),
   ).toHaveCount(2);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
+
+test("mobile menu supports keyboard dismissal, direct navigation and touch targets", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 844 });
+  await page.goto("/login");
+  await page.getByRole("button", { name: /Посмотреть демо/ }).click();
+  const more = page.locator(".bottom-nav").getByRole("button", {
+    name: "Все разделы",
+    exact: true,
+  });
+  await more.focus();
+  await page.keyboard.press("Enter");
+  const menu = page.getByRole("dialog", { name: "Все разделы" });
+  await expect(menu).toBeVisible();
+  await expect(
+    menu.getByRole("link", { name: "Публичная витрина", exact: false }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(menu).not.toBeVisible();
+  await expect(more).toBeFocused();
+  await more.click();
+  await menu.getByRole("link", { name: "Каталог", exact: true }).click();
+  await expect(menu).not.toBeVisible();
+  await expect(page).toHaveURL(/\/seller\/catalog$/);
+  await expect(page.getByRole("heading", { name: "Каталог" })).toBeVisible();
+  await page.getByLabel("Поиск по каталогу", { exact: true }).fill("рюкзак");
+  await page.getByLabel("Наличие", { exact: true }).selectOption("available");
+  await expect(page.locator(".product-card")).toHaveCount(1);
+  await page.getByRole("button", { name: "KZ", exact: true }).click();
+  await expect(
+    page.getByLabel("Каталогтан іздеу", { exact: true }),
+  ).toHaveValue("рюкзак");
+  await expect(page.getByLabel("Қолжетімділік", { exact: true })).toHaveValue(
+    "available",
+  );
+  await page
+    .getByLabel("Қолжетімділік", { exact: true })
+    .selectOption("unavailable");
+  await expect(
+    page.getByRole("heading", { name: "Тауарлар табылмады" }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Іздеу мен сүзгілерді тазалау" })
+    .click();
+  await expect(page.locator(".product-card")).toHaveCount(3);
+  const targets = await page
+    .locator(
+      ".bottom-nav a, .bottom-nav button, .topbar .language-switch button",
+    )
+    .evaluateAll((elements) =>
+      elements.map((element) => ({
+        width: element.getBoundingClientRect().width,
+        height: element.getBoundingClientRect().height,
+      })),
+    );
+  expect(targets).toHaveLength(7);
+  for (const target of targets) {
+    expect(target.width).toBeGreaterThanOrEqual(44);
+    expect(target.height).toBeGreaterThanOrEqual(44);
+  }
+  const fonts = await page.evaluate(async () => {
+    const manrope = await document.fonts.load('600 16px "Manrope"', "Qadam");
+    const kazakh = await document.fonts.load(
+      '600 16px "Qadam Kazakh"',
+      "ӘҒҚҢҰ",
+    );
+    return {
+      manrope: manrope.length,
+      kazakh: kazakh.length,
+      loaded: [...manrope, ...kazakh].every((font) => font.status === "loaded"),
+    };
+  });
+  expect(fonts).toEqual({ manrope: 1, kazakh: 2, loaded: true });
+  await page.locator(".skip-link").focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator("#main-content")).toBeFocused();
+  const mainTop = (await page.locator("#main-content").boundingBox())!.y;
+  const header = (await page.locator(".topbar").boundingBox())!;
+  expect(mainTop).toBeGreaterThanOrEqual(header.y + header.height);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,

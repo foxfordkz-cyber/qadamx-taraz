@@ -1,5 +1,26 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  financialDemoTitle: "Қаржылық деректер жүйеге кіргеннен кейін қолжетімді",
+  financialDemoHint:
+    "Demo режимінде операциялар жазылмайды, қарыздар мен қорытындылар серверден жүктелмейді. Сауда нүктесінің есебін жүргізу үшін жұмыс аккаунтына кіріңіз.",
+  menu: "Тағы",
+  storefrontHint: "Сауда нүктесі мен сатып алушыларға ортақ платформа.",
+  activeBusiness: "Сіз жұмыс істеп жатқан сауда нүктесі",
+  quickActions: "Жылдам әрекеттер",
+  customerDirectory: "Сатып алушылар базасы",
+  catalogDirectory: "Ассортимент пен қолжетімділік",
+  historyDirectory: "Сатылымдар мен төлемдер",
+  catalogSearch: "Каталогтан іздеу",
+  availabilityFilter: "Қолжетімділік",
+  allProducts: "Барлық тауарлар",
+  noMatchingProducts: "Тауарлар табылмады",
+  noMatchingProductsHint:
+    "Басқа атауды енгізіңіз немесе қолжетімділік сүзгісін өзгертіңіз.",
+  resetFilters: "Іздеу мен сүзгілерді тазалау",
+  catalogReadOnly: "Каталогты қарау",
+  catalogReadOnlyHint:
+    "Бағалар мен қолжетімділік таңдалған сауда нүктесіне қатысты көрсетілген.",
+  catalogLoadedHint: "Іздеу мен сүзгі жүктелген тауарларға қолданылады.",
   workspace: "Жұмыс кеңістігі",
   liveMode: "Жұмыс деректері",
   customerHelpTitle: "Клиенттер әрдайым қол астында",

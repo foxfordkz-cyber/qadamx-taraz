@@ -27,7 +27,11 @@ function object(value: unknown): Record<string, unknown> {
   return value as Record<string, unknown>;
 }
 function text(value: unknown, min = 0, max = Infinity): string {
-  if (typeof value !== "string" || value.length < min || value.length > max)
+  if (
+    typeof value !== "string" ||
+    Array.from(value).length < min ||
+    Array.from(value).length > max
+  )
     return invalid();
   return value;
 }
@@ -105,9 +109,9 @@ export function customerBody(
   const contact = input.contact.trim() || null;
   if (
     !display_name ||
-    display_name.length > 200 ||
-    note.length > 2000 ||
-    (contact?.length ?? 0) > 200
+    Array.from(display_name).length > 200 ||
+    Array.from(note).length > 2000 ||
+    Array.from(contact ?? "").length > 200
   )
     throw new ApiError(422, "VALIDATION_ERROR");
   return { display_name, note, contact };

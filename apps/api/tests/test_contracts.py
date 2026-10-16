@@ -73,3 +73,9 @@ def test_health_errors_and_cors():
                 "/health", headers={"Origin": origin, "Access-Control-Request-Method": "GET"}
             )
             assert response.status_code == status
+
+
+def test_published_analytics_examples_match_generated_contract():
+    examples = json.loads((OUTPUT / "analytics-examples.json").read_text(encoding="utf-8"))
+    names = ["AnalyticsEmpty", "AnalyticsSaleAndRepayment", "AnalyticsOldSaleReversedToday"]
+    assert list(examples.values()) == [EXAMPLES[name] for name in names]

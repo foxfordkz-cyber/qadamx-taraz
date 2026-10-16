@@ -3,15 +3,17 @@ from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Header, Query
+from fastapi import APIRouter, Depends, Header, Query, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import schemas
+from app.analytics_schemas import AnalyticsResponse
 from app.auth import current_user
 from app.db import session_for_request
+from app.errors import APIError
 from app.models import Business, Customer, Membership
-from app.services import ledger
+from app.services import analytics, ledger
 
 router = APIRouter(prefix="/api/v1")
 DB = Annotated[Session, Depends(session_for_request)]
@@ -117,3 +119,14 @@ def get_operations(
 def get_summary(id: UUID, db: DB, user: User, date: Date | None = None):
     ledger.require_membership(db, id, user)
     return ledger.summary(db, id, date or datetime.now(ledger.LOCAL_TZ).date())
+
+
+@router.get("/businesses/{id}/analytics", response_model=AnalyticsResponse, tags=["analytics"])
+def get_analytics(
+    id: UUID, db: DB, user: User, response: Response, days: Annotated[int, Query(enum=[7, 30])] = 7
+):
+    if days not in (7, 30):
+        raise APIError(422, "VALIDATION_ERROR", "days must be 7 or 30")
+    ledger.require_membership(db, id, user)
+    response.headers["Cache-Control"] = "no-store"
+    return analytics.read(db, id, days)

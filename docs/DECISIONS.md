@@ -46,6 +46,11 @@
 - По новому разрешению капитана OpenAPI 0.3.0 взят отдельно из `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c` и generated.ts обновлён воспроизводимо. Backend-код остаётся 193f6e5; вся AI-ветка, миграции, финансовая логика и AI UI не включаются. Не перезаписывать согласованный JSON экспортом старого локального Python. Остальные contract files не требуются: schemas прежние, `$ref` внутренние. Источник и ограничение multipart XOR генератора записаны в seller handoff.
 
 ## Уточнения первого локального этапа — 2026-10-15
+
+## Seller design — 2026-10-16
+
+По новому запросу кабинет использует актуальный визуальный стиль публичной витрины `feature/public-storefront` @8818e8b: Manrope, paper/green/lime и ступенчатый знак qadam. Общие semantic tokens вынесены в shared/tokens.css, aliases прежнего UI сохранены. Старое красное оформление этапа B заменено этим решением. Чужой CSS/модули не импортируются; код витрины не объединяется. Шрифты размещены локально с OFL, для Kazakh glyphs есть Noto fallback. Polaris остаётся UX-референсом собственных React-компонентов. См. SELLER_DESIGN_NOTES.md и handoff; API/Auth/финансовая логика не менялись.
+
 ## Ручной backend — 2026-10-15, `backend/ledger-auth`
 
 - Лимит одной денежной суммы: 100 млн ₸ (`10_000_000_000` тиынов). Запросы используют JSON-целые, запрещены дополнительные поля баланса/времени. Схемы и примеры: `apps/api/app/schemas`, `packages/contracts`.
@@ -67,3 +72,18 @@
 ## 2026-10-16: sixth role, mobile livestock
 
 apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, web remains apps/web. Livestock owner is the verified Supabase JWT subject, independent of shop memberships; existing ledger authorization is unchanged. Livestock never creates ledger entries. Today uses Asia/Almaty server date; price statistics exclude demo data and use asking prices, not transactions or AI. Photo publication requires private Storage and server-side decoding/re-encoding without EXIF. Proposed contract: packages/contracts/LIVESTOCK_API.md. Shared Supabase must not be migrated in this task.
+
+## Seller design integration — 2026-10-16
+
+В отдельной feature/seller-design-integration от integration/team-mvp:3d009dc переносится только визуальный delta готового seller a77f1a02. Канонические backend/OpenAPI0.4/runtime/API/modules и feature-модули других участников сохраняются. Общая Qadam палитра/Manrope определяются в shared/tokens.css, совместимые semantic aliases обслуживают существующий UI; public .ex получает CSS token bridge без переписывания витрины. Финансовые значения не подставляются в Demo, чужая денежная логика не меняется. Review выполняется отдельным Draft PR в integration/team-mvp, без merge в этой задаче. Детали, собственные проверки и ограничения — SELLER_FRONTEND_HANDOFF.md и handoffs/seller-web.md.
+
+## 2026-10-16: review общей версии и QA-контракт
+
+В integration/local-combined-check включены существующие PR #11 (seller design integration) и #12 (seller regression), не создаётся параллельный редизайн. Единственный API остаётся apps/api версии 0.5.0; денежные правила не меняются. Поколение Auth защищает callbacks старой сессии A после A→B→A. Page.next_cursor закреплён как UUID/null, как request cursor; CustomerCreate и frontend считают Unicode code points. Схемы/примеры обновлены, generated.ts регенерирован без смены TypeScript string-представления UUID. Общая Supabase остаётся 0003; 0004/Storage требуют отдельного разрешения. [Приёмка и зависимости PR](COMBINED_ACCEPTANCE.md).
+
+
+## 2026-10-16 — подключённая среда и аналитика точки
+
+Капитан сообщил о завершённом отдельном setup: qadam-demo 0004_livestock и private Storage. Повторный setup/seed не нужен; readonly-проверка ревизии и настоящий HTTP подтвердили подключение. Server service key остаётся только в игнорируемом env. Для удалённого Flutter готовится временный HTTPS к одному FastAPI, без открытия PostgreSQL; запуск туннеля отдельным действием, не деплой.
+
+Согласован MVP аналитики: 7/30 дней Asia/Almaty включая неполное сегодня, карточки и графики рассчитывает backend из журнала с membership. Продажи/количество/средний чек — один набор действующих продаж периода, отмена ретроспективно исключает исходную продажу; поступления — движения в даты регистрации, включая отрицательные отмены и погашения старых долгов. Текущий долг — все даты. HALF_UP до тиына, пустой средний null. Один snapshot для карточек/графиков. `/summary` не меняется; полное определение и примеры в ANALYTICS_API. Контракт опубликован первым (2089e44), затем реализация; UI остаётся frontend.

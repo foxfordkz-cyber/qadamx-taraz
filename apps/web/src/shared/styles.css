@@ -1,17 +1,10 @@
 :root {
-  font-family: Inter, "Segoe UI", Arial, sans-serif;
-  color: #172a27;
-  background: #f7f3eb;
+  font-family: var(--qadam-font);
+  color: var(--text);
+  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --bg: #f7f3eb;
-  --text: #172a27;
-  --primary: #b32918;
-  --secondary: #d9eedb;
-  --border: #dfdfd5;
-  --muted: #57645e;
-  --radius: 16px;
 }
 * {
   box-sizing: border-box;
@@ -54,7 +47,7 @@ a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 3px solid #b32918;
+  outline: 3px solid var(--primary);
   outline-offset: 3px;
 }
 h1,
@@ -106,7 +99,7 @@ svg {
   color: #fff;
 }
 .button-primary:hover:enabled {
-  background: #942013;
+  background: var(--qadam-green-deep);
 }
 .button-secondary {
   background: #fff;

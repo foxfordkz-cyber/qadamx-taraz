@@ -1,6 +1,6 @@
 # Архитектура и контракт Qadam Business
 
-Дополнение 2026-10-16: шестой участник ведёт Flutter `apps/mobile`. API 0.5.0 «Мал базара» реализован в `backend/livestock` поверх интеграции: [LIVESTOCK_API](../../packages/contracts/LIVESTOCK_API.md), актуальные OpenAPI/примеры рядом. Владелец объявления — JWT subject без membership, денежный журнал независим. Новая миграция 0004 проверена только локально; общий Supabase остаётся 0003. Разделы ниже сохраняют базовый контракт магазинов и учёта.
+Дополнение 2026-10-16: шестой участник ведёт Flutter `apps/mobile`. Основной API 0.6.0: [Мал базар](../../packages/contracts/LIVESTOCK_API.md) и [аналитика моей точки](../../packages/contracts/ANALYTICS_API.md). Общая qadam-demo уже 0004_livestock с private Storage; HTTP проверен. Объявления принадлежат JWT subject без membership, аналитика доступна только по membership точки. Денежный журнал и `/summary` не меняются. [Подключение Flutter](../FLUTTER_CONNECTION.md).
 
 Это согласованный проект API для реализации за два дня, а не описание уже существующего backend. Капитан сохраняет его формы данных в Pydantic, публикует `/openapi.json` и передаёт frontend ответы-примеры до второй рабочей отметки. После этого изменение контракта согласуется со всеми тремя frontend-разработчиками.
 

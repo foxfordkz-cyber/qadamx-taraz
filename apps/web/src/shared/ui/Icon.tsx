@@ -1,4 +1,7 @@
 const paths = {
+  menu: "M4 6h16M4 12h16M4 18h16",
+  search: "m21 21-5-5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z",
+  shop: "M3 9h18l-2-6H5L3 9Zm1 0v12h16V9M9 21v-7h6v7M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0",
   home: "M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7",
   sale: "M12 5v14M5 12h14",
   debts: "M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5",

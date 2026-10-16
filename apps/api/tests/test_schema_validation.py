@@ -16,11 +16,9 @@ from app.schemas import (
 )
 
 
-@pytest.mark.parametrize(
-    "model", [model_for_example(name) for name in EXAMPLES if name != "RepaymentOperationResponse"]
-)
-def test_examples_validate_as_json(model):
-    model.model_validate_json(json.dumps(EXAMPLES[model.__name__]))
+@pytest.mark.parametrize("name", list(EXAMPLES))
+def test_examples_validate_as_json(name):
+    model_for_example(name).model_validate_json(json.dumps(EXAMPLES[name]))
 
 
 @pytest.mark.parametrize("amount", [0, -1, 1.5, 100.0, "300000", True, MAX_OPERATION_MINOR + 1])
