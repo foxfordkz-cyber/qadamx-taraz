@@ -91,6 +91,24 @@ def test_openai_strict_schema_no_tools_no_storage_and_safe_usage(monkeypatch, ca
     )
     assert record["provider"] == "openai" and record["model"] == "gpt-6-luna"
     assert record["cost_estimate_usd"] == 0.000035
+    assert record["request_body_bytes"] == len(request.content)
+    assert record["input_chars"] == len(TEXT)
+
+
+def test_audio_and_identical_transcript_use_identical_extraction_request(monkeypatch):
+    bodies = []
+
+    def handler(request):
+        if request.url.path.endswith("transcriptions"):
+            return httpx.Response(200, json={"text": TEXT})
+        bodies.append(request.content)
+        return httpx.Response(200, json=completion())
+
+    transport(monkeypatch, handler)
+    provider = OpenAIProvider(settings(openai_transcription_model="gpt-transcribe"))
+    audio_result = asyncio.run(extract(provider, audio=wav_bytes()))
+    text_result = asyncio.run(extract(provider, text=audio_result.transcript))
+    assert audio_result == text_result and bodies[0] == bodies[1]
 
 
 def test_audio_transcribed_once_and_stt_is_authoritative(monkeypatch):

@@ -10,6 +10,14 @@ from app.errors import APIError
 from app.services.ai import SYSTEM_PROMPT, Extraction
 from app.services.ai_diagnostics import ai_stage
 
+OPENAI_SEMANTICS = """
+Preserve negations, currency, numeric precision and sale versus repayment meaning.
+Qadam supports only KZT/tenge/tiyn. If an explicit currency is not KZT, return kind unknown
+and null amounts for human clarification; never convert foreign currency into KZT.
+An unknown payment is null, while explicit nonpayment is zero. Do not infer payment
+from the sale amount or from a customer's name. The human chooses the customer and confirms.
+"""
+
 
 def output_schema():
     # Keep strict types/enums/required/additionalProperties. Enforce bounds again locally.
@@ -68,17 +76,23 @@ class OpenAIProvider:
         self.model = settings.openai_model
         self.transcription_model = settings.openai_transcription_model
 
-    async def post(self, client, path, model, *, audio_seconds=None, **kwargs):
+    async def post(self, client, path, model, *, audio_seconds=None, input_chars=None, **kwargs):
         with ai_stage(
             "openai_transcription" if path.endswith("transcriptions") else "openai_extraction"
         ) as diagnostic:
             diagnostic.provider, diagnostic.model = "openai", model
             diagnostic.audio_seconds = audio_seconds
-            response = await client.post(
+            diagnostic.input_chars = input_chars
+            request = client.build_request(
+                "POST",
                 "https://api.openai.com/v1/" + path,
                 headers={"Authorization": "Bearer " + self.key.get_secret_value()},
                 **kwargs,
             )
+            content_length = request.headers.get("content-length")
+            if content_length is not None:
+                diagnostic.request_body_bytes = int(content_length)
+            response = await client.send(request)
             diagnostic.provider_status = response.status_code
             response.raise_for_status()
             body = response.json()
@@ -100,7 +114,8 @@ class OpenAIProvider:
                     "model": self.transcription_model,
                     "response_format": "json",
                     "prompt": "Russian and Kazakh shop speech; preserve the spoken language "
-                    "including code switching. Теңге, тиын. Do not invent inaudible words.",
+                    "including code switching, negations, currencies and amounts. "
+                    "Теңге, тиын. Do not invent inaudible words.",
                 }
                 if self.transcription_model == "gpt-transcribe":
                     transcription_data["languages[]"] = ["ru", "kk"]
@@ -121,7 +136,7 @@ class OpenAIProvider:
                 "store": False,
                 "background": False,
                 "max_output_tokens": 2048,
-                "instructions": SYSTEM_PROMPT,
+                "instructions": SYSTEM_PROMPT + OPENAI_SEMANTICS,
                 "input": json.dumps({"locale": locale, "text": text}, ensure_ascii=False),
                 "text": {
                     "format": {
@@ -134,7 +149,9 @@ class OpenAIProvider:
             }
             if self.model == "gpt-6-luna":
                 body["reasoning"] = {"effort": "none"}
-            result = await self.post(client, "responses", self.model, json=body)
+            result = await self.post(
+                client, "responses", self.model, input_chars=len(text), json=body
+            )
         if result.get("status") != "completed":
             raise ValueError("Incomplete extraction")
         output = result.get("output")

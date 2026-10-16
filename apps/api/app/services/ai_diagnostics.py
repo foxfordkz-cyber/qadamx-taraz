@@ -34,6 +34,8 @@ class Stage:
     output_tokens: int | None = None
     cost_estimate_usd: float | None = None
     audio_seconds: float | None = None
+    request_body_bytes: int | None = None
+    input_chars: int | None = None
 
 
 @contextmanager
@@ -87,5 +89,7 @@ def ai_stage(name):
             "output_tokens": details.output_tokens,
             "cost_estimate_usd": details.cost_estimate_usd,
             "audio_seconds": details.audio_seconds,
+            "request_body_bytes": details.request_body_bytes,
+            "input_chars": details.input_chars,
         }
         logger.log(logging.WARNING if error_type else logging.INFO, json.dumps(event))
