@@ -80,3 +80,10 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16: review общей версии и QA-контракт
 
 В integration/local-combined-check включены существующие PR #11 (seller design integration) и #12 (seller regression), не создаётся параллельный редизайн. Единственный API остаётся apps/api версии 0.5.0; денежные правила не меняются. Поколение Auth защищает callbacks старой сессии A после A→B→A. Page.next_cursor закреплён как UUID/null, как request cursor; CustomerCreate и frontend считают Unicode code points. Схемы/примеры обновлены, generated.ts регенерирован без смены TypeScript string-представления UUID. Общая Supabase остаётся 0003; 0004/Storage требуют отдельного разрешения. [Приёмка и зависимости PR](COMBINED_ACCEPTANCE.md).
+
+
+## 2026-10-16 — подключённая среда и аналитика точки
+
+Капитан сообщил о завершённом отдельном setup: qadam-demo 0004_livestock и private Storage. Повторный setup/seed не нужен; readonly-проверка ревизии и настоящий HTTP подтвердили подключение. Server service key остаётся только в игнорируемом env. Для удалённого Flutter готовится временный HTTPS к одному FastAPI, без открытия PostgreSQL; запуск туннеля отдельным действием, не деплой.
+
+Согласован MVP аналитики: 7/30 дней Asia/Almaty включая неполное сегодня, карточки и графики рассчитывает backend из журнала с membership. Продажи/количество/средний чек — один набор действующих продаж периода, отмена ретроспективно исключает исходную продажу; поступления — движения в даты регистрации, включая отрицательные отмены и погашения старых долгов. Текущий долг — все даты. HALF_UP до тиына, пустой средний null. Один snapshot для карточек/графиков. `/summary` не меняется; полное определение и примеры в ANALYTICS_API. Контракт опубликован первым (2089e44), затем реализация; UI остаётся frontend.

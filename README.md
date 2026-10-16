@@ -1,6 +1,6 @@
 # Qadam Business
 
-**Общая проверенная версия:** `integration/local-combined-check`, код `c5ecd5e5abb579e75121c9e05541b9b8d14a0591`. [Живая приёмка, исправления review, запуск и зависимости PR](docs/COMBINED_ACCEPTANCE.md). Текущий просмотр капитана: `http://127.0.0.1:5188`, API `http://127.0.0.1:8018/api/v1` — только на его компьютере. Общая Supabase остаётся `0003_drafts`; Flutter/Storage требуют отдельного подключения.
+**Общая проверенная версия:** `integration/local-combined-check`, backend `cd655e96ec809bb8857666ad1fffa16e56e6d02a`. [Живая приёмка, исправления review, запуск и зависимости PR](docs/COMBINED_ACCEPTANCE.md). Текущий просмотр капитана: `http://127.0.0.1:5188`, API `http://127.0.0.1:8018/api/v1` — только на его компьютере. Общая Supabase уже на `0004_livestock`, private Storage подключён и проверен через настоящий HTTP. Актуальное подключение удалённого Flutter — [FLUTTER_CONNECTION](docs/FLUTTER_CONNECTION.md). Аналитика 7/30 дней — [контракт](packages/contracts/ANALYTICS_API.md), API 0.6.0; UI делает frontend.
 
 AI-кабинет продавца для торговых точек Тараза: голосовой ввод продаж и оплат, долги клиентов, заявки и итог дня. Публичная 3D-витрина объединяет концепции MART, Кайкармета и Ауыл Береке.
 
@@ -22,7 +22,7 @@ AI-кабинет продавца для торговых точек Тараз
 
 Контракт мобильного модуля: [LIVESTOCK_API](packages/contracts/LIVESTOCK_API.md). Общий backend — apps/api; объявления принадлежат Supabase user и не требуют членства в магазине.
 
-В `backend/livestock` API **0.5.0** реализован и проверен на локальной PostgreSQL. Для него нужна `0004_livestock`; **общая Supabase остаётся 0003, здесь миграцию не применять**. Flutter UI делает mobile-участник. Живая загрузка фото требует private Storage bucket и серверного ключа; публикация без фото уже работает локально. Адреса для emulator/телефона, настройка env и ограничения — в контракте выше.
+В общей интеграции API **0.6.0** сохраняет контракт Мал базара 0.5.0 и добавляет аналитику точки. `0004_livestock` и private bucket `livestock-photos` уже подключены в qadam-demo; повторная настройка не нужна. Flutter UI делает mobile-участник: опубликована отдельная `feature/mobile-livestock-api:da6a3a0`, в эту ветку автоматически не включалась. API/Storage проверены через HTTP, физическое устройство и удалённый HTTPS пока не проверены.
 
 ## Общие договорённости
 
@@ -38,7 +38,7 @@ AI-кабинет продавца для торговых точек Тараз
 
 **[Запуск, env, commits, API, тестовые точки и приёмка](docs/TEAM_INTEGRATION.md)**. Кратко: из `apps/api` — `uv sync --locked`, затем с настроенным серверным `.env` — `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`; из `apps/web` — `npm ci`, настроить публичный `.env.local`, `npm run dev -- --port 5173 --strictPort`.
 
-Base URL `http://127.0.0.1:8000/api/v1`, Swagger `/docs`, OpenAPI `/openapi.json`. Localhost доступен только на вашем компьютере. Секреты БД и Gemini никогда не имеют префикса VITE_. Общая Supabase — `0003_drafts`: не выполнять там seed, очищающие тесты или миграции. Каталог/заявки используют уже существующие таблицы, новая миграция не нужна.
+Base URL `http://127.0.0.1:8000/api/v1`, Swagger `/docs`, OpenAPI `/openapi.json`. Localhost доступен только на вашем компьютере. Секреты БД и Gemini никогда не имеют префикса VITE_. Общая Supabase — `0004_livestock`: не выполнять повторный setup, seed, очищающие тесты или миграции. Каталог/заявки используют уже существующие таблицы, новая миграция не нужна.
 
 Проверки: API — `uv run python -m app.export_contracts --check`, ruff, pytest **только с отдельной test PostgreSQL** по [README API](apps/api/README.md). Web — `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`. Реальные и stub-результаты разделены в [backend handoff](docs/handoffs/backend.md).
 

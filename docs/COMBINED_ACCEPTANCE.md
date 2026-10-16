@@ -1,8 +1,10 @@
 # Приёмка общей версии Qadam — 2026-10-16
 
+**Дополнение после этой приёмки:** qadam-demo уже на 0004_livestock, Storage настроен, настоящий HTTP проверен. Аналитика API 0.6.0 добавлена отдельно. Точные текущие инструкции — [FLUTTER_CONNECTION](FLUTTER_CONNECTION.md), результаты — последняя секция backend handoff. Нижние результаты браузера/Gemini относятся к прежнему commit и не переименованы в новый прогон.
+
 Опубликован **[Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13)**: `integration/local-combined-check` → `backend/livestock`. Ветка отправлена без force push; main и ветки коллег не изменены.
 
-Проверенный код: **`c5ecd5e5abb579e75121c9e05541b9b8d14a0591`**, ветка `integration/local-combined-check`. Последующие commits этой передачи меняют только документацию и публичные снимки. Это локальная интеграция, не main и не деплой.
+Проверенный код: **`c5ecd5e5abb579e75121c9e05541b9b8d14a0591`**, ветка `integration/local-combined-check`. Это commit первоначальной браузерной приёмки. Последующая аналитика и HTTP/Storage-проверка относятся к новому commit из FLUTTER_CONNECTION. Это локальная интеграция, не main и не деплой.
 
 ## Состав и review
 
@@ -73,7 +75,7 @@ Backend-тесты запускаются только с **отдельным**
 cd apps/api
 uv sync --locked
 uv run alembic current
-# Для общей Supabase здесь ожидается 0003_drafts. Не выполнять upgrade/seed/pytest.
+# Текущее состояние общей Supabase: 0004_livestock. Не выполнять upgrade/seed/pytest.
 uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
@@ -122,16 +124,7 @@ uv run python -m app.export_contracts --check
 
 ## Flutter и оставшиеся шаги
 
-[OpenAPI 0.5.0](../packages/contracts/openapi.json), [валидируемые примеры](../packages/contracts/examples.json), [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md) готовы для Flutter. **Объявления/фото на общей Supabase пока не готовы к живому подключению:** наличие маршрутов в OpenAPI не заменяет миграцию 0004. Flutter-приложение и `docs/handoffs/mobile.md` ожидаются от mobile-участника.
-
-После отдельного разрешения капитана backend выполняет следующие шаги (здесь **не выполнены**):
-
-1. Проверить backup и текущую `0003_drafts`; применить только проверенную `alembic upgrade 0004_livestock`. Не повторять seed и не запускать pytest на общей БД. Проверить RLS/отзыв доступа PUBLIC/anon/authenticated к новым таблицам; API использует роль с необходимыми правами на qadam.
-2. Создать private bucket `livestock-photos`, MIME `image/jpeg`, лимит 8 MiB. Проверить, что ни новые, ни прежние широкие policies не дают anon/authenticated прямого SELECT/INSERT/UPDATE/DELETE. Клиенты обращаются только к API.
-3. В серверном env установить `STORAGE_BUCKET=livestock-photos`, `STORAGE_SERVICE_KEY=<service_role только на сервере>`, `LIVESTOCK_DEMO_MODE=true`. Настройки уже описаны в `.env.example`; ключ не выдавать Flutter.
-4. Выполнить живую загрузку/чтение фото двумя JWT, проверить чужой ID, снятие/продажу объявления, EXIF, повтор ключа и полночь Asia/Almaty. Фото и bucket в этой приёмке проверялись только заглушками, новая миграция — только локально.
-
-Flutter получает API_BASE_URL, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY и существующую Auth session. Android emulator: `http://10.0.2.2:8000/api/v1`; телефон — LAN-IP с сервером `--host 0.0.0.0` и разрешением private-network firewall либо `adb reverse tcp:8000 tcp:8000`. HTTP допускается только в debug. Native Flutter не требует CORS; Flutter Web требует точный origin. Подробные multipart/photo примеры, integer minor units, idempotency, TTL наличия и медиана без demo — в LIVESTOCK_API.
+Актуальные [OpenAPI](../packages/contracts/openapi.json), [примеры](../packages/contracts/examples.json), [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md) и [инструкция Flutter](FLUTTER_CONNECTION.md). Прежние блокеры 0004/Storage сняты последующим отдельным setup и HTTP-прогоном. Не повторяйте настройку. Проверки физического устройства/удалённого HTTPS остаются; опубликованную mobile-ветку нужно отдельно принять и интегрировать.
 
 Frontend: проверить физический телефон и настоящий микрофон/аудио, а также производительность моделей. Живой AI в этой приёмке — **RU-текст**; повторной живой KZ/audio-проверки не было. QA-G01 остаётся эксплуатационным ограничением: у customer POST нет собственного deadline; при зависании нельзя обещать безопасный автоматический повтор создания клиента. Pending денег хранится в памяти, после закрытия вкладки нужно сверить журнал. Старые QA/handoff отчёты сохранены как история; исправления QA-001/002/003 подтверждены этим прогоном.
 
@@ -139,4 +132,4 @@ Frontend: проверить физический телефон и настоя
 
 Публиковать эту общую ветку в **`backend/livestock`**, не вторым PR редизайна в main. База: PR #10 → PR #9 → PR #8 → main. PR #11 и #12 уже включены с сохранением ancestry; их не нужно повторно cherry-pick в общую версию. Возможный порядок капитана: #8, затем после проверки/обновления base #9, #10 и этот общий PR. При squash сначала пересмотреть stacked diff. Никакие merge/retarget/закрытие PR автоматически не выполнялись.
 
-Ручной web/ledger/AI-текст готов к review капитана. Общая готовность Flutter/фото заблокирована разрешением на 0004, настройкой и живой приёмкой Storage, а также работой mobile-участника. Физический телефон/микрофон и развёртывание остаются отдельными шагами; деплой не выполнялся.
+Ручной web/ledger/AI-текст готов к review капитана. Оставшийся блокер Flutter — подключение удалённого устройства и приёмка опубликованного mobile-клиента. Физический телефон/микрофон и развёртывание остаются отдельными шагами; деплой не выполнялся.

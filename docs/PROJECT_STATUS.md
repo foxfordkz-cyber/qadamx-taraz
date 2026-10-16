@@ -1,5 +1,9 @@
 # Текущее состояние Qadam Business
 
+## Текущее дополнение: Supabase/HTTP и аналитика — 2026-10-16
+
+Общая qadam-demo уже `0004_livestock`, private `livestock-photos` подключён. Настоящий HTTP на 8018 проверен с реальными JWT и Storage. API 0.6.0 добавляет аналитику 7/30 дней; контракт опубликован первым commit `2089e44`, UI ожидается от frontend. [Инструкция Flutter и временный HTTPS](FLUTTER_CONNECTION.md). Новых миграций, повторного seed, очистки общей БД и деплоя нет. Flutter опубликован отдельно в `feature/mobile-livestock-api:da6a3a0`; интеграция и проверка на устройстве ещё нужны. Следующие секции — история этапов, включая прежние ограничения 0003.
+
 ## 2026-10-16: общая версия принята локально
 
 `integration/local-combined-check`, проверенный код `c5ecd5e`: сохранён merge 614b13e, включены опубликованные seller PR #11 и QA PR #12, устранены QA-001/002/003. Настоящие Supabase A/B, ручной журнал, заявка и полный Gemini text→draft→UI confirm→history прошли. 219 backend-тестов на отдельной PostgreSQL, 142 frontend, 15 стандартных и 21 QA E2E (8 пересекаются). [Фактические результаты и запуск](COMBINED_ACCEPTANCE.md). Не main/не деплой; общая Supabase всё ещё 0003. Flutter UI, разрешение на 0004 и живая Storage-проверка остаются следующими этапами.
