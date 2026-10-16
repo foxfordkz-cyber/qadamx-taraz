@@ -1,0 +1,30 @@
+{
+  "unchanged_hotspots": true,
+  "models": [
+    {
+      "slug": "mart",
+      "new_bytes": 1441176,
+      "new_sha256": "d9adafa2a1363026ac3f6859bbea4f5757876392200d590422fd9bd9492a45ee",
+      "published_sha256": "542f94c1be658a03cc974c6415841912365d6d0a57513277bf9dea1b247023f5",
+      "published_matches_old": true,
+      "published_matches_new": false
+    },
+    {
+      "slug": "kaikarmet",
+      "new_bytes": 717596,
+      "new_sha256": "b119bfb35e4d81e68ce9633b5c94fb9f4364efe69d1987a6c073576476a5d2a1",
+      "published_sha256": "1b2653c6a54f1e268db33853cb5739753edb98cb0c43e9bde51e5ea3ea4c37a6",
+      "published_matches_old": true,
+      "published_matches_new": false
+    },
+    {
+      "slug": "auyl-bereke",
+      "new_bytes": 746584,
+      "new_sha256": "d1c397dc38ade6d0470c39e291976bf21f8675f51b6b0538c58e4988bffdf0a5",
+      "published_sha256": "8d2c118aa496d68a215a4fb3d9ce0f452a411e7f088953ec2221539ba1f28a78",
+      "published_matches_old": true,
+      "published_matches_new": false
+    }
+  ],
+  "api_hotspot_uuid_slug_match": true
+}

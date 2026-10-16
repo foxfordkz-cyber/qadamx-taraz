@@ -66,7 +66,7 @@ def _street_glazing(left, right):
             (right - left, .095, .17), "kaika_blue", 0)
 
 
-def _facade_letters(name, value, x, y, size, spacing):
+def _facade_letters(name, value, x, y, size, spacing, z=18.58):
     """Observed red fascia words, modeled as original geometry, no photo texture."""
     data = bpy.data.curves.new(name, "FONT")
     data.body = value
@@ -81,7 +81,7 @@ def _facade_letters(name, value, x, y, size, spacing):
     bpy.ops.object.select_all(action="DESELECT")
     obj.select_set(True)
     bpy.context.view_layer.objects.active = obj
-    obj.location = xyz((x, y, 18.58))
+    obj.location = xyz((x, y, z))
     obj.rotation_euler[0] = math.pi / 2
     bpy.ops.object.convert(target="MESH")
     obj = bpy.context.object
@@ -176,21 +176,29 @@ def kaikarmet():
         box("Low continuous street gallery", ((left + right) / 2, 2.76, 13.5),
             (right - left, 4.52, 9), "kaika_masonry", .035)
         _street_glazing(left, right)
-    box("Tall pale panel fascia", (0, 5.74, 18.16), (82.5, 1.72, .55), "kaika_cream", .025)
+    # The December 2025 photo shows the clad fascia carried over the pavement
+    # on a pale soffit, the cobalt band along its lower edge and white
+    # downpipes in front of the glazing. The 1.5 m projection is estimated.
+    lip = 1.5
+    box("Tall pale panel fascia", (0, 5.74, 18.16 + lip), (82.5, 1.72, .55), "kaika_cream", .025)
     for x in range(-40, 41, 2):
-        box("Pale fascia panel joint", (x, 5.74, 18.448),
+        box("Pale fascia panel joint", (x, 5.74, 18.448 + lip),
             (.022, 1.68, .012), "kaika_joint", 0)
-    box("Deep cobalt band below signs", (0, 4.83, 18.26),
+    box("Pale overhang soffit", (0, 4.87, 18.72), (82.6, .14, 1.5), "kaika_cream", 0)
+    box("Deep cobalt band below signs", (0, 4.83, 18.26 + lip),
         (82.7, .19, .68), "kaika_blue", 0)
-    box("Blue roofline trim", (0, 6.67, 18.18),
+    box("Blue roofline trim", (0, 6.67, 18.18 + lip),
         (82.8, .12, .72), "kaika_blue", 0)
-    box("Street gallery shallow roof", (0, 6.49, 13.3),
-        (83, .22, 9.5), "kaika_roof", .02)
+    box("Street gallery shallow roof", (0, 6.49, 14.05),
+        (83, .22, 11), "kaika_roof", .02)
     for x in range(-40, 41, 5):
-        box("Gallery roof sheet seam", (x, 6.615, 13.3),
-            (.045, .025, 9.3), "kaika_rib", 0)
-    _facade_letters("Red SULTAN fascia sign", "СҰЛТАН", 14.6, 5.75, 1.45, 1.58)
-    _facade_letters("Red produce fascia sign", "ЖЕМІС-ЖИДЕКТЕР", -23, 5.75, 1.16, 1.08)
+        box("Gallery roof sheet seam", (x, 6.615, 14.05),
+            (.045, .025, 10.8), "kaika_rib", 0)
+    for x in (-38.5, -29, -19.5, 22, 31, 39.5):
+        box("White facade downpipe", (x, 2.7, 18.45), (.16, 4.2, .16), "kaika_cream", 0)
+    _facade_letters("Red SULTAN fascia sign", "СҰЛТАН", 14.6, 5.75, 1.45, 1.58, 18.58 + lip)
+    _facade_letters("Red produce fascia sign", "ЖЕМІС-ЖИДЕКТЕР", -23, 5.75, 1.16, 1.08,
+                    18.58 + lip)
     box("Entrance recess soffit", (13, 4.78, 15.4), (12.05, .18, 5.4), "kaika_dark", 0)
     box("Entrance shadow", (13, 2.73, 12.68), (11.8, 4.43, .2), "kaika_dark", 0)
     for x in (8.6, 10.8, 13, 15.2, 17.4):
@@ -245,7 +253,7 @@ CONFIG = {
     "name": "Кайкармет", "build": kaikarmet,
     "camera": [26, 42, 108], "target": [0, 3.5, 8], "render_scale": 108,
     "render_exposure": -.1,
-    "preview_camera": [10, 10, 62], "preview_target": [10, 3.1, 18], "preview_scale": 48,
+    "preview_camera": [52, 24, 74], "preview_target": [1, 3.6, 12], "preview_scale": 64,
     "hotspots": [[-24, 5.1, 19.3], [12, 5.1, 20.2], [42, 5.4, -5.5]],
     "geometry_status": "reference_based",
     "label_ru": "По фотографиям · размеры оценочные",
