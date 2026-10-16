@@ -1,6 +1,6 @@
 # Mobile Microphone Acceptance Preparation
 
-2026-10-16. Задача — подготовить проверяемые регрессии и приёмку существующего голосового ввода. **Физический Android: Blocked.** Production voice/ledger/AI, Backend, OpenAPI и финансовая логика не изменяются; PR #19 остаётся отдельно.
+2026-10-16. **Подготовка завершена: анализ, реальные автоматические регрессии и отчёт опубликованы отдельным Draft PR. Физический Android: Blocked.** Production voice/ledger/AI, Backend, OpenAPI и финансовая логика не изменены; PR #19 остаётся отдельно. Production-исправления ожидают явного согласования участника №4.
 
 ## База и проверка Git
 
@@ -65,6 +65,30 @@
 
 Browser-тесты запускают настоящее приложение и Chromium MediaRecorder с синтетическим fake audio device, без человеческого голоса и реального микрофона. SDK/API boundaries локально перехватываются, внешние запросы и денежные writes запрещены. Проверяются native recording/stop/MIME/30 секунд, multipart upload, denial/file/manual fallback, RU/KZ/mobile viewport. Это desktop Chromium automation, не физический Android и не живой AI.
 
+### Этап 3 — browser microphone regressions
+
+Добавлены [изолированный config](../apps/web/e2e/microphone.playwright.config.ts) и [browser scenarios](../apps/web/e2e/microphone.acceptance.ts). Файл `.acceptance.ts` не обнаруживается default/QA config; отдельный server 4191 не переиспользует чужое окружение. Перед `getUserMedia` проверяется наличие fake-device в project config и **реальных аргументах Chromium через CDP**. Не удалось подтвердить флаг — запуск прекращается до capture.
+
+Два проекта намеренно разделены: `synthetic-capture` использует fake-device и fake-UI allow для native записи; `synthetic-permission-denied` — fake-device и fake-UI `deny` с проверкой native `NotAllowedError`. Fake-UI allow обходит prompts, поэтому сам по себе не проверяет permission denial. В этой Windows-среде запуск без fake-UI давал native `NotSupportedError` даже при CDP permission settings; этот отказ не был засчитан за deny acceptance. Фактические browser/OS permission prompts остаются непроверенными.
+
+```powershell
+npx playwright test --config e2e/microphone.playwright.config.ts
+```
+
+**11/11 рабочих сценариев passed, retries 0; 2 известных требования явно skipped по умолчанию.** Настоящий MediaRecorder собрал generated clip `audio/webm;codecs=opus`, в metadata выбранного прогона 2026 bytes; native Stop, реальный timer 30 секунд и track cleanup прошли. Есть KK WAV multipart/file boundaries, unsupported MIME, synthetic 415/422/503/504 с сохранением ввода. Во всём suite — ноль финансовых writes; аудио не уходит в живой API. MIME/multipart assertions не доказывают backend decoding или качество звука телефона.
+
+Отдельно включены требования playback/cancel:
+
+```powershell
+$env:QADAM_MIC_ACCEPTANCE_GAPS = '1'
+npx playwright test --config e2e/microphone.playwright.config.ts --project=synthetic-capture --grep '@acceptance-gap'
+Remove-Item Env:QADAM_MIC_ACCEPTANCE_GAPS
+```
+
+**Exit 1, ровно 2 реальных assertion failures:** нет `audio[controls]` для preview и кнопки отмены при действующей записи. Capture precondition прошёл. Это не успешная приёмка. После согласования UI tests должны проверять metadata/play/pause и фактический discard/track cleanup/no upload; текущие тесты останавливаются на отсутствующем UI. Native player/названия действий — конкретные критерии предложения для review владельца, при альтернативном согласованном UI их нужно адаптировать.
+
+Trace/video/screenshots выключены; сохранены только synthetic test metadata. JSON reports находятся в игнорируемом `apps/web/test-results/microphone`; копии normal/strict results — в локальном task outputs. Reporter использует абсолютный путь к этому каталогу: прежний generated JSON из раннего запуска перенесён из `e2e/test-results`, повторный format:check PASS. Аудиобайты не сохранялись и не публиковались.
+
 ### Этап 2 — компонентные регрессии
 
 Добавлены [обычные регрессии](../apps/web/src/test/microphone-acceptance.test.tsx), [browser boundary doubles](../apps/web/src/test/microphone-fixtures.tsx) и [отдельные известные gaps](../apps/web/src/test/microphone-known-gaps.test.tsx). Из `apps/web`:
@@ -81,7 +105,30 @@ npm test -- src/test/microphone-known-gaps.test.tsx --no-file-parallelism
 Remove-Item Env:QADAM_MIC_STRICT_KNOWN_GAPS
 ```
 
-**Exit 1, ровно 5 assertion failures:** MIC-01 late permission, MIC-02 active capture при disabled, MIC-05a oversized recorded clip, MIC-05b empty clip, MIC-04 recorder error cleanup. Setup не падал. Это воспроизводимые неисправленные дефекты, не passed acceptance. При исправлении `.fails` нужно удалить; неожиданное прохождение сейчас само ломает этот diagnostic guard. Prettier новых файлов — PASS. Browser и полный web прогон ещё ожидаются.
+**Exit 1, ровно 5 assertion failures:** MIC-01 late permission, MIC-02 active capture при disabled, MIC-05a oversized recorded clip, MIC-05b empty clip, MIC-04 recorder error cleanup. Setup не падал. Это воспроизводимые неисправленные дефекты, не passed acceptance. При исправлении `.fails` нужно удалить; неожиданное прохождение сейчас само ломает этот diagnostic guard.
+
+### Общий web regression прогон
+
+Из `apps/web`, Node/npm по lock:
+
+```powershell
+npm ci
+npm run typecheck
+npm run lint
+npm run build
+npm run check:api
+npm run format:check
+npm test -- --no-file-parallelism
+# CI=1 запрещает reuse неизвестного dev server для стандартного config.
+$env:CI = '1'
+npm run test:e2e -- seller.spec.ts integration-design.spec.ts
+Remove-Item Env:CI
+npx playwright test --config e2e/qa.playwright.config.ts
+```
+
+На Windows при блокировке `npm.ps1` использовать `npm.cmd` / `npx.cmd`. Фактические результаты: typecheck, lint (0 warnings), build, check:api, format:check — **PASS**. Полный unit/component: **164 обычных passed + 5 expected failures**, 14 файлов; Vitest summary 169 passed включает эти пять. Стандартные seller/integration E2E — **13/13 passed**, QA E2E — **21/21 passed**. В этих двух browser наборах восемь seller-сценариев пересекаются; числа не являются количеством уникальных тестов. Screenshot-writer/public screenshot suites намеренно не перезапускались, чтобы сохранить чужие изображения; весь default E2E набор не заявляется пройденным.
+
+Сборка сохраняет прежние warnings пустого auth chunk без live env и большого 3D chunk. `npm ci` сообщает прежние 3 dev dependency findings; package/lock не изменены, audit fix не выполнялся. Установка/локальные browser процессы потребовали разрешённого запуска вне sandbox после DNS/localhost ошибок. Это ограничения среды, не успешная HTTPS/Android приёмка.
 
 ## Физическая Android acceptance matrix
 
@@ -107,3 +154,5 @@ Permission promise может оставаться pending; cancel должен 
 ## Продолжение и ограничения
 
 Подтверждение участника №4 необходимо до любых production-изменений его voice-модуля. После tests/report review — отдельное решение по исправлениям; физическая acceptance только при наличии устройства и HTTPS preview. Customer POST продолжает Backend-first в отдельном PR #19. Не менять main/чужие ветки, не merge/rebase/force; при FF-only divergence остановиться и сообщить.
+
+Итоговый diff ограничен пятью новыми test/config/helper файлами, этим отчётом и seller handoff. Существующие tests, package/lock, Backend/контракты/generated, Auth/router, public/voice/ledger/summary/mobile source не изменены. Проверенные этапы: анализ `513c527d891f64d78bc4c22c8dfb15cd65d4c7eb`, компоненты `86c98813dfbb9bb7b128b205cc00bafc218194fa`; итоговые browser/push refs записаны в handoff. Merge не выполняется.
