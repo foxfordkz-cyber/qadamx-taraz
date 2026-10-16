@@ -232,7 +232,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
         raise
     except httpx.HTTPStatusError as error:
         if error.response.status_code == 429:
-            # Keep the existing API 0.6.1 unavailable status, but let the UI explain quota.
+            # Both providers keep HTTP 503, with a safe actionable quota code.
             # Do not retry a quota rejection or expose the provider response/key.
             raise APIError(503, "AI_QUOTA_EXCEEDED", "AI quota exceeded; retry later") from None
         raise APIError(503, "AI_UNAVAILABLE", "AI unavailable; use manual input") from None

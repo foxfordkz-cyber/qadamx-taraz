@@ -222,7 +222,8 @@ def test_provider_failure_no_retry_or_leak(monkeypatch, status, caplog):
     transport(monkeypatch, handler)
     with pytest.raises(APIError) as error:
         asyncio.run(extract(OpenAIProvider(settings()), text=TEXT))
-    assert error.value.code == "AI_UNAVAILABLE" and len(calls) == 1
+    expected = "AI_QUOTA_EXCEEDED" if status == 429 else "AI_UNAVAILABLE"
+    assert error.value.code == expected and len(calls) == 1
     assert "private response sentinel" not in caplog.text
 
 

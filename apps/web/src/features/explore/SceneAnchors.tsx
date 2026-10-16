@@ -24,9 +24,12 @@ export function Projector({
   // frameloop="demand": anchors that arrive after the last frame (shops load after a cached
   // model) would wait for the next camera move, so request a frame when the set changes.
   const key = anchors.map((a) => `${a.id}:${a.position.join(",")}`).join("|");
-  useEffect(() => invalidate(), [key, invalidate]);
+  useEffect(() => invalidate(), [key, size.width, size.height, invalidate]);
   // Runs on every rendered frame; with frameloop="demand" that is only after camera changes.
   useFrame(() => {
+    // OrbitControls/Rig can move the camera earlier in this frame. Projection must
+    // use that transform before the renderer updates it, especially on demand frames.
+    camera.updateMatrixWorld();
     const next: ScreenPoints = {};
     let changed = Object.keys(last.current).length !== anchors.length;
     for (const anchor of anchors) {
