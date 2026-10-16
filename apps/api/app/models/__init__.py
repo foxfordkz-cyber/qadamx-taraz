@@ -211,6 +211,8 @@ class LivestockListing(Base):
     price_per_head_minor: Mapped[int] = mapped_column(BigInteger)
     locality: Mapped[str] = mapped_column(String(100))
     locality_key: Mapped[str] = mapped_column(String(200), index=True)
+    market: Mapped[str | None] = mapped_column(String(100))
+    market_key: Mapped[str | None] = mapped_column(String(300), index=True)
     age_months: Mapped[int | None] = mapped_column(Integer)
     sex: Mapped[str | None] = mapped_column(String(10))
     description: Mapped[str | None] = mapped_column(Text)

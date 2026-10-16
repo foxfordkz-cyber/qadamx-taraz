@@ -50,6 +50,7 @@ def projection(db, row, day, owner=False):
             "quantity",
             "price_per_head_minor",
             "locality",
+            "market",
             "age_months",
             "sex",
             "description",
@@ -84,7 +85,9 @@ def listing_page(db, stmt, limit, cursor, day, owner=False):
     )
 
 
-def filtered(stmt, species, locality):
+def filtered(stmt, species, locality, market=None):
+    if market:
+        stmt = stmt.where(Listing.market_key == s.normalize_locality(market).casefold())
     if species:
         stmt = stmt.where(Listing.species == species)
     if locality:
@@ -145,11 +148,12 @@ def feed(
     db: DB,
     species: s.Species | None = None,
     locality: PlaceQuery | None = None,
+    market: PlaceQuery | None = None,
     limit: Limit = 20,
     cursor: UUID | None = None,
 ):
     day = today(db)
-    stmt = filtered(select(Listing).where(*visible(day)), species, locality)
+    stmt = filtered(select(Listing).where(*visible(day)), species, locality, market)
     return listing_page(db, stmt, limit, cursor, day)
 
 
@@ -160,10 +164,11 @@ def mine(
     status: s.ListingStatus | None = None,
     species: s.Species | None = None,
     locality: PlaceQuery | None = None,
+    market: PlaceQuery | None = None,
     limit: Limit = 20,
     cursor: UUID | None = None,
 ):
-    stmt = filtered(select(Listing).where(Listing.owner_id == user), species, locality)
+    stmt = filtered(select(Listing).where(Listing.owner_id == user), species, locality, market)
     if status:
         stmt = stmt.where(Listing.status == status)
     return listing_page(db, stmt, limit, cursor, today(db), owner=True)
@@ -180,7 +185,15 @@ def detail(id: UUID, db: DB):
 
 @router.post("/listings", response_model=s.OwnerListing)
 def publish(payload: s.ListingWrite, db: DB, user: User, key: Key, request: Request):
-    fingerprint, replay = start_write(db, user, key, "publish", payload.model_dump(mode="json"))
+    fingerprint, replay = start_write(
+        db,
+        user,
+        key,
+        "publish",
+        payload.model_dump(
+            mode="json", exclude={"market"} if "market" not in payload.model_fields_set else set()
+        ),
+    )
     if replay:
         return replay
     now = server_now(db)
@@ -188,6 +201,7 @@ def publish(payload: s.ListingWrite, db: DB, user: User, key: Key, request: Requ
         **payload.model_dump(exclude={"photo_ids"}),
         owner_id=user,
         locality_key=payload.locality.casefold(),
+        market_key=payload.market.casefold() if payload.market else None,
         created_at=now,
         updated_at=now,
         confirmed_on=now.astimezone(ZONE).date(),
@@ -201,13 +215,25 @@ def publish(payload: s.ListingWrite, db: DB, user: User, key: Key, request: Requ
 
 @router.put("/listings/{id}", response_model=s.OwnerListing)
 def edit(id: UUID, payload: s.ListingWrite, db: DB, user: User, key: Key):
-    fingerprint, replay = start_write(db, user, key, f"edit/{id}", payload.model_dump(mode="json"))
+    fingerprint, replay = start_write(
+        db,
+        user,
+        key,
+        f"edit/{id}",
+        payload.model_dump(
+            mode="json", exclude={"market"} if "market" not in payload.model_fields_set else set()
+        ),
+    )
     row = owned(db, id, user)
     if replay:
         return replay
-    for field, value in payload.model_dump(exclude={"photo_ids"}).items():
+    for field, value in payload.model_dump(
+        exclude={"photo_ids"} | ({"market"} if "market" not in payload.model_fields_set else set())
+    ).items():
         setattr(row, field, value)
     row.locality_key = payload.locality.casefold()
+    if "market" in payload.model_fields_set:
+        row.market_key = payload.market.casefold() if payload.market else None
     row.updated_at = server_now(db)
     attach_photos(db, row, payload.photo_ids, user)
     return finish_write(db, user, key, fingerprint, projection(db, row, today(db), owner=True))
@@ -231,19 +257,22 @@ def action(id: UUID, payload: s.ListingAction, db: DB, user: User, key: Key):
 
 
 @router.get("/prices", response_model=s.PriceStats)
-def prices(db: DB, species: s.Species, locality: PlaceQuery):
+def prices(db: DB, species: s.Species, locality: PlaceQuery, market: PlaceQuery | None = None):
     day = today(db)
     stmt = select(
         func.count(Listing.id),
+        func.min(Listing.price_per_head_minor),
         func.percentile_cont(0.5).within_group(Listing.price_per_head_minor),
     ).where(*visible(day), Listing.is_demo.is_(False))
-    count, median = db.execute(filtered(stmt, species, locality)).one()
+    count, minimum, median = db.execute(filtered(stmt, species, locality, market)).one()
     return s.PriceStats(
         species=species,
         locality=s.normalize_locality(locality),
         period_from=day,
         period_to=day,
+        market=s.normalize_locality(market) if market else None,
         sample_count=count,
+        min_price_per_head_minor=minimum,
         median_price_per_head_minor=(
             int(Decimal(str(median)).quantize(Decimal("1"), rounding=ROUND_HALF_UP))
             if count >= 5

@@ -1,5 +1,7 @@
 # Qadam Business
 
+**Актуальное дополнение 2026-10-16:** `integration/livestock-https`, API **0.6.1**, общая Supabase **0005_livestock_market** после проверенного восстановления backup. [Рабочий временный HTTPS и конфиг Flutter](docs/FLUTTER_CONNECTION.md), [план постоянного размещения](docs/PERMANENT_HOSTING_PLAN.md). Аналитика и денежные правила сохранены. Нижние commits/результаты относятся к предыдущему этапу общей интеграции.
+
 **Общая проверенная версия:** `integration/local-combined-check`, backend `cd655e96ec809bb8857666ad1fffa16e56e6d02a`. [Живая приёмка, исправления review, запуск и зависимости PR](docs/COMBINED_ACCEPTANCE.md). Текущий просмотр капитана: `http://127.0.0.1:5188`, API `http://127.0.0.1:8018/api/v1` — только на его компьютере. Общая Supabase уже на `0004_livestock`, private Storage подключён и проверен через настоящий HTTP. Актуальное подключение удалённого Flutter — [FLUTTER_CONNECTION](docs/FLUTTER_CONNECTION.md). Аналитика 7/30 дней — [контракт](packages/contracts/ANALYTICS_API.md), API 0.6.0; UI делает frontend.
 
 AI-кабинет продавца для торговых точек Тараза: голосовой ввод продаж и оплат, долги клиентов, заявки и итог дня. Публичная 3D-витрина объединяет концепции MART, Кайкармета и Ауыл Береке.

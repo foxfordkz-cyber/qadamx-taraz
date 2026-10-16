@@ -386,3 +386,39 @@ def test_tables_closed_to_client_roles(ledger_api):
                             text("SELECT has_table_privilege(:role,:table,:privilege)"),
                             dict(role=role, table="qadam." + table, privilege=privilege),
                         )
+
+
+def test_specific_market_minimum_and_legacy_edit(ledger_api, monkeypatch):
+    api = ledger_api
+    api["app"].state.livestock_demo_mode = False
+    now = datetime(2026, 10, 16, 6, tzinfo=UTC)
+    monkeypatch.setattr(routes, "server_now", lambda db: now)
+    a = publish(api, market="  Test   Market A ", price_per_head_minor=100)
+    publish(api, market="Test Market B", price_per_head_minor=1)
+    publish(api, market="Test Market A", locality="Other", price_per_head_minor=2)
+    publish(api, price_per_head_minor=3)  # Legacy unknown market must not leak into A.
+    url = BASE + "/prices?species=cattle&locality=taraz&market=test%20market%20a"
+    stats = api["client"].get(url).json()
+    assert stats["sample_count"] == 1
+    assert stats["min_price_per_head_minor"] == 100
+    assert stats["median_price_per_head_minor"] is None
+    feed = (
+        api["client"]
+        .get(BASE + "/listings", params={"locality": "Taraz", "market": "Test Market A"})
+        .json()
+    )
+    assert [x["id"] for x in feed["items"]] == [a["id"]]
+    # Legacy PUT without new field preserves explicit market.
+    assert write(api, "put", "/listings/" + a["id"]).json()["market"] == "Test Market A"
+    assert write(api, body={**BODY, "market": "   "}).status_code == 422
+    api["app"].state.livestock_demo_mode = True
+    publish(api, market="Test Market A", price_per_head_minor=1)
+    assert api["client"].get(url).json()["sample_count"] == 1
+    assert (
+        write(api, path="/listings/" + a["id"] + "/actions", body={"action": "sell"}).status_code
+        == 200
+    )
+    stats = api["client"].get(url).json()
+    assert stats["sample_count"] == 0 and stats["min_price_per_head_minor"] is None
+    now += timedelta(days=1)
+    assert api["client"].get(url).json()["min_price_per_head_minor"] is None

@@ -1,12 +1,14 @@
 # «Мал базар»: контракт Flutter v1
 
-Текущая общая ветка — `integration/local-combined-check`, [Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13) → backend/livestock. Точный проверенный commit, запуск и удалённое подключение: [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). [OpenAPI 0.6.0](openapi.json), [JSON-примеры](examples.json); добавление аналитики не меняет livestock-контракт 0.5.0.
+Текущая публикация: [Draft PR #17](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/17) → integration/local-combined-check, API0.6.1; зависит от PR13.
 
-**qadam-demo уже на 0004_livestock**, private bucket livestock-photos подключён. Setup выполнен отдельно с разрешения капитана; повторять его не нужно. Проверены настоящие HTTP/JWT/Storage: public feed, mine, upload/read, повтор, чужой доступ. Это ещё не Flutter на устройстве и не внешний HTTPS. Историческая локальная приёмка backend/livestock сохранена в handoff. Flutter опубликован участником отдельно в feature/mobile-livestock-api:da6a3a0, автоматически здесь не объединялся.
+Текущая ветка HTTP/market — `integration/livestock-https`, основанная на `integration/local-combined-check` ([зависимость: Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13) → backend/livestock). Точный проверенный commit, запуск и удалённое подключение: [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). [OpenAPI 0.6.1](openapi.json), [JSON-примеры](examples.json); 0.6.1 добавляет optional market/минимум, сохраняя прежние поля 0.5.0 и аналитику 0.6.0.
+
+**qadam-demo уже на 0005_livestock_market**, private bucket livestock-photos подключён. Setup выполнен отдельно с разрешения капитана; повторять его не нужно. Проверены настоящие HTTP/JWT/Storage: public feed, mine, upload/read, повтор, чужой доступ. Внешний HTTPS тоже проверен с ПК капитана; устройство Flutter-разработчика ещё не проверено. Историческая локальная приёмка backend/livestock сохранена в handoff. Flutter опубликован участником отдельно в feature/mobile-livestock-api:a2c0aab (PR #15), автоматически здесь не объединялся.
 
 ## Адрес и авторизация
 
-Base URL `http://127.0.0.1:8000/api/v1`. Префикс маршрутов `/livestock`. Для private методов `Authorization: Bearer <Supabase access_token>` обычного вошедшего пользователя. Владелец определяется только сервером по JWT `sub`; `owner_id`, `business_id`, memberships и клиентский флаг `is_demo` не принимаются. Членство в магазине не требуется; правила существующего журнала сохраняются.
+Живой временный HTTPS Base URL указан в [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). `http://127.0.0.1:8000/api/v1` — лишь пример собственного локального сервера, недоступный удалённому коллеге. Префикс маршрутов `/livestock`. Для private методов `Authorization: Bearer <Supabase access_token>` обычного вошедшего пользователя. Владелец определяется только сервером по JWT `sub`; `owner_id`, `business_id`, memberships и клиентский флаг `is_demo` не принимаются. Членство в магазине не требуется; правила существующего журнала сохраняются.
 
 Все изменения, включая upload, требуют `Idempotency-Key: <UUID>`. Храните исходные ключ, URL и тело до определённого результата. При сетевой ошибке/5xx повторяйте их без изменений. Область ключа — пользователь, общий для всех livestock действий. Другой payload/path с тем же ключом → 409. Повтор возвращает исходный снимок, актуальное состояние получайте GET. Смена пользователя не переносит pending-запросы. Для повторного «сегодня» на следующий день нужен новый ключ.
 
@@ -65,7 +67,7 @@ PublicListing: поля species/quantity/price_per_head_minor/locality/age_month
 
 `apps/mobile` создаёт mobile-участник. Публичные параметры: API_BASE_URL, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY. DATABASE_URL, AI_API_KEY, STORAGE_SERVICE_KEY — только backend .env. Используйте существующий Supabase SDK login/session, refresh, logout; access token не записывать в логи. Денежные значения Dart int, никакого double при вводе ₸→тиыны.
 
-Backend: из apps/api `uv sync --locked`, настройте собственный игнорируемый .env, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8018`. На отдельной локальной demo PostgreSQL примените проверенную миграцию `uv run alembic upgrade 0004_livestock`; общая Supabase уже на этой ревизии, не применять повторно и не запускать seed. `/docs`, `/openapi.json` находятся вне /api/v1.
+Backend: из apps/api `uv sync --locked`, настройте собственный игнорируемый .env, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8018`. На отдельной локальной demo PostgreSQL примените проверенную миграцию `uv run alembic upgrade 0005_livestock_market`; общая Supabase уже на этой ревизии, не применять повторно и не запускать seed. `/docs`, `/openapi.json` находятся вне /api/v1.
 
 ## Storage и учебная среда
 
@@ -79,4 +81,20 @@ PostgreSQL и Storage не имеют общей транзакции: при с
 
 Живая проверка Storage выполнена сначала через TestClient в отдельном setup-этапе, затем через настоящий Uvicorn HTTP: PNG→JPEG без EXIF, повтор с тем же photo ID, владелец200/чужой404. Backend подключается ролью с нужными правами на qadam; RLS и запрет прямого доступа anon/authenticated сохраняются. Полночь/конкуренция/сбои адаптера покрыты отдельными PostgreSQL-тестами с заглушкой Storage; не выдавать их за живой Storage failure test.
 
-Адреса устройства и их ограничения описаны в [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). Текущий 127.0.0.1:8018 доступен только на ПК капитана; 10.0.2.2 — только хост соответствующего Android emulator. Удалённому разработчику подготовлен временный HTTPS-туннель, но он ещё не запущен. Native Flutter не требует CORS; Flutter Web требует точного origin в ALLOWED_ORIGINS.
+Адреса устройства и их ограничения описаны в [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). Текущий 127.0.0.1:8018 доступен только на ПК капитана; 10.0.2.2 — только хост соответствующего Android emulator. Временный HTTPS уже запущен и проверен с ПК капитана; адрес и публичный конфиг — в инструкции подключения. Native Flutter не требует CORS; Flutter Web требует точного origin в ALLOWED_ORIGINS.
+
+## Дополнение API 0.6.1: конкретный рынок и «Цена от»
+
+Для API0.6.1 нужна добавочная миграция `0005_livestock_market`; на общей qadam-demo она уже применена с разрешения капитана после проверки восстановления backup. Повторять её не нужно. На новой среде применить до запуска этой версии. Существующие объявления и денежные записи не удаляются, старые объявления получают market=null, их нельзя автоматически приписывать известному рынку.
+
+ListingWrite и ответы объявления добавляют `market`: название конкретного рынка, 1–100 символов, без пустого значения. В новом Flutter-интерфейсе требуйте выбор/ввод рынка отдельно от населённого пункта. Поле пока nullable/optional ради совместимости старого клиента. PUT без market сохраняет имеющийся рынок, явный null снимает привязку; такое объявление показывать как «Рынок не указан». Повторы старого payload без market сохраняют прежний fingerprint.
+
+GET `/livestock/listings`, `/livestock/me/listings` и `/livestock/prices` принимают `market`. Передавайте также locality: одинаковое название рынка в разных населённых пунктах не означает одно место. Фильтр — точное совпадение с нормализацией пробелов и регистра; разные написания/псевдонимы не объединяются. Это название, заявленное продавцом, а не проверенный реестр адресов или GPS-подтверждение присутствия. Не используйте MART/другие площадки как мал базары без подтверждения.
+
+Пример: `/livestock/prices?species=sheep&locality=Тараз&market=Учебный%20мал%20базар%20A` (название синтетическое).
+
+Ответ PriceStats добавляет `market` (null при запросе по всему населённому пункту) и `min_price_per_head_minor`. Минимум вычисляется от одного сегодняшнего active НЕучебного объявления выбранного вида/места/рынка; без объявлений null. Медиана остаётся доступной от пяти. `status=insufficient_data` относится к медиане: при sample_count=1..4 минимум может быть заполнен. Flutter не должен скрывать минимум только из-за этого status.
+
+Подпись: «От … ₸ за голову среди сегодняшних объявлений», рядом sample_count, выбранный рынок, вид животного и дата. Это цена предложения, не гарантированная цена сделки. is_demo=true исключается из обоих показателей. Количество голов не меняет вес объявления. Sold/withdrawn/вчерашние предложения исключаются. UI отдельно показывает «Подтверждено продавцом сегодня» и не обещает гарантированное наличие.
+
+Flutter: обновить DTO market/min_price_per_head_minor, форму, фильтры и ключи cache (locality+market+species); не считать минимум на странице пагинации. При market=null не показывать конкретное место. Новые реальные названия рынков согласовать с капитаном; их не добавляли как вымышленные seed.
