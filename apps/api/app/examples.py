@@ -1,6 +1,9 @@
 """Synthetic frontend examples, never real users, debts or AI results."""
 
+from datetime import date, timedelta
+
 from app import livestock_schemas, schemas
+from app.analytics_schemas import AnalyticsResponse
 from app.seed import demo_id
 
 BUSINESS = str(demo_id("mart-demo-clothes"))
@@ -262,6 +265,8 @@ EXAMPLES["CustomerPage"] = {
 
 
 def model_for_example(name):
+    if name.startswith("Analytics"):
+        return AnalyticsResponse
     if name == "CustomerPage":
         return schemas.Page[schemas.CustomerResponse]
     if hasattr(livestock_schemas, name):
@@ -277,3 +282,41 @@ def model_for_example(name):
         if name == "RepaymentOperationResponse"
         else getattr(schemas, name)
     )
+
+
+def analytics_example(sales=0, receipts=0, count=0, debt=0, debtors=0):
+    start = date(2026, 10, 10)
+    return dict(
+        business_id=BUSINESS,
+        days=7,
+        timezone="Asia/Almaty",
+        currency="KZT",
+        as_of="2026-10-16T10:00:00Z",
+        period_from=str(start),
+        period_to="2026-10-16",
+        today_incomplete=True,
+        cards=dict(
+            sales_minor=sales,
+            receipts_minor=receipts,
+            sales_count=count,
+            average_ticket_minor=sales // count if count else None,
+            outstanding_minor=debt,
+            debtors_count=debtors,
+        ),
+        daily=[
+            dict(
+                date=str(start + timedelta(days=i)),
+                sales_minor=sales if i == 6 else 0,
+                receipts_minor=receipts if i == 6 else 0,
+                sales_count=count if i == 6 else 0,
+                is_partial=i == 6,
+            )
+            for i in range(7)
+        ],
+        hourly=[dict(hour=h, sales_count=count if h == 15 else 0) for h in range(24)],
+    )
+
+
+EXAMPLES["AnalyticsEmpty"] = analytics_example()
+EXAMPLES["AnalyticsSaleAndRepayment"] = analytics_example(300000, 150000, 1, 150000, 1)
+EXAMPLES["AnalyticsOldSaleReversedToday"] = analytics_example(receipts=-100000)
