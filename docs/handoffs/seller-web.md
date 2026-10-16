@@ -1,3 +1,13 @@
+# Актуальная передача — Auth/Unicode fixes, 2026-10-16
+
+Отдельная ветка **fix/seller-auth-unicode** от **integration/team-mvp:3d009dc86c93debcab05dedda530b7d1fe62a304**. Новая задача исправляет QA-001 (session epoch guard для позднего401 A→B→A) и QA-003 (Unicode code-point limits в форме/body/readers). QA-002/next_cursor, backend/OpenAPI0.4/generated, CSS/дизайн и модули других участников сохранены. PR11/12 не менялись. Полного merge QA нет; только целевые regression tests.
+
+25 связанных regression и полный прогон 106 unit/component прошли; typecheck/lint/build/check:api и targeted Prettier успешны. Полный E2E: 11/11 passed (8 прежних + 3 новых). Git/PR результат — в [SELLER_AUTH_UNICODE_FIX](../SELLER_AUTH_UNICODE_FIX.md). Там же точные команды и ограничения live. Эта ветка не заменяет отдельный design PR11, не начинает новый редизайн.
+
+Ниже сохранена историческая передача старых seller-этапов; её прежние branch/API ограничения не задают текущую fix-задачу.
+
+---
+
 # Seller web — передача
 
 2026-10-15, только `feature/seller-dashboard`, Draft PR https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Main не менять, merge PR и force push запрещены.
