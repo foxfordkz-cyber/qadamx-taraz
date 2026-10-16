@@ -66,6 +66,9 @@ export function AuthProvider({
   const [expired, setExpired] = useState(false);
   const identity = useRef<string | null>(null);
   const demoRef = useRef(false);
+  // Invalidate callbacks synchronously, including when an identity returns A/B/A.
+  // State alone would leave a window before React publishes the next scope.
+  const generationRef = useRef(0);
   const [generation, setGeneration] = useState(0);
   useEffect(() => {
     if (!client) return;
@@ -74,7 +77,8 @@ export function AuthProvider({
       if (identity.current !== (next?.user.id ?? null)) {
         identity.current = next?.user.id ?? null;
         clearPrivateCache(queryClient);
-        setGeneration((value) => value + 1);
+        generationRef.current += 1;
+        setGeneration(generationRef.current);
       }
       if (!demoRef.current) setSession(next);
       if (next) setExpired(false);
@@ -92,17 +96,26 @@ export function AuthProvider({
     setSession(result.data.session);
   }
   async function signOut() {
+    if (generationRef.current !== generation) return;
     if (!demo && client) {
       const { error } = await client.auth.signOut({ scope: "local" });
       if (error) throw error;
     }
+    // SIGNED_OUT may have advanced the epoch itself. Accept that own event,
+    // but do not clear a newer signed-in identity or a subsequent Demo visit.
+    if (
+      generationRef.current !== generation &&
+      (identity.current !== null || demoRef.current)
+    )
+      return;
     clearPrivateCache(queryClient);
     identity.current = null;
     demoRef.current = false;
     setSession(null);
     setDemo(false);
     setExpired(false);
-    setGeneration((v) => v + 1);
+    generationRef.current += 1;
+    setGeneration(generationRef.current);
   }
   function enterDemo() {
     clearPrivateCache(queryClient);
@@ -110,15 +123,24 @@ export function AuthProvider({
     setDemo(true);
     setSession(null);
     setExpired(false);
-    setGeneration((v) => v + 1);
+    generationRef.current += 1;
+    setGeneration(generationRef.current);
   }
   async function getToken() {
-    if (demoRef.current || !client) return null;
     const expectedId = session?.user.id;
+    if (
+      generationRef.current !== generation ||
+      demoRef.current ||
+      !client ||
+      !expectedId ||
+      identity.current !== expectedId
+    )
+      return null;
     const { data, error } = await client.auth.getSession();
     if (
       error ||
-      !expectedId ||
+      generationRef.current !== generation ||
+      demoRef.current ||
       identity.current !== expectedId ||
       data.session?.user.id !== expectedId
     )
@@ -139,7 +161,12 @@ export function AuthProvider({
         enterDemo,
         getToken,
         markExpired: () => {
-          if (identity.current !== session?.user.id || demoRef.current) return;
+          if (
+            generationRef.current !== generation ||
+            identity.current !== session?.user.id ||
+            demoRef.current
+          )
+            return;
           clearPrivateCache(queryClient);
           setExpired(true);
         },

@@ -2,6 +2,7 @@ import { useId, useState } from "react";
 import { Link } from "react-router-dom";
 import { useBusiness, useDraft, useRuntime } from "../../app/runtime";
 import type { Customer, CustomerInput } from "../../shared/api/models";
+import { customerInputErrors } from "../../shared/api/bindings";
 import { LanguageSwitch, useI18n } from "../../shared/i18n";
 import { formatKZT } from "../../shared/format";
 import {
@@ -35,21 +36,21 @@ export function CreateCustomerForm({
     { display_name: "", note: "", contact: "" },
   );
   const [invalid, setInvalid] = useState(false);
+  const errors = invalid ? customerInputErrors(input) : {};
   const create = useCreateCustomer();
   const noteId = useId();
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (!input.display_name.trim()) {
-          setInvalid(true);
-          return;
-        }
+        setInvalid(true);
+        if (Object.keys(customerInputErrors(input)).length) return;
         if (!canCreate || create.isPending) return;
         create.mutate(
           { ...input, display_name: input.display_name.trim() },
           {
             onSuccess: (customer) => {
+              setInvalid(false);
               setInput({ display_name: "", note: "", contact: "" });
               onCreated?.(customer);
             },
@@ -62,12 +63,13 @@ export function CreateCustomerForm({
           autoFocus
           label={t("name")}
           autoComplete="name"
-          maxLength={200}
           value={input.display_name}
           error={
-            invalid && !input.display_name.trim()
+            errors.display_name === "required"
               ? t("nameRequired")
-              : undefined
+              : errors.display_name
+                ? t("customerNameTooLong")
+                : undefined
           }
           onChange={(e) => setInput({ ...input, display_name: e.target.value })}
         />
@@ -76,21 +78,31 @@ export function CreateCustomerForm({
           <textarea
             id={noteId}
             rows={3}
-            maxLength={2000}
             value={input.note}
             onChange={(e) => setInput({ ...input, note: e.target.value })}
             aria-labelledby={`${noteId}-label`}
-            aria-describedby={`${noteId}-hint`}
+            aria-invalid={!!errors.note}
+            aria-describedby={`${noteId}-hint${errors.note ? ` ${noteId}-error` : ""}`}
           />
           <small id={`${noteId}-hint`}>{t("noteHint")}</small>
+          {errors.note && (
+            <small id={`${noteId}-error`} className="field-error" role="alert">
+              {t("customerNoteTooLong")}
+            </small>
+          )}
         </label>
         <Input
           label={t("contact")}
           autoComplete="off"
-          maxLength={200}
           value={input.contact}
+          error={errors.contact ? t("customerContactTooLong") : undefined}
           onChange={(e) => setInput({ ...input, contact: e.target.value })}
         />
+        {Object.keys(errors).length > 0 && (
+          <p className="field-error" role="alert">
+            {t("validationError")}
+          </p>
+        )}
         {!canCreate && (
           <Alert>
             {t(gateway.mode === "demo" ? "demoWrites" : "contractPending")}
