@@ -1,0 +1,223 @@
+{
+  "venue_slug": "kaikarmet",
+  "research_date": "2026-10-15",
+  "researcher": "Codex, visual inspection through browser screenshots and page metadata",
+  "status": "reference_based_non_survey_reconstruction",
+  "identity": {
+    "yandex_entity": "https://yandex.com/maps/org/kaikarmet/63595775026/",
+    "yandex_address": "Тараз, Аса, 36Б",
+    "yandex_map_point": {"latitude": 42.885073, "longitude": 71.335908, "usage": "research entity identification only, not model coordinates"},
+    "observed_signage": ["СУЛТАН / СҰЛТАН", "ЖЕМІС-ЖИДЕКТЕР", "САУДА ОРТАЛЫҒЫ", "ЕТ КОРПУСЫ"],
+    "related_2gis_entities": [
+      {"url": "https://2gis.kz/taraz/firm/70000001052018067", "name": "Султан, рынок", "address": "Аса, 36Б"},
+      {"url": "https://2gis.kz/taraz/firm/70000001052970253", "name": "Султан, крытый рынок", "address": "Аса, 36е", "metadata": "1 этаж in card; does not establish the floor count of every building in the complex"},
+      {"url": "https://2gis.kz/taraz/geo/70030076204159028", "name": "Рынок Султан", "address": "Аса, 36Б", "metadata": "building card, not proof of one legal entity"}
+    ],
+    "caution": "The Kaikarmet Yandex gallery and panorama show Sultan signage; 2GIS uses Sultan for the corresponding market area. This supports the geographic market composition, not legal equivalence, ownership or a claim that every neighbouring building belongs to Kaikarmet. Frontend slug remains kaikarmet."
+  },
+  "strongest_visual_findings": [
+    "The street frontage is a long continuous low blue-glazed hall with dense cobalt vertical mullions and a broad cream/light grey fascia. The old two detached pale halls are not supported.",
+    "The main entrance is a broad rectangular recess interrupting that glazed frontage, with blue jambs and glazed doors further back. No monumental main-front arch is visible.",
+    "The 2023 panorama shows two adjacent low projecting corrugated lean-to canopies immediately to the left of the main entrance, with slender posts and counters.",
+    "Market-aisle photographs show a much larger shared corrugated steel roof above independent low kiosks, with steel posts and exposed braces/trusses.",
+    "A separate cream masonry gateway has a very shallow angular pointed opening, classical columns/cornice/dentils, reddish base and turquoise metal bar gates. Its exact position in a complete surveyed site plan is not established.",
+    "Satellite view suggests a compact elongated connected compound with parallel roof strips: street gallery, broad raised central roof and lower rear strip. The central roof appears curved and interrupted across its length; exact roof curvature and connections remain an interpretation."
+  ],
+  "references": [
+    {
+      "id": "ya-panorama-2023",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/panorama/",
+      "view_url": "https://yandex.com/maps/org/kaikarmet/63595775026/panorama/?ll=71.335908%2C42.885073&panorama%5Bdirection%5D=229.000000%2C10.000000&panorama%5Bfull%5D=true&panorama%5Bpoint%5D=71.336254%2C42.885065&panorama%5Bspan%5D=115.088307%2C60.000000&z=17",
+      "provider_author": "Yandex street panorama",
+      "displayed_date": "2023",
+      "date_type": "panorama year shown in UI",
+      "actually_viewed": true,
+      "confidence": "high for street-front composition",
+      "observations": ["Long blue-glazed facade and broad pale fascia", "Large recessed rectangular entrance right of the viewed frontage centre", "Two adjacent low sheet-metal canopies immediately left of entrance", "Small white kiosk on entrance left and red kiosk on right", "Cars parked perpendicular to street frontage"],
+      "limits": "Winter panorama; not proof of unchanged 2026 condition. Perspective prevents exact metric measurements."
+    },
+    {
+      "id": "ya-front-2025-12",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/19555618/2a0000019adfbdbc20efeee5e2894f1845c5/XXXL",
+      "author": "жалгас токтаралы",
+      "displayed_date": "December 2025",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "high",
+      "observations": ["Continuous dark blue glass wall with slender cobalt uprights", "Two prominent horizontal transom levels within the glass", "Wide cream-grey upper fascia and narrow blue band", "Shallow roof overhang", "Recessed entry with СҰЛТАН lettering", "Perpendicular car parking"],
+      "limits": "Does not show the full rear footprint or establish exact bay counts."
+    },
+    {
+      "id": "ya-covered-market-2024-08",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/13287730/2a00000191be7a4f6ea70b3ed9448a052963/XXXL",
+      "author": "Yandex gallery attribution",
+      "displayed_date": "August 2024",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "high for construction language; medium for relation to footprint",
+      "observations": ["Large common sheet-metal roof above low independent shops", "Exposed thin steel columns and diagonal roof bracing", "High daylight strip", "Substantially higher canopy than kiosk roofs"],
+      "limits": "Interior view does not determine exact roof curvature. Underside can appear pitched; satellite central strip looks rounded. No measured aisle or kiosk layout available."
+    },
+    {
+      "id": "ya-side-gate-2024-08",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/13797017/2a00000191bef09e17409d14c68f4e0cd050/XXXL",
+      "author": "Yandex gallery attribution",
+      "displayed_date": "August 2024",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "high for gate shape and materials; medium/low for whole-site placement",
+      "observations": ["Cream masonry wall with horizontal courses and reddish brown plinth", "Broad continuous upper cornice with small dentils", "Slim classical columns beside opening", "Shallow pointed/angular underside of opening, not a semicircular arch", "Turquoise open metal bar gates", "Narrow lane and low white/corrugated shops behind"],
+      "estimated_proportion": "Overall portal span approximately 1.1–1.4 times height in the perspective photograph; not a survey dimension.",
+      "limits": "Gallery alone does not unambiguously place gateway on the entire compound; module positions it on a side face as an illustrative composition."
+    },
+    {
+      "id": "ya-corner-2024-08",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/11398069/2a00000191beded134386324fb44749cf509/XXXL",
+      "author": "Yandex gallery attribution",
+      "displayed_date": "August 2024",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "medium",
+      "observations": ["Pale cream/beige street return with flat classical cornice", "Raised corner mass with Sultan sign", "Blue glazed wing continues on one side", "Blue gate and low projecting market roofs on the other side"],
+      "limits": "Taken across a street intersection; does not prove every adjacent mass belongs to requested venue. Not used to duplicate unverified neighbouring buildings."
+    },
+    {
+      "id": "ya-entry-2021-06",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/4504251/2a00000179ee967aec95575c20b39abd8e3b/XXXL",
+      "author": "Yandex gallery attribution",
+      "displayed_date": "June 2021",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "supporting historical view",
+      "observations": ["Large rectangular entry recess under Sultan signage", "Cream fascia and horizontal cobalt strip", "Full-height blue glazing to one side", "Blue gates and small entrance booths"],
+      "limits": "Older image; newer panorama and December 2025 photograph take precedence."
+    },
+    {
+      "id": "ya-indoor-2023-03",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/7186075/2a00000186edde216c6350e01bd03c3116e7/XXXL",
+      "author": "Ереке",
+      "displayed_date": "March 2023",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "supporting interior material evidence",
+      "observations": ["Indoor produce aisle", "Blue glazing along one wall", "Low white ceiling", "White framed shopfronts"],
+      "limits": "One aisle; no real stall identifiers or entire interior plan inferred."
+    },
+    {
+      "id": "ya-outdoor-lane-2024-08",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/",
+      "image_url": "https://avatars.mds.yandex.net/get-altay/11563767/2a00000191be4051566402f9e13e5f662685/XXXL",
+      "author": "Yandex gallery attribution",
+      "displayed_date": "August 2024",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "supporting only",
+      "observations": ["Narrow outdoor lane", "Pale brick shop wall with arched openings", "Projecting metal awnings on slender posts", "Low dark stalls and corrugated overhang opposite"],
+      "limits": "Precise location in complex unverified; no duplicate rows or route generated from it."
+    },
+    {
+      "id": "ya-satellite",
+      "page_url": "https://yandex.com/maps/org/kaikarmet/63595775026/gallery/?l=sat&ll=71.335908%2C42.885073&z=18",
+      "provider_author": "Satellite imagery displayed by Yandex Maps; underlying capture provider/date not exposed in inspected view",
+      "displayed_date": null,
+      "date_type": "unknown imagery capture date",
+      "actually_viewed": true,
+      "confidence": "medium for gross plan, low for exact roof profile",
+      "observations": ["Compact elongated compound southwest of street intersection", "Long street-front strip", "Parallel broad raised silver central roof with a dark transverse interruption", "Parallel lower rear strip", "Short connecting end/roof masses"],
+      "estimated_proportion": "Gross long-axis to compound-depth ratio approximately 2–2.5:1, judged visually.",
+      "limits": "No calibrated survey, no exact lengths, no tile extraction or redistribution. Curved appearance is an interpretation of shading and footprint."
+    },
+    {
+      "id": "2gis-covered-market-2023-05-05",
+      "page_url": "https://2gis.kz/taraz/gallery/firm/70000001052970253",
+      "image_url": "https://i3.photo.2gis.com/images/branch/0/30258560104983284_63bd.jpg",
+      "author": "Анастасия Калинина",
+      "displayed_date": "2023-05-05",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "supporting market construction evidence",
+      "observations": ["Trading stall under corrugated sheet roof", "Simple roof beams and hanging goods"],
+      "limits": "Interior crop cannot establish outside massing or entire plan."
+    },
+    {
+      "id": "2gis-covered-market-entry-2025-11-24",
+      "page_url": "https://2gis.kz/taraz/gallery/firm/70000001052970253/photoId/30258560274354308",
+      "image_url": "https://i0.photo.2gis.com/photo-gallery/4bf2d0fa-d8e5-4949-9ea1-25963da1f62a.jpg",
+      "author": "2ГИС",
+      "displayed_date": "2025-11-24",
+      "date_type": "gallery displayed date; capture date unverified",
+      "actually_viewed": true,
+      "confidence": "high for doorway detail",
+      "observations": ["Cobalt blue double door with glazing in upper half", "Pale vestibule walls", "Light corrugated ceiling", "Simple floor and side blue door"],
+      "limits": "Small entrance detail; exact correspondence with the large street recess is unverified."
+    }
+  ],
+  "excluded_or_qualified_sources": [
+    {
+      "url": "https://2gis.kz/taraz/firm/70000001075867683",
+      "reason": "Unrelated Kaikarmet sawmill at Бауыржан Момышұлы 47а. Excluded despite matching name."
+    },
+    {
+      "url": "https://2gis.kz/taraz/gallery/geo/70030076204159028",
+      "author": "Мирас Тлеукул",
+      "displayed_date": "2026-05-15",
+      "actually_viewed": true,
+      "reason": "Only photo on building card points across street toward Korzinka; rejected as market facade evidence."
+    },
+    {
+      "url": "https://avatars.mds.yandex.net/get-altay/16166974/2a00000199537566547df5ff0443d50a532d/XXXL",
+      "author": "Ilya Tukhbatulin",
+      "displayed_date": "September 2025",
+      "actually_viewed": true,
+      "reason": "Facade photo contains a New Year 2015 greeting. Upload date is not capture date; used only as historical supporting view, never as 2025 current-condition proof."
+    },
+    {
+      "url": "https://avatars.mds.yandex.net/get-altay/14774583/2a0000019a2a14fc3e7ca5c1ea9b52f12c28/XXXL",
+      "author": "Галеке",
+      "displayed_date": "October 2025",
+      "actually_viewed": true,
+      "reason": "Through tinted car glass; confirms frontage/sign placement but colours unreliable."
+    },
+    {
+      "url": "https://avatars.mds.yandex.net/get-altay/16410529/2a0000019943b69742dfc4f87ea4bff23872/XXXL",
+      "author": "RS",
+      "displayed_date": "September 2025",
+      "actually_viewed": true,
+      "reason": "Night garden photo cannot be spatially tied to market; excluded."
+    },
+    {
+      "url": "https://rutube.ru/video/6e6dd2e2a3d6fa6aa6297ba167279869/",
+      "title": "Тараз Кайкармет - 10 микрорайон",
+      "author": "NIK TARAZ",
+      "displayed_date": "2024-11-29",
+      "actually_viewed": false,
+      "reason": "Search candidate only. Video open failed; no visual claim relies on this video."
+    }
+  ],
+  "model_decisions": {
+    "module": "tools/assets/model_kaikarmet.py",
+    "geometry_status": "reference_based",
+    "conceptual_scale": true,
+    "metric_dimensions_are_estimates": true,
+    "main_front_axis": "+Z",
+    "rough_dimensions_metres": {"street_gallery_length": 82, "street_gallery_height": 6.4, "compound_depth": 44, "central_canopy_peak": 9.08, "presentation_base": [94, 64]},
+    "dimensions_note": "All numbers are illustrative proportions chosen to model the observed composition. No photogrammetry, cadastral outline, survey or calibrated measurement was performed.",
+    "implemented_changes": ["Replace two pale detached halls with long continuous blue glass frontage", "Add broad cream fascia, narrow blue bands and repeated mullions", "Make a recessed rectangular main entrance", "Add two low adjacent lean-to street canopies", "Add independent low kiosks under a broad shared raised roof", "Arrange rear/central/front strips as a connected compound", "Add observed shallow pointed cream side gate with turquoise bars", "Use four anonymous parked cars as scale cues", "Keep all lettering as frontend HTML; no invented real stall numbers"],
+    "unverified_and_simplified": ["Exact whole-site positioning of side gateway", "Roof curvature, transverse seam and all strip lengths", "Unseen shop layout, bay counts and structural spacing", "Number/type of parked vehicles", "All hotspot positions and associations remain educational zones"],
+    "camera": {"position": [94, 66, 112], "target": [0, 3.5, 0], "render_scale": 116},
+    "hotspots": [[-24, 5.1, 19.3], [12, 5.1, 20.2], [42, 5.4, -5.5]]
+  },
+  "rights": {
+    "model_author": "Original procedural model by Codex for the Qadam team",
+    "reference_rights": "Reference photos and map imagery retain the respective photographers/platforms rights; no general reuse license was verified.",
+    "reference_usage": "Viewed for architectural observation only. No photographs, satellite tiles, video frames, logos or text imagery are embedded or redistributed in the model.",
+    "textures": "No image textures. Original flat colour PBR materials."
+  },
+  "handoff_checks": {"module_ast_parse": "passed", "export_render_and_glb_validation": "root agent responsibility; intentionally not run by research sub-agent", "git_actions": "none"}
+}
