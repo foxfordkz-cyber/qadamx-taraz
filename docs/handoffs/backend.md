@@ -317,3 +317,49 @@ Trace, HAR, video, screenshots и storageState не сохранялись. Па
 Separate worktree tmp/integration-mobile, branch integration/team-mobile from PR #8 3d009dc. Early Flutter contract commit 0f2b06d. Assets 11c4e45 imported by explicit paths; storefront 8818e8b presentation selectively adapted, real API fields/name/price_minor, shared locale, seller route, keyed inquiry form and manifest VenueScene retained. Added sixth mobile role without changing other assignments. No frontend/backend duplicates or unrelated history.
 
 Checks: typecheck/lint/build PASS; 81 web unit/component tests PASS (stubs). Asset validator PASS: GLB bytes 1312516/712724/745044, 0 errors/warnings. Real anonymous Chromium with real public Supabase API: all 3 venues and 9 hotspots -> matching shops, 360x800 no overflow, screenshots visually inspected; WebGL disabled and GLB network failure leave working previews/cards. No physical phone/FPS check. Supabase revision 0003_drafts, operations 8 -> 8, no migrations/cleanup. Gemini not called in this stage. npm audit reports 3 existing dev-tool findings (Vitest/mocker/tinypool); major test-tool upgrade deferred, no force audit fix. Lazy 3D chunk warning remains. Next: livestock implementation on a separate dependent backend branch, local-only migration, Storage live upload requires private bucket/server key (not configured).
+
+## «Мал базар»: backend и передача Flutter — 2026-10-16
+
+Рабочая копия `tmp/integration-mobile`, feature-ветка **backend/livestock** от обновлённой **integration/team-mobile:f240b27**. Ранняя публикация предложенного контракта — `0f2b06d`, до реализации. [LIVESTOCK_API](../../packages/contracts/LIVESTOCK_API.md) теперь описывает реализованный API 0.5.0, ограничение общей среды, Storage policies/env и подключение телефона. Общая Supabase не мигрировалась: по-прежнему 0003_drafts. Данные/ветки команды/локальные `.env` сохранены.
+
+### Сделано
+
+- `app/livestock_schemas.py`, `livestock_routes.py`, новые модели и **0004_livestock**: публичные лента/карточка/статистика, свои объявления, публикация/полное редактирование, confirm_today/sell/withdraw. Автор — проверенный JWT subject, без фиктивного магазина. Публичный ответ исключает subject/memberships/денежные данные. Контакт публикуется только с явным boolean consent=true.
+- PostgreSQL clock → Asia/Almaty. В 00:00 вчерашние active скрываются; редактирование не продлевает наличие. Confirm обновляет ту же запись, sold/withdrawn не переоткрываются. Ключ UUID в области user; advisory transaction lock, нормализованный payload hash и исходный JSON-ответ атомарны с записью. Строгие целые тиыны, фильтры, bounded UUID pagination. Формулы/код ledger service не изменены.
+- Медиана цен предложений за сегодня по виду/месту, минимум пять объявлений, quantity не даёт дополнительных наблюдений. Demo исключены. Без LLM. Default `LIVESTOCK_DEMO_MODE=true` помечает создаваемые учебные объявления навсегда.
+- `services/photos.py`: Supabase private Storage adapter, проверка реального JPEG/PNG/WebP, лимит 8 MiB/20 MP, без анимации, EXIF orientation и перекодирование до 1600 px в JPEG без metadata. До трёх фото, проверка owner/attachment, составной owner FK и уникальные slots. До 30 unattached на пользователя, bounded multipart streaming, private orphan после сбоя DB не публикуется. Download через API с no-store, без раздачи object keys/серверного ключа.
+- OpenAPI 0.5.0, шесть новых JSON-примеров, generated.ts, API README, инструкции Flutter, роль mobile, общие решения/статус обновлены. Flutter-каркас и отдельная авторизация не создавались.
+
+### Настоящая локальная PostgreSQL + тестовые JWKS/Storage
+
+Из `apps/api`: Python 3.12, `scripts/with_env.py <root>/apps/api/.env.local-postgres -m pytest -q --tb=short` → **218 passed**. Это отдельная пустая `qadam_test` на loopback: upgrade до 0004, `alembic check`, downgrade до base в fixture. Ни миграции, ни очистка тестов не направлялись на Supabase.
+
+Проверены concurrent publish и photo retry, одинаковый key/body и конфликт payload, независимость ключей разных users, rollback перед commit, гонка sell/withdraw, пользователь без memberships, чужие PUT/actions/photo, UTC→Almaty граница суток, повтор старого key на следующий день, terminal states, фильтры/пагинация, медиана <5/5/6 и округление, исключение demo/просрочки, SQL RLS/права, входные ограничения, фото type/size/pixels/animation/EXIF/reorder/orphan/квота. Существующие ledger/drafts regression tests включены. Один первоначальный дефект next_cursor (UUID вместо string) исправлен. Слишком длинный ID pytest для 8 MiB fixture заменён именованным; это проблема теста, не загрузки API.
+
+JWT в этом наборе подписаны тестовым JWKS. Storage HTTP transport tests подменяют сеть (upload/download, timeout/403/redirect), MemoryStorage подменяет удалённый bucket. Реальные байты обрабатывает Pillow. Эти проверки **не подтверждают живой Supabase Storage**. Прежние AI-тесты используют заглушки Gemini.
+
+`ruff check app tests migrations`, `ruff format --check app tests migrations`, `python -m app.export_contracts --check`, `uv lock --check --offline`, `git diff --check` → PASS. Web: generate/check API, typecheck, lint, format:check и build → PASS. 81 web test с заглушками прошёл на обновлении интеграции; последующие web изменения — только сгенерированные типы. Известны предупреждение Starlette/httpx, lazy 3D chunk и три npm audit findings существующего dev toolchain; эти ограничения не скрыты как успешный security audit зависимостей.
+
+### Живой Auth и HTTP API — отдельно
+
+Настоящий Supabase login A/B, проверка реальных JWT/JWKS, Uvicorn/HTTP и **локальная qadam_demo**. После успешного тестового upgrade отдельно применена 0004 только в этой локальной demo БД; `alembic check` без отличий. Публикация → public feed/card → точный replay → B PUT чужого 404/своё пустое → без токена 401 → confirm_today с прежним ID → sell → public 404. Статистика исключает demo, журнал не изменился. Оставлено одно явно учебное локальное объявление, статус sold. Ключи/пароли/JWT не печатались; файлы конфигурации не изменялись.
+
+**Живой Gemini в этом этапе не вызывался. Живой Storage не проверен:** STORAGE_SERVICE_KEY/BUCKET отсутствуют. Полный Flutter UI/Android device flow не проверен — приложение делает mobile-участник.
+
+### Браузер и витрина — отдельно
+
+Обновление `f240b27`: настоящий анонимный Chromium, реальный public API Supabase, новые GLB/preview/manifest 11c4e45. Три площадки, девять hotspots → правильные shops, 360×800 без horizontal overflow, визуальная проверка кадров. Отключённый WebGL и отдельно сетевой сбой GLB оставляют рабочие preview/cards. Это desktop Chromium с узким viewport, не физический телефон. Supabase проверена на 0003, операции 8→8. Seller login/ledger UI в этом новом этапе повторно не прогонялись; их прежние результаты не выдаются за новую проверку.
+
+### Передача и следующий шаг
+
+Flutter уже может использовать актуальные OpenAPI/examples и LIVESTOCK_API, запускать локальный API с 0004. Base URL desktop `http://127.0.0.1:8000/api/v1`, Android emulator `http://10.0.2.2:8000/api/v1`; телефон — LAN IP компьютера или `adb reverse`. Native HTTP разрешать только для debug, публичные параметры API_BASE_URL/SUPABASE_URL/SUPABASE_PUBLISHABLE_KEY. Пароли/JWT/service_role/DB/AI key не являются публичным env.
+
+Для общей среды капитану потребуется отдельно разрешить 0004, создать private Storage bucket с image/jpeg и лимитом 8 MiB, закрыть client policies (включая прежние broad policies) и настроить серверный service_role key. Затем проверить живую загрузку/приватность с двумя аккаунтами и Flutter на устройстве. Без Storage можно публиковать без фото. Не выполнены автоматическая уборка orphan/unattached, TTL удаления idempotency snapshots, production moderation/anti-spam, физический телефон/FPS. Голосовое заполнение — следующий этап. Новая миграция на общей Supabase, merge PR и deploy в этой задаче не выполнялись.
+
+### Публикация
+
+**[Draft PR #9](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/9)**: integration/team-mobile → integration/team-mvp, интеграция `f240b278f292e40f8033db6526fd0161e035cd96`. **[Draft PR #10](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/10)**: backend/livestock → integration/team-mobile, проверенный backend **`c447a594a6a7d9aad1ee7fca751053bf6a176a61`**. Ссылки на точный OpenAPI/примеры — в LIVESTOCK_API. Отдельное сравнение JSON OpenAPI с интеграционной базой подтвердило: **ни один прежний schema/path не изменён**, добавлен только livestock. Последующие commits — передача/ссылки.
+
+Порядок review: #8, #9, #10; при принятии #8 капитан вручную проверяет diff и retarget #9, после него #10. В этой задаче PR только открыты как Draft, main и ветки команды не менялись. Проверка известных локальных секретов охватила 204 versionable paths и diff; значения не выводились, `.env`/tmp/node_modules/dist игнорируются. Корневая рабочая копия backend/integration-readiness чистая.
+
+Дополнительная анонимная браузерная проверка главной витрины после публикации: 360/1440 px, три реальные карточки/превью, seller link, переключение RU→KZ и сохранение locale после перехода на MART — PASS. Снимки публичных страниц просмотрены, секретных browser artifacts нет. Read-only Supabase проверка повторно подтвердила 0003_drafts и 8→8 операций. Код не менялся.

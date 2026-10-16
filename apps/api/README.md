@@ -1,6 +1,10 @@
-# Qadam API — журнал и AI-черновики
+# Qadam API — журнал, AI-черновики и «Мал базар»
 
-Интеграционная версия 0.4.0 добавляет публичный каталог и заявки. Единый запуск API/web, commits и проверка команды — [TEAM_INTEGRATION](../../docs/TEAM_INTEGRATION.md). Для общей Supabase на `0003_drafts` ничего мигрировать не нужно и в этой задаче запрещено; новые HTTP-методы используют существующие таблицы.
+Версия **0.5.0** добавляет «Мал базар» в основном backend. [Контракт Flutter, endpoints, фото, ошибки и подключение телефона](../../packages/contracts/LIVESTOCK_API.md). Требуется **0004_livestock**, проверенная только на отдельной локальной PostgreSQL. Общая Supabase остаётся на **0003_drafts**, там новая функция ещё не готова; миграцию в этой задаче не применять. Прежние магазин/заявки/журнал/AI продолжают использовать таблицы до 0003. Единый запуск API/web и состав — [TEAM_INTEGRATION](../../docs/TEAM_INTEGRATION.md).
+
+Новые объявления принадлежат проверенному Supabase subject, без membership магазина. Учёт денег не меняется. `LIVESTOCK_DEMO_MODE=true` по умолчанию помечает новые объявления учебными и исключает их из статистики. Фото опциональны: без настроек Storage публикация без них работает. Для upload нужен private bucket и `STORAGE_SERVICE_KEY` только в серверном `.env`; детали policies и ограничения уборки объектов — в контракте Flutter.
+
+Только на собственной **локальной demo** PostgreSQL: `uv sync --locked`, `uv run alembic upgrade 0004_livestock`, `uv run alembic check`, затем `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000`. Для этого запуска настройте DATABASE_URL на локальную demo БД и Supabase Auth env; seed для livestock не нужен. Для очищающего pytest ниже используйте другую, пустую `*_test` БД. Не подставляйте общую Supabase ни в TEST_DATABASE_URL, ни в команду upgrade.
 
 [Передача AI-интеграции frontend](../../packages/contracts/AI_INTEGRATION.md): точный commit и примеры multipart/уточнения/подтверждения для PR #5.
 

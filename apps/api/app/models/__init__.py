@@ -1,13 +1,15 @@
-from datetime import datetime
+from datetime import date, datetime
 from uuid import UUID, uuid4
 
 from sqlalchemy import (
     BigInteger,
     Boolean,
     CheckConstraint,
+    Date,
     DateTime,
     ForeignKey,
     ForeignKeyConstraint,
+    Integer,
     MetaData,
     String,
     Text,
@@ -188,3 +190,66 @@ class Draft(Base):
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
     response_json: Mapped[dict] = mapped_column(JSONB)
     consumed_operation_id: Mapped[UUID | None] = mapped_column(Uuid, unique=True)
+
+
+class LivestockListing(Base):
+    __tablename__ = "livestock_listings"
+    __table_args__ = (
+        UniqueConstraint("owner_id", "id"),
+        CheckConstraint("quantity BETWEEN 1 AND 10000", name="quantity"),
+        CheckConstraint("price_per_head_minor BETWEEN 1 AND 10000000000", name="price"),
+        CheckConstraint("age_months BETWEEN 0 AND 600", name="age"),
+        CheckConstraint("species IN ('cattle','sheep','goat','horse','camel')", name="species"),
+        CheckConstraint("status IN ('active','sold','withdrawn')", name="status"),
+        CheckConstraint("sex IN ('male','female','unknown')", name="sex"),
+        CheckConstraint("contact_consent = true", name="consent"),
+    )
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4)
+    owner_id: Mapped[UUID] = mapped_column(Uuid, index=True)
+    species: Mapped[str] = mapped_column(String(20), index=True)
+    quantity: Mapped[int] = mapped_column(Integer)
+    price_per_head_minor: Mapped[int] = mapped_column(BigInteger)
+    locality: Mapped[str] = mapped_column(String(100))
+    locality_key: Mapped[str] = mapped_column(String(200), index=True)
+    age_months: Mapped[int | None] = mapped_column(Integer)
+    sex: Mapped[str | None] = mapped_column(String(10))
+    description: Mapped[str | None] = mapped_column(Text)
+    contact: Mapped[str] = mapped_column(String(200))
+    contact_consent: Mapped[bool] = mapped_column(Boolean)
+    status: Mapped[str] = mapped_column(String(20), default="active")
+    confirmed_on: Mapped[date] = mapped_column(Date, index=True)
+    is_demo: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class LivestockPhoto(Base):
+    __tablename__ = "livestock_photos"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["owner_id", "listing_id"],
+            ["qadam.livestock_listings.owner_id", "qadam.livestock_listings.id"],
+            name="fk_livestock_photo_owner",
+        ),
+        CheckConstraint("position BETWEEN 0 AND 2", name="position"),
+        CheckConstraint(
+            "(listing_id IS NULL AND position IS NULL) OR "
+            "(listing_id IS NOT NULL AND position IS NOT NULL)",
+            name="attachment",
+        ),
+        UniqueConstraint("listing_id", "position"),
+    )
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True)
+    owner_id: Mapped[UUID] = mapped_column(Uuid, index=True)
+    listing_id: Mapped[UUID | None] = mapped_column(Uuid, index=True)
+    position: Mapped[int | None] = mapped_column(Integer)
+    object_key: Mapped[str] = mapped_column(String(200), unique=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class LivestockRequest(Base):
+    __tablename__ = "livestock_requests"
+    owner_id: Mapped[UUID] = mapped_column(Uuid, primary_key=True)
+    key: Mapped[UUID] = mapped_column(Uuid, primary_key=True)
+    fingerprint: Mapped[str] = mapped_column(String(64))
+    response_json: Mapped[dict] = mapped_column(JSONB)

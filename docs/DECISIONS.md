@@ -1,5 +1,13 @@
 # Общие решения команды
 
+## 2026-10-16: реализация «Мал базара»
+
+Шестой участник ведёт `apps/mobile`, единственный backend — `apps/api`. Контракт: [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md). В `backend/livestock` ключ идемпотентности UUID в области пользователя общий для livestock actions/upload. PostgreSQL advisory transaction lock по subject сериализует конкурентные записи; изменение и JSON-снимок ответа сохраняются атомарно. Коллизия хэша lock лишь сериализует двух пользователей, проверка владельца всегда сравнивает полный UUID. Membership/locks/формулы журнала не меняются.
+
+Статистика — активные объявления за текущую дату Asia/Almaty, по виду/нормализованному месту, одно наблюдение на объявление, минимум пять. Для чётного количества медиана округляется вверх при половине тиына. `LIVESTOCK_DEMO_MODE=true` — default учебной среды; is_demo фиксируется при создании, не принимается от клиента и исключается из статистики. Это цены предложений, не оценка и не сделки.
+
+Фото: private bucket, доступ клиента только через API, обработка Pillow без EXIF/metadata, максимум три owner-bound photo ID. Multipart ограничен 8 MiB + 64 KiB, исходный файл 8 MiB/20 MP, до 30 непривязанных фото на пользователя. Storage не участвует в DB-транзакции: возможные private orphan не публикуются; повтор пишет те же очищенные байты по детерминированному пути. Автоматическая уборка вне MVP. Общая Supabase не обновляется без отдельного разрешения.
+
 ## Решение капитана: единая интеграция после PR #7
 
 Основной backend — только `apps/api` (FastAPI, PostgreSQL, Supabase Auth, Gemini). Корневой `backend/` из PR #7 с SQLite и собственной cookie-авторизацией не меняет архитектуру. В `integration/team-mvp` полезные сценарии PR #7 перенесены в `apps/web/src/features/{ledger,voice,summary}`, затем дублирующий root frontend/backend удалён с сохранением Git-истории. Основой web остаётся Seller Frontend #3: один router, AuthProvider, runtime, BusinessProvider, CustomerPicker и общий RU/KZ context.

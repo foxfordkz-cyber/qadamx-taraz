@@ -17,10 +17,18 @@ class Settings(BaseSettings):
     demo_owner_a_token: SecretStr | None = None
     demo_owner_b_token: SecretStr | None = None
     ai_api_key: SecretStr | None = None
+    storage_service_key: SecretStr | None = None
+    livestock_demo_mode: bool = True
+    storage_bucket: str = Field(default="", pattern=r"^(?:[a-z0-9][a-z0-9-]{0,62})?$")
     ai_model: str = Field(default="", pattern=r"^(?:gemini-[a-zA-Z0-9._-]+)?$")
 
     @field_validator(
-        "database_url", "demo_owner_a_token", "demo_owner_b_token", "ai_api_key", mode="before"
+        "database_url",
+        "demo_owner_a_token",
+        "demo_owner_b_token",
+        "ai_api_key",
+        "storage_service_key",
+        mode="before",
     )
     @classmethod
     def blank_secret(cls, value):

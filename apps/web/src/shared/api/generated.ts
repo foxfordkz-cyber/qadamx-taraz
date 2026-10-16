@@ -227,10 +227,153 @@ export interface paths {
     patch: operations["update_inquiry_api_v1_businesses__id__inquiries__inquiry_id__patch"];
     trace?: never;
   };
+  "/api/v1/livestock/listings": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Feed */
+    get: operations["feed_api_v1_livestock_listings_get"];
+    put?: never;
+    /** Publish */
+    post: operations["publish_api_v1_livestock_listings_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/me/listings": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Mine */
+    get: operations["mine_api_v1_livestock_me_listings_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/listings/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Detail */
+    get: operations["detail_api_v1_livestock_listings__id__get"];
+    /** Edit */
+    put: operations["edit_api_v1_livestock_listings__id__put"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/listings/{id}/actions": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Action */
+    post: operations["action_api_v1_livestock_listings__id__actions_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/prices": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Prices */
+    get: operations["prices_api_v1_livestock_prices_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/photos": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /** Upload */
+    post: operations["upload_api_v1_livestock_photos_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/listings/{id}/photos/{photo_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Public Photo */
+    get: operations["public_photo_api_v1_livestock_listings__id__photos__photo_id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/me/photos/{photo_id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Private Photo */
+    get: operations["private_photo_api_v1_livestock_me_photos__photo_id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    /** Body_upload_api_v1_livestock_photos_post */
+    Body_upload_api_v1_livestock_photos_post: {
+      /** File */
+      file: string;
+    };
     /** BusinessMembership */
     BusinessMembership: {
       /**
@@ -459,6 +602,53 @@ export interface components {
        */
       status: "new" | "in_progress" | "closed";
     };
+    /** ListingAction */
+    ListingAction: {
+      /**
+       * Action
+       * @enum {string}
+       */
+      action: "confirm_today" | "sell" | "withdraw";
+    };
+    /** ListingPhoto */
+    ListingPhoto: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Url */
+      url: string;
+    };
+    /** ListingWrite */
+    ListingWrite: {
+      /**
+       * Species
+       * @enum {string}
+       */
+      species: "cattle" | "sheep" | "goat" | "horse" | "camel";
+      /** Quantity */
+      quantity: number;
+      /** Price Per Head Minor */
+      price_per_head_minor: number;
+      /** Locality */
+      locality: string;
+      /** Age Months */
+      age_months?: number | null;
+      /** Sex */
+      sex?: ("male" | "female" | "unknown") | null;
+      /** Description */
+      description?: string | null;
+      /**
+       * Photo Ids
+       * @default []
+       */
+      photo_ids: string[];
+      /** Contact */
+      contact: string;
+      /** Contact Consent */
+      contact_consent: boolean;
+    };
     /** MeResponse */
     MeResponse: {
       /**
@@ -548,6 +738,65 @@ export interface components {
        */
       created_at: string;
     };
+    /** OwnerListing */
+    OwnerListing: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Species
+       * @enum {string}
+       */
+      species: "cattle" | "sheep" | "goat" | "horse" | "camel";
+      /** Quantity */
+      quantity: number;
+      /** Price Per Head Minor */
+      price_per_head_minor: number;
+      /** Locality */
+      locality: string;
+      /** Age Months */
+      age_months: number | null;
+      /** Sex */
+      sex: ("male" | "female" | "unknown") | null;
+      /** Description */
+      description: string | null;
+      /** Contact */
+      contact: string;
+      /**
+       * Currency
+       * @default KZT
+       * @constant
+       */
+      currency: "KZT";
+      /** Photos */
+      photos: components["schemas"]["ListingPhoto"][];
+      /**
+       * Confirmed On
+       * Format: date
+       */
+      confirmed_on: string;
+      /** Is Demo */
+      is_demo: boolean;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "active" | "sold" | "withdrawn";
+      /** Available Today */
+      available_today: boolean;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+      /**
+       * Updated At
+       * Format: date-time
+       */
+      updated_at: string;
+    };
     /** Page[CustomerResponse] */
     Page_CustomerResponse_: {
       /** Items */
@@ -576,10 +825,24 @@ export interface components {
       /** Next Cursor */
       next_cursor?: string | null;
     };
+    /** Page[OwnerListing] */
+    Page_OwnerListing_: {
+      /** Items */
+      items: components["schemas"]["OwnerListing"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
     /** Page[PublicBusiness] */
     Page_PublicBusiness_: {
       /** Items */
       items: components["schemas"]["PublicBusiness"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
+    /** Page[PublicListing] */
+    Page_PublicListing_: {
+      /** Items */
+      items: components["schemas"]["PublicListing"][];
       /** Next Cursor */
       next_cursor?: string | null;
     };
@@ -589,6 +852,67 @@ export interface components {
       items: components["schemas"]["VenueResponse"][];
       /** Next Cursor */
       next_cursor?: string | null;
+    };
+    /** PhotoReceipt */
+    PhotoReceipt: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+    };
+    /** PriceStats */
+    PriceStats: {
+      /**
+       * Species
+       * @enum {string}
+       */
+      species: "cattle" | "sheep" | "goat" | "horse" | "camel";
+      /** Locality */
+      locality: string;
+      /**
+       * Period From
+       * Format: date
+       */
+      period_from: string;
+      /**
+       * Period To
+       * Format: date
+       */
+      period_to: string;
+      /**
+       * Timezone
+       * @default Asia/Almaty
+       * @constant
+       */
+      timezone: "Asia/Almaty";
+      /**
+       * Currency
+       * @default KZT
+       * @constant
+       */
+      currency: "KZT";
+      /**
+       * Unit
+       * @default head
+       * @constant
+       */
+      unit: "head";
+      /** Sample Count */
+      sample_count: number;
+      /** Median Price Per Head Minor */
+      median_price_per_head_minor: number | null;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "available" | "insufficient_data";
+      /**
+       * Source
+       * @default asking_prices
+       * @constant
+       */
+      source: "asking_prices";
     };
     /** PublicBusiness */
     PublicBusiness: {
@@ -610,6 +934,48 @@ export interface components {
       category: string;
       /** Description */
       description: string;
+      /** Is Demo */
+      is_demo: boolean;
+    };
+    /** PublicListing */
+    PublicListing: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Species
+       * @enum {string}
+       */
+      species: "cattle" | "sheep" | "goat" | "horse" | "camel";
+      /** Quantity */
+      quantity: number;
+      /** Price Per Head Minor */
+      price_per_head_minor: number;
+      /** Locality */
+      locality: string;
+      /** Age Months */
+      age_months: number | null;
+      /** Sex */
+      sex: ("male" | "female" | "unknown") | null;
+      /** Description */
+      description: string | null;
+      /** Contact */
+      contact: string;
+      /**
+       * Currency
+       * @default KZT
+       * @constant
+       */
+      currency: "KZT";
+      /** Photos */
+      photos: components["schemas"]["ListingPhoto"][];
+      /**
+       * Confirmed On
+       * Format: date
+       */
+      confirmed_on: string;
       /** Is Demo */
       is_demo: boolean;
     };
@@ -1854,6 +2220,723 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["InquiryResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  feed_api_v1_livestock_listings_get: {
+    parameters: {
+      query?: {
+        species?: ("cattle" | "sheep" | "goat" | "horse" | "camel") | null;
+        locality?: string | null;
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_PublicListing_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  publish_api_v1_livestock_listings_post: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ListingWrite"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["OwnerListing"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  mine_api_v1_livestock_me_listings_get: {
+    parameters: {
+      query?: {
+        status?: ("active" | "sold" | "withdrawn") | null;
+        species?: ("cattle" | "sheep" | "goat" | "horse" | "camel") | null;
+        locality?: string | null;
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_OwnerListing_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  detail_api_v1_livestock_listings__id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PublicListing"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  edit_api_v1_livestock_listings__id__put: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ListingWrite"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["OwnerListing"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  action_api_v1_livestock_listings__id__actions_post: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ListingAction"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["OwnerListing"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  prices_api_v1_livestock_prices_get: {
+    parameters: {
+      query: {
+        species: "cattle" | "sheep" | "goat" | "horse" | "camel";
+        locality: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PriceStats"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  upload_api_v1_livestock_photos_post: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "multipart/form-data": components["schemas"]["Body_upload_api_v1_livestock_photos_post"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["PhotoReceipt"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Request Entity Too Large */
+      413: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  public_photo_api_v1_livestock_listings__id__photos__photo_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+        photo_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "image/jpeg": string;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  private_photo_api_v1_livestock_me_photos__photo_id__get: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        photo_id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "image/jpeg": string;
         };
       };
       /** @description Unauthorized */

@@ -16,9 +16,11 @@ from app.config import Settings
 from app.db import make_engine
 from app.draft_routes import router as draft_router
 from app.errors import APIError
+from app.livestock_routes import router as livestock_router
 from app.public_routes import router as public_router
 from app.routers import router
 from app.services.ai import GeminiProvider
+from app.services.photos import PhotoBodyLimit, SupabasePhotoStore
 
 
 def error_response(request, status, code, message, fields=None):
@@ -44,7 +46,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.4.0",
+        version="0.5.0",
         lifespan=lifespan,
         description="Authenticated manual ledger and optional Gemini drafts. "
         "AI never writes money. Public catalog and private seller inquiries.",
@@ -54,6 +56,8 @@ def create_app(settings: Settings | None = None):
     )
     app.state.engine = make_engine(settings) if settings.database_url else None
     app.state.ai = GeminiProvider(settings)
+    app.state.photos = SupabasePhotoStore(settings)
+    app.state.livestock_demo_mode = settings.livestock_demo_mode
     app.state.verifier = (
         TokenVerifier(settings)
         if any((settings.supabase_url, settings.jwt_issuer, settings.jwt_audience))
@@ -62,16 +66,19 @@ def create_app(settings: Settings | None = None):
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
-        allow_methods=["GET", "POST", "PATCH", "OPTIONS"],
+        allow_methods=["GET", "POST", "PUT", "PATCH", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type", "Idempotency-Key"],
         expose_headers=["X-Request-ID"],
     )
+    app.add_middleware(PhotoBodyLimit)
 
     @app.middleware("http")
     async def request_id(request: Request, call_next):
         request.state.request_id = uuid4()
         response = await call_next(request)
         response.headers["X-Request-ID"] = str(request.state.request_id)
+        if request.url.path.startswith("/api/v1/livestock"):
+            response.headers["Cache-Control"] = "no-store"
         return response
 
     @app.exception_handler(APIError)
@@ -83,7 +90,9 @@ def create_app(settings: Settings | None = None):
         response = error_response(
             request,
             exc.status_code,
-            {404: "NOT_FOUND", 405: "METHOD_NOT_ALLOWED"}.get(exc.status_code, "HTTP_ERROR"),
+            {404: "NOT_FOUND", 405: "METHOD_NOT_ALLOWED", 413: "PHOTO_TOO_LARGE"}.get(
+                exc.status_code, "HTTP_ERROR"
+            ),
             str(exc.detail),
         )
         response.headers.update(exc.headers or {})
@@ -126,6 +135,7 @@ def create_app(settings: Settings | None = None):
     app.include_router(router)
     app.include_router(draft_router)
     app.include_router(public_router)
+    app.include_router(livestock_router)
 
     def openapi():
         if app.openapi_schema is None:

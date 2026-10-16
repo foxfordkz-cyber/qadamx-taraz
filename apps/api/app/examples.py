@@ -1,6 +1,6 @@
 """Synthetic frontend examples, never real users, debts or AI results."""
 
-from app import schemas
+from app import livestock_schemas, schemas
 from app.seed import demo_id
 
 BUSINESS = str(demo_id("mart-demo-clothes"))
@@ -207,7 +207,57 @@ EXAMPLES["InquiryResponse"] = dict(
 EXAMPLES["InquiryUpdate"] = dict(status="in_progress")
 
 
+EXAMPLES["ListingWrite"] = dict(
+    species="cattle",
+    quantity=2,
+    price_per_head_minor=35000000,
+    locality="Тараз",
+    age_months=24,
+    sex="female",
+    description="Учебный пример, не рыночное объявление",
+    photo_ids=[],
+    contact="@demo_contact",
+    contact_consent=True,
+)
+EXAMPLES["PublicListing"] = dict(
+    **{
+        key: value
+        for key, value in EXAMPLES["ListingWrite"].items()
+        if key not in {"photo_ids", "contact_consent"}
+    },
+    id="70000000-0000-4000-8000-000000000001",
+    currency="KZT",
+    photos=[],
+    confirmed_on="2026-10-16",
+    is_demo=True,
+)
+EXAMPLES["OwnerListing"] = dict(
+    **EXAMPLES["PublicListing"],
+    status="active",
+    available_today=True,
+    created_at="2026-10-16T06:00:00Z",
+    updated_at="2026-10-16T06:00:00Z",
+)
+EXAMPLES["ListingAction"] = dict(action="confirm_today")
+EXAMPLES["PhotoReceipt"] = dict(id="80000000-0000-4000-8000-000000000001")
+EXAMPLES["PriceStats"] = dict(
+    species="cattle",
+    locality="Тараз",
+    period_from="2026-10-16",
+    period_to="2026-10-16",
+    timezone="Asia/Almaty",
+    currency="KZT",
+    unit="head",
+    sample_count=4,
+    median_price_per_head_minor=None,
+    status="insufficient_data",
+    source="asking_prices",
+)
+
+
 def model_for_example(name):
+    if hasattr(livestock_schemas, name):
+        return getattr(livestock_schemas, name)
     if name in {"ClarificationDraftResponse", "RepaymentDraftResponse"}:
         return schemas.DraftResponse
     if name == "ConfirmedSaleCreate":

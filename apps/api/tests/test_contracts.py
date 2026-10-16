@@ -38,6 +38,10 @@ def test_openapi_refs_auth_and_operation_union():
         ("/api/v1/businesses", "get"),
         ("/api/v1/businesses/{slug}", "get"),
         ("/api/v1/businesses/{id}/inquiries", "post"),
+        ("/api/v1/livestock/listings", "get"),
+        ("/api/v1/livestock/listings/{id}", "get"),
+        ("/api/v1/livestock/listings/{id}/photos/{photo_id}", "get"),
+        ("/api/v1/livestock/prices", "get"),
     }
     for path, methods in schema["paths"].items():
         for method, route in methods.items():
