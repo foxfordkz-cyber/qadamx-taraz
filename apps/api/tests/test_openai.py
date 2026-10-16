@@ -24,6 +24,15 @@ from app.services.ai_request import extract_connected
 from app.services.openai_provider import OpenAIProvider
 
 
+@pytest.fixture(autouse=True)
+def isolated_ai_log_capture(monkeypatch, caplog):
+    # Recovery's real Uvicorn tests configure parent loggers. Capture this logger
+    # directly so privacy/usage assertions do not depend on suite execution order.
+    logger = logging.getLogger("uvicorn.error.qadam.ai")
+    monkeypatch.setattr(logger, "handlers", [caplog.handler])
+    monkeypatch.setattr(logger, "propagate", False)
+
+
 def settings(**changes):
     return Settings(
         _env_file=None,
