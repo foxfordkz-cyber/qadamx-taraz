@@ -1,5 +1,7 @@
 # Единый Qadam Business: интеграционная ветка
 
+Обновление 2026-10-16: **`integration/team-mobile:f240b27`** — отдельная интеграция от PR #8 (`3d009dc`), новые ассеты `11c4e45` и адаптированный UI `8818e8b`. **`backend/livestock`** основан на этой обновлённой ветке, добавляет API 0.5.0 и миграцию 0004 только для локальных проверок. [Контракт Flutter и подключение телефона](../packages/contracts/LIVESTOCK_API.md). Нижний зафиксированный commit `dab0fe7` относится к предыдущему этапу; текущие результаты находятся в последней секции backend handoff. Порядок review/merge: PR #8 → обновление интеграции → livestock; автоматически ничего не сливается.
+
 Публикация: **[Draft PR #8 в main](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/8)**. Без автоматического слияния и деплоя.
 
 Проверенный commit кода backend/frontend/контракта: **`dab0fe7f91b1dbf8c8d7522694759ae9b9cebfc6`**. [OpenAPI на этом commit](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/dab0fe7f91b1dbf8c8d7522694759ae9b9cebfc6/packages/contracts/openapi.json), [примеры](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/dab0fe7f91b1dbf8c8d7522694759ae9b9cebfc6/packages/contracts/examples.json). Последующие commits передачи меняют только документацию.

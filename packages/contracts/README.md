@@ -1,6 +1,6 @@
 # Контракты Qadam
 
-Текущая интеграционная версия — **0.4.0**, источник полностью в `apps/api`. Дополнительно реализованы публичные GET venues/businesses/shop, POST inquiry и защищённые GET/PATCH inquiries. Типы уже сгенерированы в едином `apps/web`. Запуск и точный состав — [TEAM_INTEGRATION](../../docs/TEAM_INTEGRATION.md); старый AI-only patch ниже служит историей и поверх 0.4.0 не применяется.
+Текущая feature-версия — **0.5.0**, источник полностью в `apps/api`. [Flutter «Мал базар»](LIVESTOCK_API.md): реализованные маршруты, JSON/multipart, JWT, фото, доступность сегодня, статистика, адреса Android emulator/телефона. Требуется новая локально проверенная миграция 0004; общая Supabase пока 0003. Сохранены публичные venues/businesses/shop, заявки и денежный журнал 0.4. Типы обновлены в едином `apps/web`. Запуск и точный состав — [TEAM_INTEGRATION](../../docs/TEAM_INTEGRATION.md); старый AI-only patch ниже служит историей и поверх 0.5.0 не применяется.
 
 [Передача AI-интеграции frontend](AI_INTEGRATION.md): точный проверенный commit, OpenAPI, multipart, уточнения, подтверждение и повтор запроса.
 

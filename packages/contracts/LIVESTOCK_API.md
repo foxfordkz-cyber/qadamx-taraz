@@ -1,6 +1,6 @@
 # «Мал базар»: контракт Flutter v1
 
-Статус первой публикации: **предложено к реализации в backend/livestock**. На `integration/team-mobile` пока работает API 0.4 (магазины/журнал); перечисленные ниже livestock endpoints ещё не доступны. После реализации источником схем будет соседний `openapi.json`, статус и фактические проверки — backend handoff. Flutter принадлежит участнику mobile, каталог — основному `apps/api`, собственной авторизации нет.
+Статус: **реализовано локально в backend/livestock, API 0.5.0**, требуется миграция `0004_livestock`. На общей Supabase по-прежнему `0003_drafts`, новые маршруты там ещё не готовы. На базовой ветке `integration/team-mobile` первая публикация `0f2b06d` описывала предложенный контракт; эта feature-ветка содержит реализацию и актуальный [OpenAPI](openapi.json), [примеры](examples.json). Фактические проверки — [backend handoff](../../docs/handoffs/backend.md). Flutter принадлежит участнику mobile, каталог — основному `apps/api`, собственной авторизации нет. Голосовое заполнение, Flutter UI и production deployment остаются следующими этапами.
 
 ## Адрес и авторизация
 
@@ -57,12 +57,24 @@ PublicListing: поля species/quantity/price_per_head_minor/locality/age_month
 
 ## Ошибки
 
-Общий envelope `{error:{code,message,fields:{}},request_id:UUID}`. 401 UNAUTHORIZED — войти/обновить Supabase session; 404 NOT_FOUND — отсутствует, чужое или недоступно сегодня; 409 IDEMPOTENCY_CONFLICT / INVALID_STATE / PHOTO_IN_USE; 422 VALIDATION_ERROR / INVALID_AMOUNT / INVALID_PHOTO (размер, тип, число/принадлежность); 503 DATABASE_UNAVAILABLE / STORAGE_UNAVAILABLE — сохранить ввод и повторить исходный ключ/тело. Не показывайте технический message как RU/KZ перевод, используйте code.
+Общий envelope `{error:{code,message,fields:{}},request_id:UUID}`. 401 AUTH_REQUIRED — войти/обновить Supabase session; 404 NOT_FOUND — отсутствует, чужое или недоступно сегодня; 409 IDEMPOTENCY_CONFLICT / INVALID_STATE / PHOTO_IN_USE; 413 PHOTO_TOO_LARGE — превышен multipart body; 422 VALIDATION_ERROR / INVALID_AMOUNT / INVALID_PHOTO (размер, тип, число/принадлежность); 429 RATE_LIMITED — лимит непривязанных фото; 503 AUTH_UNAVAILABLE / DATABASE_UNAVAILABLE / STORAGE_UNAVAILABLE — сохранить ввод и повторить исходный ключ/тело. Не показывайте технический message как RU/KZ перевод, используйте code.
 
 ## Flutter и локальный запуск
 
 `apps/mobile` создаёт mobile-участник. Публичные параметры: API_BASE_URL, SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY. DATABASE_URL, AI_API_KEY, STORAGE_SERVICE_KEY — только backend .env. Используйте существующий Supabase SDK login/session, refresh, logout; access token не записывать в логи. Денежные значения Dart int, никакого double при вводе ₸→тиыны.
 
-Backend: из apps/api `uv sync --locked`, настройте собственный игнорируемый .env, затем `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000`. На отдельной локальной demo PostgreSQL потребуется новая миграция 0004_livestock (пока предлагается); общую Supabase не мигрировать до разрешения капитана. `/docs`, `/openapi.json` находятся вне /api/v1.
+Backend: из apps/api `uv sync --locked`, настройте собственный игнорируемый .env, затем `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000`. На отдельной локальной demo PostgreSQL примените проверенную миграцию `uv run alembic upgrade 0004_livestock`; общую Supabase не мигрировать до разрешения капитана. `/docs`, `/openapi.json` находятся вне /api/v1.
+
+## Storage и учебная среда
+
+Серверный `.env.example`: `STORAGE_BUCKET`, `STORAGE_SERVICE_KEY` (legacy Supabase service_role JWT), `LIVESTOCK_DEMO_MODE=true`. Supabase URL уже используется Auth; отдельный клиентский Storage URL/ключ не нужен. **Все объявления, созданные при demo_mode=true, получают is_demo=true навсегда** и исключаются из рыночной статистики. Для настоящей среды капитан отдельно задаёт false перед публикацией реальных данных; клиент флаг не меняет. Переключение режима не изменяет старые объявления.
+
+Администратору Storage: создать **private** bucket, например `livestock-photos`, разрешённый MIME image/jpeg, лимит объекта 8 MiB. Не добавлять anon/authenticated SELECT/INSERT/UPDATE/DELETE policies для этого bucket; проверить, что прежние широкие policies на storage.objects также не дают доступ. Server service_role имеет доступ, Flutter обращается только к FastAPI. Bucket не создаётся автоматически, платный тариф не нужен. [Private buckets](https://supabase.com/docs/guides/storage/buckets/fundamentals), [upload](https://supabase.com/docs/guides/storage/uploads/standard-uploads), [authenticated download](https://supabase.com/docs/guides/storage/serving/downloads).
+
+Multipart body ограничен 8 MiB + 64 KiB даже без Content-Length. Максимум 30 непривязанных фото на владельца, затем 429; точный повтор upload не расходует лимит. Проверка фото читает реальные байты; MIME/имя файла не участвуют в хэше повтора. Пример запроса: `POST /api/v1/livestock/photos`, Authorization и Idempotency-Key в headers, multipart field `file`, Content-Type с boundary формирует HTTP-клиент. При GET «Мои объявления» публичный photo URL может быть недоступен; для превью используйте `/api/v1/livestock/me/photos/{photo_id}` с Bearer. Все livestock-ответы имеют Cache-Control no-store.
+
+PostgreSQL и Storage не имеют общей транзакции: при сбое DB commit после upload возможен **приватный** непривязанный объект. Повтор использует детерминированный путь тех же байтов; публичный GET требует запись фото и доступное объявление. Уборка orphan/unattached фото и сохранённых idempotency-ответов пока ручная эксплуатационная задача, автоматический TTL удаления не реализован. Успешные ключи не истекают в MVP; не переиспользуйте их для другого намерения.
+
+Живая Storage-проверка остаётся невыполненной без bucket/key. Backend должен подключаться к БД ролью с правами на qadam (owner/BYPASSRLS); миграция включает RLS и отзывает доступ к новым таблицам у PUBLIC/anon/authenticated. Не выдавать Flutter прямой доступ к таблицам. Общая Supabase требует отдельного разрешения на `0004_livestock`; в этой задаче её версия не меняется.
 
 Android emulator: `http://10.0.2.2:8000/api/v1`. Физический телефон в той же доверенной Wi-Fi сети: `http://<LAN-IP-компьютера>:8000/api/v1`, разрешите входящий 8000 только в private network Windows Firewall. Альтернатива Android USB: `adb reverse tcp:8000 tcp:8000`, затем `http://127.0.0.1:8000/api/v1` на телефоне. iOS simulator на Mac обычно использует localhost Mac, не Windows. HTTP/cleartext разрешать только в debug-конфигурации приложения; production требует отдельно согласованного HTTPS API. Никакого деплоя/туннеля здесь нет. Native Flutter не зависит от CORS; Flutter Web требует точного origin в ALLOWED_ORIGINS.
