@@ -9,6 +9,7 @@ from app import schemas
 from app.errors import APIError
 from app.routers import DB, User
 from app.services.ai import extract
+from app.services.ai_diagnostics import ai_stage, diagnostic_request
 from app.services.audio import MAX_AUDIO_BYTES, normalize_audio
 from app.services.drafts import authorize_then_release, save_draft
 
@@ -56,6 +57,11 @@ FORM_SCHEMA = {
     "AI failure leaves manual input available. Audio is decoded to WAV in memory.",
 )
 async def create_draft(id: UUID, request: Request, db: DB, user: User):
+    with diagnostic_request(request.state.request_id), ai_stage("draft_request"):
+        return await _create_draft(id, request, db, user)
+
+
+async def _create_draft(id, request, db, user):
     await run_in_threadpool(authorize_then_release, db, id, user)
     if not request.headers.get("content-type", "").startswith("multipart/form-data"):
         raise APIError(415, "UNSUPPORTED_MEDIA_TYPE", "Use multipart/form-data")
@@ -95,8 +101,10 @@ async def create_draft(id: UUID, request: Request, db: DB, user: User):
                 if not isinstance(file, UploadFile):
                     raise APIError(415, "AUDIO_UNSUPPORTED", "Upload an audio file, not a URL")
                 raw = await file.read(MAX_AUDIO_BYTES + 1)
-                audio = await run_in_threadpool(normalize_audio, raw, file.content_type or "")
+                with ai_stage("audio_decode"):
+                    audio = await run_in_threadpool(normalize_audio, raw, file.content_type or "")
     except HTTPException:
         raise APIError(422, "VALIDATION_ERROR", "Invalid multipart form") from None
     extracted = await extract(request.app.state.ai, text=text, audio=audio, locale=locale)
-    return await run_in_threadpool(save_draft, db, id, user, extracted, locale)
+    with ai_stage("draft_save"):
+        return await run_in_threadpool(save_draft, db, id, user, extracted, locale)

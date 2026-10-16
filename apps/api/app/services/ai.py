@@ -11,6 +11,7 @@ from pydantic import Field, ValidationError, model_validator
 from app.config import Settings
 from app.errors import APIError
 from app.schemas import Contract, Description, NonnegativeMoney, PositiveMoney
+from app.services.ai_diagnostics import ai_stage
 
 FieldName = Literal[
     "kind", "customer_query", "description", "total_minor", "received_minor", "amount_minor"
@@ -104,8 +105,9 @@ class GeminiProvider:
         self.model = settings.ai_model
 
     async def generate(self, *, text, audio, locale, retry):
-        if not self.key or not self.model:
-            raise APIError(503, "AI_UNAVAILABLE", "AI is not configured; use manual input")
+        with ai_stage("configuration"):
+            if not self.key or not self.model:
+                raise APIError(503, "AI_UNAVAILABLE", "AI is not configured; use manual input")
         parts = [{"text": json.dumps({"locale": locale, "text": text}, ensure_ascii=False)}]
         if audio is not None:
             parts.append(
@@ -129,18 +131,22 @@ class GeminiProvider:
             # Short extraction must fit the same 25s deadline as interactive input.
             generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
         # Fixed provider host, key in header, no signed URL, automatic retry, tools or file storage.
-        async with httpx.AsyncClient(timeout=25, follow_redirects=False) as client:
-            response = await client.post(
-                f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent",
-                headers={"x-goog-api-key": self.key.get_secret_value()},
-                json={
-                    "systemInstruction": {"parts": [{"text": instruction}]},
-                    "contents": [{"role": "user", "parts": parts}],
-                    "generationConfig": generation_config,
-                },
-            )
-        response.raise_for_status()
-        body = response.json()
+        with ai_stage("provider_http") as diagnostic:
+            async with httpx.AsyncClient(timeout=25, follow_redirects=False) as client:
+                response = await client.post(
+                    f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent",
+                    headers={"x-goog-api-key": self.key.get_secret_value()},
+                    json={
+                        "systemInstruction": {"parts": [{"text": instruction}]},
+                        "contents": [{"role": "user", "parts": parts}],
+                        "generationConfig": generation_config,
+                    },
+                )
+            diagnostic.provider_status = response.status_code
+            response.raise_for_status()
+        with ai_stage("provider_json") as diagnostic:
+            diagnostic.provider_status = response.status_code
+            body = response.json()
         try:
             candidate = body["candidates"][0]
             if candidate.get("finishReason") != "STOP":
@@ -157,6 +163,13 @@ class GeminiProvider:
 async def extract(
     provider: DraftProvider, *, text=None, audio=None, locale="auto", timeout_seconds=25
 ) -> Extraction:
+    with ai_stage("extraction"):
+        return await _extract(
+            provider, text=text, audio=audio, locale=locale, timeout_seconds=timeout_seconds
+        )
+
+
+async def _extract(provider, *, text, audio, locale, timeout_seconds):
     try:
         async with asyncio.timeout(timeout_seconds):
             for attempt in range(2):
@@ -164,23 +177,24 @@ async def extract(
                     text=text, audio=audio, locale=locale, retry=bool(attempt)
                 )
                 try:
-                    if len(raw) > 32_000:
-                        raise ValueError("Output too long")
-                    # Text transcript is authoritative, not an AI rewrite.
-                    data = json.loads(raw)
-                    if not isinstance(data, dict):
-                        raise ValueError("Expected object")
-                    if text is not None:
-                        data["transcript"] = text
-                    result = Extraction.model_validate(data)
-                    for quote in (
-                        result.total_evidence,
-                        result.payment_evidence,
-                        result.amount_evidence,
-                    ):
-                        if quote and quote not in result.transcript:
-                            raise ValueError("Evidence is not in source")
-                    return result
+                    with ai_stage("validation"):
+                        if len(raw) > 32_000:
+                            raise ValueError("Output too long")
+                        # Text transcript is authoritative, not an AI rewrite.
+                        data = json.loads(raw)
+                        if not isinstance(data, dict):
+                            raise ValueError("Expected object")
+                        if text is not None:
+                            data["transcript"] = text
+                        result = Extraction.model_validate(data)
+                        for quote in (
+                            result.total_evidence,
+                            result.payment_evidence,
+                            result.amount_evidence,
+                        ):
+                            if quote and quote not in result.transcript:
+                                raise ValueError("Evidence is not in source")
+                        return result
                 except (ValueError, ValidationError, RecursionError):
                     pass  # Only one retry for parsing/schema; same total deadline.
     except (TimeoutError, httpx.TimeoutException):
