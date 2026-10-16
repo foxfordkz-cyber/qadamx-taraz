@@ -49,8 +49,7 @@ export function SellerLayout() {
     setLogoutPending(true);
     setLogoutError(false);
     try {
-      await auth.signOut();
-      navigate("/login", { replace: true });
+      if (await auth.signOut()) navigate("/login", { replace: true });
     } catch {
       setLogoutError(true);
     } finally {
