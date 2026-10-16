@@ -1,0 +1,67 @@
+{
+  "ListingWrite": {
+    "species": "cattle",
+    "quantity": 2,
+    "price_per_head_minor": 35000000,
+    "locality": "Тараз",
+    "age_months": 24,
+    "sex": "female",
+    "description": "Учебный пример, не рыночное объявление",
+    "photo_ids": [],
+    "contact": "@demo_contact",
+    "contact_consent": true
+  },
+  "PublicListing": {
+    "species": "cattle",
+    "quantity": 2,
+    "price_per_head_minor": 35000000,
+    "locality": "Тараз",
+    "age_months": 24,
+    "sex": "female",
+    "description": "Учебный пример, не рыночное объявление",
+    "contact": "@demo_contact",
+    "id": "70000000-0000-4000-8000-000000000001",
+    "currency": "KZT",
+    "photos": [],
+    "confirmed_on": "2026-10-16",
+    "is_demo": true
+  },
+  "OwnerListing": {
+    "species": "cattle",
+    "quantity": 2,
+    "price_per_head_minor": 35000000,
+    "locality": "Тараз",
+    "age_months": 24,
+    "sex": "female",
+    "description": "Учебный пример, не рыночное объявление",
+    "contact": "@demo_contact",
+    "id": "70000000-0000-4000-8000-000000000001",
+    "currency": "KZT",
+    "photos": [],
+    "confirmed_on": "2026-10-16",
+    "is_demo": true,
+    "status": "active",
+    "available_today": true,
+    "created_at": "2026-10-16T06:00:00Z",
+    "updated_at": "2026-10-16T06:00:00Z"
+  },
+  "ListingAction": {
+    "action": "confirm_today"
+  },
+  "PhotoReceipt": {
+    "id": "80000000-0000-4000-8000-000000000001"
+  },
+  "PriceStats": {
+    "species": "cattle",
+    "locality": "Тараз",
+    "period_from": "2026-10-16",
+    "period_to": "2026-10-16",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "unit": "head",
+    "sample_count": 4,
+    "median_price_per_head_minor": null,
+    "status": "insufficient_data",
+    "source": "asking_prices"
+  }
+}

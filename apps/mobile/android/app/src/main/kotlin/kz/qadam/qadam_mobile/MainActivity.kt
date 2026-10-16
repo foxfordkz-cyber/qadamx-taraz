@@ -1,0 +1,5 @@
+package kz.qadam.qadam_mobile
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity : FlutterActivity()
