@@ -1,5 +1,26 @@
 # AudioInput Playback & Cancel — tests and owner review
 
+## Latest: Stage A root-cause analysis, 2026-10-16
+
+[VOICE_FAILURE_ROOT_CAUSES](qa/VOICE_FAILURE_ROOT_CAUSES.md) contains the fresh rerun:
+22/13 strict component and 12/6 synthetic E2E, mapped to **7 causal groups**, with all 19
+test names/assertions/stack excerpts and explicit Unconfirmed downstream checks.
+[PR20/PR21 comparison](qa/VOICE_PR20_PR21_COMPARISON.md) verifies ancestry, shared names,
+blob equality, four add/add path conflicts, report/port collisions and a selective transfer plan.
+PR21 is the recommended primary QA source; this is not approval to merge both PRs.
+New Stage A changes are documentation only; tests and production remain at verified 63802e6.
+
+The initial owner-readiness blocker changed during the final fetch: Aidana supplied ready
+apps/web **8dc6f895e3eead0de954c3374a6d4cc50d432588**, Draft PR23, based on PR18/API0.6.1
+`13248851fd2b2a502aff211a506f71e85c2b0ab1`. This differs from the task-approved combined58d
+base. Stage B awaits captain confirmation of its verification base; it has not started.
+The old root880d713 is still not a transfer source. Fresh baseline: 164 ordinary unit passed
+plus 5 inherited expected failures; 13/13 scoped seller E2E; API/type/lint/build/format passed.
+Fresh adb: zero devices. Both previously published HTTPS endpoints now return **HTTP 530**;
+the earlier HTTP 200 observations below are historical. No preview/tunnel/backend was changed.
+Physical Android and Live Gemini remain blocked; full current detail and Android checklist
+are in the RCA. The following sections preserve the previous delivery and static owner review.
+
 2026-10-16. **Captain selected participant #4 as the sole production adaptation executor.
 Codex owns tests and review only.** No production implementation is claimed by this branch.
 

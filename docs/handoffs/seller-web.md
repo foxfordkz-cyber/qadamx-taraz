@@ -1,5 +1,88 @@
 # Seller web — передача интегрированного дизайна
 
+## 2026-10-16: Voice QA Stage A — root causes и сравнение PR #20/#21
+
+Рабочая ветка `feature/voice-playback-cancel`, отдельный worktree `work/qadam-voice-playback-cancel`.
+Base `integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`.
+Проверенный source/tests snapshot и HEAD до этого docs-этапа:
+`63802e663582bc4cb30eaf4744407288b5386a3c`. Последний commit документации определяется
+`git log -1 --format=%H`; точный опубликованный SHA фиксируется в описании
+[Draft PR #21](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/21). Base/head PR не меняются.
+Начальные fetch/prune и pull --ff-only своей ветки успешны: Already up to date.
+
+Изменены только `docs/qa/VOICE_FAILURE_ROOT_CAUSES.md`,
+`docs/qa/VOICE_PR20_PR21_COMPARISON.md`, `docs/VOICE_PLAYBACK_CANCEL.md` и этот handoff.
+Первый документ содержит все 19 реальных отказов, exact names/assertions/stack frames,
+Action/Expected/Actual/repro/severity/owner и границу доказательств. Подтверждены **7 групп**:
+отсутствие preview; отсутствие Cancel; отсутствие инвалидации capture при смене намерения;
+ранний возврат Stop→Record; необработанный recorder error; необработанный track ended;
+нет size/nonempty guard на recorded File. Не 19 независимых дефектов.
+ObjectURL leaks, downstream Pause/Replay/Delete и callbacks после Cancel помечены Unconfirmed;
+успешные unmount, no-auto-upload и double-Prepare проверки сохранены.
+
+PR20:39a730e и PR21:63802e6 имеют общий base58d4eb4, расходятся на 4/4 commits;
+ни один не включает другой. Все 27 component и 13 E2E сценариев PR20 сохранены в PR21;
+добавлены 8 component и 5 E2E. Config побайтово одинаков, четыре общих test/helper
+add/add пути конфликтуют при read-only трёхстороннем сравнении. Handoff текстово объединяется
+чисто, но требует сохранения хронологии. **Основной QA-источник — PR21**, переносить семь
+test/config файлов по одному разу; не merge PR20+PR21 и не удваивать тесты. Подробная таблица:
+[VOICE_PR20_PR21_COMPARISON](../qa/VOICE_PR20_PR21_COMPARISON.md).
+
+Свежие команды из `apps/web`:
+
+```powershell
+npm.cmd run check:api
+npm.cmd run typecheck
+npm.cmd run lint
+npm.cmd run build
+npm.cmd run format:check
+npm.cmd test -- --no-file-parallelism
+npx.cmd vitest run --config vitest.microphone.config.ts --reporter=default --reporter=json --outputFile=test-results/voice-rca-unit.json
+$env:PLAYWRIGHT_JSON_OUTPUT_FILE = 'test-results/voice-rca-e2e.json'
+npx.cmd playwright test --config e2e/microphone.playwright.config.ts --output test-results/voice-rca-e2e --reporter=line,json
+Remove-Item Env:PLAYWRIGHT_JSON_OUTPUT_FILE
+# Временно установить CI=1, после команды восстановить прежнее значение.
+npm.cmd run test:e2e -- seller.spec.ts integration-design.spec.ts --output test-results/voice-rca-seller --trace off
+git diff --check
+```
+
+Результаты: check:api/typecheck/lint/build/format — PASS; **164 ordinary unit passed +
+5 inherited expected failures**, 14 files; строгие microphone component **22 passed /
+13 failed**, browser **12 passed / 6 failed / 0 skipped / 0 flaky**, seller/integration
+**13/13 passed**. Красные acceptance assertions не ослаблялись, expected failures не
+засчитываются как исправленные. Npm ci в этом docs-only этапе не повторялся: используется
+прежняя lock-установка; dependencies и исходники неизменны. Build warnings прежние.
+Новые JSON/error contexts находятся в игнорируемых `test-results/voice-rca-*`, старые
+скриншоты/артефакты сохранены. Синтетические тесты не являются live Backend/Auth/Gemini.
+
+Первоначальный blocker `awaiting Aidana apps/web adaptation commit` снят новым fetch:
+Айдана передала ready **8dc6f895e3eead0de954c3374a6d4cc50d432588**, ветка
+`fix/voice-playback-lifecycle`, [Draft PR23](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/23).
+Подтверждение владельца — [комментарий PR21](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/21#issuecomment-6216105740).
+Это 16 ограниченных paths от PR18/API0.6.1 **13248851fd2b2a502aff211a506f71e85c2b0ab1**:
+7 production voice, 7 canonical QA, 1 new test и ledger handoff. Backend/контракты и
+финансовые методы относительно этого parent не менялись. Числа 35/35 и242/242 пока
+сообщены владельцем, не наш результат. Исходный root880d713 не переносится.
+База отличается от явно согласованной combined58d/API0.6.0 без Analytics UI, поэтому
+**запрошено подтверждение капитаном verification base PR18; этап B ещё не начинался**.
+Production voice — только участник №4; Codex не переносит старое
+root-приложение и не реализует альтернативу. Backend/OpenAPI/generated/Auth/финансы/Analytics/
+public/3D/styles/package/lock, PR19 и чужие ветки не изменены.
+
+Физический Android **Blocked**: fresh adb 0 устройств. Свежие read-only GET к обоим
+опубликованным HTTPS frontend/API вернули **530** (ранние 200 ниже — исторические).
+Причина 530 не установлена, сервисы/CORS/tunnels не изменялись.
+Live Auth/DB/Gemini не запускались; адаптированной verification-сборки для backend-агента
+ещё нет. Инструкция капитану на Android и точный gate B — в
+[VOICE_FAILURE_ROOT_CAUSES](../qa/VOICE_FAILURE_ROOT_CAUSES.md).
+
+Дальше: получить ответ по verification base (ready apps/web commit Айданы уже получен),
+fetch и повторный review его ограниченного diff,
+создать **новые** verification branch/worktree от повторно согласованной свежей базы,
+включить owner-адаптацию и уникальные QA-файлы без повторов. После полного isolated
+Auth/Ledger/Analytics/voice acceptance передать точный SHA backend-агенту; HTTPS preview
+обновляет его владелец после согласования капитана. Не менять main, не merge/force/reset.
+
 ## 2026-10-16: Voice Playback / Cancel — tests и review для участника №4
 
 Капитан согласовал распределение: **адаптацию AudioInput выполняет участник №4; Codex готовит tests/review**. Владелец уведомлён [в PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20#issuecomment-6215571848). Повторное согласование исполнителя не требуется. Production voice-файлы этой веткой не редактируются; ожидается точный commit адаптации в едином apps/web.
