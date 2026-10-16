@@ -1,3 +1,21 @@
+# Seller web — Mobile Microphone Acceptance Preparation
+
+2026-10-16. Ветка `test/mobile-microphone-acceptance`, отдельный worktree `work/qadam-microphone-acceptance`, base `integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`. Fetch/prune, HEAD и связанные Draft PR проверены. Новые HTTPS/Analytics ветки изучены без merge; voice/ledger source в них совпадает с базой.
+
+Этап 1: [анализ, owner scope, HTTPS/device evidence и acceptance matrix](../MOBILE_MICROPHONE_ACCEPTANCE.md). SDK adb перечислил 0 устройств/эмуляторов; HTTPS API read-only health200/OpenAPI0.6.1, HTTPS frontend preview не предоставлен. **Физический Android Blocked.** Production voice/ledger/AI, Backend/контракт, деньги и PR #19 не меняются. Владелец voice — участник №4, автор PR #7 `sarsenbaevaaidana07`; в [Draft PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20) запрошены согласование scope и GitHub review. Явного подтверждения source-изменений ещё нет.
+
+Этап 2: три новых `src/test/microphone-*` файла, commit `86c98813dfbb9bb7b128b205cc00bafc218194fa`, push и remote/local совпали. Targeted: 22 обычных passed + 5 expected failures; strict diagnostic exit 1 с пятью воспроизведёнными дефектами. Полный unit/component: 164 обычных + 5 expected failures (Vitest summary169, 14 файлов). Typecheck/lint/build/check:api/format:check — PASS. Seller/integration E2E 13/13 и existing QA21/21 passed (8 пересекаются). Прежние screenshot-writer suites не запускались. Все команды/границы в отчёте. Анализ — commit `513c527d891f64d78bc4c22c8dfb15cd65d4c7eb`.
+
+Этап 3 завершён: новые `e2e/microphone.acceptance.ts` и `microphone.playwright.config.ts`, actual-CDP fake-device guard, отдельные synthetic capture/deny проекты. **11 passed +2 явно skipped UI gaps**, native 30s/Stop/MIME/multipart и synthetic NotAllowedError. Opt-in strict playback/cancel: exit1,2 реальных отказа из-за отсутствующих controls. Это не прошедшая Android acceptance; реальные prompts/устройство/HTTPS frontend/живой audio-AI не проверены. Никаких saved audio/trace/video; только metadata в игнорируемом test-results/task outputs. После финальных fixture-правок повторены typecheck/lint/format:check. Production/старые tests/контракты/деньги сохранены.
+
+Следом: review участника №4 и отдельное согласование production fixes; затем физическое устройство + HTTPS preview для Android matrix. Точный HEAD — `git log -1 --format=%H`. Новому Codex продолжать только эту ветку, перечитать owner review и отчёт; не переносить успех desktop automation на Android. Ниже сохранена историческая передача дизайна.
+
+Публикация: проверенный browser/tests snapshot `e976bf7465055ae604291c91b3b380e8b3b0b635`, успешный push, local/remote совпали; fetch/prune, pull FF — Already up to date. [PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20) open Draft, без конфликтов с base при повторной проверке. Итог — 7 путей: 3 новых `src/test/microphone-*`, 2 новых `e2e/microphone.*`, отчёт и этот handoff. Следующий docs-only commit сохраняет эту передачу без изменения проверенных tests.
+
+Поздний fetch обнаружил `feature/aidana-ai-assistant:b91a9c6db1eceec8e155ecd628f22e700db9b195`: полезные recorder guards и cancel/playback/countdown уже есть, но в старом корневом каркасе от `ced32e7`, не в `apps/web`. Автоматически не объединять; согласовать адаптацию только нужных UI/recorder частей с участником №4. Наши tests эту отдельную реализацию не проверяли. Base `58d4eb4` и PR #19 не изменились.
+
+Для продолжения: в этом worktree `git fetch origin --prune`, проверить ветку/status, `git pull --ff-only origin test/mobile-microphone-acceptance`; при divergence остановиться. Из `apps/web` — точные команды обычных и strict tests в отчёте. Сначала перечитать owner review/обновления базы. Ниже история предыдущего дизайна, не текущие voice results.
+
 # Seller web — передача интегрированного дизайна
 
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.

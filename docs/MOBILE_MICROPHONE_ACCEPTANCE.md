@@ -1,0 +1,160 @@
+# Mobile Microphone Acceptance Preparation
+
+2026-10-16. **Подготовка завершена: анализ, реальные автоматические регрессии и отчёт опубликованы отдельным Draft PR. Физический Android: Blocked.** Production voice/ledger/AI, Backend, OpenAPI и финансовая логика не изменены; PR #19 остаётся отдельно. Production-исправления ожидают явного согласования участника №4.
+
+## База и проверка Git
+
+Выполнены `git fetch origin --prune`, проверка чистого рабочего дерева, remote HEAD и связанных Draft PR. Отдельная ветка `test/mobile-microphone-acceptance`, worktree `work/qadam-microphone-acceptance`, от `origin/integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`.
+
+| Remote branch | HEAD при начале задачи | Связанный PR / base |
+|---|---|---|
+| main | `8c932dd49b8defa8456fd3b7015ed7828ddae3b7` | main не меняется |
+| integration/team-mvp | `3d009dc86c93debcab05dedda530b7d1fe62a304` | #8 → main |
+| integration/local-combined-check | `58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76` | #13 → backend/livestock |
+| feature/seller-design-integration | `c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b` | #11 → integration/team-mvp |
+| feature/seller-analytics | `ce68f01e3fe4a6b9898fd68be8e3ef2e4c467ad1` | #16 → integration/local-combined-check |
+| fix/seller-auth-unicode | `28960f21e13c9c38077bf68b7bb5449eb9aa824d` | #14 → integration/team-mvp |
+| fix/customer-post-unknown-result | `99ed2c03c8c4d75987ad5e41119055c2bb5142c6` | #19 → integration/local-combined-check |
+| integration/livestock-https | `ca51bbf9bcf1a5e5379b7b8ced147e4114e01434` | #17 → integration/local-combined-check |
+| integration/seller-analytics-061 | `5ab11b146778698f54164057974fc81c397192dc` | #18 → integration/livestock-https |
+
+Связанные PR #11/#13/#14/#16/#17/#18/#19 — open Draft при проверке. Source `features/voice`, `features/ledger`, `features/summary` не отличается между базой и #17/#18; новую цепочку API/Analytics автоматически не объединяли. Прочитаны AGENTS, TEAM_INTEGRATION, seller/ledger handoff, задания seller/ledger и AI_INTEGRATION. Параллельные проверки используют отдельные detached worktree.
+
+Финальный `fetch --prune` повторно подтвердил перечисленные основные HEAD; PR #8/#12/#20 также проверены. Обнаружены новая `feature/aidana-ai-assistant:b91a9c6db1eceec8e155ecd628f22e700db9b195` и mobile handoff update `3ac3a1a8ef419df459d85a7f11dc5be03d58dd20`. Aidana-ветка имеет общий предок `ced32e7aa8e737a0cbc5318715ad02bdc98a89d4`, корневые `src/backend` и прежний каркас; это не delta поверх текущего `apps/web`. Её recorder уже содержит error/empty/8MiB/dispose guards, а Sale — cancel/playback/countdown/AI notice. Это полезные кандидаты для согласованной адаптации участником №4, **не готовая интеграция**: эти файлы не перенесены, старые Backend/AI/финансовые части не объединяются. Наши результаты не относятся к этой отдельной реализации. Её AGENTS/voice source изучены как контекст, инструкции актуальной базы сохраняются. Mobile update затрагивает только чужой handoff и не включён.
+
+## Владение и согласование
+
+Участник №4 (`ledger-web`) владеет voice/ledger/summary. Исходный [PR #7](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/7) опубликован `sarsenbaevaaidana07`. В [Draft PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20) размещён конкретный запрос согласования и через GitHub запрошен review этого владельца. **Явное согласование production-изменений пока не получено.** Здесь добавляются тесты вне его модуля и отчёт; его source и handoff не редактируются.
+
+Предлагаемый владельцу отдельный scope: `AudioInput.tsx`, минимальная связь capture-state в `Sale.tsx`, ledger RU/KZ и тесты. Нужны поколения capture, logical cancel pending permission, доступная Stop, cleanup при disabled/route/account, проверка пустого/слишком большого clip, обработка recorder/track errors, preview/clear с revokeObjectURL, countdown и краткое AI-пояснение. Не менять денежные data/write методы или AI-протокол. До подтверждения этот scope не применяется.
+
+## Контракт и текущая реализация
+
+Источники: [AudioInput](../apps/web/src/features/voice/AudioInput.tsx), [Sale](../apps/web/src/features/voice/Sale.tsx), [AI protocol](../packages/contracts/AI_INTEGRATION.md), [требования участника №4](team5/06_TEAM_LEDGER_FRONTEND.md).
+
+- MIME priority: `audio/webm;codecs=opus`, `audio/mp4`, `audio/ogg;codecs=opus`, проверка `isTypeSupported`.
+- Начало только по нажатию; `getUserMedia({audio:true})`. Синхронный lock защищает повторный start, пока permission promise ожидается.
+- Stop и 30-секундный timer останавливают recorder/tracks. Unmount снимает callback/timer и останавливает tracks; поздний grant после unmount также освобождается.
+- Выбор файла ограничен 8 MiB. Backend проверяет содержимое/MIME и длительность до 30 секунд. Multipart содержит ровно text либо audio и locale; boundary выставляет браузер.
+- Запись/выбор файла сами по себе не загружают аудио. Upload — отдельное «Подготовить черновик», деньги — отдельное подтверждение. Есть text/manual fallback.
+
+### Найденные gaps — не исправлены в этой задаче
+
+| ID | Наблюдение / source evidence на базе 58d4eb4 | Последствие |
+|---|---|---|
+| MIC-01 | AudioInput 49–53 проверяет только unmount; нет pending cancel/disabled generation | Поздний grant может включить capture после перехода к fallback/disabled |
+| MIC-02 | AudioInput 95 отключает и Stop; Sale 70–71 включает disabled при parsing/write | Capture может продолжаться с недоступной Stop |
+| MIC-03 | AudioInput 61–69 → Sale 173–175 заменяет file и очищает text | Поздний clip может затереть более новый ввод |
+| MIC-04 | AudioInput 55–73 не обрабатывает recorder error / track ended | Ошибка может оставить recording UI и передать неполный clip |
+| MIC-05 | AudioInput 58–69 не проверяет recorded size; guard 90 только у file picker | Пустой или >8 MiB clip передаётся дальше, хотя Backend остаётся защитой |
+| MIC-06 | AudioInput 88–91 использует общий micError | Oversize называется ошибкой микрофона; ошибка не очищается новым valid file |
+| MIC-07 | AudioInput 83–102 и Sale 178: только record/stop/status/filename | Нет отдельной отмены, playback, countdown и полного pre-record AI notice из ТЗ |
+
+Это анализ и воспроизводимые тестовые цели, а не заявление о дефекте физического Chrome. Некоторые gaps должны подтвердиться отдельными acceptance-regressions. Отсутствие исправления отмечается явно, unsafe behavior не считается успешной приёмкой.
+
+## Среда и HTTPS
+
+- Node `v24.21.0`, npm `11.19.0`, Windows. Зависимости устанавливаются по lock, package/lock не меняются.
+- SDK adb найден вне PATH. Первая sandbox-проверка не смогла перечислить устройства; повторная разрешённая проверка завершилась: **0 authorized devices/emulators, 0 unauthorized/offline**. Device IDs не сохранялись. Физическая приёмка **Blocked: устройство отсутствует в доступной среде**.
+- Read-only GET health опубликованного капитаном временного HTTPS API — **HTTP 200**; OpenAPI — **0.6.1**. Без login, audio upload, финансовых запросов или изменения БД. Это API connectivity, не Android browser acceptance.
+- Достижимый HTTPS preview frontend не предоставлен/не найден в актуальных инструкциях. Loopback HTTP в тестах является локальным secure context, но не внешним HTTPS preview. Новый tunnel/deploy не создаётся.
+
+Физическая приёмка требует одновременно устройства, доверенного HTTPS frontend origin, достижимого API/CORS и разрешённого учебного аккаунта. HTTPS API не делает HTTP LAN frontend безопасным origin для микрофона.
+
+## План реальных regression tests
+
+Компонентные тесты рендерят настоящий AudioInput, подменяют только browser media boundary; проверяют MIME, allow/deny/missing API, pending double-start, stop/30 секунд/unmount/late grant, file boundary и недопустимые состояния. Known gaps выделяются отдельно и не выдаются за passed acceptance.
+
+Browser-тесты запускают настоящее приложение и Chromium MediaRecorder с синтетическим fake audio device, без человеческого голоса и реального микрофона. SDK/API boundaries локально перехватываются, внешние запросы и денежные writes запрещены. Проверяются native recording/stop/MIME/30 секунд, multipart upload, denial/file/manual fallback, RU/KZ/mobile viewport. Это desktop Chromium automation, не физический Android и не живой AI.
+
+### Этап 3 — browser microphone regressions
+
+Добавлены [изолированный config](../apps/web/e2e/microphone.playwright.config.ts) и [browser scenarios](../apps/web/e2e/microphone.acceptance.ts). Файл `.acceptance.ts` не обнаруживается default/QA config; отдельный server 4191 не переиспользует чужое окружение. Перед `getUserMedia` проверяется наличие fake-device в project config и **реальных аргументах Chromium через CDP**. Не удалось подтвердить флаг — запуск прекращается до capture.
+
+Два проекта намеренно разделены: `synthetic-capture` использует fake-device и fake-UI allow для native записи; `synthetic-permission-denied` — fake-device и fake-UI `deny` с проверкой native `NotAllowedError`. Fake-UI allow обходит prompts, поэтому сам по себе не проверяет permission denial. В этой Windows-среде запуск без fake-UI давал native `NotSupportedError` даже при CDP permission settings; этот отказ не был засчитан за deny acceptance. Фактические browser/OS permission prompts остаются непроверенными.
+
+```powershell
+npx playwright test --config e2e/microphone.playwright.config.ts
+```
+
+**11/11 рабочих сценариев passed, retries 0; 2 известных требования явно skipped по умолчанию.** Настоящий MediaRecorder собрал generated clip `audio/webm;codecs=opus`, в metadata выбранного прогона 2026 bytes; native Stop, реальный timer 30 секунд и track cleanup прошли. Есть KK WAV multipart/file boundaries, unsupported MIME, synthetic 415/422/503/504 с сохранением ввода. Во всём suite — ноль финансовых writes; аудио не уходит в живой API. MIME/multipart assertions не доказывают backend decoding или качество звука телефона.
+
+Отдельно включены требования playback/cancel:
+
+```powershell
+$env:QADAM_MIC_ACCEPTANCE_GAPS = '1'
+npx playwright test --config e2e/microphone.playwright.config.ts --project=synthetic-capture --grep '@acceptance-gap'
+Remove-Item Env:QADAM_MIC_ACCEPTANCE_GAPS
+```
+
+**Exit 1, ровно 2 реальных assertion failures:** нет `audio[controls]` для preview и кнопки отмены при действующей записи. Capture precondition прошёл. Это не успешная приёмка. После согласования UI tests должны проверять metadata/play/pause и фактический discard/track cleanup/no upload; текущие тесты останавливаются на отсутствующем UI. Native player/названия действий — конкретные критерии предложения для review владельца, при альтернативном согласованном UI их нужно адаптировать.
+
+Trace/video/screenshots выключены; сохранены только synthetic test metadata. JSON reports находятся в игнорируемом `apps/web/test-results/microphone`; копии normal/strict results — в локальном task outputs. Reporter использует абсолютный путь к этому каталогу: прежний generated JSON из раннего запуска перенесён из `e2e/test-results`, повторный format:check PASS. Аудиобайты не сохранялись и не публиковались.
+
+### Этап 2 — компонентные регрессии
+
+Добавлены [обычные регрессии](../apps/web/src/test/microphone-acceptance.test.tsx), [browser boundary doubles](../apps/web/src/test/microphone-fixtures.tsx) и [отдельные известные gaps](../apps/web/src/test/microphone-known-gaps.test.tsx). Из `apps/web`:
+
+```powershell
+npm test -- src/test/microphone-acceptance.test.tsx src/test/microphone-known-gaps.test.tsx --no-file-parallelism
+```
+
+Результат: **22 обычные регрессии passed и 5 явно expected failures распознаны**, exit 0. Vitest выводит 27 passed, но пять из них — `.fails`, а не исправленные требования. Отдельный strict-прогон подтверждает реальные отказы:
+
+```powershell
+$env:QADAM_MIC_STRICT_KNOWN_GAPS = '1'
+npm test -- src/test/microphone-known-gaps.test.tsx --no-file-parallelism
+Remove-Item Env:QADAM_MIC_STRICT_KNOWN_GAPS
+```
+
+**Exit 1, ровно 5 assertion failures:** MIC-01 late permission, MIC-02 active capture при disabled, MIC-05a oversized recorded clip, MIC-05b empty clip, MIC-04 recorder error cleanup. Setup не падал. Это воспроизводимые неисправленные дефекты, не passed acceptance. При исправлении `.fails` нужно удалить; неожиданное прохождение сейчас само ломает этот diagnostic guard.
+
+### Общий web regression прогон
+
+Из `apps/web`, Node/npm по lock:
+
+```powershell
+npm ci
+npm run typecheck
+npm run lint
+npm run build
+npm run check:api
+npm run format:check
+npm test -- --no-file-parallelism
+# CI=1 запрещает reuse неизвестного dev server для стандартного config.
+$env:CI = '1'
+npm run test:e2e -- seller.spec.ts integration-design.spec.ts
+Remove-Item Env:CI
+npx playwright test --config e2e/qa.playwright.config.ts
+```
+
+На Windows при блокировке `npm.ps1` использовать `npm.cmd` / `npx.cmd`. Фактические результаты: typecheck, lint (0 warnings), build, check:api, format:check — **PASS**. Полный unit/component: **164 обычных passed + 5 expected failures**, 14 файлов; Vitest summary 169 passed включает эти пять. Стандартные seller/integration E2E — **13/13 passed**, QA E2E — **21/21 passed**. В этих двух browser наборах восемь seller-сценариев пересекаются; числа не являются количеством уникальных тестов. Screenshot-writer/public screenshot suites намеренно не перезапускались, чтобы сохранить чужие изображения; весь default E2E набор не заявляется пройденным.
+
+Сборка сохраняет прежние warnings пустого auth chunk без live env и большого 3D chunk. `npm ci` сообщает прежние 3 dev dependency findings; package/lock не изменены, audit fix не выполнялся. Установка/локальные browser процессы потребовали разрешённого запуска вне sandbox после DNS/localhost ошибок. Это ограничения среды, не успешная HTTPS/Android приёмка.
+
+## Физическая Android acceptance matrix
+
+Все строки пока **Blocked**. Заполнять фактами, не переносить сюда успех mock/browser тестов.
+
+| Проверка | Требуемое подтверждение |
+|---|---|
+| Устройство / OS / Chrome / origin | Версии без device IDs, `isSecureContext=true`, HTTPS frontend/API/CORS |
+| Permissions | Allow, deny, повторное разрешение, pending prompt и cancel |
+| MIME / recorder | Фактические MIME/file size, успешный start, runtime error fallback |
+| Capture | Stop, cancel, 30 секунд, фон/экран/звонок, route/account cleanup |
+| Playback | Локально прослушать разрешённый synthetic/consented clip; текущий UI gap |
+| Upload | Явное действие, корректный multipart, supported file, oversize/invalid и API error |
+| Fallback | Текст и ручной ввод после deny/unavailable/error без потери нового ввода |
+| Mobile UX | RU/KZ, touch/keyboard, portrait/landscape, navigation |
+
+Реальные записи — только с согласия говорящего; не публиковать аудио, JWT, storage state, HAR/trace/video с личными данными. Используемые в automation аудиоданные синтетические и не уходят в живой API. Серверные/AI результаты капитана отделяются от наших.
+
+## Основания browser-проверок
+
+Permission promise может оставаться pending; cancel должен логически инвалидировать попытку, а не обещать закрытие browser prompt: [getUserMedia](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia). MIME support не гарантирует успешной записи: [isTypeSupported](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/isTypeSupported_static). Error может сопровождаться final data/stop: [recorder error](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/error_event). Background/Android screen lock может задержать chunks; timer не доказывает жёсткий предел длительности на устройстве: [dataavailable](https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/dataavailable_event). Backend duration validation сохраняется.
+
+## Продолжение и ограничения
+
+Подтверждение участника №4 необходимо до любых production-изменений его voice-модуля. После tests/report review — отдельное решение по исправлениям; физическая acceptance только при наличии устройства и HTTPS preview. Customer POST продолжает Backend-first в отдельном PR #19. Не менять main/чужие ветки, не merge/rebase/force; при FF-only divergence остановиться и сообщить.
+
+Итоговый diff ограничен пятью новыми test/config/helper файлами, этим отчётом и seller handoff. Существующие tests, package/lock, Backend/контракты/generated, Auth/router, public/voice/ledger/summary/mobile source не изменены. Проверенные этапы: анализ `513c527d891f64d78bc4c22c8dfb15cd65d4c7eb`, компоненты `86c98813dfbb9bb7b128b205cc00bafc218194fa`, browser/tests report `e976bf7465055ae604291c91b3b380e8b3b0b635`. Fetch/prune и pull FF — Already up to date, push этого snapshot успешен, remote/local HEAD совпали. PR #20 open Draft, mergeable=true при повторной проверке; GitHub review участника №4 pending. Последующий commit фиксирует только финальную передачу, точный HEAD — `git log -1 --format=%H`. Merge не выполняется.
