@@ -104,3 +104,9 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16 — Analytics интегрируется поверх PR17
 
 По уточнению капитана общая база новой ветки — актуальный PR17ca51bbf/API0.6.1, затем обычный merge Seller Analytics PR16ce68f01. Не начинать заново от58d4eb4 и не откатывать market/minimum/контракты Flutter.0005 уже применена; повторного setup нет. Проверка frontend выполняется на отдельных портах, работающие8018/5188/cloudflared сохраняются. Новый Draft направляется в ветку PR17 с явной зависимостью отPR13; ветки друзей, main и базы существующих PR не меняются. [Результаты](ANALYTICS_061_INTEGRATION.md).
+
+## 2026-10-16 — customer POST recovery по решению PR19
+
+Выбран backend-first вариант PR19/99ed2c0. Контракт и синтетические JSON опубликованы отдельно737a559 до реализации. API0.6.2 добавляет необязательный Idempotency-Key у customerPOST и GET customer-creation-result, scope action/business/verified subject/key. Ответ201 и legacy без ключа сохранены. Клиент и исходный response snapshot записываются одной транзакцией, same-key запросы сериализует PostgreSQL advisory lock; membership проверяется до replay/lookup и удерживается FOR SHARE. Другой body —409, отсутствующий видимый receipt —not_observed, что не доказывает отсутствие позднего worker. Нет TTL/переназначения ключей/автоматической очистки. [Точный контракт и ограничения frontend](../packages/contracts/CUSTOMER_RECOVERY_API.md).
+
+Новая0006_customer_requests проверяется только на отдельной testPostgreSQL. Общая Supabase0005 и API0.6.1 остаются работать, новая версия не переключалась. Старый API совместим с добавочной таблицей; downgrade с удалением receipts не является безопасным откатом приложения. Денежные правила, Auth, Analytics и Мал базар не меняются. Seller-участник реализует coordinator/unknown UX после review контракта, включение требует отдельно согласованного rollout.

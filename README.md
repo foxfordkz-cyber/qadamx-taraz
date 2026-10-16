@@ -1,5 +1,7 @@
 # Qadam Business
 
+**Ветка customer recovery (API 0.6.2):** [контракт и JSON](packages/contracts/CUSTOMER_RECOVERY_API.md), [локальный запуск и обязательная0006](apps/api/README.md). Основа — PR18/1324885. Работающие HTTPS preview/API остаются на прежних сборках, API0.6.1/Supabase0005; новый recovery ещё не включён в общей среде. Сохранены Analytics, market/minimum и старые POST customers.
+
 **HTTPS frontend для телефона:** [вход](https://crucial-funky-marion-barcelona.trycloudflare.com/login), сборка PR18 **5ab11b1**. [Точные commits, CORS, результаты и физическая проверка](docs/HTTPS_FRONTEND_PREVIEW.md). API HTTPS прежний; локальные5188/5191 сохранены. Record/Stop проверены только синтетическим Chromium; физический микрофон, playback/cancel не подтверждены.
 
 **Просмотр PR18:** [интегрированная аналитика на5191](http://127.0.0.1:5191/seller/analytics), только наПК капитана;5188 остаётся прежним web. [Живая продажа/доплата, обновление Analytics и повтор без дубля — PASS](docs/ANALYTICS_LEDGER_LIVE_ACCEPTANCE.md). API8018 и временный HTTPS дляFlutter сохранены.

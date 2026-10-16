@@ -1,6 +1,6 @@
 # Создание клиента: идемпотентность и восстановление результата
 
-Точный контракт backend для решения PR19/99ed2c0. Сначала публикуются этот документ и [JSON-примеры](customer-recovery-examples.json), затем серверная реализация/OpenAPI/generated. Ветка `backend/customer-post-recovery` создана от общей интеграции PR18/**1324885**. Целевая версия API **0.6.2**; работающий HTTPS пока **0.6.1**, новые методы на нём не объявляются доступными. Переключение общей среды — отдельный шаг после review и миграции.
+Точный контракт backend для решения PR19/99ed2c0. Документ и [JSON-примеры](customer-recovery-examples.json) опубликованы первыми в **737a559**, до реализации. Сервер, [OpenAPI](openapi.json) и generated.ts реализованы в ветке `backend/customer-post-recovery` от общей интеграции PR18/**1324885**. Версия ветки **0.6.2**; работающий HTTPS пока **0.6.1**, новые методы на нём ещё недоступны. Переключение общей среды — отдельный шаг после review и миграции.
 
 ## POST: совместимое расширение
 
@@ -59,6 +59,6 @@ Frontend перед отправкой создаёт и сохраняет key 
 
 ## Хранение и проверка внедрения
 
-Планируется additive-миграция **0006_customer_requests** от0005: отдельная `qadam.customer_creation_requests`, первичный ключ business/creator/key, hash, customerID, responseJSON, created_at; RLS включён, прямых прав PUBLIC/anon/authenticated нет. Не переиспользуется финансовая таблицаIdempotencyRecord, денежные правила не меняются.
+Подготовлена additive-миграция **0006_customer_requests** от0005: отдельная `qadam.customer_creation_requests`, первичный ключ business/creator/key, hash, customerID, responseJSON, created_at; RLS включён, прямых прав PUBLIC/anon/authenticated нет. Не переиспользуется финансовая таблицаIdempotencyRecord, денежные правила не меняются. Сериализация — PostgreSQL transaction advisory lock по hash полного scope; совпадение hash только добавляет ожидание, receipt всегда ищется по полному PK. Membership удерживается FOR SHARE до завершения транзакции. Downgrade удаляет receipts и разрушает recovery-гарантию: это не допустимый способ обычного rollback релиза; старый API совместим с добавленной таблицей, оставьте её на месте.
 
 Перед запуском0.6.2 нужна0006. Проверки только на отдельной testPostgreSQL: legacy/replay/conflict/canonicalization, concurrent same/different body, rollback междуINSERT, loss-afterCOMMIT/late-worker/not_observed, creator/business scope, отзывmembership/replay/lookup, immutable snapshot послеизменениядолга, миграция и запрет прямого доступа. Общая Supabase остаётся0005; работающие API0.6.1 и обаHTTPSтуннеля не переключаются.

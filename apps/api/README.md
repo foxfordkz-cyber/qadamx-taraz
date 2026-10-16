@@ -1,12 +1,16 @@
 # Qadam API — журнал, AI-черновики и «Мал базар»
 
+**Эта ветка — API 0.6.2, customer POST recovery.** [Контракт](../../packages/contracts/CUSTOMER_RECOVERY_API.md), [примеры](../../packages/contracts/customer-recovery-examples.json), [OpenAPI](../../packages/contracts/openapi.json). Optional `Idempotency-Key` у POST customers сохраняет исходный ответ атомарно с клиентом. GET customer-creation-result восстанавливает его по ключу в scope пользователя/точки; `not_observed` не доказывает отсутствие незавершённого POST. Старые POST без ключа совместимы. Денежные правила не менялись.
+
+Для **изолированного локального** запуска этой ветки сначала укажите собственную demo DATABASE_URL, примените `uv run alembic upgrade 0006_customer_requests`, проверьте `uv run alembic check`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8020`. Не запускайте0.6.2 против0005. Работающий общий API8018/HTTPS остаётся0.6.1, общая Supabase0005: новая миграция там **не применялась**. Rollout — отдельное согласованное действие с backup/проверкой восстановления; старый сервер совместим с добавочной таблицей. Не удаляйте receipts при откате приложения.
+
 **Текущая версия 0.6.1:** market/минимальная цена, общая БД уже0005 после разрешения капитана и проверки восстановления backup. [Точный commit и HTTPS](../../docs/FLUTTER_CONNECTION.md). При новой установке миграция0005 обязательна до запуска; повторять её на готовой общей БД не нужно. Ниже сохранены сведения предыдущих этапов API.
 
 Версия **0.6.0** добавляет [аналитику точки](../../packages/contracts/ANALYTICS_API.md) на существующем журнале, без новой миграции и изменения `/summary`. Контракт «Мал базара» 0.5.0 сохраняется. Общая qadam-demo уже на **0004_livestock**, private Storage подключён; настоящий HTTP проверен. [Flutter: запуск, публичный конфиг и удалённый HTTPS](../../docs/FLUTTER_CONNECTION.md). Не повторять setup/seed/очищающие тесты на общей БД. Исторические результаты ниже относятся к указанным этапам.
 
 Новые объявления принадлежат проверенному Supabase subject, без membership магазина. Учёт денег не меняется. `LIVESTOCK_DEMO_MODE=true` по умолчанию помечает новые объявления учебными и исключает их из статистики. Фото опциональны: без настроек Storage публикация без них работает. Для upload нужен private bucket и `STORAGE_SERVICE_KEY` только в серверном `.env`; детали policies и ограничения уборки объектов — в контракте Flutter.
 
-Только на собственной **локальной demo** PostgreSQL: `uv sync --locked`, `uv run alembic upgrade 0004_livestock`, `uv run alembic check`, затем `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000`. Для этого запуска настройте DATABASE_URL на локальную demo БД и Supabase Auth env; seed для livestock не нужен. Для очищающего pytest ниже используйте другую, пустую `*_test` БД. Не подставляйте общую Supabase ни в TEST_DATABASE_URL, ни в команду upgrade.
+Только на собственной **локальной demo** PostgreSQL: `uv sync --locked`, `uv run alembic upgrade 0006_customer_requests`, `uv run alembic check`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8020`. Для этого запуска настройте DATABASE_URL на локальную demo БД и Supabase Auth env; seed для livestock не нужен. Для очищающего pytest ниже используйте другую, пустую `*_test` БД. Не подставляйте общую Supabase ни в TEST_DATABASE_URL, ни в команду upgrade.
 
 [Передача AI-интеграции frontend](../../packages/contracts/AI_INTEGRATION.md): точный commit и примеры multipart/уточнения/подтверждения для PR #5.
 
