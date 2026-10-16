@@ -13,6 +13,7 @@ import {
 } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { clearPrivateCache } from "./query";
+import { isExistingEmail, rememberConfirmation } from "./registration-model";
 
 function makeSupabase(): SupabaseClient | null {
   const url = import.meta.env.VITE_SUPABASE_URL;
@@ -46,6 +47,11 @@ type AuthContextValue = {
   configured: boolean;
   scope: string;
   signIn: (email: string, password: string) => Promise<void>;
+  signUp: (
+    email: string,
+    password: string,
+  ) => Promise<"confirmation" | "session">;
+  resendConfirmation: (email: string) => Promise<void>;
   signOut: () => Promise<void>;
   enterDemo: () => void;
   getToken: () => Promise<string | null>;
@@ -68,6 +74,7 @@ export function AuthProvider({
   const demoRef = useRef(false);
   const [generation, setGeneration] = useState(0);
   const generationRef = useRef(0);
+  const registrationPending = useRef(false);
   useEffect(() => {
     if (!client) return;
     // Synchronous callback: never await another Supabase call inside the auth lock.
@@ -78,7 +85,10 @@ export function AuthProvider({
         setGeneration(++generationRef.current);
       }
       if (!demoRef.current) setSession(next);
-      if (next) setExpired(false);
+      if (next) {
+        setExpired(false);
+        rememberConfirmation(false);
+      }
       setLoading(false);
     });
     return () => data.subscription.unsubscribe();
@@ -92,6 +102,50 @@ export function AuthProvider({
     setExpired(false);
     setSession(result.data.session);
   }
+  async function registrationRequest<T>(operation: () => Promise<T>) {
+    if (
+      !client ||
+      identity.current ||
+      demoRef.current ||
+      generationRef.current !== generation ||
+      registrationPending.current
+    )
+      throw new Error("Registration unavailable");
+    registrationPending.current = true;
+    try {
+      return await operation();
+    } finally {
+      registrationPending.current = false;
+    }
+  }
+  async function signUp(email: string, password: string) {
+    return registrationRequest(async () => {
+      // Redirect URL/flow awaits captain approval. Keep the existing SDK defaults.
+      // SDK auth events alone establish a session; a returned user is not login.
+      const result = await client!.auth.signUp({ email, password });
+      if (!result) throw new Error("Unexpected registration response");
+      if (isExistingEmail(result.error)) return "confirmation" as const;
+      if (result.error) throw result.error;
+      if (
+        !result.data?.user?.id ||
+        (result.data.session !== null && !result.data.session?.access_token)
+      )
+        throw new Error("Unexpected registration response");
+      return result.data.session
+        ? ("session" as const)
+        : ("confirmation" as const);
+    });
+  }
+  async function resendConfirmation(email: string) {
+    await registrationRequest(async () => {
+      const result = await client!.auth.resend({ type: "signup", email });
+      if (!result) throw new Error("Unexpected resend response");
+      if (isExistingEmail(result.error)) return;
+      if (result.error) throw result.error;
+      if (!result.data || typeof result.data !== "object")
+        throw new Error("Unexpected resend response");
+    });
+  }
   async function signOut() {
     if (!demo && client) {
       const { error } = await client.auth.signOut({ scope: "local" });
@@ -104,6 +158,7 @@ export function AuthProvider({
     setDemo(false);
     setExpired(false);
     setGeneration(++generationRef.current);
+    rememberConfirmation(false);
   }
   function enterDemo() {
     clearPrivateCache(queryClient);
@@ -139,6 +194,8 @@ export function AuthProvider({
         configured: !!client,
         scope: `${demo ? "demo" : (session?.user.id ?? "guest")}:${generation}`,
         signIn,
+        signUp,
+        resendConfirmation,
         signOut,
         enterDemo,
         getToken,

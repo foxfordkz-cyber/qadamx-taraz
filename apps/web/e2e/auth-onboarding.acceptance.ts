@@ -37,7 +37,7 @@ for (const width of [360, 390, 768, 1440]) {
     ).toBeFocused();
     await page.keyboard.press("Enter");
     await expect(
-      page.getByRole("heading", { name: "Нет доступных торговых точек" }),
+      page.getByRole("heading", { name: "У вас пока нет торговых точек" }),
     ).toBeVisible();
     await expect(
       page.getByText(/Создание точки и приглашения в кабинете пока недоступны/),
@@ -51,7 +51,7 @@ for (const width of [360, 390, 768, 1440]) {
     await expect.poll(() => meCalls).toBe(2);
     await page.reload();
     await expect(
-      page.getByRole("heading", { name: "Нет доступных торговых точек" }),
+      page.getByRole("heading", { name: "У вас пока нет торговых точек" }),
     ).toBeVisible();
     await expect.poll(() => meCalls).toBe(3);
     expect(
@@ -62,7 +62,7 @@ for (const width of [360, 390, 768, 1440]) {
     ).toEqual([]);
     await page.getByRole("button", { name: "KZ", exact: true }).click();
     await expect(
-      page.getByRole("heading", { name: "Қолжетімді сауда нүктесі жоқ" }),
+      page.getByRole("heading", { name: "Сізде әзірге сауда нүктелері жоқ" }),
     ).toBeVisible();
     expect(
       await page.evaluate(

@@ -1,4 +1,115 @@
-# Seller Auth / Registration readiness — 2026-10-16
+# Seller Registration MVP — 2026-10-16
+
+## Approved implementation update (supersedes the readiness block below)
+
+Captain/user approved public Supabase signup, email confirmation and explicit
+resend. Continue the same `feature/seller-registration-onboarding` / Draft #31,
+base `integration/voice-preview-061:0737439915c17e8d8f20cddcbe9e75bebede9b46`.
+Starting HEAD for this stage: `c2a94026cd121e9dc89c2b347029b56adc4c957f`.
+Initial fetch/pull --ff-only: successful, already up to date; working tree clean.
+The newer OpenAI/customer-recovery integration was reviewed read-only; its backend,
+API 0.6.2 and different Voice snapshot were not imported into this approved base.
+
+The user explicitly confirmed during implementation that callback URL, redirect
+allowlist and confirmation mechanism are **not agreed**. Only callback wiring
+and real email acceptance remain Blocked; the independent MVP is authorized.
+
+### Implemented
+
+- `/register` linked from Login, using the current Card/Input/Button/Brand,
+  typography and layout classes without global CSS/shared UI changes.
+- Email, password, confirmation, show/hide, native email/required checks plus an
+  explicit minimum-six-character/password-match guard. The server may impose
+  stricter password policy; its weak-password error is localized.
+- RU/KZ switches preserve current fields. Heading/validation focus, labels,
+  status/alert announcements, keyboard navigation and mobile layouts.
+- Existing AuthProvider now exposes `signUp` and `resendConfirmation`; both use
+  the same Supabase client. A shared in-flight lock prevents overlapping
+  registration/resend calls, even across page remount; the UI also locks submit.
+- Successful signup with a user and null session shows a neutral confirmation
+  waiting screen. It does not log in or fetch private data. Explicit duplicate
+  email codes use the same screen and do not disclose account existence.
+- Only the existing SDK auth-event path can establish the session. A real
+  returned session uses that path and the existing `/me`; no manual session,
+  role, membership or Demo assignment is introduced.
+- Explicit resend with `{type: "signup", email}`, success/loading/errors, no
+  automatic resend/retry. Weak password, invalid data, unavailable signup,
+  network, rate limit and unknown SDK responses have safe localized messages.
+  Raw SDK messages are never rendered or logged by the implementation.
+- Password/confirmation are cleared after accepted signup, including neutral
+  duplicate-email handling. They are never persisted. A tab reload preserves
+  only `qadam.registration.pending=1` in sessionStorage; email must be entered
+  again for resend. No email/password/token in that marker or the URL. Storage
+  failure falls back to in-memory behavior; login/logout clear the marker.
+- Late registration UI results after account change/unmount are ignored.
+  Existing session epoch/A→B→A/late401/cache/business isolation remain intact.
+- Exact zero-membership titles: RU «У вас пока нет торговых точек»,
+  KZ «Сізде әзірге сауда нүктелері жоқ». GET refresh/logout/language still work.
+  Captain assigns teaching memberships through the existing verified procedure;
+  self-service creation and staff invitations are outside this MVP.
+
+### SDK and callback boundary
+
+Checked installed `@supabase/supabase-js` and `auth-js` **2.118.0** source:
+`signUp({email,password})`, `resend({type:"signup",email})`.
+No `emailRedirectTo`, wildcard, new callback path, code exchange or token parser
+was invented. `detectSessionInUrl: false`, session persistence and refresh remain
+as before. Without a redirect override, SDK uses the project's existing behavior;
+that Site URL and actual email delivery are **not certified** by this change.
+No real emails or accounts were created in shared Supabase.
+
+`ConfirmationNotice` prepares waiting/invalid/expired RU/KZ presentation, tested
+as an independent component. Invalid/expired real links and a successful browser
+callback are **not integrated** until the exact route and mechanism are approved.
+Do not report component tests as a successful callback or deploy this as complete
+live email onboarding.
+
+Captain/backend must supply: exact callback route/URL; exact allowed HTTPS origins
+and allowlist confirmation; post-confirmation destination; implicit SDK vs PKCE
+code-exchange mechanism; expired/reused-link behavior; an approved training
+email/account and permission for a live signup/resend/delivery acceptance.
+No Supabase, preview, cloudflared, backend, CORS or database setting was changed.
+
+### New files / verification
+
+New: `apps/web/src/app/registration.tsx`, `registration-model.ts`,
+`src/test/registration.test.tsx`, `e2e/registration.acceptance.ts`.
+Updated: app AuthProvider/router/Login, RU/KZ, existing zero-membership test
+expectations and the isolated auth-onboarding Playwright config, this audit,
+seller handoff and the approved decision record.
+
+All commands below remain reproducible. The Auth browser config now includes
+registration. Current-stage results:
+
+| Check | Result |
+| --- | --- |
+| npm ci / check:api / typecheck / lint / build / format:check / diff --check | PASS |
+| Full unit/component | **277/277**, including 23 new registration cases |
+| Strict microphone/lifecycle components | **35/35** (27 overlap default) |
+| Registration + existing onboarding browser | **17/17** (10 new + 7 existing) |
+| Microphone browser | **18/18**, synthetic device |
+| Seller/Analytics/public browser | **24/24** |
+| Existing Auth/Customers QA browser | **21/21** (8 overlap standard Seller) |
+| Synthetic customer/sale/idempotent retry/repayment/history/summary/Analytics journey | **1/1** |
+
+No checks skipped or converted to expected failures. The initial short-password
+test exposed the need for an explicit length guard beyond native minLength;
+the initial duplicate-email HTTP fixture lacked the API-version header required
+by SDK 2.118.0. Both corrected, with specific error-message assertions retained.
+Mobile/desktop waiting screenshots inspected; final navigation links use existing
+button classes for touch targets. PNGs are ignored local artifacts, not a rewrite
+of other participants' design evidence. Installation retains 3 inherited dev
+audit findings; build retains the existing 3D chunk warning and empty Auth chunk
+without public env. No dependency update in this task.
+
+Current-stage publication hashes are recorded in the seller handoff;
+the counts later in this document describe the preceding readiness stage.
+No callback E2E is claimed. Synthetic browser tests run the real SDK against
+isolated local HTTP, with no real accounts, email or financial writes.
+
+---
+
+# Historical readiness audit (before captain approval)
 
 ## Scope and approved base
 

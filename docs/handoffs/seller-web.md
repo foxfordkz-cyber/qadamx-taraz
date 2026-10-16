@@ -1,3 +1,47 @@
+# Seller web — Approved Registration MVP
+
+2026-10-16. Continue `feature/seller-registration-onboarding`, Draft PR #31,
+approved base `integration/voice-preview-061:0737439915c17e8d8f20cddcbe9e75bebede9b46`.
+Stage starts at `c2a94026cd121e9dc89c2b347029b56adc4c957f`; safe fetch/pull succeeded.
+
+MVP implemented: `/register`, Login links, email/password/confirmation/show-hide,
+validation, RU/KZ and keyboard focus, double-submit guards, neutral confirmation
+waiting state, explicit SDK resend and safe localized errors. Single existing
+AuthProvider/client; user without memberships still goes through GET /me, with
+new approved RU/KZ titles and explicit refresh/logout. No automatic Demo,
+business or role assignment. Passwords cleared after accepted signup; reload
+retains only an anonymous pending marker, and asks for email again for resend.
+
+**Callback and real email acceptance remain Blocked**, explicitly confirmed by
+the user. No callback URL/path, wildcard, allowlist update or token exchange was
+invented. `detectSessionInUrl: false` retained. Independent invalid/expired notices
+are component-tested only. Captain must provide exact URL/origin/allowlist,
+mechanism, destination and approved training email/live-test permission.
+
+Files, architecture, SDK version and details:
+[Registration audit](../SELLER_REGISTRATION_AUDIT.md).
+Commands from `apps/web`: npm ci; check:api; typecheck; lint; npm test --
+--no-file-parallelism; build; format:check; strict vitest.microphone config;
+Playwright configs auth-onboarding, microphone, analytics, qa (trace off),
+voice-integration. Set QADAM_SCREENSHOT_ROOT to an ignored test-results directory
+for the analytics suite. Do not overwrite tracked design PNGs.
+
+Own current-stage verification: **277/277 unit/component**, strict microphone
+**35/35**, Auth/Registration browser **17/17**, microphone **18/18**,
+Seller/Analytics/public **24/24**, existing QA **21/21**, synthetic money/Analytics
+journey **1/1**. Suites overlap as documented in the audit. npm ci, check:api,
+typecheck, lint, build, format:check and diff --check passed. All Auth/API/audio
+tests are synthetic; no real email, account or monetary write. Initial length
+validation and SDK fixture-header issues were corrected without disabling tests.
+
+Existing
+Voice/financial/Analytics/public implementations, Backend/OpenAPI/generated and
+global styles/shared UI are unchanged. Physical Android and live AI remain
+separate; this task changes neither preview nor services.
+
+The following sections are historical checkpoints; their earlier registration
+approval block is superseded by the approved implementation above.
+
 # Seller web — Registration readiness / Android preparation
 
 2026-10-16. Branch `feature/seller-registration-onboarding`, separate worktree

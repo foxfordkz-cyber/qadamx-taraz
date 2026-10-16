@@ -118,6 +118,18 @@ export function LoginPage() {
               {t(pending ? "loading" : "login")}
             </Button>
           </form>
+          <p>
+            <Link
+              to="/register"
+              className="button button-secondary"
+              aria-disabled={pending}
+              onClick={(event) => {
+                if (submitLock.current) event.preventDefault();
+              }}
+            >
+              {t("registrationOpen")}
+            </Link>
+          </p>
           <div className="login-demo">
             <Button
               variant="secondary"

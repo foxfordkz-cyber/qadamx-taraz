@@ -108,3 +108,9 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16 — восстановленная среда остаётся на API0.6.1
 
 После остановки процессов восстановлен подтверждённый FastAPI4f67e2c изca51bbf. Read-only ревизия0005 и отсутствие customer recovery таблицы запрещают считать0006 развёрнутой; PR22 остаётся отдельно. Для voice выбран точныйPR23/a1e5252 поверх актуальногоmain1324885, merge7f511dd в отдельнойпроверочнойветке. После последнихправок выполнены полныеfrontend и microphoneпроверки. НовыеHTTPSадреса иточныйCORS опубликованы вVOICE_HTTPS_RESTORED; микрофонпроверен толькоfakedevice, физическаяприёмка остаётсякоманде. Ни main, ни денежныеправила, ни общаясхемаБД не изменены.
+
+## 2026-10-16 — Approved Seller Registration MVP (PR #31)
+
+Captain/user authorized signup, email confirmation and explicit resend through the existing Supabase AuthProvider. A new authenticated account receives only memberships returned by /me. Captain assigns teaching memberships with the existing verified procedure; self-service business creation and staff invitations are outside this MVP. No automatic Demo/role assignment.
+
+Registration UI and local synthetic tests may proceed. The user separately confirmed callback URL, exact redirect allowlist/origins and mechanism are still undecided: callback wiring and live email acceptance remain Blocked. Do not invent a callback URL, add wildcards or modify shared Supabase/preview. Implementation details and remaining decisions: [Registration audit](SELLER_REGISTRATION_AUDIT.md).

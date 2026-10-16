@@ -6,7 +6,7 @@ import base from "./qa.playwright.config";
 export default defineConfig({
   ...base,
   testDir: fileURLToPath(new URL(".", import.meta.url)),
-  testMatch: "auth-onboarding.acceptance.ts",
+  testMatch: ["auth-onboarding.acceptance.ts", "registration.acceptance.ts"],
   outputDir: "../test-results/auth-onboarding",
   use: {
     ...base.use,
