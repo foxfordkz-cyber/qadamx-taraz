@@ -1,0 +1,242 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/testing.dart';
+import 'package:qadam_mobile/auth.dart';
+import 'package:qadam_mobile/data/livestock_api.dart';
+import 'package:qadam_mobile/runtime.dart';
+import 'package:qadam_mobile/ui/app.dart';
+import 'package:qadam_mobile/ui/listing_form.dart';
+
+// Synthetic transport fixtures only. These tests do not claim live acceptance.
+class _Auth implements AuthGateway {
+  String? account = 'test-account-a';
+  final events = StreamController<String?>.broadcast(sync: true);
+  @override String? get accountId => account;
+  @override Stream<String?> get accountChanges => events.stream;
+  @override Future<String?> accessToken() async => 'fixture-session';
+  @override Future<void> signIn(String email, String password) async { account = 'test-account-a'; events.add(account); }
+  @override Future<void> signOut() async { account = null; events.add(null); }
+}
+
+class _MemoryStore implements PendingStore {
+  final values = <String, PendingIntent>{};
+  @override Future<PendingIntent?> read(String accountId) async => values[accountId];
+  @override Future<void> write(String accountId, PendingIntent intent) async { values[accountId] = intent; }
+  @override Future<void> delete(String accountId) async { values.remove(accountId); }
+  @override Future<String> snapshotPhoto(String accountId, String key, String sourcePath) async => throw UnimplementedError();
+  @override Future<Uint8List> readPhoto(PendingIntent intent) async => throw UnimplementedError();
+}
+
+void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
+  setUp(() => FlutterSecureStorage.setMockInitialValues({}));
+  tearDown(() async {
+    await ListingForm.clearDraft('test-account-a');
+    await ListingForm.clearDraft('test-account-b');
+  });
+
+  testWidgets('unconfigured app is honest, localized and fits a 320px screen', (tester) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final runtime = MobileRuntime();
+    await tester.pumpWidget(MobileApp(runtime: runtime));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Подключение к серверу пока не настроено'), findsOneWidget);
+    expect(find.text('350 000 ₸'), findsNothing);
+    await tester.tap(find.text('ҚАЗ'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Серверге қосылу әлі бапталмаған'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose();
+  });
+
+  testWidgets('public network failure is safe and retryable without fake listings', (tester) async {
+    var calls = 0;
+    final api = LivestockApi(baseUrl: Uri.parse('https://api.example.test/api/v1'), accountId: () => null,
+      accessToken: () async => null, store: _MemoryStore(), client: MockClient((request) async {
+        calls++;
+        if (calls == 1) throw http.ClientException('private transport detail');
+        return http.Response(jsonEncode({'items': [], 'next_cursor': null}), 200);
+      }));
+    final runtime = MobileRuntime(api: api);
+    await tester.pumpWidget(MobileApp(runtime: runtime));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Проверьте соединение'), findsOneWidget);
+    expect(find.textContaining('private transport detail'), findsNothing);
+    await tester.tap(find.text('Повторить'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Сегодня здесь пока нет предложений'), findsOneWidget);
+    expect(calls, 2);
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose(); api.close();
+  });
+
+  testWidgets('preview never posts; unknown publish keeps draft; explicit recovery replays original intent then opens My', (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final fixtures = jsonDecode(File('test/data/livestock_fixtures.json').readAsStringSync()) as Map<String, dynamic>;
+    final owner = Map<String, dynamic>.from(fixtures['OwnerListing'] as Map);
+    owner['price_per_head_minor'] = 35000001;
+    owner['contact'] = '@synthetic_fixture';
+    final requests = <http.Request>[];
+    final store = _MemoryStore();
+    final auth = _Auth();
+    var published = false;
+    final api = LivestockApi(baseUrl: Uri.parse('https://api.example.test/api/v1'), accountId: () => auth.account,
+      accessToken: auth.accessToken, store: store, client: MockClient((request) async {
+        if (request.method == 'POST') {
+          requests.add(request);
+          if (requests.length == 1) throw http.ClientException('simulated lost response');
+          published = true;
+          return http.Response(jsonEncode(owner), 201);
+        }
+        return http.Response(jsonEncode({'items': published ? [owner] : [], 'next_cursor': null}), 200);
+      }));
+    final runtime = MobileRuntime(auth: auth, api: api);
+    await tester.pumpWidget(MobileApp(runtime: runtime));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Подать объявление'));
+    await tester.pumpAndSettle();
+
+    Finder field(String label) => find.widgetWithText(TextFormField, label);
+    Future<void> fill(String label, String text) async {
+      final target = field(label);
+      await tester.scrollUntilVisible(target, 250, scrollable: find.byType(Scrollable).last);
+      await tester.enterText(target, text);
+      await tester.pump();
+    }
+    await fill('Количество голов', '2');
+    await fill('Цена за голову, ₸', '350000,01');
+    await fill('Город или село', 'Тараз');
+    await fill('Телефон или другой контакт', '@synthetic_fixture');
+    tester.testTextInput.hide();
+    await tester.scrollUntilVisible(find.byType(CheckboxListTile), 200, scrollable: find.byType(Scrollable).last);
+    await tester.tap(find.byType(CheckboxListTile));
+    await tester.scrollUntilVisible(find.text('Предпросмотр'), 200, scrollable: find.byType(Scrollable).last);
+    await tester.tap(find.text('Предпросмотр'));
+    await tester.pumpAndSettle();
+    expect(requests, isEmpty);
+    expect(find.text('350 000,01 ₸'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Опубликовать'), 200, scrollable: find.byType(Scrollable).last);
+    await tester.tap(find.text('Опубликовать'));
+    await tester.pumpAndSettle();
+    expect(requests.length, 1);
+    expect(store.values['test-account-a'], isNotNull);
+    final saved = await ListingForm.readDraft('test-account-a');
+    expect(saved, contains('@synthetic_fixture'));
+    expect(find.text('Объявление опубликовано'), findsNothing);
+    await tester.scrollUntilVisible(find.text('Восстановить результат'), -200, scrollable: find.byType(Scrollable).last);
+    await tester.tap(find.text('Восстановить результат'));
+    await tester.pumpAndSettle();
+    expect(requests.length, 2);
+    expect(requests[0].url, requests[1].url);
+    expect(requests[0].body, requests[1].body);
+    expect(requests[0].headers['Idempotency-Key'], requests[1].headers['Idempotency-Key']);
+    expect((jsonDecode(requests[0].body) as Map)['price_per_head_minor'], 35000001);
+    expect(store.values['test-account-a'], isNull);
+    expect(await ListingForm.readDraft('test-account-a'), isNull);
+    expect(find.text('Объявление опубликовано'), findsOneWidget);
+    await tester.tap(find.text('Мои объявления'));
+    await tester.pumpAndSettle();
+    expect(find.text('Мои объявления'), findsOneWidget);
+    expect(find.text('Учебное объявление'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose(); api.close(); await auth.events.close();
+  });
+
+  testWidgets('account change disposes private editor and clears ordinary draft', (tester) async {
+    final auth = _Auth();
+    final api = LivestockApi(baseUrl: Uri.parse('https://api.example.test/api/v1'), accountId: () => auth.account,
+      accessToken: auth.accessToken, store: _MemoryStore(), client: MockClient((request) async => http.Response('{"items":[],"next_cursor":null}', 200)));
+    final runtime = MobileRuntime(auth: auth, api: api);
+    await ListingForm.writeDraft('test-account-a', jsonEncode({'species': 'cattle', 'contact': 'private-a', 'quantity_text': '1'}), () => true);
+    await tester.pumpWidget(MobileApp(runtime: runtime));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Подать объявление'));
+    await tester.pumpAndSettle();
+    expect(find.byType(ListingForm), findsOneWidget);
+    auth.account = 'test-account-b'; auth.events.add(auth.account);
+    await tester.pumpAndSettle();
+    expect(find.byType(ListingForm), findsNothing);
+    expect(await ListingForm.readDraft('test-account-a'), isNull);
+    expect(find.text('private-a'), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose(); api.close(); await auth.events.close();
+  });
+
+  testWidgets('definitive rejection after uncertain retry unlocks saved form', (tester) async {
+    final fixtures = jsonDecode(File('test/data/livestock_fixtures.json').readAsStringSync()) as Map<String, dynamic>;
+    final body = Map<String, dynamic>.from(fixtures['ListingWrite'] as Map);
+    final auth = _Auth();
+    final store = _MemoryStore();
+    store.values[auth.account!] = PendingIntent(accountId: auth.account!, key: '80000000-0000-4000-8000-000000000099',
+      method: 'POST', path: '/livestock/listings', url: 'https://api.example.test/api/v1/livestock/listings', body: body);
+    var calls = 0;
+    final api = LivestockApi(baseUrl: Uri.parse('https://api.example.test/api/v1'), accountId: () => auth.account,
+      accessToken: auth.accessToken, store: store, client: MockClient((request) async {
+        calls++;
+        return http.Response(jsonEncode({'error': {'code': calls == 1 ? 'DATABASE_UNAVAILABLE' : 'VALIDATION_ERROR',
+          'message': 'not user-visible', 'fields': {}}, 'request_id': '70000000-0000-4000-8000-000000000001'}), calls == 1 ? 503 : 422);
+      }));
+    final runtime = MobileRuntime(auth: auth, api: api);
+    await tester.pumpWidget(MaterialApp(home: ListingForm(runtime: runtime, kk: false)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Восстановить результат'));
+    await tester.pumpAndSettle();
+    expect(store.values[auth.account!], isNotNull);
+    await tester.tap(find.text('Восстановить результат'));
+    await tester.pumpAndSettle();
+    expect(store.values[auth.account!], isNull);
+    expect(find.text('Восстановить результат'), findsNothing);
+    final price = find.widgetWithText(TextFormField, 'Цена за голову, ₸');
+    await tester.scrollUntilVisible(price, 200, scrollable: find.byType(Scrollable).last);
+    expect(tester.widget<TextFormField>(price).enabled, isTrue);
+    expect((await ListingForm.readDraft(auth.account!)), contains('350000'));
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose(); api.close(); await auth.events.close();
+  });
+
+  testWidgets('form remains scrollable with 320px width, large text and keyboard', (tester) async {
+    tester.view.physicalSize = const Size(320, 640);
+    tester.view.devicePixelRatio = 1;
+    tester.platformDispatcher.textScaleFactorTestValue = 1.3;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetViewInsets);
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+    final auth = _Auth();
+    final api = LivestockApi(baseUrl: Uri.parse('https://api.example.test/api/v1'), accountId: () => auth.account,
+      accessToken: auth.accessToken, store: _MemoryStore(), client: MockClient((request) async => http.Response('{"items":[],"next_cursor":null}', 200)));
+    final runtime = MobileRuntime(auth: auth, api: api);
+    await tester.pumpWidget(MobileApp(runtime: runtime));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('ҚАЗ'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Хабарландыру беру'));
+    await tester.pumpAndSettle();
+    final contact = find.widgetWithText(TextFormField, 'Телефон немесе басқа байланыс');
+    await tester.scrollUntilVisible(contact, 200, scrollable: find.byType(Scrollable).last);
+    await tester.enterText(contact, '@synthetic');
+    tester.view.viewInsets = const FakeViewPadding(bottom: 250);
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(contact);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    expect(find.text('@synthetic'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose(); api.close(); await auth.events.close();
+  });
+}
