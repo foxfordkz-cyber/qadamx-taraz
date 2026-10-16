@@ -1,5 +1,11 @@
 # Текущее состояние Qadam Business
 
+## 2026-10-17 — объединение main и deploy
+
+По поручению капитана подготовлена общая база: production web/API `8be10b3` плюс Flutter PR25 `421b2fb`. Модели PR36 и диагностика Render `e699158` сохранены. Recovery UI `9a3c868` исключён из-за воспроизведённого позднего удаления чужого pending intent; signup PR31 исключён до callback/email-приёмки. Подробности: [MAIN_RELEASE_20261017](MAIN_RELEASE_20261017.md).
+
+Web/API код совпадает с принятой production-сборкой; интеграция не требует миграций. Render не требуется перезапускать: `apps/api` побайтово совпадает с e699158. Mobile-код включается отдельно от обещаний об APK: SDK этого ПК старее SDK автора, Android не проверен. Текущие адреса — Vercel/Render, а не исторические trycloudflare ниже.
+
 ## 2026-10-16 — опубликованы Vercel/Render, ограниченная AI-приёмка
 
 Web `https://qadamx-taraz.vercel.app`, API `https://qadamx-taraz.onrender.com/api/v1`, OpenAPI0.6.2 и общая Supabase0006 проверены. Капитан переключил Environment на OpenAI; новый STT-log и шесть успешных hosted pipelines подтвердили работу текста/аудио/уточнения. Настоящий browser AuthA/B/analytics/isolation/public3D PASS; деньги не подтверждались. [Полный отчёт](HOSTING_AI_ACCEPTANCE.md), [передача команде](HOSTING_TEAM_HANDOFF.md). Конкретная recording.webm ещё не диагностирована до точного text-validation outcome; patch c6e0411 подготовлен, не развернут. Actual deployment SHA/active extraction model/SSL, финансовая и фото-приёмка Render, cold start и физические устройства ещё требуют завершения. Остаток защитного бюджета AI$0.20; paid retries остановлены. Туннели сохранены. Далее исторические этапы.

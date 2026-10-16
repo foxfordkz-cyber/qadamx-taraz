@@ -1,5 +1,13 @@
 # Qadam Business
 
+## Общая база команды — 17 октября 2026
+
+Актуальная интеграция объединяет production web/API из `8be10b3` (включая модели PR36 и диагностику `e699158`) и исходники Flutter PR25 `421b2fb`. [Состав, проверки и ограничения выпуска](docs/MAIN_RELEASE_20261017.md). После публикации этой интеграции начинайте новые задачи от свежего `origin/main`.
+
+Постоянные адреса: [сайт](https://qadamx-taraz.vercel.app), API `https://qadamx-taraz.onrender.com/api/v1`. API 0.6.2; общая Supabase 0006. Не запускать seed/очищающие тесты на общей БД. Recovery UI `9a3c868` и незавершённый signup/callback PR31 не включены. Backend recovery уже присутствует.
+
+Flutter находится в `apps/mobile`; это исходники, не новый APK. Нужен SDK автора Flutter 3.47.7 / Dart 3.13.5 и отдельная сборка с постоянными URL. Физический Android ещё не принят. Нижние записи сохранены как история и не заменяют эту сводку.
+
 **Опубликованные хостинги:** [web](https://qadamx-taraz.vercel.app), API_BASE_URL `https://qadamx-taraz.onrender.com/api/v1`, OpenAPI0.6.2 / Supabase0006. [Новая живая Auth/AI-приёмка, точные границы доказательств и открытые пункты](docs/HOSTING_AI_ACCEPTANCE.md), [передача команде и Flutter](docs/HOSTING_TEAM_HANDOFF.md). Капитан переключил Render на OpenAI вручную; локальный резервный API и туннели сохранены. Старые указания ниже — исторические этапы. Полная приёмка хостинга и конкретной recording.webm ещё не объявляется завершённой.
 
 **Отдельный кандидат интеграции:** `integration/unified-web-062`, проверенный код **b899902** — дизайн PR24/26/27/29, Auth c2a9402 и AI-уточнения PR32 поверх работающего backend4e983b4. [Состав, тесты, блокеры recovery/регистрации и предложение preview](docs/UNIFIED_WEB_062_REVIEW.md). Это ещё не код общего HTTPS preview. Recovery fd21874 исключён после воспроизведения нового ключа между двумя формами; поздняя незавершённая регистрация PR31 10d9bba не включена.
