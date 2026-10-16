@@ -1,9 +1,10 @@
-# Mobile · Мал базар · API 0.6.1
+# Mobile · Мал базар · Android / подготовка iOS · API 0.6.1
 
 ## Версии и границы изменений
 
 - Ветка: `feature/mobile-livestock-api`.
-- Commit приложения: `45cabcb6174810bff7bb96ee0d3184abc253e978`.
+- Commit переданного Android APK: `45cabcb6174810bff7bb96ee0d3184abc253e978`.
+- Commit подготовки iOS: `9d2dcbdfdd360012187cb43e6c0c3f295ccd4ed0` (подробнее ниже).
 - [Draft PR #15](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/15), base `backend/livestock`; PR не сливался, main не менялся.
 - Контракт и инструкция прочитаны на [ca51bbf](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/ca51bbf/docs/FLUTTER_CONNECTION.md), включая LIVESTOCK_API, OpenAPI, JSON-примеры и актуальные инструкции команды.
 - Backend-код, подтверждённый отчётом команды: `4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5`.
@@ -180,3 +181,49 @@ adb install -r qadam-mobile-45cabcb-api061-debug.apk
 условия проверки минимума, протокол устройства и план видео 60–90 секунд.
 Приёмка на устройстве пока не выполнена. Подтвердить commit серверного процесса
 у backend. **PR #15 остаётся Draft до приёмки**, merge/main не меняются.
+
+## iPhone: подготовка 2026-10-16
+
+По запросу пользователя в ту же feature-ветку добавлен iOS runner. Пользователь
+подтвердил: **iPhone есть, Mac пока нет**. Поэтому подготовка исходников выполнена,
+но native build, подпись и установка на iPhone **не выполнены**, IPA **не создан**.
+
+Исходники iOS: commit `9d2dcbdfdd360012187cb43e6c0c3f295ccd4ed0`.
+Папка `apps/mobile/ios`: шаблон Flutter 3.47.7, Xcode workspace/project,
+AppDelegate/SceneDelegate, SwiftPM и стандартный CocoaPods fallback; deployment
+target iOS 15.0, device family iPhone, bundle ID `kz.qadam.qadamMobile`.
+Версия 0.1.1+2 берётся из pubspec. Иконка пока стандартная техническая Flutter.
+
+Камера и фотобиблиотека имеют usage descriptions RU/KZ, подключённые к Resources.
+Микрофон/геолокация и ATS-исключения не добавлялись. Keychain entitlement связан
+только с этим bundle. Для сессии, черновиков и pending используется единая политика
+unlocked_this_device без iCloud sync. Авторизация/API/Storage те же: новой серверной
+реализации и новых маршрутов нет. Полные метаданные фото не запрашиваются.
+После прерванного iOS picker форма восстанавливается без Android-only
+retrieveLostData; предлагается повторный выбор фото.
+
+`tool/build_ios.dart`: validate / prepare / simulator / device / run. Пропускает
+в сборку только 3 разрешённых непустых публичных поля и HTTPS. Значения не
+логируются; server keys, пароли и лишние поля отклоняются. Локальная Team ID
+конфигурация и сертификаты/IPA исключены из Git. Неподписанный device `.app`
+не считается установочным IPA.
+
+Проверки подготовки на Windows:
+
+| Проверка | Результат |
+|---|---|
+| Flutter analyzer | Без замечаний |
+| Общие Dart/widget-тесты | **64/64 PASS**, синтетические fixtures |
+| Новые iOS widget-сценарии | Прерванный picker, отказ камеры, отмена сохраняют форму и не публикуют запись; это mock платформенного канала, не работа камеры iPhone |
+| Ограничения iOS build config | Автотесты разрешённых полей, public key, HTTPS и запрещённых URL прошли |
+| Публичный конфиг `validate` | PASS без вывода значений |
+| Попытка `device` на Windows | Ожидаемый код 69: требуется Mac/Xcode, артефакт не создан |
+| Структура native-проекта | OpenStep parser 2.0.3: 65 объектов/ссылки; 5 plist/entitlements, 7 XML, RU/KZ ресурсы, 2 asset manifest — PASS |
+| Xcode compile, Simulator, подпись | **Не выполнялись: Mac отсутствует** |
+| Реальные Keychain, камера/HEIC, сессия, сеть, публикация на iPhone | **Не проверены** |
+
+Команды Mac, настройка собственной Team, прямая установка и сценарий физической
+приёмки: [IOS_SETUP.md](../../apps/mobile/docs/IOS_SETUP.md). Платные услуги,
+TestFlight/App Store и облачная сборка не подключались. Android APK в опубликованном
+выпуске остаётся сборкой 45cabcb; новые изменения исходников в тот файл не подменялись.
+Следующий шаг: Mac с Xcode, локальная подпись и выполнение сценария на iPhone.
