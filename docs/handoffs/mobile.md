@@ -158,4 +158,3 @@ adb install -r qadam-mobile-45cabcb-api061-debug.apk
 Для завершения: получить email-логины учебных A/B через согласованный канал,
 подключить Android с USB debugging, установить собранный APK и выполнить строки
 таблицы с реальным API. Подтвердить commit серверного процесса у backend.
-
