@@ -54,3 +54,8 @@ live acceptance, including verification against a deployed 0.6.2 backend, is
 intentionally deferred until the backend agent confirms rollout. The production
 build also emits the existing large-chunk warning for the 3D controls bundle;
 the 3D area was out of scope.
+
+The branch is pushed. A Draft PR could not be created from this session because
+the available GitHub integration is read-only and the browser is not signed in.
+The comparison page is ready at
+<https://github.com/foxfordkz-cyber/qadamx-taraz/compare/integration/seller-analytics-061...fix/seller-cabinet-reliability?expand=1>.
