@@ -41,7 +41,19 @@ function ProtectedSeller() {
     return (
       <div className="standalone-state">
         <LanguageHeader />
-        <EmptyState title={t("noBusiness")} description={t("noBusinessHint")} />
+        <EmptyState
+          title={t("noBusiness")}
+          description={t("noBusinessHint")}
+          action={
+            <Button
+              variant="secondary"
+              disabled={me.isFetching}
+              onClick={() => void me.refetch({ cancelRefetch: false })}
+            >
+              {t(me.isFetching ? "loading" : "refresh")}
+            </Button>
+          }
+        />
       </div>
     );
   return (

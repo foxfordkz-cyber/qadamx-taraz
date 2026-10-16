@@ -6,6 +6,14 @@
 
 Никаких автоматических денежных действий/клиентов, новой схемы или frontend-каркаса. Общий сервер не переключать до отдельного согласованного окна; дальнейшие общесерверные расходы согласовать. Fallback разрешён кодом только после Gemini503/timeout, один OpenAI pipeline под прежним общим deadline; ошибки доступа/валидации/авторизации и отмена его не запускают. Не объявлять старый Gemini incident исправленным. Customer recovery PR #22/0006/0.6.2 — отдельный rollout после сообщения «окно открыто» и свежего backup/restore.
 
+## 2026-10-16: единое оформление и продолжение функциональных веток
+
+По новому поручению капитана шестой участник отвечает за общие стили и 3D. Айдана и seller-фронтендер продолжают функциональность; изменения общих компонентов и оформления согласуют через владельца единого визуального слоя, чтобы не создавать разные оформления. Текущая серия визуальных изменений — PR #24–#27, автор `ab0ka`. Это уточняет распределение визуальной работы относительно прежних записей ниже; нового переноса Flutter или изменения API оно не задаёт.
+
+Общая база — `main` **13248851fd2b2a502aff211a506f71e85c2b0ab1**, API **0.6.1**. Текущую работу сохраняем в собственных ветках и получаем main обычным merge, без reset --hard и force push. Новые задачи начинаем от актуального main. Flutter, новая voice-адаптация и customer recovery остаются отдельными этапами; это поручение не означает их слияния в main.
+
+Поручение передано [Айдане в PR #23](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/23#issuecomment-6217223383) и [seller-фронтендеру в PR #16](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/16#issuecomment-6217224239). Отправка уведомлений не означает подтверждения получения участниками.
+
 ## 2026-10-16: реализация «Мал базара»
 
 Шестой участник ведёт `apps/mobile`, единственный backend — `apps/api`. Контракт: [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md). В `backend/livestock` ключ идемпотентности UUID в области пользователя общий для livestock actions/upload. PostgreSQL advisory transaction lock по subject сериализует конкурентные записи; изменение и JSON-снимок ответа сохраняются атомарно. Коллизия хэша lock лишь сериализует двух пользователей, проверка владельца всегда сравнивает полный UUID. Membership/locks/формулы журнала не меняются.
@@ -111,6 +119,10 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 
 По уточнению капитана общая база новой ветки — актуальный PR17ca51bbf/API0.6.1, затем обычный merge Seller Analytics PR16ce68f01. Не начинать заново от58d4eb4 и не откатывать market/minimum/контракты Flutter.0005 уже применена; повторного setup нет. Проверка frontend выполняется на отдельных портах, работающие8018/5188/cloudflared сохраняются. Новый Draft направляется в ветку PR17 с явной зависимостью отPR13; ветки друзей, main и базы существующих PR не меняются. [Результаты](ANALYTICS_061_INTEGRATION.md).
 
+## 2026-10-16 — восстановленная среда остаётся на API0.6.1
+
+После остановки процессов восстановлен подтверждённый FastAPI4f67e2c изca51bbf. Read-only ревизия0005 и отсутствие customer recovery таблицы запрещают считать0006 развёрнутой; PR22 остаётся отдельно. Для voice выбран точныйPR23/a1e5252 поверх актуальногоmain1324885, merge7f511dd в отдельнойпроверочнойветке. После последнихправок выполнены полныеfrontend и microphoneпроверки. НовыеHTTPSадреса иточныйCORS опубликованы вVOICE_HTTPS_RESTORED; микрофонпроверен толькоfakedevice, физическаяприёмка остаётсякоманде. Ни main, ни денежныеправила, ни общаясхемаБД не изменены.
+
 ## 2026-10-16 — customer POST recovery по решению PR19
 
 Выбран backend-first вариант PR19/99ed2c0. Контракт и синтетические JSON опубликованы отдельно737a559 до реализации. API0.6.2 добавляет необязательный Idempotency-Key у customerPOST и GET customer-creation-result, scope action/business/verified subject/key. Ответ201 и legacy без ключа сохранены. Клиент и исходный response snapshot записываются одной транзакцией, same-key запросы сериализует PostgreSQL advisory lock; membership проверяется до replay/lookup и удерживается FOR SHARE. Другой body —409, отсутствующий видимый receipt —not_observed, что не доказывает отсутствие позднего worker. Нет TTL/переназначения ключей/автоматической очистки. [Точный контракт и ограничения frontend](../packages/contracts/CUSTOMER_RECOVERY_API.md).
@@ -120,3 +132,12 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16 — безопасный откат customer recovery
 
 Review выявил границу совместимости: прежний API0.6.1 читает схему0006, но игнорирует Idempotency-Key customer POST. После включения recovery простой возврат к старому процессу допускает дубль при позднем повторе. Подготовлен отдельный rollback entrypoint legacy_customer_guard.py: сохранить0006/receipts, временно закрыть все customer POST и recovery lookup ответом503 CUSTOMER_RECOVERY_PAUSED; прочие маршруты передать прежнему API. Frontend сохраняет unknown и исходный ключ, не делает fallback на keyless POST. Обычный API0.6.2 сохраняет legacy POST без ключа. Ни downgrade, ни restore старого backup поверх новых записей не являются штатным откатом. [Проверенный план и ограничения backup](CUSTOMER_RECOVERY_ROLLOUT.md). Применение общей0006 и перезапуск ждут отдельного разрешения/окна; работающая voice-среда не меняется.
+
+
+## 2026-10-16 — разрешённый rollout customer recovery выполнен
+
+Капитан открыл окно. После нового backup/restore применена0006 и запущен ровно4e983b4/API0.6.2. Frontend и оба туннеля сохранены. Gemini остаётся текущим провайдером, fallback false; наличие OpenAI-кода не включает платные расходы. Внешняя HTTP/браузерная приёмка PASS; frontend recovery подключает Бекзат. [Отчёт](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Откат только с сохранением0006/receipts и guard customer writes; raw0.6.1/downgrade/старый restore поверх новых записей запрещены. Main/ветки команды/постоянный deploy не менялись.
+
+## 2026-10-16 — проверочная общая web-сборка, без переключения среды
+
+Основа integration/unified-web-062 — работающий4e983b4, а не прежний main. Дизайн24→26→27→29 объединён по ancestry один раз, Auth c2a9402 и PR32 проверены вместе с recovery/диагностикой/OpenAI0.6.2. Новая схема не нужна. По условию капитана fd21874 исключён целиком после воспроизведения нового customer key между picker и страницей при unknown; coordinator исправляет существующий frontend-владелец. Поздний PR31 10d9bba с незавершённым callback/email также не подключён вслепую. [Review и точный состав](UNIFIED_WEB_062_REVIEW.md). Backend/preview/туннели сохранены; публикация Draft PR не является разрешением на merge или переключение. Приёмка с AI-заглушкой не заменяет живой Gemini, вернувший503.

@@ -1,5 +1,9 @@
 # Qadam API — журнал, AI-черновики и «Мал базар»
 
+**Актуальный runtime:** общая Supabase0006, API0.6.2, код4e983b4; rollout выполнен после проверенного fresh restore и разрешённого окна. [Адреса, приёмка и guard-откат](../../docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md), [актуальный запуск](../../docs/FLUTTER_CONNECTION.md). Повторная миграция/перезапуск не нужны. Gemini сохранён, OpenAI/fallback не включены. Следующие блоки подготовки описывают состояние до rollout.
+
+## История подготовки сборки
+
 **Подготовка rollout0006:** [review, проверенный backup/restore, согласование frontend и откат](../../docs/CUSTOMER_RECOVERY_ROLLOUT.md). Разрешение капитана на0006 уже есть, но применение ждёт отдельного сообщения «окно открыто» и свежего backup/restore; общий сервер не переключается. Raw API0.6.1 игнорирует новый Idempotency-Key, поэтому после включения recovery откат допустим только с временным guard customer writes, без downgrade/удаления receipts.
 
 **Эта ветка — API 0.6.2, customer POST recovery.** [Контракт](../../packages/contracts/CUSTOMER_RECOVERY_API.md), [примеры](../../packages/contracts/customer-recovery-examples.json), [OpenAPI](../../packages/contracts/openapi.json). Optional `Idempotency-Key` у POST customers сохраняет исходный ответ атомарно с клиентом. GET customer-creation-result восстанавливает его по ключу в scope пользователя/точки; `not_observed` не доказывает отсутствие незавершённого POST. Старые POST без ключа совместимы. Денежные правила не менялись.

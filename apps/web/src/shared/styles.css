@@ -88,7 +88,7 @@ svg {
   align-items: center;
   gap: 10px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: var(--qadam-radius-small);
   min-height: 46px;
   padding: 10px 18px;
   font-weight: 600;
@@ -96,23 +96,23 @@ svg {
 }
 .button-primary {
   background: var(--primary);
-  color: #fff;
+  color: var(--qadam-white);
 }
 .button-primary:hover:enabled {
   background: var(--qadam-green-deep);
 }
 .button-secondary {
-  background: #fff;
+  background: var(--qadam-white);
   border-color: var(--border);
 }
 .button-secondary:hover:enabled {
-  background: #f1f3eb;
+  background: var(--qadam-surface-subtle);
 }
 .button-ghost {
   background: transparent;
 }
 .button-ghost:hover:enabled {
-  background: #eae9e0;
+  background: var(--qadam-surface-muted);
 }
 .actions {
   display: flex;
@@ -133,9 +133,9 @@ svg {
   width: 100%;
   min-width: 0;
   min-height: 46px;
-  border: 1px solid #b8c2b8;
-  background: #fff;
-  border-radius: 10px;
+  border: 1px solid var(--qadam-line-hover);
+  background: var(--qadam-white);
+  border-radius: var(--qadam-radius-small);
   padding: 11px 13px;
   font-weight: 400;
   font-size: 16px;
@@ -149,10 +149,10 @@ svg {
   color: var(--muted);
 }
 .field .field-error {
-  color: #9e271a;
+  color: var(--qadam-danger);
 }
 input[aria-invalid="true"] {
-  border-color: #b32918;
+  border-color: var(--qadam-danger);
 }
 .form-stack {
   display: grid;
@@ -177,7 +177,7 @@ input[aria-invalid="true"] {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
-  background: #fff;
+  background: var(--qadam-white);
   min-width: 0;
   overflow-wrap: anywhere;
 }
@@ -189,7 +189,7 @@ input[aria-invalid="true"] {
 .badge {
   display: inline-flex;
   align-items: center;
-  border-radius: 6px;
+  border-radius: var(--qadam-radius-small);
   padding: 5px 8px;
   font-size: 12px;
   font-weight: 650;
@@ -197,37 +197,37 @@ input[aria-invalid="true"] {
   white-space: normal;
 }
 .badge-neutral {
-  background: #eeeee6;
-  color: #47534c;
+  background: var(--qadam-surface-subtle);
+  color: var(--qadam-muted);
 }
 .badge-green {
-  background: #d9eedb;
-  color: #254f34;
+  background: var(--qadam-success-soft);
+  color: var(--qadam-success);
 }
 .badge-red {
-  background: #fbe2d9;
-  color: #982316;
+  background: var(--qadam-danger-soft);
+  color: var(--qadam-danger);
 }
 .alert {
   padding: 14px 16px;
-  border-radius: 10px;
+  border-radius: var(--qadam-radius-small);
   font-size: 14px;
   line-height: 1.6;
   margin-bottom: 18px;
   overflow-wrap: anywhere;
 }
 .alert-info {
-  background: #e7ede3;
-  border: 1px solid #c6d6c0;
+  background: var(--qadam-soft);
+  border: 1px solid var(--qadam-success-line);
 }
 .alert-error {
-  background: #fbe7e0;
-  border: 1px solid #d69785;
-  color: #822416;
+  background: var(--qadam-danger-soft);
+  border: 1px solid var(--qadam-danger-line);
+  color: var(--qadam-danger);
 }
 .alert-success {
-  background: #d9eedb;
-  color: #254f34;
+  background: var(--qadam-success-soft);
+  color: var(--qadam-success);
 }
 .form-stack .alert {
   margin: 0;
@@ -249,7 +249,7 @@ input[aria-invalid="true"] {
 .empty-mark {
   display: block;
   font-size: 46px;
-  color: #8a9c8a;
+  color: var(--qadam-muted);
   margin-bottom: 12px;
 }
 .page-header {
@@ -276,7 +276,7 @@ input[aria-invalid="true"] {
 .spinner {
   height: 24px;
   width: 24px;
-  border: 3px solid #d8dcd4;
+  border: 3px solid var(--qadam-line-strong);
   border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
@@ -288,8 +288,8 @@ input[aria-invalid="true"] {
 }
 .language-switch {
   display: flex;
-  background: #eaece3;
-  border-radius: 9px;
+  background: var(--qadam-surface-muted);
+  border-radius: var(--qadam-radius-small);
   padding: 3px;
   width: max-content;
   flex-shrink: 0;
@@ -297,15 +297,15 @@ input[aria-invalid="true"] {
 .language-switch button {
   border: 0;
   background: transparent;
-  border-radius: 6px;
+  border-radius: var(--qadam-radius-small);
   min-height: 40px;
   min-width: 44px;
   font-weight: 600;
   font-size: 13px;
 }
 .language-switch button[aria-pressed="true"] {
-  background: #fff;
-  box-shadow: 0 1px 4px #172a2712;
+  background: var(--qadam-white);
+  box-shadow: var(--qadam-shadow);
 }
 .brand {
   display: flex;
@@ -320,8 +320,8 @@ input[aria-invalid="true"] {
   justify-content: center;
   align-items: center;
   background: var(--primary);
-  color: #fff;
-  border-radius: 12px;
+  color: var(--qadam-white);
+  border-radius: var(--qadam-radius-control);
   width: 44px;
   height: 44px;
   font-size: 32px;
@@ -344,7 +344,7 @@ input[aria-invalid="true"] {
 }
 .sidebar {
   padding: 32px 22px;
-  background: #f9f8f1;
+  background: var(--qadam-surface-raised);
   border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
@@ -369,7 +369,7 @@ input[aria-invalid="true"] {
   gap: 13px;
   min-height: 48px;
   padding: 10px 14px;
-  border-radius: 10px;
+  border-radius: var(--qadam-radius-small);
   font-size: 14px;
 }
 .sidebar nav a[aria-current="page"] {
@@ -377,7 +377,7 @@ input[aria-invalid="true"] {
   font-weight: 650;
 }
 .sidebar nav a:hover {
-  background: #e8eee1;
+  background: var(--qadam-soft);
 }
 .sidebar-footer {
   margin-top: auto;
@@ -396,7 +396,7 @@ input[aria-invalid="true"] {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #4a7349;
+  background: var(--qadam-success);
   margin-right: 7px;
 }
 .sidebar-footer small {
@@ -448,9 +448,9 @@ input[aria-invalid="true"] {
   display: flex;
   align-items: center;
   gap: 15px;
-  border: 1px solid #cbd8c5;
-  background: #edf2e8;
-  border-radius: 12px;
+  border: 1px solid var(--qadam-line-hover);
+  background: var(--qadam-soft);
+  border-radius: var(--qadam-radius-control);
   padding: 13px 16px;
   margin-bottom: 28px;
   font-size: 12px;
@@ -458,7 +458,7 @@ input[aria-invalid="true"] {
 }
 .demo-banner p {
   margin: 3px 0 0;
-  color: #52624d;
+  color: var(--qadam-muted);
   font-size: 12px;
 }
 .demo-banner strong {
@@ -472,8 +472,8 @@ input[aria-invalid="true"] {
   gap: 20px;
   min-height: 240px;
   padding: 34px;
-  background: #d9eedb;
-  border-radius: 20px;
+  background: var(--qadam-success-soft);
+  border-radius: var(--qadam-radius-card);
   margin-bottom: 35px;
   overflow: hidden;
 }
@@ -481,7 +481,7 @@ input[aria-invalid="true"] {
   max-width: 520px;
 }
 .welcome-panel p {
-  color: #35523c;
+  color: var(--qadam-success);
 }
 .eyebrow {
   text-transform: uppercase;
@@ -494,7 +494,7 @@ input[aria-invalid="true"] {
   font-size: 150px;
   letter-spacing: -15px;
   font-weight: 700;
-  color: #b3cdb4;
+  color: var(--qadam-line-hover);
   line-height: 1;
 }
 .welcome-business {
@@ -513,16 +513,16 @@ input[aria-invalid="true"] {
   position: relative;
   min-height: 190px;
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: var(--qadam-radius-card);
   padding: 25px;
-  background: #fff;
+  background: var(--qadam-white);
   transition:
     transform 0.15s,
     box-shadow 0.15s;
 }
 .action-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 22px #172a270a;
+  box-shadow: var(--qadam-shadow);
 }
 .action-icon {
   display: inline-flex;
@@ -530,8 +530,8 @@ input[aria-invalid="true"] {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border-radius: 10px;
-  background: #f1f0e7;
+  border-radius: var(--qadam-radius-small);
+  background: var(--qadam-surface-subtle);
   margin-bottom: 20px;
 }
 .action-card h2 {
@@ -552,13 +552,13 @@ input[aria-invalid="true"] {
 .action-0 {
   background: var(--primary);
   border-color: var(--primary);
-  color: #fff;
+  color: var(--qadam-white);
 }
 .action-0 p {
-  color: #ffe5db;
+  color: var(--qadam-on-dark-muted);
 }
 .action-0 .action-icon {
-  background: #ffffff25;
+  background: var(--qadam-on-dark-line);
 }
 .secondary-grid {
   display: grid;
@@ -571,9 +571,9 @@ input[aria-invalid="true"] {
   gap: 12px;
   align-items: center;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   padding: 18px 15px;
-  background: #f9f8f3;
+  background: var(--qadam-surface-raised);
   font-size: 14px;
   min-width: 0;
 }
@@ -627,7 +627,7 @@ input[aria-invalid="true"] {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #eef1e5;
+  background: var(--qadam-soft);
   font-size: 20px;
   margin-bottom: 18px;
 }
@@ -642,7 +642,7 @@ input[aria-invalid="true"] {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  color: #a42618;
+  color: var(--qadam-danger);
   font-size: 14px;
   font-weight: 600;
 }
@@ -689,7 +689,7 @@ input[aria-invalid="true"] {
   align-items: end;
   gap: 14px;
   padding-top: 20px;
-  border-top: 1px solid #e9ebe3;
+  border-top: 1px solid var(--qadam-line);
 }
 .status-controls .field {
   min-width: 160px;
@@ -703,10 +703,10 @@ input[aria-invalid="true"] {
   align-items: center;
   justify-content: center;
   aspect-ratio: 1.7;
-  background: #f0f0e6;
-  border-radius: 10px;
+  background: var(--qadam-surface-subtle);
+  border-radius: var(--qadam-radius-small);
   margin-bottom: 22px;
-  color: #8b9a84;
+  color: var(--qadam-muted);
 }
 .product-visual svg {
   width: 55px;
@@ -723,14 +723,14 @@ dialog {
   max-height: calc(100dvh - 32px);
   padding: 26px;
   border: 1px solid var(--border);
-  border-radius: 18px;
+  border-radius: var(--qadam-radius-card);
   background: var(--bg);
   color: var(--text);
   overflow-y: auto;
   overscroll-behavior: contain;
 }
 dialog::backdrop {
-  background: #142b2866;
+  background: var(--qadam-backdrop);
   backdrop-filter: blur(3px);
 }
 .dialog-heading {
@@ -752,9 +752,9 @@ dialog > .language-switch {
   top: -100px;
   z-index: 30;
   padding: 12px;
-  background: #fff;
+  background: var(--qadam-white);
   border: 2px solid var(--primary);
-  border-radius: 8px;
+  border-radius: var(--qadam-radius-small);
 }
 .skip-link:focus {
   top: 12px;
@@ -792,7 +792,7 @@ dialog > .language-switch {
   padding: 36px;
   max-width: 470px;
   width: 100%;
-  box-shadow: 0 12px 40px #172a2707;
+  box-shadow: var(--qadam-shadow-raised);
 }
 .login-card > h2 {
   font-size: 26px;
@@ -834,8 +834,8 @@ dialog > .language-switch {
   width: 180px;
   height: 180px;
   border-radius: 40px;
-  background: #d9eedb;
-  color: #254f34;
+  background: var(--qadam-success-soft);
+  color: var(--qadam-success);
   font-size: 110px;
   letter-spacing: -10px;
   font-weight: 700;
@@ -844,8 +844,8 @@ dialog > .language-switch {
 .brand-art > div {
   width: 50px;
   height: 50px;
-  border-radius: 12px;
-  background: #b32918;
+  border-radius: var(--qadam-radius-control);
+  background: var(--qadam-orange);
   position: absolute;
   left: 165px;
   top: 5px;
@@ -854,7 +854,7 @@ dialog > .language-switch {
 .brand-art > div:nth-of-type(2) {
   width: 70px;
   height: 70px;
-  background: #e8d8ba;
+  background: var(--qadam-lime);
   left: 220px;
   top: 80px;
   transform: rotate(-8deg);
@@ -862,7 +862,7 @@ dialog > .language-switch {
 .brand-art > div:nth-of-type(3) {
   width: 30px;
   height: 30px;
-  background: #294b3e;
+  background: var(--qadam-green-deep);
   left: 190px;
   top: 170px;
 }
@@ -962,8 +962,8 @@ dialog > .language-switch {
   }
   .mobile-sections a {
     border: 1px solid var(--border);
-    background: #faf9f4;
-    border-radius: 8px;
+    background: var(--qadam-surface-raised);
+    border-radius: var(--qadam-radius-small);
     min-height: 44px;
     display: flex;
     align-items: center;
@@ -987,9 +987,9 @@ dialog > .language-switch {
     right: 0;
     z-index: 10;
     padding: 8px 5px calc(8px + env(safe-area-inset-bottom));
-    background: #faf9f3;
-    border-top: 1px solid #c9cfc1;
-    box-shadow: 0 -4px 22px #172a2707;
+    background: var(--qadam-surface-raised);
+    border-top: 1px solid var(--qadam-line-strong);
+    box-shadow: var(--qadam-shadow-bar);
   }
   .bottom-nav a {
     display: flex;
@@ -999,9 +999,9 @@ dialog > .language-switch {
     gap: 6px;
     min-height: 54px;
     padding: 5px 2px;
-    border-radius: 8px;
+    border-radius: var(--qadam-radius-small);
     text-align: center;
-    font-size: 10px;
+    font-size: var(--qadam-text-label);
     line-height: 1.25;
     overflow-wrap: anywhere;
   }

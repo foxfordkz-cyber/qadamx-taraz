@@ -1,105 +1,148 @@
-// Recorder lifecycle adapted from PR #7: stop tracks/timer on unmount and cap at 30s.
 import { useEffect, useRef, useState } from "react";
 import { Button, Input } from "../../shared/ui";
 import { useLedgerText } from "../ledger/i18n";
+import { AudioCapture, type CaptureError, type CaptureState } from "./recorder";
+import { normalizeAudioFile, validAudio } from "./audioContract";
+import { useVoiceText } from "./i18n";
+import "./voice.css";
+
 export function AudioInput({
   disabled,
   onFile,
+  onBusyChange,
+  onReset,
 }: {
   disabled: boolean;
   onFile: (file: File) => void;
+  onBusyChange?: (busy: boolean) => void;
+  onReset?: () => void;
 }) {
   const { l } = useLedgerText(),
-    [recording, setRecording] = useState(false),
-    [error, setError] = useState(false);
-  const recorder = useRef<MediaRecorder | null>(null),
-    stream = useRef<MediaStream | null>(null),
-    timer = useRef<ReturnType<typeof setTimeout> | null>(null),
-    alive = useRef(true),
-    lock = useRef(false);
-  function stop() {
-    if (timer.current) clearTimeout(timer.current);
-    if (recorder.current?.state === "recording") recorder.current.stop();
-    stream.current?.getTracks().forEach((t) => t.stop());
-    setRecording(false);
-  }
+    { v } = useVoiceText();
+  const [state, setState] = useState<CaptureState>("idle");
+  const [error, setError] = useState<CaptureError | null>(null);
+  const capture = useRef<AudioCapture | null>(null),
+    alive = useRef(true);
+  const props = useRef({ disabled, onFile, onBusyChange, onReset });
+  props.current = { disabled, onFile, onBusyChange, onReset };
   useEffect(() => {
     alive.current = true;
     return () => {
       alive.current = false;
-      if (timer.current) clearTimeout(timer.current);
-      if (recorder.current) {
-        recorder.current.onstop = null;
-        if (recorder.current.state === "recording") recorder.current.stop();
-      }
-      stream.current?.getTracks().forEach((t) => t.stop());
+      capture.current?.cancel();
     };
   }, []);
-  async function start() {
-    if (lock.current) return;
-    lock.current = true;
-    setError(false);
-    try {
-      const mime = [
-        "audio/webm;codecs=opus",
-        "audio/mp4",
-        "audio/ogg;codecs=opus",
-      ].find((m) => MediaRecorder.isTypeSupported(m));
-      if (!mime) throw Error();
-      const s = await navigator.mediaDevices.getUserMedia({ audio: true });
-      if (!alive.current) {
-        s.getTracks().forEach((t) => t.stop());
-        return;
-      }
-      stream.current = s;
-      const r = new MediaRecorder(s, { mimeType: mime });
-      recorder.current = r;
-      const chunks: Blob[] = [];
-      r.ondataavailable = (e) => {
-        if (e.data.size) chunks.push(e.data);
-      };
-      r.onstop = () => {
-        if (alive.current)
-          onFile(
-            new File(
-              chunks,
-              `recording.${mime.includes("mp4") ? "m4a" : mime.includes("ogg") ? "ogg" : "webm"}`,
-              { type: mime },
-            ),
-          );
-      };
-      r.start();
-      setRecording(true);
-      timer.current = setTimeout(stop, 30000);
-    } catch {
-      setError(true);
-      stream.current?.getTracks().forEach((t) => t.stop());
-    } finally {
-      lock.current = false;
-    }
+  useEffect(() => {
+    if (disabled) capture.current?.cancel();
+  }, [disabled]);
+
+  function start() {
+    if (
+      props.current.disabled ||
+      (capture.current && capture.current.state !== "idle")
+    )
+      return;
+    setError(null);
+    props.current.onReset?.();
+    const attempt = new AudioCapture({
+      state: (next) => {
+        if (!alive.current || capture.current !== attempt) return;
+        setState(next);
+        props.current.onBusyChange?.(next !== "idle");
+      },
+      ready: (file) => {
+        if (
+          alive.current &&
+          capture.current === attempt &&
+          !props.current.disabled
+        )
+          props.current.onFile(file);
+      },
+      error: (error) => {
+        if (
+          alive.current &&
+          capture.current === attempt &&
+          !props.current.disabled
+        )
+          setError(error);
+      },
+    });
+    capture.current = attempt;
+    setState("requesting");
+    props.current.onBusyChange?.(true);
+    void attempt.start();
   }
+  const active = state === "recording" || state === "paused",
+    stopping = state === "stopping";
   return (
     <>
       <Input
         type="file"
         label={l("audio")}
         accept="audio/*"
-        disabled={disabled || recording}
-        onChange={(e) => {
-          const f = e.target.files?.[0];
-          if (f && f.size <= 8 * 1024 * 1024) onFile(f);
-          else setError(true);
+        disabled={disabled || active || stopping}
+        onChange={(event) => {
+          capture.current?.cancel();
+          setError(null);
+          const selected = event.target.files?.[0];
+          const file = selected && normalizeAudioFile(selected);
+          event.target.value = ""; // Selecting the same file again is a fresh explicit action.
+          if (file && validAudio(file)) props.current.onFile(file);
+          else if (file) setError("invalid");
         }}
       />
-      <Button
-        disabled={disabled}
-        variant="secondary"
-        onClick={() => (recording ? stop() : void start())}
-      >
-        {l(recording ? "stop" : "record")}
-      </Button>
-      {recording && <p role="status">{l("recording")}</p>}
-      {error && <p role="alert">{l("micError")}</p>}
+      <div className="voice-actions">
+        <Button
+          disabled={disabled || state === "requesting" || stopping}
+          variant="secondary"
+          onClick={() => (active ? capture.current?.stop() : start())}
+        >
+          {l(active || stopping ? "stop" : "record")}
+        </Button>
+        {active && capture.current?.canPause && (
+          <Button
+            disabled={disabled}
+            variant="secondary"
+            onClick={() =>
+              state === "paused"
+                ? capture.current?.resume()
+                : capture.current?.pause()
+            }
+          >
+            {v(state === "paused" ? "resumeRecording" : "pauseRecording")}
+          </Button>
+        )}
+        {state !== "idle" && (
+          <Button
+            disabled={disabled}
+            variant="ghost"
+            onClick={() => {
+              capture.current?.cancel();
+              setError(null);
+            }}
+          >
+            {v("cancelRecording")}
+          </Button>
+        )}
+      </div>
+      {state !== "idle" && (
+        <p role="status">
+          {state === "recording"
+            ? l("recording")
+            : v(
+                state === "requesting"
+                  ? "requesting"
+                  : state === "paused"
+                    ? "paused"
+                    : "stopping",
+              )}
+        </p>
+      )}
+      {error && (
+        <p role="alert">
+          <span>{l("micError")}</span> <span>{v(error)}</span>
+        </p>
+      )}
     </>
   );
 }

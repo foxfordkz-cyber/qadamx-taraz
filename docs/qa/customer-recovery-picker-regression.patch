@@ -1,0 +1,36 @@
+diff --git a/apps/web/src/test/qa-customers-regression.test.tsx b/apps/web/src/test/qa-customers-regression.test.tsx
+index 350d508..3cf2a61 100644
+--- a/apps/web/src/test/qa-customers-regression.test.tsx
++++ b/apps/web/src/test/qa-customers-regression.test.tsx
+@@ -34,6 +34,31 @@ async function openForm() {
+   return form;
+ }
+ describe("QA Customers — real bindings, hooks and HTTP transport with mock responses", () => {
++  it("keeps the picker unknown intent when the page form is opened afterwards", async () => {
++    const keys: string[] = [];
++    renderQa({ fetcher: vi.fn((input, init) => {
++      if (init?.method === "POST") {
++        keys.push(new Headers(init.headers).get("Idempotency-Key")!);
++        return Promise.reject(new TypeError("Synthetic lost response"));
++      }
++      return defaultFetch(input, init);
++    }) });
++    await screen.findByRole("heading", { name: "QA Клиент A" });
++    await userEvent.click(screen.getByRole("button", { name: "Выбрать клиента" }));
++    let dialog = within(screen.getByRole("dialog"));
++    await userEvent.click(dialog.getByRole("button", { name: "Новый клиент" }));
++    await userEvent.type(dialog.getByLabelText("Имя"), "QA same intent");
++    await userEvent.click(dialog.getByRole("button", { name: "Создать клиента" }));
++    await waitFor(() => expect(keys).toHaveLength(1));
++    await dialog.findByText(/Результат неизвестен: клиент мог быть создан/);
++    await userEvent.click(dialog.getByRole("button", { name: "Закрыть" }));
++    await userEvent.click(screen.getByRole("button", { name: /Новый клиент/ }));
++    dialog = within(screen.getByRole("dialog"));
++    expect(dialog.getByLabelText("Имя")).toHaveValue("QA same intent");
++    await userEvent.click(dialog.getByRole("button", { name: /Создать клиента|Повторить/ }));
++    await waitFor(() => expect(keys).toHaveLength(2));
++    expect(keys[1]).toBe(keys[0]);
++  });
+   it.each([403, 404, 409, 422, 429, 500])(
+     "GET %i is an error, never empty data or automatic Demo",
+     async (status) => {
