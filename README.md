@@ -29,7 +29,8 @@ Python 3.10+ және Node.js 22 қажет. `setup` жобаның `.venv` ор
 
 ```dotenv
 AI_API_KEY=өз_кілтіңіз
-AI_MODEL=gemini-3.8-flash
+AI_MODEL=gemini-3.5-flash-lite
+AI_FALLBACK_MODEL=gemini-3.8-flash
 ```
 
 4. Серверді Ctrl+C арқылы тоқтатып, `npm.cmd run dev` арқылы қайта қосыңыз.
@@ -71,7 +72,8 @@ AI_MODEL=gemini-3.8-flash
 
 ```dotenv
 AI_API_KEY=
-AI_MODEL=gemini-3.8-flash
+AI_MODEL=gemini-3.5-flash-lite
+AI_FALLBACK_MODEL=gemini-3.8-flash
 ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
 COOKIE_SECURE=false
 DATABASE_PATH=data/qadam.sqlite3
@@ -94,6 +96,34 @@ Frontend `.env` міндетті емес. Әдепкіде `/api/v1` Vite proxy
 - `scripts/dev.mjs`: екі серверді бірге іске қосу/тоқтату.
 
 ## 6. Тесттер
+
+AI байланысын нақты Gemini сұрауымен тексеру (ақша журналына жазбайды):
+
+```powershell
+.\.venv\Scripts\python.exe -m backend.check_ai
+```
+
+`AI_MODEL` — негізгі модель, `AI_FALLBACK_MODEL` — уақытша сервер қатесі,
+timeout немесе модель табылмаған кезде қолданылатын резервтік модель.
+Уақытша ақауда ең көбі үш әрекет жасалады: негізгі, резервтік, негізгі модель.
+Жалпы күту уақыты 25 секундтан аспайды. Жарамсыз жауап бір рет қайта талданады. Кілт не квота қатесінде
+қайта сұрау жіберілмейді. `.env` өзгергеннен кейін `npm.cmd run dev` қайта іске қосыңыз.
+
+AI жауап бермесе, қолмен толтыру бірден ашылады. Бастапқы мәтін мен аудио осы бетте қалады;
+«Қайта талдау» сол енгізуді қайта жібереді. Мәтін мен толтырылған өрістер осы браузер
+қойындысының sessionStorage ішінде аккаунт бойынша сақталады және бет жаңарғанда қалпына келеді.
+Аудио тек бет жадында: бетті жаңартқанда аудиофайлды қайта таңдау керек.
+Браузер сақтау орнын бұғаттаса, енгізу бет жадында ғана қалады.
+
+Толық нақты AI → растау → төлем → қорытынды тексеруі жеке уақытша база қолданады:
+
+```powershell
+.\.venv\Scripts\python.exe -m backend.check_flow
+```
+
+`backend.check_ai` және `backend.check_flow` үшін `--audio sample.wav` қосуға болады.
+Сынақ мәтіні/аудиосы: 3000 ₸ сатылым, 1000 ₸ төлем. Бұл командалар нақты Gemini сұрауын
+жібереді; `check_flow` пайдаланушы базасын өзгертпейді.
 
 ```powershell
 npm.cmd test

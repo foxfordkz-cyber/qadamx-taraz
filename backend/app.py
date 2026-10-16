@@ -64,7 +64,8 @@ def create_app(database_path=None, ai_key=None):
     app = FastAPI(title='Qadam Business API', version='1.0.0', lifespan=lifespan)
     app.state.db_path = db_path
     app.state.ai_key = ai_key if ai_key is not None else os.getenv('AI_API_KEY','')
-    app.state.ai_model = os.getenv('AI_MODEL','gemini-3.8-flash')
+    app.state.ai_model = os.getenv('AI_MODEL','gemini-3.5-flash-lite')
+    app.state.ai_fallback_model = os.getenv('AI_FALLBACK_MODEL', 'gemini-3.8-flash')
     app.add_middleware(CORSMiddleware, allow_origins=allowed, allow_credentials=True,
                        allow_methods=['GET','POST'], allow_headers=['Content-Type','Idempotency-Key'])
 
@@ -302,10 +303,11 @@ def create_app(database_path=None, ai_key=None):
             finally:
                 await audio.close()
         try:
-            extracted=await ai.extract(app.state.ai_key,app.state.ai_model,text=text,audio=data)
+            extracted=await ai.extract(app.state.ai_key,app.state.ai_model,text=text,audio=data,
+                                       fallback_model=app.state.ai_fallback_model)
             extracted=Extraction.model_validate(extracted)
         except ai.AIUnavailable as e:
-            fail(503,'AI_UNAVAILABLE',str(e))
+            fail(503,e.code,str(e))
         except (asyncio.TimeoutError,TimeoutError):
             fail(504,'AI_TIMEOUT','AI күту уақыты аяқталды. Мәтін сақталды, қолмен енгізуге болады.')
         except ValidationError:

@@ -76,3 +76,15 @@ test('blocked browser storage fails before saving and cleanup cannot turn succes
  assert.throws(()=>writePending('pending',{key:'original'}),/Браузер/);
  assert.doesNotThrow(()=>clearPending('pending'));
 });
+
+test('AI failure keeps its recovery code and never repeats a POST in the frontend',async()=>{
+ setIdentity(user);let calls=0;
+ globalThis.fetch=async()=>{calls++;return response({error:{code:'AI_UNAVAILABLE',message:'Temporarily unavailable'}},503)};
+ await assert.rejects(api('/drafts',{method:'POST',body:new FormData()}),error=>error.code==='AI_UNAVAILABLE'&&error.status===503);
+ assert.equal(calls,1);
+});
+
+test('HTML proxy failure on login is a readable connection error',async()=>{
+ globalThis.fetch=async()=>new Response('<html>Bad Gateway</html>',{status:502});
+ await assert.rejects(authApi('/auth/login',{}),error=>error.code==='SERVER_UNAVAILABLE'&&!error.message.includes('JSON'));
+});

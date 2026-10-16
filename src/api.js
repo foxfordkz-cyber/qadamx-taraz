@@ -2,6 +2,9 @@ import {demoApi} from './demo.js';
 const env=import.meta.env || {};
 export const demo = env.VITE_DEMO_MODE === 'true';
 export const apiRoot = (env.VITE_API_URL || '/api/v1').replace(/\/$/,'');
+function apiError(message, code, status) {
+  return Object.assign(new Error(message), {code, status});
+}
 let identity = null;
 export const setIdentity = user => {identity=user};
 export const pendingKey = kind => `qadam-${demo?'demo':identity?.id||'anonymous'}-${kind}`;
@@ -18,7 +21,9 @@ export async function authApi(path, body) {
   const timer=setTimeout(()=>controller.abort(),15000);
   try {
     const response = await fetch(apiRoot+path,{method:body?'POST':'GET',credentials:'include',signal:controller.signal,headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});
-    const data=await response.json();
+    let data;
+    try { data=await response.json(); }
+    catch { throw apiError('Серверге қосылу мүмкін болмады. Қайта көріңіз.', 'SERVER_UNAVAILABLE', response.status); }
     if(!response.ok){const error=new Error(data.error?.message||'Серверге қосылу мүмкін болмады');error.status=response.status;throw error}
     return data;
   } catch(error) {
@@ -38,16 +43,16 @@ export async function api(path, options={}, key) {
   try {
     const response = await fetch(base+path,{...options,headers,credentials:'include',signal:controller.signal});
     let data;
-    try { data=await response.json(); } catch { throw Error(key ? 'NETWORK_UNKNOWN' : 'Сервер жарамсыз JSON қайтарды'); }
+    try { data=await response.json(); } catch { throw apiError(key ? 'NETWORK_UNKNOWN' : 'Сервер уақытша қолжетімсіз. Енгізгеніңіз сақталды, қайта көріңіз.', 'SERVER_UNAVAILABLE', response.status); }
     if (!response.ok) {
       if (response.status===401) window.dispatchEvent(new Event('qadam-auth-required'));
       if (key && (response.status>=500 || response.status===401)) throw Error('NETWORK_UNKNOWN');
-      throw Error(data?.error?.message || data?.error?.code || `HTTP ${response.status}`);
+      throw apiError(data?.error?.message || 'Сұрау орындалмады. Қайта көріңіз.', data?.error?.code || 'SERVER_UNAVAILABLE', response.status);
     }
     if (key && !data?.operation?.id) throw Error('NETWORK_UNKNOWN');
     return data;
   } catch (error) {
-    if (error.name==='AbortError' || error instanceof TypeError) throw Error(key ? 'NETWORK_UNKNOWN' : 'Серверге қосылу мүмкін болмады. Қайта көріңіз.');
+    if (error.name==='AbortError' || error instanceof TypeError) throw apiError(key ? 'NETWORK_UNKNOWN' : 'Серверге қосылу мүмкін болмады. Енгізгеніңіз сақталды, қайта көріңіз.', error.name==='AbortError'?'REQUEST_TIMEOUT':'NETWORK_ERROR');
     throw error;
   } finally {clearTimeout(timeout);}
 }
