@@ -1,5 +1,7 @@
 # Qadam Business
 
+**HTTPS frontend для телефона:** [вход](https://crucial-funky-marion-barcelona.trycloudflare.com/login), сборка PR18 **5ab11b1**. [Точные commits, CORS, результаты и физическая проверка](docs/HTTPS_FRONTEND_PREVIEW.md). API HTTPS прежний; локальные5188/5191 сохранены. Record/Stop проверены только синтетическим Chromium; физический микрофон, playback/cancel не подтверждены.
+
 **Просмотр PR18:** [интегрированная аналитика на5191](http://127.0.0.1:5191/seller/analytics), только наПК капитана;5188 остаётся прежним web. [Живая продажа/доплата, обновление Analytics и повтор без дубля — PASS](docs/ANALYTICS_LEDGER_LIVE_ACCEPTANCE.md). API8018 и временный HTTPS дляFlutter сохранены.
 
 **Актуальная общая проверка 2026-10-16:** `integration/seller-analytics-061`, merge **94e2b7a** объединяет PR #17/API0.6.1 и Seller Analytics PR #16. [Состав, живая приёмка аналитики, проверки и отдельный запуск](docs/ANALYTICS_061_INTEGRATION.md). Backend,0005,market/minimum и Flutter-конфиг сохранены; работающие API8018/web5188/HTTPS не перезапускались. Новая ветка для Draft review, main не изменён. Указания и commits прежних этапов ниже — история; текущее состояние БД **0005_livestock_market**, UI аналитики уже включён.
