@@ -1,125 +1,990 @@
 {
   "checked_on": "2026-10-16",
-  "result": "partial_after_browser_origin_access_denial",
-  "viewer": "tools/assets/viewer.html",
-  "browser": "Codex in-app browser (Chromium), Windows",
-  "loader": "Three.js 0.180.0 GLTFLoader",
+  "result": "passed",
+  "app": "apps/web React/R3F public storefront, Vite dev server http://127.0.0.1:5188",
+  "api": "team public API over temporary HTTPS (GET only; non-GET requests aborted by the check)",
+  "browser": "Google Chrome (Playwright channel chrome), headless, software WebGL (SwiftShader), deviceScaleFactor 1, reduced motion",
+  "loader": "drei useGLTF / three.js GLTFLoader from apps/web dependencies",
   "file_checks": {
     "contract_validator_ok": true,
     "contract_errors": [],
     "contract_warnings": [],
     "khronos_validator_ok": true,
-    "manifest_sha256": "39ce68131bbe727b72316a0cf54c9732a466f0bedcd8926af5f722efd541b423",
-    "viewer_sha256": "5e35e2e1fa2e3114d5fdb82e79cf112898c480f5ff64074a75bbef8dab00ce82",
-    "venues": [
-      {
-        "slug": "mart",
-        "model_sha256": "542f94c1be658a03cc974c6415841912365d6d0a57513277bf9dea1b247023f5",
-        "poster_sha256": "f637e742cbf726ba0c7d2d5cf0a51cd804c33dfcc05b6dc7780fe54cd6d0f683",
-        "triangles": 25090,
-        "bounds_min": [
-          -99.0,
-          0.0,
-          -47.0
-        ],
-        "bounds_max": [
-          99.0,
-          34.23999786376953,
-          47.0
-        ]
-      },
-      {
-        "slug": "kaikarmet",
-        "model_sha256": "1b2653c6a54f1e268db33853cb5739753edb98cb0c43e9bde51e5ea3ea4c37a6",
-        "poster_sha256": "03333289d2ce908cfdc804e214017adc2226276e6d4a60736730bc5f71c895e6",
-        "triangles": 13726,
-        "bounds_min": [
-          -47.0,
-          0.0,
-          -32.0
-        ],
-        "bounds_max": [
-          47.0,
-          8.06248664855957,
-          32.0
-        ]
-      },
-      {
-        "slug": "auyl-bereke",
-        "model_sha256": "8d2c118aa496d68a215a4fb3d9ce0f452a411e7f088953ec2221539ba1f28a78",
-        "poster_sha256": "830593517f50da59fd23ca042ea7cc61963d2156c0c9ab77fd3aa5a5645af716",
-        "triangles": 13796,
-        "bounds_min": [
-          -48.0,
-          0.0,
-          -69.0
-        ],
-        "bounds_max": [
-          48.0,
-          15.76050090789795,
-          69.0
-        ]
-      }
-    ]
+    "manifest_sha256": "d1a6f12c43d4d8f9facf8c8819c2277e9fa77922af2beb73ca81f3f707d202c8"
   },
-  "observed_before_origin_denial": {
-    "desktop": {
-      "canvas_css_pixels": [
-        1161,
-        570
+  "summary": {
+    "hotspot_clicks_ok": "36/36",
+    "widths": [
+      1440,
+      768,
+      390,
+      360
+    ],
+    "home_glb_requests": 0,
+    "venue_page_loads_only_own_glb": true,
+    "fallback_glb_requests": 0,
+    "non_get_api_requests": 0
+  },
+  "venues": [
+    {
+      "slug": "mart",
+      "model_sha256": "d9adafa2a1363026ac3f6859bbea4f5757876392200d590422fd9bd9492a45ee",
+      "poster_sha256": "09614130f9e0479980e2a5085746a2714321398b7c6b64b94a7d73ea3b1f0600",
+      "triangles": 27398,
+      "bounds_min": [
+        -99.0,
+        0.0,
+        -47.0
       ],
-      "models_loaded_on_this_revision": [
-        "kaikarmet",
-        "auyl-bereke"
+      "bounds_max": [
+        99.0,
+        34.23999786376953,
+        47.0
       ],
-      "bounds_corners_in_frame": "8/8 for both",
-      "3d_hotspots_clicked": {
-        "kaikarmet": 3,
-        "auyl-bereke": 3
-      }
+      "widths": [
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "scene_css_pixels": [
+            1136,
+            440
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/mart.glb",
+              "status": 200,
+              "bytes": 1441176
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            154,
+            135,
+            108,
+            138
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "mart-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "mart-demo-clothes",
+              "opened": "/shops/mart-demo-clothes",
+              "shop_h1": "Демо MART clothes",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-food",
+              "opened": "/shops/mart-demo-food",
+              "shop_h1": "Демо MART food",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-home",
+              "opened": "/shops/mart-demo-home",
+              "shop_h1": "Демо MART home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            768,
+            1024
+          ],
+          "scene_css_pixels": [
+            704,
+            323
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/mart.glb",
+              "status": 200,
+              "bytes": 1441176
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            85,
+            107,
+            63,
+            110
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "mart-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "mart-demo-clothes",
+              "opened": "/shops/mart-demo-clothes",
+              "shop_h1": "Демо MART clothes",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-food",
+              "opened": "/shops/mart-demo-food",
+              "shop_h1": "Демо MART food",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-home",
+              "opened": "/shops/mart-demo-home",
+              "shop_h1": "Демо MART home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "scene_css_pixels": [
+            358,
+            290
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/mart.glb",
+              "status": 200,
+              "bytes": 1441176
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            29,
+            113,
+            26,
+            118
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "mart-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "mart-demo-clothes",
+              "opened": "/shops/mart-demo-clothes",
+              "shop_h1": "Демо MART clothes",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-food",
+              "opened": "/shops/mart-demo-food",
+              "shop_h1": "Демо MART food",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-home",
+              "opened": "/shops/mart-demo-home",
+              "shop_h1": "Демо MART home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            360,
+            780
+          ],
+          "scene_css_pixels": [
+            328,
+            290
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/mart.glb",
+              "status": 200,
+              "bytes": 1441176
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            25,
+            115,
+            23,
+            120
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "mart-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "mart-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "mart-demo-clothes",
+              "opened": "/shops/mart-demo-clothes",
+              "shop_h1": "Демо MART clothes",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-food",
+              "opened": "/shops/mart-demo-food",
+              "shop_h1": "Демо MART food",
+              "ok": true
+            },
+            {
+              "id": "mart-demo-home",
+              "opened": "/shops/mart-demo-home",
+              "shop_h1": "Демо MART home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        }
+      ],
+      "fallback_no_webgl": [
+        {
+          "viewport_width": 1440,
+          "poster": "/previews/mart.webp",
+          "poster_natural_width": 1024,
+          "cards": [
+            "1. Демо MART clothes",
+            "2. Демо MART food",
+            "3. Демо MART home"
+          ],
+          "glb_requests": 0
+        },
+        {
+          "viewport_width": 390,
+          "poster": "/previews/mart.webp",
+          "poster_natural_width": 1024,
+          "cards": [
+            "1. Демо MART clothes",
+            "2. Демо MART food",
+            "3. Демо MART home"
+          ],
+          "glb_requests": 0
+        }
+      ]
     },
-    "narrow": {
-      "viewport_css_pixels": [
-        360,
-        800
+    {
+      "slug": "kaikarmet",
+      "model_sha256": "b119bfb35e4d81e68ce9633b5c94fb9f4364efe69d1987a6c073576476a5d2a1",
+      "poster_sha256": "8c9565cb427665c9b02951aa28ed69499bdb075810fae8cc647962dbb6998ab0",
+      "triangles": 13810,
+      "bounds_min": [
+        -47.0,
+        0.0,
+        -32.0
       ],
-      "canvas_css_pixels": [
-        319,
-        350
+      "bounds_max": [
+        47.0,
+        8.06248664855957,
+        32.0
       ],
-      "models_loaded_on_this_revision": [
-        "kaikarmet",
-        "auyl-bereke"
+      "widths": [
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "scene_css_pixels": [
+            1136,
+            440
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/kaikarmet.glb",
+              "status": 200,
+              "bytes": 717596
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            179,
+            149,
+            133,
+            50
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "opened": "/shops/kaikarmet-demo-clothes",
+              "shop_h1": "Демо Кайкармет clothes",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "opened": "/shops/kaikarmet-demo-food",
+              "shop_h1": "Демо Кайкармет food",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "opened": "/shops/kaikarmet-demo-home",
+              "shop_h1": "Демо Кайкармет home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            768,
+            1024
+          ],
+          "scene_css_pixels": [
+            704,
+            323
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/kaikarmet.glb",
+              "status": 200,
+              "bytes": 717596
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            94,
+            112,
+            76,
+            54
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "opened": "/shops/kaikarmet-demo-clothes",
+              "shop_h1": "Демо Кайкармет clothes",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "opened": "/shops/kaikarmet-demo-food",
+              "shop_h1": "Демо Кайкармет food",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "opened": "/shops/kaikarmet-demo-home",
+              "shop_h1": "Демо Кайкармет home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "scene_css_pixels": [
+            358,
+            290
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/kaikarmet.glb",
+              "status": 200,
+              "bytes": 717596
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            24,
+            111,
+            33,
+            88
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "opened": "/shops/kaikarmet-demo-clothes",
+              "shop_h1": "Демо Кайкармет clothes",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "opened": "/shops/kaikarmet-demo-food",
+              "shop_h1": "Демо Кайкармет food",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "opened": "/shops/kaikarmet-demo-home",
+              "shop_h1": "Демо Кайкармет home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            360,
+            780
+          ],
+          "scene_css_pixels": [
+            328,
+            290
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/kaikarmet.glb",
+              "status": 200,
+              "bytes": 717596
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            22,
+            113,
+            32,
+            94
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "kaikarmet-demo-clothes",
+              "opened": "/shops/kaikarmet-demo-clothes",
+              "shop_h1": "Демо Кайкармет clothes",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-food",
+              "opened": "/shops/kaikarmet-demo-food",
+              "shop_h1": "Демо Кайкармет food",
+              "ok": true
+            },
+            {
+              "id": "kaikarmet-demo-home",
+              "opened": "/shops/kaikarmet-demo-home",
+              "shop_h1": "Демо Кайкармет home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        }
       ],
-      "bounds_corners_in_frame": "8/8 for both",
-      "document_client_and_scroll_width_css_pixels": [
-        345,
-        345
-      ],
-      "kaikarmet_hotspots_clicked": 3,
-      "auyl_marker_centres_nonoverlapping_before_last_height_adjustment": true,
-      "auyl_marker_check_note": "Three 42px circles were observed non-overlapping after horizontal/depth repositioning. The home marker was later raised from y=6 to y=10.7 in manifest/source and was not re-observed in the browser."
+      "fallback_no_webgl": [
+        {
+          "viewport_width": 1440,
+          "poster": "/previews/kaikarmet.webp",
+          "poster_natural_width": 1024,
+          "cards": [
+            "1. Демо Кайкармет clothes",
+            "2. Демо Кайкармет food",
+            "3. Демо Кайкармет home"
+          ],
+          "glb_requests": 0
+        },
+        {
+          "viewport_width": 390,
+          "poster": "/previews/kaikarmet.webp",
+          "poster_natural_width": 1024,
+          "cards": [
+            "1. Демо Кайкармет clothes",
+            "2. Демо Кайкармет food",
+            "3. Демо Кайкармет home"
+          ],
+          "glb_requests": 0
+        }
+      ]
     },
-    "fallback": {
-      "images_decoded_1024x768": [
-        "kaikarmet",
-        "auyl-bereke"
+    {
+      "slug": "auyl-bereke",
+      "model_sha256": "d1c397dc38ade6d0470c39e291976bf21f8675f51b6b0538c58e4988bffdf0a5",
+      "poster_sha256": "35c074f71367428f28629b44f3877f62c16d9f3bddbc05b4d2ab4ca1a0e8c7d5",
+      "triangles": 13808,
+      "bounds_min": [
+        -48.0,
+        0.0,
+        -69.0
       ],
-      "hotspots_clicked": {
-        "kaikarmet": 3,
-        "auyl-bereke": 3
-      }
+      "bounds_max": [
+        48.0,
+        15.76050090789795,
+        69.0
+      ],
+      "widths": [
+        {
+          "viewport": [
+            1440,
+            900
+          ],
+          "scene_css_pixels": [
+            1136,
+            440
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/auyl-bereke.glb",
+              "status": 200,
+              "bytes": 746584
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            271,
+            151,
+            253,
+            50
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "opened": "/shops/auyl-bereke-demo-clothes",
+              "shop_h1": "Демо Ауыл Береке clothes",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "opened": "/shops/auyl-bereke-demo-food",
+              "shop_h1": "Демо Ауыл Береке food",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "opened": "/shops/auyl-bereke-demo-home",
+              "shop_h1": "Демо Ауыл Береке home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            768,
+            1024
+          ],
+          "scene_css_pixels": [
+            704,
+            323
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/auyl-bereke.glb",
+              "status": 200,
+              "bytes": 746584
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            134,
+            111,
+            121,
+            37
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "opened": "/shops/auyl-bereke-demo-clothes",
+              "shop_h1": "Демо Ауыл Береке clothes",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "opened": "/shops/auyl-bereke-demo-food",
+              "shop_h1": "Демо Ауыл Береке food",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "opened": "/shops/auyl-bereke-demo-home",
+              "shop_h1": "Демо Ауыл Береке home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            390,
+            844
+          ],
+          "scene_css_pixels": [
+            358,
+            290
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/auyl-bereke.glb",
+              "status": 200,
+              "bytes": 746584
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            34,
+            106,
+            40,
+            70
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "opened": "/shops/auyl-bereke-demo-clothes",
+              "shop_h1": "Демо Ауыл Береке clothes",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "opened": "/shops/auyl-bereke-demo-food",
+              "shop_h1": "Демо Ауыл Береке food",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "opened": "/shops/auyl-bereke-demo-home",
+              "shop_h1": "Демо Ауыл Береке home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        },
+        {
+          "viewport": [
+            360,
+            780
+          ],
+          "scene_css_pixels": [
+            328,
+            290
+          ],
+          "glb_requests": [
+            {
+              "path": "/models/auyl-bereke.glb",
+              "status": 200,
+              "bytes": 746584
+            }
+          ],
+          "model_margins_px_left_top_right_bottom": [
+            29,
+            107,
+            36,
+            76
+          ],
+          "model_clipped": false,
+          "hotspots": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "marker": "1",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "marker": "2",
+              "inside_scene": true,
+              "under_scene_controls": false
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "marker": "3",
+              "inside_scene": true,
+              "under_scene_controls": false
+            }
+          ],
+          "hotspot_clicks": [
+            {
+              "id": "auyl-bereke-demo-clothes",
+              "opened": "/shops/auyl-bereke-demo-clothes",
+              "shop_h1": "Демо Ауыл Береке clothes",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-food",
+              "opened": "/shops/auyl-bereke-demo-food",
+              "shop_h1": "Демо Ауыл Береке food",
+              "ok": true
+            },
+            {
+              "id": "auyl-bereke-demo-home",
+              "opened": "/shops/auyl-bereke-demo-home",
+              "shop_h1": "Демо Ауыл Береке home",
+              "ok": true
+            }
+          ],
+          "console_errors": [],
+          "console_warnings": [
+            "warning: THREE.Clock: This module has been deprecated. Please use THREE.Timer instead."
+          ],
+          "failed_requests": []
+        }
+      ],
+      "fallback_no_webgl": [
+        {
+          "viewport_width": 1440,
+          "poster": "/previews/auyl-bereke.webp",
+          "poster_natural_width": 1024,
+          "cards": [
+            "1. Демо Ауыл Береке clothes",
+            "2. Демо Ауыл Береке food",
+            "3. Демо Ауыл Береке home"
+          ],
+          "glb_requests": 0
+        },
+        {
+          "viewport_width": 390,
+          "poster": "/previews/auyl-bereke.webp",
+          "poster_natural_width": 1024,
+          "cards": [
+            "1. Демо Ауыл Береке clothes",
+            "2. Демо Ауыл Береке food",
+            "3. Демо Ауыл Береке home"
+          ],
+          "glb_requests": 0
+        }
+      ]
     }
-  },
-  "access_limitation": "A subsequent screenshot of the local viewer at http://127.0.0.1:8765 was rejected by the browser origin approval gate; user permission was declined. No further access to that origin was attempted.",
-  "not_tested_on_exact_final_revision": [
-    "MART after the final replacement of font lettering with simple mesh strokes",
-    "Auyl Bereke home hotspot after the final height adjustment to y=10.7",
-    "Fallback image for MART after final render",
-    "Actual React/R3F app integration",
-    "Physical phone, touch gestures, mobile FPS and load performance",
-    "Real WebGL context loss or missing asset requests",
-    "Live API matching beyond current demo seed"
   ],
-  "previous_revision_context": "Earlier browser-validation.json in Git history records an all-three desktop/narrow/fallback pass before this resemblance refinement; it must not be treated as QA of the final binaries."
+  "not_tested": [
+    "Physical phone, touch gestures, mobile GPU, FPS and memory",
+    "Real WebGL context loss and missing-asset network failures",
+    "Hardware-accelerated WebGL (only SwiftShader in headless Chrome)"
+  ],
+  "previous_revision_context": "Earlier browser-validation.json described the standalone viewer check of the 11c4e45 export; Git history keeps it. This file covers the rebuilt binaries above."
 }

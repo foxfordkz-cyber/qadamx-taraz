@@ -5,10 +5,10 @@
     {
       "slug": "mart",
       "errors": [],
-      "bytes": 1312516,
-      "triangles": 25090,
-      "stored_triangles": 25090,
-      "vertices": 47411,
+      "bytes": 1441176,
+      "triangles": 27398,
+      "stored_triangles": 27398,
+      "vertices": 52195,
       "meshes": 29,
       "primitives": 29,
       "bounds_min": [
@@ -23,7 +23,7 @@
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 34424,
+      "poster_bytes": 35782,
       "poster_dimensions": [
         1024,
         768
@@ -32,10 +32,10 @@
     {
       "slug": "kaikarmet",
       "errors": [],
-      "bytes": 712724,
-      "triangles": 13726,
-      "stored_triangles": 13726,
-      "vertices": 25574,
+      "bytes": 717596,
+      "triangles": 13810,
+      "stored_triangles": 13810,
+      "vertices": 25755,
       "meshes": 19,
       "primitives": 19,
       "bounds_min": [
@@ -50,7 +50,7 @@
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 13460,
+      "poster_bytes": 30818,
       "poster_dimensions": [
         1024,
         768
@@ -59,12 +59,12 @@
     {
       "slug": "auyl-bereke",
       "errors": [],
-      "bytes": 745044,
-      "triangles": 13796,
-      "stored_triangles": 13796,
-      "vertices": 26976,
-      "meshes": 17,
-      "primitives": 17,
+      "bytes": 746584,
+      "triangles": 13808,
+      "stored_triangles": 13808,
+      "vertices": 27000,
+      "meshes": 18,
+      "primitives": 18,
       "bounds_min": [
         -48.0,
         0.0,
@@ -77,7 +77,7 @@
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 32316,
+      "poster_bytes": 32804,
       "poster_dimensions": [
         1024,
         768

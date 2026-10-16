@@ -226,14 +226,14 @@
         69.0
       ],
       "camera_position": [
-        47,
-        52,
-        157
+        35.5,
+        47.5,
+        162
       ],
       "camera_target": [
-        0,
-        5,
-        5
+        -11.5,
+        0.5,
+        10
       ],
       "camera_fov_degrees": 45,
       "hotspots": [
