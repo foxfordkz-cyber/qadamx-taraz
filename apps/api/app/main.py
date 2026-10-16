@@ -19,7 +19,7 @@ from app.errors import APIError
 from app.livestock_routes import router as livestock_router
 from app.public_routes import router as public_router
 from app.routers import router
-from app.services.ai import GeminiProvider
+from app.services.ai_provider import ProviderPlan
 from app.services.photos import PhotoBodyLimit, SupabasePhotoStore
 
 
@@ -55,7 +55,7 @@ def create_app(settings: Settings | None = None):
         },
     )
     app.state.engine = make_engine(settings) if settings.database_url else None
-    app.state.ai = GeminiProvider(settings)
+    app.state.ai = ProviderPlan(settings)
     app.state.photos = SupabasePhotoStore(settings)
     app.state.livestock_demo_mode = settings.livestock_demo_mode
     app.state.verifier = (

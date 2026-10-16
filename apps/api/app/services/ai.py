@@ -3,6 +3,7 @@
 import asyncio
 import base64
 import json
+from time import monotonic
 from typing import Annotated, Literal, Protocol
 
 import httpx
@@ -132,6 +133,7 @@ class GeminiProvider:
             generation_config["thinkingConfig"] = {"thinkingLevel": "low"}
         # Fixed provider host, key in header, no signed URL, automatic retry, tools or file storage.
         with ai_stage("provider_http") as diagnostic:
+            diagnostic.provider, diagnostic.model = "gemini", self.model
             async with httpx.AsyncClient(timeout=25, follow_redirects=False) as client:
                 response = await client.post(
                     f"https://generativelanguage.googleapis.com/v1beta/models/{self.model}:generateContent",
@@ -147,6 +149,18 @@ class GeminiProvider:
         with ai_stage("provider_json") as diagnostic:
             diagnostic.provider_status = response.status_code
             body = response.json()
+            # Gemini billing depends on the project tier; record tokens, never invent a cost.
+            usage = body.get("usageMetadata", {}) if isinstance(body, dict) else {}
+            if not isinstance(usage, dict):
+                usage = {}
+            diagnostic.provider, diagnostic.model = "gemini", self.model
+            for field, key in (
+                ("input_tokens", "promptTokenCount"),
+                ("output_tokens", "candidatesTokenCount"),
+            ):
+                count = usage.get(key)
+                if type(count) is int and count >= 0:
+                    setattr(diagnostic, field, count)
         try:
             candidate = body["candidates"][0]
             if candidate.get("finishReason") != "STOP":
@@ -163,6 +177,8 @@ class GeminiProvider:
 async def extract(
     provider: DraftProvider, *, text=None, audio=None, locale="auto", timeout_seconds=25
 ) -> Extraction:
+    if hasattr(provider, "for_request"):
+        provider = provider.for_request()
     with ai_stage("extraction"):
         return await _extract(
             provider, text=text, audio=audio, locale=locale, timeout_seconds=timeout_seconds
@@ -170,12 +186,19 @@ async def extract(
 
 
 async def _extract(provider, *, text, audio, locale, timeout_seconds):
+    deadline = monotonic() + timeout_seconds
+    cancellation_count = asyncio.current_task().cancelling()
     try:
         async with asyncio.timeout(timeout_seconds):
-            for attempt in range(2):
+            for attempt in range(getattr(provider, "max_attempts", 2)):
                 raw = await provider.generate(
                     text=text, audio=audio, locale=locale, retry=bool(attempt)
                 )
+                # A transport that suppresses cancellation cannot revive a late extraction.
+                if monotonic() >= deadline:
+                    raise TimeoutError
+                if asyncio.current_task().cancelling() > cancellation_count:
+                    raise asyncio.CancelledError
                 try:
                     with ai_stage("validation"):
                         if len(raw) > 32_000:
@@ -196,7 +219,9 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                                 raise ValueError("Evidence is not in source")
                         return result
                 except (ValueError, ValidationError, RecursionError):
-                    pass  # Only one retry for parsing/schema; same total deadline.
+                    if getattr(provider, "fallback_used", False):
+                        break  # One fallback pipeline, never a paid parsing retry.
+                    # Gemini keeps its existing one parsing retry; OpenAI has one attempt.
     except (TimeoutError, httpx.TimeoutException):
         raise APIError(504, "AI_TIMEOUT", "AI timed out; use manual input") from None
     except APIError:

@@ -8,8 +8,8 @@ from starlette.exceptions import HTTPException
 from app import schemas
 from app.errors import APIError
 from app.routers import DB, User
-from app.services.ai import extract
 from app.services.ai_diagnostics import ai_stage, diagnostic_request
+from app.services.ai_request import extract_connected
 from app.services.audio import MAX_AUDIO_BYTES, normalize_audio
 from app.services.drafts import authorize_then_release, save_draft
 
@@ -105,6 +105,8 @@ async def _create_draft(id, request, db, user):
                     audio = await run_in_threadpool(normalize_audio, raw, file.content_type or "")
     except HTTPException:
         raise APIError(422, "VALIDATION_ERROR", "Invalid multipart form") from None
-    extracted = await extract(request.app.state.ai, text=text, audio=audio, locale=locale)
+    extracted = await extract_connected(
+        request, request.app.state.ai, text=text, audio=audio, locale=locale
+    )
     with ai_stage("draft_save"):
         return await run_in_threadpool(save_draft, db, id, user, extracted, locale)
