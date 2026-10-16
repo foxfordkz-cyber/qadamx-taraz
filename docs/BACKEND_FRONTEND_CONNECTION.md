@@ -1,5 +1,7 @@
 # Подключение команды к backend — 2026-10-15
 
+**Текущее подключение:** [FLUTTER_CONNECTION](FLUTTER_CONNECTION.md) — API0.6.1, общая схема0005, действующий временный HTTPS. Прежние инструкции и результаты ниже относятся к указанным commits; не запускать старый setup повторно.
+
 **Актуальное дополнение 2026-10-16:** [FLUTTER_CONNECTION](FLUTTER_CONNECTION.md) фиксирует общую интеграцию API 0.6.0, подключённые 0004/Storage и проверенный HTTP 8018. [Аналитика 7/30 дней](../packages/contracts/ANALYTICS_API.md) готова для UI frontend. Исторические таблицы проверок ниже не переписаны.
 
 **Актуальная единая ветка:** [TEAM_INTEGRATION](TEAM_INTEGRATION.md). Она включает Seller `b3d0328`, API/AI `2d2fc56`, новый каталог/заявки 0.4.0, адаптированный ledger и публичную витрину. Ниже сохранён отчёт прежней проверки отдельных PR; его утверждения об отсутствующих экранах относятся к старому snapshot. Итоговый commit и новые результаты — в последней секции backend handoff.
@@ -30,7 +32,7 @@ PR #3 обновился во время проверки с `246851b` до `9b4
 cd apps/api
 uv sync --locked
 uv run alembic current
-# Для существующего qadam-demo ожидается 0004_livestock (head).
+# Для существующего qadam-demo ожидается 0005_livestock_market (head).
 uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 

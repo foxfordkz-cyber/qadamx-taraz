@@ -1,56 +1,30 @@
-# Flutter: проверенный backend и тестовый HTTPS
+# Flutter: живой HTTPS, API 0.6.1 и рынок
 
-Актуально 2026-10-16. Backend commit **cd655e96ec809bb8857666ad1fffa16e56e6d02a**, API **0.6.0**, ветка `integration/local-combined-check`, [Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13) → backend/livestock. Последующий commit этой инструкции меняет только документацию. [OpenAPI на проверенном commit](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/cd655e96ec809bb8857666ad1fffa16e56e6d02a/packages/contracts/openapi.json), [валидируемые JSON-примеры](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/cd655e96ec809bb8857666ad1fffa16e56e6d02a/packages/contracts/examples.json), [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md). Существующий контракт Мал базара 0.5.0 сохранён.
+Проверено 2026-10-16 (Asia/Qyzylorda). Backend **4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5**, ветка `integration/livestock-https`, основана на `58d4eb4` и локальном `e26f732`. API **0.6.1** сохраняет аналитику 0.6.0 и денежные правила. [OpenAPI проверенного commit](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5/packages/contracts/openapi.json), [JSON-примеры](../packages/contracts/examples.json), [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md), [аналитика](../packages/contracts/ANALYTICS_API.md).
 
-## Что уже доступно
+## Действующий тестовый адрес
 
-На ПК капитана работают web `http://127.0.0.1:5188` и FastAPI `http://127.0.0.1:8018/api/v1`. По настоящему HTTP проверены health, public livestock feed, Supabase login и `/me` A/B, «Мои объявления», upload PNG→JPEG без EXIF, повтор с тем же photo ID, private read владельцем и 404 для другого аккаунта. CORS разрешает точный `http://127.0.0.1:5188`. Подключены общая PostgreSQL **0004_livestock** и настоящий private Storage **livestock-photos**. Не повторять миграцию/setup/seed; серверные ключи уже в игнорируемом env. Фото идут только через API.
+**API_BASE_URL: `https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1`**
 
-**Удалённый разработчик пока не имеет проверенного API_BASE_URL.** Ни 127.0.0.1 капитана, ни 10.0.2.2 на компьютере разработчика не ведут к этому серверу. Ниже подготовлен вариант HTTPS; туннель ещё не запущен, адрес-заглушка не является действующим URL. TestClient и localhost HTTP не заменяют проверку с устройства.
+Swagger: [docs](https://kelkoo-student-skiing-universal.trycloudflare.com/docs). [Health](https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1/health), [живой OpenAPI](https://kelkoo-student-skiing-universal.trycloudflare.com/openapi.json). Публичная лента: [listings](https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1/livestock/listings).
 
-## Сервер у капитана
+Это временный Cloudflare Quick Tunnel к FastAPI `127.0.0.1:8018` на ПК капитана. Он проверен по внешнему HTTPS **с ПК капитана**, не с устройства Flutter-разработчика. Адрес действует, пока работают ПК, сеть, FastAPI и cloudflared; фиксированного срока/гарантии доступности нет. Остановка туннеля завершает доступ, новый запуск обычно выдаёт другой hostname. [Условия Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/). Не зашивать этот адрес как production URL, держать в игнорируемом публичном конфиге. После смены origin сначала разрешить неизвестный результат прежних pending-запросов, не переотправлять их с новым ключом.
 
-Рабочая копия: `C:\Users\karab\Documents\Codex\2026-10-15\x20\outputs\team-combined-check`. Основной env: `C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\apps\api\.env`.
+Туннель направлен только на HTTP8018. PostgreSQL не открыт, JWT не отключён; закрытые методы требуют access_token обычного Supabase-пользователя. Public API остаётся публичным. Секреты не входят в конфиг Flutter. Web капитана `http://127.0.0.1:5188` сохранён, точный CORS origin сохранён. Постоянный деплой и платные услуги не выполнялись.
 
-Сначала проверить существующие процессы и health; второй сервер на тот же порт не запускать. При этой передаче API точечно перезапущен с обновлённым env, web сохранён. Для последующего запуска, только когда 8018 свободен:
+## Конфиг, который ожидает PR #15
 
-```powershell
-cd C:\Users\karab\Documents\Codex\2026-10-15\x20\outputs\team-combined-check\apps\api
-uv sync --locked
-$serverEnv = 'C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\apps\api\.env'
-$env:ALLOWED_ORIGINS = '["http://127.0.0.1:5188"]'
-uv run uvicorn app.main:app --env-file $serverEnv --host 127.0.0.1 --port 8018 --no-access-log
-```
-
-Проверки: `http://127.0.0.1:8018/api/v1/health`, `/openapi.json` (info.version 0.6.0), `/docs`. Env загружается при старте; не копировать его во Flutter/web. Для своей отдельной среды разработчик следует README API; доступа к общей БД для запуска Flutter не требуется.
-
-## Временный HTTPS для удалённого Android
-
-Предложение: Cloudflare Quick Tunnel только к `http://127.0.0.1:8018`. Не требует аккаунта или домена. Установить официальный Windows `cloudflared` из [Downloads](https://developers.cloudflare.com/tunnel/downloads/), проверить `cloudflared --version`. В согласованное окно приёмки капитан запускает:
-
-```powershell
-cloudflared tunnel --url http://127.0.0.1:8018
-```
-
-Команда выдаст `https://<случайное-имя>.trycloudflare.com`. **Адрес временный, меняется при новом запуске, отключается при остановке cloudflared. ПК должен быть включён, подключён к сети и не спать; FastAPI и cloudflared должны работать.** У сервиса нет гарантии доступности, лимит 200 одновременных запросов, SSE не поддерживается. Email-gate `--allowed-mail` рассчитан на интерактивный браузер, не на native Flutter HTTP. [Официальные условия Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/).
-
-JWT-проверка FastAPI остаётся включённой: закрытые маршруты без Bearer должны давать 401, чужие данные 404. Public API остаётся публичным для знающих адрес. Не включать debug/request-body logging. Туннель направлен только на HTTP-порт 8018: не открывать PostgreSQL/55432/5432, не пробрасывать их в router/firewall. Сервер продолжает слушать loopback, env и ключи через API не выдаются. Платный тариф, постоянный домен и деплой не подключаются. Для окончания окна остановить только cloudflared; просмотр web/API локально сохранится.
-
-До передачи адреса проверить с **компьютера/телефона разработчика**: `GET https://<выданный-host>/api/v1/health` → 200, public `/livestock/listings` → 200, `/livestock/me/listings` без JWT → 401; затем обычный Supabase login и `/me`/«Мои объявления» → 200. Загрузить только явно учебное фото, повторить с теми же байтами и Idempotency-Key, прочитать как владелец; другой аккаунт должен получить 404. Не копировать JWT в команды/логи/отчёт. Записать фактический host, время окна и результаты. Пока это **план приёмки**, не выполненные внешние проверки.
-
-## Публичный конфиг Flutter
-
-В опубликованной `feature/mobile-livestock-api:da6a3a0` используются `apps/mobile/config/public.local.json` и команда `--dart-define-from-file`. Последний remote head — **a2c0aab**: после da6a3a0 изменился только mobile handoff с результатами APK; настройки и код клиента не изменились. Ветка не объединялась автоматически. Создайте игнорируемый public.local.json из её example и замените API_BASE_URL на **фактически выданный и проверенный** host:
+Проверен [Draft PR #15](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/15), head `a2c0aab1ac5ad8a87c70e9a2a84269142417d4e3`, база backend/livestock. Его ветка не менялась и не сливалась. В `apps/mobile/config/public.local.json`, созданном из example:
 
 ```json
 {
-  "API_BASE_URL": "https://<выданный-host>.trycloudflare.com/api/v1",
-  "SUPAhttps://github.com/foxfordkz-cyber/qadamx-taraz/blob/cd655e96ec809bb8857666ad1fffa16e56e6d02a_URL": "https://pdjjdqgoitnkpgkbqjtp.supabase.co",
-  "SUPAhttps://github.com/foxfordkz-cyber/qadamx-taraz/blob/cd655e96ec809bb8857666ad1fffa16e56e6d02a_PUBLISHABLE_KEY": "sb_publishable_w17k2VDn1gf_Jr8hoXhGeQ_-T9NRnfz"
+  "API_BASE_URL": "https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1",
+  "SUPABASE_URL": "https://pdjjdqgoitnkpgkbqjtp.supabase.co",
+  "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_w17k2VDn1gf_Jr8hoXhGeQ_-T9NRnfz"
 }
 ```
 
-Publishable key публичный и не даёт доступ к закрытым данным без пользовательской сессии. `DATAhttps://github.com/foxfordkz-cyber/qadamx-taraz/blob/cd655e96ec809bb8857666ad1fffa16e56e6d02a_URL`, `STORAGE_SERVICE_KEY`, `AI_API_KEY`, service_role, email/password и JWT в этот файл **не входят**. Supabase URL не заменяет FastAPI URL. Смена адреса туннеля — смена API origin: сначала разрешить неизвестный результат старых pending-запросов, не переотправлять их как новые операции на новом адресе.
+Путь **/api/v1 обязателен**, без query/fragment, без credentials в URL. Не использовать Supabase URL вместо API. Config допускает завершающий slash, но этот пример передаёт канонический URL без него. Publishable key публичный; DATABASE_URL, STORAGE_SERVICE_KEY/service_role, AI_API_KEY, пароль и access/refresh tokens в этот файл не входят.
 
 ```powershell
 cd apps/mobile
@@ -60,20 +34,53 @@ flutter test
 flutter run --dart-define-from-file=config/public.local.json
 ```
 
-Эти команды — инструкция mobile-участнику, здесь Flutter не запускался. Native Android не требует CORS; Flutter Web потребует отдельный точный origin, wildcard не добавлять. Свой учебный аккаунт разработчик получает лично от капитана по закрытому каналу/менеджеру паролей, вводит через форму Supabase login и меняет временный пароль. Не публиковать общий пароль A/B и не передавать готовые access/refresh tokens. Назначать memberships только явно разрешённых учебных точек; для livestock membership вообще не требуется.
+Команды выше предназначены mobile-участнику; здесь Flutter SDK/устройство не запускались. Учебный аккаунт получает лично разработчик от капитана через закрытый канал/менеджер паролей. Пароль вводится в форме входа, не в public config/APK/GitHub; временный пароль нужно сменить. Не передавать готовые JWT в чате. Livestock принадлежит JWT subject и не требует membership магазина. Для аналитики/денежного журнала доступны только точки из `/me`.
 
-LAN/USB альтернативы применимы только при физическом доступе: `adb reverse tcp:8018 tcp:8018` должен исполняться на ПК с API и подключённым телефоном, тогда телефон использует `http://127.0.0.1:8018/api/v1`. `10.0.2.2` относится только к ПК, где работает emulator. Для удалённого коллеги эти адреса не подходят.
+## Совместимость и точные изменения Flutter
 
-## Аналитика для frontend
+Старые запросы PR15 совместимы с 0.6.1: response_validation.dart проверяет известные поля и не отклоняет новые; status/median сохраняют прежнюю семантику. listing_form.dart пока не отправляет market, ui/app.dart пока показывает только медиану. Поэтому это **совместимый старый клиент, но UI рынка/«Цена от» ещё ожидается от mobile-участника**.
 
-[Согласованный контракт](../packages/contracts/ANALYTICS_API.md) и [полные синтетические примеры](../packages/contracts/analytics-examples.json) опубликованы сначала в `2089e44`; реализация — cd655e96ec809bb8857666ad1fffa16e56e6d02a. GET `/businesses/{id}/analytics?days=7|30`, только своя точка из `/me`; шесть карточек, дневные и почасовые графики, Asia/Almaty, сегодняшний день неполный. Отмена исключает исходную продажу из её даты, денежное движение отражается в дату отмены. Средний чек HALF_UP, пустой null, долг по всем датам; `/summary` не менялся. Backend считает всё, UI ожидается от frontend.
+- `ListingWrite.market?: string|null`, 1–100 символов, пробелы нормализуются; пустая строка запрещена. В новом UI добавить отдельный выбор/ввод рынка, RU/KZ и сохранение в локальном draft/pending. Не придумывать реестр рынков и не объявлять MART мал базаром без подтверждения.
+- В PublicListing/OwnerListing читать nullable market, показывать «Рынок не указан» при null. Старый POST без поля создаёт null. Старый PUT **без market сохраняет имеющееся значение**; явный null снимает привязку. При повторе сохранять наличие/отсутствие поля и всё тело, а не добавлять null к старому pending.
+- В запросы feed/mine/prices добавить optional query market вместе с locality; смена фильтра сбрасывает cursor и ключ кеша. Совпадение точное после нормализации пробелов/регистра. Рынок — самоописание продавца, не GPS/проверенный адрес.
+- `PriceStats.min_price_per_head_minor?: int|null` и `market?: string|null`. В валидаторе принять отсутствие нового поля у старого API как «не поддерживается», при наличии проверить null либо положительный int в текущем денежном диапазоне. Не вычислять минимум из первой страницы клиента.
+- Минимум считается по **подходящим по виду/населённому пункту/рынку активным объявлениям, подтверждённым сегодня Asia/Almaty**, без demo. Одна запись — одно наблюдение, quantity не множитель. Это **цена предложения за голову**, не цена сделки. Нет подходящих данных → null, не 0. Минимум доступен при count>=1; медиана при count>=5. `status=insufficient_data` относится к медиане и **не скрывает ненулевой минимум**. Показывать «От … среди сегодняшних объявлений», дату, sample_count; не обещать рыночную гарантию.
+- Суммы int в тиынах, при показе ₸ делить на 100. Смена аккаунта по-прежнему изолирует pending/фото. Auth SDK/refresh, multipart `file`, Idempotency-Key и private-photo URL не менять.
 
-generated.ts обновлён из OpenAPI: AnalyticsResponse/Cards/Day/Hour и GET analytics, существующие типы сохранены. Frontend добавляет binding в общий API-клиент и query key с user+business+days, сбрасывает выбранные данные при смене владельца/точки, показывает знак поступлений и null среднего чека. Не строить аналитику суммированием summary и не называть часы регистраций посещаемостью.
+Примеры новых price-полей (прочие поля ответа — в OpenAPI):
 
-## Фактические проверки и ограничения
+```json
+{"sample_count":0,"min_price_per_head_minor":null,"median_price_per_head_minor":null,"status":"insufficient_data"}
+{"sample_count":1,"min_price_per_head_minor":30000000,"median_price_per_head_minor":null,"status":"insufficient_data"}
+{"sample_count":5,"min_price_per_head_minor":30000000,"median_price_per_head_minor":35000000,"status":"available"}
+```
 
-- 235 backend-тестов PASS, отдельная локальная PostgreSQL qadam_test: реальные SQL/миграции/транзакции; JWT/JWKS, Gemini и Storage в этом наборе синтетические. После UTC-нормализации дополнительно 10/10 analytics PASS. Экспорт контрактов и ruff PASS. Есть предупреждение о deprecated TestClient/httpx.
-- 142 web unit/component PASS; check:api, TypeScript, lint, build PASS. Build предупреждает о крупном 3D chunk. UI аналитики не добавлялся.
-- Настоящий HTTP8018 с Supabase JWT/PG/Storage: перечисленные выше livestock-проверки и аналитика7/30 A/B, графики=карточки, 401/404/422, no-store — PASS. Журнал остался 11 операций; business9/customer13/inquiry2 без изменений. Дополнительное приватное синтетическое непривязанное фото: 835b4921-6594-5570-8a32-f6bc56c29e47; не удалялось.
-- Новый браузерный/Flutter/внешний HTTPS и живой Gemini в этом этапе не выполнялись. Предыдущие браузерные/Gemini результаты остаются в COMBINED_ACCEPTANCE и не считаются повторёнными.
-- Удалённый HTTPS ещё нужно запустить в согласованное окно и проверить с устройства. Отдельно остаются эксплуатационная уборка непривязанных фото и приёмка mobile-ветки. Main, ветки коллег и базы PR не менялись; merge/deploy не было.
+## Что проверено реально
+
+Через приведённый **внешний HTTPS** с этого ПК, без заглушек: health/OpenAPI0.6.1, обычный Supabase password login A/B и GET /me, аналитика7 дней, public feed и mine, private photo owner200/foreign404/anonymous401, чужое редактирование404, CORS5188. PNG **7 692 562 байта** (>4.5MB, <8MiB) загружен в настоящий Storage, выдан JPEG без EXIF; точный повтор вернул тот же photo ID. Публикация старым телом без market и повтор вернули один listing ID. Повтор ранее сохранённого **до 0005** publish-запроса через HTTPS тоже вернул прежний ID без дубля. Редактирование рынка, feed/mine по рынку и пустой чужой фильтр прошли. Demo исключено из цены → count0/minnull; положительный минимум подтверждён только отдельными PostgreSQL-тестами, ложных non-demo объявлений в общей БД не создавали.
+
+Оставлены явно учебные данные: active listing `16b8f0be-732c-449e-81f6-5fb3fb0fff83`, photo `dd1478b0-2f0f-5159-87fc-e68b698b893f`. Место `Synthetic HTTPS test`, рынок `Synthetic HTTPS market`, контакт обозначает отсутствие связи; изображение — синтетический шум. В полночь Asia/Almaty active объявление исчезнет из публичной ленты до confirm_today; это ожидаемо. Существующие операции11/businesses9/customers13/inquiries2 сохранены. Автоматического удаления не было.
+
+Не выполнены на этом этапе: Flutter/физический телефон, внешний запрос с компьютера разработчика, повторный браузерный UI или живой Gemini. 238 backend-тестов прошли на отдельной qadam_test (реальные SQL/миграции, синтетические JWT/JWKS/Storage/Gemini); ruff и экспорт PASS. Web check:api, TypeScript и lint PASS. Старые 142 frontend/браузерные результаты из предыдущего этапа не объявляются новым прогоном.
+
+## Миграция и воспроизведение у капитана
+
+Общая qadam-demo теперь **0005_livestock_market**. Перед применением после явного разрешения капитана backup qadam был **реально восстановлен** в отдельную локальную `qadam_restore_0005_test`; количества/хеши содержимого всех12 таблиц совпали. После миграции сравнение повторено: прежние данные сохранены, старый market null, индекс создан, RLS и запреты anon/authenticated сохранены. Это backup схемы/данных qadam без исходных owner/ACL, не всей Supabase/Auth/Storage; восстановление прав требует отдельно проверенных миграций/ролей. Backup и журналы в игнорируемом tmp, не публикуются и автоматически не удаляются.
+
+Рабочая копия сервера: `C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\tmp\livestock-https`. Env — прежний `...\work\qadamx-taraz\apps\api\.env`, не перезаписан. На 8018 запущен 0.6.1 только после миграции и read-only application preflight. Команды ниже — для повторного запуска **только при свободном порте**, не для второго экземпляра:
+
+```powershell
+cd C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\tmp\livestock-https\apps\api
+uv sync --locked
+$serverEnv = 'C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\apps\api\.env'
+$env:ALLOWED_ORIGINS = '["http://127.0.0.1:5188"]'
+uv run uvicorn app.main:app --env-file $serverEnv --host 127.0.0.1 --port 8018 --no-access-log
+# В отдельном процессе, если действующий туннель остановлен:
+cloudflared tunnel --url http://127.0.0.1:8018
+```
+
+Сейчас cloudflared2026.10.1 взят из официального release, SHA256 сверён. Не запускать второй туннель вместо действующего и не останавливaть чужие процессы. Не применять повторно setup/seed/очищающую проверку к общей БД. Откат приложения0.6.0 совместим с добавленной схемой; не делать downgrade0005 для отката приложения — он удаляет новые поля.
+
+## Следующий шаг
+
+Flutter-разработчик проверяет с **своего компьютера и устройства** health, вход, загрузку/повтор, фильтры и A/B isolation; фиксирует версию0.6.1 и дату. Backend не может выдать проверку со своего ПК за этот результат. Mobile UI рынка/минимума — задача владельца PR15. Frontend аналитика остаётся отдельной задачей. [План постоянного размещения](PERMANENT_HOSTING_PLAN.md) подготовлен отдельно; постоянного деплоя здесь нет.
