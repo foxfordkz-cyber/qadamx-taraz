@@ -28,6 +28,7 @@ const links: { path: string; label: TranslationKey; icon: IconName }[] = [
   { path: "customers", label: "customers", icon: "customers" },
   { path: "catalog", label: "catalog", icon: "catalog" },
   { path: "history", label: "history", icon: "history" },
+  { path: "analytics", label: "analytics", icon: "summary" },
 ];
 export function SellerLayout() {
   const { t } = useI18n();
@@ -172,7 +173,7 @@ export function SellerLayout() {
           aria-haspopup="dialog"
           aria-expanded={menuOpen}
           className={
-            ["debts", "summary", "catalog", "history"].some(
+            ["debts", "summary", "catalog", "history", "analytics"].some(
               (path) => pathname === `/seller/${path}`,
             )
               ? "is-active"

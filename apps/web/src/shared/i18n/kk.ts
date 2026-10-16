@@ -1,5 +1,73 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  analytics: "Аналитика",
+  analyticsTitle: "Менің сауда нүктемнің аналитикасы",
+  analyticsSubtitle:
+    "Күші жойылмаған сатылымдар, түсімдер және ағымдағы қарыздар бір жерде.",
+  analyticsPeriod: "Есеп кезеңі",
+  analytics7Days: "7 күн",
+  analytics30Days: "30 күн",
+  analyticsDemoTitle: "Demo · синтетикалық аналитика",
+  analyticsDemoHint:
+    "Бұл — оқу мысалы, сауда нүктеңіздің есебі емес. Деректер серверден жүктелмейді, операциялар жазылмайды.",
+  analyticsDemoClock:
+    "Оқу деректері 2026 жылғы 16 қазанға бекітілген. Бұл ағымдағы уақыт емес.",
+  analyticsScenario: "Оқу сценарийі",
+  analyticsActivity: "Сатылымдар мен төлемдер",
+  analyticsEmptyScenario: "Операциялар жоқ",
+  analyticsErrorScenario: "Қате және қайталау",
+  analyticsDemoErrorHint:
+    "Бұл сервер жауабы емес, оқу жүктеу қатесі. Қайталау синтетикалық деректерді қайта жүктейді; сервер шақырылмайды.",
+  analyticsReversalScenario: "Бұрынғы сатылымның күшін жою",
+  analyticsWaitingTitle: "Аналитика қосылуды күтуде",
+  analyticsWaitingHint:
+    "Бұл қолданбада API мекенжайы бапталмаған. Аналитика серверін қосу үшін капитанға хабарласыңыз. Оқу деректері тек жеке Demo режимінде қолжетімді.",
+  analyticsAsOf: "Деректер уақыты",
+  analyticsTimezone: "Уақыт белдеуі",
+  analyticsPartial: "Бүгін — толық емес күн",
+  analyticsSales: "Күші жойылмаған сатылымдар",
+  analyticsReceipts: "Түсімдер",
+  analyticsPeriodSales: "Кезеңдегі сатылымдар",
+  analyticsPeriodReceipts: "Кезеңде алынған қаражат",
+  analyticsAverage: "Орташа чек",
+  analyticsCurrentDebt: "Маған қазір қарыз",
+  analyticsSaleCount: "Тіркелген сатылымдар",
+  analyticsNoSales: "Сатылымдар жоқ",
+  analyticsAverageHint: "Күші жойылмаған сатылымдар бойынша орташа мән",
+  analyticsReceiptsHint: "Бұрынғы қарыздардың өтелуін қоса алғанда",
+  analyticsDebtors: "Борышкерлер",
+  analyticsDebtHint: "Деректер уақытына дейінгі барлық күндер бойынша",
+  analyticsNotProfit: "Бұл көрсеткіштер пайда болып саналмайды.",
+  analyticsDailyTitle: "Күндер бойынша сатылымдар",
+  analyticsDailyHint:
+    "Күші жойылмаған сатылымдар тіркелген күні көрсетіледі. Күші жойылғанда бастапқы сатылым өз күнінен алынады, сондықтан бұрынғы мәндер өзгеруі мүмкін.",
+  analyticsSignedHint:
+    "Түсімдерге бұрынғы сатылымдардың қосымша төлемдері және күші жойылғандағы қайтарымдар кіреді. Теріс мәндер нөлден төмен көрсетілген.",
+  analyticsHourlyTitle: "Сатылымдар қай сағаттарда тіркеледі",
+  analyticsHourlyHint:
+    "Таңдалған кезеңдегі күші жойылмаған сатылымдардың тіркелу уақыты бойынша. Келушілер санын көрсетпейді.",
+  analyticsSeries: "График көрсеткіші",
+  analyticsShowDailyTable: "Күндер кестесі",
+  analyticsShowHourlyTable: "Сағаттар кестесі",
+  analyticsDailyCaption:
+    "Күші жойылмаған сатылымдар мен түсімдер күндер бойынша",
+  analyticsHourlyCaption:
+    "Тіркелген күші жойылмаған сатылымдар сағаттар бойынша",
+  analyticsDate: "Күн",
+  analyticsHour: "Сағат",
+  analyticsCount: "Сатылымдар саны",
+  analyticsChartHint:
+    "Нақты мәндер үшін бағанды таңдаңыз. ← және → пернелері бағандарды ауыстырады. Графикті айналдыруға болады.",
+  analyticsDailyChart: "Күндік график; көлденең айналдыру",
+  analyticsHourlyChart: "Сағаттық график; көлденең айналдыру",
+  analyticsTableScroll: "Кесте; ← және → пернелерімен көлденең айналдыру",
+  analyticsSelected: "Таңдалған деректер",
+  analyticsNoActivity: "Күші жойылмаған сатылымдар мен таза түсімдер жоқ",
+  analyticsNoActivityHint:
+    "Таңдалған кезеңдегі сатылымдар мен жиынтық түсім нөлге тең. Ағымдағы қарыз бөлек көрсетілген. Төменде кезеңнің барлық күндері мен 24 сағаты берілген.",
+  analyticsReversalTitle: "Күшін жоюдың оқу мысалы",
+  analyticsReversalHint:
+    "Таңдалған кезеңге дейінгі сатылымның күші жойылды. Сондықтан күші жойылмаған сатылымдар нөлге тең, ал қайтарым күшін жою күнінде теріс түсім ретінде көрсетіледі.",
   financialDemoTitle: "Қаржылық деректер жүйеге кіргеннен кейін қолжетімді",
   financialDemoHint:
     "Demo режимінде операциялар жазылмайды, қарыздар мен қорытындылар серверден жүктелмейді. Сауда нүктесінің есебін жүргізу үшін жұмыс аккаунтына кіріңіз.",

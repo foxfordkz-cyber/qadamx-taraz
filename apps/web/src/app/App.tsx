@@ -10,7 +10,12 @@ import {
   PublicPending,
 } from "./pages";
 import { modules, type FrontendModules } from "./modules";
-import { CatalogPage, CustomersPage, InquiriesPage } from "../features/seller";
+import {
+  AnalyticsPage,
+  CatalogPage,
+  CustomersPage,
+  InquiriesPage,
+} from "../features/seller";
 import { ApiError } from "../shared/api/client";
 import type { SellerGateway } from "../shared/api/gateway";
 import { LanguageSwitch, useI18n } from "../shared/i18n";
@@ -107,6 +112,7 @@ export function App({
           <Route path="inquiries" element={<InquiriesPage />} />
           <Route path="customers" element={<CustomersPage />} />
           <Route path="catalog" element={<CatalogPage />} />
+          <Route path="analytics" element={<AnalyticsPage />} />
           {(["sale", "debts", "history", "summary"] as const).map((key) => (
             <Route
               key={key}
