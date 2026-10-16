@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Vector3 } from "three";
 import type { Vec3 } from "./types";
 
@@ -18,9 +18,13 @@ export function Projector({
   anchors: Anchor[];
   onChange: (points: ScreenPoints) => void;
 }) {
-  const { camera, size } = useThree();
+  const { camera, size, invalidate } = useThree();
   const last = useRef<ScreenPoints>({});
   const v = useMemo(() => new Vector3(), []);
+  // frameloop="demand": anchors that arrive after the last frame (shops load after a cached
+  // model) would wait for the next camera move, so request a frame when the set changes.
+  const key = anchors.map((a) => `${a.id}:${a.position.join(",")}`).join("|");
+  useEffect(() => invalidate(), [key, invalidate]);
   // Runs on every rendered frame; with frameloop="demand" that is only after camera changes.
   useFrame(() => {
     const next: ScreenPoints = {};

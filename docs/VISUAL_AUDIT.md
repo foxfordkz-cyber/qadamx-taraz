@@ -98,3 +98,7 @@ API, auth, API-клиент, generated.ts, деньги, идемпотентн�
 Проверки: typecheck, lint, format:check, build — passed; unit 207 passed; E2E Analytics-конфиг 24 passed, QA-конфиг 21 passed. Обход 13 страниц × 1440/768/390/360 на фикстуре seed: переполнения нет, мелких целей 48, консоль без ошибок. Размеры GLB без изменений: MART 1 312 516, Кайкармет 712 724, Ауыл Береке 745 044 байт.
 
 Не сделано в C: пересборка GLB (Blender), отдельный GLB «Мал базара», замер FPS и памяти на физическом Android.
+
+## Этап D
+
+Сквозная приёмка, исправление проектора и инструкция интеграции — [VISUAL_ACCEPTANCE](VISUAL_ACCEPTANCE.md); галерея до/после — [screenshots/unified-visual](screenshots/unified-visual/README.md).
