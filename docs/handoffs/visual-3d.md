@@ -31,6 +31,8 @@
 
 Этап B (`feature/unified-visual-3d-b`, поверх A): токены вместо 137 цветовых литералов, единые радиусы и тени, нижние границы шрифта 12/11 px, читаемые disabled, общий фокус витрины, стиль выбора файла. Изменены только `shared/{tokens,styles,merchant}.css`, `features/explore/explore.css`, `features/seller/analytics/analytics.css`; разметка и логика не менялись. Подробности — раздел «Этап B» в [VISUAL_AUDIT](../VISUAL_AUDIT.md).
 
+Этап C (`feature/unified-visual-3d-c`, поверх B): маркеры и подписи сцен — DOM-слой поверх canvas вместо drei `<Html>` (исправлена пропажа точки 1), силуэты площадок на главной, свет и цвета сцен из токенов, пределы зума по размеру площадки и «Общий вид», раздел «Мал базар — демонстрационная схема» с планом и 3D по кнопке. Изменены только файлы `features/explore` и `public/asset-sources.md`; GLB не менялись. Подробности — раздел «Этап C» в [VISUAL_AUDIT](../VISUAL_AUDIT.md).
+
 ## Проверки
 
 typecheck, lint, format:check, build — passed. Unit/component 207 passed. E2E в установленном Chrome: Analytics-конфиг 24 passed, QA-конфиг 21 passed. Снимки до/после — локально в игнорируемой `tmp/screenshots/{before,after}`; физический телефон не проверялся, только эмуляция ширин в headless Chrome.
@@ -53,4 +55,4 @@ typecheck, lint, format:check, build — passed. Unit/component 207 passed. E2E 
 
 ## Следующий шаг
 
-Этап C — 3D: свет и стартовые камеры, обзор главной из настоящих моделей или превью, сцена «Мал базар — демонстрационная схема». Для пересборки GLB нужен Blender 4.5 LTS. Каждый этап — отдельный проверяемый Draft PR в `integration/seller-analytics-061`.
+Этап D — сквозная проверка общей сборки (маршруты, 9 hotspot на живом API, RU/KZ, reduced motion, мобильное меню, снимки до/после). Пересборка GLB по референсам — после установки Blender 4.5 LTS; физический Android — на устройстве команды.

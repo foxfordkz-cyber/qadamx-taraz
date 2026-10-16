@@ -1254,12 +1254,151 @@
   padding: 6px;
   border-radius: 50%;
   border: 2px solid var(--qadam-green);
-  background: white;
+  background: var(--qadam-white);
+  color: var(--qadam-green);
+  font-weight: 800;
   cursor: pointer;
   min-height: 44px;
+  box-shadow: var(--qadam-shadow);
+}
+.ex .hotspot[aria-pressed="true"] {
+  background: var(--qadam-green);
+  color: var(--qadam-white);
+}
+/* Selected marker names its shop next to the number; the list stays the full source. */
+.ex .hotspot-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.ex .hotspot-label {
+  position: absolute;
+  left: calc(100% + 6px);
+  max-width: 180px;
+  padding: 6px 10px;
+  border-radius: var(--qadam-radius-pill);
+  background: var(--qadam-white);
+  color: var(--qadam-ink);
+  font: 700 var(--qadam-text-xs) / 1.2 var(--qadam-font);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-shadow: var(--qadam-shadow);
+  pointer-events: none;
 }
 .ex .inq fieldset {
   border: 0;
   padding: 0;
   min-width: 0;
+}
+
+/* Venue names over the overview silhouettes; the card list below remains the accessible source. */
+.ex .scene-label {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: var(--qadam-radius-pill);
+  background: var(--qadam-white);
+  color: var(--qadam-ink);
+  font: 800 var(--qadam-text-sm) / 1.1 var(--qadam-font);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: var(--qadam-shadow);
+}
+.ex .scene-label--active {
+  background: var(--qadam-green);
+  color: var(--qadam-white);
+}
+
+/* DOM overlay for projected 3D anchors (markers, venue names). Above the canvas, below scene controls. */
+.ex .scene-anchors {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ex .scene-anchors .hotspot-wrap,
+.ex .scene-anchors .scene-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+.ex .scene-anchors .hotspot-wrap {
+  pointer-events: auto;
+}
+
+/* Мал базар — demonstration scheme (no listings until the web API integration exists). */
+.ex .mal {
+  margin-top: 64px;
+}
+.ex .mal .section-heading .badge {
+  align-self: start;
+}
+.ex .mal-body {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 32px;
+  align-items: start;
+}
+.ex .mal-copy {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.ex .mal-copy p {
+  margin: 0;
+  max-width: 54ch;
+}
+.ex .mal-copy .btn {
+  justify-self: start;
+}
+.ex .mal-visual {
+  min-width: 0;
+}
+.ex .mal-visual .scene {
+  margin: 0;
+}
+.ex .mal-plan {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  border: 1px solid var(--qadam-line-strong);
+  border-radius: var(--qadam-radius-card);
+  background: var(--qadam-white);
+}
+.ex .mal-plan-yard {
+  fill: var(--qadam-surface-subtle);
+  stroke: var(--qadam-line-strong);
+}
+.ex .mal-plan-aisle {
+  fill: var(--qadam-soft);
+  stroke: var(--qadam-green);
+  stroke-dasharray: 6 5;
+}
+.ex .mal-plan-pen {
+  fill: var(--qadam-white);
+  stroke: var(--qadam-muted-light);
+  stroke-width: 2;
+}
+.ex .mal-plan-gate {
+  fill: none;
+  stroke: var(--qadam-green);
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+.ex .mal-plan-arrow {
+  fill: none;
+  stroke: var(--qadam-orange-deep);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ex .mal-plan-text {
+  fill: var(--qadam-ink);
+  font: 700 13px var(--qadam-font);
+}
+@media (max-width: 760px) {
+  .ex .mal-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
 }
