@@ -1,5 +1,7 @@
 # Qadam API — журнал, AI-черновики и «Мал базар»
 
+**Подготовка rollout0006:** [review, проверенный backup/restore, согласование frontend и откат](../../docs/CUSTOMER_RECOVERY_ROLLOUT.md). Разрешение на применение ещё ожидается; общий сервер не переключается. Raw API0.6.1 игнорирует новый Idempotency-Key, поэтому после включения recovery откат допустим только с временным guard customer writes, без downgrade/удаления receipts.
+
 **Эта ветка — API 0.6.2, customer POST recovery.** [Контракт](../../packages/contracts/CUSTOMER_RECOVERY_API.md), [примеры](../../packages/contracts/customer-recovery-examples.json), [OpenAPI](../../packages/contracts/openapi.json). Optional `Idempotency-Key` у POST customers сохраняет исходный ответ атомарно с клиентом. GET customer-creation-result восстанавливает его по ключу в scope пользователя/точки; `not_observed` не доказывает отсутствие незавершённого POST. Старые POST без ключа совместимы. Денежные правила не менялись.
 
 Для **изолированного локального** запуска этой ветки сначала укажите собственную demo DATABASE_URL, примените `uv run alembic upgrade 0006_customer_requests`, проверьте `uv run alembic check`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8020`. Не запускайте0.6.2 против0005. Работающий общий API8018/HTTPS остаётся0.6.1, общая Supabase0005: новая миграция там **не применялась**. Rollout — отдельное согласованное действие с backup/проверкой восстановления; старый сервер совместим с добавочной таблицей. Не удаляйте receipts при откате приложения.

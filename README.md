@@ -1,5 +1,7 @@
 # Qadam Business
 
+**PR22 готовится к согласованию rollout, не развёрнут:** [review и фактический backup/restore0006](docs/CUSTOMER_RECOVERY_ROLLOUT.md). Работающие API0.6.1, voice preview и туннели сохранены; актуальные адреса — в [опубликованной инструкции восстановления](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/0737439/docs/VOICE_HTTPS_RESTORED.md). Сведения о прежних адресах ниже относятся к прошлым запускам.
+
 **Ветка customer recovery (API 0.6.2):** [контракт и JSON](packages/contracts/CUSTOMER_RECOVERY_API.md), [локальный запуск и обязательная0006](apps/api/README.md). Основа — PR18/1324885. Работающие HTTPS preview/API остаются на прежних сборках, API0.6.1/Supabase0005; новый recovery ещё не включён в общей среде. Сохранены Analytics, market/minimum и старые POST customers.
 
 **HTTPS frontend для телефона:** [вход](https://crucial-funky-marion-barcelona.trycloudflare.com/login), сборка PR18 **5ab11b1**. [Точные commits, CORS, результаты и физическая проверка](docs/HTTPS_FRONTEND_PREVIEW.md). API HTTPS прежний; локальные5188/5191 сохранены. Record/Stop проверены только синтетическим Chromium; физический микрофон, playback/cancel не подтверждены.
