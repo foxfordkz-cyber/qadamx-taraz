@@ -67,7 +67,13 @@ Analytics E2E использует отдельный 4181 и синтетиче
 
 ### Commits
 
-Demo/validation: **484eb487e67e9092af303b7675e339cfcde508ba**. Live adapter/query: **c6e80b50c5d8796b28cd8fd3431b719351a1a312**. UI/navigation/RU-KZ: **ca948ea1dc9b48674aa60901d7451ec1edb4df46**. Следующий отдельный commit сохраняет проверенные tests/screenshots/handoff; публикация и новый Draft PR фиксируются после успешного push. Текущий полный HEAD всегда получать `git log -1 --format=%H`.
+Demo/validation: **484eb487e67e9092af303b7675e339cfcde508ba**. Live adapter/query: **c6e80b50c5d8796b28cd8fd3431b719351a1a312**. UI/navigation/RU-KZ: **ca948ea1dc9b48674aa60901d7451ec1edb4df46**. Tests/screenshots/handoff: **2be68accfddf52091323d53f500f714872ecf1d4**. Последующий docs-only commit фиксирует публикацию без изменения проверенного source/tests tree; текущий полный HEAD всегда получать `git log -1 --format=%H`.
+
+### Публикация
+
+Создан **[open Draft PR #16](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/16)**: feature/seller-analytics → integration/local-combined-check, точный base58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76. GitHub подтвердил mergeable=true/без конфликтов, merged=false. Fetch успешен; при первой публикации удалённой Analytics-ветки ещё не было, поэтому pull своей ветки пропущен осознанно. `git push -u origin feature/seller-analytics` успешен; local и remote HEAD2be68accfddf52091323d53f500f714872ecf1d4 совпали. Финальная передача отправляется после повторного fetch/pull --ff-only своей ветки и сверки HEAD.
+
+Законченный frontend опубликован полностью:12 production files,4 test/config files,3 docs и8 screenshot paths (README+7PNG). Незавершённых изменений frontend нет. Merge/force push/deploy не выполнялись. Следующая работа — review капитаном и собственная read-only/live browser acceptance на достижимом API с учебным аккаунтом; ограничения ниже остаются явно открытыми.
 
 ## Ограничения и следующий шаг
 
