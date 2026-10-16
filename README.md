@@ -1,5 +1,9 @@
 # Qadam Business
 
+**Восстановлено 2026-10-16,18:40:** [HTTPS frontend с voice PR23](https://negotiations-exist-newman-ohio.trycloudflare.com/login), API_BASE_URL `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Проверенная сборка7f511dd, backend4f67e2c/API0.6.1, Supabase0005. [Точные commits, все проверки, условия доступности и подключение](docs/VOICE_HTTPS_RESTORED.md). Playback/cancel прошли синтетические браузерные проверки; физический микрофон ещё не проверен. Локальный5191 теперь показывает эту сборку.
+
+**Далее — история предыдущих запусков. Старые HTTPS-адреса недоступны; текущие адреса указаны выше.**
+
 **HTTPS frontend для телефона:** [вход](https://crucial-funky-marion-barcelona.trycloudflare.com/login), сборка PR18 **5ab11b1**. [Точные commits, CORS, результаты и физическая проверка](docs/HTTPS_FRONTEND_PREVIEW.md). API HTTPS прежний; локальные5188/5191 сохранены. Record/Stop проверены только синтетическим Chromium; физический микрофон, playback/cancel не подтверждены.
 
 **Просмотр PR18:** [интегрированная аналитика на5191](http://127.0.0.1:5191/seller/analytics), только наПК капитана;5188 остаётся прежним web. [Живая продажа/доплата, обновление Analytics и повтор без дубля — PASS](docs/ANALYTICS_LEDGER_LIVE_ACCEPTANCE.md). API8018 и временный HTTPS дляFlutter сохранены.

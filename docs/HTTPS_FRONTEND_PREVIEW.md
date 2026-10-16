@@ -1,5 +1,9 @@
 # Временный HTTPS frontend для проверки на телефоне
 
+**Восстановлено 2026-10-16,18:40:** [HTTPS frontend с voice PR23](https://negotiations-exist-newman-ohio.trycloudflare.com/login), API_BASE_URL `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Проверенная сборка7f511dd, backend4f67e2c/API0.6.1, Supabase0005. [Точные commits, все проверки, условия доступности и подключение](VOICE_HTTPS_RESTORED.md). Playback/cancel прошли синтетические браузерные проверки; физический микрофон ещё не проверен. Локальный5191 теперь показывает эту сборку.
+
+**Далее — история предыдущих запусков. Старые HTTPS-адреса недоступны; текущие адреса указаны выше.**
+
 Проверено 2026-10-16,17:28 Asia/Almaty. Это production-сборка текущей проверенной интеграции PR18, обслуживаемая локальным preview через отдельный бесплатный Quick Tunnel. Постоянный hosting/deploy не выполнялся.
 
 ## Адреса и точные commits
