@@ -1,83 +1,125 @@
 {
-  "checked_on": "2026-10-15",
-  "result": "passed_in_standalone_asset_viewer",
+  "checked_on": "2026-10-16",
+  "result": "partial_after_browser_origin_access_denial",
   "viewer": "tools/assets/viewer.html",
   "browser": "Codex in-app browser (Chromium), Windows",
   "loader": "Three.js 0.180.0 GLTFLoader",
-  "observation_method": "UI controls, DOM QA panel, rendered screenshots, image natural dimensions",
-  "desktop": {
-    "canvas_css_pixels": [
-      1161,
-      570
-    ],
-    "device_pixel_ratio": 1,
-    "models_loaded": 3,
-    "bounds_corners_in_frame_per_model": "8/8",
-    "hotspots_clicked": 9
+  "file_checks": {
+    "contract_validator_ok": true,
+    "contract_errors": [],
+    "contract_warnings": [],
+    "khronos_validator_ok": true,
+    "manifest_sha256": "39ce68131bbe727b72316a0cf54c9732a466f0bedcd8926af5f722efd541b423",
+    "viewer_sha256": "5e35e2e1fa2e3114d5fdb82e79cf112898c480f5ff64074a75bbef8dab00ce82",
+    "venues": [
+      {
+        "slug": "mart",
+        "model_sha256": "542f94c1be658a03cc974c6415841912365d6d0a57513277bf9dea1b247023f5",
+        "poster_sha256": "f637e742cbf726ba0c7d2d5cf0a51cd804c33dfcc05b6dc7780fe54cd6d0f683",
+        "triangles": 25090,
+        "bounds_min": [
+          -99.0,
+          0.0,
+          -47.0
+        ],
+        "bounds_max": [
+          99.0,
+          34.23999786376953,
+          47.0
+        ]
+      },
+      {
+        "slug": "kaikarmet",
+        "model_sha256": "1b2653c6a54f1e268db33853cb5739753edb98cb0c43e9bde51e5ea3ea4c37a6",
+        "poster_sha256": "03333289d2ce908cfdc804e214017adc2226276e6d4a60736730bc5f71c895e6",
+        "triangles": 13726,
+        "bounds_min": [
+          -47.0,
+          0.0,
+          -32.0
+        ],
+        "bounds_max": [
+          47.0,
+          8.06248664855957,
+          32.0
+        ]
+      },
+      {
+        "slug": "auyl-bereke",
+        "model_sha256": "8d2c118aa496d68a215a4fb3d9ce0f452a411e7f088953ec2221539ba1f28a78",
+        "poster_sha256": "830593517f50da59fd23ca042ea7cc61963d2156c0c9ab77fd3aa5a5645af716",
+        "triangles": 13796,
+        "bounds_min": [
+          -48.0,
+          0.0,
+          -69.0
+        ],
+        "bounds_max": [
+          48.0,
+          15.76050090789795,
+          69.0
+        ]
+      }
+    ]
   },
-  "narrow": {
-    "viewport_override_css_pixels": [
-      360,
-      800
-    ],
-    "canvas_css_pixels": [
-      319,
-      350
-    ],
-    "device_pixel_ratio": 1,
-    "models_loaded": 3,
-    "bounds_corners_in_frame_per_model": "8/8",
-    "hotspots_clicked": 9,
-    "horizontal_overflow": false,
-    "note": "Scrollbar and full-page screenshot capture can change content width by 15 px; camera refits on resize."
-  },
-  "fallback": {
-    "trigger": "Показать изображение button (manual fallback)",
-    "images_decoded": 3,
-    "image_dimensions": [
-      1024,
-      768
-    ],
-    "hotspots_clicked": 9,
-    "return_to_3d": "passed (MART)",
-    "reset_view": "passed (MART)"
-  },
-  "venues": [
-    {
-      "slug": "mart",
-      "triangles": 11072,
-      "min_y": 0,
-      "selected_slugs": [
-        "mart-demo-clothes",
-        "mart-demo-food",
-        "mart-demo-home"
-      ]
+  "observed_before_origin_denial": {
+    "desktop": {
+      "canvas_css_pixels": [
+        1161,
+        570
+      ],
+      "models_loaded_on_this_revision": [
+        "kaikarmet",
+        "auyl-bereke"
+      ],
+      "bounds_corners_in_frame": "8/8 for both",
+      "3d_hotspots_clicked": {
+        "kaikarmet": 3,
+        "auyl-bereke": 3
+      }
     },
-    {
-      "slug": "kaikarmet",
-      "triangles": 15684,
-      "min_y": 0,
-      "selected_slugs": [
-        "kaikarmet-demo-clothes",
-        "kaikarmet-demo-food",
-        "kaikarmet-demo-home"
-      ]
+    "narrow": {
+      "viewport_css_pixels": [
+        360,
+        800
+      ],
+      "canvas_css_pixels": [
+        319,
+        350
+      ],
+      "models_loaded_on_this_revision": [
+        "kaikarmet",
+        "auyl-bereke"
+      ],
+      "bounds_corners_in_frame": "8/8 for both",
+      "document_client_and_scroll_width_css_pixels": [
+        345,
+        345
+      ],
+      "kaikarmet_hotspots_clicked": 3,
+      "auyl_marker_centres_nonoverlapping_before_last_height_adjustment": true,
+      "auyl_marker_check_note": "Three 42px circles were observed non-overlapping after horizontal/depth repositioning. The home marker was later raised from y=6 to y=10.7 in manifest/source and was not re-observed in the browser."
     },
-    {
-      "slug": "auyl-bereke",
-      "triangles": 14004,
-      "min_y": 0,
-      "selected_slugs": [
-        "auyl-bereke-demo-clothes",
-        "auyl-bereke-demo-food",
-        "auyl-bereke-demo-home"
-      ]
+    "fallback": {
+      "images_decoded_1024x768": [
+        "kaikarmet",
+        "auyl-bereke"
+      ],
+      "hotspots_clicked": {
+        "kaikarmet": 3,
+        "auyl-bereke": 3
+      }
     }
-  ],
-  "not_tested": [
-    "React/R3F application integration: no frontend application scaffold in this checkout",
+  },
+  "access_limitation": "A subsequent screenshot of the local viewer at http://127.0.0.1:8765 was rejected by the browser origin approval gate; user permission was declined. No further access to that origin was attempted.",
+  "not_tested_on_exact_final_revision": [
+    "MART after the final replacement of font lettering with simple mesh strokes",
+    "Auyl Bereke home hotspot after the final height adjustment to y=10.7",
+    "Fallback image for MART after final render",
+    "Actual React/R3F app integration",
     "Physical phone, touch gestures, mobile FPS and load performance",
     "Real WebGL context loss or missing asset requests",
-    "Live API matching (manifest matches current demo-seed.json; recheck before integration)"
-  ]
+    "Live API matching beyond current demo seed"
+  ],
+  "previous_revision_context": "Earlier browser-validation.json in Git history records an all-three desktop/narrow/fallback pass before this resemblance refinement; it must not be treated as QA of the final binaries."
 }

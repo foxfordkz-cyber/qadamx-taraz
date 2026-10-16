@@ -5,25 +5,25 @@
     {
       "slug": "mart",
       "errors": [],
-      "bytes": 609624,
-      "triangles": 11072,
-      "stored_triangles": 11072,
-      "vertices": 22274,
-      "meshes": 11,
-      "primitives": 11,
+      "bytes": 1312516,
+      "triangles": 25090,
+      "stored_triangles": 25090,
+      "vertices": 47411,
+      "meshes": 29,
+      "primitives": 29,
       "bounds_min": [
-        -28.0,
+        -99.0,
         0.0,
-        -21.0
+        -47.0
       ],
       "bounds_max": [
-        28.0,
-        14.200000762939453,
-        21.0
+        99.0,
+        34.23999786376953,
+        47.0
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 18072,
+      "poster_bytes": 34424,
       "poster_dimensions": [
         1024,
         768
@@ -32,25 +32,25 @@
     {
       "slug": "kaikarmet",
       "errors": [],
-      "bytes": 859988,
-      "triangles": 15684,
-      "stored_triangles": 15684,
-      "vertices": 31512,
-      "meshes": 11,
-      "primitives": 11,
+      "bytes": 712724,
+      "triangles": 13726,
+      "stored_triangles": 13726,
+      "vertices": 25574,
+      "meshes": 19,
+      "primitives": 19,
       "bounds_min": [
-        -25.0,
+        -47.0,
         0.0,
-        -22.0
+        -32.0
       ],
       "bounds_max": [
-        25.0,
-        6.699999809265137,
-        22.0
+        47.0,
+        8.06248664855957,
+        32.0
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 15156,
+      "poster_bytes": 13460,
       "poster_dimensions": [
         1024,
         768
@@ -59,25 +59,25 @@
     {
       "slug": "auyl-bereke",
       "errors": [],
-      "bytes": 779864,
-      "triangles": 14004,
-      "stored_triangles": 14004,
-      "vertices": 28596,
-      "meshes": 11,
-      "primitives": 11,
+      "bytes": 745044,
+      "triangles": 13796,
+      "stored_triangles": 13796,
+      "vertices": 26976,
+      "meshes": 17,
+      "primitives": 17,
       "bounds_min": [
-        -26.0,
+        -48.0,
         0.0,
-        -22.0
+        -69.0
       ],
       "bounds_max": [
-        26.0,
-        8.845000267028809,
-        22.0
+        48.0,
+        15.76050090789795,
+        69.0
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 11096,
+      "poster_bytes": 32316,
       "poster_dimensions": [
         1024,
         768

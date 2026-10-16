@@ -11,6 +11,7 @@
 | Кабинет/frontend-каркас | `frontend/app-shell` | `docs/handoffs/seller-web.md` |
 | Учёт/frontend | `frontend/voice-ledger` | `docs/handoffs/ledger-web.md` |
 | 3D | `assets/venue-models` | `docs/handoffs/assets-3d.md` |
+| Flutter/mobile | `feature/mobile-livestock` | `docs/handoffs/mobile.md` (заполняет mobile) |
 
 Имена — примеры веток, а не сообщение, что они уже созданы. Законченную небольшую задачу сливаем и следующую начинаем новой веткой от актуального `main`. Не держать все изменения два дня без интеграции.
 
@@ -68,4 +69,4 @@ git merge origin/main
 
 Общий API меняется вместе со схемами и потребителями. Если потребитель делает другой участник, указать зависимость и не считать готовым общий сценарий до интеграции. Один владелец редактирует общие web-зависимости/router, один — миграции и API.
 
-Основной процесс основан на [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow). Все пять человек имеют свои учётные записи и отдельные локальные копии репозитория.
+Основной процесс основан на [GitHub flow](https://docs.github.com/en/get-started/using-github/github-flow). Все шесть человек имеют свои учётные записи и отдельные локальные копии репозитория.

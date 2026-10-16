@@ -1,6 +1,6 @@
 # Инструкции AI для Qadam Business
 
-Qadam — голосовой учёт продаж, оплат и долгов с заявками и 3D-витриной торговых площадок Тараза. Команда из пяти человек, срок MVP — два дня. Помогай с назначенной задачей и сохраняй общий контракт.
+Qadam — голосовой учёт продаж, оплат и долгов с заявками, 3D-витриной Тараза и Flutter-модулем «Мал базар». Команда из шести человек. Помогай с назначенной задачей и сохраняй общий контракт.
 
 ## Перед работой
 
@@ -17,6 +17,7 @@ Qadam — голосовой учёт продаж, оплат и долгов �
 - `seller-web`: `apps/web/src/app`, `shared`, `features/seller`, router, корневые web-зависимости и сборка. Задание `05_TEAM_SELLER_FRONTEND.md`.
 - `ledger-web`: `features/voice`, `features/ledger`, `features/summary`. Задание `06_TEAM_LEDGER_FRONTEND.md`.
 - `assets-3d`: `apps/web/public/models`, `public/previews`, manifest и источники моделей. Задание `07_TEAM_3D.md`.
+- `mobile`: `apps/mobile`, Flutter «Мал базар», Supabase session и клиент общего API. Задание `09_TEAM_MOBILE.md`, контракт `packages/contracts/LIVESTOCK_API.md`. Backend остаётся в `apps/api`; магазин/membership для объявления не требуется.
 
 Все файлы заданий лежат в `docs/team5`. Три frontend-разработчика работают в одном `apps/web`. Художник передаёт ассеты, а `public-web` подключает их к сцене.
 

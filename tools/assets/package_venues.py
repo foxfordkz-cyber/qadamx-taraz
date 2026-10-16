@@ -45,8 +45,8 @@ def main():
     draw = ImageDraw.Draw(board)
     draw.text((60, 40), "Qadam", font=font(30), fill="#0f0f0d")
     draw.text((60, 104), "Три площадки. Один визуальный язык.", font=font(52), fill="#0f0f0d")
-    draw.text((62, 184), "Тараз · Концептуальные модели · 15 октября 2026", font=font(24), fill="#6b6a63")
-    captions = ["Арки и главный вход", "Низкие торговые ряды", "Ворота и павильоны"]
+    draw.text((62, 184), "Тараз · По открытым фотографиям · Размеры оценочные", font=font(24), fill="#6b6a63")
+    captions = ["Стрельчатые арки и кирпич", "Синий фасад и крытые ряды", "Ворота с конями и навесы"]
     for i, venue in enumerate(venues):
         x, y = 60 + i * 565, 274
         draw.rounded_rectangle((x, y, x + 550, 853), radius=22, fill="#f6f5f2")
