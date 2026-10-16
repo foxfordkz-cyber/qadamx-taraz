@@ -1,5 +1,7 @@
 # Qadam Business
 
+**Опубликованные хостинги:** [web](https://qadamx-taraz.vercel.app), API_BASE_URL `https://qadamx-taraz.onrender.com/api/v1`, OpenAPI0.6.2 / Supabase0006. [Новая живая Auth/AI-приёмка, точные границы доказательств и открытые пункты](docs/HOSTING_AI_ACCEPTANCE.md), [передача команде и Flutter](docs/HOSTING_TEAM_HANDOFF.md). Капитан переключил Render на OpenAI вручную; локальный резервный API и туннели сохранены. Старые указания ниже — исторические этапы. Полная приёмка хостинга и конкретной recording.webm ещё не объявляется завершённой.
+
 **Отдельный кандидат интеграции:** `integration/unified-web-062`, проверенный код **b899902** — дизайн PR24/26/27/29, Auth c2a9402 и AI-уточнения PR32 поверх работающего backend4e983b4. [Состав, тесты, блокеры recovery/регистрации и предложение preview](docs/UNIFIED_WEB_062_REVIEW.md). Это ещё не код общего HTTPS preview. Recovery fd21874 исключён после воспроизведения нового ключа между двумя формами; поздняя незавершённая регистрация PR31 10d9bba не включена.
 
 **Текущая общая среда:** API **0.6.2**, код **4e983b4**, Supabase **0006_customer_requests**. [Rollout, адреса и новая живая приёмка](docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Voice frontend7f511dd и оба туннеля сохранены, команда может продолжать работу. Recovery UI подключает Бекзат. Ниже — история подготовки: старые URL и ожидания rollout больше не являются текущими указаниями.

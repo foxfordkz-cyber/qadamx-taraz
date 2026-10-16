@@ -1,5 +1,9 @@
 # Текущее состояние Qadam Business
 
+## 2026-10-16 — опубликованы Vercel/Render, ограниченная AI-приёмка
+
+Web `https://qadamx-taraz.vercel.app`, API `https://qadamx-taraz.onrender.com/api/v1`, OpenAPI0.6.2 и общая Supabase0006 проверены. Капитан переключил Environment на OpenAI; новый STT-log и шесть успешных hosted pipelines подтвердили работу текста/аудио/уточнения. Настоящий browser AuthA/B/analytics/isolation/public3D PASS; деньги не подтверждались. [Полный отчёт](HOSTING_AI_ACCEPTANCE.md), [передача команде](HOSTING_TEAM_HANDOFF.md). Конкретная recording.webm ещё не диагностирована до точного text-validation outcome; patch c6e0411 подготовлен, не развернут. Actual deployment SHA/active extraction model/SSL, финансовая и фото-приёмка Render, cold start и физические устройства ещё требуют завершения. Остаток защитного бюджета AI$0.20; paid retries остановлены. Туннели сохранены. Далее исторические этапы.
+
 ## 2026-10-16 — API0.6.2 запущен
 
 После разрешения «окно открыто»: свежий backup восстановлен на отдельной PostgreSQL, применена0006, данные сохранены, общий сервер переключён на **4e983b4**. Внешний HTTP recovery/legacy/ledger/analytics/livestock/Storage и настоящий браузерный AuthA/B PASS. [Адреса, учебные записи и ограничения](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Gemini сохранён, OpenAI fallback выключен. Телефон/Flutter не проверялись этим прогоном, frontend recovery требуется подключить. Main/merge/постоянный deploy не менялись. Далее — исторические этапы.

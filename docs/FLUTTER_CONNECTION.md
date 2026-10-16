@@ -1,5 +1,7 @@
 # Flutter: действующий HTTPS API 0.6.2
 
+**Постоянные адреса опубликованы:** API_BASE_URL `https://qadamx-taraz.onrender.com/api/v1`, FRONTEND_BASE_URL `https://qadamx-taraz.vercel.app`. [Точный публичный конфиг PR25/421b2fb, пересборка и checklist устройства](HOSTING_TEAM_HANDOFF.md#flutter-pr25--421b2fb), [фактическая hosted-приёмка и ограничения](HOSTING_AI_ACCEPTANCE.md). Ниже сохранена история действующих резервных туннелей; их не выключаем до завершения перехода. Не переносить неизвестные pending операции на новый URL с новым ключом.
+
 **16 октября 2026, после разрешённого rollout:** backend **`4e983b42a2a0466d2fc07e4de09becf87a8ef7d5`**, Supabase **0006_customer_requests**. [Backup/restore, живая приёмка и ограничения](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Все прежние схемы и8 livestock OpenAPI paths сохранены относительно0.6.1. Migration/setup повторять не нужно.
 
 ## Текущий конфиг Flutter
