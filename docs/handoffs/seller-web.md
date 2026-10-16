@@ -6,6 +6,8 @@
 
 Backend/OpenAPI/generated/финансовые/voice/public-модули, main и PR #14/#16 не изменены. Unit/build/E2E на этапе документации не запускались; проверка diff фиксируется при commit. HTTPS PR #17/API 0.6.1 капитана изучен только как отдельный источник, не объединён; его live-результаты за свои не выдаются. Следом — согласованный frontend/regressions, затем отдельная физическая Android/HTTPS приёмка. Точный текущий commit: `git log -1 --format=%H`. Ниже сохранена историческая передача дизайна.
 
+Опубликовано: [open Draft PR #19](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/19), base `integration/local-combined-check`, без конфликтов при проверке. Анализ — commit `4e18743edfc35a6fa7fd078a3d8ddb6b83d0a085`, успешный первый push, local/remote HEAD совпали. `git diff --check`, staged scope, ссылки и read-only assertions OpenAPI — PASS. Ветка теперь отслеживает только `origin/fix/customer-post-unknown-result`. Продолжение: `git fetch origin`, `git pull --ff-only origin fix/customer-post-unknown-result`, перечитать предложение и дождаться решения капитана по frontend-политике. Не объединять PR #14/#16/#17 автоматически. Этот дополнительный commit фиксирует только публикацию, точный итоговый HEAD получает команда выше.
+
 # Seller web — передача интегрированного дизайна
 
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.

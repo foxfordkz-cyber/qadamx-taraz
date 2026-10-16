@@ -107,6 +107,8 @@ Android Web требует доверенного secure frontend origin, дос
 
 ## Проверки и продолжение
 
-Проверены fetch, remote HEAD и статусы PR; изучены контракт, routes/schemas/модели и frontend lifecycle. Этот этап меняет только два документа. Перед commit: `git diff --check`, проверка состава staged diff. Build/unit/E2E не запускались; новые tests и Android acceptance ещё не выполнены.
+Проверены fetch, remote HEAD и статусы PR; изучены контракт, routes/schemas/модели и frontend lifecycle. Этот этап меняет только два документа. `git diff --check`, staged scope review и все относительные ссылки этих документов — PASS. Read-only проверки OpenAPI (0.6.0, единственный path parameter POST, 201, extra forbidden, лимиты имени/заметки) — PASS. Build/unit/E2E не запускались; новые tests и Android acceptance ещё не выполнены.
+
+Анализ опубликован commit `4e18743edfc35a6fa7fd078a3d8ddb6b83d0a085`, push успешен, remote/local HEAD совпали. [Отдельный Draft PR #19](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/19), base `integration/local-combined-check`, mergeable=true при проверке. Последующая запись публикации меняет только документацию; итоговый HEAD — `git log -1 --format=%H`.
 
 Далее требуется решение по разделу 6 задания: согласовать frontend с ограничением всех новых созданий точки и невосстановлением полей после reload либо сначала добавить Backend idempotency/recovery. После согласования — frontend/test commits, затем отдельная Android acceptance при наличии устройства и HTTPS origin.
