@@ -10,6 +10,17 @@ void main() {
   };
   test('iOS build accepts only the complete public config', () {
     expect(() => validateIosPublicConfig(public), returnsNormally);
+    expect(
+      () => validateIosPublicConfig({...public, 'FRONTEND_BASE_URL': ''}),
+      returnsNormally,
+    );
+    expect(
+      () => validateIosPublicConfig({
+        ...public,
+        'FRONTEND_BASE_URL': 'https://web.example.test',
+      }),
+      returnsNormally,
+    );
     for (final invalid in [
       {...public, 'PASSWORD': 'synthetic-not-a-password'},
       {...public}..remove('API_BASE_URL'),
@@ -21,6 +32,24 @@ void main() {
       expect(() => validateIosPublicConfig(invalid), throwsFormatException);
     }
   });
+  test(
+    'optional frontend is a plain HTTPS origin, never a token handoff URL',
+    () {
+      for (final url in [
+        42,
+        'http://web.example.test',
+        'https://user:pass@web.example.test',
+        'https://web.example.test/login',
+        'https://web.example.test?token=fixture',
+        'https://web.example.test#access_token=fixture',
+      ]) {
+        expect(
+          () => validateIosPublicConfig({...public, 'FRONTEND_BASE_URL': url}),
+          throwsFormatException,
+        );
+      }
+    },
+  );
   test('iOS build refuses insecure, credential-bearing or wrong API URLs', () {
     for (final url in [
       'http://api.example.test/api/v1',

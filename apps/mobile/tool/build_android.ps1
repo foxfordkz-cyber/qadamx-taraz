@@ -8,12 +8,13 @@ Push-Location $appDirectory
 try {
     $configPath = (Resolve-Path -LiteralPath $PublicConfig).Path
     $config = Get-Content -LiteralPath $configPath -Raw | ConvertFrom-Json
-    $allowed = @('API_BASE_URL', 'SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY')
+    $required = @('API_BASE_URL', 'SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY')
+    $allowed = $required + @('FRONTEND_BASE_URL')
     $names = @($config.PSObject.Properties.Name)
-    if ($names.Count -ne 3 -or @($names | Where-Object { $_ -notin $allowed }).Count -ne 0) {
-        throw 'Config must contain exactly the three permitted public fields.'
+    if (@($required | Where-Object { $_ -notin $names }).Count -ne 0 -or @($names | Where-Object { $_ -notin $allowed }).Count -ne 0) {
+        throw 'Only the three public connection fields and optional FRONTEND_BASE_URL are permitted.'
     }
-    foreach ($name in $allowed) {
+    foreach ($name in $names) {
         if ($config.$name -isnot [string]) { throw 'Public config values must be strings.' }
     }
     if ($config.SUPABASE_URL -ne 'https://pdjjdqgoitnkpgkbqjtp.supabase.co') {
@@ -36,6 +37,14 @@ try {
         if ($Release -and $api.Scheme -ne 'https') { throw 'Release requires HTTPS.' }
     } elseif ($Release) {
         throw 'Release requires an agreed API_BASE_URL.'
+    }
+    if ($config.FRONTEND_BASE_URL) {
+        $frontend = [Uri]$config.FRONTEND_BASE_URL
+        if (-not $frontend.IsAbsoluteUri -or $frontend.Scheme -ne 'https' -or
+            $frontend.UserInfo -or $frontend.Query -or $frontend.Fragment -or
+            $frontend.AbsolutePath -ne '/') {
+            throw 'FRONTEND_BASE_URL must be a plain HTTPS origin.'
+        }
     }
     $buildMode = if ($Release) { '--release' } else { '--debug' }
     & flutter build apk $buildMode "--dart-define-from-file=$configPath"

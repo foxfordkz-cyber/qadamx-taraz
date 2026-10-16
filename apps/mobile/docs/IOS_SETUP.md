@@ -1,4 +1,4 @@
-# iPhone: сборка и приёмка Мал базара
+# iPhone: сборка и приёмка Qadam
 
 **Подготовлен iOS-проект, а не установочный IPA.** У команды есть iPhone, Mac
 пока нет. Подготовка и Dart/widget-проверки выполнены на Windows. Xcode,
@@ -9,7 +9,7 @@
 - `ios/Runner.xcworkspace`, Xcode project, Swift AppDelegate/SceneDelegate,
   Flutter 3.47.7 templates, Swift Package Manager и CocoaPods fallback.
 - Целевая платформа — **iPhone, iOS 15.0+**; bundle ID `kz.qadam.qadamMobile`.
-  Версия приложения берётся из pubspec: 0.1.1+2. iPad отдельно не заявляется.
+  Версия приложения берётся из pubspec: 0.2.0+3. iPad отдельно не заявляется.
 - Camera/Photo Library usage descriptions на RU/KZ. Микрофон, геолокация,
   background fetch и разрешение записи в фотобиблиотеку не запрашиваются.
   Системный язык разрешений определяется iOS, язык интерфейса — переключателем.
@@ -21,7 +21,8 @@
   8 MiB; image_picker на iOS может преобразовать исходный HEIC в JPEG.
 - После прерывания picker на iOS восстанавливается форма и предлагается
   повторный выбор; Android-only retrieveLostData не вызывается.
-- `tool/build_ios.dart` допускает только три публичных поля и HTTPS API.
+- `tool/build_ios.dart` допускает три публичных поля подключения, опциональный
+  `FRONTEND_BASE_URL` (чистый HTTPS origin) и HTTPS API.
   Значения не печатает. На Windows отказывает в сборке с понятной причиной.
 
 ## Когда появится Mac
@@ -30,12 +31,13 @@
    для зависимостей без SwiftPM. Выполнить `flutter doctor -v`, исправить
    замечания iOS toolchain. Настройка Xcode и принятие его лицензии — на Mac.
    [Официальная инструкция Flutter](https://docs.flutter.dev/platform-integration/ios/setup).
-2. Получить ветку `feature/mobile-livestock-api`, перейти в `apps/mobile`.
+2. Получить ветку `feature/mobile-qadam-shell`, перейти в `apps/mobile`.
    Не запускать повторный `flutter create`: iOS-проект уже подготовлен.
 3. Получить текущий HTTPS API_BASE_URL и публичный конфиг капитана. Старый
    Quick Tunnel может прекратить работу. Скопировать `config/public.example.json`
    в игнорируемый `config/public.local.json`, заполнить **только** API_BASE_URL,
-   SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY. Supabase-проект тот же:
+   SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY и опциональный FRONTEND_BASE_URL.
+   Последний — origin кабинета без пути и токенов. Supabase-проект тот же:
    `https://pdjjdqgoitnkpgkbqjtp.supabase.co`. Пароли туда не входят.
 4. Из `apps/mobile`:
 

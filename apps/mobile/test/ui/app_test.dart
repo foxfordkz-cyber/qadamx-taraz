@@ -214,6 +214,8 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.textContaining('Проверьте соединение'), findsOneWidget);
       expect(find.textContaining('private transport detail'), findsNothing);
+      await tester.ensureVisible(find.text('Повторить'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Повторить'));
       await tester.pumpAndSettle();
       expect(

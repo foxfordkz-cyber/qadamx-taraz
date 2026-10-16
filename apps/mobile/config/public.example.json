@@ -1,5 +1,6 @@
 {
   "API_BASE_URL": "",
   "SUPABASE_URL": "https://pdjjdqgoitnkpgkbqjtp.supabase.co",
-  "SUPABASE_PUBLISHABLE_KEY": ""
+  "SUPABASE_PUBLISHABLE_KEY": "",
+  "FRONTEND_BASE_URL": ""
 }

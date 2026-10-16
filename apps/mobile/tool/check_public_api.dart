@@ -13,9 +13,11 @@ Future<void> main(List<String> args) async {
     return;
   }
   final config = jsonDecode(await File(args[0]).readAsString()) as Map;
-  const allowed = {'API_BASE_URL', 'SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY'};
-  if (config.length != 3 || !config.keys.every(allowed.contains)) {
-    throw StateError('Only the three public configuration fields are allowed.');
+  const required = {'API_BASE_URL', 'SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY'};
+  const allowed = {...required, 'FRONTEND_BASE_URL'};
+  if (!required.every(config.containsKey) ||
+      !config.keys.every(allowed.contains)) {
+    throw StateError('Only the public connection fields are allowed.');
   }
   final base = Uri.parse(config['API_BASE_URL'] as String);
   if (base.scheme != 'https' ||

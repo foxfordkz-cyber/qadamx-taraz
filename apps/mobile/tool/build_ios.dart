@@ -1,15 +1,19 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:qadam_mobile/data/public_urls.dart';
 
 /// Never forward arbitrary config fields or credentials to Flutter/Xcode.
 void validateIosPublicConfig(Object? value) {
-  const allowed = {'API_BASE_URL', 'SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY'};
+  const required = {'API_BASE_URL', 'SUPABASE_URL', 'SUPABASE_PUBLISHABLE_KEY'};
+  const allowed = {...required, 'FRONTEND_BASE_URL'};
   if (value is! Map ||
-      value.length != allowed.length ||
+      !required.every(
+        (key) => value[key] is String && (value[key] as String).isNotEmpty,
+      ) ||
       !value.keys.every(allowed.contains) ||
-      !value.values.every((v) => v is String && v.isNotEmpty)) {
+      !value.values.every((v) => v is String)) {
     throw const FormatException(
-      'Exactly three nonempty public fields required.',
+      'Three public connection fields and optional FRONTEND_BASE_URL only.',
     );
   }
   const project = 'https://pdjjdqgoitnkpgkbqjtp.supabase.co';
@@ -29,6 +33,12 @@ void validateIosPublicConfig(Object? value) {
       api.hasFragment ||
       !const ['/api/v1', '/api/v1/'].contains(api.path)) {
     throw const FormatException('Use the agreed HTTPS FastAPI /api/v1 URL.');
+  }
+  final frontend = value['FRONTEND_BASE_URL'] as String? ?? '';
+  if (frontend.isNotEmpty && frontendOrigin(frontend) == null) {
+    throw const FormatException(
+      'FRONTEND_BASE_URL must be a plain HTTPS origin.',
+    );
   }
 }
 

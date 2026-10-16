@@ -7,6 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'auth.dart';
 import 'config.dart';
 import 'data/livestock_api.dart';
+import 'data/account_api.dart';
 
 class SessionFailure implements Exception {
   const SessionFailure(this.code);
@@ -20,10 +21,12 @@ class MobileRuntime extends ChangeNotifier {
     AppConfig config = const AppConfig(),
     AuthGateway? auth,
     LivestockApi? api,
+    AccountApi? accountApi,
     String? initializationError,
   }) : _config = config,
        _auth = auth,
        _api = api,
+       _accountApi = accountApi,
        _initializationError = initializationError,
        _accountId = auth?.accountId {
     if (_api == null && config.apiUri != null) {
@@ -32,6 +35,14 @@ class MobileRuntime extends ChangeNotifier {
         accountId: () => accountId,
         accessToken: () async => _auth?.accessToken(),
         store: SecurePendingStore(),
+      );
+    }
+    if (_accountApi == null && config.apiUri != null) {
+      _accountApi = AccountApi(
+        baseUrl: config.apiUri!,
+        accountId: () => accountId,
+        epoch: () => epoch,
+        accessToken: () async => _auth?.accessToken(),
       );
     }
     _subscription = auth?.accountChanges.listen(
@@ -70,6 +81,7 @@ class MobileRuntime extends ChangeNotifier {
   final AuthGateway? _auth;
   final String? _initializationError;
   LivestockApi? _api;
+  AccountApi? _accountApi;
   StreamSubscription<String?>? _subscription;
   String? _accountId;
   int _epoch = 0;
@@ -77,6 +89,8 @@ class MobileRuntime extends ChangeNotifier {
   bool _disposed = false;
 
   LivestockApi? get api => _api;
+  AccountApi? get accountApi => _accountApi;
+  String get frontendBaseUrl => _config.frontendBaseUrl;
   bool get configured => _api != null;
   bool get authConfigured => _auth != null;
   // Read the SDK identity synchronously; its stream may deliver a transition
@@ -137,6 +151,7 @@ class MobileRuntime extends ChangeNotifier {
     _disposed = true;
     unawaited(_subscription?.cancel());
     _api?.close();
+    _accountApi?.close();
     if (_auth is SupabaseAuthGateway) _auth.close();
     super.dispose();
   }

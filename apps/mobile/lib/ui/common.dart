@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../data/livestock_api.dart';
 import '../data/money.dart';
 import '../runtime.dart';
+import 'qadam_theme.dart';
 
 typedef Json = Map<String, dynamic>;
 
@@ -150,7 +151,7 @@ class Notice extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
-      color: error ? const Color(0xffffeae4) : const Color(0xffeef1e7),
+      color: error ? QadamTheme.noticeError : QadamTheme.noticeInfo,
       borderRadius: BorderRadius.circular(20),
     ),
     child: Column(
@@ -161,7 +162,7 @@ class Notice extends StatelessWidget {
           children: [
             Icon(icon, size: 22),
             const SizedBox(width: 12),
-            Expanded(child: Text(text, style: const TextStyle(height: 1.4))),
+            Expanded(child: Text(text, style: QadamTheme.noticeText)),
           ],
         ),
         if (action != null)
