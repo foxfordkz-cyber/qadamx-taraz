@@ -1,4 +1,70 @@
 export const ru = {
+  analytics: "Аналитика",
+  analyticsTitle: "Аналитика моей точки",
+  analyticsSubtitle:
+    "Действующие продажи, поступления и текущие долги — в одном месте.",
+  analyticsPeriod: "Период отчёта",
+  analytics7Days: "7 дней",
+  analytics30Days: "30 дней",
+  analyticsDemoTitle: "Demo · синтетическая аналитика",
+  analyticsDemoHint:
+    "Это учебный пример, а не отчёт вашей точки. Данные не загружаются с сервера, операции не записываются.",
+  analyticsDemoClock:
+    "Учебный снимок зафиксирован на 16 октября 2026 года. Это не текущее время.",
+  analyticsScenario: "Учебный сценарий",
+  analyticsActivity: "Продажи и оплаты",
+  analyticsEmptyScenario: "Нет операций",
+  analyticsErrorScenario: "Ошибка и повтор",
+  analyticsDemoErrorHint:
+    "Учебный сбой загрузки, а не ответ сервера. Повторить — снова загрузить синтетический снимок; сервер не вызывается.",
+  analyticsReversalScenario: "Отмена старой продажи",
+  analyticsWaitingTitle: "Аналитика ожидает подключения",
+  analyticsWaitingHint:
+    "Адрес API не настроен для этого приложения. Обратитесь к капитану, чтобы подключить сервер аналитики. Учебные данные доступны только в отдельном Demo-режиме.",
+  analyticsAsOf: "Снимок на",
+  analyticsTimezone: "Часовой пояс",
+  analyticsPartial: "Сегодня — неполный день",
+  analyticsSales: "Действующие продажи",
+  analyticsReceipts: "Поступления",
+  analyticsPeriodSales: "Продажи за период",
+  analyticsPeriodReceipts: "Получено за период",
+  analyticsAverage: "Средний чек",
+  analyticsCurrentDebt: "Мне должны сейчас",
+  analyticsSaleCount: "Зарегистрировано продаж",
+  analyticsNoSales: "Нет продаж",
+  analyticsAverageHint: "Среднее по действующим продажам",
+  analyticsReceiptsHint: "Включая погашения старых долгов",
+  analyticsDebtors: "Должников",
+  analyticsDebtHint: "По всем датам до момента снимка",
+  analyticsNotProfit: "Эти показатели не являются прибылью.",
+  analyticsDailyTitle: "Продажи по дням",
+  analyticsDailyHint:
+    "Действующие продажи в день регистрации. Отмена исключает исходную продажу из её дня, поэтому прошлые значения могут измениться.",
+  analyticsSignedHint:
+    "Поступления включают доплаты к старым продажам и возвраты при отменах. Отрицательные значения показаны ниже нуля.",
+  analyticsHourlyTitle: "В какие часы записывают продажи",
+  analyticsHourlyHint:
+    "По времени регистрации действующих продаж за выбранный период. Не отражает посещаемость.",
+  analyticsSeries: "Показатель графика",
+  analyticsShowDailyTable: "Таблица по дням",
+  analyticsShowHourlyTable: "Таблица по часам",
+  analyticsDailyCaption: "Действующие продажи и поступления по дням",
+  analyticsHourlyCaption: "Зарегистрированные действующие продажи по часам",
+  analyticsDate: "Дата",
+  analyticsHour: "Час",
+  analyticsCount: "Количество продаж",
+  analyticsChartHint:
+    "Выберите столбец для точных значений. Клавиши ← и → переключают столбцы. График можно прокручивать.",
+  analyticsDailyChart: "Дневной график; горизонтальная прокрутка",
+  analyticsHourlyChart: "Почасовой график; горизонтальная прокрутка",
+  analyticsTableScroll: "Таблица; горизонтальная прокрутка клавишами ← и →",
+  analyticsSelected: "Выбранные данные",
+  analyticsNoActivity: "Нет действующих продаж и чистых поступлений",
+  analyticsNoActivityHint:
+    "Суммарные продажи и поступления за выбранный период равны нулю. Текущий долг показан отдельно. Ниже доступны все дни периода и 24 часа.",
+  analyticsReversalTitle: "Учебный пример отмены",
+  analyticsReversalHint:
+    "Отменена продажа до выбранного периода. Поэтому действующие продажи равны нулю, а возврат отражён отрицательным поступлением в день отмены.",
   financialDemoTitle: "Финансовые данные доступны после входа",
   financialDemoHint:
     "В Demo операции не записываются, долги и итоги с сервера не загружаются. Войдите в рабочий аккаунт для учёта своей точки.",
