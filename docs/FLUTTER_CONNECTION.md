@@ -51,7 +51,7 @@ $env:AI_FALLBACK_OPENAI = 'false'
 
 Ниже сохранены результаты первоначальной передачи без ретроспективного изменения. **Старые URL, commits, ревизия и команды запуска ниже не являются текущей инструкцией**; использовать конфиг и запуск выше. Формулировка об ожидающемся market UI относится к старому PR15, не к текущему head1a93469.
 
-**Обновление для совместной проверки:** [HTTPS frontend PR18](HTTPS_FRONTEND_PREVIEW.md) теперь доступен отдельно. API_BASE_URL ниже **не изменился**, backend-код4f67e2c/API0.6.1 прежний. Для точного нового web origin выполнен предупреждённый CORS-перезапуск только FastAPI; API-туннель сохранён, внешнийhealth/OpenAPI и настоящийbrowserAuth повторноPASS. Это не заменяет приёмку Flutter на устройстве.
+**Среда восстановлена 2026-10-16,18:40:** API_BASE_URL **изменился** на `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Backend4f67e2c/API0.6.1 и фактическая Supabase0005 сохранены,0006 не применена. [Новый frontend с voice PR23, commits и результаты](VOICE_HTTPS_RESTORED.md). Все прежние результаты ниже отмечены как исторические; Flutter/физический телефон здесь не проверялись.
 
 Опубликован [Draft PR #17](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/17): `integration/livestock-https` → `integration/local-combined-check`; зависит от PR #13. Документация опубликована после проверенного кода, API остаётся 0.6.1.
 
@@ -59,13 +59,13 @@ $env:AI_FALLBACK_OPENAI = 'false'
 
 ## Действующий тестовый адрес
 
-**API_BASE_URL: `https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1`**
+**API_BASE_URL: `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`**
 
-Swagger: [docs](https://kelkoo-student-skiing-universal.trycloudflare.com/docs). [Health](https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1/health), [живой OpenAPI](https://kelkoo-student-skiing-universal.trycloudflare.com/openapi.json). Публичная лента: [listings](https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1/livestock/listings).
+Swagger: [docs](https://thorough-readings-riverside-suggesting.trycloudflare.com/docs). [Health](https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1/health), [живой OpenAPI](https://thorough-readings-riverside-suggesting.trycloudflare.com/openapi.json). Публичная лента: [listings](https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1/livestock/listings).
 
 Это временный Cloudflare Quick Tunnel к FastAPI `127.0.0.1:8018` на ПК капитана. Он проверен по внешнему HTTPS **с ПК капитана**, не с устройства Flutter-разработчика. Адрес действует, пока работают ПК, сеть, FastAPI и cloudflared; фиксированного срока/гарантии доступности нет. Остановка туннеля завершает доступ, новый запуск обычно выдаёт другой hostname. [Условия Quick Tunnels](https://developers.cloudflare.com/tunnel/get-started/quick-tunnels/). Не зашивать этот адрес как production URL, держать в игнорируемом публичном конфиге. После смены origin сначала разрешить неизвестный результат прежних pending-запросов, не переотправлять их с новым ключом.
 
-Туннель направлен только на HTTP8018. PostgreSQL не открыт, JWT не отключён; закрытые методы требуют access_token обычного Supabase-пользователя. Public API остаётся публичным. Секреты не входят в конфиг Flutter. Web капитана `http://127.0.0.1:5188` сохранён, точный CORS origin сохранён. Постоянный деплой и платные услуги не выполнялись.
+Туннель направлен только на HTTP8018. PostgreSQL не открыт, JWT не отключён; закрытые методы требуют access_token обычного Supabase-пользователя. Public API остаётся публичным. Секреты не входят в конфиг Flutter. Web капитана восстановлен на `http://127.0.0.1:5191`; внешний frontend `https://negotiations-exist-newman-ohio.trycloudflare.com` разрешён точным CORS origin. Постоянный деплой и платные услуги не выполнялись.
 
 ## Конфиг, который ожидает PR #15
 
@@ -73,7 +73,7 @@ Swagger: [docs](https://kelkoo-student-skiing-universal.trycloudflare.com/docs).
 
 ```json
 {
-  "API_BASE_URL": "https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1",
+  "API_BASE_URL": "https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1",
   "SUPABASE_URL": "https://pdjjdqgoitnkpgkbqjtp.supabase.co",
   "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_w17k2VDn1gf_Jr8hoXhGeQ_-T9NRnfz"
 }
@@ -110,9 +110,11 @@ flutter run --dart-define-from-file=config/public.local.json
 {"sample_count":5,"min_price_per_head_minor":30000000,"median_price_per_head_minor":35000000,"status":"available"}
 ```
 
-## Что проверено реально
+## Историческая проверка PR17 до остановки старого туннеля
 
-Через приведённый **внешний HTTPS** с этого ПК, без заглушек: health/OpenAPI0.6.1, обычный Supabase password login A/B и GET /me, аналитика7 дней, public feed и mine, private photo owner200/foreign404/anonymous401, чужое редактирование404, CORS5188. PNG **7 692 562 байта** (>4.5MB, <8MiB) загружен в настоящий Storage, выдан JPEG без EXIF; точный повтор вернул тот же photo ID. Публикация старым телом без market и повтор вернули один listing ID. Повтор ранее сохранённого **до 0005** publish-запроса через HTTPS тоже вернул прежний ID без дубля. Редактирование рынка, feed/mine по рынку и пустой чужой фильтр прошли. Demo исключено из цены → count0/minnull; положительный минимум подтверждён только отдельными PostgreSQL-тестами, ложных non-demo объявлений в общей БД не создавали.
+Следующие результаты относятся к прежнему запуску; при восстановлении не повторялись upload/денежные/идемпотентные записи. Новый read-only/browser прогон описан в [актуальном отчёте](VOICE_HTTPS_RESTORED.md).
+
+Через прежний **внешний HTTPS** с этого ПК, без заглушек: health/OpenAPI0.6.1, обычный Supabase password login A/B и GET /me, аналитика7 дней, public feed и mine, private photo owner200/foreign404/anonymous401, чужое редактирование404, CORS5188. PNG **7 692 562 байта** (>4.5MB, <8MiB) загружен в настоящий Storage, выдан JPEG без EXIF; точный повтор вернул тот же photo ID. Публикация старым телом без market и повтор вернули один listing ID. Повтор ранее сохранённого **до 0005** publish-запроса через HTTPS тоже вернул прежний ID без дубля. Редактирование рынка, feed/mine по рынку и пустой чужой фильтр прошли. Demo исключено из цены → count0/minnull; положительный минимум подтверждён только отдельными PostgreSQL-тестами, ложных non-demo объявлений в общей БД не создавали.
 
 Оставлены явно учебные данные: active listing `16b8f0be-732c-449e-81f6-5fb3fb0fff83`, photo `dd1478b0-2f0f-5159-87fc-e68b698b893f`. Место `Synthetic HTTPS test`, рынок `Synthetic HTTPS market`, контакт обозначает отсутствие связи; изображение — синтетический шум. В полночь Asia/Almaty active объявление исчезнет из публичной ленты до confirm_today; это ожидаемо. Существующие операции11/businesses9/customers13/inquiries2 сохранены. Автоматического удаления не было.
 
@@ -128,7 +130,7 @@ flutter run --dart-define-from-file=config/public.local.json
 cd C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\tmp\livestock-https\apps\api
 uv sync --locked
 $serverEnv = 'C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\apps\api\.env'
-$env:ALLOWED_ORIGINS = '["http://127.0.0.1:5188"]'
+$env:ALLOWED_ORIGINS = '["http://127.0.0.1:5188", "http://127.0.0.1:5191", "http://127.0.0.1:5192", "https://negotiations-exist-newman-ohio.trycloudflare.com"]'
 uv run uvicorn app.main:app --env-file $serverEnv --host 127.0.0.1 --port 8018 --no-access-log
 # В отдельном процессе, если действующий туннель остановлен:
 cloudflared tunnel --url http://127.0.0.1:8018

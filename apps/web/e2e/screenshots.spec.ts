@@ -17,7 +17,10 @@ const screens = [
 test("capture integrated merchant desktop/mobile screens — explicit read-only demo", async ({
   page,
 }) => {
-  const destination = path.resolve("../../docs/screenshots/team-mvp-design");
+  const destination = path.resolve(
+    process.env.QADAM_SCREENSHOT_ROOT ?? "../../docs/screenshots",
+    "team-mvp-design",
+  );
   await mkdir(destination, { recursive: true });
   const exportDirectory = process.env.QADAM_SCREENSHOT_OUTPUT;
   if (exportDirectory) await mkdir(exportDirectory, { recursive: true });

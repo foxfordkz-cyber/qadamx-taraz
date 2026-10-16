@@ -1,3 +1,59 @@
+# Seller web — Registration readiness / Android preparation
+
+2026-10-16. Branch `feature/seller-registration-onboarding`, separate worktree
+`work/qadam-seller-registration`. User/captain approved base
+`origin/integration/voice-preview-061:0737439915c17e8d8f20cddcbe9e75bebede9b46`.
+No merge of PR #14/#23/#28; Backend, API 0.6.1/OpenAPI/generated, financial logic,
+Voice implementation, public storefront and shared styles/components unchanged.
+
+**Registration remains Blocked on onboarding approval.** Base approval is not
+approval of signup/provisioning/callback policy. Existing Login is functional;
+fixed synchronous double submit, disabled Demo while login is pending, corrected
+exact RU/KZ Demo labels. Zero-membership UI now explains unavailable creation /
+invitations and offers explicit GET /me refresh. No automatic access or Demo.
+
+Source files: `apps/web/src/app/{App,pages}.tsx`, `shared/i18n/{ru,kk}.ts`.
+New tests: `src/test/auth-onboarding-readiness.test.tsx`,
+`e2e/auth-onboarding.{acceptance,playwright.config}.ts`; selected existing money
+journey tests from own QA c1ea88a in `e2e/voice-integration.*`. Three existing
+screenshot tests accept an optional output root, preserving tracked design PNGs.
+
+[Audit, contract, captain questions, commands and limits](../SELLER_REGISTRATION_AUDIT.md).
+[Physical Android checklist](../qa/ANDROID_VOICE_ACCEPTANCE.md).
+Public Supabase settings confirm email signup enabled, confirmation required;
+no signup/email was sent. HTTPS frontend/API health/CORS passed read-only probes.
+Physical Android **Blocked** (no device), live Gemini **Not run / Blocked**.
+Existing preview and shared services untouched.
+
+Own final checks: npm ci, check:api, typecheck, lint, build, format:check and
+diff --check passed. **254/254 unit/component**, strict microphone **35/35**,
+Auth onboarding browser **7/7**, microphone browser **18/18**, standard
+Seller/Analytics/public **24/24**, existing Auth/Customers QA **21/21**, full
+synthetic money/Analytics journey **1/1**. Counts overlap across suites as noted
+in the audit. These are not live Auth/DB/Gemini or physical Android results.
+New mobile/desktop empty-state PNGs inspected locally; existing tracked design
+screenshots unchanged. Current exact commit: `git log -1 --format=%H`.
+
+Published verified implementation:
+`54a78322495ebdf13fd339dbdbecde61bcda7f88`.
+**[Open Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)**,
+base `integration/voice-preview-061`, head
+`feature/seller-registration-onboarding`. Push successful and local/remote
+HEAD verified equal; GitHub reports mergeable=true, merged=false. This final
+documentation-only checkpoint records publication; use `git log -1 --format=%H`
+for its own exact hash. Do not merge or deploy without the next task.
+
+Captain/backend questions:
+[PR #18 comment](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6217630633).
+No onboarding answer received at publication. Physical Android checklist is
+ready for a human operator; signup/callback/resend are intentionally unimplemented.
+
+Next: captain answers onboarding questions, approves callback URLs/provisioning,
+then implement signup/confirmation/resend through the same AuthProvider.
+Do not invent membership APIs or rebase/merge other branches automatically.
+
+The sections below describe historical Analytics/design snapshots.
+
 # Seller web — текущая передача Analytics
 
 2026-10-16. Новая ветка `feature/seller-analytics` от согласованной капитаном `origin/integration/local-combined-check`, актуальная база **58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76**, отдельный worktree `work/qadam-seller-analytics`. После начального2089e44 капитан опубликовал Analytics0.6/cd655e9; свои изменения сохранены, неопубликованная ветка обновлена fast-forward rebase без merge PR14. Маршрут `/seller/analytics` в том же приложении и SellerLayout. Дизайн/финансовые/public-модули сохранены.

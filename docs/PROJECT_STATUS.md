@@ -4,6 +4,10 @@
 
 После разрешения «окно открыто»: свежий backup восстановлен на отдельной PostgreSQL, применена0006, данные сохранены, общий сервер переключён на **4e983b4**. Внешний HTTP recovery/legacy/ledger/analytics/livestock/Storage и настоящий браузерный AuthA/B PASS. [Адреса, учебные записи и ограничения](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Gemini сохранён, OpenAI fallback выключен. Телефон/Flutter не проверялись этим прогоном, frontend recovery требуется подключить. Main/merge/постоянный deploy не менялись. Далее — исторические этапы.
 
+**Восстановлено 2026-10-16,18:40:** [HTTPS frontend с voice PR23](https://negotiations-exist-newman-ohio.trycloudflare.com/login), API_BASE_URL `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Проверенная сборка7f511dd, backend4f67e2c/API0.6.1, Supabase0005. [Точные commits, все проверки, условия доступности и подключение](VOICE_HTTPS_RESTORED.md). Playback/cancel прошли синтетические браузерные проверки; физический микрофон ещё не проверен. Локальный5191 теперь показывает эту сборку.
+
+**Далее — история предыдущих запусков. Старые HTTPS-адреса недоступны; текущие адреса указаны выше.**
+
 ## 2026-10-16 — Seller Analytics объединён с API0.6.1
 
 `integration/seller-analytics-061`, проверенный merge94e2b7a: PR17ca51bbf + PR16ce68f01. Общий backend/OpenAPI/generated/Flutter-инструкция сохранены. Настоящий browser loginA/B→/me→Analytics7/30→смена точки/reload/logout и foreign404 PASS, без API writes.207 unit,23 standard+Analytics и21 QA E2E PASS (8 пересечений). API8018,web5188 и действующий HTTPS не перезапускались;0005 только прочитана, setup/seed не выполнялись. [Точный состав и запуск](ANALYTICS_061_INTEGRATION.md). Новая ветка публикуется отдельным Draft поверхPR17; merge/deploy нет. Далее — исторические состояния прежних этапов, включая прежние ожидания UI и ревизии0003/0004.

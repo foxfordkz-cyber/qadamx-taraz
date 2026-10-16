@@ -1,5 +1,5 @@
 // Input → review → explicit save, adapted from PR #7 into Seller runtime/UI/i18n.
-import { useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useBusiness, useRuntime } from "../../app/runtime";
 import { CustomerPicker } from "../seller/Customers";
@@ -26,12 +26,27 @@ import {
 import { useLedgerText } from "../ledger/i18n";
 import { Stats } from "../summary/Summary";
 import { AudioInput } from "./AudioInput";
+import { AudioPreview } from "./AudioPreview";
+import { AI_REQUEST_TIMEOUT_MS } from "./audioContract";
+import { useVoiceText } from "./i18n";
+import { ApiError } from "../../shared/api/client";
 import "../ledger/ledger.css";
 export function Sale() {
+  const { scope } = useRuntime(),
+    { business } = useBusiness();
+  return <SaleForm key={`${scope}:${business.id}`} />;
+}
+function SaleForm() {
+  const textLabelId = useId();
   const { api, gateway } = useRuntime(),
     { business } = useBusiness(),
     { l, locale } = useLedgerText(),
-    [params] = useSearchParams();
+    [params] = useSearchParams(),
+    { v } = useVoiceText();
+  const [capturing, setCapturing] = useState(false),
+    [parseNotice, setParseNotice] = useState<"cancelled" | "timeout" | null>(
+      null,
+    );
   const [kind, setKind] = useState(params.get("sale") ? "repayment" : "sale"),
     [saleId, setSaleId] = useState(params.get("sale") ?? "");
   const [total, setTotal] = useState(""),
@@ -50,6 +65,19 @@ export function Sale() {
   const parseLock = useRef(false),
     write = useWrite(),
     sales = useLedgerList<OpenSale>("outstanding_only=true");
+  const activeParse = useRef<{
+    controller: AbortController;
+    timer?: ReturnType<typeof setTimeout>;
+  } | null>(null);
+  useEffect(
+    () => () => {
+      const pending = activeParse.current;
+      activeParse.current = null;
+      clearTimeout(pending?.timer);
+      pending?.controller.abort();
+    },
+    [],
+  );
   const rows = sales.data?.pages.flatMap((p) => p.items) ?? [],
     balance = rows.find((s) => s.id === saleId)?.balance_minor;
   const totalMinor = toMinor(total),
@@ -70,10 +98,27 @@ export function Sale() {
   const disabled =
     write.busy || !!write.pending || parsing || gateway.mode !== "live";
   async function parse() {
-    if (parseLock.current || disabled) return;
+    if (parseLock.current || disabled || capturing || (!file && !text.trim()))
+      return;
     parseLock.current = true;
     setParsing(true);
     setParseError(null);
+    setParseNotice(null);
+    setDraft(null);
+    const request = {
+      controller: new AbortController(),
+      timer: undefined as ReturnType<typeof setTimeout> | undefined,
+    };
+    activeParse.current = request;
+    request.timer = setTimeout(() => {
+      if (activeParse.current !== request) return;
+      activeParse.current = null;
+      parseLock.current = false;
+      request.controller.abort();
+      setParsing(false);
+      setParseNotice("timeout");
+      setParseError(new ApiError(504, "AI_TIMEOUT"));
+    }, AI_REQUEST_TIMEOUT_MS);
     try {
       const form = new FormData();
       if (file) form.append("audio", file);
@@ -83,8 +128,10 @@ export function Sale() {
         await api.request(`/businesses/${business.id}/drafts`, {
           method: "POST",
           body: form,
+          signal: request.controller.signal,
         }),
       );
+      if (activeParse.current !== request) return;
       setDraft(d);
       setKind(d.kind === "unknown" ? "" : d.kind);
       setDescription(d.description ?? "");
@@ -94,11 +141,26 @@ export function Sale() {
       setCustomer(null);
       setSaleId("");
     } catch (e) {
-      setParseError(e);
+      if (activeParse.current === request) setParseError(e);
     } finally {
-      parseLock.current = false;
-      setParsing(false);
+      clearTimeout(request.timer);
+      if (activeParse.current === request) {
+        activeParse.current = null;
+        parseLock.current = false;
+        setParsing(false);
+      }
     }
+  }
+  function cancelAnalysis() {
+    const pending = activeParse.current;
+    if (!pending) return;
+    activeParse.current = null;
+    clearTimeout(pending.timer);
+    pending.controller.abort();
+    parseLock.current = false;
+    setParsing(false);
+    setParseError(null);
+    setParseNotice("cancelled");
   }
   async function save() {
     if (!write.pending && !valid) {
@@ -156,11 +218,14 @@ export function Sale() {
           <Card>
             <h2>AI</h2>
             <p>{l("hint")}</p>
+            <p>{v("sequence")}</p>
             <fieldset disabled={disabled}>
               <label className="field">
-                {l("text")}
+                <span id={textLabelId}>{l("text")}</span>
                 <textarea
+                  aria-labelledby={textLabelId}
                   maxLength={4000}
+                  disabled={capturing}
                   value={text}
                   onChange={(e) => {
                     setText(e.target.value);
@@ -170,19 +235,35 @@ export function Sale() {
               </label>
               <AudioInput
                 disabled={disabled}
+                onBusyChange={setCapturing}
+                onReset={() => setFile(null)}
                 onFile={(f) => {
                   setFile(f);
-                  setText("");
                 }}
               />
-              {file && <p>{file.name}</p>}
+              {file && (
+                <AudioPreview
+                  file={file}
+                  disabled={disabled || capturing}
+                  onDelete={() => setFile(null)}
+                />
+              )}
               <Button
                 onClick={() => void parse()}
-                disabled={disabled || (!file && !text.trim())}
+                disabled={disabled || capturing || (!file && !text.trim())}
               >
                 {l("prepare")}
               </Button>
             </fieldset>
+            {parsing && (
+              <div className="voice-actions">
+                <p role="status">{v("analysing")}</p>
+                <Button variant="secondary" onClick={cancelAnalysis}>
+                  {v("cancelAnalysis")}
+                </Button>
+              </div>
+            )}
+            {parseNotice && <p role="status">{v(parseNotice)}</p>}
             {!!parseError && (
               <div role="alert">
                 <p>{l("aiUnavailable")}</p>

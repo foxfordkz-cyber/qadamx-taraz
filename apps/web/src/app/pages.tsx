@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
 import { useBusiness } from "./runtime";
@@ -40,6 +40,7 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [pending, setPending] = useState(false);
+  const submitLock = useRef(false);
   const [error, setError] = useState(false);
   if (auth.loading) return <Spinner />;
   if ((auth.session || auth.demo) && !auth.expired)
@@ -69,9 +70,11 @@ export function LoginPage() {
           {auth.expired && <Alert tone="error">{t("unauthorized")}</Alert>}
           <form
             className="form-stack"
+            aria-busy={pending}
             onSubmit={async (event) => {
               event.preventDefault();
-              if (!auth.configured || pending) return;
+              if (!auth.configured || submitLock.current) return;
+              submitLock.current = true;
               setPending(true);
               setError(false);
               try {
@@ -81,6 +84,7 @@ export function LoginPage() {
               } catch {
                 setError(true);
               } finally {
+                submitLock.current = false;
                 setPending(false);
               }
             }}
@@ -117,7 +121,9 @@ export function LoginPage() {
           <div className="login-demo">
             <Button
               variant="secondary"
+              disabled={pending}
               onClick={() => {
+                if (submitLock.current) return;
                 auth.enterDemo();
                 navigate("/seller");
               }}

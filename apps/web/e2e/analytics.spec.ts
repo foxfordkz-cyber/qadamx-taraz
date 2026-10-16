@@ -341,7 +341,10 @@ test("Live API failure keeps an explicit retry without synthetic financial data"
 test("capture genuine desktop/mobile Analytics states with explicit synthetic labels", async ({
   page,
 }) => {
-  const destination = path.resolve("../../docs/screenshots/seller-analytics");
+  const destination = path.resolve(
+    process.env.QADAM_SCREENSHOT_ROOT ?? "../../docs/screenshots",
+    "seller-analytics",
+  );
   await mkdir(destination, { recursive: true });
   await page.setViewportSize({ width: 1440, height: 1000 });
   const traffic = await demoReport(page);
