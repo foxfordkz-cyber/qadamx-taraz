@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
@@ -82,6 +83,85 @@ void main() {
     await ListingForm.clearDraft('test-account-a');
     await ListingForm.clearDraft('test-account-b');
   });
+
+  for (final scenario in ['interrupted', 'denied', 'cancelled']) {
+    testWidgets('iOS picker $scenario preserves draft without publishing', (
+      tester,
+    ) async {
+      const channel = MethodChannel('plugins.flutter.io/image_picker');
+      final calls = <MethodCall>[];
+      tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(channel, (
+        call,
+      ) async {
+        calls.add(call);
+        if (scenario == 'denied') {
+          throw PlatformException(code: 'camera_access_denied');
+        }
+        return null;
+      });
+      addTearDown(
+        () => tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+          channel,
+          null,
+        ),
+      );
+      final auth = _Auth();
+      var mutations = 0;
+      final api = LivestockApi(
+        baseUrl: Uri.parse('https://api.example.test/api/v1'),
+        accountId: () => auth.account,
+        accessToken: auth.accessToken,
+        store: _MemoryStore(),
+        client: MockClient((request) async {
+          if (request.method != 'GET') mutations++;
+          return _jsonResponse('{"items":[],"next_cursor":null}', 200);
+        }),
+      );
+      await ListingForm.writeDraft(
+        auth.account!,
+        jsonEncode({'market': 'Учебный iOS рынок', 'price_text': '30000'}),
+        () => true,
+      );
+      if (scenario == 'interrupted') {
+        await ListingForm.storage.write(
+          key: ListingForm.pickerKey,
+          value: jsonEncode({'account': auth.account, 'editing_id': null}),
+        );
+      }
+      final runtime = MobileRuntime(auth: auth, api: api);
+      await tester.pumpWidget(
+        MaterialApp(home: ListingForm(runtime: runtime, kk: false)),
+      );
+      await tester.pumpAndSettle();
+      if (scenario == 'interrupted') {
+        expect(calls, isEmpty); // Never calls Android-only retrieveLostData.
+      } else {
+        await tester.scrollUntilVisible(
+          find.text('Камера'),
+          150,
+          scrollable: pageScroll(),
+        );
+        await tester.tap(find.text('Камера'));
+        await tester.pumpAndSettle();
+        expect(calls.single.method, 'pickImage');
+        expect((calls.single.arguments as Map)['requestFullMetadata'], false);
+      }
+      expect(mutations, 0);
+      expect(
+        await ListingForm.readDraft(auth.account!),
+        contains('Учебный iOS'),
+      );
+      expect(await ListingForm.readDraft(auth.account!), contains('30000'));
+      if (scenario != 'cancelled') {
+        expect(find.textContaining('Форма сохранена'), findsOneWidget);
+      }
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+      runtime.dispose();
+      api.close();
+      await auth.events.close();
+    }, variant: TargetPlatformVariant.only(TargetPlatform.iOS));
+  }
 
   testWidgets('unconfigured app is honest, localized and fits a 320px screen', (
     tester,

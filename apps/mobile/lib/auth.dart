@@ -1,7 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+
+import 'secure_storage.dart';
 
 /// A test seam around the existing Supabase session, not a second auth service.
 abstract class AuthGateway {
@@ -85,10 +86,10 @@ class SupabaseAuthGateway implements AuthGateway {
 }
 
 /// Supabase owns serialization, restoration, and refresh. This only replaces
-/// its persistence medium with Android Keystore protected storage.
+/// its persistence medium with Android Keystore / iOS Keychain storage.
 class SecureSessionStorage extends LocalStorage {
   const SecureSessionStorage();
-  static const _storage = FlutterSecureStorage();
+  static const _storage = mobileSecureStorage;
   static const _key = 'qadam.supabase.session.v1';
 
   @override

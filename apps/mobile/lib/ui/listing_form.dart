@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../data/livestock_api.dart';
 import '../runtime.dart';
+import '../secure_storage.dart';
 import 'common.dart';
 
 class ListingForm extends StatefulWidget {
@@ -21,7 +22,7 @@ class ListingForm extends StatefulWidget {
   final MobileRuntime runtime;
   final bool kk;
   final Json? initial;
-  static const storage = FlutterSecureStorage();
+  static const storage = mobileSecureStorage;
   static final Map<String, Future<void>> _queues = {};
   static Future<T> _serialized<T>(String account, Future<T> Function() action) {
     final previous = _queues[account] ?? Future<void>.value();
@@ -276,6 +277,13 @@ class _ListingFormState extends State<ListingForm> {
     if (marker == null) return;
     final owner = jsonDecode(marker) as Json;
     if (!_current) return;
+    // retrieveLostData is Android-only. iOS restores the saved form and asks
+    // for a new selection after an interrupted native picker.
+    if (defaultTargetPlatform != TargetPlatform.android) {
+      await ListingForm.storage.delete(key: ListingForm.pickerKey);
+      if (_current && owner['account'] == _account) _cameraError();
+      return;
+    }
     final recovery = await _picker.retrieveLostData();
     if (!_current) return;
     await ListingForm.storage.delete(key: ListingForm.pickerKey);
@@ -328,7 +336,10 @@ class _ListingFormState extends State<ListingForm> {
         value: jsonEncode({'account': _account, 'editing_id': _editingId}),
       );
       if (!_current) return;
-      final file = await _picker.pickImage(source: source);
+      final file = await _picker.pickImage(
+        source: source,
+        requestFullMetadata: false,
+      );
       if (!_current) return;
       await ListingForm.storage.delete(key: ListingForm.pickerKey);
       if (file != null) await _acceptFile(file);

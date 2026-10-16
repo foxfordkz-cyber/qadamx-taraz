@@ -3,6 +3,7 @@ analyzer:
   exclude:
     - build/**
     - android/**
+    - ios/**
 linter:
   rules:
     avoid_print: true

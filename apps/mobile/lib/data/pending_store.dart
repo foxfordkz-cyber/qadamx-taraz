@@ -6,6 +6,7 @@ import 'package:cryptography/cryptography.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../secure_storage.dart';
 import 'api_failure.dart';
 
 const maxPhotoBytes = 8 * 1024 * 1024;
@@ -117,14 +118,14 @@ abstract class PendingStore {
   Future<Uint8List> readPhoto(PendingIntent intent);
 }
 
-/// Pending metadata and snapshot keys use Android Keystore-backed storage.
+/// Pending metadata and snapshot keys use Android Keystore / iOS Keychain.
 /// Large photo bytes are AES-GCM encrypted in the private app support folder,
 /// rather than inserted as megabytes of base64 in secure preferences.
 class SecurePendingStore implements PendingStore {
   SecurePendingStore({
     FlutterSecureStorage? storage,
     Future<Directory> Function()? supportDirectory,
-  }) : _storage = storage ?? const FlutterSecureStorage(),
+  }) : _storage = storage ?? mobileSecureStorage,
        _supportDirectory = supportDirectory ?? getApplicationSupportDirectory;
 
   final FlutterSecureStorage _storage;
