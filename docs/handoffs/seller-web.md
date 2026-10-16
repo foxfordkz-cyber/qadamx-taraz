@@ -7,7 +7,7 @@
 Ветка `feature/voice-playback-cancel`, отдельный worktree `work/qadam-voice-playback-cancel`, base `integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`.
 [Draft PR #21](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/21) → combined; никакого merge.
 Источник сравнения владельца — `feature/aidana-ai-assistant:880d7137f39648f0bbce355369ee3e755d981f02`, старый root src/backend, не patch для apps/web. Не объединять автоматически.
-Аудит/publish commits `03226ff6f59a6eeae2338c8e5d000657b5400a82` и `652a7d4d8a77286356a210afea4dc78a8ee6d316` уже отправлены; текущий tests/review HEAD см. `git log -1 --format=%H` и описание PR.
+Аудит/publish commits `03226ff6f59a6eeae2338c8e5d000657b5400a82` и `652a7d4d8a77286356a210afea4dc78a8ee6d316` отправлены. Проверенный tests/review commit **`fedb4df6d44946dbc5172e4faf39e54c58f95e90`** также опубликован; fetch/pull FF — Already up to date, push успешен, local/remote HEAD совпали. Последующий docs commit фиксирует этот результат без изменения тестов; актуальный HEAD см. `git log -1 --format=%H` и описание PR.
 
 Переданы 5 выбранных test/helper/config файлов из #20, 8 новых lifecycle acceptance cases и отдельный строгий Vitest config. Browser playback/cancel теперь обычные тесты без skip; добавлены Play/Pause/replay, Delete/URL cleanup/сохранение текста, RU/KZ и 360/390/768/1440, double Prepare. Полный список 7 тестовых файлов, review и результаты — [VOICE_PLAYBACK_CANCEL](../VOICE_PLAYBACK_CANCEL.md). Два изменённых документа: этот handoff и отчёт. Production, Backend/OpenAPI/generated.ts, финансовая логика, package/lock, PR #19 сохранены.
 

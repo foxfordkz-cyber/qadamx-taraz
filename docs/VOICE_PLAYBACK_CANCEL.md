@@ -22,7 +22,9 @@ The dependency is now an exact owner commit adapted to unified apps/web, not ano
 
 Initial audit/publication commits: `03226ff6f59a6eeae2338c8e5d000657b5400a82`,
 `652a7d4d8a77286356a210afea4dc78a8ee6d316`, pushed successfully, local/remote equality verified.
-Current tests/review HEAD is in PR #21 and `git log -1 --format=%H`.
+Verified tests/review commit **`fedb4df6d44946dbc5172e4faf39e54c58f95e90`** was pushed successfully;
+fetch/prune and own-branch pull --ff-only reported Already up to date, local/remote HEAD matched.
+The subsequent docs commit records publication only. Current HEAD is in PR #21 and `git log -1 --format=%H`.
 Only this branch is pushed. PR #19, main and other branches remain untouched; no merge/rebase/force.
 
 ## Review of the two implementations
