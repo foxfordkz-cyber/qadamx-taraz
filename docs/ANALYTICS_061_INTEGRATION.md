@@ -2,6 +2,8 @@
 
 Проверенный merge: **94e2b7aff76dc18990e0f410174e6ca99e42faf6**, ветка `integration/seller-analytics-061`. Последующие изменения этого этапа — документация. Это отдельная интеграция для review, не main и не постоянный деплой.
 
+Опубликован **[Draft PR #18](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18)** → `integration/livestock-https` (PR #17). Первый опубликованный head с отчётом — `b5a5b29b4f0109878a85112b6b6ecfcaca07dbd2`; фиксация этой ссылки меняет только документацию.
+
 ## Состав и история
 
 - Первый родитель: PR #17, `integration/livestock-https`, **ca51bbf9bcf1a5e5379b7b8ced147e4114e01434**. Проверенный backend-код: **4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5**.
