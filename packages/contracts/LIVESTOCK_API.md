@@ -1,5 +1,7 @@
 # «Мал базар»: контракт Flutter v1
 
+Проверенный код: **`c447a594a6a7d9aad1ee7fca751053bf6a176a61`**, [Draft PR #10](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/10) → integration/team-mobile. [OpenAPI на этом commit](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/c447a594a6a7d9aad1ee7fca751053bf6a176a61/packages/contracts/openapi.json), [JSON-примеры](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/c447a594a6a7d9aad1ee7fca751053bf6a176a61/packages/contracts/examples.json). Последующие commits передачи не меняют код API.
+
 Статус: **реализовано локально в backend/livestock, API 0.5.0**, требуется миграция `0004_livestock`. На общей Supabase по-прежнему `0003_drafts`, новые маршруты там ещё не готовы. На базовой ветке `integration/team-mobile` первая публикация `0f2b06d` описывала предложенный контракт; эта feature-ветка содержит реализацию и актуальный [OpenAPI](openapi.json), [примеры](examples.json). Фактические проверки — [backend handoff](../../docs/handoffs/backend.md). Flutter принадлежит участнику mobile, каталог — основному `apps/api`, собственной авторизации нет. Голосовое заполнение, Flutter UI и production deployment остаются следующими этапами.
 
 ## Адрес и авторизация
