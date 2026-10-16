@@ -1,0 +1,59 @@
+@font-face {
+  font-family: "Manrope";
+  src: url("/fonts/Manrope-Variable.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Qadam Kazakh";
+  src: url("/fonts/NotoSans-CyrillicExt.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0492-0493, U+049A-049B, U+04A2-04A3, U+04D8-04D9;
+}
+@font-face {
+  font-family: "Qadam Kazakh";
+  src: url("/fonts/NotoSans-Cyrillic.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+04B0-04B1;
+}
+
+/* Qadam storefront palette: feature/public-storefront @ 8818e8b.
+   Semantic aliases keep existing shared components and module exports compatible. */
+:root {
+  --qadam-font:
+    "Manrope", "Qadam Kazakh", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --qadam-paper: #f5f3eb;
+  --qadam-ink: #172a26;
+  --qadam-green: #164c3e;
+  --qadam-green-deep: #103b31;
+  --qadam-lime: #d7f36a;
+  --qadam-orange: #f0a94b;
+  --qadam-white: #fffefa;
+  --qadam-line: #e1e2d8;
+  --qadam-muted: #58685f;
+  --qadam-soft: #eaf0e5;
+  --qadam-space-1: 4px;
+  --qadam-space-2: 8px;
+  --qadam-space-3: 12px;
+  --qadam-space-4: 16px;
+  --qadam-space-5: 24px;
+  --qadam-space-6: 32px;
+  --qadam-space-7: 48px;
+  --qadam-radius-control: 12px;
+  --qadam-radius-card: 20px;
+  --qadam-radius-hero: 28px;
+  --qadam-radius-pill: 999px;
+  --qadam-shadow: 0 2px 4px #172a2605, 0 8px 24px #172a2604;
+  --bg: var(--qadam-paper);
+  --text: var(--qadam-ink);
+  --primary: var(--qadam-green);
+  --secondary: var(--qadam-soft);
+  --border: var(--qadam-line);
+  --muted: var(--qadam-muted);
+  --radius: var(--qadam-radius-card);
+}
