@@ -127,10 +127,24 @@ class OpenAIProvider:
                     files={"file": ("input.wav", audio, "audio/wav")},
                     data=transcription_data,
                 )
-                text = transcript.get("text")
-                if not isinstance(text, str) or not 1 <= len(text.strip()) <= 4000:
-                    raise ValueError("Invalid transcription")
-                text = text.strip()
+                # HTTP 200 alone does not establish a usable transcription. Record only
+                # type/length outcomes so a failure here is distinguishable from extraction.
+                with ai_stage("openai_transcript_validation") as diagnostic:
+                    diagnostic.provider, diagnostic.model = "openai", self.transcription_model
+                    text = transcript.get("text")
+                    if "text" not in transcript:
+                        diagnostic.validation_reason = "missing_text"
+                    elif not isinstance(text, str):
+                        diagnostic.validation_reason = "wrong_text_type"
+                    else:
+                        text = text.strip()
+                        diagnostic.input_chars = len(text)
+                        if not text:
+                            diagnostic.validation_reason = "empty_text"
+                        elif len(text) > 4000:
+                            diagnostic.validation_reason = "text_too_long"
+                    if diagnostic.validation_reason:
+                        raise ValueError("Invalid transcription")
             body = {
                 "model": self.model,
                 "store": False,

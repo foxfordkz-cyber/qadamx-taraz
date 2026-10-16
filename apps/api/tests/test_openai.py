@@ -153,6 +153,45 @@ def test_audio_transcribed_once_and_stt_is_authoritative(monkeypatch):
     )
 
 
+@pytest.mark.parametrize(
+    "transcript,reason,chars",
+    [
+        ({}, "missing_text", None),
+        ({"text": None}, "wrong_text_type", None),
+        ({"text": ["private sentinel"]}, "wrong_text_type", None),
+        ({"text": " \n\t"}, "empty_text", 0),
+        ({"text": "private sentinel" * 300}, "text_too_long", 4800),
+    ],
+)
+def test_invalid_transcript_is_diagnosed_without_extraction_or_leak(
+    monkeypatch, caplog, transcript, reason, chars
+):
+    calls = []
+    caplog.set_level(logging.INFO, logger="uvicorn.error.qadam.ai")
+
+    def handler(request):
+        calls.append(request.url.path)
+        return httpx.Response(200, json=transcript)
+
+    transport(monkeypatch, handler)
+    with pytest.raises(APIError) as error:
+        asyncio.run(
+            extract(
+                OpenAIProvider(settings(openai_transcription_model="gpt-transcribe")),
+                audio=wav_bytes(),
+            )
+        )
+    assert error.value.code == "AI_UNAVAILABLE"
+    assert calls == ["/v1/audio/transcriptions"]
+    events = [json.loads(r.message) for r in caplog.records]
+    event = next(e for e in events if e["stage"] == "openai_transcript_validation")
+    assert event["validation_reason"] == reason and event["input_chars"] == chars
+    assert event["provider"] == "openai" and event["model"] == "gpt-transcribe"
+    assert event["error_type"] == "ValidationError"
+    assert "private sentinel" not in caplog.text
+    assert "synthetic-private-openai-key" not in caplog.text
+
+
 def test_multilingual_transcribe_hints_and_duration_cost(monkeypatch, caplog):
     caplog.set_level(logging.INFO, logger="uvicorn.error.qadam.ai")
 

@@ -36,6 +36,7 @@ class Stage:
     audio_seconds: float | None = None
     request_body_bytes: int | None = None
     input_chars: int | None = None
+    validation_reason: str | None = None
 
 
 @contextmanager
@@ -62,6 +63,7 @@ def ai_stage(name):
             if exc.code in {
                 "AI_TIMEOUT",
                 "AI_UNAVAILABLE",
+                "AI_QUOTA_EXCEEDED",
                 "AUDIO_UNSUPPORTED",
                 "AUDIO_TOO_LONG",
                 "AUDIO_TOO_LARGE",
@@ -91,5 +93,7 @@ def ai_stage(name):
             "audio_seconds": details.audio_seconds,
             "request_body_bytes": details.request_body_bytes,
             "input_chars": details.input_chars,
+            # Set only to fixed application labels, never provider text or exception messages.
+            "validation_reason": details.validation_reason,
         }
         logger.log(logging.WARNING if error_type else logging.INFO, json.dumps(event))
