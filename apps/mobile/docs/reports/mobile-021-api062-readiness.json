@@ -1,0 +1,44 @@
+{
+  "checked_at_utc": "2026-10-16T16:38:21.816561+00:00",
+  "execution": "Three anonymous read-only HTTP GETs from Windows PC; not Android and not a repeat of authorized acceptance",
+  "backend_commit_reported_by_user": "4e983b42a2a0466d2fc07e4de09becf87a8ef7d5",
+  "backend_commit_not_inferred_from_http": true,
+  "api_base_url": "https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1",
+  "frontend_base_url": "https://negotiations-exist-newman-ohio.trycloudflare.com",
+  "app_source_commit": "4cc2f528f3e6cd45960b6c3be111a537c66d7e82",
+  "app_version": "0.2.1+4",
+  "public_build_configuration_changed": false,
+  "apk_rebuild_required": false,
+  "authorized_mutations_sent": 0,
+  "android": {
+    "adb_devices": [],
+    "status": "blocked_no_device",
+    "installed": false,
+    "physical_scenarios": "not_run"
+  },
+  "full_authorized_acceptance": "Previously passed against API 0.6.1; not rerun and not claimed as API 0.6.2 or Android acceptance",
+  "checks": [
+    {
+      "check": "health",
+      "status": 200,
+      "passed": true
+    },
+    {
+      "check": "openapi",
+      "status": 200,
+      "passed": true,
+      "version": "0.6.2",
+      "mobile_route_count": 9,
+      "mobile_routes_unchanged": true,
+      "mobile_schema_count": 10,
+      "mobile_schemas_unchanged": true,
+      "recovery_route_advertised": true
+    },
+    {
+      "check": "frontend_login",
+      "status": 200,
+      "passed": true
+    }
+  ],
+  "result": "pass"
+}
