@@ -1,106 +1,57 @@
-# Seller frontend — передача следующему Codex
+# Qadam Business — Seller design integration handoff
 
-Обновлено 2026-10-15. Репозиторий: https://github.com/foxfordkz-cyber/qadamx-taraz. Работать только в `feature/seller-dashboard`. Draft PR: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/3. Не merge в main, не force push. Секреты и локальные `.env*` не коммить.
+Обновлено 2026-10-16. Эта передача относится к **feature/seller-design-integration**, созданной в отдельном worktree от integration/team-mvp, а не к старой seller-dashboard. Последний проверенный исходный HEAD интеграции: **3d009dc86c93debcab05dedda530b7d1fe62a304**. Источник дизайна: **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Репозиторий: https://github.com/foxfordkz-cyber/qadamx-taraz.
 
-## Завершённые этапы и Git
+## Реализовано
 
-- Ранее согласованный main `ced32e7` принят merge-коммитом `3b03ed3fe74188d848693891fb6132515cb29627`.
-- Этап A опубликован: `246851b2d4df996f054c7b1a27b2ba2933d2b3ee` — одобренный backend и Supabase/customer bindings.
-- Этап B опубликован: `e8321f0cb5c7056d284c831d4e6ae7b0293424ca` — merchant UI, поиск заявок, 6 новых screenshots. Последний опубликованный seller HEAD перед этапом C: `9b4156122e22f12839f9f69384cb79a43e90c730`. Точный текущий HEAD: `git log -1 --format=%H`.
-- После A и B выполнены fetch, `pull --ff-only origin feature/seller-dashboard` (Already up to date), `push -u origin feature/seller-dashboard`; удалённый hash B совпал. Draft PR #3 обновлён и остаётся open/draft, merge не выполнялся.
-- Код backend остаётся на одобренном `193f6e527d716549d759d805dc4b86db1d9e059e`, PR #4. По новому разрешению принят отдельно OpenAPI из `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`, без merge AI-ветки. Проверки из корня: `git diff 193f6e5 -- apps/api` и `git diff 2d2fc56 -- packages/contracts/openapi.json` должны быть пустыми. Examples/demo seed сохранены с 193f6e5, contract README дополнен provenance/инструкцией; код/миграции капитана не менялись.
+- Ограниченный перенос готового дизайна: локальные Manrope/Noto fallback, токены, Qadam logo, typography, focus/contrast, cards/buttons/forms/dialogs, dashboard, customers, inquiries, catalog. Shopify dependencies/Auth/App Bridge не добавлены.
+- Мобильная навигация с доступом ко всем разделам, выбором точки и logout; закрытие по выбору, Escape и переходам browser history с возвратом фокуса. Исправлено повторное открытие диалога при Forward.
+- Каталог фильтрует уже полученные товары локально по имени/наличию; граница загруженных данных и read-only явно обозначены. Сетевые параметры не придуманы.
+- Финансовые формы наследуют общий UI. До 1100 px они одноколоночные; desktop сохраняет 2 формы/4 KPI. В Demo поясняющее пустое состояние вместо фиктивных долгов, нулей и успешных записей.
+- Публичные модули получают общую палитру и Manrope через CSS bridge `.ex`; их layout, формы, роуты, 3D/fallback и семантические предупреждения сохранены.
+- Воспроизводимый формат на Windows: web/.gitattributes задаёт LF для JS/MJS/HTML, дополняя существующие правила TS/TSX/CSS.
 
-## Этап C — обновление контракта AI-backend без активации AI
+## Архитектура и сохранённые части
 
-Последний проверенный commit контрактного этапа: **b9fd3b41998b2cd1ce904f15e558408e13e3f135**, опубликован в `feature/seller-dashboard`; remote hash совпал. Финальная запись передачи меняет только документацию, её HEAD: `git log -1 --format=%H`. Draft PR #3 обновлён, open/draft, merge не выполнен. Начальный полный fetch/pull прошёл; финальный общий fetch задержался на index-pack и был прерван без потери commit, адресные `git fetch origin feature/seller-dashboard` и `git pull --ff-only origin feature/seller-dashboard` прошли (Already up to date), `git push -u origin feature/seller-dashboard` успешен.
+Один apps/web React/TypeScript/Vite с существующими Router, Supabase AuthProvider, TanStack Query, runtime/BusinessProvider и CustomerPicker. app/modules.ts подключает реальные Sale/Debts/History/Summary и Explore/Venue/Shop. Эти точки интеграции не заменены старыми файлами. Identity/business scope, cache cleanup и money-pending beforeunload guard сохранены.
 
-Источник проверен: `origin/backend/ai-drafts` на `2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c`. Blob OpenAPI `9a1ed34f189692d750161de4d4728f78159e83cd` точно совпадает с принятым файлом. API version 0.2.0 → 0.3.0; единственный добавленный path — POST `/api/v1/businesses/{id}/drafts`. Все прежние paths, 20 component schemas и HTTPBearer security семантически неизменны; перестановка CustomerCandidate/DraftResponse в JSON не является изменением схем. Все `$ref` внутренние и разрешаются. Дополнительных файлов, examples, dependencies или migration из AI-ветки не потребовалось.
+Backend, контракты **0.4.0**, generated.ts, bindings/gateway/API client, seller queries, финансовые/голосовые/публичные feature-модули, package/lock и 3D assets не менялись. Деньги считает сервер. Повтор неизвестного результата сохраняет исходные body и Idempotency-Key. AI делает только черновик, запись требует подтверждения продавца. Детерминированные unit-тесты этих правил сохранены.
 
-Изменены `packages/contracts/openapi.json`, воспроизводимо сгенерированный `apps/web/src/shared/api/generated.ts`; объединены README и **docs/PROJECT_STATUS.md** (корневого PROJECT_STATUS.md в репозитории нет). Сохранены инструкции обеих частей, запуск, env, API, тестирование, ссылки на AI README/handoff с точным commit. Обновлены собственные handoff/integration/PR docs и запись DECISIONS. Auth, CustomerPicker, RU/KZ, UI, финансовая логика и dependencies не менялись.
+Маршруты: /login; /seller; /seller/customers; /seller/inquiries; /seller/catalog; /seller/sale; /seller/debts; /seller/history; /seller/summary; /; /venues/:slug; /shops/:slug.
 
-AI gateway/hooks/UI/requests не добавлены. `generated.ts` отражает контракт без ручных исправлений. Известное ограничение openapi-typescript: multipart `oneOf`/`not` представлен как optional text/audio с `(unknown | unknown)`, поэтому тип не обеспечивает XOR и наличие одного источника. Перед отдельно согласованной AI-интеграцией потребуются runtime-проверки формы и работа с FormData по исходному OpenAPI. Нельзя считать наличие type готовой AI-функцией.
+Существующий API (без префикса /api/v1): GET /me; GET/POST /businesses/{id}/customers; GET/POST /businesses/{id}/operations (вид sale/repayment в body); POST /businesses/{id}/operations/{operation_id}/reverse; GET /businesses/{id}/summary; POST /businesses/{id}/drafts; GET /venues, /businesses и /businesses/{slug}; GET/POST /businesses/{id}/inquiries и PATCH /businesses/{id}/inquiries/{inquiry_id}. Точные схемы остаются в packages/contracts/openapi.json. Наличие клиента не доказывает живое выполнение этих запросов в данной сессии.
 
-Локальный Python backend по-прежнему 193f6e5 и не может экспортировать новый HTTP drafts. **Не запускать его app.export_contracts поверх согласованного 0.3.0**. Для frontend: `npm run generate:api` / `npm run check:api` из apps/web. Backend export/pytest проверяет капитан в соответствующем AI checkout; его документация доступна по ссылкам README, целиком AI-ветка сюда не включена.
+## Изменённые файлы
 
-Капитан подтвердил live TypeScript-client smoke `/me`, customer create, sale, repayment, history и summary. Это его результат, здесь эти запросы не повторялись. Живой browser login/refresh, CORS, persistence с БД и AI UI остаются неподтверждёнными seller-сессией. Серверный env/пароли здесь не появились.
+Production: apps/web/src/app/{layout,pages}.tsx; src/features/seller/{Catalog,Customers,Inquiries}.tsx; src/main.tsx; src/shared/{tokens.css,styles.css,merchant.css}; src/shared/ui/{Brand,Icon}.tsx; src/shared/i18n/{ru,kk}.ts; public/fonts/\* (font files + OFL + источники); index.html (theme-color); .gitattributes.
 
-Собственные проверки C: `generate:api`, `check:api`, `typecheck`, `lint`, **71 unit/component (6 файлов)**, `build`, **8 Chromium E2E**, `format:check` — passed. Повторная генерация побайтово стабильна: SHA-256 generated.ts `910c864364104ce07942eb611d66f3a885d20ad719dd01e849597e2e4f130be1`. Browser-проверки включают 360/390/768/1440, RU/KZ, маршруты, формы, выбор клиентов и readonly Demo; исходники UI/Auth/CustomerPicker не менялись, 6 screenshots повторно получены без diff. Первый E2E запуск прерван из-за sandbox EACCES к loopback, повтор с разрешением на локальный сервер прошёл 8/8 за 25.5 s. Повторная проверка API health — ECONNREFUSED, apps/api/.env отсутствует; live-результат не заявлен.
+Проверки: src/test/screens.test.tsx (три перенесённые UX-проверки); e2e/{helpers,seller,screenshots,integration-design,public-design}.ts/spec.ts; playwright.config.ts (локальный test-only API URL для перехваченных public fixtures). Новые tests не заменяют независимую ветку QA test/seller-regression.
 
-## Что реализовано
+Документация: docs/handoffs/seller-web.md, этот handoff, SELLER_DESIGN_NOTES.md, отдельное описание нового PR, docs/screenshots/team-mvp-design/\*.png. Общие README/PROJECT_STATUS/TEAM_INTEGRATION и чужие handoff сохранены, не заменены устаревшей seller-версией.
 
-Единый React 19 / TypeScript / Vite web, React Router, TanStack Query, Supabase AuthProvider, RU/kk, общий UI-kit. Polaris используется как UX-референс: собственный React/CSS, палитра Qadam, без дополнительных Shopify зависимостей. [Дизайн и 6 screenshots](SELLER_DESIGN_NOTES.md).
+## Запуск и проверки
 
-Supabase provider восстанавливает сессию SDK, получает актуальный token для запроса и очищает queries/drafts при выходе или смене identity. Runtime сравнивает `/me.id` с Supabase user. Торговые точки берутся только из `/me`, выбор проверяется по этому списку. Приватные query keys включают identity scope и business.id. Пароли/tokens не логируются и не попадают в drafts.
-
-Активны только подтверждённые seller bindings:
-
-| HTTP | Назначение | Проверка |
-|---|---|---|
-| GET `/api/v1/me` | UUID пользователя и разрешённые точки | OpenAPI fixtures, runtime validation, identity guard |
-| GET `/api/v1/businesses/{businessId}/customers` | Поиск `q`, cursor, limit 50 | Mock transport, Bearer, pagination, business guard |
-| POST `/api/v1/businesses/{businessId}/customers` | Создание и обновление списка | Mock transport, форма/CustomerPicker, ошибки |
-
-`generated.ts` генерируется только из принятого `packages/contracts/openapi.json`. Runtime bindings проверяют UUID, owner role/default, nullable/default поля, лимиты строк, cursor, safe integer `balance_minor`. GET/POST отклоняют чужой business_id. Пустой контакт → null. Одинаковые имена не объединяются, UUID и заметка видны. Остаток берётся с сервера без расчётов. Membership не содержит is_demo: не выводить его из slug/name/UUID.
-
-`canCreateCustomer` и `canUpdateInquiry` разделены; старый `canWrite` сохранён консервативным для совместимости. CustomerPicker и create form используют отдельную возможность создания. После ответа POST список инвалидируется в том же identity/business scope; успешный результат до ответа API не показывается.
-
-Dashboard: выбранная точка, один основной CTA, четыре главных действия, дополнительные разделы. Клиенты: desktop список / mobile карточки, debounce 250 ms, note/UUID, полезное empty state. Заявки: локальный поиск по загруженным имени/контакту/тексту и статусный фильтр. Каталог: цена/отсутствие цены, наличие, явные учебные данные. Loading/error/empty, RU/KZ, focus/Escape, формы при смене языка сохранены.
-
-## Demo и ограничения live
-
-Demo включается только явно на `/login`, использует fixtures и запрещает writes. Ошибка live не переключает в Demo. При reload Demo заканчивается; сессия live сохраняется SDK.
-
-HTTP API заявок и публичного каталога отсутствуют в одобренном snapshot. Bindings для них не активированы, live-запросов нет. Изменение статуса недоступно. Скриншоты и browser E2E используют Demo, не Supabase/PostgreSQL.
-
-Публичные URL и publishable key капитана сохранены только в игнорируемом `apps/web/.env.local`. Имена совпадают с `.env.example`: VITE_API_BASE_URL, VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY. Новому аккаунту потребуется восстановить этот локальный файл безопасным способом; ключ/пароли в Git не переносить.
-
-Нет `apps/api/.env`, PostgreSQL credentials и паролей тестовых владельцев. Проба `http://127.0.0.1:8000/api/v1/health` дала ECONNREFUSED. Поэтому реальные login/refresh, JWT/JWKS, сохранение/перезагрузка с БД, 6/3 memberships, межпользовательский доступ и CORS остаются НЕ проверенными. Контрактные и auth test-client проверки не заменяют их. Backend handoff капитана не является результатом наших live-проверок.
-
-## Архитектура и изменённые файлы
-
-- `apps/web/src/app/{runtime,layout,pages}.tsx`: identity/business providers, shell, dashboard. `app/modules.ts`: точки подключения авторов public/ledger.
-- `shared/api/{generated,models,bindings,gateway,client}`: wire types, frontend views, runtime readers, capabilities, transport/reauth. `shared/api/errors.ts`: безопасные коды и request_id без сырых сообщений.
-- `features/seller/{Customers,Inquiries}.tsx`, queries/hooks: форма, CustomerPicker, debounce, query invalidation, локальный поиск заявок. Exports сохранены.
-- `shared/merchant.css` + import в main.tsx: адаптация общей дизайн-системы; RU/kk labels в `shared/i18n`.
-- `vite.config.ts`: отдельный auth chunk; `src/test/{bindings,errors}.test.ts`, `src/test/screens.test.tsx`, `e2e/{seller,screenshots}.spec.ts`: проверки и screenshots.
-- `docs/screenshots/{dashboard-desktop,dashboard-mobile,customers-desktop,customers-mobile,inquiries-desktop,catalog-mobile}.png`, README, DECISIONS, integration guide, этот handoff и seller-web handoff.
-- Полный состав этапов: `git show --stat 246851b`; после публикации B — `git log --oneline` и `git show --stat <hash>`.
-
-## Маршруты
-
-Работают `/login`, `/seller`, `/seller/customers`, `/seller/inquiries`, `/seller/catalog`; последние два показывают данные только в Demo до HTTP API. Live клиентов требует доступного API/БД.
-
-`/seller/sale`, `/seller/debts`, `/seller/history`, `/seller/summary` ждут exports участника 4; `/`, `/venues/:slug`, `/shops/:slug` — участника 2. Сейчас честные страницы ожидания. Денежную логику/3D не дублировать. Общие интерфейсы описаны в [integration guide](SELLER_FRONTEND_INTEGRATION.md).
-
-## Точные команды и результаты
-
-Из корня репозитория:
+Из корня новой рабочей копии:
 
 ```powershell
 git branch --show-current
 git status --short
-git fetch origin
-git pull --ff-only origin feature/seller-dashboard
+git fetch origin integration/team-mvp
+# После первой публикации новой feature-ветки:
+git fetch origin feature/seller-design-integration
+git pull --ff-only origin feature/seller-design-integration
 cd apps/web
 npm ci
-# Создать .env.local из .env.example и внести только публичную конфигурацию
-npm run dev
+# Для live создать игнорируемый .env.local из .env.example.
+# VITE_API_BASE_URL, VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY.
+npm run dev -- --port 5173 --strictPort
 ```
 
-Открыть `http://127.0.0.1:5173/login`, выбрать Demo или live-вход после подготовки backend. В отдельном терминале после получения серверного окружения от капитана:
+Открыть http://127.0.0.1:5173/login. Demo включается явно и живёт только в памяти. Ошибка live не переводит в Demo. Для API после безопасного получения серверного env: из apps/api `uv sync --locked`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`. Полные инструкции капитана — TEAM_INTEGRATION.md. Не запускать seed/migrations/очищающие тесты на общей Supabase.
+
+Из apps/web:
 
 ```powershell
-cd apps/api
-uv sync --locked
-uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
-```
-
-Swagger: http://127.0.0.1:8000/docs. Не запускать миграции/seed/разрушающие проверки общей demo-БД без согласования.
-
-Frontend-проверки из `apps/web`:
-
-```powershell
-npm run generate:api
 npm run check:api
 npm run typecheck
 npm run lint
@@ -111,22 +62,44 @@ npm run test:e2e
 npm run format:check
 ```
 
-| Проверки | Этап A | Этап B |
-|---|---|---|
-| TypeScript, lint, build, check:api | passed | passed |
-| Unit/component | 70, 6 файлов | 71, 6 файлов |
-| Chromium E2E | 6 | 8 |
-| Viewport matrix | 360/768/1440 | 360/390/768/1440 |
-| Prettier | passed | passed |
+Для дополнительной копии screenshots при E2E задать QADAM_SCREENSHOT_OUTPUT абсолютным путём. Стандартные PNG сохраняются в docs/screenshots/team-mvp-design. Playwright стартует порт 4173 с локальным API URL только для перехвата fixtures; Supabase keys для E2E не требуются. Public test перехватывает API, запрещает все writes/неизвестные запросы и не выдаёт mock receipt за сохранение. Реальный сервер не нужен этим тестам.
 
-Сценарии включают auth test client/session/cache boundaries, API errors, approved fixtures/runtime validation, no token, cross-business responses, search/form/selection, RU/KZ, mobile overflow, focus и read-only Demo. Визуально просмотрены все 6 новых кадров. E2E screenshot test воспроизводимо обновляет файлы в docs/screenshots: после запуска проверить git diff.
+Итоговые результаты и публикация добавляются после финального прогона ниже. Не переносить сюда результаты капитана или старой ветки как собственные.
 
-## Что осталось и известные проблемы
+## Live, Demo и обнаруженные ограничения
 
-1. Капитан передаёт серверный env и тестовые пароли безопасным каналом; запустить API, проверить реальный Supabase login/refresh/reload и GET/POST с БД. Ничего не выдавать за live до фактического успеха.
-2. Проверить account A/B, разрешённые 6/3 точки, 401 без token, 404 чужой точки/customer/cursor, cache cleanup и новый клиент после reload. Только согласованные учебные данные.
-3. CORS подтвердить с origins localhost:5173 и 127.0.0.1:5173; production origin согласовать отдельно. Серверная конфигурация здесь не менялась.
-4. Дождаться контрактов заявок/каталога и модулей public/ledger. Не включать неподтверждённые endpoints и новые backend commits автоматически.
-5. Публичного деплоя нет. PR остаётся Draft, капитан выполняет review/merge. Локальные тесты завершены без ошибок; live-блокировка описана выше.
+Собственные live login, /me, customers/create/reload, JWT/CORS, session restore и A/B isolation **Blocked**: HTTP health 127.0.0.1:8000 отказал в соединении. В новом worktree нет серверного .env, публичного .env.local и тестовых паролей. Публичную конфигурацию восстановить локально безопасным способом, серверные секреты запросить через защищённый канал. Ничего из .env/JWT/DB credentials в Git не включено.
 
-Незавершённого frontend-кода этапов A/B не оставлено; недоступные интеграции и live-acceptance перечислены явно. Перед продолжением прочитать AGENTS.md, актуальные API/передачи и этот файл; проверить branch/status/fetch без потери локальных изменений.
+Seller screenshots показывают реальный UI с явным Demo banner и read-only fixtures. Финансовые записи/AI/итоги в Demo отключены; debts/history/summary не имеют подставных серверных сумм. Public screenshots помечены как API test fixtures; реальные public API/3D GLB с сервером этим прогоном не подтверждены. Физического Android нет: только Chromium browser emulation 360/390/768/1440, микрофон и реальные touch/устройство требуют отдельной проверки.
+
+npm ci завершился; npm audit сообщил 3 унаследованных dev findings: Vitest/@vitest/mocker/Tinypool (1 moderate, 2 critical); npm audit --omit=dev — 0. Lock/dependencies не изменены, обновление dev стека отдельной задачей. Build предупреждает о большом 3D chunk и пустом auth chunk без локальной Supabase-конфигурации; сборка завершается. Контракты проходят check:api без изменений.
+
+Первый format:check выявил CRLF в JS/MJS/HTML при core.autocrlf=true. Добавлены scoped LF rules; повторный прогон подтверждает результат. Незавершённую работу и финальный Git статус см. ниже.
+
+## Следующий шаг
+
+Review нового Draft PR в integration/team-mvp, затем собственная live-приёмка в доступной среде капитана. Проверить разрешённые точки, create/reload/logout/cache, ручной/голосовой сценарий с подтверждением, погашение/историю/итог и public inquiry→seller; реальные микрофон/Android отдельно. Не менять backend ради дизайна. Не сливать main, integration/team-mvp или независимый QA PR автоматически.
+
+Перед продолжением другим аккаунтом: AGENTS → TEAM_INTEGRATION → этот handoff → git branch/status → адресный fetch и pull --ff-only собственной ветки. Первый полный fetch завис на скачивании большой посторонней истории и был безопасно прерван; адресный fetch integration/team-mvp завершился. Не использовать reset/force.
+
+## Финальные проверки интегрированной ветки — 2026-10-16
+
+Все команды из apps/web выполнены заново в этой рабочей копии:
+
+| Проверка             | Результат                                         |
+| -------------------- | ------------------------------------------------- |
+| npm ci               | 357 packages installed, lock без изменений        |
+| npm run check:api    | Passed, OpenAPI 0.4.0/generated.ts без изменений  |
+| npm run typecheck    | Passed                                            |
+| npm run lint         | Passed, max-warnings 0                            |
+| npm test             | 84 passed, 8 файлов                               |
+| npm run build        | Passed, 734 modules; 3D chunk warning описан выше |
+| npm run test:e2e     | 14 passed, Chromium, 1 worker, без retries        |
+| npm run format:check | Passed после LF fix                               |
+| git diff --check     | Passed                                            |
+
+Сохранены unit-проверки auth/cache boundaries, API validation, exact body/key retries и AI timeout/invalid JSON. Browser: все seller routes на 360/390/768/1440 без horizontal overflow, финансовый Demo disabled/no traffic, RU/KZ, CustomerPicker/customer forms, menu Escape/route/Back/Forward/focus, fonts, skip-link, touch targets. Публичные маршруты и WebGL fallback проверены на OpenAPI typed fixtures, полностью перехваченных в браузере; writes и неожиданные запросы отсутствуют. Это не live запросы. Первый промежуточный public test исправлен: stub должен отключать только WebGL, сохраняя 2D canvas; финальный полный прогон прошёл.
+
+20 новых PNG в docs/screenshots/team-mvp-design: desktop1440/mobile390 для dashboard, customers, sale, debts, history, summary, inquiries, catalog; public home/shop имеют api-stub в имени и тексте. Репрезентативные desktop/mobile кадры визуально просмотрены. Старые снимки не обновлялись и не выдавались за новые.
+
+Функциональный код завершён и проверен. Незавершённых frontend-изменений нет; live acceptance, физический Android/микрофон, настоящая GLB-сцена/hotspots с API и обновление dev audit findings остаются отдельными задачами. Публикация подтверждается отдельной записью ниже после успешного push.

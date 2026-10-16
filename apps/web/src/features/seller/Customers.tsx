@@ -18,6 +18,7 @@ import {
   Spinner,
 } from "../../shared/ui";
 import { useCreateCustomer, useCustomers } from "./queries";
+import { Icon } from "../../shared/ui/Icon";
 
 export function CreateCustomerForm({
   onCreated,
@@ -234,13 +235,16 @@ export function CustomersPage() {
         }
       />
       <div className="toolbar">
-        <Input
-          type="search"
-          maxLength={200}
-          label={t("search")}
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
+        <div className="search-control">
+          <Input
+            type="search"
+            maxLength={200}
+            label={t("search")}
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Icon name="search" />
+        </div>
         {search && (
           <Button variant="ghost" onClick={() => setSearch("")}>
             {t("clearSearch")}
@@ -280,7 +284,7 @@ export function CustomersPage() {
           }
         />
       ) : (
-        <div className="customer-list">
+        <div className="customer-list" role="list" aria-label={t("customers")}>
           <div className="customer-list-heading" aria-hidden="true">
             <span>{t("customerColumn")}</span>
             <span>{t("contactColumn")}</span>
@@ -288,7 +292,7 @@ export function CustomersPage() {
             <span />
           </div>
           {items.map((customer) => (
-            <Card key={customer.id} className="customer-row">
+            <Card key={customer.id} className="customer-row" role="listitem">
               <div className="customer-identity">
                 <span className="avatar" aria-hidden="true">
                   {customer.display_name.slice(0, 1)}

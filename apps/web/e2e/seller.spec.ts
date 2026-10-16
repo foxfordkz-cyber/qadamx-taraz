@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { navigateSeller } from "./helpers";
 
 test("protected routes redirect to login; explicit demo has no writes or backend traffic", async ({
   page,
@@ -19,7 +20,7 @@ test("protected routes redirect to login; explicit demo has no writes or backend
   await expect(
     page.getByRole("heading", { name: "Хорошего рабочего дня!" }),
   ).toBeVisible();
-  await page.locator('a[href="/seller/inquiries"]:visible').first().click();
+  await navigateSeller(page, "inquiries");
   await expect(
     page.getByRole("heading", { name: "Әсел · Демо" }),
   ).toBeVisible();
@@ -57,7 +58,7 @@ for (const width of [360, 390, 768, 1440]) {
       "summary",
     ]) {
       // Client navigation preserves explicit in-memory demo selection.
-      await page.locator(`a[href="/seller/${route}"]:visible`).first().click();
+      await navigateSeller(page, route);
       await expect(page).toHaveURL(new RegExp(`/seller/${route}$`));
       await expect(page.locator("#main-content h1")).toBeVisible();
       expect(
@@ -66,7 +67,7 @@ for (const width of [360, 390, 768, 1440]) {
         ),
       ).toBe(true);
     }
-    await page.locator('a[href="/seller/customers"]:visible').first().click();
+    await navigateSeller(page, "customers");
     await page.getByRole("button", { name: /Новый клиент/ }).click();
     const dialog = page.getByRole("dialog");
     await expect(dialog).toBeVisible();
@@ -96,7 +97,7 @@ test("catalog and duplicate customers, language persistence and real reload prot
 }) => {
   await page.goto("/login");
   await page.getByRole("button", { name: /Посмотреть демо/ }).click();
-  await page.locator('a[href="/seller/customers"]:visible').first().click();
+  await navigateSeller(page, "customers");
   await page
     .getByRole("button", { name: "Выбрать клиента", exact: true })
     .click();
@@ -105,7 +106,7 @@ test("catalog and duplicate customers, language persistence and real reload prot
   await expect(options).toHaveCount(2);
   await options.nth(1).click();
   await expect(page.getByText("Выбран: Асқар · Демо · доставка")).toBeVisible();
-  await page.locator('a[href="/seller/catalog"]:visible').first().click();
+  await navigateSeller(page, "catalog");
   await expect(page.getByText("15 000 ₸")).toBeVisible();
   await page
     .getByLabel("Торговая точка", { exact: true })
@@ -125,7 +126,7 @@ test("mobile inquiry filter and customer search work in RU and KZ", async ({
   await page.setViewportSize({ width: 360, height: 900 });
   await page.goto("/login");
   await page.getByRole("button", { name: /Посмотреть демо/ }).click();
-  await page.locator('a[href="/seller/inquiries"]:visible').first().click();
+  await navigateSeller(page, "inquiries");
   await page
     .getByLabel("Показать заявки", { exact: true })
     .selectOption("closed");
@@ -137,7 +138,7 @@ test("mobile inquiry filter and customer search work in RU and KZ", async ({
   await expect(
     page.getByLabel("Өтінімдерді көрсету", { exact: true }),
   ).toHaveValue("closed");
-  await page.locator('a[href="/seller/customers"]:visible').first().click();
+  await navigateSeller(page, "customers");
   await page.getByLabel("Есімі бойынша іздеу", { exact: true }).fill("Әсел");
   await expect(
     page.getByRole("heading", { name: "Әсел", exact: true }),
