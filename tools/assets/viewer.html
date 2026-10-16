@@ -83,7 +83,7 @@
       <button class="venue" data-venue="auyl-bereke" aria-pressed="false">Ауыл Береке</button>
     </nav>
     <section class="stage-card" aria-labelledby="venue-name">
-      <div class="stage-head"><h2 id="venue-name">MART</h2><span class="badge">Концептуальная модель</span></div>
+      <div class="stage-head"><h2 id="venue-name">MART</h2><span id="geometry-label" class="badge">Модель площадки</span></div>
       <div class="viewport" id="viewport">
         <img id="poster" hidden alt="Концептуальная модель площадки">
         <div id="hotspots" aria-label="Учебные точки"></div>
@@ -156,7 +156,8 @@
       const up = new THREE.Vector3().crossVectors(direction, right).normalize();
       const points = corners(box), vertical = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
       const horizontal = vertical * camera.aspect;
-      let distance = authoredOffset.length(), radius = 0;
+      // Preserve the authored direction; fit distance to the actual viewport.
+      let distance = 0, radius = 0;
       for (const point of points) {
         const local = point.clone().sub(target), depth = local.dot(direction);
         radius = Math.max(radius, local.length());
@@ -280,7 +281,9 @@
       $('selected-slug').textContent = 'не выбрана';
       document.querySelectorAll('[data-venue]').forEach((node) => node.setAttribute('aria-pressed', String(node.dataset.venue === active.slug)));
       const nextURL = new URL(location.href); nextURL.searchParams.set('venue', active.slug); history.replaceState(null, '', nextURL);
-      $('poster').src = active.poster_url; $('poster').alt = `${names[active.slug]} — концептуальная модель`;
+      const geometryLabel = active.label_ru || 'Концептуальная модель';
+      $('geometry-label').textContent = geometryLabel;
+      $('poster').src = active.poster_url; $('poster').alt = `${names[active.slug]} — ${geometryLabel}`;
       $('poster').onerror = () => { if (mode === 'image') { status('Не удалось открыть запасное изображение. Проверьте poster_url.'); setQA('qa-loaded', 'fallback image error', false); } };
       disposeModel(model); model = null; box = null;
       renderer?.renderLists.dispose();

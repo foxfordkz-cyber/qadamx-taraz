@@ -68,10 +68,13 @@ export default function VenuePage() {
   return (
     <main className="ex">
       <header className="ex-top">
-        <Link to="/">← {t("back")}</Link>
+        <Link className="back-link" to="/">
+          ← {t("back")}
+        </Link>
         <LangSwitch />
       </header>
 
+      <span className="eyebrow eyebrow--dark">{t("venue_eyebrow")}</span>
       <h1>{venue ? name(venue) : slug}</h1>
       <p className="muted">{t("conceptual_hint")}</p>
 
@@ -101,6 +104,16 @@ export default function VenuePage() {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
+          {text && (
+            <button
+              type="button"
+              className="search-clear"
+              onClick={() => setText("")}
+              aria-label={t("clear_search")}
+            >
+              ×
+            </button>
+          )}
         </label>
         <div className="chips" role="group" aria-label={t("shops")}>
           <button
@@ -154,6 +167,7 @@ export default function VenuePage() {
                       {b.name}
                     </h3>
                     <p className="muted">{categoryName(b.category)}</p>
+                    <span className="card-open">{t("open_shop")} →</span>
                   </Link>
                 </li>
               ))}

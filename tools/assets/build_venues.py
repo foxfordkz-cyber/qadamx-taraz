@@ -41,31 +41,36 @@ def render_setup(config, path, samples, bounds_min, bounds_max):
     scene.render.filepath = str(path)
     scene.world.use_nodes = True
     scene.world.node_tree.nodes["Background"].inputs[0].default_value = (.78, .77, .73, 1)
-    scene.world.node_tree.nodes["Background"].inputs[1].default_value = .6
+    scene.world.node_tree.nodes["Background"].inputs[1].default_value = .45
     scene.view_settings.view_transform = "AgX"
-    scene.view_settings.exposure = config.get("render_exposure", .7)
+    scene.view_settings.look = "AgX - Medium High Contrast"
+    scene.view_settings.exposure = config.get("render_exposure", .2)
     bpy.ops.mesh.primitive_plane_add(size=2000, location=(0, 0, -.025))
     ground = bpy.context.object
     ground.name = "RENDER ONLY studio ground"
     ground.data.materials.append(material("porcelain"))
-    bpy.ops.object.camera_add(location=xyz(config["camera"]))
+    preview_camera = config.get("preview_camera", config["camera"])
+    preview_target = config.get("preview_target", config["target"])
+    bpy.ops.object.camera_add(location=xyz(preview_camera))
     camera = bpy.context.object
     camera.name = "RENDER ONLY camera"
-    camera.rotation_euler = (Vector(xyz(config["target"])) - camera.location).to_track_quat("-Z", "Y").to_euler()
+    camera.rotation_euler = (Vector(xyz(preview_target)) - camera.location).to_track_quat("-Z", "Y").to_euler()
     camera.data.type = "ORTHO"
     # Fit the actual export bounds instead of assuming the first concept's size.
     rotation = camera.rotation_euler.to_quaternion().inverted()
-    target = Vector(xyz(config["target"]))
+    target = Vector(xyz(preview_target))
     projected = [rotation @ (Vector(xyz((x, y, z))) - target)
                  for x in (bounds_min[0], bounds_max[0])
                  for y in (bounds_min[1], bounds_max[1])
                  for z in (bounds_min[2], bounds_max[2])]
     fit = max(max(abs(p.x) for p in projected) * 2,
               max(abs(p.y) for p in projected) * 2 * 4 / 3) * 1.12
-    camera.data.ortho_scale = max(config.get("render_scale", 0), fit)
+    # A poster may frame the photographed facade closely. The interactive
+    # camera still uses config["camera"] and fits the complete model in the UI.
+    camera.data.ortho_scale = config.get("preview_scale") or max(config.get("render_scale", 0), fit)
     scene.camera = camera
     extent = max(bounds_max[0] - bounds_min[0], bounds_max[2] - bounds_min[2]) / 56
-    for name, loc, power, size in [("Key", (-30, 55, 40), 45000, 35), ("Fill", (35, 35, 5), 18000, 30)]:
+    for name, loc, power, size in [("Key", (-30, 55, 40), 45000, 35), ("Fill", (35, 35, 5), 12000, 30)]:
         bpy.ops.object.light_add(type="AREA", location=xyz([v * extent for v in loc]))
         light = bpy.context.object
         light.name = "RENDER ONLY " + name

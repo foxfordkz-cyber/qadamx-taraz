@@ -16,6 +16,9 @@ AI-кабинет продавца для торговых точек Тараз
 | Frontend кабинета | [Каркас, вход, заявки, клиенты](docs/team5/05_TEAM_SELLER_FRONTEND.md) | [seller-web](docs/handoffs/seller-web.md) |
 | Frontend учёта | [Голос, продажи, долги, отчёты](docs/team5/06_TEAM_LEDGER_FRONTEND.md) | [ledger-web](docs/handoffs/ledger-web.md) |
 | 3D-художник | [Модели трёх площадок](docs/team5/07_TEAM_3D.md) | [assets-3d](docs/handoffs/assets-3d.md) |
+| Mobile, шестой участник | [Flutter «Мал базар»](docs/team5/09_TEAM_MOBILE.md) | apps/mobile — ожидается от участника |
+
+Контракт мобильного модуля: [LIVESTOCK_API](packages/contracts/LIVESTOCK_API.md). Общий backend — apps/api; объявления принадлежат Supabase user и не требуют членства в магазине.
 
 ## Общие договорённости
 

@@ -89,3 +89,7 @@ AI: [multipart, уточнение и подтверждение](../packages/co
 ## PR и публикация
 
 Интеграционный Draft PR предназначен в main и содержит историю #3/#4/#5/#6. После review капитан может принять его целиком; отдельное последующее слияние старых PR уже не требуется. PR #5 пока направлен в backend/ledger-auth: не сливать его отдельно в main и не выполнять force push/retarget без согласования. Альтернативный раздельный порядок — #4, затем retarget #5 в main, #3 и #6, затем оставшийся интеграционный diff; потребуется заново проверить итог. В этой задаче PR не сливаются, ветки не удаляются и деплой не выполняется.
+
+## Update 2026-10-16: integration/team-mobile
+
+Based on PR #8 head 3d009dc. Assets imported selectively from 11c4e45 (models, previews, manifest, research/build materials); public UI from 8818e8b adapted to the existing API, router and common RU/KZ. No unrelated-history merge or duplicate application. The previous source table above describes the baseline. Mobile role owns apps/mobile; proposed contract is packages/contracts/LIVESTOCK_API.md, published before backend implementation.
