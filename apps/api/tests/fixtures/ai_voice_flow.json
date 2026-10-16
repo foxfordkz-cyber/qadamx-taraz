@@ -1,0 +1,13 @@
+{
+  "purpose": "Synthetic live-provider regression cases; never write ledger operations. Explicit --live opt-in via scripts/smoke_ai.py.",
+  "cases": [
+    {"id":"voice-ru","locale":"ru","text":"Продал на 3000, получил 1000","expected":{"kind":"sale","total_minor":300000,"received_minor":100000}},
+    {"id":"voice-kk","locale":"kk","text":"3000 теңгеге саттым, 1000 теңге алдым","expected":{"kind":"sale","total_minor":300000,"received_minor":100000}},
+    {"id":"voice-mixed","locale":"mixed","text":"Продал 3000 теңгеге, алдым 1000","expected":{"kind":"sale","total_minor":300000,"received_minor":100000}},
+    {"id":"clarify-ru","locale":"ru","text":"Продал на 3000, получил 1000\nНақтылау / Уточнение: общая сумма 3500, получил 2000","expected":{"kind":"sale","total_minor":350000,"received_minor":200000}},
+    {"id":"payment-unknown","locale":"ru","text":"Продал товар на 3000","expected":{"kind":"sale","total_minor":300000,"received_minor":null}},
+    {"id":"repayment-kk","locale":"kk","text":"Асқар бұрынғы қарызынан 500 теңге қайтарды","expected":{"kind":"repayment","amount_minor":50000}},
+    {"id":"clarify-kk","locale":"kk","text":"3000 теңгеге саттым, 1000 теңге алдым\nНақтылау / Уточнение: жалпы сома 3500 теңге, алғаным 2000 теңге","expected":{"kind":"sale","total_minor":350000,"received_minor":200000}},
+    {"id":"two-sales","locale":"ru","text":"Продал яблоки на 3000, получил 1000. Ещё отдельная продажа хлеба на 500, полностью оплачена.","expected":{"kind":"unknown","total_minor":null,"received_minor":null}}
+  ]
+}

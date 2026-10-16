@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button, Input } from "../../shared/ui";
 import { useLedgerText } from "../ledger/i18n";
 import { AudioCapture, type CaptureError, type CaptureState } from "./recorder";
-import { validAudio } from "./audioContract";
+import { normalizeAudioFile, validAudio } from "./audioContract";
 import { useVoiceText } from "./i18n";
 import "./voice.css";
 
@@ -84,7 +84,8 @@ export function AudioInput({
         onChange={(event) => {
           capture.current?.cancel();
           setError(null);
-          const file = event.target.files?.[0];
+          const selected = event.target.files?.[0];
+          const file = selected && normalizeAudioFile(selected);
           event.target.value = ""; // Selecting the same file again is a fresh explicit action.
           if (file && validAudio(file)) props.current.onFile(file);
           else if (file) setError("invalid");

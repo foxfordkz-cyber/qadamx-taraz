@@ -27,7 +27,9 @@ import { useLedgerText } from "../ledger/i18n";
 import { Stats } from "../summary/Summary";
 import { AudioInput } from "./AudioInput";
 import { AudioPreview } from "./AudioPreview";
-import { AI_REQUEST_TIMEOUT_MS } from "./audioContract";
+import { AI_REQUEST_TIMEOUT_MS, MAX_AI_TEXT } from "./audioContract";
+import { clarifiedText, validText } from "./draftInput";
+import { AnalysisError } from "./AnalysisError";
 import { useVoiceText } from "./i18n";
 import { ApiError } from "../../shared/api/client";
 import "../ledger/ledger.css";
@@ -47,6 +49,12 @@ function SaleForm() {
     [parseNotice, setParseNotice] = useState<"cancelled" | "timeout" | null>(
       null,
     );
+  const [inputLocale, setInputLocale] = useState<"ru" | "kk" | "auto" | null>(
+      null,
+    ),
+    [clarification, setClarification] = useState(""),
+    [needsAnalysis, setNeedsAnalysis] = useState(false),
+    [textInvalid, setTextInvalid] = useState(false);
   const [kind, setKind] = useState(params.get("sale") ? "repayment" : "sale"),
     [saleId, setSaleId] = useState(params.get("sale") ?? "");
   const [total, setTotal] = useState(""),
@@ -97,14 +105,26 @@ function SaleForm() {
         amountMinor <= balance;
   const disabled =
     write.busy || !!write.pending || parsing || gateway.mode !== "live";
-  async function parse() {
-    if (parseLock.current || disabled || capturing || (!file && !text.trim()))
+  async function parse(override?: string) {
+    const sourceFile = override === undefined ? file : null;
+    const sourceText = override ?? text;
+    if (
+      parseLock.current ||
+      disabled ||
+      capturing ||
+      (!sourceFile && !sourceText.trim())
+    )
       return;
+    if (!sourceFile && !validText(sourceText)) {
+      setTextInvalid(true);
+      return;
+    }
     parseLock.current = true;
     setParsing(true);
     setParseError(null);
     setParseNotice(null);
-    setDraft(null);
+    setTextInvalid(false);
+    setNeedsAnalysis(true);
     const request = {
       controller: new AbortController(),
       timer: undefined as ReturnType<typeof setTimeout> | undefined,
@@ -121,9 +141,9 @@ function SaleForm() {
     }, AI_REQUEST_TIMEOUT_MS);
     try {
       const form = new FormData();
-      if (file) form.append("audio", file);
-      else form.append("text", text);
-      form.append("locale", locale);
+      if (sourceFile) form.append("audio", sourceFile);
+      else form.append("text", sourceText.trim());
+      form.append("locale", inputLocale ?? locale);
       const d = readDraft(
         await api.request(`/businesses/${business.id}/drafts`, {
           method: "POST",
@@ -133,6 +153,8 @@ function SaleForm() {
       );
       if (activeParse.current !== request) return;
       setDraft(d);
+      setNeedsAnalysis(false);
+      setClarification("");
       setKind(d.kind === "unknown" ? "" : d.kind);
       setDescription(d.description ?? "");
       setTotal(d.total_minor === null ? "" : String(d.total_minor / 100));
@@ -162,7 +184,34 @@ function SaleForm() {
     setParseError(null);
     setParseNotice("cancelled");
   }
+  function clarify() {
+    if (!draft || disabled || capturing) return;
+    const combined = clarifiedText(draft.transcript, clarification);
+    if (!combined) {
+      setTextInvalid(true);
+      return;
+    }
+    setText(combined);
+    setFile(null);
+    void parse(combined);
+  }
+  function sourceChanged() {
+    setTextInvalid(false);
+    setParseError(null);
+    setParseNotice(null);
+    if (draft) setNeedsAnalysis(true);
+    setDraft(null);
+    setClarification("");
+  }
   async function save() {
+    if (
+      write.busy ||
+      parsing ||
+      gateway.mode !== "live" ||
+      capturing ||
+      (needsAnalysis && !write.pending)
+    )
+      return;
     if (!write.pending && !valid) {
       setInvalid(true);
       return;
@@ -208,6 +257,9 @@ function SaleForm() {
               setCustomer(null);
               setSaleId("");
               setInvalid(false);
+              setClarification("");
+              setNeedsAnalysis(false);
+              setTextInvalid(false);
             }}
           >
             {l("again")}
@@ -220,14 +272,27 @@ function SaleForm() {
             <p>{l("hint")}</p>
             <p>{v("sequence")}</p>
             <fieldset disabled={disabled}>
+              <Select
+                label={v("language")}
+                value={inputLocale ?? locale}
+                disabled={capturing}
+                onChange={(e) =>
+                  setInputLocale(e.target.value as "ru" | "kk" | "auto")
+                }
+              >
+                <option value="auto">{v("autoLanguage")}</option>
+                <option value="ru">Русский</option>
+                <option value="kk">Қазақша</option>
+              </Select>
               <label className="field">
                 <span id={textLabelId}>{l("text")}</span>
                 <textarea
                   aria-labelledby={textLabelId}
-                  maxLength={4000}
+                  maxLength={MAX_AI_TEXT * 2}
                   disabled={capturing}
                   value={text}
                   onChange={(e) => {
+                    sourceChanged();
                     setText(e.target.value);
                     setFile(null);
                   }}
@@ -236,8 +301,12 @@ function SaleForm() {
               <AudioInput
                 disabled={disabled}
                 onBusyChange={setCapturing}
-                onReset={() => setFile(null)}
+                onReset={() => {
+                  sourceChanged();
+                  setFile(null);
+                }}
                 onFile={(f) => {
+                  sourceChanged();
                   setFile(f);
                 }}
               />
@@ -245,7 +314,10 @@ function SaleForm() {
                 <AudioPreview
                   file={file}
                   disabled={disabled || capturing}
-                  onDelete={() => setFile(null)}
+                  onDelete={() => {
+                    sourceChanged();
+                    setFile(null);
+                  }}
                 />
               )}
               <Button
@@ -255,6 +327,7 @@ function SaleForm() {
                 {l("prepare")}
               </Button>
             </fieldset>
+            {textInvalid && <p role="alert">{v("textLimit")}</p>}
             {parsing && (
               <div className="voice-actions">
                 <p role="status">{v("analysing")}</p>
@@ -267,13 +340,24 @@ function SaleForm() {
             {!!parseError && (
               <div role="alert">
                 <p>{l("aiUnavailable")}</p>
-                <ErrorMessage error={parseError} />
+                <AnalysisError error={parseError} />
+                <Button
+                  variant="secondary"
+                  disabled={disabled || capturing || (!file && !text.trim())}
+                  onClick={() => void parse()}
+                >
+                  {v("retryAnalysis")}
+                </Button>
               </div>
             )}
             <Button
               variant="secondary"
-              disabled={disabled}
-              onClick={() => setDraft(null)}
+              disabled={disabled || capturing}
+              onClick={() => {
+                setDraft(null);
+                setNeedsAnalysis(false);
+                setClarification("");
+              }}
             >
               {l("manual")}
             </Button>
@@ -299,8 +383,33 @@ function SaleForm() {
                       {l("expiry")}:{" "}
                       {new Date(draft.expires_at).toLocaleTimeString(locale)}
                     </small>
+                    <details>
+                      <summary>{v("clarifyTitle")}</summary>
+                      <p>{v("clarificationHint")}</p>
+                      <Input
+                        label={v("clarification")}
+                        value={clarification}
+                        maxLength={2000}
+                        disabled={disabled || capturing}
+                        onChange={(e) => {
+                          setClarification(e.target.value);
+                          setNeedsAnalysis(true);
+                          setTextInvalid(false);
+                        }}
+                      />
+                      <Button
+                        variant="secondary"
+                        disabled={
+                          disabled || capturing || !clarification.trim()
+                        }
+                        onClick={clarify}
+                      >
+                        {v("clarify")}
+                      </Button>
+                    </details>
                   </div>
                 )}
+                {needsAnalysis && <p role="status">{v("changed")}</p>}
                 <fieldset disabled={disabled} className="form-stack">
                   <Select
                     label={l("kind")}
@@ -340,6 +449,25 @@ function SaleForm() {
                       >
                         {l("choose")}
                       </Button>
+                      {totalMinor !== null &&
+                        paidMinor !== null &&
+                        paidMinor <= totalMinor && (
+                          <p>
+                            {v("remaining")}:{" "}
+                            <strong>
+                              {formatKZT(totalMinor - paidMinor, locale)}
+                            </strong>
+                          </p>
+                        )}
+                      {totalMinor !== null &&
+                        paidMinor !== null &&
+                        paidMinor < totalMinor &&
+                        !customer && <p>{v("customerNeeded")}</p>}
+                      {totalMinor !== null &&
+                        paidMinor !== null &&
+                        paidMinor > totalMinor && (
+                          <p role="alert">{v("overpayment")}</p>
+                        )}
                     </>
                   ) : kind === "repayment" ? (
                     <>
@@ -376,7 +504,10 @@ function SaleForm() {
                       />
                     </>
                   ) : null}
-                  <Button onClick={() => void save()} disabled={disabled}>
+                  <Button
+                    onClick={() => void save()}
+                    disabled={disabled || capturing || needsAnalysis}
+                  >
                     {l("confirm")}
                   </Button>
                   {invalid && !valid && <p role="alert">{l("required")}</p>}
