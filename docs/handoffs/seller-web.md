@@ -1,3 +1,34 @@
+# Seller web — Voice integration verification, 2026-10-16
+
+Рабочая ветка **test/voice-integration-acceptance**, отдельный worktree `work/qadam-voice-integration-check`.
+Согласованная база **integration/seller-analytics-061:13248851fd2b2a502aff211a506f71e85c2b0ab1**.
+Проверенный code/test commit **c1ea88aba2775a6c7d5eaebdd7fd0f9863832561**; последующий docs commit не меняет сборку.
+Текущий полный HEAD: `git log -1 --format=%H`. Опубликован [Draft PR #28](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/28)
+в согласованную базу; GitHub mergeable=true. Первоначальный опубликованный HEAD с отчётом
+**2a5a5bbec5fa5606e23490a0b85ba5bf9d644d27**, push успешен, remote/local совпали; эта запись — только docs.
+
+Из ready commit Айданы **a1e5252478eec61d85607b41557ff584b52cfe17** (PR23) перенесены ровно 16 согласованных файлов;
+production voice полностью совпадает с её исходником. QA не реализовывал production самостоятельно.
+Канонические тесты PR20/21 включены один раз; добавлен отдельный UI regression клиента, sale3000/paid1000,
+потери ответа и точного idempotency retry, repayment500/debt1500, history/summary и Analytics7/30 invalidation/reload/shop isolation.
+
+Собственные проверки: **242 unit/component, 35 strict microphone, 18 serial native synthetic microphone E2E,
+21 Seller/Analytics E2E, 21 existing browser QA E2E, 1 новый financial/Analytics E2E — PASS**.
+Наборы пересекаются; typecheck/lint/build/check:api/format/diff checks PASS.
+Первый native-прогон17/18 имел timing failure автоостановки; без изменения assertions отдельно1/1 и затем весь18/18 PASS.
+Полная диагностика, точные файлы, команды, происхождение и ограничения: [VOICE_INTEGRATION_ACCEPTANCE](../qa/VOICE_INTEGRATION_ACCEPTANCE.md).
+
+Backend/OpenAPI/generated/Auth/ledger/summary/Analytics/public/3D/global styles/package lock не изменены относительно базы.
+Скриншотные writer-тесты в чужие tracked directories не запускались. Shared DB, preview, CORS и туннели не менялись.
+Новая ветка капитана integration/voice-preview-061:07374399 изучена без merge; её production совпадает, новые HTTPS login/health отвечают200.
+Собственный live Auth/Gemini/денежный цикл не запускался; физический Android **BLOCKED**, устройств ADB нет.
+Унаследованные3 npm audit dev findings и предупреждения сборки остаются; customer POST recovery — отдельная задача.
+
+Следующий шаг: backend-агент получает exact SHA/report через PR18; капитан выбирает один путь
+production-интеграции PR23/verification, без повторного merge перекрывающихся тестов.
+Физический checklist находится в отчёте. Пароли/JWT/аудио не коммитить, main/чужие ветки не менять.
+Ниже сохранена прежняя передача Analytics/design; её результаты относятся к прежним snapshots.
+
 # Seller web — текущая передача Analytics
 
 2026-10-16. Новая ветка `feature/seller-analytics` от согласованной капитаном `origin/integration/local-combined-check`, актуальная база **58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76**, отдельный worktree `work/qadam-seller-analytics`. После начального2089e44 капитан опубликовал Analytics0.6/cd655e9; свои изменения сохранены, неопубликованная ветка обновлена fast-forward rebase без merge PR14. Маршрут `/seller/analytics` в том же приложении и SellerLayout. Дизайн/финансовые/public-модули сохранены.
