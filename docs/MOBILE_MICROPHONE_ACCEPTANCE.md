@@ -22,7 +22,7 @@
 
 ## Владение и согласование
 
-Участник №4 (`ledger-web`) владеет voice/ledger/summary. Исходный [PR #7](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/7) опубликован `sarsenbaevaaidana07`. В новом Draft PR будет запрошен review владельца. **Явное согласование production-изменений пока не получено.** Здесь добавляются тесты вне его модуля и отчёт; его source и handoff не редактируются.
+Участник №4 (`ledger-web`) владеет voice/ledger/summary. Исходный [PR #7](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/7) опубликован `sarsenbaevaaidana07`. В [Draft PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20) размещён конкретный запрос согласования и через GitHub запрошен review этого владельца. **Явное согласование production-изменений пока не получено.** Здесь добавляются тесты вне его модуля и отчёт; его source и handoff не редактируются.
 
 Предлагаемый владельцу отдельный scope: `AudioInput.tsx`, минимальная связь capture-state в `Sale.tsx`, ledger RU/KZ и тесты. Нужны поколения capture, logical cancel pending permission, доступная Stop, cleanup при disabled/route/account, проверка пустого/слишком большого clip, обработка recorder/track errors, preview/clear с revokeObjectURL, countdown и краткое AI-пояснение. Не менять денежные data/write методы или AI-протокол. До подтверждения этот scope не применяется.
 
@@ -65,7 +65,23 @@
 
 Browser-тесты запускают настоящее приложение и Chromium MediaRecorder с синтетическим fake audio device, без человеческого голоса и реального микрофона. SDK/API boundaries локально перехватываются, внешние запросы и денежные writes запрещены. Проверяются native recording/stop/MIME/30 секунд, multipart upload, denial/file/manual fallback, RU/KZ/mobile viewport. Это desktop Chromium automation, не физический Android и не живой AI.
 
-На этапе анализа тесты ещё готовятся. Здесь будут записаны точные команды, количества, expected failures и результаты полного прогона после их выполнения.
+### Этап 2 — компонентные регрессии
+
+Добавлены [обычные регрессии](../apps/web/src/test/microphone-acceptance.test.tsx), [browser boundary doubles](../apps/web/src/test/microphone-fixtures.tsx) и [отдельные известные gaps](../apps/web/src/test/microphone-known-gaps.test.tsx). Из `apps/web`:
+
+```powershell
+npm test -- src/test/microphone-acceptance.test.tsx src/test/microphone-known-gaps.test.tsx --no-file-parallelism
+```
+
+Результат: **22 обычные регрессии passed и 5 явно expected failures распознаны**, exit 0. Vitest выводит 27 passed, но пять из них — `.fails`, а не исправленные требования. Отдельный strict-прогон подтверждает реальные отказы:
+
+```powershell
+$env:QADAM_MIC_STRICT_KNOWN_GAPS = '1'
+npm test -- src/test/microphone-known-gaps.test.tsx --no-file-parallelism
+Remove-Item Env:QADAM_MIC_STRICT_KNOWN_GAPS
+```
+
+**Exit 1, ровно 5 assertion failures:** MIC-01 late permission, MIC-02 active capture при disabled, MIC-05a oversized recorded clip, MIC-05b empty clip, MIC-04 recorder error cleanup. Setup не падал. Это воспроизводимые неисправленные дефекты, не passed acceptance. При исправлении `.fails` нужно удалить; неожиданное прохождение сейчас само ломает этот diagnostic guard. Prettier новых файлов — PASS. Browser и полный web прогон ещё ожидаются.
 
 ## Физическая Android acceptance matrix
 
