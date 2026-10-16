@@ -1,3 +1,11 @@
+# Seller web — Customer POST, этап 1
+
+2026-10-16. Отдельная ветка `fix/customer-post-unknown-result`, worktree `work/qadam-customer-post`, от согласованной `integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`. Analytics PR #16 остаётся отдельным open Draft и не меняется. Customer POST API 0.6.0 не имеет idempotency/recovery; GET списка не даёт однозначного результата.
+
+Завершён только анализ контракта, ошибок, PR #14 и Android gaps. **Frontend states/tests ещё не реализованы**, physical Android/HTTPS/microphone acceptance не выполнена. [Предложение, состояния, test matrix, Backend extension и границы reload](../SELLER_CUSTOMER_POST_UNKNOWN_RESULT.md). Согласование этапа 2 требуется по разделу 6 задания: общий session/business lock, мягкий deadline 20 секунд → unknown без повторного POST, только GET-кандидаты и marker без содержимого формы/токенов. User/business UUID остаются псевдонимными метаданными. Блокируются все новые Customer POST точки. Поля в памяти не переживают logout/reload. Ручная сверка сама по себе не исключает поздний commit: гарантированный recovery требует Backend, безопасного reset в UI нет.
+
+Backend/OpenAPI/generated/финансовые/voice/public-модули, main и PR #14/#16 не изменены. Unit/build/E2E на этапе документации не запускались; проверка diff фиксируется при commit. HTTPS PR #17/API 0.6.1 капитана изучен только как отдельный источник, не объединён; его live-результаты за свои не выдаются. Следом — согласованный frontend/regressions, затем отдельная физическая Android/HTTPS приёмка. Точный текущий commit: `git log -1 --format=%H`. Ниже сохранена историческая передача дизайна.
+
 # Seller web — передача интегрированного дизайна
 
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.
