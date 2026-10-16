@@ -16,7 +16,7 @@ from app.services.audio import normalize_audio
 FIXTURES = Path(__file__).resolve().parents[3] / "docs/team5/fixtures/ai_cases.json"
 
 
-async def run(ids, pause):
+async def run(ids, pause, fixtures=FIXTURES):
     settings = Settings()
     if not settings.ai_api_key or not settings.ai_model:
         print("NOT RUN: AI_API_KEY and AI_MODEL required in ignored .env")
@@ -33,7 +33,7 @@ async def run(ids, pause):
         flush=True,
     )
     provider = GeminiProvider(settings)
-    cases = json.loads(FIXTURES.read_text(encoding="utf-8"))["cases"]
+    cases = json.loads(fixtures.read_text(encoding="utf-8"))["cases"]
     cases = [case for case in cases if not ids or case["id"] in ids]
     failed = 0
     for index, case in enumerate(cases):
@@ -109,7 +109,8 @@ async def run_audio(path, mime, expected_total, expected_received):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--live", action="store_true", required=True)
-    parser.add_argument("--ids", nargs="*", help="Fixture IDs; omitted means all 20")
+    parser.add_argument("--ids", nargs="*", help="Fixture IDs; omitted means all cases")
+    parser.add_argument("--fixtures", type=Path, default=FIXTURES)
     parser.add_argument("--pause", type=float, default=13, help="Seconds between live requests")
     parser.add_argument(
         "--audio", type=Path, help="Explicit local audio file instead of text cases"
@@ -123,5 +124,5 @@ if __name__ == "__main__":
             args.audio, args.mime, args.expected_total_minor, args.expected_received_minor
         )
     else:
-        action = run(args.ids, args.pause)
+        action = run(args.ids, args.pause, args.fixtures)
     raise SystemExit(asyncio.run(action))
