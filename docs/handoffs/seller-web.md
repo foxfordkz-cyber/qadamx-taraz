@@ -1,5 +1,22 @@
 # Seller web — передача интегрированного дизайна
 
+## 2026-10-16: AudioInput Playback / Cancel — ожидается единый исполнитель
+
+Новая ветка `feature/voice-playback-cancel`, отдельный worktree `work/qadam-voice-playback-cancel`, от актуальной `origin/integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`.
+Это подготовка, **не завершённая реализация playback/cancel**. Полный [аудит и план продолжения](../VOICE_PLAYBACK_CANCEL.md) сохраняет границы изменений, точные refs, сравнение и тестовый план.
+
+Обязательный fetch обнаружил активное пересечение: участник №4 обновил `feature/aidana-ai-assistant` до `880d7137f39648f0bbce355369ee3e755d981f02`; его root VoiceInput/recorder/Sale уже содержат playback, cancel и удаление. По разделу 3 нового ТЗ общие voice-файлы не редактируются до выбора одного исполнителя. Владелец уведомлён [в PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20#issuecomment-6215397726); подтверждения на момент аудита нет. Наличие старого каркаса у владельца не разрешает параллельную реализацию той же задачи.
+
+После согласования: адаптировать только AudioInput, минимальную capture/file-связь Sale, RU/KZ и regression tests из #20. Не переносить root backend/API/финансовый код, автоматическое Stop→analyse, meter/device selection или второе приложение. Preview использует тот же File, что Prepare; Cancel/Delete сохраняют ручной текст. Защита всех callbacks — отдельная generation каждой попытки; cleanup tracks/timers/listeners/object URLs. Обязательны обычные passing playback/cancel tests после реализации, без скрытия остальных failures.
+
+В этом этапе изменены только `docs/VOICE_PLAYBACK_CANCEL.md` и этот handoff. Production, tests, Backend/OpenAPI/generated.ts, финансовая логика и PR #19 не менялись. PR #20 не объединялся; добавлен только согласующий комментарий. Его прошлые тестовые результаты не являются новыми проверками этой ветки.
+
+Команды из `apps/web`: `npm.cmd ci`, `npm.cmd run check:api`, `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd test -- --no-file-parallelism`, `npm.cmd run build`, `npm.cmd run format:check`. Для исходного E2E без перезаписи чужих screenshots: `CI=1 npm run test:e2e -- seller.spec.ts integration-design.spec.ts` (в PowerShell временно установить `$env:CI='1'`, затем восстановить). Полный прогон и microphone acceptance выполнить после согласованных изменений; точные фактические результаты подготовки записаны в аудите.
+
+Свежие проверки исходной базы в новой копии: npm ci, check:api, typecheck, lint, build, format:check — PASS; **142/142 unit/component**, **13/13 scoped seller/integration E2E**, ширины 360/390/768/1440. Новых playback/cancel tests здесь ещё нет; весь default/QA/microphone E2E не заявляется пройденным. Остались прежние 3 dependency audit findings и предупреждения build empty-auth/large-3D; зависимости не обновлялись.
+
+Physical Android **Blocked**: свежая adb-проверка — 0 устройств, HTTPS frontend preview не предоставлен. Live Backend/AI/audio в этой задаче не проверялся. Следующее действие — согласовать с капитаном/участником №4 единственного исполнителя и исходный commit, затем повторить обязательный fetch/PR/instructions audit. Актуальный commit этой ветки: `git log -1 --format=%H`; публикация отражена в отдельном Draft PR.
+
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.
 
 ## Что сделано
