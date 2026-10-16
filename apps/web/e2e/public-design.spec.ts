@@ -106,7 +106,10 @@ test("public venue/shop/catalog/inquiry routes and WebGL fallback — intercepte
       json: { schema_version: 1, venues: [] },
     }),
   );
-  const destination = path.resolve("../../docs/screenshots/team-mvp-design");
+  const destination = path.resolve(
+    process.env.QADAM_SCREENSHOT_ROOT ?? "../../docs/screenshots",
+    "team-mvp-design",
+  );
   const exportDirectory = process.env.QADAM_SCREENSHOT_OUTPUT;
   await mkdir(destination, { recursive: true });
   if (exportDirectory) await mkdir(exportDirectory, { recursive: true });
