@@ -104,6 +104,9 @@ without public env. No dependency update in this task.
 
 Current-stage publication hashes are recorded in the seller handoff;
 the counts later in this document describe the preceding readiness stage.
+Implementation `b156bc3f96fb514b4e31c95a4e23294c6114afb3` was pushed successfully
+to the existing branch/PR #31 with local/remote HEAD verified equal. Final
+publication metadata is a separate docs-only checkpoint; no merge or deployment.
 No callback E2E is claimed. Synthetic browser tests run the real SDK against
 isolated local HTTP, with no real accounts, email or financial writes.
 

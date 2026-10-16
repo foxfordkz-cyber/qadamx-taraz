@@ -34,8 +34,15 @@ typecheck, lint, build, format:check and diff --check passed. All Auth/API/audio
 tests are synthetic; no real email, account or monetary write. Initial length
 validation and SDK fixture-header issues were corrected without disabling tests.
 
-Existing
-Voice/financial/Analytics/public implementations, Backend/OpenAPI/generated and
+Implementation commit **`b156bc3f96fb514b4e31c95a4e23294c6114afb3`**,
+push successful; fetch/pull --ff-only reported already up to date and remote
+HEAD matched. Existing **[Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)**
+continues with head `feature/seller-registration-onboarding`, base
+`integration/voice-preview-061` at the approved `07374399`.
+This documentation-only publication checkpoint follows the verified code;
+latest exact HEAD: `git log -1 --format=%H`. No merge/force push/deployment.
+
+Existing Voice/financial/Analytics/public implementations, Backend/OpenAPI/generated and
 global styles/shared UI are unchanged. Physical Android and live AI remain
 separate; this task changes neither preview nor services.
 
