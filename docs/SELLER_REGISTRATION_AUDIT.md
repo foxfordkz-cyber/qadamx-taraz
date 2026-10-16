@@ -204,6 +204,10 @@ servers use isolated ports and `reuseExistingServer: false`.
 
 ## Publication
 
-Current code/checkpoint and PR: see [seller handoff](handoffs/seller-web.md).
+Verified code `54a78322495ebdf13fd339dbdbecde61bcda7f88` published successfully;
+local/remote HEAD matched. [Open Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)
+targets `integration/voice-preview-061`, GitHub mergeable=true, merged=false.
+Final docs-only checkpoint: see [seller handoff](handoffs/seller-web.md);
+`git log -1 --format=%H` returns the exact latest hash.
 Pending: onboarding agreement, live signup/email/browser validation, physical
 Android. No deployment, backend/CORS/Supabase change or merge is part of this task.

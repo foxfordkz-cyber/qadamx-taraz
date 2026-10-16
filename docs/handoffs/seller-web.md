@@ -34,6 +34,20 @@ in the audit. These are not live Auth/DB/Gemini or physical Android results.
 New mobile/desktop empty-state PNGs inspected locally; existing tracked design
 screenshots unchanged. Current exact commit: `git log -1 --format=%H`.
 
+Published verified implementation:
+`54a78322495ebdf13fd339dbdbecde61bcda7f88`.
+**[Open Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)**,
+base `integration/voice-preview-061`, head
+`feature/seller-registration-onboarding`. Push successful and local/remote
+HEAD verified equal; GitHub reports mergeable=true, merged=false. This final
+documentation-only checkpoint records publication; use `git log -1 --format=%H`
+for its own exact hash. Do not merge or deploy without the next task.
+
+Captain/backend questions:
+[PR #18 comment](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6217630633).
+No onboarding answer received at publication. Physical Android checklist is
+ready for a human operator; signup/callback/resend are intentionally unimplemented.
+
 Next: captain answers onboarding questions, approves callback URLs/provisioning,
 then implement signup/confirmation/resend through the same AuthProvider.
 Do not invent membership APIs or rebase/merge other branches automatically.
