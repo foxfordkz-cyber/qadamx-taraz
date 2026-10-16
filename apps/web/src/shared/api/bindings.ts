@@ -1,4 +1,5 @@
 import { ApiError } from "./client";
+import { codePointLength } from "../unicode";
 import type { components } from "./generated";
 import type {
   CatalogItem,
@@ -27,8 +28,9 @@ function object(value: unknown): Record<string, unknown> {
   return value as Record<string, unknown>;
 }
 function text(value: unknown, min = 0, max = Infinity): string {
-  if (typeof value !== "string" || value.length < min || value.length > max)
-    return invalid();
+  if (typeof value !== "string") return invalid();
+  const length = codePointLength(value);
+  if (length < min || length > max) return invalid();
   return value;
 }
 export function readUuid(value: unknown): string {
@@ -97,18 +99,26 @@ export function readCustomers(raw: unknown): Page<Customer> {
     next_cursor: data.next_cursor == null ? null : readUuid(data.next_cursor),
   };
 }
+export function customerInputErrors(
+  input: CustomerInput,
+): Partial<Record<keyof CustomerInput, "required" | "tooLong">> {
+  const errors: Partial<Record<keyof CustomerInput, "required" | "tooLong">> =
+    {};
+  const limits = { display_name: 200, note: 2000, contact: 200 } as const;
+  for (const field of Object.keys(limits) as (keyof CustomerInput)[]) {
+    const value = input[field].trim();
+    if (field === "display_name" && !value) errors[field] = "required";
+    else if (codePointLength(value) > limits[field]) errors[field] = "tooLong";
+  }
+  return errors;
+}
 export function customerBody(
   input: CustomerInput,
 ): components["schemas"]["CustomerCreate"] {
   const display_name = input.display_name.trim();
   const note = input.note.trim();
   const contact = input.contact.trim() || null;
-  if (
-    !display_name ||
-    display_name.length > 200 ||
-    note.length > 2000 ||
-    (contact?.length ?? 0) > 200
-  )
+  if (Object.keys(customerInputErrors(input)).length)
     throw new ApiError(422, "VALIDATION_ERROR");
   return { display_name, note, contact };
 }
