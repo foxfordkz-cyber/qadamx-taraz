@@ -10,6 +10,12 @@
 
 Следом: review участника №4 и отдельное согласование production fixes; затем физическое устройство + HTTPS preview для Android matrix. Точный HEAD — `git log -1 --format=%H`. Новому Codex продолжать только эту ветку, перечитать owner review и отчёт; не переносить успех desktop automation на Android. Ниже сохранена историческая передача дизайна.
 
+Публикация: проверенный browser/tests snapshot `e976bf7465055ae604291c91b3b380e8b3b0b635`, успешный push, local/remote совпали; fetch/prune, pull FF — Already up to date. [PR #20](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/20) open Draft, без конфликтов с base при повторной проверке. Итог — 7 путей: 3 новых `src/test/microphone-*`, 2 новых `e2e/microphone.*`, отчёт и этот handoff. Следующий docs-only commit сохраняет эту передачу без изменения проверенных tests.
+
+Поздний fetch обнаружил `feature/aidana-ai-assistant:b91a9c6db1eceec8e155ecd628f22e700db9b195`: полезные recorder guards и cancel/playback/countdown уже есть, но в старом корневом каркасе от `ced32e7`, не в `apps/web`. Автоматически не объединять; согласовать адаптацию только нужных UI/recorder частей с участником №4. Наши tests эту отдельную реализацию не проверяли. Base `58d4eb4` и PR #19 не изменились.
+
+Для продолжения: в этом worktree `git fetch origin --prune`, проверить ветку/status, `git pull --ff-only origin test/mobile-microphone-acceptance`; при divergence остановиться. Из `apps/web` — точные команды обычных и strict tests в отчёте. Сначала перечитать owner review/обновления базы. Ниже история предыдущего дизайна, не текущие voice results.
+
 # Seller web — передача интегрированного дизайна
 
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.
