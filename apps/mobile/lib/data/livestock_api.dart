@@ -96,6 +96,7 @@ class LivestockApi {
         relative.hasFragment ||
         path.contains('\\') ||
         path.contains('%') ||
+        path.split('/').any((part) => part == '..' || part == '.') ||
         relative.pathSegments.any((part) => part == '..' || part == '.')) {
       throw const ApiFailure('INVALID_API_PATH');
     }
@@ -165,7 +166,8 @@ class LivestockApi {
 
   ApiFailure? _responseFailure(http.Response response) {
     if (response.statusCode >= 200 && response.statusCode < 300) return null;
-    final uncertain = response.statusCode >= 500 ||
+    final uncertain =
+        response.statusCode >= 500 ||
         response.statusCode == 401 ||
         response.statusCode == 408 ||
         response.statusCode < 400;
@@ -262,8 +264,10 @@ class LivestockApi {
   void _validateMutation(String method, String path) {
     const uuid =
         r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}';
-    final valid = method == 'POST' && path == '/livestock/listings' ||
-        method == 'PUT' && RegExp('^/livestock/listings/$uuid\$').hasMatch(path) ||
+    final valid =
+        method == 'POST' && path == '/livestock/listings' ||
+        method == 'PUT' &&
+            RegExp('^/livestock/listings/$uuid\$').hasMatch(path) ||
         method == 'POST' &&
             RegExp('^/livestock/listings/$uuid/actions\$').hasMatch(path);
     if (!valid) throw const ApiFailure('INVALID_API_PATH');
@@ -273,7 +277,9 @@ class LivestockApi {
     final pending = await _readPending(session);
     if (pending != null) {
       throw ApiFailure(
-        pending.completedResponse == null ? 'PENDING_OPERATION' : 'PENDING_RECEIPT',
+        pending.completedResponse == null
+            ? 'PENDING_OPERATION'
+            : 'PENDING_RECEIPT',
         uncertain: pending.completedResponse == null,
       );
     }
@@ -307,7 +313,11 @@ class LivestockApi {
         final session = _capture();
         await _requireNoPending(session);
         final key = const Uuid().v4();
-        final snapshot = await _store.snapshotPhoto(session.accountId, key, filePath);
+        final snapshot = await _store.snapshotPhoto(
+          session.accountId,
+          key,
+          filePath,
+        );
         _check(session);
         const path = '/livestock/photos';
         final pending = PendingIntent(

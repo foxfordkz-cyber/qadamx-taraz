@@ -36,20 +36,23 @@ class FakeAuth implements AuthGateway {
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  test('restored SDK account used and refresh does not reset editor generation', () {
-    final auth = FakeAuth();
-    final runtime = MobileRuntime(auth: auth);
-    expect(runtime.accountId, 'account-A');
-    expect(runtime.epoch, 0);
-    auth.switchTo('account-A');
-    expect(runtime.epoch, 0);
-    auth.switchTo('account-B');
-    expect(runtime.epoch, 1);
-    auth.switchTo('account-A');
-    expect(runtime.epoch, 2);
-    runtime.dispose();
-    auth.events.close();
-  });
+  test(
+    'restored SDK account used and refresh does not reset editor generation',
+    () {
+      final auth = FakeAuth();
+      final runtime = MobileRuntime(auth: auth);
+      expect(runtime.accountId, 'account-A');
+      expect(runtime.epoch, 0);
+      auth.switchTo('account-A');
+      expect(runtime.epoch, 0);
+      auth.switchTo('account-B');
+      expect(runtime.epoch, 1);
+      auth.switchTo('account-A');
+      expect(runtime.epoch, 2);
+      runtime.dispose();
+      auth.events.close();
+    },
+  );
 
   test('logout clears account after SDK confirms; failure is safe', () async {
     final auth = FakeAuth();
@@ -57,9 +60,13 @@ void main() {
     auth.offline = true;
     await expectLater(
       runtime.signOut(),
-      throwsA(isA<SessionFailure>().having(
-        (error) => error.code, 'code', 'AUTH_UNAVAILABLE',
-      )),
+      throwsA(
+        isA<SessionFailure>().having(
+          (error) => error.code,
+          'code',
+          'AUTH_UNAVAILABLE',
+        ),
+      ),
     );
     expect(runtime.accountId, 'account-A');
     auth.offline = false;
@@ -70,16 +77,22 @@ void main() {
     await auth.events.close();
   });
 
-  test('password and raw failures never become public runtime error text', () async {
-    final auth = FakeAuth()..offline = true;
-    final runtime = MobileRuntime(auth: auth);
-    try {
-      await runtime.signIn('test@example.test', 'test-only-not-a-real-password');
-      fail('must fail');
-    } on SessionFailure catch (error) {
-      expect(error.toString(), 'AUTH_UNAVAILABLE');
-    }
-    runtime.dispose();
-    await auth.events.close();
-  });
+  test(
+    'password and raw failures never become public runtime error text',
+    () async {
+      final auth = FakeAuth()..offline = true;
+      final runtime = MobileRuntime(auth: auth);
+      try {
+        await runtime.signIn(
+          'test@example.test',
+          'test-only-not-a-real-password',
+        );
+        fail('must fail');
+      } on SessionFailure catch (error) {
+        expect(error.toString(), 'AUTH_UNAVAILABLE');
+      }
+      runtime.dispose();
+      await auth.events.close();
+    },
+  );
 }

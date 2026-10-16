@@ -20,10 +20,17 @@ bool _date(Object? value) {
 }
 
 bool _timestamp(Object? value) =>
-    value is String && value.contains('T') && DateTime.tryParse(value) != null;
+    value is String &&
+    RegExp(
+      r'^\d{4}-\d{2}-\d{2}T(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d{1,6})?(?:Z|\+00:00)$',
+    ).hasMatch(value) &&
+    _date(value.substring(0, 10)) &&
+    DateTime.tryParse(value) != null;
 
 bool _photo(Object? value) {
-  if (value is! Map || !_uuid(value['id']) || value['url'] is! String) return false;
+  if (value is! Map || !_uuid(value['id']) || value['url'] is! String) {
+    return false;
+  }
   final url = value['url'] as String;
   return RegExp(
     r'^/api/v1/livestock/listings/[0-9a-fA-F-]{36}/photos/[0-9a-fA-F-]{36}$',
@@ -32,7 +39,8 @@ bool _photo(Object? value) {
 
 bool _listing(Map<String, dynamic> value, {required bool owner}) {
   final photos = value['photos'];
-  final base = _uuid(value['id']) &&
+  final base =
+      _uuid(value['id']) &&
       _species.contains(value['species']) &&
       _int(value['quantity'], 1, 10000) &&
       _int(value['price_per_head_minor'], 1, maxPriceMinor) &&
@@ -48,7 +56,8 @@ bool _listing(Map<String, dynamic> value, {required bool owner}) {
       photos is List &&
       photos.length <= 3 &&
       photos.every(_photo) &&
-      photos.map((photo) => (photo as Map)['id']).toSet().length == photos.length &&
+      photos.map((photo) => (photo as Map)['id']).toSet().length ==
+          photos.length &&
       _date(value['confirmed_on']) &&
       value['is_demo'] is bool;
   if (!base) return false;
@@ -65,13 +74,16 @@ bool _page(Map<String, dynamic> value, {required bool owner}) {
       items.length <= 100 &&
       value.containsKey('next_cursor') &&
       (value['next_cursor'] == null || _uuid(value['next_cursor'])) &&
-      items.every((item) => item is Map<String, dynamic> && _listing(item, owner: owner));
+      items.every(
+        (item) => item is Map<String, dynamic> && _listing(item, owner: owner),
+      );
 }
 
 bool _stats(Map<String, dynamic> value) {
   final count = value['sample_count'];
   final median = value['median_price_per_head_minor'];
-  final common = _species.contains(value['species']) &&
+  final common =
+      _species.contains(value['species']) &&
       _text(value['locality'], 1, 100) &&
       _date(value['period_from']) &&
       _date(value['period_to']) &&
@@ -84,8 +96,8 @@ bool _stats(Map<String, dynamic> value) {
       value.containsKey('median_price_per_head_minor');
   if (!common) return false;
   return switch (value['status']) {
-    'insufficient_data' => median == null && (count as int) < 5,
-    'available' => _int(median, 1, maxPriceMinor) && (count as int) >= 5,
+    'insufficient_data' => median == null && count < 5,
+    'available' => _int(median, 1, maxPriceMinor) && count >= 5,
     _ => false,
   };
 }
@@ -104,8 +116,9 @@ void validateLivestockResponse(
       '/livestock/listings' => _page(value, owner: false),
       '/livestock/me/listings' => _page(value, owner: true),
       '/livestock/prices' => _stats(value),
-      _ => RegExp(r'^/livestock/listings/[0-9a-fA-F-]{36}$').hasMatch(route) &&
-          _listing(value, owner: false),
+      _ =>
+        RegExp(r'^/livestock/listings/[0-9a-fA-F-]{36}$').hasMatch(route) &&
+            _listing(value, owner: false),
     };
   } else if (method == 'POST' && route == '/livestock/photos') {
     valid = _uuid(value['id']);

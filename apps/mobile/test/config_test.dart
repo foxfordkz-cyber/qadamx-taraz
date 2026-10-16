@@ -28,11 +28,17 @@ void main() {
     );
   });
 
-  test('release rejects cleartext; debug permits approved LAN configuration', () {
-    const url = 'http://192.0.2.1:8000/api/v1';
-    expect(const AppConfig(apiBaseUrl: url, release: true).apiUri, isNull);
-    expect(const AppConfig(apiBaseUrl: url, release: false).apiUri, isNotNull);
-  });
+  test(
+    'release rejects cleartext; debug permits approved LAN configuration',
+    () {
+      const url = 'http://192.0.2.1:8000/api/v1';
+      expect(const AppConfig(apiBaseUrl: url, release: true).apiUri, isNull);
+      expect(
+        const AppConfig(apiBaseUrl: url, release: false).apiUri,
+        isNotNull,
+      );
+    },
+  );
 
   test('rejects server keys and wrong Supabase project', () {
     String jwt(String role, String ref) =>
@@ -43,11 +49,11 @@ void main() {
       isFalse,
     );
     expect(AppConfig.isPublicKey(jwt('anon', 'another-project')), isFalse);
+    expect(AppConfig.isPublicKey(jwt('anon', 'pdjjdqgoitnkpgkbqjtp')), isTrue);
     expect(
-      AppConfig.isPublicKey(jwt('anon', 'pdjjdqgoitnkpgkbqjtp')),
+      AppConfig.isPublicKey('sb_publishable_test_public_key_1234'),
       isTrue,
     );
-    expect(AppConfig.isPublicKey('sb_publishable_test_public_key_1234'), isTrue);
     expect(
       const AppConfig(
         supabaseUrl: 'https://another-project.supabase.co',

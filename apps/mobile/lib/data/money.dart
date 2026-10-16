@@ -17,7 +17,9 @@ int? parsePriceMinor(String text) {
 String priceInput(int minor) {
   final whole = minor ~/ 100;
   final fraction = minor.remainder(100).abs();
-  return fraction == 0 ? '$whole' : '$whole.${fraction.toString().padLeft(2, '0')}';
+  return fraction == 0
+      ? '$whole'
+      : '$whole.${fraction.toString().padLeft(2, '0')}';
 }
 
 String formatPriceMinor(int minor) {

@@ -41,9 +41,8 @@ class SupabaseAuthGateway implements AuthGateway {
   String? get accountId => client.auth.currentUser?.id;
 
   @override
-  Stream<String?> get accountChanges => client.auth.onAuthStateChange.map(
-    (state) => state.session?.user.id,
-  );
+  Stream<String?> get accountChanges =>
+      client.auth.onAuthStateChange.map((state) => state.session?.user.id);
 
   @override
   Future<String?> accessToken() async {
@@ -65,7 +64,8 @@ class SupabaseAuthGateway implements AuthGateway {
     try {
       final result = await refresh;
       _observeOwner(accountId);
-      if (_generation != generation || accountId != owner ||
+      if (_generation != generation ||
+          accountId != owner ||
           result.session?.user.id != owner) {
         return null;
       }

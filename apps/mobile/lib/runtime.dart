@@ -83,8 +83,7 @@ class MobileRuntime extends ChangeNotifier {
   // later. This keeps form guards and transport ownership aligned meanwhile.
   String? get accountId => _auth != null ? _auth.accountId : _accountId;
   int get epoch => _epoch;
-  String? get configurationError =>
-      _config.errorCode ?? _initializationError;
+  String? get configurationError => _config.errorCode ?? _initializationError;
 
   void _changeIdentity(String? account) {
     if (_disposed || _accountId == account) return;
