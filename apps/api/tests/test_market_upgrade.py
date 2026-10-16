@@ -39,6 +39,7 @@ def test_0004_to_0005_preserves_listing_and_legacy_idempotency(ledger_api):
             assert after.pop("market") is None and after.pop("market_key") is None
             assert after == dict(before)
             assert db.scalar(text("SELECT count(*) FROM qadam.livestock_requests")) == 1
+        command.upgrade(config, "head")
         command.check(config)
         replay = write(api, key=key)
         assert replay.status_code == 200 and replay.json()["id"] == original.json()["id"]

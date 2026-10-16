@@ -23,6 +23,15 @@ from app.services.ai import GeminiProvider
 from app.services.photos import PhotoBodyLimit, SupabasePhotoStore
 
 
+def private_response(request):
+    path = request.url.path.rstrip("/")
+    return (
+        path.startswith("/api/v1/livestock")
+        or path.endswith("/customer-creation-result")
+        or (request.method == "POST" and path.endswith("/customers"))
+    )
+
+
 def error_response(request, status, code, message, fields=None):
     body = schemas.ErrorResponse(
         error=schemas.ErrorDetail(code=code, message=message, fields=fields or {}),
@@ -30,6 +39,8 @@ def error_response(request, status, code, message, fields=None):
     )
     response = JSONResponse(status_code=status, content=body.model_dump(mode="json"))
     response.headers["X-Request-ID"] = str(request.state.request_id)
+    if private_response(request):
+        response.headers["Cache-Control"] = "no-store"
     if status == 401:
         response.headers["WWW-Authenticate"] = "Bearer"
     return response
@@ -46,7 +57,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.6.1",
+        version="0.6.2",
         lifespan=lifespan,
         description="Authenticated manual ledger and optional Gemini drafts. "
         "AI never writes money. Public catalog and private seller inquiries.",
@@ -77,7 +88,7 @@ def create_app(settings: Settings | None = None):
         request.state.request_id = uuid4()
         response = await call_next(request)
         response.headers["X-Request-ID"] = str(request.state.request_id)
-        if request.url.path.startswith("/api/v1/livestock"):
+        if private_response(request):
             response.headers["Cache-Control"] = "no-store"
         return response
 
