@@ -69,16 +69,52 @@ type CustomerRecoveryState =
   | "storage-error"
   | "complete";
 
-const customerIntentStorageKey = (userId: string, businessId: string) =>
+function normalizeApiBase(apiBase: string | undefined): string | null {
+  if (!apiBase?.trim()) return null;
+  try {
+    const url = new URL(apiBase.trim());
+    if (
+      !["http:", "https:"].includes(url.protocol) ||
+      url.username ||
+      url.password ||
+      url.search ||
+      url.hash
+    )
+      return null;
+    return url.href.replace(/\/+$/, "");
+  } catch {
+    return null;
+  }
+}
+
+const customerIntentStorageKey = (
+  apiBase: string,
+  userId: string,
+  businessId: string,
+) =>
+  `qadam.customer-create.v1:${encodeURIComponent(apiBase)}:${userId}:${businessId}`;
+
+const legacyCustomerIntentStorageKey = (userId: string, businessId: string) =>
   `qadam.customer-create.v1:${userId}:${businessId}`;
 
-function loadCustomerIntent(storageKey: string | null): {
+function loadCustomerIntent(
+  storageKey: string | null,
+  legacyStorageKey: string | null,
+): {
   record: CustomerCreationIntent | null;
   state: CustomerRecoveryState;
 } {
-  if (!storageKey) return { record: null, state: "unavailable" };
+  if (!storageKey || !legacyStorageKey)
+    return { record: null, state: "unavailable" };
   try {
-    return { record: readCustomerIntent(storageKey), state: "idle" };
+    const currentRecord = readCustomerIntent(storageKey);
+    if (currentRecord) return { record: currentRecord, state: "idle" };
+    const legacyRecord = readCustomerIntent(legacyStorageKey);
+    if (legacyRecord) {
+      window.localStorage.setItem(storageKey, JSON.stringify(legacyRecord));
+      window.localStorage.removeItem(legacyStorageKey);
+    }
+    return { record: legacyRecord, state: "idle" };
   } catch {
     return { record: null, state: "storage-error" };
   }
@@ -146,11 +182,20 @@ export function useCustomerCreationRecovery(enabled = true) {
   const userId =
     auth.session?.user.id ??
     (auth.demo && gateway.mode === "live" ? `demo-${scope}` : undefined);
+  const apiBase =
+    normalizeApiBase(import.meta.env.VITE_API_BASE_URL) ??
+    (auth.demo && gateway.mode === "live" ? "test-gateway" : null);
   const storageKey =
-    gateway.mode === "live" && userId
-      ? customerIntentStorageKey(userId, business.id)
+    gateway.mode === "live" && userId && apiBase
+      ? customerIntentStorageKey(apiBase, userId, business.id)
       : null;
-  const [initialIntent] = useState(() => loadCustomerIntent(storageKey));
+  const legacyStorageKey =
+    gateway.mode === "live" && userId
+      ? legacyCustomerIntentStorageKey(userId, business.id)
+      : null;
+  const [initialIntent] = useState(() =>
+    loadCustomerIntent(storageKey, legacyStorageKey),
+  );
   const [record, setRecord] = useState(initialIntent.record);
   const [state, setState] = useState(initialIntent.state);
   const [error, setError] = useState<unknown>(null);
@@ -233,9 +278,14 @@ export function useCustomerCreationRecovery(enabled = true) {
       setBodyMismatch(false);
       setResolvedCustomer(null);
       let intent = record;
-      const isNewIntent = !intent;
+      let isNewIntent = false;
       try {
         const bodyHash = await hashCustomerBody(input);
+        const persistedIntent = readCustomerIntent(storageKey);
+        if (persistedIntent) {
+          intent = persistedIntent;
+          setRecord(persistedIntent);
+        }
         if (intent && intent.bodyHash !== bodyHash) {
           setBodyMismatch(true);
           setState("unknown");
@@ -244,27 +294,19 @@ export function useCustomerCreationRecovery(enabled = true) {
 
         if (!intent) {
           const key = makeIdempotencyKey();
-          const beforeCreate = await lookup(key);
-          const existingCustomer = completedCustomer(beforeCreate, business.id);
-          if (existingCustomer) {
-            finish(existingCustomer);
-            return;
-          }
           const newIntent = { key, bodyHash };
           window.localStorage.setItem(storageKey, JSON.stringify(newIntent));
           intent = newIntent;
+          isNewIntent = true;
           setRecord(intent);
           initialRecoveryStarted.current = true;
-        } else {
-          const previousResult = await lookup(intent.key);
-          const existingCustomer = completedCustomer(
-            previousResult,
-            business.id,
-          );
-          if (existingCustomer) {
-            finish(existingCustomer);
-            return;
-          }
+        }
+
+        const previousResult = await lookup(intent.key);
+        const existingCustomer = completedCustomer(previousResult, business.id);
+        if (existingCustomer) {
+          finish(existingCustomer);
+          return;
         }
 
         try {

@@ -34,6 +34,72 @@ async function openForm() {
   return form;
 }
 describe("QA Customers — real bindings, hooks and HTTP transport with mock responses", () => {
+  it("reuses the picker intent when the page form retries an unknown result", async () => {
+    const keys: string[] = [];
+    const created = customer(ids.shopA, "QA same intent", ids.customer2);
+    const committedIds: string[] = [];
+    const fetcher = vi.fn<typeof fetch>((input, init) => {
+      const url = new URL(String(input));
+      if (url.pathname.endsWith("/customer-creation-result")) {
+        return Promise.resolve(
+          json(
+            committedIds.length
+              ? { status: "completed", customer: created }
+              : { status: "not_observed", customer: null },
+          ),
+        );
+      }
+      if (init?.method === "POST") {
+        keys.push(new Headers(init.headers).get("Idempotency-Key") ?? "");
+        if (keys.length === 1)
+          return Promise.reject(new TypeError("Synthetic lost response"));
+        committedIds.push(created.id);
+        return Promise.resolve(json(created, 201));
+      }
+      return defaultFetch(input, init);
+    });
+    const qa = renderQa({ fetcher });
+    await screen.findByRole("heading", { name: "QA Клиент A" });
+
+    await userEvent.click(
+      screen.getByRole("button", { name: "Выбрать клиента" }),
+    );
+    let dialog = within(screen.getByRole("dialog"));
+    await userEvent.click(dialog.getByRole("button", { name: "Новый клиент" }));
+    await userEvent.type(dialog.getByLabelText("Имя"), "QA same intent");
+    await userEvent.click(
+      dialog.getByRole("button", { name: "Создать клиента" }),
+    );
+    await waitFor(() => expect(keys).toHaveLength(1));
+    await dialog.findByText(/Результат неизвестен: клиент мог быть создан/);
+    const scopedIntentKey = `qadam.customer-create.v1:${encodeURIComponent(
+      "https://qa.invalid/api/v1",
+    )}:${ids.a}:${ids.shopA}`;
+    const savedIntent = window.localStorage.getItem(scopedIntentKey);
+    expect(savedIntent).not.toBeNull();
+    expect(savedIntent).not.toContain("QA same intent");
+    expect(
+      window.localStorage.getItem(
+        `qadam.customer-create.v1:${ids.a}:${ids.shopA}`,
+      ),
+    ).toBeNull();
+
+    await userEvent.click(dialog.getByRole("button", { name: "Закрыть" }));
+    await userEvent.click(screen.getByRole("button", { name: /Новый клиент/ }));
+    dialog = within(screen.getByRole("dialog"));
+    expect(dialog.getByLabelText("Имя")).toHaveValue("QA same intent");
+    await userEvent.click(
+      dialog.getByRole("button", { name: "Безопасно повторить" }),
+    );
+    await screen.findByText("Клиент создан на сервере.");
+
+    expect(keys).toHaveLength(2);
+    expect(keys[1]).toBe(keys[0]);
+    expect(committedIds).toEqual([ids.customer2]);
+    expect(
+      qa.fetcher.mock.calls.filter(([, init]) => init?.method === "POST"),
+    ).toHaveLength(2);
+  });
   it.each([403, 404, 409, 422, 429, 500])(
     "GET %i is an error, never empty data or automatic Demo",
     async (status) => {

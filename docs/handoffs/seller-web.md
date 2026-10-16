@@ -1,4 +1,28 @@
-# Seller web — текущая передача Analytics
+# Seller web — актуальная передача customer recovery
+
+2026-10-16. Ветка `fix/seller-cabinet-reliability`, base `origin/integration/seller-analytics-061`. Рабочая часть customer recovery — commit `5b073a1`; дальнейшие отчётные commits обновляют документацию и contract snapshot. Не сливать в main.
+
+## Recovery и контракт
+
+Backend rollout подтверждён владельцем: API **0.6.2**, commit `4e983b42a2a0466d2fc07e4de09becf87a8ef7d5`. Live `/health` вернул 200; опубликованный `/openapi.json` структурно совпал с контрактом PR #22 на `e441401`. `packages/contracts/openapi.json` (blob `eefad96e…`) и `apps/web/src/shared/api/generated.ts` (blob `336d089b…`) совпадают с опубликованными PR #22 файлами. `npm run check:api` теперь проверяет именно 0.6.2. Старый блокер rollout снят.
+
+Frontend отправляет POST с сохранённым `Idempotency-Key`, вызывает контрактный GET результата до/после неопределённого ответа и повторяет только то же тело/ключ. `not_observed` означает неизвестный исход. Durable intent содержит ключ и SHA-256 тела без полей клиента, scoped API base/user/business; старые записи мигрируются без замены ключа. Страница Customers и `CustomerPicker` используют один recovery hook. Добавлен regression на потерянный ответ в picker → закрытие → безопасный повтор из page form с тем же ключом; именно этот ранее найденный cross-hook риск дублирования устранён.
+
+## Auth и интеграция
+
+PR #31: [Registration / Auth changes](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31). При объединении сохранить обе стороны: отсюда — stale `signOut`/поздний Auth-response guard и A→B→A fencing; из PR #31 — `signUp`, `resendConfirmation`, registration in-flight guard и confirmation marker. Не выбирать целиком один из `auth.tsx`; ручная склейка должна оставить все независимые protections и их tests.
+
+Интеграционный review сообщил воспроизводимый риск создания двух клиентов с разными ключами после picker `not_observed`; shared recovery hook и reread durable intent исправляют этот путь. Прогнан соответствующий тест `reuses the picker intent when the page form retries an unknown result`.
+
+## Проверка и блокеры
+
+Полный прогон обновлённой ветки: **213/213 unit/component**, **22/22 mocked E2E** (включая responsive 360/390/768/1440); `npm run build`, `typecheck`, `lint`, `check:api` — passed. `qa-customers-regression.test.tsx` — **32/32 passed**, включая cross-form same-key regression. Generated types проверены относительно опубликованного OpenAPI 0.6.2.
+
+Живые мутации не запускались: в checkout отсутствует Vite/Supabase env; unauthenticated `/api/v1/me` вернул 401. CORS preflight проходит для утверждённого preview origin `https://negotiations-exist-newman-ohio.trycloudflare.com`, но отвечает 400 для `http://localhost:5173` и `http://127.0.0.1:5173`. Нет браузерного preview с этой веткой и training-account session. Следующий безопасный шаг — интеграционному агенту включить проверенную ветку в согласованный preview, затем провести create/recovery/CustomerPicker/reload/A-B/foreign-point тесты на учебных точках A=`ad6203bc-7320-5b36-982b-135504c5af68`, B=`07691851-9886-5ce4-bb82-a3ed33630fe1`; пароль получить только защищённым каналом. Общую БД не очищать.
+
+Draft PR не создан: в доступном GitHub-инструментарии нет create-PR операции, GitHub browser не авторизован. Push ветки возможен; для PR нужна авторизованная GitHub-сессия. Подробный отчёт и готовая comparison-ссылка: [SELLER-CABINET-RELIABILITY](../../SELLER-CABINET-RELIABILITY.md).
+
+# Seller web — историческая передача Analytics
 
 2026-10-16. Новая ветка `feature/seller-analytics` от согласованной капитаном `origin/integration/local-combined-check`, актуальная база **58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76**, отдельный worktree `work/qadam-seller-analytics`. После начального2089e44 капитан опубликовал Analytics0.6/cd655e9; свои изменения сохранены, неопубликованная ветка обновлена fast-forward rebase без merge PR14. Маршрут `/seller/analytics` в том же приложении и SellerLayout. Дизайн/финансовые/public-модули сохранены.
 

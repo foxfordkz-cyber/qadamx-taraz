@@ -192,9 +192,11 @@ export function CreateCustomerForm({
 export function CustomerPicker({
   value,
   onChange,
+  recovery,
 }: {
   value: Customer | null;
   onChange: (customer: Customer) => void;
+  recovery?: CustomerRecovery;
 }) {
   const { t, locale } = useI18n();
   const { business } = useBusiness();
@@ -273,6 +275,7 @@ export function CustomerPicker({
       </Button>
       {creating && (
         <CreateCustomerForm
+          recovery={recovery}
           onCreated={(customer) => {
             onChange(customer);
             setCreating(false);
@@ -461,6 +464,7 @@ export function CustomersPage() {
         <p className="muted">{t("pickerHint")}</p>
         <CustomerPicker
           value={chosen}
+          recovery={recovery}
           onChange={(customer) => {
             setChosen(customer);
             setPickerOpen(false);

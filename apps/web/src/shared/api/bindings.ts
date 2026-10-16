@@ -200,7 +200,7 @@ export function readCatalog(raw: unknown): Page<CatalogItem> {
     next_cursor: null,
   };
 }
-/** Bindings for the single API's generated 0.4.0 contract. */
+/** Bindings for the single API's generated 0.6.2 contract. */
 export const backendBindings: Partial<BackendBindings> = {
   inquiries: readInquiries,
   catalog: readCatalog,
