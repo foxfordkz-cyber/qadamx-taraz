@@ -1,5 +1,7 @@
 # «Мал базар»: контракт Flutter v1
 
+Текущая публикация: [Draft PR #17](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/17) → integration/local-combined-check, API0.6.1; зависит от PR13.
+
 Текущая ветка HTTP/market — `integration/livestock-https`, основанная на `integration/local-combined-check` ([зависимость: Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13) → backend/livestock). Точный проверенный commit, запуск и удалённое подключение: [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). [OpenAPI 0.6.1](openapi.json), [JSON-примеры](examples.json); 0.6.1 добавляет optional market/минимум, сохраняя прежние поля 0.5.0 и аналитику 0.6.0.
 
 **qadam-demo уже на 0005_livestock_market**, private bucket livestock-photos подключён. Setup выполнен отдельно с разрешения капитана; повторять его не нужно. Проверены настоящие HTTP/JWT/Storage: public feed, mine, upload/read, повтор, чужой доступ. Внешний HTTPS тоже проверен с ПК капитана; устройство Flutter-разработчика ещё не проверено. Историческая локальная приёмка backend/livestock сохранена в handoff. Flutter опубликован участником отдельно в feature/mobile-livestock-api:a2c0aab (PR #15), автоматически здесь не объединялся.

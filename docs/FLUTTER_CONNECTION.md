@@ -1,5 +1,7 @@
 # Flutter: живой HTTPS, API 0.6.1 и рынок
 
+Опубликован [Draft PR #17](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/17): `integration/livestock-https` → `integration/local-combined-check`; зависит от PR #13. Документация опубликована после проверенного кода, API остаётся 0.6.1.
+
 Проверено 2026-10-16 (Asia/Qyzylorda). Backend **4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5**, ветка `integration/livestock-https`, основана на `58d4eb4` и локальном `e26f732`. API **0.6.1** сохраняет аналитику 0.6.0 и денежные правила. [OpenAPI проверенного commit](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5/packages/contracts/openapi.json), [JSON-примеры](../packages/contracts/examples.json), [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md), [аналитика](../packages/contracts/ANALYTICS_API.md).
 
 ## Действующий тестовый адрес
