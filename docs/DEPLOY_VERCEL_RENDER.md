@@ -1,5 +1,7 @@
 # Qadam demo: Vercel + Render
 
+**Diagnostic rollout PR #37:** [review, exact candidate e699158, manual deployment and rollback](RENDER_DIAGNOSTIC_ROLLOUT.md). Captain supplied build-to-Live evidence for 0f97c44; the new patch is prepared but not deployed by the agent. Vercel does not require a rebuild. Keep the rotated OpenAI key during rollback; do not blindly restore an old deployment's Environment.
+
 **Current checkpoint, 2026-10-16:** captain published web **https://qadamx-taraz.vercel.app** and API **https://qadamx-taraz.onrender.com/api/v1**, source commit0f97c44. New real hosted Auth/AI checks, evidence limits, budget and diagnostic patch: [HOSTING_AI_ACCEPTANCE](HOSTING_AI_ACCEPTANCE.md). API0.6.2/DB0006 confirmed; OpenAI-primary/gpt-transcribe confirmed by supplied runtime log. Complete hosting acceptance is still pending; active deployment SHA/extraction model/SSL require account-side evidence. The setup text below records the earlier preparation state, not a claim that the published hosts do not exist.
 
 Prepared 2026-10-16 from PR #35 `cacf57a` (application candidate `b899902`).
