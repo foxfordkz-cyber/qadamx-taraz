@@ -100,3 +100,7 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16: Seller Analytics frontend
 
 Капитан подтвердил combined как единственную базу Analytics. Начальная2089e44 содержала только согласованный Markdown контракт; после публикации API0.6.0/cd655e9 неопубликованная frontend-ветка безопасно обновлена до58d4eb4 без merge PR14. В существующий SellerLayout добавлен /seller/analytics, без нового приложения/дизайн-системы. Live использует опубликованные OpenAPI/generated, общий Bearer-клиент и runtime validation; отдельный явный Demo — синтетический adapter без HTTP/записей/автоматического fallback. Query scope включает сессию, разрешённую точку и период; prefix совпадает с существующей инвалидацией денежных mutations. Backend и финансовые формулы frontend-задачей не изменяются. Детали/ограничения PR14 и собственные проверки — [Seller Analytics handoff](SELLER_ANALYTICS_HANDOFF.md).
+
+## 2026-10-16 — Analytics интегрируется поверх PR17
+
+По уточнению капитана общая база новой ветки — актуальный PR17ca51bbf/API0.6.1, затем обычный merge Seller Analytics PR16ce68f01. Не начинать заново от58d4eb4 и не откатывать market/minimum/контракты Flutter.0005 уже применена; повторного setup нет. Проверка frontend выполняется на отдельных портах, работающие8018/5188/cloudflared сохраняются. Новый Draft направляется в ветку PR17 с явной зависимостью отPR13; ветки друзей, main и базы существующих PR не меняются. [Результаты](ANALYTICS_061_INTEGRATION.md).

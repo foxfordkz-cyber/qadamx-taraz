@@ -1,5 +1,9 @@
 # Текущее состояние Qadam Business
 
+## 2026-10-16 — Seller Analytics объединён с API0.6.1
+
+`integration/seller-analytics-061`, проверенный merge94e2b7a: PR17ca51bbf + PR16ce68f01. Общий backend/OpenAPI/generated/Flutter-инструкция сохранены. Настоящий browser loginA/B→/me→Analytics7/30→смена точки/reload/logout и foreign404 PASS, без API writes.207 unit,23 standard+Analytics и21 QA E2E PASS (8 пересечений). API8018,web5188 и действующий HTTPS не перезапускались;0005 только прочитана, setup/seed не выполнялись. [Точный состав и запуск](ANALYTICS_061_INTEGRATION.md). Новая ветка публикуется отдельным Draft поверхPR17; merge/deploy нет. Далее — исторические состояния прежних этапов, включая прежние ожидания UI и ревизии0003/0004.
+
 ## 2026-10-16 — API0.6.1 и временный внешний HTTPS
 
 Общая qadam-demo переведена на0005 после разрешения капитана: backup qadam восстановлен локально и сопоставлен, прежние данные сохранены. API0.6.1 доступен через временный HTTPS с реальными JWT/Storage, внешние проверки с ПК капитана PASS. [Адрес/конфиг/ограничения Flutter](FLUTTER_CONNECTION.md). PR15 a2c0aab совместим как старый клиент, UI рынка/минимума и физический Android ещё нужны. Аналитика сохранена, новых денежных операций нет. Постоянный деплой только спланирован, не выполнен.
