@@ -9,7 +9,7 @@
 - `ios/Runner.xcworkspace`, Xcode project, Swift AppDelegate/SceneDelegate,
   Flutter 3.47.7 templates, Swift Package Manager и CocoaPods fallback.
 - Целевая платформа — **iPhone, iOS 15.0+**; bundle ID `kz.qadam.qadamMobile`.
-  Версия приложения берётся из pubspec: 0.2.0+3. iPad отдельно не заявляется.
+  Версия приложения берётся из pubspec: 0.2.1+4. iPad отдельно не заявляется.
 - Camera/Photo Library usage descriptions на RU/KZ. Микрофон, геолокация,
   background fetch и разрешение записи в фотобиблиотеку не запрашиваются.
   Системный язык разрешений определяется iOS, язык интерфейса — переключателем.

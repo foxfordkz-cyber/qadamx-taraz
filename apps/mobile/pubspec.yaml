@@ -1,7 +1,7 @@
 name: qadam_mobile
 description: Qadam — мой бизнес, Мал базар и общий Supabase Auth.
 publish_to: none
-version: 0.2.0+3
+version: 0.2.1+4
 environment:
   sdk: '>=3.11.0 <4.0.0'
 dependencies:

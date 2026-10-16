@@ -1,5 +1,65 @@
 # Mobile · единое приложение Qadam · API 0.6.1
 
+## Qadam 0.2.1 — восстановленные адреса, 2026-10-16
+
+По поручению пользователя обновлены **оба** build-time параметра в игнорируемом
+`apps/mobile/config/public.local.json`. Supabase URL и publishable key сохранены
+без изменений. Версия повышена до **0.2.1+4** для различения APK с разными адресами.
+Логика приложения не менялась; backend, миграции и web не изменялись.
+
+```text
+API_BASE_URL=https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1
+FRONTEND_BASE_URL=https://negotiations-exist-newman-ohio.trycloudflare.com
+SUPABASE_URL=https://pdjjdqgoitnkpgkbqjtp.supabase.co
+```
+
+В `FRONTEND_BASE_URL` передаётся origin без `/login`. Кнопка кабинета открывает
+`/seller` в системном браузере; сайт направляет неавторизованного пользователя на
+`/login`. Витрина — `/`. Токены и пароли не передаются через URL.
+Supabase publishable key — прежний публичный ключ капитана, не серверный секрет.
+Адреса остаются временными, зависят от процессов/сети ПК команды.
+
+Повторно прочитаны изменившиеся README/PROJECT_STATUS/DECISIONS, актуальные
+FLUTTER_CONNECTION, VOICE_HTTPS_RESTORED и backend handoff на
+**0737439915c17e8d8f20cddcbe9e75bebede9b46**. AGENTS, team mobile и контракты
+не изменились. Подтверждённые пользователем и документацией версии:
+backend **4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5**, API **0.6.1**,
+frontend **7f511ddc8f3dc0a6fc1550566b9ead9abbfb98ce**.
+Это сведения команды о процессе; git hash из HTTP не выводится.
+**Recovery/0006 не включены**, общая Supabase не изменялась. Клиент новых
+recovery-маршрутов не вызывает; в живом OpenAPI они отсутствуют.
+
+### Новые проверки с компьютера — отдельно от Android
+
+**16 октября 2026, 18:50 UTC+5:**
+- 6 read-only HTTP: health200, OpenAPI200/0.6.1 со совпадающим `/me`, anonymous
+  `/me`401; frontend `/login`, `/seller`, `/` — 200. Прежний HTTP530 по старым
+  туннелям не переносится на эти новые адреса.
+- 10 запросов Dart public probe с production DTO-валидатором — **PASS**:
+  лента (1 явно demo-объявление), карточка, фильтр вида/места/рынка, пустой чужой
+  рынок, статистика `sample_count=0 / min=null / median=null`, JPEG1934798байт,
+  private-photo без Bearer401 и «Мои» без Bearer401. Нулевой минимум не подставлялся.
+- `flutter test --no-pub test/config_test.dart test/ios_build_config_test.dart`
+  — **7/7 PASS**. Это конфигурационные fixtures, не живой вход.
+- `dart run tool/build_ios.dart config/public.local.json validate` — PASS,
+  iOS build не выполнялся. Полные 75 тестов оболочки — результат предыдущего
+  исходного commit f9651a3; в этом изменении UI/transport не менялись.
+
+`adb devices -l` снова пуст: физический Android не подключён. Закрытая инструкция
+с паролями A/B пока не передана/не указана; запрошен путь к локальному файлу, без
+публикации паролей в чате/Git. Поэтому **живой вход A/B, публикация/Есть сегодня/
+Продано, права владельцев, Android и видео пока НЕ проверены**. GET401 не является
+проверкой изоляции A/B. Реальный HTTP с компьютера не считается установкой APK.
+Фактическая смена суток не проверялась, часы БД не менялись.
+
+Новый APK собирается из этой версии; точный commit, контрольная сумма и ссылка
+будут записаны после сборки. PR #25 остаётся Draft, база и PR #15 не меняются.
+[Сценарий Android](../../apps/mobile/docs/QADAM_SHELL_ACCEPTANCE.md) обновлён.
+Старый pending при смене API origin не удаляется и не отправляется на новый URL;
+неизвестный результат восстанавливается с командой по прежнему ключу/телу.
+
+Ниже — архив 0.2.0 и 0.1.1. Старые адреса и блокер530 относятся к прежним сборкам.
+
 ## Qadam 0.2.0 — отдельный этап оболочки, 2026-10-16
 
 Ветка `feature/mobile-qadam-shell` от `1a93469`, база нового Draft PR —

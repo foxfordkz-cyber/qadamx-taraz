@@ -1,5 +1,9 @@
 # Qadam (Flutter / Android + iOS)
 
+**0.2.1+4:** пересборка с восстановленными HTTPS-адресами от 16 октября.
+Текущие URL и результаты — в `../../docs/handoffs/mobile.md`; старые APK 0.2.0
+и 0.1.1 содержат прежние адреса. Supabase-проект и publishable key не менялись.
+
 Ветка `feature/mobile-qadam-shell`: единая оболочка «Мой бизнес / Мал базар /
 Профиль», реальные точки из `GET /me`, выбор активной точки и отдельный переход
 в HTTPS-кабинет через системный браузер. Это первый этап, не полная нативная CRM.
@@ -108,14 +112,15 @@ LAN API использовать реальный LAN адрес. `10.0.2.2`/`ad
 
 Текущий контракт — API 0.6.1, backend code из отчёта команды
 `4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5`.
-[Инструкция подключения](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/ca51bbf/docs/FLUTTER_CONNECTION.md),
+[Инструкция подключения](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/0737439/docs/FLUTTER_CONNECTION.md),
 [LIVESTOCK_API](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/ca51bbf/packages/contracts/LIVESTOCK_API.md),
 OpenAPI и examples перепроверены на `13248851` (PR #18); `/me` также сверён с
 живым OpenAPI 0.6.1. В базовой ветке остаются старые контракты 0.5.0;
 backend/web изменения сюда не переносились. Backend handoff на `13248851`
 подтверждает код процесса `4f67e2c`; версия OpenAPI сама по себе hash не доказывает.
-Frontend preview собран из `5ab11b1`. Проект customer recovery на `737a559`
-относится к будущему API 0.6.2, не используется клиентом этой версии.
+Восстановленный frontend preview собран из `7f511dd`; документация `0737439`
+подтверждает тот же backend `4f67e2c`/API 0.6.1. Реализация customer recovery
+на `e441401` остаётся отдельной: rollout 0006 не выполнен, клиент её не вызывает.
 Старые ответы/квитанции livestock 0.5.0 поддерживаются.
 `pubspec.lock` фиксирует разрешённые версии. Android backup отключён, чтобы
 сессия/ключи и приватные формы не переносились в резервные копии устройства.
