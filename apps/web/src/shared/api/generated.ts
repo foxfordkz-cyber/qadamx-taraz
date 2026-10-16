@@ -739,6 +739,8 @@ export interface components {
       price_per_head_minor: number;
       /** Locality */
       locality: string;
+      /** Market */
+      market?: string | null;
       /** Age Months */
       age_months?: number | null;
       /** Sex */
@@ -862,6 +864,8 @@ export interface components {
       price_per_head_minor: number;
       /** Locality */
       locality: string;
+      /** Market */
+      market?: string | null;
       /** Age Months */
       age_months: number | null;
       /** Sex */
@@ -976,6 +980,8 @@ export interface components {
       species: "cattle" | "sheep" | "goat" | "horse" | "camel";
       /** Locality */
       locality: string;
+      /** Market */
+      market?: string | null;
       /**
        * Period From
        * Format: date
@@ -1006,6 +1012,8 @@ export interface components {
       unit: "head";
       /** Sample Count */
       sample_count: number;
+      /** Min Price Per Head Minor */
+      min_price_per_head_minor?: number | null;
       /** Median Price Per Head Minor */
       median_price_per_head_minor: number | null;
       /**
@@ -1061,6 +1069,8 @@ export interface components {
       price_per_head_minor: number;
       /** Locality */
       locality: string;
+      /** Market */
+      market?: string | null;
       /** Age Months */
       age_months: number | null;
       /** Sex */
@@ -2449,6 +2459,7 @@ export interface operations {
       query?: {
         species?: ("cattle" | "sheep" | "goat" | "horse" | "camel") | null;
         locality?: string | null;
+        market?: string | null;
         limit?: number;
         cursor?: string | null;
       };
@@ -2591,6 +2602,7 @@ export interface operations {
         status?: ("active" | "sold" | "withdrawn") | null;
         species?: ("cattle" | "sheep" | "goat" | "horse" | "camel") | null;
         locality?: string | null;
+        market?: string | null;
         limit?: number;
         cursor?: string | null;
       };
@@ -2874,6 +2886,7 @@ export interface operations {
       query: {
         species: "cattle" | "sheep" | "goat" | "horse" | "camel";
         locality: string;
+        market?: string | null;
       };
       header?: never;
       path?: never;

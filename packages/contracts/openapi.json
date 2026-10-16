@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.6.0"
+    "version": "0.6.1"
   },
   "paths": {
     "/api/v1/health": {
@@ -1942,6 +1942,25 @@
             }
           },
           {
+            "name": "market",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Market"
+            }
+          },
+          {
             "name": "limit",
             "in": "query",
             "required": false,
@@ -2205,6 +2224,25 @@
                 }
               ],
               "title": "Locality"
+            }
+          },
+          {
+            "name": "market",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Market"
             }
           },
           {
@@ -2632,6 +2670,25 @@
               "maxLength": 100,
               "pattern": "\\S",
               "title": "Locality"
+            }
+          },
+          {
+            "name": "market",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Market"
             }
           }
         ],
@@ -3804,6 +3861,20 @@
             "minLength": 1,
             "title": "Locality"
           },
+          "market": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market"
+          },
           "age_months": {
             "anyOf": [
               {
@@ -4119,6 +4190,17 @@
           "locality": {
             "type": "string",
             "title": "Locality"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market"
           },
           "age_months": {
             "anyOf": [
@@ -4494,6 +4576,17 @@
             "type": "string",
             "title": "Locality"
           },
+          "market": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market"
+          },
           "period_from": {
             "type": "string",
             "format": "date",
@@ -4525,6 +4618,17 @@
           "sample_count": {
             "type": "integer",
             "title": "Sample Count"
+          },
+          "min_price_per_head_minor": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Price Per Head Minor"
           },
           "median_price_per_head_minor": {
             "anyOf": [
@@ -4642,6 +4746,17 @@
           "locality": {
             "type": "string",
             "title": "Locality"
+          },
+          "market": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market"
           },
           "age_months": {
             "anyOf": [
