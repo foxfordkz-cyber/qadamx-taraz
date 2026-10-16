@@ -304,7 +304,7 @@ def create_app(database_path=None, ai_key=None):
                 await audio.close()
         try:
             extracted=await ai.extract(app.state.ai_key,app.state.ai_model,text=text,audio=data,
-                                       fallback_model=app.state.ai_fallback_model)
+                                       fallback_model=app.state.ai_fallback_model,locale=locale)
             extracted=Extraction.model_validate(extracted)
         except ai.AIUnavailable as e:
             fail(503,e.code,str(e))
@@ -328,11 +328,11 @@ def create_app(database_path=None, ai_key=None):
                 if not result.get(field) and not (field=='received_minor' and result.get(field)==0):
                     if field not in result['missing_fields']:result['missing_fields'].append(field)
             if extracted.kind=='sale' and extracted.received_minor is None:
-                result['questions'].append('Қанша ақша алдыңыз? Төлемді нақтылаңыз.')
+                result['questions'].append('Сколько денег получили? Уточните оплату.' if locale=='ru' else 'Қанша ақша алдыңыз? Төлемді нақтылаңыз.')
             if query and len(candidates)!=1:
-                result['questions'].append('Клиентті тізімнен таңдаңыз немесе жаңа клиент қосыңыз.')
+                result['questions'].append('Выберите клиента из списка или добавьте нового.' if locale=='ru' else 'Клиентті тізімнен таңдаңыз немесе жаңа клиент қосыңыз.')
             if extracted.kind=='repayment' and len(open_sales)!=1:
-                result['questions'].append('Қай сатылымның қарызы өтеледі? Ашық сатылымды таңдаңыз.')
+                result['questions'].append('Долг по какой продаже погашается? Выберите открытую продажу.' if locale=='ru' else 'Қай сатылымның қарызы өтеледі? Ашық сатылымды таңдаңыз.')
             db.execute('INSERT INTO drafts VALUES (?,?,?,?,?,NULL)',(result['id'],business_id,user['id'],json.dumps(result),result['expires_at']))
         return result
 

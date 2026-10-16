@@ -88,10 +88,12 @@ def normalize_audio(data: bytes) -> bytes:
     return output.getvalue()
 
 
-async def extract(api_key, model, text=None, audio=None, fallback_model=None):
+async def extract(api_key, model, text=None, audio=None, fallback_model=None, locale='auto'):
     if not api_key:
         raise AIUnavailable('AI_API_KEY бапталмаған. Сервердің backend/.env файлына Gemini кілтін енгізіңіз.')
     contents = [types.Part.from_bytes(data=audio, mime_type='audio/wav')] if audio else [text]
+    language = {'kk':'Kazakh', 'ru':'Russian', 'auto':'the input language (Kazakh or Russian)'}.get(locale, 'Kazakh')
+    instruction = SYSTEM_PROMPT + f'\nWrite clarification questions in {language}. Preserve the original transcript language. Customer names must be in nominative form (Асқарға -> Асқар, Аскару -> Аскар). Later explicit clarification can correct the same transaction; never treat it as a second sale.'
     models = list(dict.fromkeys(m.strip() for m in (model, fallback_model) if m and m.strip()))
     if not models:
         raise AIUnavailable('AI_MODEL бапталмаған.', 'AI_MODEL_UNAVAILABLE')
@@ -116,7 +118,7 @@ async def extract(api_key, model, text=None, audio=None, fallback_model=None):
                     response = await asyncio.wait_for(client.models.generate_content(
                         model=selected, contents=contents,
                         config=types.GenerateContentConfig(
-                            system_instruction=SYSTEM_PROMPT,
+                            system_instruction=instruction,
                             response_mime_type='application/json',
                             response_json_schema=Extraction.model_json_schema(),
                             temperature=0, max_output_tokens=4096,

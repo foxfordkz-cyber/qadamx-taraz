@@ -88,3 +88,11 @@ test('HTML proxy failure on login is a readable connection error',async()=>{
  globalThis.fetch=async()=>new Response('<html>Bad Gateway</html>',{status:502});
  await assert.rejects(authApi('/auth/login',{}),error=>error.code==='SERVER_UNAVAILABLE'&&!error.message.includes('JSON'));
 });
+
+test('cancelling AI aborts the request without reporting a network failure',async()=>{
+ setIdentity(user);const controller=new AbortController();
+ globalThis.fetch=async(url,{signal})=>new Promise((resolve,reject)=>signal.addEventListener('abort',()=>reject(new DOMException('cancelled','AbortError'))));
+ const pending=api('/drafts',{method:'POST',body:new FormData(),signal:controller.signal});
+ controller.abort();
+ await assert.rejects(pending,error=>error.code==='REQUEST_CANCELLED');
+});

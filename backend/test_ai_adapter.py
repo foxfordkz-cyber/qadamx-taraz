@@ -149,3 +149,14 @@ def test_conflicting_ai_payment_requires_clarification(monkeypatch):
     result=asyncio.run(ai.extract('key','primary',text='test'))
     assert result.received_minor is None
     assert 'received_minor' in result.missing_fields
+
+
+def test_selected_language_reaches_provider_without_changing_transcript(monkeypatch):
+    calls=[]
+    async def transport(request):
+        calls.append(json.loads(request.content))
+        return provider_response()
+    install_transport(monkeypatch,transport)
+    result=asyncio.run(ai.extract('key','primary',text='Исходный текст',locale='ru'))
+    assert result.transcript=='Исходный текст'
+    assert 'Write clarification questions in Russian' in calls[0]['systemInstruction']['parts'][0]['text']

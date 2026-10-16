@@ -30,7 +30,7 @@ export function loadEntry(key) {
     if (!saved || saved.version!==1) return null;
     const form={...emptyForm};
     for (const field of Object.keys(form)) if(typeof saved.form?.[field]==='string') form[field]=saved.form[field];
-    return {form,text:typeof saved.text==='string'?saved.text:'',mode:saved.mode==='manual'?'manual':'voice'};
+    return {form,text:typeof saved.text==='string'?saved.text:'',mode:saved.mode==='manual'?'manual':'voice',...(['auto','kk','ru'].includes(saved.locale)?{locale:saved.locale}:{})};
   } catch { return null; }
 }
 

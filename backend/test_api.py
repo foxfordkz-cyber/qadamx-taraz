@@ -146,6 +146,20 @@ def test_ai_missing_key_writes_nothing_and_text_fallback(client):
     assert post(client,base,sale(c['id'])).status_code==200
 
 
+def test_russian_locale_is_passed_to_ai_and_used_for_missing_payment(client,monkeypatch):
+    base,c=setup(client)
+    captured={}
+    async def fake(*args,**kwargs):
+        captured.update(kwargs)
+        return Extraction(transcript='Продал на 3000',kind='sale',total_minor=300000,received_minor=None)
+    monkeypatch.setattr(ai,'extract',fake)
+    response=client.post(base+'/drafts',data={'text':'Продал на 3000','locale':'ru'})
+    assert response.status_code==200
+    assert captured['locale']=='ru'
+    assert any('Сколько денег' in question for question in response.json()['questions'])
+    assert client.get(base+'/operations').json()['items']==[]
+
+
 def test_ai_draft_ambiguity_and_single_consumption(client,monkeypatch):
     base,c=setup(client)
     client.post(base+'/customers',json={'display_name':'Асқар','note':'екінші'})

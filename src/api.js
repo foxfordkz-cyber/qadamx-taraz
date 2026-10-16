@@ -36,6 +36,9 @@ export async function api(path, options={}, key) {
   if (!identity?.business_id) throw Error('Алдымен жүйеге кіріңіз');
   const base = `${apiRoot}/businesses/${identity.business_id}`;
   const controller = new AbortController();
+  const cancel = () => controller.abort();
+  if(options.signal?.aborted) cancel();
+  else options.signal?.addEventListener('abort',cancel,{once:true});
   const timeout = setTimeout(()=>controller.abort(),30000);
   const headers = {...options.headers};
   if (key) headers['Idempotency-Key']=key;
@@ -52,9 +55,10 @@ export async function api(path, options={}, key) {
     if (key && !data?.operation?.id) throw Error('NETWORK_UNKNOWN');
     return data;
   } catch (error) {
+    if(options.signal?.aborted) throw apiError(key?'NETWORK_UNKNOWN':'Талдау тоқтатылды. Енгізгеніңіз сақталды.','REQUEST_CANCELLED');
     if (error.name==='AbortError' || error instanceof TypeError) throw apiError(key ? 'NETWORK_UNKNOWN' : 'Серверге қосылу мүмкін болмады. Енгізгеніңіз сақталды, қайта көріңіз.', error.name==='AbortError'?'REQUEST_TIMEOUT':'NETWORK_ERROR');
     throw error;
-  } finally {clearTimeout(timeout);}
+  } finally {clearTimeout(timeout);options.signal?.removeEventListener('abort',cancel);}
 }
 export async function fetchList(path) {
   const items=[];

@@ -1,7 +1,7 @@
 import test,{afterEach} from 'node:test';
 import assert from 'node:assert/strict';
 import {draftForm,emptyForm,loadEntry,saveEntry,recoveryMessage,audioMimeType} from './entry.js';
-import {startRecording} from './recorder.js';
+import {startRecording,microphoneError} from './recorder.js';
 import {setIdentity,pendingKey} from '../../api.js';
 
 afterEach(()=>{delete globalThis.sessionStorage;setIdentity(null)});
@@ -46,6 +46,8 @@ function recordingHarness({empty=false,failStart=false}={}) {
  class Recorder {
   constructor(){instance=this;this.state='inactive';this.mimeType='audio/webm'}
   start(){if(failStart)throw Error('device lost');this.state='recording'}
+  pause(){this.state='paused'}
+  resume(){this.state='recording'}
   stop(){this.state='inactive';if(!empty)this.ondataavailable({data:new Blob(['audio'])});this.onstop()}
  }
  return {Recorder,mediaDevices:{getUserMedia:async()=>({getTracks:()=>[{stop:()=>stopped++}]})},get stopped(){return stopped},get instance(){return instance}};
@@ -84,4 +86,37 @@ test('recorder start failure releases the microphone',async()=>{
 test('permission denial remains recoverable',async()=>{
  const h=recordingHarness();h.mediaDevices.getUserMedia=async()=>{throw Error('Permission denied')};
  await assert.rejects(startRecording({...h,onReady:assert.fail,onError:assert.fail,onSeconds:()=>{}}),/Permission denied/);
+});
+
+test('pause freezes the active duration, resume continues, and the cap stops recording',async()=>{
+ const h=recordingHarness();let time=0,seconds=0,ready=0;const states=[];
+ const r=await startRecording({...h,now:()=>time,onSeconds:n=>seconds=n,onState:s=>states.push(s),onReady:()=>ready++,onError:assert.fail});
+ time=3000;r.pause();time=100000;
+ await new Promise(resolve=>setTimeout(resolve,120));
+ assert.equal(ready,0);assert.equal(seconds,0);assert.equal(h.instance.state,'paused');
+ r.resume();time=126000;
+ await new Promise(resolve=>setTimeout(resolve,120));
+ assert.equal(ready,1);assert.equal(h.instance.state,'inactive');assert.deepEqual(states,['recording','paused','recording']);
+ r.dispose();
+});
+
+test('chosen device is requested and the meter releases its audio context',async()=>{
+ const h=recordingHarness();let constraints,closed=0,level=0;
+ const original=h.mediaDevices.getUserMedia;
+ h.mediaDevices.getUserMedia=async options=>{constraints=options;return original()};
+ class Context {
+  createAnalyser(){return {fftSize:256,getByteTimeDomainData:buffer=>buffer.fill(160)}}
+  createMediaStreamSource(){return {connect(){},disconnect(){}}}
+  resume(){return Promise.resolve()}
+  close(){closed++;return Promise.resolve()}
+ }
+ const r=await startRecording({...h,Context,deviceId:'usb-mic',onLevel:n=>{level=Math.max(level,n)},onSeconds:()=>{},onReady:()=>{},onError:assert.fail});
+ await new Promise(resolve=>setTimeout(resolve,120));
+ assert.equal(constraints.audio.deviceId.exact,'usb-mic');assert.ok(level>0);
+ r.stop();r.dispose();assert.equal(closed,1);assert.equal(h.stopped,1);
+});
+
+test('microphone errors explain permissions and disconnected devices separately',()=>{
+ assert.match(microphoneError({name:'NotAllowedError'}),/Рұқсат ету/);
+ assert.match(microphoneError({name:'OverconstrainedError'}),/Әдепкі микрофон/);
 });

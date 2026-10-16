@@ -58,7 +58,7 @@ beforeEach(async()=>{
  client=new QueryClient({defaultOptions:{queries:{retry:false,gcTime:0}}});
  await mount();
 });
-afterEach(async()=>{await act(async()=>root.unmount());client.clear();globalThis.fetch=originalFetch});
+afterEach(async()=>{await act(async()=>root.unmount());client.clear();globalThis.fetch=originalFetch;delete window.MediaRecorder;delete navigator.mediaDevices});
 
 test('AI entry opens the analysis button even when manual mode was previously saved',async()=>{
  await input(document.querySelector('textarea'),'Асқарға 3000 теңгеге саттым');
@@ -143,4 +143,70 @@ test('lost save response retries the same operation key without a second new sal
  assert.equal(writes[0].options.headers['Idempotency-Key'],writes[1].options.headers['Idempotency-Key']);
  assert.equal(writes[0].options.body,writes[1].options.body);
  assert.ok(document.body.textContent.includes('Жазба сақталды'));
+});
+
+test('Russian examples only fill input; selected language reaches the AI request',async()=>{
+ await input(field('Тану тілі'),'ru');await click('Частичная оплата');
+ assert.match(document.querySelector('textarea').value,/3000 тенге/);
+ assert.equal(requests.filter(r=>r.url.endsWith('/drafts')).length,0);
+ handleDraft=()=>reply(validDraft);await click('AI арқылы талдау');
+ const request=requests.find(r=>r.url.endsWith('/drafts'));
+ assert.equal(request.options.body.get('locale'),'ru');
+});
+
+test('cancellation preserves input and ignores a late answer after a new analysis',async()=>{
+ let finishOld;handleDraft=()=>new Promise(resolve=>{finishOld=resolve});
+ await input(document.querySelector('textarea'),'old input');await click('AI арқылы талдау');
+ await click('Талдауды тоқтату');assert.equal(document.querySelector('textarea').value,'old input');
+ handleDraft=()=>reply({...validDraft,total_minor:350000});
+ await input(document.querySelector('textarea'),'new input');await click('AI арқылы талдау');
+ assert.equal(field('Сатылым сомасы').value,'3500');
+ await act(async()=>{finishOld(reply(validDraft));await settle()});
+ assert.equal(field('Сатылым сомасы').value,'3500');
+});
+
+test('clarification reuses the transcript and updates the draft without writing money',async()=>{
+ handleDraft=()=>reply(validDraft);await input(document.querySelector('textarea'),'original sale');await click('AI арқылы талдау');
+ await input(field('Нақтылау'),'Жалпы сома 3500 теңге');
+ handleDraft=()=>reply({...validDraft,id:'draft-2',total_minor:350000});
+ await click('Нақтылап қайта талдау');
+ const drafts=requests.filter(r=>r.url.endsWith('/drafts'));
+ assert.ok(drafts[1].options.body.get('text').includes(validDraft.transcript));
+ assert.match(drafts[1].options.body.get('text'),/3500/);
+ assert.equal(drafts[1].options.body.get('audio'),null);
+ assert.equal(field('Сатылым сомасы').value,'3500');
+ assert.equal(requests.filter(r=>r.url.endsWith('/operations')&&r.options.method==='POST').length,0);
+});
+
+test('microphone pause and stop-and-analyse send one recording to AI',async()=>{
+ let stopped=0;
+ Object.defineProperty(navigator,'mediaDevices',{configurable:true,value:{getUserMedia:async()=>({getTracks:()=>[{stop:()=>stopped++}]}),enumerateDevices:async()=>[]}});
+ window.MediaRecorder=class {
+  constructor(){this.state='inactive';this.mimeType='audio/webm'}
+  start(){this.state='recording'}pause(){this.state='paused'}resume(){this.state='recording'}
+  stop(){this.state='inactive';this.ondataavailable({data:new Blob(['recording'])});this.onstop()}
+ };
+ handleDraft=()=>reply(validDraft);
+ await act(async()=>{document.querySelector('[aria-label="Дауыс жазуды бастау"]').click();await settle()});
+ await click('Кідірту');assert.ok(document.body.textContent.includes('Үзіліс'));
+ await click('Жалғастыру');await click('Тоқтату және талдау');
+ const drafts=requests.filter(r=>r.url.endsWith('/drafts'));
+ assert.equal(drafts.length,1);assert.equal(await drafts[0].options.body.get('audio').text(),'recording');
+ assert.equal(field('Сатылым сомасы').value,'3000');assert.equal(stopped,1);
+});
+
+test('cancelled microphone permission cannot start a late recording or block text input',async()=>{
+ let grant,stopped=0;
+ Object.defineProperty(navigator,'mediaDevices',{configurable:true,value:{getUserMedia:()=>new Promise(resolve=>grant=resolve),enumerateDevices:async()=>[]}});
+ window.MediaRecorder=class {
+  constructor(){this.state='inactive';this.mimeType='audio/webm'}
+  start(){this.state='recording'}stop(){this.state='inactive';this.onstop()}
+ };
+ await act(async()=>{document.querySelector('[aria-label="Дауыс жазуды бастау"]').click();await settle()});
+ await click('Рұқсат күтуді тоқтату');
+ await input(document.querySelector('textarea'),'мәтін сақталды');
+ await act(async()=>{grant({getTracks:()=>[{stop:()=>stopped++}]});await settle()});
+ assert.equal(document.querySelector('textarea').disabled,false);
+ assert.equal(document.querySelector('textarea').value,'мәтін сақталды');assert.equal(stopped,1);
+ assert.equal(document.querySelector('meter'),null);
 });
