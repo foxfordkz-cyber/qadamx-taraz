@@ -367,7 +367,11 @@ test("real desktop Chromium fake-device recording stops, sends actual MIME multi
   await page.getByRole("button", { name: "Остановить", exact: true }).click();
   await expect(page.getByText(/^recording\.(webm|m4a|ogg)$/)).toBeVisible();
   await expect.poll(() => trackStates(page)).toEqual(["ended"]);
-  await expect(page.getByLabel("Текст для AI")).toHaveValue("");
+  // Keep the user's fallback text locally; the multipart assertions below still
+  // require audio XOR text, and zero submission before explicit Prepare.
+  await expect(page.getByLabel("Текст для AI")).toHaveValue(
+    "Existing synthetic text",
+  );
   expect(services.drafts).toHaveLength(0);
   await prepare(page).click();
   await expect.poll(() => services.drafts.length).toBe(1);

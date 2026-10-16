@@ -139,7 +139,7 @@ export function AudioInput({
       )}
       {error && (
         <p role="alert">
-          {l("micError")} {v(error)}
+          <span>{l("micError")}</span> <span>{v(error)}</span>
         </p>
       )}
     </>

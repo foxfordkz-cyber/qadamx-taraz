@@ -2,7 +2,7 @@
 
 ## Адаптация voice в общую интеграцию — 2026-10-16
 
-Ветка `fix/voice-playback-lifecycle` от свежего PR #18: **13248851fd2b2a502aff211a506f71e85c2b0ab1**, API **0.6.1**. Исходный standalone AI/voice commit: **880d7137f39648f0bbce355369ee3e755d981f02**; он не является реализацией в `apps/web` и не переносится целиком. Точный новый commit публикуется в Draft PR и комментарии QA после фиксации этого handoff.
+Ветка `fix/voice-playback-lifecycle` от свежего PR #18: **13248851fd2b2a502aff211a506f71e85c2b0ab1**, API **0.6.1**. [Draft PR #23](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/23), первый опубликованный implementation commit **8dc6f895e3eead0de954c3374a6d4cc50d432588**. Последующий commit этой передачи исправляет стабильность accessible name текстового поля и разметку сообщения об ошибке; его точный SHA указан в PR и комментариях QA. Исходный standalone AI/voice commit: **880d7137f39648f0bbce355369ee3e755d981f02**; он не является реализацией в `apps/web` и не переносится целиком.
 
 ### Реализовано в минимальном переносе
 
@@ -18,8 +18,10 @@
 
 - Строгий PR21 gate: `npx vitest run --config vitest.microphone.config.ts` — **35/35 passed**, включая все 13 прежних failures. Assertions сохранены. Пять исправленных `.fails` переведены в обычные тесты.
 - `npm test -- --no-file-parallelism` — **242/242 passed**. Включает 8 дополнительных pause/default-recorder/cancelled-analysis/late-response/timeout/context-isolation тестов. Отдельные 8 lifecycle cases входят в strict gate, а не default discovery.
-- `npm run lint`, `npm run check:api`, `npm run build` (включая tsc) — PASS. Сохранены прежние empty-auth/large-3D warnings; зависимости не обновлялись.
-- Первая попытка microphone Playwright gate не запустила браузер: отсутствовал `chromium_headless_shell-1248`. Это инфраструктурная ошибка, не результат assertions. Установка runtime/повторный прогон выполняются отдельно; результат будет записан перед окончательной передачей.
+- `npm run lint`, `npm run check:api`, `npm run build` (включая tsc), `npm run format:check` — PASS. После последних изменений повторно прошли strict35, дополнительные8, lint и build. Сохранены прежние empty-auth/large-3D warnings; зависимости не обновлялись.
+- `npx playwright test --config e2e/microphone.playwright.config.ts` — **18/18 passed** на установленном Chromium156/build1248: настоящий браузерный MediaRecorder с fake device, native playback, RU/KZ, запрет разрешения, multipart, двойной Prepare, stop/unmount/URL cleanup; ширины360/390/768/1440. Первая попытка была заблокирована отсутствующим runtime; первый запущенный прогон дал12pass/6fail, после исправления доступного имени textarea и отдельного вывода общего/детального сообщения повторный полный прогон дал18pass.
+- Одно унаследованное E2E-ожидание очистки ручного текста после записи согласовано с reviewer и изменено на сохранение текста. Это сохраняет ввод пользователя; проверки audio XOR text, отсутствия отправки до Prepare и денежных записей не ослаблены. Все остальные E2E assertions сохранены.
+- `CI=1 npx playwright test seller.spec.ts integration-design.spec.ts --trace off` — **13/13 passed** на общей интеграции с синтетическими API/Auth. Проверка проходила до финального изменения только accessible label/error markup; shared money/Auth/router не менялись.
 - Все новые результаты выше используют синтетические media/API/Auth boundaries. Настоящий Gemini, Supabase и PostgreSQL на этой адаптации ещё не проверены. Тесты не публикуют аудио, trace/video/HAR или секреты.
 
 ### Что означали прежние 81 тест и live Gemini

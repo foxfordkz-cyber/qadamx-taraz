@@ -1,5 +1,5 @@
 // Input → review → explicit save, adapted from PR #7 into Seller runtime/UI/i18n.
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useBusiness, useRuntime } from "../../app/runtime";
 import { CustomerPicker } from "../seller/Customers";
@@ -37,6 +37,7 @@ export function Sale() {
   return <SaleForm key={`${scope}:${business.id}`} />;
 }
 function SaleForm() {
+  const textLabelId = useId();
   const { api, gateway } = useRuntime(),
     { business } = useBusiness(),
     { l, locale } = useLedgerText(),
@@ -220,8 +221,9 @@ function SaleForm() {
             <p>{v("sequence")}</p>
             <fieldset disabled={disabled}>
               <label className="field">
-                {l("text")}
+                <span id={textLabelId}>{l("text")}</span>
                 <textarea
+                  aria-labelledby={textLabelId}
                   maxLength={4000}
                   disabled={capturing}
                   value={text}
