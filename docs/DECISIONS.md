@@ -76,3 +76,7 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## Seller design integration — 2026-10-16
 
 В отдельной feature/seller-design-integration от integration/team-mvp:3d009dc переносится только визуальный delta готового seller a77f1a02. Канонические backend/OpenAPI0.4/runtime/API/modules и feature-модули других участников сохраняются. Общая Qadam палитра/Manrope определяются в shared/tokens.css, совместимые semantic aliases обслуживают существующий UI; public .ex получает CSS token bridge без переписывания витрины. Финансовые значения не подставляются в Demo, чужая денежная логика не меняется. Review выполняется отдельным Draft PR в integration/team-mvp, без merge в этой задаче. Детали, собственные проверки и ограничения — SELLER_FRONTEND_HANDOFF.md и handoffs/seller-web.md.
+
+## 2026-10-16: review общей версии и QA-контракт
+
+В integration/local-combined-check включены существующие PR #11 (seller design integration) и #12 (seller regression), не создаётся параллельный редизайн. Единственный API остаётся apps/api версии 0.5.0; денежные правила не меняются. Поколение Auth защищает callbacks старой сессии A после A→B→A. Page.next_cursor закреплён как UUID/null, как request cursor; CustomerCreate и frontend считают Unicode code points. Схемы/примеры обновлены, generated.ts регенерирован без смены TypeScript string-представления UUID. Общая Supabase остаётся 0003; 0004/Storage требуют отдельного разрешения. [Приёмка и зависимости PR](COMBINED_ACCEPTANCE.md).
