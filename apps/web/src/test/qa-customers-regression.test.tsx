@@ -1,12 +1,7 @@
 import { act, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import {
-  customerBody,
-  customerInputErrors,
-  readMe,
-  readCustomers,
-} from "../shared/api/bindings";
+import { customerBody, readMe, readCustomers } from "../shared/api/bindings";
 import { createApiClient } from "../shared/api/client";
 import {
   customer,
@@ -23,7 +18,6 @@ afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
   vi.useRealTimers();
-  window.localStorage.clear();
 });
 async function openForm() {
   await screen.findByRole("heading", { name: "QA Клиент A" });
@@ -72,14 +66,8 @@ describe("QA Customers — real bindings, hooks and HTTP transport with mock res
       await userEvent.click(
         form.getByRole("button", { name: "Создать клиента" }),
       );
-      if ([401, 404, 422].includes(status)) {
-        await screen.findByText(`Код для поддержки: ${ids.request}`);
-      } else {
-        await form.findByText(
-          "Результат неизвестен: клиент мог быть создан. Не начинайте создание заново. Проверьте результат или безопасно повторите запрос с теми же данными.",
-        );
-      }
-      expect(screen.getByLabelText("Имя")).toHaveValue("QA Новый");
+      await form.findByText(`Код для поддержки: ${ids.request}`);
+      expect(form.getByLabelText("Имя")).toHaveValue("QA Новый");
       expect(form.getByLabelText("Заметка")).toHaveValue("Тестовая заметка");
       expect(form.getByLabelText("Контакт (необязательно)")).toHaveValue("");
       expect(
@@ -166,7 +154,7 @@ describe("QA Customers — real bindings, hooks and HTTP transport with mock res
     await act(async () => {
       saved.resolve(json(created, 201));
     });
-    await screen.findByText("Клиент создан на сервере.");
+    await screen.findByRole("heading", { name: "QA Новый" });
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
       fetcher.mock.calls.filter(([url]) =>
@@ -263,15 +251,10 @@ describe("QA Customers — real bindings, hooks and HTTP transport with mock res
       qa.fetcher.mock.calls.some(([, init]) => init?.method === "POST"),
     ).toBe(false);
   });
-  it("a mocked transport timeout remains unknown and offers a safe same-key retry", async () => {
-    let postCount = 0;
+  it("a mocked transport timeout retains the form and never retries a POST", async () => {
     const fetcher = vi.fn<typeof fetch>((input, init) =>
       init?.method === "POST"
-        ? ++postCount === 1
-          ? Promise.reject(
-              new DOMException("Synthetic timeout", "TimeoutError"),
-            )
-          : Promise.resolve(json(customer(ids.shopA, "QA Новый"), 201))
+        ? Promise.reject(new DOMException("Synthetic timeout", "TimeoutError"))
         : defaultFetch(input, init),
     );
     renderQa({ fetcher });
@@ -280,111 +263,15 @@ describe("QA Customers — real bindings, hooks and HTTP transport with mock res
       form.getByRole("button", { name: "Создать клиента" }),
     );
     await form.findByText(
-      "Результат неизвестен: клиент мог быть создан. Не начинайте создание заново. Проверьте результат или безопасно повторите запрос с теми же данными.",
+      "Нет связи с сервером. Проверьте подключение и повторите.",
     );
     expect(form.getByLabelText("Имя")).toHaveValue("QA Новый");
     expect(
       form.queryByText("Клиент создан на сервере."),
     ).not.toBeInTheDocument();
     expect(
-      form.queryByText(
-        "Нет связи с сервером. Проверьте подключение и повторите.",
-      ),
-    ).not.toBeInTheDocument();
-    expect(
       fetcher.mock.calls.filter(([, init]) => init?.method === "POST"),
     ).toHaveLength(1);
-    const firstPost = fetcher.mock.calls.find(
-      ([, init]) => init?.method === "POST",
-    )!;
-    const key = new Headers(firstPost[1]?.headers).get("Idempotency-Key");
-    expect(key).toMatch(/^[!-~]{1,200}$/);
-    await userEvent.click(
-      form.getByRole("button", { name: "Безопасно повторить" }),
-    );
-    await screen.findByText("Клиент создан на сервере.");
-    const posts = fetcher.mock.calls.filter(
-      ([, init]) => init?.method === "POST",
-    );
-    expect(posts).toHaveLength(2);
-    expect(
-      posts.map(([, init]) =>
-        new Headers(init?.headers).get("Idempotency-Key"),
-      ),
-    ).toEqual([key, key]);
-    expect(JSON.parse(String(posts[0][1]?.body))).toEqual(
-      JSON.parse(String(posts[1][1]?.body)),
-    );
-  });
-  it("recovers a saved result after reload without posting again", async () => {
-    const key = "persistent-customer-intent-1";
-    window.localStorage.setItem(
-      `qadam.customer-create.v1:${ids.a}:${ids.shopA}`,
-      JSON.stringify({ key, bodyHash: "a".repeat(64) }),
-    );
-    const fetcher = vi.fn<typeof fetch>((input, init) =>
-      String(input).endsWith("/customer-creation-result")
-        ? Promise.resolve(
-            json({
-              status: "completed",
-              customer: customer(ids.shopA, "QA Восстановлен"),
-            }),
-          )
-        : defaultFetch(input, init),
-    );
-    renderQa({ fetcher });
-    await screen.findByText("Клиент создан на сервере.");
-    const lookup = fetcher.mock.calls.find(([url]) =>
-      String(url).endsWith("/customer-creation-result"),
-    );
-    expect(new Headers(lookup?.[1]?.headers).get("Idempotency-Key")).toBe(key);
-    expect(fetcher.mock.calls.some(([, init]) => init?.method === "POST")).toBe(
-      false,
-    );
-  });
-  it("shows an unresolved saved result in Kazakh after the customer page reloads", async () => {
-    window.localStorage.setItem(
-      `qadam.customer-create.v1:${ids.a}:${ids.shopA}`,
-      JSON.stringify({
-        key: "persistent-customer-intent-2",
-        bodyHash: "b".repeat(64),
-      }),
-    );
-    renderQa();
-    await screen.findByText(
-      "Результат неизвестен: клиент мог быть создан. Не начинайте создание заново. Проверьте результат или безопасно повторите запрос с теми же данными.",
-    );
-    await userEvent.click(screen.getByRole("button", { name: "KZ" }));
-    await screen.findByText(
-      "Нәтиже белгісіз: клиент құрылуы мүмкін. Қайтадан жаңасын құрмаңыз. Нәтижені тексеріңіз немесе сол деректермен қауіпсіз қайталаңыз.",
-    );
-  });
-  it("creates a customer through the sale CustomerPicker using the recovery flow", async () => {
-    const fetcher = vi.fn(defaultFetch);
-    renderQa({ route: "/seller/sale", fetcher });
-    await screen.findByRole("heading", { name: "Новая запись" });
-    await userEvent.click(
-      screen.getByRole("button", { name: "Выбрать клиента" }),
-    );
-    await userEvent.click(
-      await screen.findByRole("button", { name: "Новый клиент" }),
-    );
-    const name = screen.getByLabelText("Имя");
-    const form = within(name.closest("form")!);
-    await userEvent.type(name, "Picker recovery");
-    await userEvent.click(
-      form.getByRole("button", { name: "Создать клиента" }),
-    );
-    await screen.findByText(/Клиент: Picker recovery/);
-    expect(
-      fetcher.mock.calls.filter(([, init]) => init?.method === "POST"),
-    ).toHaveLength(1);
-    const post = fetcher.mock.calls.find(
-      ([, init]) => init?.method === "POST",
-    )!;
-    expect(new Headers(post[1]?.headers).get("Idempotency-Key")).toMatch(
-      /^[!-~]{1,200}$/,
-    );
   });
   it.each(["display_name", "note", "contact"] as const)(
     "enforces the %s request limit at the boundary",
@@ -402,35 +289,6 @@ describe("QA Customers — real bindings, hooks and HTTP transport with mock res
       ).toThrow();
     },
   );
-  it("validates customer input limits by Unicode code points before any POST", async () => {
-    expect(
-      customerInputErrors({
-        display_name: "я".repeat(201),
-        note: "я".repeat(2001),
-        contact: "я".repeat(201),
-      }),
-    ).toEqual({
-      display_name: "tooLong",
-      note: "tooLong",
-      contact: "tooLong",
-    });
-    const qa = renderQa();
-    const form = await openForm();
-    const name = form.getByLabelText("Имя");
-    await userEvent.clear(name);
-    await userEvent.type(name, "я".repeat(201));
-    await userEvent.click(
-      form.getByRole("button", { name: "Создать клиента" }),
-    );
-    await form.findByText("Имя клиента должно быть не длиннее 200 символов.");
-    expect(
-      qa.fetcher.mock.calls.some(([, init]) => init?.method === "POST"),
-    ).toBe(false);
-    await userEvent.click(
-      within(screen.getByRole("dialog")).getByRole("button", { name: "KZ" }),
-    );
-    await form.findByText("Клиент есімі 200 таңбадан аспауы керек.");
-  });
   it.each(["bad-uuid", "../../other", "", null])(
     "rejects malformed membership and customer UUID %s",
     (id) => {

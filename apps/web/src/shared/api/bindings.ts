@@ -16,12 +16,8 @@ export interface BackendBindings {
     input: CustomerInput,
   ) => components["schemas"]["CustomerCreate"];
   customer: (raw: unknown) => Customer;
-  customerCreationResult: (raw: unknown) => CustomerCreationResult;
   catalog: (raw: unknown) => Page<CatalogItem>;
 }
-export type CustomerCreationResult =
-  | { status: "completed"; customer: Customer }
-  | { status: "not_observed"; customer: null };
 const invalid = (): never => {
   throw new ApiError(0, "INVALID_RESPONSE");
 };
@@ -120,36 +116,6 @@ export function customerBody(
     throw new ApiError(422, "VALIDATION_ERROR");
   return { display_name, note, contact };
 }
-export function readCustomerCreationResult(
-  raw: unknown,
-): CustomerCreationResult {
-  const data = object(raw);
-  if (data.status === "completed") {
-    const customer = readCustomer(data.customer);
-    return { status: "completed", customer };
-  }
-  if (data.status === "not_observed" && data.customer === null)
-    return { status: "not_observed", customer: null };
-  return invalid();
-}
-export function customerInputErrors(
-  input: CustomerInput,
-): Partial<Record<keyof CustomerInput, "required" | "tooLong">> {
-  const name = input.display_name.trim();
-  const note = input.note.trim();
-  const contact = input.contact.trim();
-  return {
-    ...(name.length === 0
-      ? { display_name: "required" as const }
-      : Array.from(name).length > 200
-        ? { display_name: "tooLong" as const }
-        : {}),
-    ...(Array.from(note).length > 2000 ? { note: "tooLong" as const } : {}),
-    ...(Array.from(contact).length > 200
-      ? { contact: "tooLong" as const }
-      : {}),
-  };
-}
 export function readInquiries(raw: unknown): Page<Inquiry> {
   const data = object(raw);
   if (!Array.isArray(data.items)) return invalid();
@@ -207,6 +173,5 @@ export const backendBindings: Partial<BackendBindings> = {
   me: readMe,
   customers: readCustomers,
   customer: readCustomer,
-  customerCreationResult: readCustomerCreationResult,
   customerBody,
 };

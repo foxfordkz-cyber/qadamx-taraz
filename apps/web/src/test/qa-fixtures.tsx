@@ -136,24 +136,6 @@ export const defaultFetch: typeof fetch = async (input, init) => {
   const url = new URL(String(input));
   const isB = new Headers(init?.headers).get("Authorization")?.includes(ids.b);
   if (url.pathname.endsWith("/me")) return json(isB ? meB : meA);
-  if (url.pathname.endsWith("/customer-creation-result"))
-    return json({ status: "not_observed", customer: null });
-  if (url.pathname.endsWith("/customers") && init?.method === "POST") {
-    const businessId = url.pathname.split("/").at(-2)!;
-    const body = JSON.parse(String(init.body)) as {
-      display_name: string;
-      note: string;
-      contact: string | null;
-    };
-    return json(
-      {
-        ...customer(businessId, body.display_name),
-        note: body.note,
-        contact: body.contact,
-      },
-      201,
-    );
-  }
   if (
     url.pathname.endsWith("/customers") &&
     (!init?.method || init.method === "GET")

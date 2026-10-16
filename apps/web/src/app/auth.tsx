@@ -46,7 +46,7 @@ type AuthContextValue = {
   configured: boolean;
   scope: string;
   signIn: (email: string, password: string) => Promise<void>;
-  signOut: () => Promise<boolean>;
+  signOut: () => Promise<void>;
   enterDemo: () => void;
   getToken: () => Promise<string | null>;
   markExpired: () => void;
@@ -93,16 +93,10 @@ export function AuthProvider({
     setSession(result.data.session);
   }
   async function signOut() {
-    if (generationRef.current !== generation) return false;
     if (!demo && client) {
       const { error } = await client.auth.signOut({ scope: "local" });
       if (error) throw error;
     }
-    if (
-      generationRef.current !== generation &&
-      (identity.current !== null || demoRef.current)
-    )
-      return false;
     clearPrivateCache(queryClient);
     identity.current = null;
     demoRef.current = false;
@@ -110,7 +104,6 @@ export function AuthProvider({
     setDemo(false);
     setExpired(false);
     setGeneration(++generationRef.current);
-    return true;
   }
   function enterDemo() {
     clearPrivateCache(queryClient);
@@ -121,15 +114,9 @@ export function AuthProvider({
     setGeneration(++generationRef.current);
   }
   async function getToken() {
-    const expectedId = session?.user.id;
-    if (
-      generationRef.current !== generation ||
-      demoRef.current ||
-      !client ||
-      !expectedId ||
-      identity.current !== expectedId
-    )
+    if (demoRef.current || !client || generationRef.current !== generation)
       return null;
+    const expectedId = session?.user.id;
     const { data, error } = await client.auth.getSession();
     if (
       error ||

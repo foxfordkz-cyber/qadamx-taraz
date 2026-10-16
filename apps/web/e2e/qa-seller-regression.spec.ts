@@ -129,15 +129,9 @@ test.describe("QA browser regression — intercepted Supabase and API, never liv
       await customers(page);
       const form = await newCustomer(page);
       await form.getByRole("button", { name: "Создать клиента" }).click();
-      if ([404, 422].includes(status)) {
-        await expect(
-          form.getByText(`Код для поддержки: ${qaIds.request}`),
-        ).toBeVisible();
-      } else {
-        await expect(
-          form.getByText(/Результат неизвестен: клиент мог быть создан/),
-        ).toBeVisible();
-      }
+      await expect(
+        form.getByText(`Код для поддержки: ${qaIds.request}`),
+      ).toBeVisible();
       await expect(form.getByLabel("Имя", { exact: true })).toHaveValue(
         "QA Новый",
       );
@@ -201,34 +195,13 @@ test.describe("QA browser regression — intercepted Supabase and API, never liv
     await customers(page);
     const form = await newCustomer(page);
     await form.getByRole("button", { name: "Создать клиента" }).click();
-    await expect(page.getByText("Клиент создан на сервере.")).toBeVisible();
-    await expect(form).not.toBeVisible();
-    await expect(page.getByRole("heading", { name: "QA Новый" })).toBeVisible();
-    expect(state.created).toHaveLength(1);
-    expect(state.unexpected).toEqual([]);
-  });
-  test("a lost POST response is resolved from the durable receipt without another create", async ({
-    page,
-  }) => {
-    const state = await mockServices(page);
-    state.losePostResponse = true;
-    await login(page);
-    await customers(page);
-    const form = await newCustomer(page);
-    await form.getByRole("button", { name: "Создать клиента" }).click();
-    await expect(form).not.toBeVisible();
-    await expect(page.getByRole("heading", { name: "QA Новый" })).toBeVisible();
-    expect(state.created).toHaveLength(1);
-    expect(
-      state.calls.filter(
-        (call) => call.method === "POST" && call.path.endsWith("/customers"),
-      ),
-    ).toHaveLength(1);
-    expect(
-      state.calls.filter((call) =>
-        call.path.endsWith("/customer-creation-result"),
-      ),
-    ).toHaveLength(2);
+    await expect(
+      form.getByText("Сервер вернул неожиданный ответ. Сообщите команде."),
+    ).toBeVisible();
+    await expect(form.getByLabel("Имя", { exact: true })).toHaveValue(
+      "QA Новый",
+    );
+    expect(state.created).toHaveLength(0);
     expect(state.unexpected).toEqual([]);
   });
   test("manual Demo never calls auth/API or writes financial/customer data, and reload exits Demo", async ({

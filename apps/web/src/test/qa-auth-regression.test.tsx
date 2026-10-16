@@ -17,7 +17,6 @@ import {
 afterEach(() => {
   vi.unstubAllGlobals();
   vi.unstubAllEnvs();
-  window.localStorage.clear();
 });
 describe("QA auth and isolation — mock transport through production App", () => {
   it("signs in with the mock Supabase client and loads memberships using Bearer", async () => {
@@ -93,26 +92,6 @@ describe("QA auth and isolation — mock transport through production App", () =
     expect(
       qa.fetcher.mock.calls.every(([url]) => !String(url).includes(ids.shopB)),
     ).toBe(true);
-  });
-  it("does not let a late logout from A redirect or clear account B", async () => {
-    const qa = renderQa();
-    await screen.findByRole("heading", { name: "QA Клиент A" });
-    const logout = deferred<{ error: null }>();
-    qa.mock.auth.signOut.mockImplementation(async () => {
-      qa.mock.emit(null, "SIGNED_OUT");
-      return logout.promise;
-    });
-    await userEvent.click(screen.getByRole("button", { name: "Выйти" }));
-    await screen.findByRole("button", { name: "Войти" });
-    act(() => qa.mock.emit(session(ids.b)));
-    await screen.findByRole("heading", { name: "Хорошего рабочего дня!" });
-    await act(async () => {
-      logout.resolve({ error: null });
-    });
-    expect(
-      screen.getByRole("heading", { name: "Хорошего рабочего дня!" }),
-    ).toBeInTheDocument();
-    expect(qa.auth().session?.user.id).toBe(ids.b);
   });
   it("rejects a missing JWT before HTTP and enters reauthentication", async () => {
     const qa = renderQa({ initial: session(ids.a, "") });
