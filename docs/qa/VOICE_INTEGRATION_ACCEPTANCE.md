@@ -26,6 +26,11 @@ to Aidana's source. QA did not implement production playback/cancel.
 The later documentation commit leaves the verified application/test code unchanged.
 Obtain the current documentation HEAD with `git log -1 --format=%H`.
 
+Published [Draft PR #28](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/28),
+base/head as above, GitHub mergeable=true. Initial report HEAD
+`2a5a5bbec5fa5606e23490a0b85ba5bf9d644d27` was pushed successfully and matched remote.
+This publication note is docs-only; no deployment or merge was performed.
+
 The approved base and owner HEAD were checked again after tests. Fresh fetch also found
 captain's `integration/voice-preview-061:0737439915c17e8d8f20cddcbe9e75bebede9b46`
 (code merge `7f511ddc8f3dc0a6fc1550566b9ead9abbfb98ce`).

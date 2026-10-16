@@ -3,7 +3,9 @@
 Рабочая ветка **test/voice-integration-acceptance**, отдельный worktree `work/qadam-voice-integration-check`.
 Согласованная база **integration/seller-analytics-061:13248851fd2b2a502aff211a506f71e85c2b0ab1**.
 Проверенный code/test commit **c1ea88aba2775a6c7d5eaebdd7fd0f9863832561**; последующий docs commit не меняет сборку.
-Текущий полный HEAD: `git log -1 --format=%H`. Draft PR направляется только в согласованную базу.
+Текущий полный HEAD: `git log -1 --format=%H`. Опубликован [Draft PR #28](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/28)
+в согласованную базу; GitHub mergeable=true. Первоначальный опубликованный HEAD с отчётом
+**2a5a5bbec5fa5606e23490a0b85ba5bf9d644d27**, push успешен, remote/local совпали; эта запись — только docs.
 
 Из ready commit Айданы **a1e5252478eec61d85607b41557ff584b52cfe17** (PR23) перенесены ровно 16 согласованных файлов;
 production voice полностью совпадает с её исходником. QA не реализовывал production самостоятельно.
@@ -22,8 +24,8 @@ Backend/OpenAPI/generated/Auth/ledger/summary/Analytics/public/3D/global styles/
 Собственный live Auth/Gemini/денежный цикл не запускался; физический Android **BLOCKED**, устройств ADB нет.
 Унаследованные3 npm audit dev findings и предупреждения сборки остаются; customer POST recovery — отдельная задача.
 
-Следующий шаг: публикация Draft verification PR и передача exact SHA/report backend-агенту через PR18;
-капитан выбирает один путь production-интеграции PR23/verification, без повторного merge перекрывающихся тестов.
+Следующий шаг: backend-агент получает exact SHA/report через PR18; капитан выбирает один путь
+production-интеграции PR23/verification, без повторного merge перекрывающихся тестов.
 Физический checklist находится в отчёте. Пароли/JWT/аудио не коммитить, main/чужие ветки не менять.
 Ниже сохранена прежняя передача Analytics/design; её результаты относятся к прежним snapshots.
 
