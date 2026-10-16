@@ -1,3 +1,11 @@
+# Seller web — Mobile Microphone Acceptance Preparation
+
+2026-10-16. Ветка `test/mobile-microphone-acceptance`, отдельный worktree `work/qadam-microphone-acceptance`, base `integration/local-combined-check:58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76`. Fetch/prune, HEAD и связанные Draft PR проверены. Новые HTTPS/Analytics ветки изучены без merge; voice/ledger source в них совпадает с базой.
+
+Этап 1: [анализ, owner scope, HTTPS/device evidence и acceptance matrix](../MOBILE_MICROPHONE_ACCEPTANCE.md). SDK adb перечислил 0 устройств/эмуляторов; HTTPS API read-only health200/OpenAPI0.6.1, HTTPS frontend preview не предоставлен. **Физический Android Blocked.** Компонентные/browser regressions готовятся, их успех пока не заявляется. Production voice/ledger/AI, Backend/контракт, деньги и PR #19 не меняются. Владелец voice — участник №4, автор PR #7 `sarsenbaevaaidana07`; review будет запрошен в новом Draft PR, явного согласования source-изменений ещё нет.
+
+Следом: отдельные test commits, полный web прогон, итоговый отчёт и Draft PR в указанную base. Точный HEAD — `git log -1 --format=%H`. Новому Codex продолжать только эту ветку, перечитать owner review и отчёт; не переносить успех desktop automation на Android. Ниже сохранена историческая передача дизайна.
+
 # Seller web — передача интегрированного дизайна
 
 2026-10-16. Рабочая ветка **feature/seller-design-integration**, отдельный worktree `../qadam-seller-design`. Base — `origin/integration/team-mvp`, точный исходный HEAD **3d009dc86c93debcab05dedda530b7d1fe62a304** (Draft PR #8). Источник готового дизайна — **a77f1a02b240dbf9e8c627937a5cb6445d92fb51**. Старую feature/seller-dashboard, ветку QA test/seller-regression и чужие PR не изменять.
