@@ -262,7 +262,7 @@
 .business-control select {
   background: transparent;
   border: none;
-  min-height: 34px;
+  min-height: var(--qadam-control-height);
   padding: 2px 24px 2px 0;
   font-size: 13px;
   font-weight: 750;

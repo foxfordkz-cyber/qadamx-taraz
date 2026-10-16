@@ -34,20 +34,31 @@ function Fit({ asset }: { asset: VenueAsset }) {
       target = new Vector3(...asset.camera_target),
       min = new Vector3(...asset.bounds_min),
       max = new Vector3(...asset.bounds_max);
-    let radius = 0;
+    // Fit the eight bounds corners into both view axes along the manifest direction.
+    // A bounding sphere left wide, low venues at about a third of the frame.
+    const toCamera = new Vector3(...asset.camera_position)
+      .sub(target)
+      .normalize();
+    const right = new Vector3(0, 1, 0).cross(toCamera).normalize();
+    const up = toCamera.clone().cross(right).normalize();
+    const tanV = Math.tan((c.fov * Math.PI) / 360);
+    const tanH = (tanV * size.width) / Math.max(size.height, 1);
+    let distance = 0;
     for (const x of [min.x, max.x])
       for (const y of [min.y, max.y])
-        for (const z of [min.z, max.z])
-          radius = Math.max(radius, new Vector3(x, y, z).distanceTo(target));
-    const half = Math.min(
-      (c.fov * Math.PI) / 360,
-      Math.atan((Math.tan((c.fov * Math.PI) / 360) * size.width) / size.height),
-    );
+        for (const z of [min.z, max.z]) {
+          const v = new Vector3(x, y, z).sub(target);
+          const depthOffset = v.dot(toCamera);
+          distance = Math.max(
+            distance,
+            depthOffset + Math.abs(v.dot(right)) / tanH,
+            depthOffset + Math.abs(v.dot(up)) / tanV,
+          );
+        }
     c.position.copy(
-      new Vector3(...asset.camera_position)
-        .sub(target)
-        .normalize()
-        .multiplyScalar((radius / Math.sin(half)) * 1.08)
+      toCamera
+        .clone()
+        .multiplyScalar(distance * 1.12)
         .add(target),
     );
     c.lookAt(target);

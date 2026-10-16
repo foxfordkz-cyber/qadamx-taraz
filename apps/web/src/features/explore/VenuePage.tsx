@@ -63,13 +63,23 @@ export default function VenuePage() {
     () => getBusinesses({ venue: slug, q, category }),
     [slug, q, category],
   );
-  const list = shops.data ?? [];
+  // Cards follow the numbered 3D markers; shops without a matching marker keep API order after them.
+  const markerNumber = (b: { id: string; slug: string }) => {
+    const index =
+      venue?.asset?.hotspots.findIndex(
+        (h) => h.business_id === b.id && h.business_slug === b.slug,
+      ) ?? -1;
+    return index < 0 ? Number.MAX_SAFE_INTEGER : index;
+  };
+  const list = [...(shops.data ?? [])].sort(
+    (a, b) => markerNumber(a) - markerNumber(b),
+  );
 
   return (
     <main className="ex">
       <header className="ex-top">
         <Link className="back-link" to="/">
-          ← {t("back")}
+          <span aria-hidden="true">←</span> {t("back")}
         </Link>
         <LangSwitch />
       </header>

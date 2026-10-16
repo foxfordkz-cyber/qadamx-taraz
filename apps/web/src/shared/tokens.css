@@ -49,6 +49,34 @@
   --qadam-radius-hero: 28px;
   --qadam-radius-pill: 999px;
   --qadam-shadow: 0 2px 4px #172a2605, 0 8px 24px #172a2604;
+
+  /* Unified visual layer (feature/unified-visual-3d). One source for seller,
+     public storefront and 3D overlays; module CSS maps its local names here. */
+  --qadam-surface-muted: #e9e9df;
+  --qadam-line-strong: #d9ded4;
+  --qadam-scene-sky: #dfeceb;
+  /* Status colours always travel with a text label or icon, never alone. */
+  --qadam-success: #2f6b3c;
+  --qadam-success-soft: #e3efdc;
+  --qadam-warning: #8a5410;
+  --qadam-warning-soft: #fff2cf;
+  --qadam-danger: #9d2f1c;
+  --qadam-danger-soft: #fbe7e0;
+  --qadam-info: #1f5f73;
+  --qadam-info-soft: #e1eef1;
+  /* Type scale: 12 / 14 / 16 / 20 / 28 / display. Money uses tabular figures. */
+  --qadam-text-xs: 0.75rem;
+  --qadam-text-sm: 0.875rem;
+  --qadam-text-md: 1rem;
+  --qadam-text-lg: 1.25rem;
+  --qadam-text-xl: 1.75rem;
+  --qadam-text-display: clamp(2.5rem, 6.8vw, 5.9rem);
+  --qadam-control-height: 44px;
+  --qadam-radius-small: 8px;
+  --qadam-focus-ring: 3px solid var(--qadam-green);
+  --qadam-shadow-raised: 0 4px 10px #172a260a, 0 18px 40px #172a2612;
+  --qadam-content-width: 1200px;
+
   --bg: var(--qadam-paper);
   --text: var(--qadam-ink);
   --primary: var(--qadam-green);

@@ -1,13 +1,13 @@
 .ex {
-  --ink: #172a26;
-  --muted: #64736c;
-  --green: #164c3e;
-  --green-deep: #103b31;
-  --lime: #d7f36a;
-  --orange: #f0a94b;
-  --paper: #f5f3eb;
-  --white: #fffefa;
-  --line: #e1e2d8;
+  --ink: var(--qadam-ink);
+  --muted: var(--qadam-muted);
+  --green: var(--qadam-green);
+  --green-deep: var(--qadam-green-deep);
+  --lime: var(--qadam-lime);
+  --orange: var(--qadam-orange);
+  --paper: var(--qadam-paper);
+  --white: var(--qadam-white);
+  --line: var(--qadam-line);
   max-width: 1200px;
   margin: 0 auto;
   padding: 22px 32px 64px;
@@ -15,23 +15,13 @@
   min-height: 100vh;
   box-sizing: border-box;
   background: var(--paper);
-  font:
-    16px/1.55 "Manrope",
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
+  font: 16px/1.55 var(--qadam-font);
 }
 .ex h1,
 .ex h2,
 .ex h3,
 .ex .brand {
-  font-family:
-    "Manrope",
-    system-ui,
-    -apple-system,
-    "Segoe UI",
-    sans-serif;
+  font-family: var(--qadam-font);
 }
 .ex h1 {
   font-size: clamp(2.5rem, 6.8vw, 5.9rem);
@@ -105,6 +95,9 @@
   stroke-linejoin: round;
 }
 .ex .top-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--qadam-control-height);
   text-decoration: none;
   font-weight: 700;
 }
@@ -115,7 +108,7 @@
   display: flex;
   gap: 3px;
   padding: 4px;
-  background: #e9e9df;
+  background: var(--qadam-surface-muted);
   border-radius: 999px;
 }
 .ex .lang button,
@@ -125,13 +118,11 @@
   background: transparent;
   border-radius: 999px;
   padding: 7px 13px;
-  min-height: 38px;
+  min-height: var(--qadam-control-height);
+  min-width: var(--qadam-control-height);
   cursor: pointer;
   color: var(--ink);
-  font:
-    600 0.86rem "Manrope",
-    system-ui,
-    sans-serif;
+  font: 600 0.86rem var(--qadam-font);
 }
 .ex .lang button[aria-pressed="true"],
 .ex .chips button[aria-pressed="true"],
@@ -213,10 +204,7 @@
   border: 1px solid var(--green);
   background: var(--white);
   color: var(--green) !important;
-  font:
-    700 0.94rem "Manrope",
-    system-ui,
-    sans-serif;
+  font: 700 0.94rem var(--qadam-font);
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -324,7 +312,7 @@
 .ex .section-note {
   padding: 7px 12px;
   border-radius: 999px;
-  background: #e9e9df;
+  background: var(--qadam-surface-muted);
   color: #5e6d62;
   font-size: 0.77rem;
   font-weight: 700;
@@ -369,10 +357,7 @@
   align-self: flex-start;
   margin-bottom: 24px;
   color: #8b9789;
-  font:
-    700 0.75rem "Manrope",
-    system-ui,
-    sans-serif;
+  font: 700 0.75rem var(--qadam-font);
   letter-spacing: 0.08em;
 }
 .ex .card h3 {
@@ -511,7 +496,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 13px 15px;
-  border: 1px solid #d9ded4;
+  border: 1px solid var(--qadam-line-strong);
   border-radius: 13px;
   font: inherit;
   background: var(--white);
@@ -529,7 +514,7 @@
   gap: 7px;
 }
 .ex .chips button {
-  background: #e9e9df;
+  background: var(--qadam-surface-muted);
 }
 .ex .catalog {
   list-style: none;
@@ -672,7 +657,12 @@
   display: block;
   height: 11px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #e9e9df 20%, #f6f5ef 45%, #e9e9df 70%);
+  background: linear-gradient(
+    90deg,
+    var(--qadam-surface-muted) 20%,
+    #f6f5ef 45%,
+    var(--qadam-surface-muted) 70%
+  );
   background-size: 220% 100%;
   animation: skeleton-sheen 1.5s ease-in-out infinite;
 }
@@ -750,7 +740,7 @@
 }
 @media (max-width: 480px) {
   .ex {
-    padding: 10px 12px 36px;
+    padding: 10px 16px 36px;
   }
   .ex .ex-top {
     height: 48px;
@@ -776,7 +766,6 @@
   }
   .ex .lang button {
     padding: 5px 8px;
-    min-height: 34px;
     font-size: 0.75rem;
   }
   .ex .hero {
@@ -817,8 +806,7 @@
     bottom: 9px;
   }
   .ex .scene-bar button {
-    padding: 6px 10px;
-    min-height: 36px;
+    padding: 6px 12px;
     font-size: 0.75rem;
   }
   .ex .section-heading {
@@ -883,7 +871,7 @@
   }
   .ex .skeleton-line {
     animation: none;
-    background: #e9e9df;
+    background: var(--qadam-surface-muted);
   }
 }
 
@@ -891,6 +879,8 @@
   display: inline-flex;
   align-items: center;
   gap: 9px;
+  min-height: var(--qadam-control-height);
+  padding-right: 8px;
   color: var(--green) !important;
   text-decoration: none;
   font-weight: 700;
@@ -898,8 +888,8 @@
 .ex .back-link span {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--line);
   border-radius: 50%;
   transition:
@@ -908,7 +898,7 @@
 }
 .ex .back-link:hover span {
   transform: translateX(-3px);
-  background: #e9e9df;
+  background: var(--qadam-surface-muted);
 }
 .ex .venue-heading {
   display: flex;
@@ -933,10 +923,7 @@
 }
 .ex .venue-count strong {
   color: var(--green);
-  font:
-    800 2rem/1 "Manrope",
-    system-ui,
-    sans-serif;
+  font: 800 2rem/1 var(--qadam-font);
   letter-spacing: -0.07em;
 }
 .ex .browse-heading,
@@ -980,7 +967,7 @@
   height: 30px;
   border: 0;
   border-radius: 50%;
-  background: #e9e9df;
+  background: var(--qadam-surface-muted);
   color: var(--green);
   font-size: 1.2rem;
   cursor: pointer;
