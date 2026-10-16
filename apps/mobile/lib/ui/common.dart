@@ -10,6 +10,11 @@ typedef Json = Map<String, dynamic>;
 
 const speciesCodes = ['cattle', 'sheep', 'goat', 'horse', 'camel'];
 String tr(bool kk, String ru, String kz) => kk ? kz : ru;
+String normalizedPlace(String value) =>
+    value.trim().replaceAll(RegExp(r'\s+'), ' ');
+String marketName(Json item, bool kk) =>
+    item['market'] as String? ??
+    tr(kk, 'Рынок не указан', 'Базар көрсетілмеген');
 
 String speciesName(String code, bool kk) => switch (code) {
   'cattle' => tr(kk, 'Крупный рогатый скот', 'Ірі қара'),
@@ -43,6 +48,11 @@ String safeError(Object error, bool kk) {
       ? error.code
       : 'NETWORK_ERROR';
   return switch (code) {
+    'LOCALITY_REQUIRED' => tr(
+      kk,
+      'Укажите город или село вместе с рынком.',
+      'Базармен бірге қала немесе ауылды көрсетіңіз.',
+    ),
     'AUTH_REQUIRED' || 'ACCOUNT_CHANGED' => tr(
       kk,
       'Войдите в аккаунт и повторите действие.',
@@ -328,6 +338,8 @@ class ListingCard extends StatelessWidget {
                       const Icon(Icons.arrow_outward, size: 20),
                     ],
                   ),
+                  const SizedBox(height: 8),
+                  Text(marketName(listing, kk)),
                 ],
               ),
             ),

@@ -477,6 +477,90 @@ void main() {
   });
 
   test(
+    '0.6.1 optional markets and minimum are validated without hiding a small sample',
+    () async {
+      final prices = {
+        ...fixture('PriceStats'),
+        'market': 'Учебный базар A',
+        'sample_count': 1,
+        'min_price_per_head_minor': 12345,
+      };
+      api = create((_) async => jsonResponse(prices));
+      final result = await api.get('/livestock/prices');
+      expect(result['status'], 'insufficient_data');
+      expect(result['min_price_per_head_minor'], 12345);
+      for (final minimum in [null, 1, 10000000000]) {
+        api = create(
+          (_) async =>
+              jsonResponse({...prices, 'min_price_per_head_minor': minimum}),
+        );
+        expect(await api.get('/livestock/prices'), isNotEmpty);
+      }
+      for (final minimum in [0, -1, 1.0, '100', true, 10000000001]) {
+        api = create(
+          (_) async =>
+              jsonResponse({...prices, 'min_price_per_head_minor': minimum}),
+        );
+        await expectLater(
+          api.get('/livestock/prices'),
+          throwsA(failure('INVALID_RESPONSE')),
+        );
+      }
+      for (final market in ['', '  ', 12, List.filled(101, 'а').join()]) {
+        api = create(
+          (_) async =>
+              jsonResponse({...fixture('PublicListing'), 'market': market}),
+        );
+        await expectLater(
+          api.get('/livestock/listings/$listingId'),
+          throwsA(failure('INVALID_RESPONSE')),
+        );
+      }
+      // Old API and old saved receipts may omit both fields entirely.
+      api = create((_) async => jsonResponse(fixture('PriceStats')));
+      expect(
+        (await api.get(
+          '/livestock/prices',
+        )).containsKey('min_price_per_head_minor'),
+        isFalse,
+      );
+    },
+  );
+
+  test(
+    'retry keeps absent legacy market absent and preserves explicit null',
+    () async {
+      for (final includeNull in [false, true]) {
+        store = MemoryPendingStore();
+        final body = {
+          ...fixture('ListingWrite'),
+          if (includeNull) 'market': null,
+        };
+        final requests = <http.Request>[];
+        api = create((request) async {
+          requests.add(request);
+          if (requests.length == 1) throw http.ClientException('lost response');
+          return success();
+        });
+        await expectLater(
+          api.mutate('PUT', '/livestock/listings/$listingId', body),
+          throwsA(isA<ApiFailure>()),
+        );
+        await api.retryPending();
+        expect(requests.last.body, requests.first.body);
+        expect(
+          requests.last.headers['Idempotency-Key'],
+          requests.first.headers['Idempotency-Key'],
+        );
+        expect(
+          (jsonDecode(requests.last.body) as Map).containsKey('market'),
+          includeNull,
+        );
+      }
+    },
+  );
+
+  test(
     'account B cannot inspect, retry or acknowledge account A intent',
     () async {
       var requests = 0;

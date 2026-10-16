@@ -11,6 +11,11 @@ bool _int(Object? value, int min, int max) =>
     value is int && value >= min && value <= max;
 bool _text(Object? value, int min, int max) =>
     value is String && value.runes.length >= min && value.runes.length <= max;
+// Optional fields retain compatibility with receipts saved before API 0.6.1.
+bool _market(Map<String, dynamic> value) =>
+    value['market'] == null ||
+    (_text(value['market'], 1, 100) &&
+        (value['market'] as String).trim().isNotEmpty);
 bool _date(Object? value) {
   if (value is! String || !RegExp(r'^\d{4}-\d{2}-\d{2}$').hasMatch(value)) {
     return false;
@@ -45,6 +50,7 @@ bool _listing(Map<String, dynamic> value, {required bool owner}) {
       _int(value['quantity'], 1, 10000) &&
       _int(value['price_per_head_minor'], 1, maxPriceMinor) &&
       _text(value['locality'], 1, 100) &&
+      _market(value) &&
       value.containsKey('age_months') &&
       (value['age_months'] == null || _int(value['age_months'], 0, 600)) &&
       value.containsKey('sex') &&
@@ -85,6 +91,9 @@ bool _stats(Map<String, dynamic> value) {
   final common =
       _species.contains(value['species']) &&
       _text(value['locality'], 1, 100) &&
+      _market(value) &&
+      (value['min_price_per_head_minor'] == null ||
+          _int(value['min_price_per_head_minor'], 1, maxPriceMinor)) &&
       _date(value['period_from']) &&
       _date(value['period_to']) &&
       value['timezone'] == 'Asia/Almaty' &&

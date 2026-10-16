@@ -569,10 +569,12 @@ class _Listings extends StatefulWidget {
 
 class _ListingsState extends State<_Listings> {
   final _locality = TextEditingController();
+  final _market = TextEditingController();
   String? _species;
   String? _status;
   String? _cursor;
   String _appliedLocality = '';
+  String _appliedMarket = '';
   List<Json> _items = [];
   bool _loading = true;
   Object? _error;
@@ -593,6 +595,7 @@ class _ListingsState extends State<_Listings> {
   @override
   void dispose() {
     _locality.dispose();
+    _market.dispose();
     super.dispose();
   }
 
@@ -604,10 +607,14 @@ class _ListingsState extends State<_Listings> {
       if (!more) {
         _items = [];
         _cursor = null;
-        _appliedLocality = _locality.text.trim();
+        _appliedLocality = normalizedPlace(_locality.text);
+        _appliedMarket = normalizedPlace(_market.text);
       }
     });
     try {
+      if (_appliedMarket.isNotEmpty && _appliedLocality.isEmpty) {
+        throw const ApiFailure('LOCALITY_REQUIRED');
+      }
       final response = await widget.api.get(
         widget.owned ? '/livestock/me/listings' : '/livestock/listings',
         authenticated: widget.owned,
@@ -615,6 +622,7 @@ class _ListingsState extends State<_Listings> {
           'limit': '20',
           'species': ?_species,
           if (_appliedLocality.isNotEmpty) 'locality': _appliedLocality,
+          if (_appliedMarket.isNotEmpty) 'market': _appliedMarket,
           if (widget.owned && _status != null) 'status': _status!,
           if (more && _cursor != null) 'cursor': _cursor!,
         },
@@ -706,6 +714,30 @@ class _ListingsState extends State<_Listings> {
             counterText: '',
             suffixIcon: IconButton(
               tooltip: tr(kk, 'Применить фильтр', 'Сүзгіні қолдану'),
+              onPressed: _load,
+              icon: const Icon(Icons.search),
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        TextField(
+          controller: _market,
+          maxLength: 100,
+          textInputAction: TextInputAction.search,
+          onSubmitted: (_) => _load(),
+          decoration: InputDecoration(
+            labelText: tr(
+              kk,
+              'Рынок (все, если пусто)',
+              'Базар (бос болса, барлығы)',
+            ),
+            counterText: '',
+            suffixIcon: IconButton(
+              tooltip: tr(
+                kk,
+                'Применить фильтр рынка',
+                'Базар сүзгісін қолдану',
+              ),
               onPressed: _load,
               icon: const Icon(Icons.search),
             ),
@@ -807,6 +839,7 @@ class _Statistics extends StatefulWidget {
 
 class _StatisticsState extends State<_Statistics> {
   final _locality = TextEditingController();
+  final _market = TextEditingController();
   String _species = 'cattle';
   Json? _result;
   Object? _error;
@@ -822,6 +855,7 @@ class _StatisticsState extends State<_Statistics> {
   @override
   void dispose() {
     _locality.dispose();
+    _market.dispose();
     super.dispose();
   }
 
@@ -836,7 +870,12 @@ class _StatisticsState extends State<_Statistics> {
     try {
       final result = await widget.api.get(
         '/livestock/prices',
-        query: {'species': _species, 'locality': _locality.text.trim()},
+        query: {
+          'species': _species,
+          'locality': normalizedPlace(_locality.text),
+          if (_market.text.trim().isNotEmpty)
+            'market': normalizedPlace(_market.text),
+        },
       );
       if (mounted && request == _request) {
         setState(() {
@@ -866,8 +905,8 @@ class _StatisticsState extends State<_Statistics> {
       Text(
         tr(
           kk,
-          'Медиана за одну голову по сегодняшним объявлениям. Это не цена сделки.',
-          'Бүгінгі хабарландырулардағы бір бас бағасының медианасы. Бұл мәміле бағасы емес.',
+          'Минимум и медиана за голову среди сегодняшних объявлений. Это цены предложений, без гарантии сделки.',
+          'Бүгінгі хабарландырулардағы бір бас бағасының минимумы мен медианасы. Бұл мәмілеге кепілдік бермейтін ұсыныс бағалары.',
         ),
       ),
       const SizedBox(height: 24),
@@ -908,6 +947,26 @@ class _StatisticsState extends State<_Statistics> {
         ),
       ),
       const SizedBox(height: 12),
+      TextField(
+        controller: _market,
+        maxLength: 100,
+        textInputAction: TextInputAction.search,
+        onChanged: (_) => setState(() {
+          _result = null;
+          _error = null;
+          _request++;
+          _loading = false;
+        }),
+        onSubmitted: (_) => _load(),
+        decoration: InputDecoration(
+          labelText: tr(
+            kk,
+            'Рынок (все, если пусто)',
+            'Базар (бос болса, барлығы)',
+          ),
+        ),
+      ),
+      const SizedBox(height: 12),
       FilledButton(
         onPressed: _loading || _locality.text.trim().isEmpty ? null : _load,
         child: Text(tr(kk, 'Посмотреть цены', 'Бағаларды көру')),
@@ -926,7 +985,52 @@ class _StatisticsState extends State<_Statistics> {
                   '${speciesName(_result!['species'] as String, kk)} · ${_result!['locality']}',
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
+                const SizedBox(height: 8),
+                Text(
+                  _result!['market'] as String? ??
+                      tr(kk, 'Все рынки', 'Барлық базарлар'),
+                ),
                 const SizedBox(height: 20),
+                Text(
+                  tr(
+                    kk,
+                    'Минимальная цена за голову',
+                    'Бір бастың ең төмен бағасы',
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  !_result!.containsKey('min_price_per_head_minor')
+                      ? tr(
+                          kk,
+                          'Минимум не поддерживается сервером',
+                          'Сервер ең төмен бағаны бермейді',
+                        )
+                      : _result!['min_price_per_head_minor'] == null
+                      ? tr(kk, 'Нет данных', 'Деректер жоқ')
+                      : tr(
+                          kk,
+                          'От ${money(_result!['min_price_per_head_minor'] as int)}',
+                          '${money(_result!['min_price_per_head_minor'] as int)} бастап',
+                        ),
+                  key: const ValueKey('minimum-price'),
+                  style: const TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                Text(
+                  tr(
+                    kk,
+                    'Среди сегодняшних объявлений',
+                    'Бүгінгі хабарландырулар арасында',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  tr(kk, 'Медиана за голову', 'Бір бас бағасының медианасы'),
+                ),
+                const SizedBox(height: 8),
                 if (_result!['status'] == 'insufficient_data')
                   Text(
                     tr(kk, 'Пока мало данных', 'Деректер әлі аз'),
@@ -1208,6 +1312,14 @@ class _DetailState extends State<_Detail> with WidgetsBindingObserver {
               Text(tr(kk, 'Цена за одну голову', 'Бір бас бағасы')),
               const SizedBox(height: 24),
               _detailRow(Icons.place_outlined, '${item['locality']}'),
+              _detailRow(Icons.storefront_outlined, marketName(item, kk)),
+              Text(
+                tr(
+                  kk,
+                  'Место указано продавцом; адрес не проверен.',
+                  'Орынды сатушы көрсеткен; мекенжай тексерілмеген.',
+                ),
+              ),
               _detailRow(
                 Icons.pets_outlined,
                 '${item['quantity']} ${tr(kk, 'голов', 'бас')}',
@@ -1225,7 +1337,7 @@ class _DetailState extends State<_Detail> with WidgetsBindingObserver {
                 }),
               _detailRow(
                 Icons.event_available_outlined,
-                '${tr(kk, 'Подтверждено', 'Расталған')}: ${item['confirmed_on']}',
+                '${tr(kk, 'Подтверждено продавцом', 'Сатушы растаған')}: ${item['confirmed_on']}',
               ),
               if (widget.owned)
                 _detailRow(Icons.circle_outlined, statusText(item, kk)),

@@ -272,6 +272,7 @@ void main() {
       await fill('Количество голов', '2');
       await fill('Цена за голову, ₸', '350000,01');
       await fill('Город или село', 'Тараз');
+      await fill('Рынок', '  Учебный   базар A  ');
       await fill('Телефон или другой контакт', '@synthetic_fixture');
       tester.testTextInput.hide();
       await tester.scrollUntilVisible(
@@ -303,6 +304,7 @@ void main() {
       expect(store.values['test-account-a'], isNotNull);
       final saved = await ListingForm.readDraft('test-account-a');
       expect(saved, contains('@synthetic_fixture'));
+      expect(saved, contains('Учебный'));
       expect(find.text('Объявление опубликовано'), findsNothing);
       await tester.scrollUntilVisible(
         find.text('Восстановить результат'),
@@ -322,6 +324,10 @@ void main() {
       expect(
         (jsonDecode(requests[0].body) as Map)['price_per_head_minor'],
         35000001,
+      );
+      expect(
+        (jsonDecode(requests[0].body) as Map)['market'],
+        'Учебный базар A',
       );
       expect(store.values['test-account-a'], isNull);
       expect(await ListingForm.readDraft('test-account-a'), isNull);
@@ -642,4 +648,190 @@ void main() {
       await auth.events.close();
     },
   );
+
+  for (final (count, minimum, supported, expected) in [
+    (0, null, true, 'Нет данных'),
+    (1, 12345, true, 'От 123,45 ₸'),
+    (5, 2000000, true, 'От 20 000 ₸'),
+    (4, null, false, 'Минимум не поддерживается сервером'),
+  ]) {
+    testWidgets('statistics minimum count=$count supported=$supported', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(320, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final fixtures =
+          jsonDecode(
+                File('test/data/livestock_fixtures.json').readAsStringSync(),
+              )
+              as Map;
+      final requests = <http.Request>[];
+      final api = LivestockApi(
+        baseUrl: Uri.parse('https://api.example.test/api/v1'),
+        accountId: () => null,
+        accessToken: () async => null,
+        store: _MemoryStore(),
+        client: MockClient((request) async {
+          if (request.url.path.endsWith('/prices')) {
+            requests.add(request);
+            return _jsonResponse(
+              jsonEncode({
+                ...Map<String, dynamic>.from(fixtures['PriceStats'] as Map),
+                'market': 'Учебный базар A',
+                'sample_count': count,
+                if (supported) 'min_price_per_head_minor': minimum,
+                'median_price_per_head_minor': count >= 5 ? 2500000 : null,
+                'status': count >= 5 ? 'available' : 'insufficient_data',
+              }),
+              200,
+            );
+          }
+          return _jsonResponse('{"items":[],"next_cursor":null}', 200);
+        }),
+      );
+      final runtime = MobileRuntime(api: api);
+      await tester.pumpWidget(MobileApp(runtime: runtime));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Цены'));
+      await tester.pumpAndSettle();
+      final locality = find.widgetWithText(TextField, 'Город или село');
+      await tester.scrollUntilVisible(locality, 160, scrollable: pageScroll());
+      await tester.pumpAndSettle();
+      await tester.enterText(locality, 'Тараз');
+      final market = find.widgetWithText(TextField, 'Рынок (все, если пусто)');
+      await tester.scrollUntilVisible(market, 160, scrollable: pageScroll());
+      await tester.pumpAndSettle();
+      await tester.enterText(market, ' Учебный  базар A ');
+      tester.testTextInput.hide();
+      await tester.scrollUntilVisible(
+        find.text('Посмотреть цены'),
+        160,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Посмотреть цены'));
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('minimum-price')),
+        160,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        tester.widget<Text>(find.byKey(const ValueKey('minimum-price'))).data,
+        expected,
+      );
+      expect(requests.single.url.queryParameters, {
+        'species': 'cattle',
+        'locality': 'Тараз',
+        'market': 'Учебный базар A',
+      });
+      if (count < 5) {
+        await tester.scrollUntilVisible(
+          find.text('Пока мало данных'),
+          160,
+          scrollable: pageScroll(),
+        );
+        await tester.pumpAndSettle();
+        expect(find.text('Пока мало данных'), findsOneWidget);
+      }
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+      runtime.dispose();
+      api.close();
+    });
+  }
+
+  for (final owned in [false, true]) {
+    testWidgets('market filter owns cursor and resets pages owned=$owned', (
+      tester,
+    ) async {
+      final fixtures =
+          jsonDecode(
+                File('test/data/livestock_fixtures.json').readAsStringSync(),
+              )
+              as Map;
+      final item = {
+        ...Map<String, dynamic>.from(
+          fixtures[owned ? 'OwnerListing' : 'PublicListing'] as Map,
+        ),
+        'market': 'Учебный A',
+      };
+      final requests = <http.Request>[];
+      final auth = _Auth();
+      final api = LivestockApi(
+        baseUrl: Uri.parse('https://api.example.test/api/v1'),
+        accountId: () => auth.account,
+        accessToken: auth.accessToken,
+        store: _MemoryStore(),
+        client: MockClient((request) async {
+          requests.add(request);
+          final matches = request.url.queryParameters['market'] == 'Учебный A';
+          return _jsonResponse(
+            jsonEncode({
+              'items': matches ? [item] : [],
+              'next_cursor':
+                  matches && !request.url.queryParameters.containsKey('cursor')
+                  ? item['id']
+                  : null,
+            }),
+            200,
+          );
+        }),
+      );
+      final runtime = MobileRuntime(auth: auth, api: api);
+      await tester.pumpWidget(MobileApp(runtime: runtime));
+      await tester.pumpAndSettle();
+      if (owned) {
+        await tester.tap(find.text('Мои'));
+        await tester.pumpAndSettle();
+      }
+      final locality = find.widgetWithText(TextField, 'Город или село');
+      final market = find.widgetWithText(TextField, 'Рынок (все, если пусто)');
+      await tester.enterText(locality, 'Тараз');
+      await tester.enterText(market, 'Учебный A');
+      tester.testTextInput.hide();
+      await tester.tap(find.byTooltip('Применить фильтр рынка'));
+      await tester.pumpAndSettle();
+      expect(requests.last.url.queryParameters['cursor'], isNull);
+      await tester.enterText(
+        market,
+        'Учебный B',
+      ); // Unsubmitted text must not alter pagination.
+      tester.testTextInput.hide();
+      await tester.scrollUntilVisible(
+        find.text('Показать ещё'),
+        200,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Показать ещё'));
+      await tester.pumpAndSettle();
+      expect(requests.last.url.queryParameters['market'], 'Учебный A');
+      expect(requests.last.url.queryParameters['cursor'], item['id']);
+      await tester.scrollUntilVisible(
+        find.byTooltip('Применить фильтр рынка'),
+        -200,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Применить фильтр рынка'));
+      await tester.pumpAndSettle();
+      expect(requests.last.url.queryParameters['market'], 'Учебный B');
+      expect(requests.last.url.queryParameters['locality'], 'Тараз');
+      expect(requests.last.url.queryParameters.containsKey('cursor'), isFalse);
+      expect(
+        requests.last.url.path,
+        owned ? '/api/v1/livestock/me/listings' : '/api/v1/livestock/listings',
+      );
+      expect(find.text('Учебный A'), findsNothing);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+      runtime.dispose();
+      api.close();
+      await auth.events.close();
+    });
+  }
 }

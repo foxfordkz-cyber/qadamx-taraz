@@ -85,6 +85,7 @@ class _ListingFormState extends State<ListingForm> {
   final _quantity = TextEditingController(text: '1');
   final _price = TextEditingController();
   final _locality = TextEditingController();
+  final _market = TextEditingController();
   final _age = TextEditingController();
   final _description = TextEditingController();
   final _contact = TextEditingController();
@@ -124,6 +125,7 @@ class _ListingFormState extends State<ListingForm> {
       _quantity,
       _price,
       _locality,
+      _market,
       _age,
       _description,
       _contact,
@@ -143,6 +145,7 @@ class _ListingFormState extends State<ListingForm> {
       _quantity,
       _price,
       _locality,
+      _market,
       _age,
       _description,
       _contact,
@@ -172,6 +175,7 @@ class _ListingFormState extends State<ListingForm> {
     'quantity_text': _quantity.text,
     'price_text': _price.text,
     'locality': _locality.text,
+    'market': _market.text,
     'age_text': _age.text,
     'sex': _sex,
     'description': _description.text,
@@ -209,6 +213,7 @@ class _ListingFormState extends State<ListingForm> {
         ? editableMoney(value['price_per_head_minor'] as int)
         : '';
     _locality.text = value['locality'] as String? ?? '';
+    _market.text = value['market'] as String? ?? '';
     _age.text = draft
         ? value['age_text'] as String? ?? ''
         : value['age_months'] == null
@@ -395,7 +400,8 @@ class _ListingFormState extends State<ListingForm> {
     'species': _species,
     'quantity': int.parse(_quantity.text.trim()),
     'price_per_head_minor': parseTenge(_price.text)!,
-    'locality': _locality.text.trim(),
+    'locality': normalizedPlace(_locality.text),
+    'market': normalizedPlace(_market.text),
     'age_months': _age.text.trim().isEmpty ? null : int.parse(_age.text.trim()),
     'sex': _sex,
     'description': _description.text.trim().isEmpty
@@ -418,6 +424,7 @@ class _ListingFormState extends State<ListingForm> {
           'Бір бас бағасын енгізіңіз: 0,01–100 000 000 ₸.',
         ),
       _textLimit(_locality.text, 100, required: true),
+      _textLimit(_market.text, 100, required: true),
       if (_age.text.trim().isNotEmpty) _integer(_age.text, 0, 600),
       _textLimit(_description.text, 2000),
       _textLimit(_contact.text, 200, required: true),
@@ -788,6 +795,23 @@ class _ListingFormState extends State<ListingForm> {
     ),
     const SizedBox(height: 8),
     TextFormField(
+      controller: _market,
+      enabled: !_locked,
+      maxLength: 100,
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        labelText: tr(kk, 'Рынок', 'Базар'),
+        helperText: tr(
+          kk,
+          'Название со слов продавца, не проверенный адрес',
+          'Сатушы көрсеткен атау, тексерілген мекенжай емес',
+        ),
+        helperMaxLines: 3,
+      ),
+      validator: (value) => _textLimit(value, 100, required: true),
+    ),
+    const SizedBox(height: 8),
+    TextFormField(
       controller: _age,
       enabled: !_locked,
       keyboardType: TextInputType.number,
@@ -957,6 +981,8 @@ class _ListingFormState extends State<ListingForm> {
     Text(
       '${_locality.text.trim()} · ${_quantity.text} ${tr(kk, 'голов', 'бас')}',
     ),
+    const SizedBox(height: 8),
+    Text('${tr(kk, 'Рынок', 'Базар')}: ${normalizedPlace(_market.text)}'),
     if (_age.text.trim().isNotEmpty)
       Padding(
         padding: const EdgeInsets.only(top: 12),
