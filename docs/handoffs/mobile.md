@@ -52,8 +52,28 @@ recovery-маршрутов не вызывает; в живом OpenAPI они 
 проверкой изоляции A/B. Реальный HTTP с компьютера не считается установкой APK.
 Фактическая смена суток не проверялась, часы БД не менялись.
 
-Новый APK собирается из этой версии; точный commit, контрольная сумма и ссылка
-будут записаны после сборки. PR #25 остаётся Draft, база и PR #15 не меняются.
+### APK 0.2.1
+
+- Исходный commit: **4cc2f528f3e6cd45960b6c3be111a537c66d7e82**.
+- `tool/build_android.ps1 -PublicConfig config/public.local.json`: exit0,
+  assembleDebug45.3сек. Pub разрешил прежние lock-версии; сообщения о трёх
+  более новых несовместимых пакетах не являются обновлением зависимостей.
+- `qadam-0.2.1-4cc2f52-debug.apk`: **167895469 bytes**, 0.2.1+4,
+  package `kz.qadam.qadam_mobile`, Android7+/minSdk24/target36,
+  ABI ARM32/ARM64/x86_64, debug-подпись.
+- SHA256: `3b94829b6618eebc6aff56fd7cd2166b003ede7ef926677821e9bc061335f993`.
+- apksigner verify v2 и zipalign16KiB — PASS. Статический ZIP/pattern audit:
+  553entries, приватных config/env и совпадений с форматами серверных ключей нет.
+  Пароли/серверные ключи не подавались в build inputs.
+- Проверено содержимое compiled kernel: **все четыре публичных значения есть,
+  оба прежних hostname отсутствуют**. Supabase URL/key сохранены прежними.
+- [APK для скачивания](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.2.1-shell.1/qadam-0.2.1-4cc2f52-debug.apk)
+  и [предварительный выпуск mobile-v0.2.1-shell.1](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.2.1-shell.1).
+  Выпуск содержит SHA256, статический audit, два новых HTTP-отчёта и сценарий Android.
+  Старые APK сохранены, но содержат старые URL и не заменяют эту сборку.
+
+PR #25 остаётся Draft, база и PR #15 не меняются. Последующий docs commit не
+изменяет исходный commit APK. Установка на устройство не выполнялась.
 [Сценарий Android](../../apps/mobile/docs/QADAM_SHELL_ACCEPTANCE.md) обновлён.
 Старый pending при смене API origin не удаляется и не отправляется на новый URL;
 неизвестный результат восстанавливается с командой по прежнему ключу/телу.
