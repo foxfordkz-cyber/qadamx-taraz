@@ -1,6 +1,6 @@
 # Customer POST unknown result — предложение капитану
 
-2026-10-16. **Этап 1 завершён: анализ и конкретное предложение. Frontend-политика ожидает согласования.** Описанные состояния ещё не реализованы, новые regression tests и Android acceptance не выполнены. Production-код, Backend, OpenAPI и generated.ts не изменены.
+2026-10-16. **Этап 1 завершён. Решение пользователя: «Сначала добавить серверную идемпотентность и проверку статуса».** Консервативный frontend с постоянной блокировкой не выбран для реализации. Ниже он сохранён как рассмотренный вариант. Описанные состояния ещё не реализованы, новые regression tests и Android acceptance не выполнены. Production-код, Backend, OpenAPI и generated.ts не изменены.
 
 ## База и границы
 
@@ -38,7 +38,7 @@
 
 Ошибка последующего GET не отменяет подтверждённый успех. Отказ другой попытки не разрешает предыдущий unknown. GET не предоставляет согласованный snapshot страниц. Поиск NFC-нормализует `q`, создание не нормализует строки: сравнение имён также не является надёжной корреляцией.
 
-## Предлагаемый frontend-этап — требуется согласование
+## Рассмотренный frontend-вариант — не выбран для реализации
 
 1. Общий coordinator для форм создания и CustomerPicker, привязанный к session epoch и business. Синхронный lock до первого `await`, неизменяемое тело и исходная точка. Локальный `attemptId` связывает callbacks, в API не отправляется.
 2. `saving`: блокировать submit и редактирование отправленных полей. Закрытие/reopen не теряет попытку. Автоматических повторов POST нет.
@@ -107,8 +107,19 @@ Android Web требует доверенного secure frontend origin, дос
 
 ## Проверки и продолжение
 
-Проверены fetch, remote HEAD и статусы PR; изучены контракт, routes/schemas/модели и frontend lifecycle. Этот этап меняет только два документа. `git diff --check`, staged scope review и все относительные ссылки этих документов — PASS. Read-only проверки OpenAPI (0.6.0, единственный path parameter POST, 201, extra forbidden, лимиты имени/заметки) — PASS. Build/unit/E2E не запускались; новые tests и Android acceptance ещё не выполнены.
+Проверены fetch, remote HEAD и статусы PR; изучены контракт, routes/schemas/модели и frontend lifecycle. Анализ с решением Backend-first меняет только три документа: этот файл, seller handoff и `docs/DECISIONS.md`. `git diff --check`, scope review и все относительные ссылки этих документов — PASS. Read-only проверки OpenAPI (0.6.0, единственный path parameter POST, 201, extra forbidden, лимиты имени/заметки) — PASS на этапе анализа. Build/unit/E2E не запускались; новые tests и Android acceptance ещё не выполнены.
 
 Анализ опубликован commit `4e18743edfc35a6fa7fd078a3d8ddb6b83d0a085`, push успешен, remote/local HEAD совпали. [Отдельный Draft PR #19](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/19), base `integration/local-combined-check`, mergeable=true при проверке. Последующая запись публикации меняет только документацию; итоговый HEAD — `git log -1 --format=%H`.
 
-Далее требуется решение по разделу 6 задания: согласовать frontend с ограничением всех новых созданий точки и невосстановлением полей после reload либо сначала добавить Backend idempotency/recovery. После согласования — frontend/test commits, затем отдельная Android acceptance при наличии устройства и HTTPS origin.
+## Принятое решение и условие продолжения
+
+Пользователь выбрал **Backend-first**. Постоянный frontend lock, localStorage marker, deadline и retry-поведение из рассмотренного варианта не внедрять. Владелец Backend сначала публикует точный commit, OpenAPI и примеры для Customer idempotency/recovery. Это решение не разрешает frontend-агенту менять Backend или придумывать методы.
+
+До начала frontend-интеграции проверить:
+
+1. Область ключа, canonical body, атомарный результат и конфликт другого тела определены в опубликованном контракте.
+2. Lookup/status различает документированные исходы; отсутствие записи не трактуется как доказанный отказ. Поздний запрос и параллельные повторы с тем же ключом не создают второго клиента.
+3. Membership проверяется при create/replay/status, retention не позволяет повторную запись после неизвестного результата. Backend-владелец предоставляет результаты серверных concurrency/replay/rollback tests; они отделяются от frontend mock-тестов.
+4. Согласованы база и точный состав переноса контракта/generated; чужая backend-ветка не объединяется автоматически.
+
+Затем адаптировать состояния и regression matrix к реальному контракту, согласовать recovery UX, выполнить frontend/test commits. Android/HTTPS acceptance остаётся отдельным этапом после customer-согласования и при наличии устройства/secure origin. Пока изменения — только документация; новых серверных или браузерных гарантий нет.
