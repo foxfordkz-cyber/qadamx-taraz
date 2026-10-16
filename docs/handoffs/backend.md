@@ -370,7 +370,7 @@ Flutter уже может использовать актуальные OpenAPI/
 
 Исправлено: поколение Auth при позднем401 A→B→A; UUID next_cursor в Pydantic/OpenAPI и валидируемый CustomerPage example; Unicode длина клиента в bindings/форме; доступный RU/KZ alert ручного ввода при отказе AI. Денежный сервис/правила, router/modules/runtime и новые модели сохранены. Включены готовые меню/адаптивность PR #11. QA-тесты согласованы с API0.5 и подключёнными financial/public-модулями; исправлены ожидание layout, KZ selector, разделены E2E-конфигурации.
 
-**Живой браузер:** A login→6 points→учебный клиент→reload; B login→3 points без данных A; form reset при смене business; sale3000/paid1000→debt2000; repay500→debt1500; history/summary; GLB hotspot→магазин→учебная заявка→inboxA. **Живой Gemini:** один RU-запрос к gemini-3.6-flash, весь UI-цикл draft→проверка полей→нажатие confirm→history прошёл, без платного тарифа/повторов. KZ/audio заново не проверялись; живой429 в этот раз не возникал.
+**Живой браузер:** A login→6 points→учебный клиент→reload; B login→3 points без данных A; form reset при смене business; sale3000/paid1000→debt2000; repay500→debt1500; history/summary; GLB hotspot→магазин→учебная заявка→inboxA. **Живой Gemini:** одна UI-попытка RU-разбора через gemini-3.6-flash, весь UI-цикл draft→проверка полей→нажатие confirm→history прошёл, без платного тарифа/повторов. KZ/audio заново не проверялись; живой429 в этот раз не возникал.
 
 **Живой API отдельно:** точный replay продажи даёт тот же ID; использованный AI draft с новым ключом409 DRAFT_USED; JWT B к customers/operations/summary/inquiries A даёт404; без токена401; CORS разрешает5188, чужой origin отклонён. После финальных Auth/schema-изменений повторены A/B, reload/history/summary и replay. Дельты ручного этапа: sales+300000, receipts+150000, debt+150000; с AI: +600000/+450000/+150000. Общая БД operations8→11, только3 помеченные учебные операции. Созданы один учебный клиент и одна заявка; данные не удалялись.
 
@@ -383,3 +383,7 @@ Flutter уже может использовать актуальные OpenAPI/
 **Ограничения/следующий шаг:** backend — после отдельного разрешения backup→0004_livestock→private bucket/серверный key→живая фото/изоляция/полночь; до этого livestock API общей БД не заявляется рабочим. Frontend — физический телефон, микрофон/аудио, mobile performance; QA-G01 (нет собственного deadline у customer POST) остаётся ограничением. Flutter — ожидается приложение участника и его handoff; использовать LIVESTOCK_API/OpenAPI0.5, int minor, Supabase session, API_BASE_URL для emulator/LAN/adb. Не применять0004 и не менять Storage без следующего разрешения.
 
 Публикация — отдельный Draft из общей ветки в backend/livestock, зависимость #10→#9→#8→main; #11/#12 уже включены с сохранением истории. Не сливать/retarget автоматически. Старые role/QA отчёты описывают свои snapshots; текущие результаты — здесь.
+
+### Публикация общей приёмки
+
+Создан **[open Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13)**, head `integration/local-combined-check`, base `backend/livestock`. Проверенный код `c5ecd5e5abb579e75121c9e05541b9b8d14a0591`; `17ee90f` и текущая запись добавляют только отчёт/публичные снимки/ссылку. Ветка опубликована без force push. Существующие PR и их базы не менялись, merge/deploy не выполнялись. [Инструкция и результаты](../COMBINED_ACCEPTANCE.md).
