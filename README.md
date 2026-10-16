@@ -1,5 +1,9 @@
 # Qadam Business
 
+**Текущая общая среда:** API **0.6.2**, код **4e983b4**, Supabase **0006_customer_requests**. [Rollout, адреса и новая живая приёмка](docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Voice frontend7f511dd и оба туннеля сохранены, команда может продолжать работу. Recovery UI подключает Бекзат. Ниже — история подготовки: старые URL и ожидания rollout больше не являются текущими указаниями.
+
+## История подготовки и интеграции
+
 **PR22 готовится к согласованию rollout, не развёрнут:** [review и фактический backup/restore0006](docs/CUSTOMER_RECOVERY_ROLLOUT.md). Работающие API0.6.1, voice preview и туннели сохранены; актуальные адреса — в [опубликованной инструкции восстановления](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/0737439/docs/VOICE_HTTPS_RESTORED.md). Сведения о прежних адресах ниже относятся к прошлым запускам.
 
 **Ветка customer recovery (API 0.6.2):** [контракт и JSON](packages/contracts/CUSTOMER_RECOVERY_API.md), [локальный запуск и обязательная0006](apps/api/README.md). Основа — PR18/1324885. Работающие HTTPS preview/API остаются на прежних сборках, API0.6.1/Supabase0005; новый recovery ещё не включён в общей среде. Сохранены Analytics, market/minimum и старые POST customers.

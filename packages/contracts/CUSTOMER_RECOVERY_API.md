@@ -1,6 +1,6 @@
 # Создание клиента: идемпотентность и восстановление результата
 
-Точный контракт backend для решения PR19/99ed2c0. Документ и [JSON-примеры](customer-recovery-examples.json) опубликованы первыми в **737a559**, до реализации. Сервер, [OpenAPI](openapi.json) и generated.ts реализованы в ветке `backend/customer-post-recovery` от общей интеграции PR18/**1324885**. Версия ветки **0.6.2**; работающий HTTPS пока **0.6.1**, новые методы на нём ещё недоступны. Переключение общей среды — отдельный шаг после review и миграции.
+Точный контракт backend для решения PR19/99ed2c0. Документ и [JSON-примеры](customer-recovery-examples.json) опубликованы первыми в **737a559**, до реализации. Сервер, [OpenAPI](openapi.json) и generated.ts реализованы в ветке `backend/customer-post-recovery` от общей интеграции PR18/**1324885**. **Работающий HTTPS теперь API0.6.2 / код4e983b4; общая0006 применена после разрешённого окна и свежего backup/restore.** [Адрес и живая приёмка](../../docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Backend готов к подключению frontend recovery; наличие frontend coordinator этим не заявляется.
 
 ## POST: совместимое расширение
 

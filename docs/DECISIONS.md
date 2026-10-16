@@ -120,3 +120,8 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16 — безопасный откат customer recovery
 
 Review выявил границу совместимости: прежний API0.6.1 читает схему0006, но игнорирует Idempotency-Key customer POST. После включения recovery простой возврат к старому процессу допускает дубль при позднем повторе. Подготовлен отдельный rollback entrypoint legacy_customer_guard.py: сохранить0006/receipts, временно закрыть все customer POST и recovery lookup ответом503 CUSTOMER_RECOVERY_PAUSED; прочие маршруты передать прежнему API. Frontend сохраняет unknown и исходный ключ, не делает fallback на keyless POST. Обычный API0.6.2 сохраняет legacy POST без ключа. Ни downgrade, ни restore старого backup поверх новых записей не являются штатным откатом. [Проверенный план и ограничения backup](CUSTOMER_RECOVERY_ROLLOUT.md). Применение общей0006 и перезапуск ждут отдельного разрешения/окна; работающая voice-среда не меняется.
+
+
+## 2026-10-16 — разрешённый rollout customer recovery выполнен
+
+Капитан открыл окно. После нового backup/restore применена0006 и запущен ровно4e983b4/API0.6.2. Frontend и оба туннеля сохранены. Gemini остаётся текущим провайдером, fallback false; наличие OpenAI-кода не включает платные расходы. Внешняя HTTP/браузерная приёмка PASS; frontend recovery подключает Бекзат. [Отчёт](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Откат только с сохранением0006/receipts и guard customer writes; raw0.6.1/downgrade/старый restore поверх новых записей запрещены. Main/ветки команды/постоянный deploy не менялись.
