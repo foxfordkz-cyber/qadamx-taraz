@@ -12,14 +12,18 @@ from app.analytics_schemas import AnalyticsResponse
 from app.auth import current_user
 from app.db import session_for_request
 from app.errors import APIError
-from app.models import Business, Customer, Membership
-from app.services import analytics, ledger
+from app.models import Business, Membership
+from app.services import analytics, customers, ledger
 
 router = APIRouter(prefix="/api/v1")
 DB = Annotated[Session, Depends(session_for_request)]
 User = Annotated[UUID, Depends(current_user)]
 Key = Annotated[
     str, Header(alias="Idempotency-Key", min_length=1, max_length=200, pattern=r"^[!-~]+$")
+]
+OptionalKey = Annotated[
+    str | None,
+    Header(alias="Idempotency-Key", min_length=1, max_length=200, pattern=r"^[!-~]+$"),
 ]
 Limit = Annotated[int, Query(ge=1, le=100)]
 
@@ -59,17 +63,29 @@ def get_customers(
     response_model=schemas.CustomerResponse,
     status_code=201,
     tags=["customers"],
+    description="Optional Idempotency-Key scopes a durable creation to this user and business. "
+    "Replay returns the original 201 snapshot; changed validated body returns 409. "
+    "Without the key, each request creates a new customer (legacy behavior).",
 )
-def create_customer(id: UUID, payload: schemas.CustomerCreate, db: DB, user: User):
+def create_customer(
+    id: UUID, payload: schemas.CustomerCreate, db: DB, user: User, key: OptionalKey = None
+):
     ledger.require_membership(db, id, user)
-    row = Customer(business_id=id, **payload.model_dump())
-    db.add(row)
-    db.flush()
-    result = schemas.CustomerResponse(
-        id=row.id, business_id=id, balance_minor=0, **payload.model_dump()
-    )
+    result = customers.create(db, id, user, payload, key)
     db.commit()
     return result
+
+
+@router.get(
+    "/businesses/{id}/customer-creation-result",
+    response_model=schemas.CustomerCreationResult,
+    tags=["customers"],
+    description="Recover this user's committed customer creation using Idempotency-Key. "
+    "not_observed does not rule out an in-flight or delayed request. No automatic expiry.",
+)
+def get_customer_creation_result(id: UUID, db: DB, user: User, key: Key):
+    ledger.require_membership(db, id, user)
+    return customers.result(db, id, user, key)
 
 
 @router.post(

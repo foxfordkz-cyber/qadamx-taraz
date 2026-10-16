@@ -1,0 +1,29 @@
+{
+  "note": "Synthetic contract examples, published before implementation. Live HTTPS remains API 0.6.1 until a separately reviewed rollout.",
+  "idempotency_key": "4da71e28-16e2-4809-a7aa-870c79249af1",
+  "create": {"display_name": "Демо Асқар", "note": "Вымышленный покупатель", "contact": null},
+  "created_or_replayed": {
+    "id": "60000000-0000-4000-8000-000000000001",
+    "business_id": "10000000-0000-4000-8000-000000000001",
+    "display_name": "Демо Асқар",
+    "note": "Вымышленный покупатель",
+    "contact": null,
+    "balance_minor": 0
+  },
+  "completed": {
+    "status": "completed",
+    "customer": {
+      "id": "60000000-0000-4000-8000-000000000001",
+      "business_id": "10000000-0000-4000-8000-000000000001",
+      "display_name": "Демо Асқар",
+      "note": "Вымышленный покупатель",
+      "contact": null,
+      "balance_minor": 0
+    }
+  },
+  "not_observed": {"status": "not_observed", "customer": null},
+  "conflict": {
+    "error": {"code": "IDEMPOTENCY_CONFLICT", "message": "Key was used for another customer request", "fields": {}},
+    "request_id": "70000000-0000-4000-8000-000000000001"
+  }
+}
