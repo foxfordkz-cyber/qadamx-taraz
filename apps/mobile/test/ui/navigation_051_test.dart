@@ -114,7 +114,14 @@ void main() {
         await settle(tester);
         await tester.tap(find.byKey(const Key('nav-home')));
         await settle(tester);
-        expect(find.text('Тараз базарынан\nдүкен табыңыз'), findsOneWidget);
+        expect(
+          find.text(
+            scale > 1.3
+                ? 'Тараздағы\nдүкендер'
+                : 'Тараз базарынан\nдүкен табыңыз',
+          ),
+          findsOneWidget,
+        );
         expect(tester.takeException(), isNull);
         await tester.pumpWidget(const SizedBox());
         f.dispose();

@@ -70,25 +70,35 @@ class QadamWelcome extends StatelessWidget {
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Text(
-          '●  QADAM MARKET · TARAZ',
-          style: TextStyle(
-            color: QadamTheme.lime,
-            fontSize: 11,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 1.2,
-          ),
+        const Row(
+          children: [
+            Icon(Icons.circle, size: 6, color: QadamTheme.lime),
+            SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                'QADAM MARKET · TARAZ',
+                style: TextStyle(
+                  color: QadamTheme.lime,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ),
+          ],
         ),
         const SizedBox(height: 16),
         Text(
-          tr(
-            kk,
-            'Найдите магазин\nна рынке Тараза',
-            'Тараз базарынан\nдүкен табыңыз',
-          ),
+          MediaQuery.textScalerOf(context).scale(14) > 20
+              ? tr(kk, 'Магазины\nТараза', 'Тараздағы\nдүкендер')
+              : tr(
+                  kk,
+                  'Найдите магазин\nна рынке Тараза',
+                  'Тараз базарынан\nдүкен табыңыз',
+                ),
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
             color: QadamTheme.surface,
-            fontSize: 30,
+            fontSize: MediaQuery.textScalerOf(context).scale(14) > 20 ? 22 : 30,
           ),
         ),
         const SizedBox(height: 12),

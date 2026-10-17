@@ -215,8 +215,19 @@ void main() {
       }
       await tester.tap(find.byKey(const Key('nav-public')));
       await settle(tester, f);
-      await tester.ensureVisible(find.byKey(const Key('nav-market')));
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await tester.scrollUntilVisible(
+        find.text('Мал базар'),
+        140,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).first,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
+      await tester.ensureVisible(find.text('Мал базар'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Мал базар'));
       await settle(tester, f);
     }
     if (screen == _Screen.shop) {
