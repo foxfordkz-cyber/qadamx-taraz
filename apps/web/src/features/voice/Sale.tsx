@@ -8,8 +8,8 @@ import {
   Button,
   Card,
   Dialog,
-  ErrorMessage,
   ErrorState,
+  errorKey,
   Input,
   PageHeader,
   Select,
@@ -23,7 +23,9 @@ import {
   type Draft,
   type Sale as OpenSale,
 } from "../ledger/data";
-import { useLedgerText } from "../ledger/i18n";
+import { saleDate, useLedgerText } from "../ledger/i18n";
+import { TechDetails } from "../ledger/TechDetails";
+import { useI18n } from "../../shared/i18n";
 import { Stats } from "../summary/Summary";
 import { AudioInput } from "./AudioInput";
 import { AudioPreview } from "./AudioPreview";
@@ -39,12 +41,14 @@ export function Sale() {
   return <SaleForm key={`${scope}:${business.id}`} />;
 }
 function SaleForm() {
-  const textLabelId = useId();
+  const textLabelId = useId(),
+    reviewId = useId();
   const { api, gateway } = useRuntime(),
     { business } = useBusiness(),
     { l, locale } = useLedgerText(),
     [params] = useSearchParams(),
-    { v } = useVoiceText();
+    { v } = useVoiceText(),
+    { t } = useI18n();
   const [capturing, setCapturing] = useState(false),
     [parseNotice, setParseNotice] = useState<"cancelled" | "timeout" | null>(
       null,
@@ -69,7 +73,8 @@ function SaleForm() {
     [parsing, setParsing] = useState(false),
     [parseError, setParseError] = useState<unknown>(null),
     [saved, setSaved] = useState(false),
-    [invalid, setInvalid] = useState(false);
+    [invalid, setInvalid] = useState(false),
+    [manual, setManual] = useState(!!params.get("sale"));
   const parseLock = useRef(false),
     write = useWrite(),
     sales = useLedgerList<OpenSale>("outstanding_only=true");
@@ -162,6 +167,7 @@ function SaleForm() {
       setAmount(d.amount_minor === null ? "" : String(d.amount_minor / 100));
       setCustomer(null);
       setSaleId("");
+      showReview();
     } catch (e) {
       if (activeParse.current === request) setParseError(e);
     } finally {
@@ -236,6 +242,58 @@ function SaleForm() {
     );
     if (ok) setSaved(true);
   }
+  // The stacked layout keeps the form below the AI card: bring it into view.
+  function showReview() {
+    if (window.matchMedia?.("(max-width: 1100px)").matches)
+      document
+        .getElementById(reviewId)
+        ?.scrollIntoView?.({ behavior: "smooth", block: "start" });
+  }
+  function chooseManual() {
+    setManual(true);
+    setDraft(null);
+    setNeedsAnalysis(false);
+    setClarification("");
+    setParseError(null);
+    setParseNotice(null);
+    showReview();
+  }
+  const formError =
+    kind === "sale" &&
+    totalMinor !== null &&
+    paidMinor !== null &&
+    paidMinor > totalMinor
+      ? v("overpayment")
+      : invalid && !valid
+        ? l("required")
+        : null;
+  // Steps are derived from what the seller has done; they never gate the form.
+  const hasSource = !!file || !!text.trim(),
+    anyManual = !!(
+      total ||
+      paid ||
+      amount ||
+      description.trim() ||
+      customer ||
+      saleId
+    );
+  const stage =
+    !draft && !manual && (hasSource || !anyManual)
+      ? "input"
+      : valid && !needsAnalysis
+        ? "confirm"
+        : "review";
+  const primary = parseError
+    ? "retry"
+    : stage === "input"
+      ? "prepare"
+      : "confirm";
+  const steps = ["input", "review", "confirm"] as const;
+  const stepLabel = {
+    input: l("stepInput"),
+    review: l("stepReview"),
+    confirm: l("stepConfirm"),
+  };
   return (
     <>
       <PageHeader title={l("sale")} />
@@ -260,263 +318,325 @@ function SaleForm() {
               setClarification("");
               setNeedsAnalysis(false);
               setTextInvalid(false);
+              setManual(false);
             }}
           >
             {l("again")}
           </Button>
         </Card>
       ) : (
-        <div className="ledger-columns">
-          <Card>
-            <h2>AI</h2>
-            <p>{l("hint")}</p>
-            <p>{v("sequence")}</p>
-            <fieldset disabled={disabled}>
-              <Select
-                label={v("language")}
-                value={inputLocale ?? locale}
-                disabled={capturing}
-                onChange={(e) =>
-                  setInputLocale(e.target.value as "ru" | "kk" | "auto")
-                }
+        <>
+          <ol className="sale-steps" aria-label={l("steps")}>
+            {steps.map((step, i) => (
+              <li
+                key={step}
+                aria-current={stage === step ? "step" : undefined}
+                className={i < steps.indexOf(stage) ? "is-done" : undefined}
               >
-                <option value="auto">{v("autoLanguage")}</option>
-                <option value="ru">Русский</option>
-                <option value="kk">Қазақша</option>
-              </Select>
-              <label className="field">
-                <span id={textLabelId}>{l("text")}</span>
-                <textarea
-                  aria-labelledby={textLabelId}
-                  maxLength={MAX_AI_TEXT * 2}
-                  disabled={capturing}
-                  value={text}
-                  onChange={(e) => {
-                    sourceChanged();
-                    setText(e.target.value);
-                    setFile(null);
-                  }}
-                />
-              </label>
-              <AudioInput
-                disabled={disabled}
-                onBusyChange={setCapturing}
-                onReset={() => {
-                  sourceChanged();
-                  setFile(null);
-                }}
-                onFile={(f) => {
-                  sourceChanged();
-                  setFile(f);
-                }}
-              />
-              {file && (
-                <AudioPreview
-                  file={file}
-                  disabled={disabled || capturing}
-                  onDelete={() => {
-                    sourceChanged();
-                    setFile(null);
-                  }}
-                />
-              )}
-              <Button
-                onClick={() => void parse()}
-                disabled={disabled || capturing || (!file && !text.trim())}
-              >
-                {l("prepare")}
-              </Button>
-            </fieldset>
-            {textInvalid && <p role="alert">{v("textLimit")}</p>}
-            {parsing && (
-              <div className="voice-actions">
-                <p role="status">{v("analysing")}</p>
-                <Button variant="secondary" onClick={cancelAnalysis}>
-                  {v("cancelAnalysis")}
-                </Button>
-              </div>
-            )}
-            {parseNotice && <p role="status">{v(parseNotice)}</p>}
-            {!!parseError && (
-              <div role="alert">
-                <p>{l("aiUnavailable")}</p>
-                <AnalysisError error={parseError} />
-                <Button
-                  variant="secondary"
-                  disabled={disabled || capturing || (!file && !text.trim())}
-                  onClick={() => void parse()}
-                >
-                  {v("retryAnalysis")}
-                </Button>
-              </div>
-            )}
-            <Button
-              variant="secondary"
-              disabled={disabled || capturing}
-              onClick={() => {
-                setDraft(null);
-                setNeedsAnalysis(false);
-                setClarification("");
-              }}
-            >
-              {l("manual")}
-            </Button>
-          </Card>
-          <Card>
-            <h2>{l("review")}</h2>
-            {write.pending ? (
-              <>
-                <p role="alert">{l("unknown")}</p>
-                <Button disabled={write.busy} onClick={() => void save()}>
-                  {l("retry")}
-                </Button>
-              </>
-            ) : (
-              <>
-                {draft && (
-                  <div>
-                    <p>{draft.transcript}</p>
-                    {draft.questions.map((q, i) => (
-                      <p key={i}>{q}</p>
-                    ))}
-                    <small>
-                      {l("expiry")}:{" "}
-                      {new Date(draft.expires_at).toLocaleTimeString(locale)}
-                    </small>
-                    <details>
-                      <summary>{v("clarifyTitle")}</summary>
-                      <p>{v("clarificationHint")}</p>
-                      <Input
-                        label={v("clarification")}
-                        value={clarification}
-                        maxLength={2000}
-                        disabled={disabled || capturing}
-                        onChange={(e) => {
-                          setClarification(e.target.value);
-                          setNeedsAnalysis(true);
-                          setTextInvalid(false);
-                        }}
-                      />
-                      <Button
-                        variant="secondary"
-                        disabled={
-                          disabled || capturing || !clarification.trim()
-                        }
-                        onClick={clarify}
-                      >
-                        {v("clarify")}
-                      </Button>
-                    </details>
-                  </div>
-                )}
-                {needsAnalysis && <p role="status">{v("changed")}</p>}
-                <fieldset disabled={disabled} className="form-stack">
-                  <Select
-                    label={l("kind")}
-                    value={kind}
-                    onChange={(e) => setKind(e.target.value)}
-                  >
-                    <option value="">—</option>
-                    <option value="sale">{l("sell")}</option>
-                    <option value="repayment">{l("repay")}</option>
-                  </Select>
-                  <Input
-                    label={l("description")}
-                    maxLength={1000}
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                <span aria-hidden="true">{i + 1}</span>
+                {stepLabel[step]}
+              </li>
+            ))}
+          </ol>
+          <div
+            className={`ledger-columns${params.get("sale") ? " ledger-review-first" : ""}`}
+          >
+            <Card>
+              <h2>{l("aiTitle")}</h2>
+              <fieldset disabled={disabled} className="ledger-stack">
+                <label className="field">
+                  <span id={textLabelId}>{l("text")}</span>
+                  <textarea
+                    aria-labelledby={textLabelId}
+                    maxLength={MAX_AI_TEXT * 2}
+                    disabled={capturing}
+                    value={text}
+                    onChange={(e) => {
+                      sourceChanged();
+                      setText(e.target.value);
+                      setFile(null);
+                    }}
                   />
-                  {kind === "sale" ? (
-                    <>
-                      <Input
-                        inputMode="decimal"
-                        label={l("total")}
-                        value={total}
-                        onChange={(e) => setTotal(e.target.value)}
-                      />
-                      <Input
-                        inputMode="decimal"
-                        label={l("paid")}
-                        value={paid}
-                        onChange={(e) => setPaid(e.target.value)}
-                      />
-                      <p>
-                        {l("customer")}: {customer?.display_name ?? "—"}
-                      </p>
-                      <Button
-                        variant="secondary"
-                        onClick={() => setPicker(true)}
-                      >
-                        {l("choose")}
-                      </Button>
-                      {totalMinor !== null &&
-                        paidMinor !== null &&
-                        paidMinor <= totalMinor && (
-                          <p>
-                            {v("remaining")}:{" "}
-                            <strong>
-                              {formatKZT(totalMinor - paidMinor, locale)}
-                            </strong>
-                          </p>
-                        )}
-                      {totalMinor !== null &&
-                        paidMinor !== null &&
-                        paidMinor < totalMinor &&
-                        !customer && <p>{v("customerNeeded")}</p>}
-                      {totalMinor !== null &&
-                        paidMinor !== null &&
-                        paidMinor > totalMinor && (
-                          <p role="alert">{v("overpayment")}</p>
-                        )}
-                    </>
-                  ) : kind === "repayment" ? (
-                    <>
-                      <Select
-                        label={l("open")}
-                        value={saleId}
-                        onChange={(e) => setSaleId(e.target.value)}
-                      >
-                        <option value="">—</option>
-                        {rows.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.description} ·{" "}
-                            {formatKZT(s.balance_minor, locale)} ·{" "}
-                            {s.id.slice(0, 8)}
-                          </option>
-                        ))}
-                      </Select>
-                      {sales.isError && (
-                        <ErrorState
-                          error={sales.error}
-                          retry={() => void sales.refetch()}
-                        />
-                      )}{" "}
-                      {sales.hasNextPage && (
-                        <Button onClick={() => void sales.fetchNextPage()}>
-                          {l("more")}
-                        </Button>
-                      )}
-                      <Input
-                        inputMode="decimal"
-                        label={l("amount")}
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
-                      />
-                    </>
-                  ) : null}
-                  <Button
-                    onClick={() => void save()}
-                    disabled={disabled || capturing || needsAnalysis}
-                  >
-                    {l("confirm")}
+                </label>
+                <div className="sale-audio">
+                  <AudioInput
+                    disabled={disabled}
+                    onBusyChange={setCapturing}
+                    onReset={() => {
+                      sourceChanged();
+                      setFile(null);
+                    }}
+                    onFile={(f) => {
+                      sourceChanged();
+                      setFile(f);
+                    }}
+                  />
+                  {file && (
+                    <AudioPreview
+                      file={file}
+                      disabled={disabled || capturing}
+                      onDelete={() => {
+                        sourceChanged();
+                        setFile(null);
+                      }}
+                    />
+                  )}
+                  <p className="ledger-hint">{v("sequence")}</p>
+                </div>
+                <Select
+                  label={v("language")}
+                  value={inputLocale ?? locale}
+                  disabled={capturing}
+                  onChange={(e) =>
+                    setInputLocale(e.target.value as "ru" | "kk" | "auto")
+                  }
+                >
+                  <option value="auto">{v("autoLanguage")}</option>
+                  <option value="ru">Русский</option>
+                  <option value="kk">Қазақша</option>
+                </Select>
+                <Button
+                  variant={primary === "prepare" ? "primary" : "secondary"}
+                  onClick={() => void parse()}
+                  disabled={disabled || capturing || (!file && !text.trim())}
+                >
+                  {l("prepare")}
+                </Button>
+              </fieldset>
+              {textInvalid && (
+                <p className="ledger-error" role="alert">
+                  {v("textLimit")}
+                </p>
+              )}
+              {parsing && (
+                <div className="voice-actions">
+                  <p role="status">{v("analysing")}</p>
+                  <Button variant="secondary" onClick={cancelAnalysis}>
+                    {v("cancelAnalysis")}
                   </Button>
-                  {invalid && !valid && <p role="alert">{l("required")}</p>}
-                </fieldset>
-              </>
-            )}
-            {!!write.error && <ErrorMessage error={write.error} />}
-          </Card>
-        </div>
+                </div>
+              )}
+              {parseNotice && !parseError && (
+                <p role="status">{v(parseNotice)}</p>
+              )}
+              {parseError ? (
+                <div className="alert alert-error ledger-alert" role="alert">
+                  <AnalysisError
+                    error={parseError}
+                    fallback={l("aiUnavailable")}
+                  />
+                  <div className="actions">
+                    <Button
+                      disabled={
+                        disabled || capturing || (!file && !text.trim())
+                      }
+                      onClick={() => void parse()}
+                    >
+                      {v("retryAnalysis")}
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      disabled={disabled || capturing}
+                      onClick={chooseManual}
+                    >
+                      {l("manual")}
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <Button
+                  variant="ghost"
+                  disabled={disabled || capturing}
+                  onClick={chooseManual}
+                >
+                  {l("manual")}
+                </Button>
+              )}
+            </Card>
+            <Card id={reviewId} className="ledger-review">
+              <h2>{l("review")}</h2>
+              <p className="ledger-hint">{l("hint")}</p>
+              {write.pending ? (
+                <div className="alert alert-error ledger-alert" role="alert">
+                  <p>{l("unknown")}</p>
+                  <Button disabled={write.busy} onClick={() => void save()}>
+                    {l("retry")}
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  {draft && (
+                    <div className="ledger-draft">
+                      <blockquote>{draft.transcript}</blockquote>
+                      {draft.questions.length > 0 && (
+                        <ul>
+                          {draft.questions.map((q, i) => (
+                            <li key={i}>{q}</li>
+                          ))}
+                        </ul>
+                      )}
+                      <small>
+                        {l("expiry")}:{" "}
+                        {new Date(draft.expires_at).toLocaleTimeString(locale)}
+                      </small>
+                      <details>
+                        <summary>{v("clarifyTitle")}</summary>
+                        <p>{v("clarificationHint")}</p>
+                        <Input
+                          label={v("clarification")}
+                          value={clarification}
+                          maxLength={2000}
+                          disabled={disabled || capturing}
+                          onChange={(e) => {
+                            setClarification(e.target.value);
+                            setNeedsAnalysis(true);
+                            setTextInvalid(false);
+                          }}
+                        />
+                        <Button
+                          variant="secondary"
+                          disabled={
+                            disabled || capturing || !clarification.trim()
+                          }
+                          onClick={clarify}
+                        >
+                          {v("clarify")}
+                        </Button>
+                      </details>
+                    </div>
+                  )}
+                  {needsAnalysis && !parseError && (
+                    <p className="ledger-hint" role="status">
+                      {v("changed")}
+                    </p>
+                  )}
+                  <fieldset disabled={disabled} className="ledger-stack">
+                    <Select
+                      label={l("kind")}
+                      value={kind}
+                      onChange={(e) => setKind(e.target.value)}
+                    >
+                      <option value="">—</option>
+                      <option value="sale">{l("sell")}</option>
+                      <option value="repayment">{l("repay")}</option>
+                    </Select>
+                    <Input
+                      label={l("description")}
+                      maxLength={1000}
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                    />
+                    {kind === "sale" ? (
+                      <>
+                        <div className="ledger-pair">
+                          <Input
+                            inputMode="decimal"
+                            label={l("total")}
+                            value={total}
+                            onChange={(e) => setTotal(e.target.value)}
+                          />
+                          <Input
+                            inputMode="decimal"
+                            label={l("paid")}
+                            value={paid}
+                            onChange={(e) => setPaid(e.target.value)}
+                          />
+                        </div>
+                        <div className="field">
+                          <span>{l("customer")}</span>
+                          <div className="ledger-customer">
+                            <strong>{customer?.display_name ?? "—"}</strong>
+                            <Button
+                              variant="secondary"
+                              onClick={() => setPicker(true)}
+                            >
+                              {l("choose")}
+                            </Button>
+                          </div>
+                          {totalMinor !== null &&
+                            paidMinor !== null &&
+                            paidMinor < totalMinor &&
+                            !customer && <small>{v("customerNeeded")}</small>}
+                        </div>
+                        {totalMinor !== null &&
+                          paidMinor !== null &&
+                          paidMinor <= totalMinor && (
+                            <p className="ledger-remaining">
+                              {v("remaining")}:{" "}
+                              <strong>
+                                {formatKZT(totalMinor - paidMinor, locale)}
+                              </strong>
+                            </p>
+                          )}
+                      </>
+                    ) : kind === "repayment" ? (
+                      <>
+                        <Select
+                          label={l("open")}
+                          value={saleId}
+                          onChange={(e) => setSaleId(e.target.value)}
+                        >
+                          <option value="">—</option>
+                          {rows.map((s) => (
+                            <option key={s.id} value={s.id}>
+                              {`${s.description} · ${formatKZT(s.balance_minor, locale)} · ${saleDate(s.created_at)}`}
+                            </option>
+                          ))}
+                        </Select>
+                        {sales.isError && (
+                          <ErrorState
+                            error={sales.error}
+                            retry={() => void sales.refetch()}
+                          />
+                        )}
+                        {sales.hasNextPage && (
+                          <Button
+                            variant="secondary"
+                            onClick={() => void sales.fetchNextPage()}
+                          >
+                            {l("more")}
+                          </Button>
+                        )}
+                        <Input
+                          inputMode="decimal"
+                          label={l("amount")}
+                          value={amount}
+                          hint={
+                            balance === undefined
+                              ? undefined
+                              : `${l("left")}: ${formatKZT(balance, locale)}`
+                          }
+                          onChange={(e) => setAmount(e.target.value)}
+                        />
+                      </>
+                    ) : null}
+                    {formError && (
+                      <p className="ledger-error" role="alert">
+                        {formError}
+                      </p>
+                    )}
+                    {!!write.error && (
+                      <div
+                        className="alert alert-error ledger-alert"
+                        role="alert"
+                      >
+                        <p>{t(errorKey(write.error))}</p>
+                        <TechDetails error={write.error} />
+                      </div>
+                    )}
+                    <Button
+                      variant={primary === "confirm" ? "primary" : "secondary"}
+                      onClick={() => void save()}
+                      disabled={disabled || capturing || needsAnalysis}
+                    >
+                      {l("confirm")}
+                    </Button>
+                  </fieldset>
+                </>
+              )}
+            </Card>
+          </div>
+        </>
       )}
       <Dialog
         title={l("choose")}

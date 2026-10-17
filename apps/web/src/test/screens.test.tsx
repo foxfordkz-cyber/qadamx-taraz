@@ -325,9 +325,7 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
     await userEvent.click(
       within(dialog).getByRole("button", { name: "Создать клиента" }),
     );
-    expect(
-      await screen.findByText("Выбран: Test created · test-created-customer"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Выбран: Test created")).toBeInTheDocument();
     expect(createCustomer).toHaveBeenCalledTimes(1);
   });
   it("updates inquiry display only after the mutation resolves", async () => {

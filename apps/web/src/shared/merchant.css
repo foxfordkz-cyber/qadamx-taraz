@@ -1519,7 +1519,7 @@ dialog::backdrop {
   overflow-wrap: anywhere;
 }
 .app-shell .ledger-stats .card {
-  padding: 20px;
+  padding: var(--qadam-space-3) var(--qadam-space-4);
 }
 .app-shell .ledger-stats p {
   color: var(--qadam-muted);
