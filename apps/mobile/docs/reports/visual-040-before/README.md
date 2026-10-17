@@ -26,7 +26,7 @@
 ## Воспроизведение
 
 1. Экспортировать `git archive 62cc9a552ee468ab6c3c29b1e3dafbf72e85ebcb apps/mobile` в отдельную временную папку. Для побайтового сравнения учитывать автоматическую CRLF-конверсию Git archive на Windows.
-2. Скопировать оба файла [harness](harness) в `apps/mobile/test/visual` этой временной копии. Production-исходники, pubspec и тему не менять. Harness добавляет fallback только к теме тестового host.
+2. Скопировать оба файла `*.dart.txt` из [harness](harness) в `apps/mobile/test/visual` этой временной копии, убрав только конечное `.txt` из имён (получатся `mobile_gallery_test.dart` и `visual_fixture.dart`). Архивное расширение исключает их из анализа текущего приложения. Production-исходники, pubspec и тему не менять. Harness добавляет fallback только к теме тестового host.
 3. Flutter3.47.7/Dart3.13.5: из `apps/mobile` запустить команду ниже, заменив путь к SDK. Все HTTP-ответы — MockClient; тестовый транспорт запрещает методы кроме GET.
 
 ```text

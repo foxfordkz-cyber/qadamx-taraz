@@ -117,10 +117,11 @@
     "Android symbol fallback is emulated only in the test host; actual device font rasterization can differ"
   ],
   "harness_sha256": {
-    "mobile_gallery_test.dart": "bb65778e0f70ca212a95e407f363ceb52cb3b85fb658ed958f96a9ad6c8fc793",
-    "visual_fixture.dart": "1320f66298bc1fad6b509c2a2b5a2a3209068379e42bafaac73b033edb675b6a"
+    "mobile_gallery_test.dart.txt": "5b60a51bf97ac687a9930c7a531313c709129c7d0820414bb303a7559c0b0bb2",
+    "visual_fixture.dart.txt": "be3b77fbb4f89cc10ca679e9ec3eac11e14649746e1695678e0ad4bf4b3ef41d"
   },
   "host_theme_adjustment": "Only test-host textTheme font family/fallback set to Roboto + BaselineSystemSymbols; all original theme colors, typography sizes, weights and production sources unchanged",
   "symbol_font_sha256": "eeaf5f9c8c16e584de34a89ee4469ff3e6c38dfa6dc62c8d72285e50f126245c",
-  "symbol_font_license": "SIL OFL, existing apps/mobile/assets/fonts/NotoSans-OFL.txt"
+  "symbol_font_license": "SIL OFL, existing apps/mobile/assets/fonts/NotoSans-OFL.txt",
+  "harness_hash_normalization": "LF text, matching Git canonical blob content; remove final .txt extension when restoring test files"
 }
