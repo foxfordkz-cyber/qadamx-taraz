@@ -48,8 +48,14 @@ deployment, service restart or Supabase settings changes.
 
 Verified code **44aaed4fd01284b1115ce8cbb680686260931746** was pushed to the own
 branch and local/remote HEAD matched. All requested local gates are complete;
-later commits only record verification/publication. Next: publish the separate
-Draft to deploy-062, captain review and separate callback/live acceptance approval.
+later commits only record verification/publication. Published
+[Draft PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43), base
+`deploy-062`, head `integration/seller-registration-deploy-review`. Acceptance
+report commit **8c940f3ea32b1324c7b8daf07ff45a4f1e8d8fdb** was pushed, local/remote
+matched, fetch and own pull --ff-only succeeded. This following docs-only commit
+records the PR link. Callback/test-environment questions are addressed to the
+captain/backend in the PR; no answer is assumed. Next: captain review and separate
+callback/live acceptance approval. PR #31/#42 remain unchanged. No merge occurred.
 Current exact SHA: `git log -1 --format=%H`; do not merge/deploy from these instructions.
 
 ---

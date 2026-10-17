@@ -7,6 +7,12 @@ Selected source: PR #31 `6f808677c067cc00fb6b6b9eb26384f68c3d1e38`.
 No branch merge, Recovery PR #42 import, modification of PR #31, production
 deployment, Supabase configuration or backend change.
 
+Published [Draft PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43)
+to deploy-062. Code `44aaed4fd01284b1115ce8cbb680686260931746` and verification
+report `8c940f3ea32b1324c7b8daf07ff45a4f1e8d8fdb` were pushed with matching remote
+HEAD. The following documentation-only commit records this URL; current exact
+HEAD is `git log -1 --format=%H`. Questions for backend/captain are in the PR.
+
 ## Selected integration
 
 Reviewed and copied only these 12 Registration source/test files, not the old
