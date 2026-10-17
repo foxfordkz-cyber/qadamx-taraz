@@ -31,6 +31,8 @@
 		<string>ru</string>
 		<string>kk</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Запишите описание продажи для черновика. Аудио отправляется на анализ только по отдельному нажатию.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Сделайте фото животного для объявления. Фото публикуется только после вашего подтверждения.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

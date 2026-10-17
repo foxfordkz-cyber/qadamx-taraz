@@ -1,4 +1,284 @@
+# 17 октября 2026 — Qadam 0.5.0+9, визуальная передача
+
+[Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60), ветка `feature/mobile-native-parity`.
+**Source APK: `7b3a8bad757b13e0dc37d35d703e6a53cd4d9940`.**
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.0-visual.1/qadam-0.5.0-7b3a8ba-internal.apk) — **28335925 bytes (27.02 MiB)**, versionCode9.
+SHA256: `14f3f145ba68202611b7d0745bef8297a023fe7d23ec8bd5697688f3d9e3eccf`.
+GitHub подтвердил полный размер и совпадающий digest. Контрольное скачивание
+здесь прервалось по сетевому timeout; полный redownload не объявляется проверенным.
+Package `kz.qadam.qadam_mobile`, Android24+, прежняя внутренняя подпись.
+Flutter3.47.7 / Dart3.13.5.
+
+API: `https://qadamx-taraz.onrender.com/api/v1`.
+Frontend: `https://qadamx-taraz.vercel.app`.
+Прежний Supabase URL/publishable key; паролей и серверных ключей в сборке нет.
+
+Продолжены существующие CRM/публичные экраны: web-токены, локальные RU/KZ шрифты,
+компактные площадки/магазин/заявка, один блок3D/poster, маркеры26px в зоне48px,
+KPI главной и графики аналитики. Данные/деньги/pending и Мал базар сохранены.
+Пакетный lookup имён включён для постоянного Render после подтверждённого rollout;
+прочие API остаются выключены. Все9 соответствий и принятые модели сохранены.
+
+- [Полный отчёт и матрица code/APK/emulator/phone](../../apps/mobile/docs/VISUAL_050_REVIEW.md).
+- [68 кадров после](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/7b3a8bad757b13e0dc37d35d703e6a53cd4d9940/apps/mobile/docs/reports/visual-050/README.md) · [18 кадров до](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/7b3a8bad757b13e0dc37d35d703e6a53cd4d9940/apps/mobile/docs/reports/visual-040-before/README.md).
+- [Короткое видео](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.0-visual.1/qadam-050-flutter-synthetic-walkthrough.mp4) — монтаж настоящих Flutter-виджетов с синтетическим API,
+  **не запись Android**. UI source указан отдельно от APK source.
+- [Аудит APK](../../apps/mobile/docs/reports/mobile-050-apk-audit.json).
+- [Происхождение ids rollout](../../apps/mobile/docs/reports/mobile-050-customer-ids-rollout.json).
+- [Физический чек-лист](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+Analyzer0 issues; полный suite **209 PASS / 1 opt-in skipped**, walkthrough отдельно1/1.
+ZIP CRC, подписьv2/v3, zipalign16KiB, ELF LOAD>=16KiB,7/7 asset hashes PASS.
+Статический credential scan без находок. Public GET: health200/API0.6.2,
+фильтры3/3 и mapping9/9. Live ids OpenAPI подтверждён13:45:30UTC; A/B результат
+получен из опубликованного backend-отчёта, не повторён нами и не проверяет APK.
+
+**Телефона нет; физическое обновление и приёмка не выполнены.** Новый APK на эмуляторе
+также не запускался. Прогон капитана относится к0.4.0. Не проверены физические A/B,
+камера, микрофон, все9 тапов, перезапуск/смена суток. Обновлять поверх0.4.0,
+не удалять данные. Модель телефона/Android не установлены.
+
+Auth callback/allowlist остаётся у владельца#43; отсутствующие API-поля/операции
+не имитируются. Абзал получил первые три экрана, ответа пока нет. SHA текущего
+Vercel alias независимо не подтверждён; опубликованные бандлы/токены зафиксированы.
+Остаточные переносы при320dp/200% перечислены в отчёте. Полное соответствие не заявляется.
+
+Main/production/БД/Supabase не менялись. Платных AI, новых денежных операций и внешних
+заявок не было. recording.webm не искали, инцидент открыт. PR остаётся Draft.
+Следующий шаг — физический чек-лист на выделенном Android.
+
+Сборка из apps/mobile: `flutter pub get`, `flutter analyze`,
+`flutter test --concurrency=1`, `./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+Только4 публичных поля из README; тестовые пароли в конфигурацию не добавлять.
+
+---
+
+# 17 октября 2026 — Qadam 0.4.0, нативные публичные сценарии и расширение CRM
+
+Отдельный [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
+ветка `feature/mobile-native-parity`. Сохранена предыдущая CRM8e7e475 и merge
+origin/main1a541efb97ca402fb8165b5841bbbeff03afd4b1; повторный fetch перед передачей
+подтвердил тот же main. Production, backend, БД, Supabase settings не изменялись.
+
+**Source приложения: `62cc9a552ee468ab6c3c29b1e3dafbf72e85ebcb`.**
+Flutter3.47.7 / Dart3.13.5, JDK21, AndroidSDK36. Версия **0.4.0+8**.
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.4.0-native.1/qadam-0.4.0-62cc9a5-internal.apk)
+— **27731371 bytes** (26,45 MiB). SHA256:
+`7aa48df10815168aaaf9ba1a208423c17b5782b77e9924cc42a07388719e15db`.
+Package `kz.qadam.qadam_mobile`, minSdk24, targetSdk36, ARM32/ARM64/x86_64.
+Внутренняя debug-подпись, тот же сертификат0.1.1/0.2.2/0.3.0/0.3.1.
+Версия8 больше прежней7. Физическое обновление и сохранение данных **не проверены**.
+
+Постоянные адреса в APK:
+- API `https://qadamx-taraz.onrender.com/api/v1` (read-only OpenAPI0.6.2).
+- Frontend `https://qadamx-taraz.vercel.app` — только публичная конфигурация;
+  кабинет, магазины и формы работают во Flutter.
+- Прежний SupabaseURL/publishable key; APK содержит только разрешённые публичные
+  параметры. Пароли/серверные ключи в сборку не добавлялись и не приводятся здесь.
+
+Сделано: нативные площадки/поиск/категории/магазины/каталог/заявки; encrypted inquiry
+replay с прежним ID/body; неизменённые GLB/manifest с проверкой9hotspot→магазин,
+локальным WebGL внутри ограниченного WebView и независимым poster/list. Продолжена
+имеющаяся CRM: reverse с подтверждением и отдельным pending исходной операции,
+итог серверного дня/дата, импорт аудио, пауза/resume/прерывание. Мал базар сохранён.
+
+[Полная таблица сайт → экран → статус, включая точный состав0.3.1](../../apps/mobile/docs/SITE_PARITY.md).
+[Граница3D/WebView](../../apps/mobile/docs/VENUE_VIEWER.md).
+[Статический аудит APK](../../apps/mobile/docs/reports/mobile-040-apk-audit.json).
+[Живые публичные GET](../../apps/mobile/docs/reports/mobile-040-public-readonly.json).
+[Физический чек-лист команды](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+Проверки: analyze0issues;111unit/widget PASS; после последнего уточнения аудио ещё
+13CRM/audio/widget PASS. Build release PASS(620,8с). ZIP CRC, apksigner v2/v3,
+zipalign16k, ELF LOAD>=16KiB PASS;7asset hashes внутри APK совпадают. Сканирование
+не обнаружило private config/credential patterns/старые trycloudflareURL. Это
+статическая проверка, не доказательство live Auth или работы на конкретном Android.
+Read-only HTTP: health200/OpenAPI0.6.2, фильтры3/3, соответствия9/9. Desktop renderer
+3/3,320×340, выбор маркера; widget RU/KZ320px/textScale2/клавиатура/Back PASS.
+
+**Ограничения:** ADB0устройств; физическая установка/обновление, камера/микрофон/
+кодеки/AndroidWebView, A/B этого APK, перезапуск на телефоне и смена суток не выполнены.
+Видео физической приёмки нет. Скриншот0.3.0 остаётся FAIL, причина неизвестна;
+не удалять приложение/данные как первый способ исправления. Callback/allowlist/reset
+ожидают [владельца Auth](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6233319221),
+регистрация/confirmation/resend/reset не включены, реального письма/возврата не было.
+Текущий API не предоставляет фото/контакты магазина, фото/CRUD товара и изменения
+клиентов; они не имитируются. Mac/Xcode нет, iOS binary не собран.
+
+Живые финансовые операции и платные AI-пробы не запускались. Старый recording.webm
+не искали, инцидент остаётся открытым. PR60 и прежние PR не сливались, приложение
+не опубликовано в магазинах. Следующий шаг — выполнить физический чек-лист на
+выделенном Android, затем решить перечисленные Auth/API-зависимости.
+
+Воспроизведение из apps/mobile: `flutter pub get`, `flutter analyze --no-pub`,
+`flutter test --no-pub`, `./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+Конфигурация — только4публичных поля из README, файл ignored. Для3D: в
+`tool/venue_viewer` выполнить `npm ci --ignore-scripts`, `npm run build`.
+Для публичной read-only проверки: `python tool/verify_public_readonly.py`.
+
+---
+
+# 17 октября 2026 — APK 0.3.1, расследование отказа установки 0.3.0
+
+Пользователь прислал скриншот Android: установка `qadam-0.3.0-434f791-internal.apk`
+завершилась сообщением «App not installed as package appears to be invalid».
+Это **FAIL установки на физическом устройстве**, а не выполненная приёмка функций.
+Модель, версия Android и точный код Package Manager неизвестны; подключённого USB-устройства нет.
+
+Проверены исходный APK и GitHub asset: размер 57263712 bytes и SHA256 совпадают;
+ZIP CRC, apksigner v2, zipalign `-c -P 16 4` проходят. Все ELF LOAD в ARM64/x86_64
+выровнены минимум на 16 KiB. Сертификат совпадает также с 0.1.1/45cabcb со скриншота;
+старый versionCode=2, новый=6. Это не доказывает целостность файла на телефоне
+или отсутствие иной установленной версии. Причина отказа пока **не установлена**.
+
+Кандидат 0.3.1+7 сохраняет applicationId, сертификат и runtime-код. Использует
+сжатые native-библиотеки с извлечением при установке (`useLegacyPackaging=true`)
+и подписи v1/v2/v3. Это совместимый альтернативный способ упаковки по
+[Android docs](https://developer.android.com/guide/practices/page-sizes#update-packaging),
+а не доказанное исправление причины на телефоне. APK собран; статические проверки перечислены ниже. Успешная установка 0.3.1 на телефоне пока не подтверждена.
+Не удалять установленный Qadam, не очищать его данные и не обходить ограничения установщика.
+Backend, финансовая логика, API-конфигурация и production deploy не менялись.
+
+## Кандидат APK 0.3.1+7
+
+[Скачать 0.3.1](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.3.1-install.1/qadam-0.3.1-10f8c5a-internal.apk).
+Source commit: **10f8c5aa8e374708fb2e4307c4dfb5f9198911d8**.
+Файл **25837095 bytes** (24,6 MiB); SHA256:
+**d616cabd26c7b02e6f4bd3b50e0fae9df184ff76d8cbc50de84e0ddb909f1f8e**.
+Package `kz.qadam.qadam_mobile`, versionCode=7, minSdk=24, targetSdk=36.
+Публичные постоянные Render/Vercel URL и прежний Supabase config сохранены.
+
+- `tool/build_android.ps1 ... -Release`: PASS, assembleRelease 323,6с.
+- `apksigner verify`: v2/v3 PASS; v1 отдельно проверена с override диапазона SDK23
+  (это проверка подписи JAR, не поддержка установки на Android6). Сертификат прежний.
+- ZIP CRC и zipalign `-c -P 16 4`: PASS. Все 12 native `.so` сжаты;
+  `extractNativeLibs=true`, ELF LOAD >=16KiB; ARM32/ARM64/x86_64 сохранены.
+- [Аудит APK](../../apps/mobile/docs/reports/mobile-031-apk-audit.json): public config
+  найден, private configuration/server key patterns/trycloudflare — 0.
+- Dart runtime и зависимости не менялись; прежние 95 unit/widget тестов и анализатор
+  относятся к 0.3.0. Повторный полный mock-прогон не выдаётся за проверку установки.
+- `tool/check_android_install.ps1`: PowerShell parse PASS; неправильная checksum
+  и отсутствие ADB-устройства корректно останавливают установку. Положительный
+  сценарий команды ещё не проверен. Скрипт не читает logcat/данные приложения/токены,
+  не выводит serial/IMEI и не удаляет данные; сохраняет код `INSTALL_FAILED_...`.
+- Эмулятор не дал результата установки: существующий образ API29 имеет только x86,
+  запуск упёрся в память ПК, Package Manager не был готов. Загрузка подходящего
+  API36/x86_64 не завершилась за ограниченное окно. Созданный тестовый AVD удалён;
+  успешная эмуляторная/физическая установка **не заявляется**.
+
+[Команда диагностики и чек-лист](../../apps/mobile/docs/NATIVE_ANDROID_ACCEPTANCE.md).
+Следующее доказательство — установка 0.3.1 на устройстве пользователя либо точный
+код отказа через ADB. Отказ 0.3.0 остаётся открытым, пока этого доказательства нет.
+Draft PR #53 сохранён; main/backend/БД/production deploy/платный AI не менялись.
+
+## Предыдущая передача: Qadam Business, native CRM 0.3.0+6
+
+Текущая передача — Draft PR #53 (`feature/mobile-native-ai`, base `main`), после Draft #45/#50.
+Код начат от `8ee78ae58e529e3e32c11082a425576b558b0f9e`; свежий main `ad63a00`
+не содержит конфликтующих изменений mobile/контрактов. Main не сливался и не менялся нами.
+
+## APK и конфигурация
+
+Source commit APK: **434f791ea8725ec05844915947391ed57030cb55**.
+Версия **0.3.0+6**, package `kz.qadam.qadam_mobile`, min Android 7.0 (API24).
+Внутренний release-код с debug-подписью для командной установки, не для магазина.
+[Скачать APK 0.3.0+6](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.3.0-native.1/qadam-0.3.0-434f791-internal.apk) — `qadam-0.3.0-434f791-internal.apk`, **57263712 bytes** (54,6 MiB).
+SHA256: **80b26e9547d3747373b63eac978257862323e8a09548df4dd7b63268aa5b9309**. Подпись v2 проверена и совпадает с 0.2.2; формат/версия прочитаны из APK.
+[Статический аудит APK](../../apps/mobile/docs/reports/mobile-030-apk-audit.json): постоянные URL и прежний public config найдены,
+приватных файлов, credential-pattern совпадений и trycloudflare URL — 0. Это не проверка входа на устройстве.
+
+- API: `https://qadamx-taraz.onrender.com/api/v1`.
+- Кабинет: `https://qadamx-taraz.vercel.app` (отдельная браузерная сессия).
+- Supabase: прежний проект; прежний publishable key берётся только из ignored public config.
+  Значение ключа, пароли и токены в отчёт не включены. SDK обслуживает refresh/session.
+- Допустимые параметры: API_BASE_URL, FRONTEND_BASE_URL, SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY. Server keys/паролей/AI keys в конфигурации нет.
+
+## Реализовано нативно
+
+| Возможность | Состояние кода | Физическая приёмка |
+|---|---|---|
+| Общая оболочка, RU/KZ, Supabase, выбор своей точки | Сохранено | Не выполнена |
+| Главная: серверные продажи, поступления, общий долг, заявки | Добавлено; error/loading не становятся нулями | Не выполнена |
+| Клиенты, поиск/пагинация, создание/recovery | Добавлено | Не выполнена |
+| Ручная продажа, доплата, долги и история | Добавлено; подтверждение отдельно от предпросмотра | Не выполнена |
+| AI-текст и голос, редактируемый черновик | Добавлено; клиент/продажа выбираются явно | Не выполнена; paid probe не запускался |
+| Запись/стоп/прослушивание/отмена/удаление | Добавлено; стоп не отправляет аудио | Не выполнена |
+| Аналитика 7/30, по дням/часам | Добавлено; signed receipts, null average, долг за всё время | Не выполнена |
+| Заявки и опубликованные статусы | Добавлено через существующий PATCH | Не выполнена |
+| Публичный каталог | Добавлен просмотр; запись не поддерживается общим API | Не выполнена |
+| Мал базар: фото/лента/фильтры/статистика/статусы | Сохранено | Не выполнена |
+
+Браузерный кабинет остаётся доступен как прежний путь до приёмки нативной замены.
+Регистрация/параллельная авторизация не добавлены. Тема Qadam сохранена.
+
+## Устойчивость и проверки
+
+- Отправляемое действие защищённо сохраняется **до POST** с API/account/business/action.
+  Неизвестный ответ сохраняет исходные URL/body/key. Другой аккаунт его не повторяет.
+- Customer recovery `not_observed` не означает отказ. CAS не позволяет позднему K1
+  очистить/заменить K2. Смена A→B→A отсекает старые ответы по epoch.
+- Данные ответа операции сверяются с суммой, клиентом и типом подтверждённого запроса.
+  Восстановленный receipt также проверяется до сообщения об успехе.
+- Деньги — только int тиыны; unknown received остаётся null/пустым полем, не нулём.
+- AI multipart содержит ровно text или audio. HTTP-клиент задаёт boundary; запрос только
+  через backend и отдельную кнопку. Нет автоматического paid retry. Смена ввода/аккаунта,
+  отмена и уход со страницы не позволяют старому ответу стать текущим черновиком.
+- WAV PCM16, mono 16kHz: проверяются фактические RIFF-данные, размер <=8MiB и <=30с.
+  Таймер останавливает запись на 29с; пауза не предлагается. Локальный файл удаляется
+  при отмене/выходе; старые файлы после сбоя чистятся в выделенном private cache.
+- `flutter analyze --no-pub`: **No issues found**. `flutter test --no-pub`: **95 PASS**,
+  включая 20 новых CRM unit/widget. HTTP, микрофон и ответы AI в этих тестах подменены.
+  Нет утверждения о живом AI, реальном микрофоне или финансовой записи по этим тестам.
+- Flutter 3.47.7 / Dart 3.13.5; существующие зависимости не обновлялись. Добавлены только
+  закреплённые record 7.1.2, audioplayers 6.8.1 и прямая зависимость http_parser4.1.2.
+- `adb devices -l`: список пуст. Android-модель/версия не предоставлены. Установки,
+  A/B на телефоне, камеры/микрофона/refresh/network-return и смены суток не было.
+- Mac/Xcode отсутствует. iOS-проект и RU/KZ permission strings обновлены; IPA/подпись/
+  микрофон/камера/Keychain на iPhone не проверены. Новые платные услуги не подключались.
+
+## Запуск и передача
+
+Из `apps/mobile`: `flutter pub get`, `flutter analyze`, `flutter test`.
+В ignored `config/public.local.json` оставить только четыре разрешённых публичных поля.
+`./tool/build_android.ps1 -PublicConfig config/public.local.json -Release` создаёт
+`build/app/outputs/flutter-apk/app-release.apk`. Пароли вводятся отдельно в приложении.
+
+Следующий шаг: пройти [короткий чек-лист Android](../../apps/mobile/docs/NATIVE_ANDROID_ACCEPTANCE.md)
+и заполнить фактические результаты/модель/Android. Пока устройства нет, физическая приёмка
+остаётся **НЕ ВЫПОЛНЕНА**. Видео живого сценария не снято и не подменено mock-видео.
+Не очищать данные приложения при неизвестном результате. Конфликт ключа или неразрешимый
+pending требует проверки команды; интерфейс не предлагает опасный обход новым ключом.
+Обычная ещё не отправленная форма хранится в памяти открытого экрана; durable recovery
+покрывает отправленное действие. После холодного запуска точку выбирают заново.
+
+Render/backend/БД/миграции не менялись, платных AI-запросов в этой работе не было.
+GitHub может автоматически собирать Vercel previews при push; вручную deployment не запускался.
+Последний ранее подтверждённый командой Render Live — e699158b5238285fb02c85bc5d92c45a3cc4ca84,
+а не новый результат проверки процесса. Deployment ID по-прежнему не предоставлен.
+[Опубликованный review/handoff Render с полным SHA](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/ce9e25090566dbb668a2ab378ee23cddde51b51e/docs/RENDER_DIAGNOSTIC_REVIEW_20261017.md).
+Старый recording.webm больше не искали; инцидент остаётся открытым без исходных данных.
+
+---
+
+Ниже — история предыдущих передач, её APK/проверки не относятся автоматически к 0.3.0.
+
 # Mobile · единое приложение Qadam · API 0.6.2
+
+## 2026-10-17 — постоянный APK и начало нативной CRM от актуального main
+
+Новая работа начата от **8ee78ae58e529e3e32c11082a425576b558b0f9e**, проверены PR15/25
+и remote mobile/recovery heads. Существующее приложение не переписывается.
+[Матрица функций и этапы](../../apps/mobile/docs/NATIVE_CRM_PLAN.md).
+
+[APK 0.2.2+5](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.2.2-hosted.1/qadam-0.2.2-96ef1c4-debug.apk),
+source **96ef1c42ba341dc9fcdc6539d9ee499ab797c178**, **167895465 bytes**,
+SHA256 **6b34d1f7abd01bea036fb02a2d1898f8905dd18b9e0d6d9577a88138b79bcf8f**.
+GitHub asset digest совпадает; постоянные Render/Vercel URL проверены в APK,
+7 config tests и подпись PASS. [Чек-лист](../../apps/mobile/docs/ANDROID_TEAM_HANDOFF.md).
+Android не подключён: все физические шаги НЕ ВЫПОЛНЕНЫ. Сейчас CRM — браузерная;
+нативны оболочка/Auth/выбор точки/Мал базар. С компьютера OpenAPI0.6.2 совпал с контрактом,
+Vercel login200; это не авторизованная или Android-приёмка. Paid AI calls — 0.
 
 ## Передача участнику с Android — 2026-10-16
 
@@ -520,3 +800,22 @@ retrieveLostData; предлагается повторный выбор фот�
 TestFlight/App Store и облачная сборка не подключались. Android APK в опубликованном
 выпуске остаётся сборкой 45cabcb; новые изменения исходников в тот файл не подменялись.
 Следующий шаг: Mac с Xcode, локальная подпись и выполнение сценария на iPhone.
+# Нативная CRM — этап 2, 17 октября 2026
+
+База: main `8ee78ae58e529e3e32c11082a425576b558b0f9e`; продолжение после передачи APK 0.2.2.
+В `apps/mobile/lib/crm` добавлены главная из server summary, клиенты с поиском и пагинацией,
+создание клиента/recovery, ручная продажа и доплата, долги, история и просмотр заявок.
+Сохранены три раздела, RU/KZ, общая тема, Supabase Auth, Мал базар и браузерный кабинет.
+
+CRM write-intent записывается до POST в защищённое хранилище; область API/account/business/action.
+Повтор отправляет исходные body/key/URL; неизвестный результат не очищается. `not_observed`
+не является отказом. CAS защищает новый K2 от позднего K1, epoch — смену A→B→A.
+Предпросмотр не выполняет запись; требуется отдельное подтверждение. Деньги только Dart int.
+
+Проверки на компьютере: `flutter test --no-pub` — **84 PASS**, включая 9 новых CRM unit/widget.
+Это mocked HTTP, не живое подтверждение финансовой операции. Анализатор проверяется перед commit.
+Физическое устройство отсутствует. Android login A/B, камера, cold start, сеть/возврат и установку
+новой нативной версии пока не проверяли. AI/аналитика — следующий отдельный этап.
+Backend, миграции, main, Render не изменены; paid AI не вызывался.
+
+---

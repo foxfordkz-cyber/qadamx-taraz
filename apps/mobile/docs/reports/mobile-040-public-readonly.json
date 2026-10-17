@@ -1,0 +1,26 @@
+{
+  "checked_at_utc": "2026-10-17T12:01:29.869727+00:00",
+  "api_url": "https://qadamx-taraz.onrender.com/api/v1",
+  "method": "anonymous GET only",
+  "physical_android": "not performed",
+  "health": 200,
+  "openapi_version": "0.6.2",
+  "unchanged_asset_hashes": 7,
+  "venues": [
+    {
+      "venue": "mart",
+      "matched_hotspots": 3,
+      "filter": "pass"
+    },
+    {
+      "venue": "kaikarmet",
+      "matched_hotspots": 3,
+      "filter": "pass"
+    },
+    {
+      "venue": "auyl-bereke",
+      "matched_hotspots": 3,
+      "filter": "pass"
+    }
+  ]
+}

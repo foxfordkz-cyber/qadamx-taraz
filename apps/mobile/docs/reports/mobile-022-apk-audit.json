@@ -1,0 +1,32 @@
+{
+  "file": "app-debug.apk",
+  "bytes": 167895465,
+  "sha256": "6b34d1f7abd01bea036fb02a2d1898f8905dd18b9e0d6d9577a88138b79bcf8f",
+  "source_commit": "96ef1c42ba341dc9fcdc6539d9ee499ab797c178",
+  "version": "0.2.2+5",
+  "api_base_url": "https://qadamx-taraz.onrender.com/api/v1",
+  "frontend_base_url": "https://qadamx-taraz.vercel.app",
+  "embedded_public_config_matches": {
+    "SUPABASE_URL": true,
+    "SUPABASE_PUBLISHABLE_KEY": true,
+    "API_BASE_URL": true,
+    "FRONTEND_BASE_URL": true
+  },
+  "legacy_tunnel_entries": 0,
+  "private_configuration_files": 0,
+  "credential_pattern_counts": {
+    "server_key": 0,
+    "openai_key": 0,
+    "google_key": 0,
+    "database_credential_url": 0,
+    "private_key": 0,
+    "private_session_or_service_role_jwt": 0
+  },
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86_64"
+  ],
+  "physical_android_acceptance": "NOT_PERFORMED_NO_DEVICE",
+  "scope": "Static artifact/config inspection, not proof of runtime login or physical device behavior."
+}

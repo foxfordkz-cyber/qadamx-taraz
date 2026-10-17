@@ -54,6 +54,27 @@ export const kk: Record<keyof typeof ru, string> = {
     "Сілтеменің жарамдылық мерзімі аяқталды. Жаңа хат сұраңыз немесе кіру бетіне өтіңіз.",
   confirmationInvalid:
     "Сілтемені растау мүмкін болмады. Ол жарамсыз немесе бұрын қолданылған болуы мүмкін. Жаңа хат сұраңыз немесе кіру бетіне өтіңіз.",
+  analyticsPeriodScope: "Таңдалған кезеңде",
+  analyticsShowCharts: "Күндер мен сағаттар бойынша көрсету",
+  analyticsCurrentScope: "Қазір · барлық күндер",
+  analyticsActiveCountHint: "Тек күші жойылмаған сатылымдар",
+  analyticsDebtorsCount: "Борышкерлер саны",
+  analyticsDebtorsHint: "Өтелмеген қарызы бар сатып алушылар",
+  analyticsSummaryTitle: "Қысқаша қорытынды",
+  analyticsSummaryPeriod:
+    "Тіркелген сатылымдар: {count}, жалпы сомасы {sales}. Түсімдер: {receipts}.",
+  analyticsSummaryDebt: "Жалпы қарыз: {debt}. Борышкерлер: {debtors}.",
+  analyticsNegativeReceiptsSummary:
+    "Түсімдер теріс: күші жойылған сатылымдардың қайтарымдары кезеңде алынған төлемдерден асып түсті.",
+  analyticsReportLinks: "Сауда нүктесінің тарихы мен қарыздары",
+  analyticsOpenHistory: "Тарихты ашу",
+  analyticsOpenDebts: "Қарыздарды ашу",
+  analyticsNewSale: "Жаңа сатылым",
+  analyticsSelectedDay: "Таңдалған күн",
+  analyticsSelectedHour: "Таңдалған сағат · бүкіл кезең бойынша",
+  analyticsDailyMaximum: "Күндік ең жоғары мән",
+  analyticsDailyMinimum: "Күндік ең төмен мән",
+  analyticsHourlyMaximum: "Сағаттық ең жоғары мән",
   analytics: "Аналитика",
   analyticsTitle: "Менің сауда нүктемнің аналитикасы",
   analyticsSubtitle:
@@ -75,7 +96,7 @@ export const kk: Record<keyof typeof ru, string> = {
   analyticsReversalScenario: "Бұрынғы сатылымның күшін жою",
   analyticsWaitingTitle: "Аналитика қосылуды күтуде",
   analyticsWaitingHint:
-    "Бұл қолданбада API мекенжайы бапталмаған. Аналитика серверін қосу үшін капитанға хабарласыңыз. Оқу деректері тек жеке Demo режимінде қолжетімді.",
+    "Бұл қолданбада аналитика әлі қосылмаған. Qadam әкімшісіне хабарласыңыз. Оқу мысалы демо режимінде қолжетімді.",
   analyticsAsOf: "Деректер уақыты",
   analyticsTimezone: "Уақыт белдеуі",
   analyticsPartial: "Бүгін — толық емес күн",
@@ -174,7 +195,7 @@ export const kk: Record<keyof typeof ru, string> = {
   password: "Құпиясөз",
   passwordShow: "Құпиясөзді көрсету",
   welcome: "Бизнесіңіз. Бәрі қол астында.",
-  loginHint: "Топ капитаны берген аккаунтпен кіріңіз.",
+  loginHint: "Qadam әкімшісі берген сатушы аккаунтымен кіріңіз.",
   authUnavailable:
     "Кіру әзірге қолжетімсіз. Авторизация қызметінің қосылуы күтілуде.",
   authError: "Кіру мүмкін болмады. Деректерді тексеріп, қайталап көріңіз.",
@@ -188,7 +209,7 @@ export const kk: Record<keyof typeof ru, string> = {
   business: "Сауда нүктесі",
   noBusiness: "Сізде әзірге сауда нүктелері жоқ",
   noBusinessHint:
-    "Сауда нүктесіне кіру құқығы әлі берілмеген. Кабинетте сауда нүктесін құру және шақыру жіберу әзірге қолжетімсіз. Капитанға хабарласып, содан кейін тізімді жаңартыңыз.",
+    "Сауда нүктесіне кіру құқығы әлі берілмеген. Кабинетте сауда нүктесін құру және шақыру жіберу әзірге қолжетімсіз. Qadam әкімшісіне хабарласып, содан кейін тізімді жаңартыңыз.",
   sale: "Сату",
   debts: "Маған қарыз",
   inquiries: "Өтінімдер",

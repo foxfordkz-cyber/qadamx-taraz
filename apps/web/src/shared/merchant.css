@@ -178,10 +178,18 @@
 .app-shell {
   grid-template-columns: 236px minmax(0, 1fr);
 }
+/* The sticky panel is exactly one screen tall: on low screens or with browser zoom
+   its own content must scroll, otherwise the last items sit below the viewport. */
 .sidebar {
   padding: 30px 18px 20px;
   background: var(--qadam-paper);
   border-right: 1px solid var(--qadam-line);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+.sidebar > * {
+  flex-shrink: 0;
 }
 .sidebar .brand {
   padding: 0 10px;
@@ -866,25 +874,25 @@
   padding: 14px 14px 22px;
   border-radius: var(--qadam-radius-card);
 }
+/* Catalog items have no photos yet: a short placeholder band instead of an
+   empty half-card, so name, availability and price lead the card. */
 .product-visual {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  aspect-ratio: 1.8;
+  aspect-ratio: 3.2;
   background: var(--qadam-surface-muted);
   border-radius: var(--qadam-radius-control);
   margin-bottom: 18px;
   color: var(--qadam-muted);
 }
 .product-visual svg {
-  width: 44px;
-  height: 44px;
+  width: 32px;
+  height: 32px;
   stroke-width: 1.2;
 }
 .product-visual > span {
-  font-size: 8px;
-  font-weight: 750;
-  letter-spacing: 2px;
+  display: none;
 }
 .product-card .card-top,
 .product-card h2,
@@ -903,6 +911,12 @@
   font-size: 21px;
   letter-spacing: -0.6px;
   font-variant-numeric: tabular-nums;
+}
+.product-card .price--missing {
+  font-size: var(--qadam-text-sm);
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--qadam-muted);
 }
 .empty-state,
 .error-state {

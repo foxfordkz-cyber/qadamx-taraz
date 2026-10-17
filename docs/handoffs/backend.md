@@ -1,5 +1,177 @@
 # Передача работы backend
 
+## 2026-10-17 — зависимый frontend PR63/65 принят в отдельном кандидате
+
+Проверенный application/build SHA **53ea0b9eb9013fd7826d3ece927a1428c1bd03fa**:
+PR63 ae593c1 + PR65 559b4d0 поверх PR64/актуального main1a541ef и API f6b3a9a.
+Backend/contracts побайтово сохранены. Hosted builder фиксирует public ids=true
+после уже принятого HTTPS rollout; это не переключение production в данной задаче.
+
+[Подробный review, доказательства, план выпуска и Safari](../CUSTOMER_IDS_FRONTEND_ACCEPTANCE.md).
+378 unit, 6 history E2E, 5 recovery E2E, 18 synthetic microphone E2E PASS;
+typecheck/lint/build/check:api PASS. Отдельный hosted build с входным false подтвердил
+принудительное включение ids. Настоящие A/B Supabase+Render через локальный bundle:
+имя/history/reload, фильтр+серверный баланс, RU/KZ360/390/1440, смена точки и foreign404 PASS.
+Случай клиента51/гонки — fixtures; общую БД ради них не заполняли. Appwrites0/paidAI0.
+
+Production Vercel пока **1a541ef**, event DvMb7zzTZjWX418eKdJLYVUCTjDf;
+проверен по GitHub status и совпадению публичных asset bytes с сохранённой сборкой.
+Кандидат публикуется в существующий Draft PR64, не в deploy. Render f6b3a9a не менялся,
+новый dep-ID ожидается от капитана отдельно. APK не менялся.
+
+#66 код a964646 есть в отдельном Vercel preview, отсутствует в production.
+Новый head ca45a53 проверен: только уточнение двух документов, тот же код.
+Капитан подтвердил Demo на iOS26/27: disabled запись/деньги ожидаемы по коду;
+без обычного входа и повтора на физическом iPhone инцидент не закрыт.
+Desktop WebKit: исходный тест focus 1PASS/2FAIL; исправленная keyboard/touch/Demo
+обвязка 5PASS, component4PASS. Patch опубликован в отчёте, приложение #66 отдельно.
+#43 новыйhead6ce3d29 и #67 остаются вне кандидата. Следующий шаг — согласованный
+frontend release с подтверждением VercelSHA/ids GET, без нового Render rollout.
+
+## 2026-10-17 — PR61 на Render: HTTPS ids/A-B PASS
+
+Капитан подтвердил новый specific-commit Live **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**
+в панели srv-db95nfmk1f9s73fmnce0. Прежний Live: dep-db9lvsijnfac73cq11g0 / e699158.
+Новый dep-ID не указан; публичный SHA независимо не извлекается. Отличать это
+panel evidence от собственных HTTPS-проверок.
+
+[Текущий отчёт и текст Бекзату](../CUSTOMER_IDS_RENDER_WINDOW.md),
+[безопасный протокол](../qa/customer-ids/hosted-acceptance.json).
+Health/OpenAPI200/API0.6.2 с ids, schema=f6b3a9a. JWT A/B /me200/6и3точки;
+свои/смешанные UUID, повторы, foreign/missing, серверный баланс по журналу,
+422 по6случаям для каждого владельца, legacy list/limit/cursor PASS.
+Чужая точка404, без JWT401; все три CORS origins, включая Preview43, сохранены.
+Никаких общих финансовых/клиентских записей, migrations/seed/memberships или paidAI.
+
+Backend-зависимость frontend ids снята; PR65/новый web ещё требует отдельного
+review и проверки имён после reload. Vercel/main/deploy-ветки/APK не менялись.
+Откат до выпуска зависимого web: previousSHAe699158 через specific commit с текущим
+env, не слепой Rollback старого env. После зависимого frontend сохранять ids-совместимость.
+Ниже — история предыдущих проверок, в том числе первого Live без ids.
+
+## 2026-10-17 — сообщён Live, но HTTPS ещё без ids
+
+Капитан подтвердил прежний Live SHAe699158; новый SHA/обаdeploymentID уточняются.
+После сообщения Live повторно проверен публичный OpenAPI:200/API0.6.2, только
+q/limit/cursor. Уникальный cache-busting query + no-cache подтверждает старую схему,
+не schemaf6b3a9a; cf-cache-statusDYNAMIC. Health200 и все три CORS GET/POST200 сохранены.
+**Rollout PR61 не принят**, frontend ids не выпускать. Требуется checkoutSHA нового
+Live; после появления ids выполнить готовый GET-only контрактный gate.
+[Актуальный отчёт](../CUSTOMER_IDS_RENDER_WINDOW.md). Работающий сервер, данные,
+memberships/финансы и Vercel агентом не менялись; paidAI0.
+
+## 2026-10-17 — окно PR61 разрешено; ручной Render deploy и отдельный PR67
+
+[Точные ручные действия, фиксация Live SHA/ID, HTTPS gate и уточнённый откат](../CUSTOMER_IDS_RENDER_WINDOW.md).
+Разрешён только backend **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**.
+Management key/доступной панели Render у агента нет; текущий health не раскрывает SHA.
+Предварительный реальный HTTPS: health/OpenAPI200 API0.6.2 **без ids**; A/B6/3,
+own200/foreign404,anon401. Все три CORS origins, включая Preview43, GET/POST OPTIONS200.
+Ожидаются прежний и новый Live deployment ID/SHA из панели и ручной exact-commit deploy.
+Проверяющий GET-only сценарий ids/балансов/валидации/A-B подготовлен; post-Live PASS
+и deployed SHA ещё не заявляются. Vercel, БД/memberships, финансы и paidAI не менялись.
+
+Уточнение прежнего плана: Render Rollback берёт env целевого старого deployment.
+Для сохранения текущего ключа/OpenAI/CORS использовать **новый specific-commit deploy
+прежнего Live SHA с нынешним Environment**, а не слепую кнопку Rollback.
+
+[PR67 review](../ANALYTICS_67_REVIEW.md): точный **8da93dc48ff998230212be4f31c32944a173f53b**;
+347unit,3responsive/keyboard E2E, typecheck/lint/build/check:api PASS. Только локальные
+fixtures/Demo; блокирующих дефектов не найдено. Backend и shared/format.ts не меняются;
+перенос дат ожидает согласования Бекзата. Код67 не включён в эту ветку/окно/deployment.
+Обнаружен PR65 **559b4d0** с зависимым ids frontend; не принимать автоматически.
+
+## 2026-10-17 — совместная проверка PR61/63 без rollout
+
+[Точные SHA, review и последовательность приёмки](../CUSTOMER_IDS_HISTORY_JOINT_REVIEW.md).
+От main1a541ef в отдельной `integration/customer-ids-history` объединены
+PR61 **735145e** (application **f6b3a9a**) и PR63 **ae593c1**. Application merge
+**7107e446a700134b05d96c9638a477e72e5306e2**, без конфликтов; backend/contracts
+побайтово равны PR61. Диагностикаe699158 и текущие интеграции сохранены.
+Историю PR63 можно принимать независимо: она не требует ids. Имена вне первой
+страницы ещё не подключены, три name-теста skipped; это отдельный блокер frontend.
+Сначала backend/окно → HTTPS ids/A-B → новый зависимый frontend → имена/reload.
+Main/deploy, Render/Vercel, memberships/данные и APK не менялись; paidAI не вызывался.
+Проверки объединённой версии: [joint-checks.json](../qa/customer-ids/joint-checks.json).
+
+## 2026-10-17 — review PR61 и подготовка окна Render
+
+[Review, точные версии, frontend-зависимость, HTTPS gate и откат](../CUSTOMER_IDS_ROLLOUT_REVIEW.md).
+Кандидат приложения: **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**, от текущих
+main/deploy **1a541ef**. Блокирующих дефектов не найдено; e699158 сохранён.
+Повторно: **335 backend tests** на отдельной новой локальной PostgreSQL, Ruff/экспорт;
+**346 web unit/component**, typecheck/lint/build/check:api — PASS. Наборы не суммируются.
+Реальный текущий Render: health/OpenAPI200, версия0.6.2 **ещё без ids**; /me A/B200
+с6/3точками, свои чтения200/чужие404, безJWT401, точный Vercel CORS и приватность PASS.
+Никаких общих записей, memberships, миграций, paidAI или переключений сервера.
+
+PR63 **ae593c1** пока не подключает ids: имена всё ещё с первой страницы; три
+соответствующих теста skipped. Бекзату передать контракт и отдельный lookup без
+q/cursor/limit; реализацию клиента не дублировать. Backend выпускается первым
+после отдельного окна, затем живые read-only ids/A-B, затем принятый frontend
+и имена после reload. До этого нельзя объявлять общий сценарий исправленным.
+Откат после frontend не должен вернуть API, молча игнорирующий ids; подробности в review.
+Membership-назначение капитану **отложено по последнему ответу**, ничего не менять.
+Точный runtime SHA публично не доступен; e699158 — последнее подтверждение капитана
+из панели, не новое независимое доказательство. Код/отчёт в GitHub, не новый deployment.
+
+## 2026-10-17 — клиенты по ids, отдельный PR61
+
+От актуального main **1a541ef** создана `backend/customer-ids`. Контракт опубликован
+**до реализации** в commit **c5638f22d2ebe68d39171b2b7b7cb21de49394b5**:
+[CUSTOMER_IDS_API](../../packages/contracts/CUSTOMER_IDS_API.md), [PR61](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/61).
+
+- GET `/businesses/{id}/customers?ids=UUID&ids=UUID`: 1–100 исходных значений,
+  дедупликация с сохранением первого порядка; полный Page с `next_cursor=null`.
+- В режиме ids запрещены явно переданные q/cursor/limit. Пустые/невалидные значения
+  и >100 возвращают422. Чужие и отсутствующие UUID одинаково пропускаются; без
+  membership точки404, без JWT401. Ни одной строки другой точки, включая другую
+  точку того же владельца. Без ids старые поиск, limit и cursor не меняются.
+- Балансы — прежняя SQL-сумма журнала в тиынах, включая погашения/отмены; ограничены
+  выбранной точкой/клиентами. Прежний CustomerResponse, без дополнительных полей.
+  Ledger writes, Auth, customer POST/recovery, AI и миграции не менялись.
+- Код: `apps/api/app/routers.py`, `services/ledger.py`, `app/examples.py`;
+  `tests/test_customer_ids.py`; экспорт `openapi.json`, `examples.json`, generated.ts.
+
+Проверки: **335 backend tests PASS**, из них **19 новых cases ids** (входят в335).
+Команда `python -m pytest -q --tb=short`, локальная PostgreSQL127.0.0.1:55432,
+отдельная новая пустая база `qadam_customer_ids_*_test`. Общая Supabase не использовалась.
+Проверены смешанные UUID,100 результатов за пределами первой страницы,101 до
+дедупликации, порядок/повторы, пустой/невалидный ввод, q/cursor/limit,401/404 и отзыв
+membership, серверный долг200000→150000→200000→0, совместимость прежнего поиска/cursor.
+Реальная PostgreSQL + HTTP TestClient + тестовые подписанные JWT/JWKS; **не живая
+приёмка Render/Supabase**, платные AI не вызывались. Starlette выдаёт одно существующее
+deprecation warning по httpx TestClient, тесты не пропущены.
+
+`ruff check .`, форматирование изменённых Python, `app.export_contracts --check` — PASS.
+Web: `npm ci --no-audit --no-fund`, `npm run generate:api`, `npm run typecheck`,
+`npm run check:api` — PASS. Runtime frontend не менялся, поэтому browser/unit web
+набор заново не заявляется. Первый инфраструктурный запуск остановлен из-за зависшего
+помощника запуска PostgreSQL; завершённый прогон использовал уже доступный loopback
+сервер и отдельную новую БД. Остановлен только собственный Python launcher, не API.
+
+**Статус:** код/контракт опубликованы в отдельном Draft PR; main, deploy-ветки и Render
+не переключались. API версия0.6.2 остаётся; наличие ids проверять по OpenAPI и согласованному
+deployed SHA, старый сервер игнорирует неизвестный query. Миграций не требуется.
+
+Следующий шаг Бекзату: запросить ID из строк долгов повторяющимся ключом, группами≤100,
+не добавлять q/cursor/limit, пустой набор не отправлять; map по UUID, кэш/AbortSignal по
+user+business. Нет найденной строки — нейтральное имя, а не чужие данные. Включать только
+после отдельного согласованного backend rollout. Регистрацию/назначение membership
+своему аккаунту эта задача не выполняет. Секреты/личные учётные записи в PR не добавлялись.
+
+## 2026-10-17 — интеграция следующего видимого выпуска
+
+По поручению капитана подготовлен [общий кандидат](../LATEST_VISIBLE_RELEASE.md):
+новая аналитика `3064294`, transport-защиты заявки и ссылка на тестовый APK0.3.0.
+346 unit/29 E2E и сборочные проверки PASS. Backend, БД, секреты и платные AI не
+затрагивались. Проверено 70 опубликованных веток; PR43/email и PR53/SDK+Android
+оставлены отдельными. Следующий шаг — подтверждение Vercel после продвижения refs.
+
+## 2026-10-17 — интеграция PR47/49/52 без изменения backend
+
+От ad63a00 проверены точные heads d010f5e / 674e5d7 / 565e17d; отдельная ветка integration/abzal-public-catalog. InquiryForm (включая unknown→4xx/Unicode), customer recovery, Auth, API0.6.2/e699158 и GLB сохранены побайтово. [Полный отчёт и публикация](../ABZAL_PUBLIC_RELEASE.md). 336 unit/component; typecheck/lint/build/check:api; recovery5, QA21, voice1, microphone18, general24, Auth7 — PASS, наборы не суммировать. Настоящие Supabase/Render A/B, read-only recovery/inbox/каталог/аналитика и9hotspots на360/390/1440 прошли в кандидате; новая запись не создавалась. Использована заявка e77aa7d2-1799-4139-be37-728642d0925d. Backend/БД/миграции/Render не менялись. Следующий шаг — подтверждение production SHA/повтор read-only после Vercel, затем физическая приёмка команды; регистрация/mobile отдельно.
+
 ## 2026-10-17 — следующая интеграция публичной заявки
 
 От main8ee78ae, без повторного PR41/42: выборочный перенос формы e6c9dd, реальное имя ShopPage, защита unknown→4xx сохраняет key/body, смена магазина изолирует late response. Отдельный public-inquiry.md по поручению капитана, public-web.md не заменён. Apps/api/OpenAPI/AI/recovery/аналитика/GLB не менялись, Render не перезапускается.
@@ -28,7 +200,7 @@ PR43 **eba0f91** исключён. [Контракт регистрации](../
 
 ## Общая интеграция 2026-10-17
 
-По поручению капитана подготовлена база main/deploy из PR39 `8be10b3` и Flutter PR25 `421b2fb`. [Точный состав, проверки и ограничения](../MAIN_RELEASE_20261017.md). Backend побайтово совпадает с e699158: повторный rollout Render/миграции не нужны. Web совпадает с production a8e358f. Recovery UI 9a3c868 и signup PR31 остаются исключёнными до исправлений/приёмки. Исторические разделы ниже не определяют текущую ревизию.
+По поручению капитана подготовлена база main/deploy из PR39 `8be10b3` и Flutter PR25 `421b2fb`. [Точный состав, проверки и ограничения](../MAIN_RELEASE_20261017.md). Backend побайтово совпадает с e699158: повторный rollout Render/миграции не нужны. Web совпадает с production a8e358f. Recovery UI 9a3c870 и signup PR31 остаются исключёнными до исправлений/приёмки. Исторические разделы ниже не определяют текущую ревизию.
 
 Роль: капитан, весь backend. Обновлено: 2026-10-15. Ручной этап `backend/ledger-auth` сохранён коммитом `78483b8`, интеграция с опубликованным bootstrap — `193f6e5`; ветка запушена, открыт [PR #4 в main](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/4), без слияния. Исходная `0001_catalog` сохранена из main (`ced32e7`, PR #2), тесты каркаса сохранены и адаптированы. Текущая ветка `backend/ai-drafts` основана на head PR журнала. Актуальный результат AI-этапа и следующий шаг — в последней секции этого файла. Ни merge, ни деплой не выполнены.
 
@@ -506,7 +678,7 @@ Baseline7дней: sales1800000/receipts1200000/debt600000/count6/average300000�
 
 Remote проверены: PR18 **5ab11b146778698f54164057974fc81c397192dc**, PR17ca51bbf, PR20 **39a730e** добавляет толькоtests/docs. PR19/doc99ed2c0, корневая Aidana880d713 и mobile3ac3a1a не объединялись. Playback/cancel в общемAudioInput отсутствуют; исходники/денежные правила/контракты не менялись. ИзPR18 собрана отдельнаяproductiondist с публичным внешнимAPIenv, безlocalhostAPI/серверныхсекретов. Types/buildPASS,3Dchunkwarning прежний.
 
-**Frontend:** https://crucial-funky-marion-barcelona.trycloudflare.com/login → loopback5192/previewPID33204, отдельныйcloudflared34696. **API:** https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1 прежний, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, чистыйcheckoutca51bbf. Web5188/PID28500 и5191/PID9268 сохранены. [Инструкция/URL/commits](../HTTPS_FRONTEND_PREVIEW.md).
+**Frontend:** https://crucial-funky-marion-barcelona.trycloudflare.com/login → loopback5192/previewPID33204, отдельныйcloudflared34696. **API:** https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1 прежний, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, чистыйcheckoutca51bbf. Web5188/PID28500 и5191/PID9270 сохранены. [Инструкция/URL/commits](../HTTPS_FRONTEND_PREVIEW.md).
 
 По разрешённой задаче точный frontend origin добавлен к CORS5188 после preflight на8019. Команда предупреждена [в PR18](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6215381194); перезапущен только опознанный API8018, переключение/readiness заняло около6секунд. Новый API listener10208/launcher34292, прежний API cloudflared33900 сохранён. [О восстановлении сообщено](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6215495430). .env не менялся, ALLOWED_ORIGINS задан в окружении процесса и сохранён в игнорируемом tmp/api-runtime-overrides.json; учитывать при следующем restart. Ревизия0005 только прочитана, БД/Storage/setup не менялись.
 
@@ -540,7 +712,7 @@ Remote проверены: PR18 **5ab11b146778698f54164057974fc81c397192dc**, PR
 
 **Frontend с заглушками:**73PASS в qa-customers-regression, qa-contract-regression, client, bindings; check:api/typecheck/lint PASS. Изначально запуск блокировался записью Vite temp за пределами sandbox, повтор с доступом прошёл; неверный первоначальный test-filter не нашёл файлы, после указания реальных src/test/* suite выполнен. UI/coordinator seller не реализовывались, новые E2E/браузерные/liveGemini проверки не заявляются.
 
-**Сохранённая живая среда:** readonly HTTP200 у API8018/health, внешнего APIhealth и frontend/login; внешний OpenAPI по-прежнему0.6.1. FastAPI listener10208/launcher34292, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, checkoutca51bbf; cloudflared33900/API и34696/frontend не тронуты. Preview5192/PID33204, старые5188/PID28500 и5191/PID9268 сохранены. [Текущие адреса](../HTTPS_FRONTEND_PREVIEW.md). Общую Supabase не очищали, setup/seed/0006 не запускали, новых учебных записей там нет, env/секреты не меняли. Это доступность с ПК капитана, не новая физическая приёмка Flutter.
+**Сохранённая живая среда:** readonly HTTP200 у API8018/health, внешнего APIhealth и frontend/login; внешний OpenAPI по-прежнему0.6.1. FastAPI listener10208/launcher34292, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, checkoutca51bbf; cloudflared33900/API и34696/frontend не тронуты. Preview5192/PID33204, старые5188/PID28500 и5191/PID9270 сохранены. [Текущие адреса](../HTTPS_FRONTEND_PREVIEW.md). Общую Supabase не очищали, setup/seed/0006 не запускали, новых учебных записей там нет, env/секреты не меняли. Это доступность с ПК капитана, не новая физическая приёмка Flutter.
 
 Следующий шаг: review Draft и согласованный rollout0006/0.6.2 с проверенным восстановимым backup, затем отдельная живая приёмка customer recovery. Frontend берёт текущие OpenAPI/generated, хранит key по identity/APIproject/business доPOST, повторяет только прежниеkey/body и трактуетnot_observed как unknown. Доrollout нельзя включать recovery endpoint на существующемHTTPS0.6.1. Послеreload при утраченном body иnot_observed безопасное автоматическое завершение не гарантируется; поиск клиента по имени не заменяет receipt. Main/PR не сливались, деплоя нет.
 
@@ -677,6 +849,6 @@ Vercel GLB по SHA-256 всё ещё совпадают со старым 0f97c
 
 ### 2026-10-17 — модели реально опубликованы на production Vercel
 
-Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event **Dqtc8FnqY4QGcfM3WKxWDQxuvmpV** success и все3 production GLB SHA256 совпадают. Отчётный commit отдельной review-ветки не означает ещё один production deploy. Recovery9a3c868 исключён из-за подтверждённого late-response удаления нового pending intent. Диагностический e699158 сохранён, Render не переключался; process SHA остаётся подтверждением капитана, публичный API0.6.2 повторно проверен.
+Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event **Dqtc8FnqY4QGcfM3WKxWDQxuvmpV** success и все3 production GLB SHA256 совпадают. Отчётный commit отдельной review-ветки не означает ещё один production deploy. Recovery9a3c870 исключён из-за подтверждённого late-response удаления нового pending intent. Диагностический e699158 сохранён, Render не переключался; process SHA остаётся подтверждением капитана, публичный API0.6.2 повторно проверен.
 
 Новый настоящий Vercel→Render browser loginA6→точка→клиенты/history/summary HTTP200→Analytics7/30/reload→logoutB3→foreign404→logout PASS. Production3D360/390/1440,RU/KZ,27hotspots/6введённыхfallbacks PASS; физический телефон не заявляем. Read-onlyHTTP health/OpenAPI/Auth/CORS/изоляция/21JSONprivacy PASS. Ни новых клиентов, ни денег, ни AI-запросов, ни миграций. [Полный отчёт и следующий шаг по владельцам](../MODELS_PRODUCTION_ACCEPTANCE.md). APK не обновлялся. Исходный recording.webm отсутствует, инцидент открыт; новая запись будет отдельным сценарием после разрешения расходов.

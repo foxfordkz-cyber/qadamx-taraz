@@ -111,6 +111,43 @@
         "maxInfluences": 0,
         "maxAttributes": 2
       }
+    },
+    {
+      "slug": "mal-bazar",
+      "sha256": "eb744d6796a847f8e658b3f2eda3949cf41901b13d2f898287a0004bbfb4f1b6",
+      "validatorVersion": "2.0.0-dev.3.10",
+      "issues": {
+        "numErrors": 0,
+        "numWarnings": 0,
+        "numInfos": 0,
+        "numHints": 0,
+        "messages": [],
+        "truncated": false
+      },
+      "info": {
+        "version": "2.0",
+        "generator": "Khronos glTF Blender I/O v4.5.51",
+        "resources": [
+          {
+            "pointer": "/buffers/0",
+            "mimeType": "application/gltf-buffer",
+            "storage": "glb",
+            "byteLength": 699228
+          }
+        ],
+        "animationCount": 0,
+        "materialCount": 16,
+        "hasMorphTargets": false,
+        "hasSkins": false,
+        "hasTextures": false,
+        "hasDefaultScene": true,
+        "drawCallCount": 16,
+        "totalVertexCount": 25796,
+        "totalTriangleCount": 13354,
+        "maxUVs": 0,
+        "maxInfluences": 0,
+        "maxAttributes": 2
+      }
     }
   ]
 }

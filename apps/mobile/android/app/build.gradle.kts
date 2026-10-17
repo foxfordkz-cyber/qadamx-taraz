@@ -28,6 +28,23 @@ android {
         versionName = flutter.versionName
     }
 
+    packaging {
+        jniLibs {
+            // Team APKs are sideloaded through OEM installers. Extract compressed
+            // libraries at installation instead of mapping them from the APK.
+            // Keep ELF 16 KB alignment; this changes packaging, not native code.
+            useLegacyPackaging = true
+        }
+    }
+
+    signingConfigs {
+        getByName("debug") {
+            enableV1Signing = true
+            enableV2Signing = true
+            enableV3Signing = true
+        }
+    }
+
     buildTypes {
         release {
             // Internal review only. Store/release signing is intentionally not configured.

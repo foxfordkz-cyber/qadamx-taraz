@@ -9,12 +9,20 @@ import { getBusinesses, getVenues } from "./api";
 import { useFetch } from "./hooks";
 import { useT } from "./i18n";
 
+import { MAL_BAZAR_SLUG } from "./malBazarLinks";
+import MalBazarPage from "./MalBazarPage";
 import { LangSwitch, State } from "./ui";
 import "./explore.css";
 
 const Scene = lazy(() => import("./VenueScene"));
 
-export default function VenuePage() {
+/** Mal bazar is not a venue of the public API; its concept page sits beside the venues. */
+export default function VenueRoute() {
+  const { slug = "" } = useParams();
+  return slug === MAL_BAZAR_SLUG ? <MalBazarPage /> : <VenuePage />;
+}
+
+function VenuePage() {
   const { slug = "" } = useParams();
   const { t, name, categoryName } = useT();
   const nav = useNavigate();
@@ -86,6 +94,14 @@ export default function VenuePage() {
 
       <span className="eyebrow eyebrow--dark">{t("venue_eyebrow")}</span>
       <h1>{venue ? name(venue) : slug}</h1>
+      {venue && (
+        <p className="venue-meta">
+          {t(venue.is_demo ? "venue_demo" : "venue_live")}
+          {venue.asset
+            ? ` · ${t("points")}: ${venue.asset.hotspots.length}`
+            : ""}
+        </p>
+      )}
       <p className="muted">{t("conceptual_hint")}</p>
 
       <Suspense
@@ -102,6 +118,7 @@ export default function VenuePage() {
           hoverId={hover}
           selectedId={selected}
           onSelect={openShop} // та же сущность, что и карточка в списке
+          onHover={setHover}
         />
       </Suspense>
 
@@ -160,7 +177,7 @@ export default function VenuePage() {
               {list.map((b) => (
                 <li key={b.id}>
                   <Link
-                    className="card"
+                    className={`card shop-card${hover === b.slug ? " is-active" : ""}`}
                     to={`/shops/${b.slug}`}
                     onMouseEnter={() => setHover(b.slug)}
                     onMouseLeave={() => setHover(null)}

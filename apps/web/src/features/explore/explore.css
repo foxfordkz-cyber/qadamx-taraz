@@ -141,8 +141,8 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: 370px;
-  padding: clamp(28px, 6vw, 72px);
+  min-height: 340px;
+  padding: clamp(28px, 4.5vw, 56px);
   border-radius: var(--qadam-radius-hero);
   background: linear-gradient(
     125deg,
@@ -187,8 +187,11 @@
   background: var(--lime);
   box-shadow: none;
 }
+/* Two lines on desktop, so the venue overview starts on the first screen. */
 .ex .hero h1 {
   color: var(--qadam-white);
+  font-size: clamp(2.5rem, 5.2vw, 4.6rem);
+  max-width: 15ch;
 }
 .ex .hero-copy > p {
   max-width: 47ch;
@@ -800,7 +803,7 @@
     box-sizing: border-box;
   }
   .ex .scene {
-    height: 290px;
+    height: 250px;
     margin: 14px 0 42px;
     border-radius: var(--qadam-radius-card);
   }
@@ -1002,17 +1005,90 @@
 .ex .catalog {
   padding: 5px 20px;
 }
-.ex .catalog-item {
+/* Beats ".ex .catalog li" (0,2,1), which used to turn rows back into flex. */
+.ex .catalog .catalog-item {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
-  gap: 12px;
-  padding: 17px 0 !important;
+  gap: 16px;
+  padding: 15px 0 !important;
 }
-.ex .catalog-index {
+.ex .catalog-title {
+  text-align: left;
+}
+.ex .catalog-stock {
   color: var(--qadam-muted);
-  font-size: 0.76rem;
-  font-weight: 800;
+  font-size: var(--qadam-text-sm);
+  white-space: nowrap;
+}
+.ex .catalog-stock.is-available {
+  color: var(--qadam-success);
+}
+.ex .catalog-price {
+  min-width: 80px;
+  white-space: nowrap;
+}
+
+/* Shop header: name, category and place first, one main action. */
+.ex .shop-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 28px);
+  align-items: start;
+  padding: clamp(20px, 3.5vw, 36px);
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: linear-gradient(
+    120deg,
+    var(--qadam-soft),
+    var(--qadam-surface-subtle)
+  );
+}
+.ex .shop-cover {
+  display: grid;
+  place-items: center;
+  width: clamp(72px, 10vw, 112px);
+  aspect-ratio: 1;
+  border-radius: var(--qadam-radius-card);
+  background: var(--green);
+  color: var(--qadam-lime);
+  font: 800 clamp(2rem, 4vw, 3rem) / 1 var(--qadam-font);
+}
+.ex .shop-head-copy {
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+  min-width: 0;
+}
+.ex .shop-head h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4.4vw, 3.25rem);
+  overflow-wrap: anywhere;
+}
+.ex .shop-head-copy p {
+  margin: 0;
+  max-width: 60ch;
+}
+.ex .shop-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.ex .shop-place {
+  font-weight: 600;
+}
+/* Inline link with a 44 px tall hit area that does not change the line. */
+.ex .shop-place a {
+  display: inline-block;
+  padding-block: 11px;
+  margin-block: -11px;
+  color: var(--green);
+}
+.ex .shop-head .btn {
+  margin-top: 6px;
+}
+.ex .inquiry-anchor {
+  scroll-margin-top: 16px;
 }
 .ex .catalog-title {
   font-weight: 600;
@@ -1022,41 +1098,10 @@
   font-size: 0.95rem;
   text-align: right;
 }
-.ex .shop-hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  min-height: 330px;
-  padding: clamp(26px, 5vw, 56px);
-  border-radius: var(--qadam-radius-hero);
-  background: linear-gradient(
-    120deg,
-    var(--qadam-soft) 0%,
-    var(--qadam-surface-subtle) 100%
-  );
-}
-.ex .shop-hero-copy {
-  position: relative;
-  z-index: 2;
-  max-width: 670px;
-}
-.ex .shop-hero h1 {
-  max-width: 13ch;
-  margin: 20px 0 10px;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-}
-.ex .shop-hero-copy > p {
-  max-width: 54ch;
-  color: var(--qadam-muted);
-  font-size: 1.05rem;
-}
 .ex .category-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 26px;
   padding: 7px 12px;
   border: 1px solid rgba(22, 76, 62, 0.13);
   border-radius: var(--qadam-radius-pill);
@@ -1071,80 +1116,6 @@
   border-radius: 50%;
   background: var(--qadam-orange);
 }
-.ex .shop-art {
-  position: absolute;
-  z-index: 1;
-  right: 2%;
-  top: 50%;
-  width: 330px;
-  height: 280px;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-.ex .shop-art-orbit {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 260px;
-  height: 260px;
-  border: 1px solid rgba(22, 76, 62, 0.13);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-.ex .shop-art-orbit--two {
-  width: 205px;
-  height: 205px;
-}
-.ex .shop-art-step {
-  position: absolute;
-  bottom: 38px;
-  left: 64px;
-  width: 74px;
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  border-radius: 12px 12px 4px 4px;
-  background: linear-gradient(
-    145deg,
-    var(--qadam-lime),
-    var(--qadam-lime-deep)
-  );
-  box-shadow: var(--qadam-shadow-raised);
-  transform: skewY(-25deg);
-}
-.ex .shop-art-step--one {
-  height: 58px;
-  left: 55px;
-  bottom: 40px;
-}
-.ex .shop-art-step--two {
-  height: 100px;
-  left: 120px;
-  bottom: 55px;
-  background: linear-gradient(
-    145deg,
-    var(--qadam-white),
-    var(--qadam-surface-muted)
-  );
-}
-.ex .shop-art-step--three {
-  height: 145px;
-  left: 185px;
-  bottom: 70px;
-  background: linear-gradient(
-    145deg,
-    var(--qadam-green),
-    var(--qadam-green-deep)
-  );
-}
-.ex .shop-art-spark {
-  position: absolute;
-  top: 30px;
-  right: 45px;
-  color: var(--qadam-orange-deep);
-  font-size: 2.3rem;
-}
-.ex .shop-hero + .catalog-section {
-  margin-top: 34px;
-}
 .ex .ex > .state {
   margin-top: 20px;
 }
@@ -1152,13 +1123,6 @@
 @media (max-width: 760px) {
   .ex .venue-heading {
     margin-top: 24px;
-  }
-  .ex .shop-art {
-    right: -12%;
-    opacity: 0.56;
-  }
-  .ex .shop-hero-copy {
-    max-width: 75%;
   }
   .ex .browse-heading {
     align-items: stretch;
@@ -1205,39 +1169,31 @@
   .ex .catalog {
     padding: 3px 13px;
   }
-  .ex .catalog-item {
-    grid-template-columns: 27px minmax(0, 1fr) auto;
-    gap: 8px;
+  .ex .catalog .catalog-item {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 12px;
+  }
+  .ex .catalog-stock {
+    grid-row: 2;
+    font-size: 0.8rem;
+  }
+  .ex .catalog-price {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    min-width: 0;
+  }
+  .ex .shop-head {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .ex .shop-head .btn {
+    width: 100%;
   }
   .ex .catalog-title {
     font-size: 0.88rem;
   }
   .ex .catalog-price {
     font-size: 0.82rem;
-  }
-  .ex .shop-hero {
-    min-height: 300px;
-    padding: 25px 20px;
-    border-radius: var(--qadam-radius-card);
-  }
-  .ex .shop-hero-copy {
-    max-width: 100%;
-  }
-  .ex .shop-hero h1 {
-    max-width: 11ch;
-    font-size: clamp(2.35rem, 11vw, 3.5rem);
-  }
-  .ex .shop-hero-copy > p {
-    max-width: 38ch;
-    font-size: 0.94rem;
-  }
-  .ex .shop-art {
-    right: -42%;
-    top: 62%;
-    opacity: 0.17;
-  }
-  .ex .category-pill {
-    margin-top: 18px;
   }
 }
 
@@ -1260,24 +1216,93 @@
 .ex .venue-card:has(.venue-poster) .card-index {
   margin-bottom: 14px;
 }
+/* The button is the 44 × 44 touch target; only the inner dot is drawn, so close
+   markers do not cover each other or the facade on phones. */
 .ex .hotspot {
-  font-size: 16px;
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 44px;
-  max-width: 110px;
-  padding: 6px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  border: 2px solid var(--qadam-green);
-  background: var(--qadam-white);
+  background: transparent;
   color: var(--qadam-green);
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
-  min-height: 44px;
-  box-shadow: var(--qadam-shadow);
 }
-.ex .hotspot[aria-pressed="true"] {
+.ex .hotspot-dot {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--qadam-green);
+  border-radius: 50%;
+  background: var(--qadam-white);
+  box-shadow: var(--qadam-shadow);
+  transition: transform 0.15s ease;
+}
+.ex .hotspot[aria-pressed="true"] .hotspot-dot {
   background: var(--qadam-green);
   color: var(--qadam-white);
+  transform: scale(1.12);
+}
+.ex .hotspot:focus-visible {
+  outline: none;
+}
+.ex .hotspot:focus-visible .hotspot-dot {
+  outline: var(--qadam-focus-ring);
+  outline-offset: 2px;
+}
+/* Badge and hint follow the scene (or its no-WebGL fallback) in normal flow. */
+.ex .scene:has(+ .scene-meta) {
+  margin-bottom: 14px;
+}
+.ex .scene-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 14px 0 40px;
+}
+.ex .scene-hint {
+  margin: 0;
+  font-size: var(--qadam-text-sm);
+  color: var(--muted);
+}
+.ex .venue-meta {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+/* Point cards carry a name, a category and one action: no reserved empty height. */
+.ex .shop-card {
+  min-height: 0;
+  padding: 18px 20px;
+}
+.ex .shop-card p {
+  margin-bottom: 12px;
+}
+.ex .cards .card.is-active {
+  border-color: var(--qadam-green);
+  box-shadow: var(--qadam-shadow-raised);
+}
+@media (max-width: 480px) {
+  .ex .hotspot-dot {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .ex .scene-meta {
+    margin: 12px 0 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ex .hotspot-dot {
+    transition: none;
+  }
 }
 /* Selected marker names its shop next to the number; the list stays the full source. */
 .ex .hotspot-wrap {
@@ -1339,7 +1364,7 @@
   pointer-events: auto;
 }
 
-/* Мал базар — demonstration scheme (no listings until the web API integration exists). */
+/* Мал базар — concept model; no listings until the market has a confirmed key. */
 .ex .mal {
   margin-top: 64px;
 }
@@ -1374,49 +1399,227 @@
 .ex .mal-visual .scene {
   margin: 0;
 }
-.ex .mal-plan {
+.ex .mal-poster {
   display: block;
   width: 100%;
-  height: auto;
-  max-width: 100%;
-  border: 1px solid var(--qadam-line-strong);
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid var(--line);
   border-radius: var(--qadam-radius-card);
-  background: var(--qadam-white);
+  background: var(--qadam-surface-subtle);
 }
-.ex .mal-plan-yard {
-  fill: var(--qadam-surface-subtle);
-  stroke: var(--qadam-line-strong);
+/* Mal bazar page: what works now, as three plain cards. */
+.ex .mal-facts {
+  margin-top: 36px;
 }
-.ex .mal-plan-aisle {
-  fill: var(--qadam-soft);
-  stroke: var(--qadam-green);
-  stroke-dasharray: 6 5;
+.ex .mal-facts ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.ex .mal-plan-pen {
-  fill: var(--qadam-white);
-  stroke: var(--qadam-muted-light);
-  stroke-width: 2;
+.ex .mal-facts li {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
 }
-.ex .mal-plan-gate {
-  fill: none;
-  stroke: var(--qadam-green);
-  stroke-width: 6;
-  stroke-linecap: round;
+.ex .mal-facts h3 {
+  margin: 0;
+  font-size: 1.1rem;
 }
-.ex .mal-plan-arrow {
-  fill: none;
-  stroke: var(--qadam-orange-deep);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.ex .mal-facts p {
+  margin: 0;
 }
-.ex .mal-plan-text {
-  fill: var(--qadam-ink);
-  font: 700 13px var(--qadam-font);
+.ex .mal-facts .btn {
+  justify-self: start;
 }
 @media (max-width: 760px) {
   .ex .mal-body {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+  .ex .mal-facts ul {
+    grid-template-columns: 1fr;
+  }
+  .ex .mal-copy .btn,
+  .ex .mal-facts .btn {
+    justify-self: stretch;
+  }
+}
+
+/* Venue overview on the home page: the chosen venue large, its facts and one
+   action beside it, the other venues one tap away. Not a map of neighbours. */
+.ex .showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+  grid-template-areas:
+    "tabs tabs"
+    "stage card";
+  gap: 16px;
+  align-items: start;
+}
+.ex .showcase-tabs {
+  grid-area: tabs;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ex .showcase-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 6px 18px 6px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  font: 700 0.95rem var(--qadam-font);
+  cursor: pointer;
+}
+.ex .showcase-tabs button:hover {
+  border-color: var(--qadam-line-hover);
+}
+.ex .showcase-tabs button[aria-pressed="true"] {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--qadam-white);
+}
+/* A long name must not push the other venues out of the row; the card shows it in full. */
+.ex .showcase-tabs span {
+  max-width: 14em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ex .showcase-tabs img {
+  width: 58px;
+  height: 40px;
+  object-fit: cover;
+  object-position: 50% 60%;
+  border-radius: var(--qadam-radius-pill);
+}
+.ex .showcase-stage {
+  grid-area: stage;
+  min-width: 0;
+}
+.ex .showcase-stage .scene {
+  height: clamp(300px, 30vw, 400px);
+  margin: 0;
+}
+/* The section heading already carries the "conceptual scheme" badge. */
+.ex .showcase-stage .scene-meta {
+  display: none;
+}
+.ex .showcase-still {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.ex .showcase-poster,
+.ex .showcase-still .venue-art {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--qadam-surface-subtle);
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+/* A failed model load keeps the poster in the same frame as the no-WebGL view. */
+.ex .showcase-stage .venue-fallback {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.ex .showcase-stage .venue-poster {
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+.ex .showcase-stage .venue-fallback [role="status"] {
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-control);
+  background: var(--white);
+}
+.ex .showcase-still .venue-art {
+  position: relative;
+  inset: auto;
+  height: auto;
+}
+.ex .showcase-card {
+  grid-area: card;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
+}
+.ex .showcase-card .card-index {
+  margin: 0;
+}
+.ex .showcase-card h3 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  overflow-wrap: anywhere;
+}
+.ex .showcase-card p {
+  margin: 0;
+}
+.ex .showcase-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ex .showcase-cats li {
+  padding: 6px 12px;
+  border-radius: var(--qadam-radius-pill);
+  background: var(--qadam-surface-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.ex .showcase-card .btn {
+  justify-self: start;
+  margin-top: 6px;
+}
+@media (max-width: 760px) {
+  .ex .showcase {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "tabs"
+      "stage"
+      "card";
+  }
+  .ex .showcase-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+  }
+  .ex .showcase-tabs button {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .ex .showcase-stage .scene {
+    height: 260px;
+  }
+  .ex .showcase-card .btn {
+    justify-self: stretch;
   }
 }

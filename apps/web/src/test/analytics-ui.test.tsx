@@ -25,6 +25,7 @@ import {
   type DemoAnalyticsAdapter,
 } from "../features/seller/analytics/demo";
 import { AnalyticsDemoAdapterProvider } from "../features/seller/analytics/queries";
+import { analyticsDate } from "../features/seller/analytics/Charts";
 import {
   defaultFetch,
   deferred,
@@ -165,6 +166,17 @@ async function openTables() {
 }
 
 describe("Analytics through the existing App, Auth, business and RU/KZ providers", () => {
+  it("uses readable Kazakh calendar dates independently of Chromium's incomplete ICU month names", () => {
+    expect(analyticsDate("2026-10-16", "kk", "Asia/Almaty")).toBe("16 қазан");
+    expect(analyticsDate("2026-10-16", "kk", "Asia/Almaty", true)).toBe(
+      "16 қаз.",
+    );
+    expect(analyticsDate("2026-01-01", "kk", "Asia/Almaty")).toBe("1 қаңтар");
+    expect(analyticsDate("2026-12-31", "kk", "Asia/Almaty")).toBe(
+      "31 желтоқсан",
+    );
+    expect(analyticsDate("2026-10-16", "ru", "Asia/Almaty")).toBe("16 октября");
+  });
   it("protects its direct route before any Analytics adapter request", async () => {
     const read = vi.fn<DemoAnalyticsAdapter["read"]>();
     renderAnalytics({
@@ -260,6 +272,61 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     );
   });
 
+  it("separates six API metrics and period/current scopes in both languages, with unfiltered links", async () => {
+    await openDemo();
+    await reportReady();
+    const cards = [
+      ["Продажи за период", "74 000 ₸"],
+      ["Получено за период", "51 000 ₸"],
+      ["Количество продаж", "25"],
+      ["Средний чек", "2 960 ₸"],
+      ["Мне должны сейчас", "35 000 ₸"],
+      ["Количество должников", "8"],
+    ];
+    cards.forEach(([title, value], index) => {
+      expect(metric(title).getByText(value)).toBeInTheDocument();
+      expect(
+        metric(title).getByText(
+          index < 4 ? "За выбранный период" : "Сейчас · все даты",
+        ),
+      ).toBeInTheDocument();
+    });
+    const summary = screen.getByRole("article", { name: "Краткая сводка" });
+    expect(summary).toHaveTextContent(
+      "Зарегистрировано продаж: 25, на сумму 74 000 ₸. Поступления: 51 000 ₸.",
+    );
+    expect(summary).toHaveTextContent(
+      "Сейчас · все даты. Общий долг: 35 000 ₸. Должников: 8.",
+    );
+    expect(
+      within(summary).getByRole("link", { name: "Открыть историю" }),
+    ).toHaveAttribute("href", "/seller/history");
+    expect(
+      within(summary).getByRole("link", { name: "Открыть долги" }),
+    ).toHaveAttribute("href", "/seller/debts");
+    await userEvent.click(screen.getByRole("button", { name: "30 дней" }));
+    await waitFor(() =>
+      expect(
+        screen.getByRole("article", { name: "Краткая сводка" }),
+      ).toHaveTextContent(
+        "Зарегистрировано продаж: 100, на сумму 300 000 ₸. Поступления: 251 000 ₸.",
+      ),
+    );
+    expect(metric("Количество должников").getByText("8")).toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "KZ" }));
+    expect(metric("Сатылымдар саны").getByText("100")).toBeInTheDocument();
+    expect(metric("Борышкерлер саны").getByText("8")).toBeInTheDocument();
+    expect(
+      screen.getByRole("article", { name: "Қысқаша қорытынды" }),
+    ).toHaveTextContent(
+      "Қазір · барлық күндер. Жалпы қарыз: 35 000 ₸. Борышкерлер: 8.",
+    );
+    expect(screen.getByRole("link", { name: "Тарихты ашу" })).toHaveAttribute(
+      "href",
+      "/seller/history",
+    );
+  });
+
   it("keeps zero days/hours and presents null average as no sales rather than zero or NaN", async () => {
     await openDemo();
     await reportReady();
@@ -272,6 +339,14 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     });
     expect(metric("Средний чек").getByText("Нет продаж")).toBeInTheDocument();
     expect(metric("Средний чек").queryByText("0 ₸")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Новая продажа" })).toHaveAttribute(
+      "href",
+      "/seller/sale",
+    );
+    expect(
+      screen.getByText("Показать по дням и часам").parentElement,
+    ).not.toHaveAttribute("open");
+    await userEvent.click(screen.getByText("Показать по дням и часам"));
     const tables = await openTables();
     expect(within(tables.daily).getAllByRole("row")).toHaveLength(8);
     expect(within(tables.hourly).getAllByRole("row")).toHaveLength(25);
@@ -298,9 +373,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     expect(
       metric("Мне должны сейчас").getByText("35 000 ₸"),
     ).toBeInTheDocument();
-    expect(
-      metric("Мне должны сейчас").getByText("Должников: 8"),
-    ).toBeInTheDocument();
+    expect(metric("Количество должников").getByText("8")).toBeInTheDocument();
     expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
     expect(metric("Средний чек").getByText("Нет продаж")).toBeInTheDocument();
     expect(
@@ -320,6 +393,12 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     );
     await screen.findByText("Учебный пример отмены");
     expect(
+      screen.getByRole("article", { name: "Краткая сводка" }),
+    ).toHaveTextContent("Поступления: -1 000 ₸.");
+    expect(
+      screen.getByRole("article", { name: "Краткая сводка" }),
+    ).toHaveTextContent("возвраты при отменах превысили полученные оплаты");
+    expect(
       metric("Получено за период").getByText("-1 000 ₸"),
     ).toBeInTheDocument();
     expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
@@ -331,9 +410,37 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     expect(
       within(chart).getByRole("button", { name: /Поступления: -1 000 ₸/ }),
     ).toHaveAccessibleName(/Сегодня — неполный день/);
+    expect(screen.getByText("Минимум за день: -1 000 ₸")).toBeInTheDocument();
     const tables = await openTables();
     expect(
       within(tables.daily).getByRole("cell", { name: "-1 000 ₸" }),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps offsetting receipts visible even when the period net is zero", async () => {
+    const snapshot = makeDemoAnalyticsSnapshot(
+      DEMO_ANALYTICS_BUSINESS,
+      7,
+      "empty",
+    );
+    snapshot.daily[0].receipts_minor = 100_000;
+    snapshot.daily[1].receipts_minor = -100_000;
+    await openDemo(
+      createDemoAnalyticsAdapter({ delayMs: 0, resolve: () => snapshot }),
+    );
+    await reportReady();
+    expect(
+      screen.queryByText("Показать по дням и часам"),
+    ).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Поступления" }));
+    const chart = screen.getByRole("region", {
+      name: "Дневной график; горизонтальная прокрутка",
+    });
+    expect(
+      within(chart).getByRole("button", { name: /Поступления: -1 000 ₸/ }),
+    ).toBeInTheDocument();
+    expect(
+      within(chart).getByRole("button", { name: /Поступления: 1 000 ₸/ }),
     ).toBeInTheDocument();
   });
 
@@ -545,6 +652,12 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
       ).not.toBeInTheDocument();
       expect(
         screen.queryByRole("heading", { name: "Продажи за период" }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("article", { name: "Краткая сводка" }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: "Новая продажа" }),
       ).not.toBeInTheDocument();
       expect(
         fetcher.mock.calls.filter(([input]) => analyticsUrl(input)),

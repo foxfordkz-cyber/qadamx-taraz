@@ -720,6 +720,7 @@ input[aria-invalid="true"] {
 }
 dialog {
   width: min(540px, calc(100% - 24px));
+  max-height: calc(100vh - 32px);
   max-height: calc(100dvh - 32px);
   padding: 26px;
   border: 1px solid var(--border);
@@ -732,6 +733,22 @@ dialog {
 dialog::backdrop {
   background: var(--qadam-backdrop);
   backdrop-filter: blur(3px);
+}
+.dialog-fallback-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--qadam-backdrop);
+}
+.dialog-fallback-backdrop > dialog[open] {
+  display: block;
+  position: relative;
+  margin: auto;
+  max-height: calc(100vh - 32px);
 }
 .dialog-heading {
   display: flex;

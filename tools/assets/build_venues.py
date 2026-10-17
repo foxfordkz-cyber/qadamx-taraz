@@ -24,8 +24,12 @@ from venue_geometry import PARTS, MATERIALS, material, xyz
 from model_mart import CONFIG as MART
 from model_kaikarmet import CONFIG as KAIKARMET
 from model_auyl_bereke import CONFIG as AUYL_BEREKE
+from model_mal_bazar import CONFIG as MAL_BAZAR
 
 CONFIGS = {"mart": MART, "kaikarmet": KAIKARMET, "auyl-bereke": AUYL_BEREKE}
+# Concept assets outside the three-venue manifest contract: each writes its own
+# descriptor next to venue-assets.json, which stays exactly as it was.
+STANDALONE = {"mal-bazar": MAL_BAZAR}
 
 
 def render_setup(config, path, samples, bounds_min, bounds_max):
@@ -143,7 +147,7 @@ def build_one(slug, config, args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--venue", choices=list(CONFIGS), help="Build only one model; preserve other manifest entries")
+    parser.add_argument("--venue", choices=list(CONFIGS) + list(STANDALONE), help="Build only one model; preserve other manifest entries")
     parser.add_argument("--no-render", action="store_true")
     parser.add_argument("--samples", type=int, default=32)
     parser.add_argument("--render-dir", type=Path, default=ROOT / "tmp/asset-renders")
@@ -158,6 +162,11 @@ def main():
             venues[slug] = build_one(slug, config, args)
             manifest = {"schema_version": 1, "note": "Модели по открытым референсам. Точность зависит от площадки; размеры без обмеров оценочные. Учебные точки не задают маршрут к реальному продавцу.", "venues": list(venues.values()), "required_venue_slugs": list(CONFIGS), "business_slug_pattern": "<venue-slug>-demo-<clothes|food|home>"}
             manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            print(f"ASSET_READY {slug}", flush=True)
+    for slug, config in STANDALONE.items():
+        if args.venue is None or slug == args.venue:
+            entry = build_one(slug, config, args)
+            (PUBLIC / config["descriptor"]).write_text(json.dumps(entry, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
             print(f"ASSET_READY {slug}", flush=True)
 
 

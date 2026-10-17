@@ -1,0 +1,308 @@
+{
+  "source": "candidate local static bundle; real Supabase and Render",
+  "real_auth": true,
+  "new_customer_writes": 0,
+  "financial_writes": 0,
+  "ai_calls": 0,
+  "physical_device": false,
+  "views": [
+    {
+      "route": "customers",
+      "width": 360,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "customers",
+      "width": 360,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "customers",
+      "width": 390,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "customers",
+      "width": 390,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "customers",
+      "width": 1440,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "customers",
+      "width": 1440,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "catalog",
+      "width": 360,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "catalog",
+      "width": 360,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "catalog",
+      "width": 390,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "catalog",
+      "width": 390,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "catalog",
+      "width": 1440,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "catalog",
+      "width": 1440,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "sale",
+      "width": 360,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "sale",
+      "width": 360,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "sale",
+      "width": 390,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "sale",
+      "width": 390,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "sale",
+      "width": 1440,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "sale",
+      "width": 1440,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "history",
+      "width": 360,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "history",
+      "width": 360,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "history",
+      "width": 390,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "history",
+      "width": 390,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "history",
+      "width": 1440,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "history",
+      "width": 1440,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "summary",
+      "width": 360,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "summary",
+      "width": 360,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "summary",
+      "width": 390,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "summary",
+      "width": 390,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "summary",
+      "width": 1440,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "summary",
+      "width": 1440,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "analytics",
+      "width": 360,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "analytics",
+      "width": 360,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "analytics",
+      "width": 390,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "analytics",
+      "width": 390,
+      "lang": "RU",
+      "overflow": false
+    },
+    {
+      "route": "analytics",
+      "width": 1440,
+      "lang": "KZ",
+      "overflow": false
+    },
+    {
+      "route": "analytics",
+      "width": 1440,
+      "lang": "RU",
+      "overflow": false
+    }
+  ],
+  "http": [
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/auth/v1/token",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    },
+    {
+      "path": "/api/v1/me",
+      "status": 200
+    }
+  ],
+  "a_memberships": 6,
+  "same_receipt_customer": "f02abd40-6356-47e3-9c31-7f8268b981f1",
+  "reload_customer_persists": true,
+  "analytics_7": 200,
+  "analytics_30": 200,
+  "customers": 200,
+  "operations": 200,
+  "summary": 200,
+  "inquiry_id": "e77aa7d2-1799-4139-be37-728642d0925d",
+  "owner_inbox_reload": true,
+  "new_apk_test_link": true,
+  "b_memberships": 3,
+  "inquiry_b_isolation": true,
+  "no_localhost_or_tunnel_requests": true,
+  "b_isolation": true,
+  "completed": true
+}

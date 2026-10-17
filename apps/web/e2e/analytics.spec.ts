@@ -147,6 +147,20 @@ for (const width of [360, 390, 768, 1440]) {
       const hourly = page.locator(".analytics-hourly-bars");
       await expect(daily.getByRole("button")).toHaveCount(7);
       await expect(hourly.getByRole("button")).toHaveCount(24);
+      await expect(page.locator(".analytics-kpi")).toHaveCount(6);
+      const targets = await page
+        .locator(
+          ".analytics-bar-button, .analytics-report-links a, .analytics-period-switch button",
+        )
+        .evaluateAll((elements) =>
+          elements.map((element) => {
+            const { width, height } = element.getBoundingClientRect();
+            return { width, height };
+          }),
+        );
+      expect(
+        targets.every(({ width, height }) => width >= 44 && height >= 44),
+      ).toBe(true);
       await expect(page.locator(".analytics-kpi-primary")).toHaveCSS(
         "background-color",
         "rgb(22, 76, 62)",
@@ -170,6 +184,12 @@ for (const width of [360, 390, 768, 1440]) {
       await hourly.getByRole("button").nth(15).click();
       await expect(page.locator(".analytics-hour-selection")).toContainText(
         "15:00",
+      );
+      await expect(page.locator(".analytics-hour-selection")).toContainText(
+        "16",
+      );
+      await expect(page.locator(".analytics-hour-selection")).not.toContainText(
+        "₸",
       );
       const summary = page.locator(".analytics-table-details summary").first();
       await summary.focus();
@@ -205,6 +225,12 @@ test("negative receipts, RU/KZ, reduced motion and no financial writes", async (
   const traffic = await demoReport(page);
   await page.getByRole("button", { name: "30 дней", exact: true }).click();
   await page.getByRole("button", { name: "KZ", exact: true }).click();
+  await expect(page.locator(".analytics-selection-date").first()).toContainText(
+    "16 қазан",
+  );
+  await expect(
+    page.locator(".analytics-daily-bars button").last(),
+  ).toContainText("16 қаз.");
   await expect(
     page.getByRole("heading", { name: "Менің сауда нүктемнің аналитикасы" }),
   ).toBeVisible();
@@ -329,6 +355,9 @@ test("Live API failure keeps an explicit retry without synthetic financial data"
     page.getByRole("heading", { name: "Не удалось загрузить данные" }),
   ).toBeVisible();
   await expect(page.locator(".analytics-kpis")).toHaveCount(0);
+  await expect(
+    page.locator(".analytics-summary, .analytics-empty"),
+  ).toHaveCount(0);
   await expect(page.locator(".analytics-demo-panel")).toHaveCount(0);
   expect(analytics.calls).toHaveLength(1);
   analytics.status = 200;
@@ -336,6 +365,55 @@ test("Live API failure keeps an explicit retry without synthetic financial data"
   await expect(page.locator(".analytics-kpis")).toContainText("3 000 ₸");
   expect(analytics.calls).toHaveLength(2);
   expect(state.unexpected).toEqual([]);
+});
+
+test("direct route/reload show the active membership and links add no period filters or writes", async ({
+  page,
+}) => {
+  const state = await mockServices(page);
+  const analytics = await interceptLiveAnalytics(page);
+  await login(page);
+  await page.goto("/seller/analytics");
+  await expect(page.locator(".analytics-kpi")).toHaveCount(6);
+  await page.getByRole("button", { name: "30 дней", exact: true }).click();
+  await expect(page.locator(".analytics-daily-bars button")).toHaveCount(30);
+  await page
+    .getByRole("link", { name: "Открыть историю", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/seller\/history$/);
+  await page.goBack();
+  await expect(page.locator(".analytics-kpi")).toHaveCount(6);
+  await page.getByRole("link", { name: "Открыть долги", exact: true }).click();
+  await expect(page).toHaveURL(/\/seller\/debts$/);
+  await page.goto("/seller/analytics");
+  await page
+    .getByLabel("Торговая точка", { exact: true })
+    .selectOption(qaIds.shopA2);
+  await expect(page.locator(".analytics-empty")).toBeVisible();
+  await page.reload();
+  // BusinessProvider intentionally keeps selection in memory; a reload chooses
+  // the first /me membership. The report must match that visible selection.
+  await expect(page.getByLabel("Торговая точка", { exact: true })).toHaveValue(
+    qaIds.shopA,
+  );
+  await expect(page.locator(".analytics-business")).toContainText("QA MART");
+  await expect(page.locator(".analytics-kpis")).toContainText("3 000 ₸");
+  await page
+    .getByLabel("Торговая точка", { exact: true })
+    .selectOption(qaIds.shopA2);
+  await expect(page.locator(".analytics-summary")).not.toContainText("3 000 ₸");
+  await expect(page.locator(".analytics-empty")).toBeVisible();
+  await page.getByRole("link", { name: "Новая продажа", exact: true }).click();
+  await expect(page).toHaveURL(/\/seller\/sale$/);
+  await expect(page.getByLabel("Торговая точка", { exact: true })).toHaveValue(
+    qaIds.shopA2,
+  );
+  expect(analytics.calls.at(-1)?.business).toBe(qaIds.shopA2);
+  expect(
+    state.calls.filter(
+      (call) => call.method === "POST" && call.path.startsWith("/api/"),
+    ),
+  ).toEqual([]);
 });
 
 test("capture genuine desktop/mobile Analytics states with explicit synthetic labels", async ({
@@ -399,5 +477,19 @@ test("capture genuine desktop/mobile Analytics states with explicit synthetic la
   await capture("analytics-mobile-error");
   await page.setViewportSize({ width: 1440, height: 1000 });
   await capture("analytics-desktop-error");
+  await page.getByRole("button", { name: "Повторить", exact: true }).click();
+  await expect(page.locator(".analytics-kpi")).toHaveCount(6);
+  await page
+    .getByLabel("Учебный сценарий", { exact: true })
+    .selectOption("reversal");
+  await page.getByRole("button", { name: "Поступления", exact: true }).click();
+  await expect(page.locator(".analytics-negative-label")).toContainText(
+    "-1 000 ₸",
+  );
+  await capture("analytics-desktop-negative");
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.getByRole("button", { name: "KZ", exact: true }).click();
+  await noPageOverflow(page, 360);
+  await capture("analytics-mobile-kk-negative");
   expect(traffic).toEqual([]);
 });

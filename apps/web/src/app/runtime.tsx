@@ -43,7 +43,9 @@ export function RuntimeProvider({
       override ??
       (auth.demo
         ? demoGateway
-        : createLiveGateway(api, backendBindings, auth.session?.user.id)),
+        : createLiveGateway(api, backendBindings, auth.session?.user.id, {
+            customerIds: import.meta.env.VITE_CUSTOMER_IDS_ENABLED === "true",
+          })),
     [override, auth.demo, auth.session?.user.id, api],
   );
   const drafts = useRef(new Map<string, unknown>()).current;
