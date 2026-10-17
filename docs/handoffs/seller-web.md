@@ -74,6 +74,11 @@ base `main`, head `fix/seller-customer-recovery-safe`. Verification report commi
 **14f5ad8129605f47f65967603401c5c3cd17851f** was pushed successfully; local and
 remote HEAD matched. This following documentation-only commit records the PR link;
 the PR head and `git log -1 --format=%H` identify its current revision.
+GitHub confirmed PR #42 is Draft, not merged and conflict-free against main
+`9845b91b64d388c54312d2a8a75000218c7774af`. At revision
+`61044473a2be3026294c2d17f3d5f26ff1f39f28`, the automatic Vercel status and
+Preview Comments check both succeeded. No manual deployment or live browser
+acceptance was performed; preview success is not proof of Auth/DB acceptance.
 Next: captain review, integration/deployment in a separate authorized task, then
 the gated live rehearsal. Do not merge old PRs again or clear pending markers.
 

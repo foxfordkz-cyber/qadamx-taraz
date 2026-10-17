@@ -21,7 +21,9 @@ Published [Draft PR #42](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/42
 from `fix/seller-customer-recovery-safe` to `main`. Verification report commit
 `14f5ad8129605f47f65967603401c5c3cd17851f` was pushed and matched remote HEAD.
 The following docs-only commit records this publication; get the exact current
-revision with `git log -1 --format=%H`. No merge into main or deployment occurred.
+revision with `git log -1 --format=%H`. No merge into main or manual deployment
+was performed. The repository's automatic Vercel preview reported success for
+`61044473a2be3026294c2d17f3d5f26ff1f39f28`; no live browser acceptance was run.
 
 To continue in the existing worktree, inspect `git status --short`, run
 `git fetch origin --prune`, compare main/related PRs and use
