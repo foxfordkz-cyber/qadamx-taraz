@@ -194,8 +194,12 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
       ]);
     }
     return Card(
+      key: ValueKey('point-selector-${access.selectedId}'),
       child: ExpansionTile(
-        key: ValueKey('point-selector-${access.selectedId}'),
+        // Expansion state must not share the ListView scroll-position key.
+        key: PageStorageKey(
+          'point-expanded-${runtime.accountId}:${runtime.epoch}:${access.selectedId}',
+        ),
         initiallyExpanded: access.selected == null,
         leading: MediaQuery.textScalerOf(context).scale(14) <= 18.2
             ? const Icon(Icons.storefront_outlined)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../ui/common.dart';
+import '../ui/qadam_theme.dart';
 import 'crm_models.dart';
 import 'crm_pages.dart';
 import 'crm_ui.dart';
@@ -75,6 +76,51 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
     Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Container(
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: QadamTheme.green,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                tr(kk, 'Хорошего рабочего дня!', 'Жұмысыңыз сәтті болсын!'),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(color: QadamTheme.surface),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                tr(
+                  kk,
+                  'Продажа вручную, текстом или голосом',
+                  'Сатылымды қолмен, мәтінмен немесе дауыспен енгізу',
+                ),
+                style: const TextStyle(color: Color(0xffd2e2d4)),
+              ),
+              const SizedBox(height: 16),
+              FilledButton.icon(
+                key: const Key('crm-new-entry'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: QadamTheme.lime,
+                  foregroundColor: QadamTheme.ink,
+                ),
+                onPressed: () => open(
+                  CrmEntryPage(
+                    runtime: widget.runtime,
+                    business: widget.business,
+                    kk: kk,
+                  ),
+                ),
+                icon: const Icon(Icons.add),
+                label: Text(tr(kk, 'Новая запись', 'Жаңа жазба')),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
@@ -124,30 +170,6 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
               ),
             ],
           ),
-        const SizedBox(height: 16),
-        FilledButton.icon(
-          key: const Key('crm-new-entry'),
-          onPressed: () => open(
-            CrmEntryPage(
-              runtime: widget.runtime,
-              business: widget.business,
-              kk: kk,
-            ),
-          ),
-          icon: const Icon(Icons.add),
-          label: Text(tr(kk, 'Новая запись', 'Жаңа жазба')),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: Text(
-            tr(
-              kk,
-              'Продажа вручную, текстом или голосом',
-              'Сатылымды қолмен, мәтінмен немесе дауыспен енгізу',
-            ),
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        ),
         section('Работа с клиентами', 'Клиенттермен жұмыс', [
           action(
             'Клиенты',

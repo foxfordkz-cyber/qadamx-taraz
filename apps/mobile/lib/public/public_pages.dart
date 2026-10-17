@@ -154,7 +154,10 @@ class _PublicHomeState extends State<PublicHome> {
         Text(name, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 4),
         Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
-        if (demo) ...[const SizedBox(height: 6), demoLabel(qadamKk(context))],
+        if (demo) ...[
+          const SizedBox(height: 6),
+          QadamBadge(tr(qadamKk(context), 'Учебная витрина', 'Оқу сөресі')),
+        ],
       ],
     );
     return Card(
