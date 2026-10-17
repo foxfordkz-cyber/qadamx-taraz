@@ -166,8 +166,9 @@ void main() {
     (tester) async {
       final nameQueries = <Map<String, List<String>>>[];
       final fixture = LedgerFixture((r) async {
-        if (r.url.path.endsWith('/operations'))
+        if (r.url.path.endsWith('/operations')) {
           return page([operation(1, customer: true)]);
+        }
         nameQueries.add(r.url.queryParametersAll);
         return page([customer(id(9999))]); // A legacy server ignored ids.
       }, idsEnabled: true);
@@ -223,8 +224,9 @@ void main() {
     (tester) async {
       var names = 0;
       final fixture = LedgerFixture((r) async {
-        if (r.url.path.endsWith('/operations'))
+        if (r.url.path.endsWith('/operations')) {
           return page([operation(1, customer: true)]);
+        }
         expect(r.url.queryParameters.containsKey('ids'), isFalse);
         names++;
         return page([customer(id(2000 + names))], next: id(3000 + names));
@@ -245,8 +247,9 @@ void main() {
     (tester) async {
       final held = Completer<http.Response>();
       final fixture = LedgerFixture((r) async {
-        if (r.url.path.endsWith('/operations'))
+        if (r.url.path.endsWith('/operations')) {
           return page([operation(1, customer: true)]);
+        }
         return held.future;
       }, idsEnabled: true);
       await tester.pumpWidget(fixture.app());

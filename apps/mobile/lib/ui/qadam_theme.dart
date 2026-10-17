@@ -14,11 +14,20 @@ class QadamTheme {
   static const appTitle = TextStyle(fontSize: 22, fontWeight: FontWeight.w800);
   static const pageTitle = TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
   static const noticeText = TextStyle(height: 1.4);
+  static TextStyle heading(BuildContext context) => Theme.of(context)
+      .textTheme
+      .headlineSmall!
+      .copyWith(fontSize: MediaQuery.sizeOf(context).width < 360 ? 24 : 28);
+
   static ThemeData get light {
     final base = ThemeData(
       useMaterial3: true,
       fontFamily: 'Manrope',
-      fontFamilyFallback: const ['QadamKazakhExt', 'QadamKazakh', 'QadamSymbols'],
+      fontFamilyFallback: const [
+        'QadamKazakhExt',
+        'QadamKazakh',
+        'QadamSymbols',
+      ],
       colorScheme: ColorScheme.fromSeed(seedColor: green).copyWith(
         primary: green,
         onPrimary: surface,

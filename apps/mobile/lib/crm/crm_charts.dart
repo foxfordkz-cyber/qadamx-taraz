@@ -424,7 +424,7 @@ class _PlotPainter extends CustomPainter {
     final value = amount / divisor;
     final number = value == value.roundToDouble()
         ? value.toStringAsFixed(0)
-        : value.toStringAsFixed(1);
+        : value.toStringAsFixed(divisor == 1 ? 2 : 1);
     final suffix = divisor == 1000000
         ? 'млн'
         : divisor == 1000

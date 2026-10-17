@@ -41,7 +41,7 @@ void main() {
         ),
       );
       await settle(tester);
-      expect(find.text('Найдите магазин и оставьте заявку'), findsOneWidget);
+      expect(find.text('Площадки Тараза'), findsOneWidget);
       await tester.tap(find.byKey(const Key('nav-business')));
       await settle(tester);
       expect(find.text('Ожидается подключение торговой точки'), findsOneWidget);
@@ -51,7 +51,7 @@ void main() {
       await tester.tap(showcase);
       await settle(tester);
       expect(opened, isEmpty);
-      expect(find.text('Найдите магазин и оставьте заявку'), findsOneWidget);
+      expect(find.text('Площадки Тараза'), findsOneWidget);
       await tester.tap(find.byKey(const Key('nav-market')));
       await settle(tester);
       expect(find.text('Подать объявление'), findsOneWidget);
@@ -85,7 +85,11 @@ void main() {
       await settle(tester);
       await tester.tap(find.byKey(const ValueKey('business-$pointB')));
       await settle(tester);
-      expect(find.text('Активная точка: Учебная B'), findsOneWidget);
+      expect(find.text('Учебная B'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('point-selector-$pointB')),
+        findsOneWidget,
+      );
       await tester.tap(find.byKey(const Key('nav-profile')));
       await settle(tester);
       await tester.tap(find.text('Выйти из приложения'));
@@ -167,7 +171,7 @@ void main() {
       await tester.tap(showcase);
       await settle(tester);
       expect(opened, isEmpty);
-      expect(find.text('Дүкенді тауып, өтінім қалдырыңыз'), findsOneWidget);
+      expect(find.text('Тараз алаңдары'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await finish(tester, f);
     },

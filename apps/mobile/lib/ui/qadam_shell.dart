@@ -193,14 +193,14 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
       child: ExpansionTile(
         key: ValueKey('point-selector-${access.selectedId}'),
         initiallyExpanded: access.selected == null,
-        leading: const Icon(Icons.storefront_outlined),
+        leading: MediaQuery.textScalerOf(context).scale(14) <= 18.2
+            ? const Icon(Icons.storefront_outlined)
+            : null,
         title: Text(
           access.selected?.name ?? tr(kk, 'Выберите точку', 'Нүктені таңдаңыз'),
           style: Theme.of(context).textTheme.titleMedium,
         ),
-        subtitle: Text(
-          tr(kk, 'Сменить торговую точку', 'Сауда нүктесін ауыстыру'),
-        ),
+        subtitle: Text(tr(kk, 'Сменить точку', 'Нүктені ауыстыру')),
         children: [
           for (final business in access.businesses)
             ListTile(

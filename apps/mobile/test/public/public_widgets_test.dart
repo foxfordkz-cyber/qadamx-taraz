@@ -130,6 +130,17 @@ void main() {
         final input = find.byKey(const Key('inquiry-message'));
         await reveal(input);
         await tester.enterText(input, 'Учебный вопрос');
+        if (!kk) {
+          await tester.tap(find.text('ҚАЗ'));
+          await settle();
+          expect(find.text('Сізбен қалай байланысуға болады'), findsOneWidget);
+          expect(
+            tester.widget<TextFormField>(input).controller!.text,
+            'Учебный вопрос',
+          );
+          await tester.tap(find.text('RU'));
+          await settle();
+        }
         tester.view.viewInsets = const FakeViewPadding(bottom: 250);
         await tester.pump();
         final submit = find.text(kk ? 'Өтінім жіберу' : 'Отправить заявку');
@@ -142,10 +153,16 @@ void main() {
         await tester.pump();
         await tester.tap(find.byType(BackButton));
         await settle();
-        expect(find.text(kk ? 'Пішіннен шығасыз ба?' : 'Выйти из формы?'), findsOneWidget);
+        expect(
+          find.text(kk ? 'Пішіннен шығасыз ба?' : 'Выйти из формы?'),
+          findsOneWidget,
+        );
         await tester.tap(find.text(kk ? 'Жалғастыру' : 'Продолжить'));
         await settle();
-        expect((tester.widget<TextFormField>(input).controller!).text, 'Учебный вопрос');
+        expect(
+          (tester.widget<TextFormField>(input).controller!).text,
+          'Учебный вопрос',
+        );
         await tester.tap(find.byType(BackButton));
         await settle();
         await tester.tap(find.text(kk ? 'Шығу' : 'Выйти'));

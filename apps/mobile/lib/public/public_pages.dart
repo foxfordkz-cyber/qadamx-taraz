@@ -7,6 +7,7 @@ import '../data/api_failure.dart';
 import '../runtime.dart';
 import '../ui/common.dart' show tr;
 import '../ui/language.dart';
+import '../ui/qadam_theme.dart';
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
 import 'venue_viewer.dart';
@@ -155,7 +156,7 @@ class _PublicHomeState extends State<PublicHome> {
             children: [
               Text(
                 tr(kk, 'Площадки Тараза', 'Тараз алаңдары'),
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: QadamTheme.heading(context),
               ),
               const SizedBox(height: 8),
               Text(
@@ -230,6 +231,7 @@ class _PublicHomeState extends State<PublicHome> {
                     ),
                   ),
               ExpansionTile(
+                key: const PageStorageKey('venue-information'),
                 tilePadding: EdgeInsets.zero,
                 title: Text(
                   tr(
@@ -392,6 +394,7 @@ class _VenuePageState extends State<VenuePage> {
           TextField(
             key: const Key('shop-search'),
             controller: query,
+            onChanged: (_) => setState(() {}),
             maxLength: 200,
             textInputAction: TextInputAction.search,
             onSubmitted: (_) => load(),
@@ -604,10 +607,7 @@ class _PublicShopPageState extends State<PublicShopPage> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  b['name'] as String,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
+                Text(b['name'] as String, style: QadamTheme.heading(context)),
                 const SizedBox(height: 8),
                 if (widget.venue != null)
                   Text(
@@ -939,6 +939,20 @@ class _InquiryFormState extends State<InquiryForm> {
           (name.text.isEmpty && contact.text.isEmpty && message.text.isEmpty),
       onPopInvokedWithResult: (didPop, _) async {
         if (didPop || !mounted) return;
+        if (busy) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                tr(
+                  kk,
+                  'Дождитесь завершения запроса.',
+                  'Сұраудың аяқталуын күтіңіз.',
+                ),
+              ),
+            ),
+          );
+          return;
+        }
         final leave = await showDialog<bool>(
           context: context,
           builder: (dialogContext) => AlertDialog(

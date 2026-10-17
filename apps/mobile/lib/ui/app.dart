@@ -1212,7 +1212,10 @@ class _DetailState extends State<_Detail> with WidgetsBindingObserver {
     final item = _item;
     final photos = (item?['photos'] as List? ?? []).cast<Json>();
     return Scaffold(
-      appBar: AppBar(title: Text(tr(kk, 'Объявление', 'Хабарландыру')), actions: const [LanguageAction()]),
+      appBar: AppBar(
+        title: Text(tr(kk, 'Объявление', 'Хабарландыру')),
+        actions: const [LanguageAction()],
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
@@ -1496,7 +1499,10 @@ class _LoginState extends State<_Login> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(tr(kk, 'Вход', 'Кіру')), actions: const [LanguageAction()]),
+    appBar: AppBar(
+      title: Text(tr(kk, 'Вход', 'Кіру')),
+      actions: const [LanguageAction()],
+    ),
     body: SafeArea(
       child: Form(
         key: _form,
