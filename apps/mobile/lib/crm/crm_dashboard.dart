@@ -4,6 +4,8 @@ import '../ui/common.dart';
 import 'crm_models.dart';
 import 'crm_pages.dart';
 import 'crm_ui.dart';
+import 'crm_entry.dart';
+import 'crm_analytics.dart';
 
 class CrmDashboard extends CrmScreen {
   const CrmDashboard({
@@ -92,7 +94,7 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
         FilledButton.icon(
           key: const Key('crm-new-entry'),
           onPressed: () => open(
-            OperationForm(
+          CrmEntryPage(
               runtime: widget.runtime,
               business: widget.business,
               kk: kk,
@@ -134,6 +136,10 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
           ),
         ),
         action(
+        'Аналитика', 'Аналитика', Icons.bar_chart,
+        AnalyticsPage(runtime: widget.runtime, business: widget.business, kk: kk),
+      ),
+      action(
           'Заявки',
           'Өтінімдер',
           Icons.mail_outline,
