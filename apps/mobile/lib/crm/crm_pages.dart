@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../data/api_failure.dart';
@@ -526,6 +527,8 @@ class LedgerPage extends CrmScreen {
 
 class _LedgerPageState extends CrmScreenState<LedgerPage> {
   List<CrmJson> items = [];
+  final Map<String, String> names = {};
+  int nameRequest = 0;
   String? next;
   bool busy = true;
   Object? error;
@@ -556,11 +559,42 @@ class _LedgerPageState extends CrmScreenState<LedgerPage> {
           items = [...items, ...result.items];
           next = result.next;
         });
+        unawaited(loadNames());
       }
     } catch (e) {
       if (active) setState(() => error = e);
     } finally {
       if (active) setState(() => busy = false);
+    }
+  }
+
+  Future<void> loadNames() async {
+    final request = ++nameRequest;
+    final wanted = items
+        .map((item) => item['customer_id'])
+        .whereType<String>()
+        .where((id) => !names.containsKey(id))
+        .toSet();
+    if (wanted.isEmpty) return;
+    String? cursor;
+    final visited = <String>{};
+    try {
+      // Bound the optional name lookup; ledger amounts never depend on it.
+      for (var page = 0; page < 10; page++) {
+        final result = await api.customers(scope, cursor: cursor);
+        if (!active || request != nameRequest) return;
+        setState(() {
+          for (final customer in result.items) {
+            names[customer['id'] as String] =
+                customer['display_name'] as String;
+            wanted.remove(customer['id']);
+          }
+        });
+        cursor = result.next;
+        if (wanted.isEmpty || cursor == null || !visited.add(cursor)) return;
+      }
+    } catch (_) {
+      /* Amounts remain the validated server ledger; no guessed names. */
     }
   }
 
@@ -613,6 +647,15 @@ class _LedgerPageState extends CrmScreenState<LedgerPage> {
           ),
         for (final item in items)
           crmCard([
+            if (item['customer_id'] != null)
+              Text(
+                names[item['customer_id']] ??
+                    tr(
+                      kk,
+                      'Имя клиента пока не загружено',
+                      'Клиент аты әлі жүктелмеді',
+                    ),
+              ),
             Text(
               item['description'] as String,
               style: Theme.of(context).textTheme.titleMedium,
