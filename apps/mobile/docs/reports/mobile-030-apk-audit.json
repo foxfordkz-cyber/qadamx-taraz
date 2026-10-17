@@ -1,0 +1,38 @@
+{
+  "file": "qadam-0.3.0-434f791-internal.apk",
+  "bytes": 57263712,
+  "sha256": "80b26e9547d3747373b63eac978257862323e8a09548df4dd7b63268aa5b9309",
+  "source_commit": "434f791ea8725ec05844915947391ed57030cb55",
+  "version": "0.3.0+6",
+  "api_base_url": "https://qadamx-taraz.onrender.com/api/v1",
+  "frontend_base_url": "https://qadamx-taraz.vercel.app",
+  "embedded_public_config_matches": {
+    "FRONTEND_BASE_URL": true,
+    "SUPABASE_PUBLISHABLE_KEY": true,
+    "SUPABASE_URL": true,
+    "API_BASE_URL": true
+  },
+  "legacy_tunnel_entries": 0,
+  "private_configuration_files": 0,
+  "credential_pattern_counts": {
+    "server_key": 0,
+    "openai_key": 0,
+    "google_key": 0,
+    "database_credential_url": 0,
+    "private_key": 0,
+    "private_session_or_service_role_jwt": 0
+  },
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86_64"
+  ],
+  "physical_android_acceptance": "NOT_PERFORMED_NO_DEVICE",
+  "scope": "Static artifact/config inspection, not proof of runtime login or physical device behavior.",
+  "build_mode": "release_internal_debug_signed",
+  "package": "kz.qadam.qadam_mobile",
+  "min_sdk": 24,
+  "target_sdk": 36,
+  "signature_v2_verified": true,
+  "same_signing_certificate_as_0_2_2": true
+}
