@@ -17,7 +17,8 @@ describe("QA accepted OpenAPI snapshot — static contract, not live backend", (
       type: "http",
       scheme: "bearer",
     });
-    // Explicit public surface of API 0.5.0; every other method must require JWT.
+    // Explicit public surface, including the read-only canonical market registry.
+    // Every other method must still require JWT.
     const publicRoutes = new Set([
       "get /health",
       "get /api/v1/health",
@@ -28,6 +29,8 @@ describe("QA accepted OpenAPI snapshot — static contract, not live backend", (
       "get /api/v1/livestock/listings",
       "get /api/v1/livestock/listings/{id}",
       "get /api/v1/livestock/prices",
+      "get /api/v1/livestock/markets",
+      "get /api/v1/livestock/markets/{id}",
       "get /api/v1/livestock/listings/{id}/photos/{photo_id}",
     ]);
     for (const [path, operations] of Object.entries(contract.paths)) {
