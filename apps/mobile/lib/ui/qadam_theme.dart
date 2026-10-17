@@ -11,6 +11,8 @@ class QadamTheme {
   static const danger = Color(0xff9d2f1c);
   static const noticeError = Color(0xfffbe7e0);
   static const noticeInfo = Color(0xffe1eef1);
+  static const warning = Color(0xff8a5410), warningSoft = Color(0xfffff2cf);
+  static const warningLine = Color(0xfff2d68c), sceneSky = Color(0xffdfeceb);
   static const chartAmber = Color(0xffb36d20);
   static const appTitle = TextStyle(fontSize: 22, fontWeight: FontWeight.w800);
   static const pageTitle = TextStyle(fontSize: 28, fontWeight: FontWeight.w800);

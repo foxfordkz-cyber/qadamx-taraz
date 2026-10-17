@@ -8,6 +8,7 @@ import '../runtime.dart';
 import '../ui/common.dart' show tr, Notice, ReadError;
 import '../ui/language.dart';
 import '../ui/qadam_theme.dart';
+import '../ui/qadam_badge.dart';
 import '../ui/qadam_components.dart';
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
@@ -25,21 +26,8 @@ String categoryName(String code, bool kk) => switch (code) {
   'services' => tr(kk, 'Услуги', 'Қызметтер'),
   _ => code,
 };
-Widget demoLabel(bool kk) => QadamBadge(tr(kk, 'Учебная точка', 'Оқу нүктесі'));
-
-class QadamBadge extends StatelessWidget {
-  const QadamBadge(this.label, {super.key});
-  final String label;
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.secondaryContainer,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Text(label, style: Theme.of(context).textTheme.labelSmall),
-  );
-}
+Widget demoLabel(bool kk) =>
+    QadamBadge(tr(kk, 'Учебная точка', 'Оқу нүктесі'), warning: true);
 
 Widget poster(VenueAsset? asset, bool kk) => AspectRatio(
   aspectRatio: 2.1,
@@ -63,6 +51,25 @@ int? pointNumber(VenueAsset? asset, CrmJson business, String venueId) {
     }
   }
   return null;
+}
+
+/// Stable manifest order; unnumbered API entries follow in their original order.
+List<CrmJson> shopsInPointOrder(
+  List<CrmJson> shops,
+  VenueAsset? asset,
+  String venueId,
+) {
+  final indexed = shops.indexed.toList();
+  indexed.sort((a, b) {
+    final an = pointNumber(asset, a.$2, venueId);
+    final bn = pointNumber(asset, b.$2, venueId);
+    if (an == null && bn == null) return a.$1.compareTo(b.$1);
+    if (an == null) return 1;
+    if (bn == null) return -1;
+    final order = an.compareTo(bn);
+    return order == 0 ? a.$1.compareTo(b.$1) : order;
+  });
+  return indexed.map((entry) => entry.$2).toList();
 }
 
 Future<List<CrmJson>> allPublicPages(
@@ -156,7 +163,10 @@ class _PublicHomeState extends State<PublicHome> {
         Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
         if (demo) ...[
           const SizedBox(height: 6),
-          QadamBadge(tr(qadamKk(context), 'Учебная витрина', 'Оқу сөресі')),
+          QadamBadge(
+            tr(qadamKk(context), 'Учебная витрина', 'Оқу сөресі'),
+            warning: true,
+          ),
         ],
       ],
     );
@@ -398,7 +408,11 @@ class _VenuePageState extends State<VenuePage> {
       );
       if (mounted && run == generation) {
         setState(() {
-          shops = result;
+          shops = shopsInPointOrder(
+            result,
+            widget.asset,
+            widget.venue['id'] as String,
+          );
           if (initial) {
             categories = result
                 .map((b) => b['category'] as String)
@@ -443,7 +457,10 @@ class _VenuePageState extends State<VenuePage> {
             runSpacing: 8,
             children: [
               if (widget.venue['is_demo'] == true)
-                QadamBadge(tr(kk, 'Учебная витрина', 'Оқу сөресі')),
+                QadamBadge(
+                  tr(kk, 'Учебная витрина', 'Оқу сөресі'),
+                  warning: true,
+                ),
               QadamBadge(tr(kk, 'Схема площадки', 'Алаң сызбасы')),
             ],
           ),
@@ -464,6 +481,14 @@ class _VenuePageState extends State<VenuePage> {
             )
           else
             poster(widget.asset, kk),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: QadamBadge(
+              tr(kk, 'Условная схема, не карта', 'Шартты сызба, карта емес'),
+              warning: true,
+            ),
+          ),
           const SizedBox(height: 16),
           Text(
             tr(kk, 'Магазины площадки', 'Алаң дүкендері'),

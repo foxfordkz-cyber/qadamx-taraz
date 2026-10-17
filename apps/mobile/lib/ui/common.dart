@@ -6,6 +6,7 @@ import '../data/livestock_api.dart';
 import '../data/money.dart';
 import '../runtime.dart';
 import 'qadam_theme.dart';
+import 'qadam_badge.dart';
 
 typedef Json = Map<String, dynamic>;
 
@@ -345,9 +346,9 @@ class ListingCard extends StatelessWidget {
                     runSpacing: 4,
                     children: [
                       if (listing['is_demo'] == true)
-                        _Tag(
+                        QadamBadge(
                           tr(kk, 'Учебное объявление', 'Оқу хабарландыруы'),
-                          const Color(0xffffe5ab),
+                          warning: true,
                         ),
                       if (owned)
                         _Tag(statusText(listing, kk), const Color(0xffe9eedf)),

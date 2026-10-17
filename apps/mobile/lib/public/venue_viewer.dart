@@ -8,6 +8,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import '../crm/crm_models.dart';
 import '../ui/common.dart' show tr;
 import '../ui/language.dart';
+import '../ui/qadam_theme.dart';
 import 'venue_assets.dart';
 
 /// Local 3D surface only. All navigation, data requests and business forms stay
@@ -56,7 +57,7 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
       final c = WebViewController();
       controller = c;
       await c.setJavaScriptMode(JavaScriptMode.unrestricted);
-      await c.setBackgroundColor(const Color(0xfff5f3eb));
+      await c.setBackgroundColor(QadamTheme.sceneSky);
       await c.setNavigationDelegate(
         NavigationDelegate(
           onNavigationRequest: (request) => request.url == 'about:blank'
@@ -101,7 +102,7 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
       await c.loadHtmlString(
         '''<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; worker-src 'none';">
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f5f3eb}canvas{display:block;touch-action:none}.marker{position:fixed;transform:translate(-50%,-50%);width:48px;height:48px;border:0;padding:0;background:transparent;color:#164c3e;font:bold 14px sans-serif;z-index:2;isolation:isolate}.marker:before{content:"";position:absolute;inset:11px;border:2px solid #164c3e;border-radius:50%;background:#d7f36a;z-index:-1}.marker.selected:before{background:#164c3e;border-color:#fffefa}.marker.selected{color:#fffefa}</style></head><body><script>${js.replaceAll('</script', '<\\/script')}</script></body></html>''',
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#dfeceb}canvas{display:block;touch-action:none}.marker{position:fixed;transform:translate(-50%,-50%);width:48px;height:48px;border:0;padding:0;background:transparent;color:#164c3e;font:bold 14px sans-serif;z-index:2;isolation:isolate}.marker:before{content:"";position:absolute;inset:11px;border:2px solid #164c3e;border-radius:50%;background:#d7f36a;z-index:-1}.marker.selected:before{background:#164c3e;border-color:#fffefa}.marker.selected{color:#fffefa}</style></head><body><script>${js.replaceAll('</script', '<\\/script')}</script></body></html>''',
       );
       if (mounted) setState(() {});
     } catch (_) {
@@ -176,8 +177,13 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20),
+        Container(
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            color: QadamTheme.sceneSky,
+            border: Border.all(color: QadamTheme.line),
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: SizedBox(
             height: height,
             child: Stack(
@@ -197,10 +203,7 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
                     ),
                   ),
                 if (!loaded || failed)
-                  ColoredBox(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    child: image(),
-                  ),
+                  ColoredBox(color: QadamTheme.sceneSky, child: image()),
                 if (!loaded && !failed)
                   const Align(
                     alignment: Alignment.bottomCenter,
