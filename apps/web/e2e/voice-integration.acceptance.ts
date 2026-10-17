@@ -291,9 +291,9 @@ test("verified voice build preserves customer, money retry and Analytics refresh
   });
   await navigateSeller(page, "debts");
   await expect(
-    page.getByText("Общий долг: 2 000 ₸", { exact: true }),
+    page.getByText("Остаток: 2 000 ₸", { exact: true }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "Погашение →" }).click();
+  await page.getByRole("link", { name: "Принять оплату" }).click();
   await expect(page.getByLabel("Неоплаченная продажа")).toHaveValue(saleId);
   await page
     .getByLabel("Описание", { exact: true })

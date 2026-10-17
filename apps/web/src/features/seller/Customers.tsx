@@ -292,7 +292,7 @@ export function CustomerPicker({
                       {formatKZT(customer.balance_minor, locale)}
                     </small>
                   )}
-                  <small className="customer-id">ID: {customer.id}</small>
+                  {customer.contact && <small>{customer.contact}</small>}
                 </span>
                 {value?.id === customer.id && (
                   <Badge tone="green">{t("chosen")}</Badge>
@@ -478,7 +478,6 @@ export function CustomersPage() {
                 <div>
                   <h2>{customer.display_name}</h2>
                   <p>{customer.note || t("noNote")}</p>
-                  <small className="customer-id">ID: {customer.id}</small>
                 </div>
               </div>
               <p className="muted break-word customer-contact">
@@ -538,7 +537,10 @@ export function CustomersPage() {
       </Dialog>
       {chosen && (
         <p role="status">
-          {t("chosen")}: {chosen.display_name} · {chosen.note || chosen.id}
+          {t("chosen")}:{" "}
+          {[chosen.display_name, chosen.note || chosen.contact]
+            .filter(Boolean)
+            .join(" · ")}
         </p>
       )}
     </>
