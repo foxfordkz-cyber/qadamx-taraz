@@ -135,6 +135,16 @@ class CrmPending {
       });
 
   /// A late K1 result cannot remove a new K2 intent, even within the same scope.
+  /// Only for a serialized initial public inquiry rejected before any unknown
+  /// outcome. Financial/customer recovery never calls this method.
+  Future<bool> rejectInitial(CrmIntent intent) =>
+      _locked(intent.slot, (key) async {
+        final current = await _read(key, intent.slot);
+        if (!intent.same(current) || current!.receipt != null) return false;
+        await vault.remove(key);
+        return true;
+      });
+
   Future<bool> acknowledge(CrmIntent intent) =>
       _locked(intent.slot, (key) async {
         final current = await _read(key, intent.slot);

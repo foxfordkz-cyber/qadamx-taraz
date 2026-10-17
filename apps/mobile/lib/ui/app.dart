@@ -25,7 +25,7 @@ class MobileApp extends StatefulWidget {
 
 class _MobileAppState extends State<MobileApp> {
   bool _kk = false;
-  int _section = 1; // Preserve the public livestock entry point.
+  int _section = 3; // Public venues are available before login.
   String? _account;
   @override
   void initState() {

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../business_access.dart';
 import '../crm/crm_dashboard.dart';
+import '../public/public_pages.dart';
 import '../data/api_failure.dart';
 import '../frontend_links.dart';
 import '../runtime.dart';
@@ -36,7 +37,6 @@ class QadamShell extends StatefulWidget {
 
 class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
   late final BusinessAccess access;
-  bool _launching = false;
   bool _signingOut = false;
   bool get kk => widget.kk;
   MobileRuntime get runtime => widget.runtime;
@@ -73,30 +73,6 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _open(FrontendPage page) async {
-    if (_launching) return;
-    final url = frontendUrl(runtime.frontendBaseUrl, page);
-    if (url == null) return;
-    setState(() => _launching = true);
-    try {
-      final opened = await widget.browserLauncher(url);
-      if (!opened) {
-        _message(
-          'Не удалось открыть браузер. Попробуйте ещё раз.',
-          'Браузер ашылмады. Қайта көріңіз.',
-        );
-      }
-    } catch (_) {
-      // Platform failures may include URLs. Only a fixed, localized message.
-      _message(
-        'Не удалось открыть браузер. Попробуйте ещё раз.',
-        'Браузер ашылмады. Қайта көріңіз.',
-      );
-    } finally {
-      if (mounted) setState(() => _launching = false);
-    }
-  }
-
   Widget _card(List<Widget> children) => Card(
     margin: const EdgeInsets.only(bottom: QadamTheme.gap),
     child: Padding(
@@ -113,57 +89,23 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
   );
   Widget _gap() => const SizedBox(height: QadamTheme.gap);
 
-  Widget _webAccess() {
-    final origin = frontendOrigin(runtime.frontendBaseUrl);
-    return _card([
-      _title('Кабинет продавца', 'Сатушы кабинеті'),
-      Text(
-        tr(
-          kk,
-          'Клиенты, продажи, долги и отчёты доступны в web-кабинете Qadam.',
-          'Клиенттер, сатылымдар, қарыздар мен есептер Qadam веб-кабинетінде қолжетімді.',
-        ),
+  Widget _publicAccess() => _card([
+    _title('Площадки и магазины', 'Алаңдар мен дүкендер'),
+    Text(
+      tr(
+        kk,
+        'Просмотр магазинов и заявки доступны без входа.',
+        'Дүкендер мен өтінімдер кірусіз қолжетімді.',
       ),
-      _gap(),
-      Text(
-        tr(
-          kk,
-          'Откроется системный браузер. Войдите и выберите торговую точку на сайте. Сессия приложения в браузер не передаётся.',
-          'Жүйелік браузер ашылады. Сайтқа кіріп, сауда нүктесін таңдаңыз. Қолданба сессиясы браузерге берілмейді.',
-        ),
-      ),
-      _gap(),
-      if (origin == null)
-        Text(
-          tr(
-            kk,
-            'Адрес кабинета пока не настроен. Мал базар доступен независимо от кабинета.',
-            'Кабинет мекенжайы әлі бапталмаған. Мал базар кабинетке тәуелсіз жұмыс істейді.',
-          ),
-        )
-      else ...[
-        Text(origin.host, style: Theme.of(context).textTheme.bodySmall),
-        _gap(),
-      ],
-      FilledButton.icon(
-        key: const Key('open-seller'),
-        onPressed: origin == null || _launching
-            ? null
-            : () => _open(FrontendPage.seller),
-        icon: const Icon(Icons.open_in_browser),
-        label: Text(tr(kk, 'Открыть кабинет продавца', 'Сатушы кабинетін ашу')),
-      ),
-      _gap(),
-      OutlinedButton.icon(
-        key: const Key('open-showcase'),
-        onPressed: origin == null || _launching
-            ? null
-            : () => _open(FrontendPage.showcase),
-        icon: const Icon(Icons.storefront_outlined),
-        label: Text(tr(kk, 'Витрина в браузере', 'Браузердегі витрина')),
-      ),
-    ]);
-  }
+    ),
+    _gap(),
+    FilledButton.icon(
+      key: const Key('open-showcase'),
+      onPressed: () => widget.onSection(3),
+      icon: const Icon(Icons.map_outlined),
+      label: Text(tr(kk, 'Открыть площадки', 'Алаңдарды ашу')),
+    ),
+  ]);
 
   Widget _businesses() {
     if (runtime.accountId == null) {
@@ -219,9 +161,18 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
     }
     if (access.businesses.isEmpty) {
       return _card([
+        if (runtime.accountEmail != null) Text(runtime.accountEmail!),
+        OutlinedButton(
+          onPressed: access.refresh,
+          child: Text(tr(kk, 'Обновить доступ', 'Қолжетімділікті жаңарту')),
+        ),
+        TextButton(
+          onPressed: _signingOut ? null : _logout,
+          child: Text(tr(kk, 'Выйти', 'Шығу')),
+        ),
         _title(
-          'Нет подключённых торговых точек',
-          'Қосылған сауда нүктелері жоқ',
+          'Ожидается подключение торговой точки',
+          'Сауда нүктесінің қосылуын күтеміз',
         ),
         Text(
           tr(
@@ -270,8 +221,8 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
       Text(
         tr(
           kk,
-          'На сайте выбор точки выполняется отдельно.',
-          'Сайтта нүкте бөлек таңдалады.',
+          'Все операции выполняются для выбранной точки.',
+          'Барлық әрекет таңдалған нүкте үшін орындалады.',
         ),
         style: Theme.of(context).textTheme.bodySmall,
       ),
@@ -320,6 +271,8 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
               ? [
                   _card([
                     _title('Qadam', 'Qadam'),
+                    if (runtime.accountEmail != null)
+                      Text(runtime.accountEmail!),
                     Text(
                       runtime.accountId == null
                           ? tr(
@@ -349,12 +302,12 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
                     Text(
                       tr(
                         kk,
-                        'Вход на сайте выполняется отдельно. Выход из приложения не завершает сессию браузера.',
-                        'Сайтқа бөлек кіресіз. Қолданбадан шығу браузердегі сессияны аяқтамайды.',
+                        'Основные функции Qadam доступны внутри приложения.',
+                        'Qadam негізгі мүмкіндіктері қолданба ішінде қолжетімді.',
                       ),
                     ),
                   ]),
-                  _webAccess(),
+                  _publicAccess(),
                 ]
               : [
                   _businesses(),
@@ -368,7 +321,7 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
                       slug: access.selected!.slug,
                       kk: kk,
                     ),
-                  _webAccess(),
+                  _publicAccess(),
                 ],
         ),
       ),
@@ -379,7 +332,16 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
   Widget build(BuildContext context) => Scaffold(
     body: IndexedStack(
       index: widget.section,
-      children: [_page(false), widget.market, _page(true)],
+      children: [
+        _page(false),
+        widget.market,
+        _page(true),
+        PublicHome(
+          runtime: runtime,
+          kk: kk,
+          toggleLanguage: widget.toggleLanguage,
+        ),
+      ],
     ),
     bottomNavigationBar: NavigationBar(
       selectedIndex: widget.section,
@@ -405,6 +367,12 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
           icon: const Icon(Icons.person_outline),
           selectedIcon: const Icon(Icons.person),
           label: tr(kk, 'Профиль', 'Профиль'),
+        ),
+        NavigationDestination(
+          key: const Key('nav-public'),
+          icon: const Icon(Icons.map_outlined),
+          selectedIcon: const Icon(Icons.map),
+          label: tr(kk, 'Площадки', 'Алаңдар'),
         ),
       ],
     ),
