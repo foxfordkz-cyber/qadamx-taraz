@@ -1,18 +1,24 @@
 # Seller final demo rehearsal — 2026-10-17
 
-Base: main `07197bec0a8ac331714eea3036f3af6eac939e7e`. Recovery is reviewed
+Base synchronized on resumption: main `9845b91b64d388c54312d2a8a75000218c7774af`.
+Recovery is reviewed
 separately in `fix/seller-customer-recovery-safe`; it is not deployed by this task.
 Registration is separate Draft PR #31, synchronized at
 `6f808677c067cc00fb6b6b9eb26384f68c3d1e38`; callback/live email remain Blocked.
 
 Published addresses: [Qadam web](https://qadamx-taraz.vercel.app),
 API `https://qadamx-taraz.onrender.com/api/v1`.
-Own read-only HTTP probes in this task: web root **200**, health **200**,
+Own read-only HTTP probes before the saved checkpoint: web root **200**, health **200**,
 OpenAPI **200 / 0.6.2**, public venues **200**, returning MART, Кайкармет and
 Ауыл Береке. These are reachability/contract observations, not browser, Auth,
 3D, process-SHA or persistence acceptance. Historical captain evidence is in
 MAIN_RELEASE_20261017.md and MODELS_PRODUCTION_ACCEPTANCE.md and is not counted
 as our new testing.
+
+This is an operator-ready rehearsal plan, not a completed production acceptance.
+The resumed task repeats local suites and reviews this matrix; it does not repeat
+those hosted probes or send any live writes. Record a new timestamp, deployment
+commit and actual result beside each live step when the captain runs it.
 
 ## Rehearsal matrix
 
@@ -42,6 +48,19 @@ accounting or server idempotency.
 | 17 | Logout and foreign-point denial | Clear private UI; ignore old responses; deny foreign IDs | Synthetic Auth A/B/A epoch, late401 and business isolation tests | BLOCKED fresh live evidence | Yes | Synthetic A/B regression |
 
 ## Operator sequence and gates
+
+Before the demonstration, the captain supplies the reviewed deployed web commit,
+API version, approved account/point and permissions for training writes. Keep
+credentials out of this document. Assign one presenter and one observer. The
+observer records only request IDs, operation/customer IDs permitted for the test,
+expected amounts and PASS/FAIL/BLOCKED; do not capture tokens or personal fields.
+
+For a rehearsal without those prerequisites, run the synthetic money journey
+and recovery suite from `apps/web` using the commands in the seller handoff.
+Announce the synthetic API before showing it. For a failed live step, stop and
+use its labelled fallback; never silently switch to Demo and describe it as live.
+For an unknown save outcome, stop the write sequence and check the original key.
+If only a presentation is needed, open explicit Demo and navigate without writes.
 
 Use approved training accounts and one agreed customer/point. Before any real
 write record starting server totals; compare deltas rather than assuming an empty

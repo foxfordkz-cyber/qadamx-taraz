@@ -1,7 +1,11 @@
 # Seller Customer Recovery — safe integration
 
-2026-10-17. Branch `fix/seller-customer-recovery-safe`, based on main
-`07197bec0a8ac331714eea3036f3af6eac939e7e` in a separate worktree.
+2026-10-17. Branch `fix/seller-customer-recovery-safe`, originally based on main
+`07197bec0a8ac331714eea3036f3af6eac939e7e` in a separate worktree. On resumption,
+the explicitly authorized merge of main `9845b91b64d388c54312d2a8a75000218c7774af`
+produced `0aa8561dffae12021339132370adaa9a54bc03f5`, without conflicts. Only the
+captain's two documentation files were added; application/contracts are identical
+to saved checkpoint `25525053b7e4ac0fe20f5280d1a9a9053dd2e57a`.
 Selected source: `fix/seller-cabinet-reliability`
 `9a3c8687e59d70fa5d4fdbb99695af538a068791`. No merge of that branch.
 Backend, OpenAPI, generated types, financial rules, Voice and public modules
@@ -81,8 +85,32 @@ Tests:
 - `apps/web/src/test/{qa-customers-regression.test.tsx,qa-fixtures.tsx,screens.test.tsx,setup.ts}`
 - `apps/web/e2e/{customer-recovery.acceptance.ts,customer-recovery.playwright.config.ts,qa-fixtures.ts}`
 
-Documentation: this report, `docs/DECISIONS.md`, `docs/handoffs/seller-web.md`
-and `docs/qa/SELLER_FINAL_DEMO_REHEARSAL.md`.
+Documentation: this report, `docs/DECISIONS.md`, `docs/handoffs/seller-web.md`,
+`docs/SELLER_RECOVERY_CHECKPOINT.md` and `docs/qa/SELLER_FINAL_DEMO_REHEARSAL.md`.
+
+## Integration review on resumption
+
+The single coordinator's storage writes contain only the validated key/hash.
+Its only removal is under a Web Lock after key/hash and current owner checks.
+The mount path calls GET lookup only; POST appears solely in explicit creation,
+after re-reading the current marker. The production caller always supplies its
+key; the gateway's optional argument preserves the existing interface, not an
+automatic keyless retry. Missing storage/Web Locks and unknown legacy origin fail
+closed. Runtime scope includes the existing Auth generation; AuthProvider itself
+is unchanged. Existing bindings validate the returned customer and business.
+
+The captain regression's assertions are unchanged. Companion tests cover K2 after
+a full remount and both Picker → Customers and Customers → Picker. The final
+diff against main is limited to the 24 listed seller/test/documentation files.
+Forbidden production paths and the AuthProvider diff are empty.
+
+Separately inspected Draft PR #41, `feature/sale-debts-polish:7d84cb6`, base
+`deploy-062`: its customer changes hide IDs/change the chosen-customer label and
+touch `Customers.tsx`, `screens.test.tsx` and `DECISIONS.md`, which also appear in
+this recovery diff. It has not been merged or edited here. Captain should preserve
+both its presentation changes and the recovery lifecycle in a later integration,
+then rerun the affected UI assertions. This is a cross-PR coordination note, not
+a conflict with the current main base. Registration PR #31 remains separate.
 
 ## Reproduction commands
 

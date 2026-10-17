@@ -1,4 +1,29 @@
-# CHECKPOINT — paused by user, 2026-10-17
+# Checkpoint continuation — 2026-10-17
+
+Resumed by explicit user request from published HEAD
+`25525053b7e4ac0fe20f5280d1a9a9053dd2e57a`, in the same clean worktree.
+Fetch/prune and own-branch pull --ff-only succeeded. Current main was verified as
+`9845b91b64d388c54312d2a8a75000218c7774af`; its two documentation changes were
+merged as expressly authorized, without conflicts, in
+`0aa8561dffae12021339132370adaa9a54bc03f5`. The saved Recovery application and
+test code did not change. No old PR was merged, and PR #31 was not modified.
+
+The final full serial run now confirms **311/311 unit/component tests**, including
+both companions that previously ran only separately. The original captain case
+also passes independently (1/1); strict microphone tests pass 35/35. npm ci,
+check:api, typecheck, lint, build and format:check passed on the synchronized code.
+All six browser suites passed: Recovery 5/5, QA 21/21, Voice integration 1/1,
+Auth onboarding 7/7, microphone 18/18 and Analytics/Seller/public 24/24.
+Review and publication status are maintained in
+[seller handoff](handoffs/seller-web.md), with the [technical report](SELLER_CUSTOMER_RECOVERY_SAFE.md).
+
+The checkpoint below is historical: its pause and missing final checks describe
+the earlier session, not a new instruction to stop. Resume from the current
+branch HEAD, not by resetting to this historical snapshot.
+
+---
+
+# Historical checkpoint — paused by user, 2026-10-17
 
 User requested an immediate safe checkpoint because approximately 10% of the
 session limit remains. Do not resume tests or new work until the next request.

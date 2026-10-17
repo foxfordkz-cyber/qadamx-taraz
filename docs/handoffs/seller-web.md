@@ -1,47 +1,77 @@
-# Seller web — safe Customer Recovery and main synchronization
+# Seller web — Customer Recovery verification, 2026-10-17
 
-2026-10-17. Recovery branch **fix/seller-customer-recovery-safe**, separate worktree
-`work/qadam-customer-recovery-safe`, base **main:07197bec0a8ac331714eea3036f3af6eac939e7e**.
-Selected source **9a3c8687e59d70fa5d4fdbb99695af538a068791**, without a branch merge.
-Published WIP implementation: **1bf9fe417f35bbafd6a47d6a054914f7b621f9fd**; initial push successful and local/remote matched. Final fetch found main **9845b91b64d388c54312d2a8a75000218c7774af**, two non-overlapping documentation files only; no automatic merge. Current exact checkout hash (including checkpoint documentation): `git log -1 --format=%H`.
+Branch **fix/seller-customer-recovery-safe**, existing separate worktree
+`work/qadam-customer-recovery-safe`. Saved checkpoint
+**25525053b7e4ac0fe20f5280d1a9a9053dd2e57a** was clean and matched origin.
+Fetch/prune and pull --ff-only succeeded. Authorized main synchronization:
+**9845b91b64d388c54312d2a8a75000218c7774af** → merge
+**0aa8561dffae12021339132370adaa9a54bc03f5**, no conflicts. Only two captain
+Markdown files arrived; all saved Recovery application/tests remain unchanged.
+Current exact HEAD: `git log -1 --format=%H`.
 
-Registration was synchronized first in its own worktree: authorized merge of
-main into `feature/seller-registration-onboarding`, commit
-**6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, pushed and local/remote HEAD matched.
-Only `docs/DECISIONS.md` conflicted; both Registration and captain decisions were
-preserved manually. [PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)
-is still open Draft, mergeable, base `integration/voice-preview-061`. No retarget,
-main merge or deployment. Registration UI/signUp/resend are on that separate
-branch; callback/live email await exact URL, Supabase allowlist and agreed flow.
-The older readiness notes below remain historical, not the status of PR #31.
+The late K1 callback cannot delete pending K2: the shared coordinator uses Web
+Locks, key+bodyHash compare-and-clear and current mounted owner/session epoch /
+user/business/API guards. Customers and CustomerPicker share the intent, while
+unrelated forms retain their own inputs. Unknown/not_observed/503/409 keep the
+original key. Retry is explicit with the same canonical body; reload performs
+GET only. LocalStorage contains only the marker's key/hash. Unknown-origin legacy
+records remain blocked without migration. Missing Web Locks/storage blocks
+creation. No keyless fallback or new key bypass is implemented.
 
-Recovery now shares one coordinator across CustomerPicker and Customers. Native
-Web Locks serialize marker changes; clearing compares key **and** body hash.
-Session epoch/user/business/API and mounted-form ownership ignore stale responses,
-including late K1 after K2. Other forms keep their unsent fields. Reload performs
-GET only; explicit retry keeps the same key/body. Local storage holds only key/hash.
-Legacy without known API origin blocks in place pending captain reconciliation.
-Missing Web Locks or unavailable storage blocks creation; no unsafe fallback.
+Full review covered coordinator lifecycle, gateway/bindings, RU/KZ and regression
+coverage. Captain assertions are unchanged; the original RED reproduction is
+recorded in the earlier checkpoint. No new code defect was found on resumption.
+AuthProvider, Backend, OpenAPI/generated, Voice, financial/public modules,
+Flutter, 3D, dependencies and tracked screenshots match main.
 
-[Architecture, changed files, reproduction commands and limits](../SELLER_CUSTOMER_RECOVERY_SAFE.md).
-[17-step final demo rehearsal with actual evidence and gates](../qa/SELLER_FINAL_DEMO_REHEARSAL.md).
-Routes and shared CustomerPicker remain unchanged. No Backend, OpenAPI/generated,
-financial, Voice, public production modules, models, Flutter or package changes.
+## Own resumed checks
 
-User requested a pause before final verification/publication. **WIP checkpoint:** [exact completed checks, remaining work and resume commands](../SELLER_RECOVERY_CHECKPOINT.md). Full309 unit and all selected E2E passed; two new companion tests passed individually, but the final full rerun/build was interrupted. Recovery Draft PR is not yet created. Do not treat this snapshot as final acceptance.
-Registration own checks: **288/288 unit/component**, **17/17 Auth/Registration E2E**,
-**1/1 synthetic money/Analytics journey**. Seller/Analytics/public24 cases passed
-(23 first run + isolated passing repeat); fake-device Voice18 cases passed
-(17 first run + isolated passing repeat). npm ci/check:api/typecheck/lint/build/
-format:check/diff --check passed. Initial parallel runs hit resource timeouts;
-serial checks and repeats kept the original assertions. Three inherited dev
-package audit findings and the existing large 3D chunk warning remain.
+Commands run from `apps/web` with Node 24.21.0/npm 11.19.0:
 
-Production HTTPS root/health/OpenAPI/public venues probes succeeded read-only.
-No live login, shared DB writes, paid AI, physical Android or real audio recording
-in this task. Next: captain review/merge/deploy in a separate task, then approved
-training-account live rehearsal; supply exact callback settings for Registration.
-Do not clear unresolved customer markers manually or re-run old setup/migrations.
+| Check | Result |
+|---|---|
+| npm ci | PASS; package/lock unchanged |
+| npm run check:api / typecheck / lint / build / format:check | PASS |
+| npm test -- --no-file-parallelism | **311/311**, 21 files |
+| npx vitest run src/test/recovery-late-review.test.tsx | **1/1**, original captain case |
+| npx vitest run --config vitest.microphone.config.ts | **35/35** |
+| Playwright customer-recovery | **5/5** |
+| Playwright qa | **21/21** |
+| Playwright voice-integration | **1/1** |
+| Playwright auth-onboarding | **7/7** |
+| Playwright microphone | **18/18** |
+| Playwright analytics (Seller/Analytics/public) | **24/24** |
+| git diff --check and forbidden-path diff | PASS / empty |
+
+All browser commands use `npx.cmd playwright test --config e2e/<suite>.playwright.config.ts --trace off`.
+Analytics screenshots use `QADAM_SCREENSHOT_ROOT=./test-results/recovery-screenshots`;
+tracked screenshots are preserved. Logs: `apps/web/test-results/recovery-resume`.
+Suites overlap: captain case is in 311; strict microphone 27 overlap default; the
+QA and Analytics configs repeat 8 Seller cases. Do not sum these as unique tests.
+HTTP/SDK/audio fixtures are synthetic; native Web Locks run in real Chromium tabs.
+No live Supabase/DB, paid AI, real email or physical Android acceptance is claimed.
+
+## Scope, limits and next step
+
+[Architecture, all 24 changed files, exact run commands, review and limits](../SELLER_CUSTOMER_RECOVERY_SAFE.md).
+[Checkpoint continuation and historical evidence](../SELLER_RECOVERY_CHECKPOINT.md).
+[17-step operator-ready rehearsal](../qa/SELLER_FINAL_DEMO_REHEARSAL.md).
+Existing routes, customer search/selection, RU/KZ and API 0.6.2 are retained.
+Three inherited dev audit findings (1 moderate/2 critical) and large 3D bundle warning
+remain; no forced package upgrade. Fresh live rehearsal needs reviewed deployment,
+approved training accounts/writes and separate AI/device/speaker permissions.
+
+PR #41 (`feature/sale-debts-polish:7d84cb6`, base deploy-062) has overlapping
+Customers presentation/test/docs edits. It was inspected, not merged or changed.
+Preserve both presentation and recovery when captain later integrates them.
+Registration [Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)
+remains separate at **6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, base
+`integration/voice-preview-061`, unchanged by this resumed task. Its callback URL,
+Supabase allowlist, confirmation mechanism and live email acceptance remain blocked.
+No main/deploy/other branch, backend configuration, migration or working service
+was modified. Recovery Draft publication follows the final browser results.
+
+The Registration/design/Analytics sections below are historical snapshots.
 
 ---
 # Seller web — Registration readiness / Android preparation
