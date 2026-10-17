@@ -25,6 +25,7 @@ class QadamTheme {
         primaryContainer: lime,
         onPrimaryContainer: ink,
         secondary: green,
+        tertiary: const Color(0xff5f8053),
         secondaryContainer: soft,
         onSecondaryContainer: ink,
         surface: surface,
