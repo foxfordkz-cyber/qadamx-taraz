@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:file_selector/file_selector.dart';
 
 import '../data/api_failure.dart';
 import '../ui/common.dart';
@@ -10,6 +11,7 @@ import 'crm_models.dart';
 import 'crm_pages.dart';
 import 'crm_ui.dart';
 import 'voice_capture.dart';
+import 'audio_input.dart';
 
 class CrmEntryPage extends CrmScreen {
   const CrmEntryPage({
@@ -31,6 +33,12 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   bool voiceMode = false;
   bool playing = false;
   bool preparing = false;
+  bool selecting = false;
+  AudioInput? imported;
+  String? importedPath;
+  double? get audioDuration => imported == null
+      ? voice.duration
+      : imported!.duration.inMilliseconds / 1000;
   Object? localError;
   int sourceRevision = 0;
   StreamSubscription<void>? playback;
@@ -58,9 +66,13 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   @override
   void identityChanged() {
     if (!api.current(scope)) {
+      sourceRevision++;
       drafts.invalidate();
       unawaited(voice.cancel());
       unawaited(stopPlayback());
+      unawaited(removeCachedAudio(importedPath));
+      importedPath = null;
+      imported = null;
     }
     super.identityChanged();
   }
@@ -86,10 +98,16 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   }
 
   Future<void> play() async {
-    if (voice.path == null || voice.duration == null) return;
+    final path = importedPath ?? voice.path;
+    if (path == null || audioDuration == null) return;
+    final revision = sourceRevision;
     try {
-      await player.play(DeviceFileSource(voice.path!));
-      if (mounted) setState(() => playing = true);
+      await player.play(DeviceFileSource(path));
+      if (!active || revision != sourceRevision) {
+        await stopPlayback();
+        return;
+      }
+      setState(() => playing = true);
     } catch (_) {
       if (mounted) {
         setState(() => localError = const ApiFailure('AUDIO_INVALID'));
@@ -101,11 +119,87 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
     sourceChanged();
     await stopPlayback();
     await voice.cancel();
+    await removeCachedAudio(importedPath);
+    importedPath = null;
+    imported = null;
     if (mounted) setState(() => localError = null);
   }
 
+  Future<void> selectAudio() async {
+    if (!active || selecting || preparing || voice.recording || voice.busy) {
+      return;
+    }
+    await resetAudio();
+    if (!active) return;
+    final revision = sourceRevision;
+    setState(() => selecting = true);
+    String? cache;
+    StreamSubscription<Duration>? durationEvents;
+    try {
+      final file = await openFile(
+        acceptedTypeGroups: [
+          const XTypeGroup(
+            label: 'Audio',
+            extensions: [
+              'wav',
+              'mp3',
+              'ogg',
+              'opus',
+              'webm',
+              'm4a',
+              'mp4',
+              'flac',
+            ],
+            mimeTypes: ['audio/*', 'video/webm', 'video/mp4'],
+            uniformTypeIdentifiers: ['public.audio', 'public.movie'],
+          ),
+        ],
+      );
+      if (!active || revision != sourceRevision || file == null) return;
+      if (await file.length() > 8 * 1024 * 1024) {
+        throw const ApiFailure('AUDIO_INVALID');
+      }
+      final bytes = await file.readAsBytes();
+      final format = detectAudio(bytes);
+      if (!active || revision != sourceRevision) return;
+      cache = await cacheAudio(bytes, format);
+      if (!active || revision != sourceRevision) return;
+      final measured = Completer<Duration>();
+      durationEvents = player.onDurationChanged.listen((value) {
+        if (value > Duration.zero && !measured.isCompleted) {
+          measured.complete(value);
+        }
+      });
+      await player
+          .setSource(DeviceFileSource(cache))
+          .timeout(const Duration(seconds: 8));
+      final known = await player.getDuration();
+      if (known != null && known > Duration.zero && !measured.isCompleted) {
+        measured.complete(known);
+      }
+      final duration = await measured.future.timeout(
+        const Duration(seconds: 8),
+      );
+      final input = AudioInput(bytes, duration);
+      if (!active || revision != sourceRevision) return;
+      setState(() {
+        imported = input;
+        importedPath = cache;
+      });
+      cache = null;
+    } catch (_) {
+      if (active && revision == sourceRevision) {
+        setState(() => localError = const ApiFailure('AUDIO_INVALID'));
+      }
+    } finally {
+      await durationEvents?.cancel();
+      await removeCachedAudio(cache);
+      if (mounted) setState(() => selecting = false);
+    }
+  }
+
   Future<void> analyze() async {
-    if (preparing || drafts.busy || !active) return;
+    if (preparing || selecting || drafts.busy || !active) return;
     final revision = sourceRevision;
     final sourceText = text.text;
     setState(() {
@@ -114,11 +208,13 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
     });
     try {
       await stopPlayback();
-      final bytes = voiceMode ? await voice.bytes() : null;
+      final fileAudio = imported;
+      final bytes = voiceMode && fileAudio == null ? await voice.bytes() : null;
       if (!active || revision != sourceRevision) return;
       await drafts.analyze(
         text: voiceMode ? null : sourceText,
         wav: bytes,
+        audio: voiceMode ? fileAudio : null,
         locale: kk ? 'kk' : 'ru',
       );
     } catch (e) {
@@ -130,7 +226,9 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
 
   Future<void> openForm({CrmJson? draft}) async {
     if (!active) return;
+    sourceChanged();
     await stopPlayback();
+    if (voice.recording) await voice.stop();
     if (!mounted || !active) return;
     final result = await Navigator.push(
       context,
@@ -161,6 +259,7 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
     voice.dispose();
     unawaited(playback?.cancel());
     unawaited(player.dispose());
+    unawaited(removeCachedAudio(importedPath));
     super.dispose();
   }
 
@@ -228,7 +327,8 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
                   mode ? tr(kk, 'Голос', 'Дауыс') : tr(kk, 'Текст', 'Мәтін'),
                 ),
                 selected: voiceMode == mode,
-                onSelected: voice.busy || voice.recording || preparing
+                onSelected:
+                    voice.busy || voice.recording || preparing || selecting
                     ? null
                     : (_) async {
                         drafts.invalidate();
@@ -259,13 +359,13 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
             Text(
               tr(
                 kk,
-                'Разрешение микрофона нужно только для записи. До 30 секунд, WAV. После остановки можно прослушать, удалить или перезаписать.',
-                'Микрофон рұқсаты тек жазу үшін қажет. 30 секундқа дейін, WAV. Тоқтатқан соң тыңдауға, өшіруге не қайта жазуға болады.',
+                'Запись или файл: до 30 секунд и 8 MiB. WAV, MP3, OGG/Opus, WebM, M4A/MP4, FLAC. До отправки можно прослушать и удалить. Разрешение микрофона нужно только для записи.',
+                'Жазба немесе файл: 30 секундқа және 8 MiB дейін. WAV, MP3, OGG/Opus, WebM, M4A/MP4, FLAC. Жібермес бұрын тыңдауға және өшіруге болады. Микрофон рұқсаты тек жазу үшін қажет.',
               ),
             ),
             if (voice.recording) ...[
               Text(
-                '${tr(kk, 'Идёт запись', 'Жазылуда')}: ${voice.seconds} / 29 с',
+                '${voice.paused ? tr(kk, 'Пауза', 'Кідіріс') : tr(kk, 'Идёт запись', 'Жазылуда')}: ${voice.seconds} / 29 с',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               FilledButton.icon(
@@ -273,9 +373,19 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
                 icon: const Icon(Icons.stop),
                 label: Text(tr(kk, 'Остановить запись', 'Жазуды тоқтату')),
               ),
-            ] else if (voice.duration != null) ...[
+              if (voice.canPause)
+                OutlinedButton.icon(
+                  onPressed: voice.busy ? null : voice.togglePause,
+                  icon: Icon(voice.paused ? Icons.mic : Icons.pause),
+                  label: Text(
+                    voice.paused
+                        ? tr(kk, 'Продолжить запись', 'Жазуды жалғастыру')
+                        : tr(kk, 'Пауза', 'Кідіріс'),
+                  ),
+                ),
+            ] else if (audioDuration != null) ...[
               Text(
-                '${tr(kk, 'Готово к прослушиванию', 'Тыңдауға дайын')}: ${voice.duration!.toStringAsFixed(1)} с',
+                '${tr(kk, 'Готово к прослушиванию', 'Тыңдауға дайын')}: ${audioDuration!.toStringAsFixed(1)} с',
               ),
               OutlinedButton.icon(
                 onPressed: playing ? stopPlayback : play,
@@ -296,7 +406,7 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
               ),
             ] else
               FilledButton.icon(
-                onPressed: voice.busy || preparing
+                onPressed: voice.busy || preparing || selecting
                     ? null
                     : () {
                         drafts.invalidate();
@@ -304,6 +414,14 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
                       },
                 icon: const Icon(Icons.mic),
                 label: Text(tr(kk, 'Начать запись', 'Жазуды бастау')),
+              ),
+            if (!voice.recording)
+              OutlinedButton.icon(
+                onPressed: voice.busy || preparing || selecting
+                    ? null
+                    : selectAudio,
+                icon: const Icon(Icons.audio_file_outlined),
+                label: Text(tr(kk, 'Выбрать аудиофайл', 'Аудиофайл таңдау')),
               ),
             if (voice.recording)
               TextButton(
@@ -321,7 +439,17 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
                 ),
               ),
           ]),
-        if (drafts.busy || preparing) const LinearProgressIndicator(),
+        if (drafts.busy || preparing || selecting)
+          const LinearProgressIndicator(),
+        if (localError is ApiFailure &&
+            (localError as ApiFailure).code == 'AUDIO_INVALID')
+          Text(
+            tr(
+              kk,
+              'Не удалось прочитать аудио. Проверьте формат, длительность до 30 секунд и размер до 8 MiB. Можно записать заново или ввести текст.',
+              'Аудионы оқу мүмкін болмады. Пішімін, 30 секундқа дейінгі ұзақтығын және 8 MiB дейінгі өлшемін тексеріңіз. Қайта жазыңыз немесе мәтін енгізіңіз.',
+            ),
+          ),
         if (drafts.error != null || localError != null)
           Text(
             tr(
@@ -334,9 +462,10 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
           onPressed:
               drafts.busy ||
                   preparing ||
+                  selecting ||
                   voice.recording ||
                   voice.busy ||
-                  (voiceMode && voice.duration == null)
+                  (voiceMode && audioDuration == null)
               ? null
               : analyze,
           child: Text(tr(kk, 'Получить AI-черновик', 'AI жобасын алу')),

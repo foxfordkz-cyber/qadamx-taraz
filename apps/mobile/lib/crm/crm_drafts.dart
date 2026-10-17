@@ -8,6 +8,7 @@ import 'package:http_parser/http_parser.dart';
 import '../data/api_failure.dart';
 import 'crm_api.dart';
 import 'crm_models.dart';
+import 'audio_input.dart';
 
 void validateDraft(CrmJson value) {
   crmId(value, 'id');
@@ -88,6 +89,7 @@ class CrmDrafts extends ChangeNotifier {
   Future<void> analyze({
     String? text,
     Uint8List? wav,
+    AudioInput? audio,
     required String locale,
   }) async {
     if (busy || _disposed) return;
@@ -99,7 +101,7 @@ class CrmDrafts extends ChangeNotifier {
     final client = clientFactory();
     _client = client;
     try {
-      if ((text == null) == (wav == null) ||
+      if ([text, wav, audio].where((value) => value != null).length != 1 ||
           !const ['ru', 'kk', 'auto'].contains(locale)) {
         throw const ApiFailure('VALIDATION_ERROR');
       }
@@ -124,6 +126,16 @@ class CrmDrafts extends ChangeNotifier {
             wav,
             filename: 'recording.wav',
             contentType: MediaType('audio', 'wav'),
+          ),
+        );
+      }
+      if (audio != null) {
+        request.files.add(
+          http.MultipartFile.fromBytes(
+            'audio',
+            audio.bytes,
+            filename: 'selected.${audio.format}',
+            contentType: MediaType.parse(audio.mime),
           ),
         );
       }

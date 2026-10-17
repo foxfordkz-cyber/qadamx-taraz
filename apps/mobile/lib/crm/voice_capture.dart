@@ -17,7 +17,14 @@ abstract class VoiceRecorderPort {
   Future<void> dispose();
 }
 
-class NativeVoiceRecorder implements VoiceRecorderPort {
+abstract class PausableVoiceRecorderPort {
+  Future<void> pause();
+  Future<void> resume();
+  Stream<RecordState> get states;
+}
+
+class NativeVoiceRecorder
+    implements VoiceRecorderPort, PausableVoiceRecorderPort {
   final AudioRecorder recorder = AudioRecorder();
   @override
   Future<bool> permission() => recorder.hasPermission();
@@ -27,6 +34,7 @@ class NativeVoiceRecorder implements VoiceRecorderPort {
       encoder: AudioEncoder.wav,
       sampleRate: 16000,
       numChannels: 1,
+      audioInterruption: AudioInterruptionMode.pause,
     ),
     path: path,
   );
@@ -36,6 +44,12 @@ class NativeVoiceRecorder implements VoiceRecorderPort {
   Future<void> cancel() => recorder.cancel();
   @override
   Future<void> dispose() => recorder.dispose();
+  @override
+  Future<void> pause() => recorder.pause();
+  @override
+  Future<void> resume() => recorder.resume();
+  @override
+  Stream<RecordState> get states => recorder.onStateChanged();
 }
 
 /// Capture is independent of network transport. Stop only finalizes a local
@@ -49,7 +63,34 @@ class VoiceCapture extends ChangeNotifier {
   }) : recorder = recorder ?? NativeVoiceRecorder(),
        createPath = createPath ?? _newPath,
        read = read ?? ((path) => File(path).readAsBytes()),
-       remove = remove ?? _remove;
+       remove = remove ?? _remove {
+    final port = this.recorder;
+    if (port is PausableVoiceRecorderPort) {
+      _states = (port as PausableVoiceRecorderPort).states.listen(
+        (state) {
+          if (!recording || busy || _disposed) return;
+          if (state == RecordState.pause) {
+            paused = true;
+            _clock.stop();
+            _notify();
+          } else if (state == RecordState.stop) {
+            // An unexpected platform stop cannot leave a phantom active capture.
+            unawaited(
+              cancel().then((_) {
+                if (!_disposed) {
+                  error = const ApiFailure('MICROPHONE_UNAVAILABLE');
+                  _notify();
+                }
+              }),
+            );
+          }
+        },
+        onError: (_) {
+          unawaited(cancel());
+        },
+      );
+    }
+  }
   final VoiceRecorderPort recorder;
   final Future<String> Function() createPath;
   final Future<Uint8List> Function(String) read;
@@ -79,6 +120,9 @@ class VoiceCapture extends ChangeNotifier {
   }
 
   bool recording = false;
+  bool paused = false;
+  bool get canPause => recorder is PausableVoiceRecorderPort;
+  StreamSubscription<RecordState>? _states;
   bool _working = false;
   bool _cancelling = false;
   bool get busy => _working || _cancelling;
@@ -92,6 +136,7 @@ class VoiceCapture extends ChangeNotifier {
   Completer<void>? _starting;
   Completer<void>? _stopping;
   Completer<void>? _cancellation;
+  Completer<void>? _pauseChange;
   final Stopwatch _clock = Stopwatch();
   void _notify() {
     if (!_disposed) notifyListeners();
@@ -123,6 +168,7 @@ class VoiceCapture extends ChangeNotifier {
         return;
       }
       recording = true;
+      paused = false;
       seconds = 0;
       _clock.reset();
       _clock.start();
@@ -191,9 +237,44 @@ class VoiceCapture extends ChangeNotifier {
       }
     } finally {
       recording = false;
+      paused = false;
       _working = false;
       stopping.complete();
       if (identical(_stopping, stopping)) _stopping = null;
+      _notify();
+    }
+  }
+
+  Future<void> togglePause() async {
+    if (!canPause || !recording || busy || _disposed) return;
+    final revision = _revision;
+    final change = Completer<void>();
+    _pauseChange = change;
+    _working = true;
+    _notify();
+    try {
+      final port = recorder as PausableVoiceRecorderPort;
+      final next = !paused;
+      if (next) {
+        await port.pause();
+      } else {
+        await port.resume();
+      }
+      if (_disposed || revision != _revision) return;
+      paused = next;
+      if (paused) {
+        _clock.stop();
+      } else {
+        _clock.start();
+      }
+    } catch (_) {
+      if (!_disposed && revision == _revision) {
+        error = const ApiFailure('MICROPHONE_UNAVAILABLE');
+      }
+    } finally {
+      _working = false;
+      change.complete();
+      if (identical(_pauseChange, change)) _pauseChange = null;
       _notify();
     }
   }
@@ -219,6 +300,8 @@ class VoiceCapture extends ChangeNotifier {
     if (starting != null) await starting.future;
     final stopping = _stopping;
     if (stopping != null) await stopping.future;
+    final changing = _pauseChange;
+    if (changing != null) await changing.future;
     try {
       await recorder.cancel();
     } catch (_) {}
@@ -229,6 +312,7 @@ class VoiceCapture extends ChangeNotifier {
     }
     path = null;
     recording = false;
+    paused = false;
     _working = false;
     _cancelling = false;
     duration = null;
@@ -242,6 +326,7 @@ class VoiceCapture extends ChangeNotifier {
   @override
   void dispose() {
     _disposed = true;
+    unawaited(_states?.cancel());
     unawaited(cancel().whenComplete(recorder.dispose));
     super.dispose();
   }
