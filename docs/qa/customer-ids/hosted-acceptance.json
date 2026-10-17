@@ -1,0 +1,88 @@
+{
+  "application_writes": 0,
+  "paid_ai_calls": 0,
+  "phase": "verified-live",
+  "candidate": "f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5",
+  "deployed_sha_independently_verified": false,
+  "checks": {
+    "health": 200,
+    "openapi": 200,
+    "me_A": {
+      "status": 200,
+      "business_count": 6
+    },
+    "me_B": {
+      "status": 200,
+      "business_count": 3
+    },
+    "anonymous_me": 401,
+    "ids_A": {
+      "own": 200,
+      "mixed_only_own": true,
+      "duplicates_removed": true,
+      "foreign_missing_empty": true,
+      "balance_matches_read_only_journal": true,
+      "foreign_business": 404,
+      "anonymous": 401,
+      "invalid_cases_422": 6,
+      "legacy_and_cursor": true
+    },
+    "ids_B": {
+      "own": 200,
+      "mixed_only_own": true,
+      "duplicates_removed": true,
+      "foreign_missing_empty": true,
+      "balance_matches_read_only_journal": true,
+      "foreign_business": 404,
+      "anonymous": 401,
+      "invalid_cases_422": 6,
+      "legacy_and_cursor": true
+    }
+  },
+  "ids_available": true,
+  "cors": [
+    {
+      "origin": "https://qadamx-taraz.vercel.app",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "https://qadamx-taraz.vercel.app",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "https://qadamx-taraz-git-integration-seller-registrat-7d21c0-p-it-chers.vercel.app",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "https://qadamx-taraz-git-integration-seller-registrat-7d21c0-p-it-chers.vercel.app",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "origin": "https://negotiations-exist-newman-ohio.trycloudflare.com",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "origin": "https://negotiations-exist-newman-ohio.trycloudflare.com",
+      "method": "POST",
+      "status": 200
+    }
+  ],
+  "candidate_schema_equal": true,
+  "status": "https_contract_and_isolation_pass",
+  "panel_evidence": {
+    "source": "captain supplied Render Live panel text",
+    "service_id": "srv-db95nfmk1f9s73fmnce0",
+    "new_commit_displayed": "f6b3a9a",
+    "matched_authorized_sha": "f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5",
+    "new_deployment_id": null,
+    "previous_sha": "e699158b5238285fb02c85bc5d92c45a3cc4ca84",
+    "previous_deployment_id": "dep-db9lvsijnfac73cq11g0",
+    "auto_deploy_disabled": true
+  },
+  "acceptance_scope": "Existing customer samples A/B and their journal; GET/OPTIONS application + authorized Supabase login. Legacy cursor followed only when present."
+}

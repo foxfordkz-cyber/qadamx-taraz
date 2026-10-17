@@ -1,5 +1,26 @@
 # Передача работы backend
 
+## 2026-10-17 — PR61 на Render: HTTPS ids/A-B PASS
+
+Капитан подтвердил новый specific-commit Live **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**
+в панели srv-db95nfmk1f9s73fmnce0. Прежний Live: dep-db9lvsijnfac73cq11g0 / e699158.
+Новый dep-ID не указан; публичный SHA независимо не извлекается. Отличать это
+panel evidence от собственных HTTPS-проверок.
+
+[Текущий отчёт и текст Бекзату](../CUSTOMER_IDS_RENDER_WINDOW.md),
+[безопасный протокол](../qa/customer-ids/hosted-acceptance.json).
+Health/OpenAPI200/API0.6.2 с ids, schema=f6b3a9a. JWT A/B /me200/6и3точки;
+свои/смешанные UUID, повторы, foreign/missing, серверный баланс по журналу,
+422 по6случаям для каждого владельца, legacy list/limit/cursor PASS.
+Чужая точка404, без JWT401; все три CORS origins, включая Preview43, сохранены.
+Никаких общих финансовых/клиентских записей, migrations/seed/memberships или paidAI.
+
+Backend-зависимость frontend ids снята; PR65/новый web ещё требует отдельного
+review и проверки имён после reload. Vercel/main/deploy-ветки/APK не менялись.
+Откат до выпуска зависимого web: previousSHAe699158 через specific commit с текущим
+env, не слепой Rollback старого env. После зависимого frontend сохранять ids-совместимость.
+Ниже — история предыдущих проверок, в том числе первого Live без ids.
+
 ## 2026-10-17 — сообщён Live, но HTTPS ещё без ids
 
 Капитан подтвердил прежний Live SHAe699158; новый SHA/обаdeploymentID уточняются.

@@ -4,7 +4,61 @@
 f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**. Frontend/Vercel, миграции, seed,
 memberships, денежные записи и paid AI не входят в это переключение.
 
-## После сообщения капитана «новый deployment Live»
+## Принято после exact-commit Live — 2026-10-17
+
+Капитан передал из панели существующего сервиса `srv-db95nfmk1f9s73fmnce0`:
+Most recent deploy **Live**, commit **f6b3a9a**, событие «Deploy live for f6b3a9a:
+feat(api): resolve scoped customers by explicit IDs with live balances».
+Этот prefix однозначно соответствует разрешённому полному SHA
+**f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**. Автодеплой выключен после specific commit.
+SHA подтверждён **капитаном из панели**, не самостоятельно через management API;
+публичные health/OpenAPI не являются доказательством SHA.
+
+Прежний deployment для учёта отката: **dep-db9lvsijnfac73cq11g0**,
+SHA **e699158b5238285fb02c85bc5d92c45a3cc4ca84**, оба переданы капитаном.
+ID нового deployment ещё не указан; нельзя приписывать ему прежний dep-ID.
+Это оставшийся пункт метаданных, не провал уже выполненной контрактной приёмки.
+
+**Собственная неплатная приёмка по настоящему HTTPS — PASS:**
+
+- health200, OpenAPI200/API0.6.2 **с ids**, полная схема совпала с кандидатом;
+- настоящие Supabase JWT: /me A200/6точек, B200/3точки, наборы не пересекаются;
+  /me без JWT401;
+- для каждого владельца: выборка своего UUID200; смешанный набор свой/чужой/
+  отсутствующий/повтор своего вернул только своего один раз, next_cursor=null;
+- чужой UUID и случайный отсутствующий UUID поодиночке дали одинаковый пустой Page;
+  чужой business404, ids безJWT401;
+- balance_minor выбранных существующих клиентов совпал с read-only суммой
+  sales_delta_minor-receipts_delta_minor их серверных операций по всем страницам;
+  новые денежные записи для этого не создавались;
+- по6проверок422 для A/B: пустой ids, невалидный UUID,101повтор,
+  ids+q, ids+cursor, ids+limit; error.code=VALIDATION_ERROR;
+- прежний customers без ids, explicit limit и продолжение при наличии cursor
+  сохраняют Page и не дублируют предыдущую страницу;
+- GET/POST preflight200 для production Vercel, Preview43 и старого tunnel origin
+  с точным allow-origin; никакой actual POST к денежным/клиентским API не выполнялся.
+
+[Безопасные результаты без имён, токенов и тел ответов](qa/customer-ids/hosted-acceptance.json).
+Выполнялись GET/OPTIONS приложения и обычный Auth login; прикладных записей0,
+paidAI0, миграций/seed/membership0. AI env и другие закрытые настройки напрямую
+не читались и не менялись; их сохранение относится к ручному действию капитана.
+
+### Готовый текст передачи Бекзату
+
+Backend доступен: **https://qadamx-taraz.onrender.com/api/v1**, API **0.6.2**,
+deployed SHA **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5** (Live подтверждён панелью
+капитана; HTTPS schema/ids/A-B проверены независимо). [Контракт](../packages/contracts/CUSTOMER_IDS_API.md),
+[OpenAPI](https://qadamx-taraz.onrender.com/openapi.json).
+Использовать repeated `ids=UUID&ids=UUID`,≤100, без q/cursor/limit; пустой набор
+не отправлять; map поUUID, кэш user+business+IDs. Backend-зависимость снята.
+Frontend ещё требует собственного review и имён в долгах/истории после reload;
+его выпуск этим отчётом не выполняется. Участникам автоматически ничего не отправлено.
+
+Main/deploy refs пока1a541ef; Render был развёрнут **specific commit**, поэтому
+состояние ветки не заменяет runtime evidence. Vercel и APK этим этапом не менялись.
+Ниже сохранена история неуспешного первого gate и ручной подготовки.
+
+## История: после первого сообщения капитана «новый deployment Live»
 
 Капитан подтвердил прежний SHA **e699158b5238285fb02c85bc5d92c45a3cc4ca84**;
 новый SHA и оба deployment ID ещё уточняются. Само сообщение Live не является
