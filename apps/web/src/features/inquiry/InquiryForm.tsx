@@ -61,9 +61,6 @@ export default function InquiryForm({ businessId }: { businessId: string }) {
     return (
       <section className="inq inq--ok" aria-live="polite">
         <h2>{t("sent_title")}</h2>
-        <p>
-          {t("request_no")}: <strong>{done.id}</strong>
-        </p>
         <p className="muted">{t("sent_text")}</p>
         <button
           type="button"
@@ -92,9 +89,18 @@ export default function InquiryForm({ businessId }: { businessId: string }) {
               value={name}
               maxLength={100}
               autoComplete="name"
+              aria-required="true"
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? "name-error" : undefined}
               onChange={(e) => setName(e.target.value)}
             />
           </label>
+          {/* Outside the label so the field keeps the accessible name "Имя посетителя". */}
+          {errors.name && (
+            <small id="name-error" className="err" role="alert">
+              {t(errors.name)}
+            </small>
+          )}
 
           <label>
             {t("contact")}
@@ -137,7 +143,6 @@ export default function InquiryForm({ businessId }: { businessId: string }) {
             )}
           </label>
         </fieldset>
-        {errors.name && <p role="alert">{t("required")}</p>}
         {failed && (
           <p className="err" role="alert">
             {t("send_error")}
