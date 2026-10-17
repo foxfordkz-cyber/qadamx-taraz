@@ -1,0 +1,33 @@
+{
+  "checked_at_utc": "2026-10-17T16:08:10.346708+00:00",
+  "source_commit": "79a29b9341b03e4ac3ffc58ebf6a06b00374d2f4",
+  "install": {
+    "apk_file": "qadam-0.5.2-79a29b9-internal.apk",
+    "apk_bytes": 28667431,
+    "apk_sha256": "3ff67b9b916c061ab2b8a0b110c29fd4ab15fdc95d36e1643beddc91d1a334d6",
+    "published_checksum_checked": true,
+    "device_type": "emulator",
+    "manufacturer": "unknown",
+    "model": "Android SDK built for x86_64",
+    "android": "7.0",
+    "sdk": "24",
+    "abis": "x86_64,x86",
+    "package": "kz.qadam.qadam_mobile",
+    "installed_version_code_before": "10",
+    "installed_version_name_before": "0.5.1",
+    "install_result": "SUCCESS",
+    "install_exit_code": 0
+  },
+  "installed_version_code_after": 11,
+  "installed_version_name_after": "0.5.2",
+  "launch": "PASS am start -W Status ok",
+  "physical_android": "NOT_PERFORMED_NO_DEVICE",
+  "authenticated_A_B": "NOT_PERFORMED",
+  "camera_microphone": "NOT_PERFORMED",
+  "financial_ai_inquiry_writes": "NOT_PERFORMED",
+  "real_session_pending_preservation_on_update": "NOT_PERFORMED_GUEST_RUN",
+  "uninstall_or_clear_used": false,
+  "restart": "PASS force-stop then am start -W Status ok",
+  "public_home": "PASS visible home, venues from API and four native tabs",
+  "public_shop_and_3d": "NOT_REPEATED_IN_052; see explicitly versioned 051 evidence"
+}

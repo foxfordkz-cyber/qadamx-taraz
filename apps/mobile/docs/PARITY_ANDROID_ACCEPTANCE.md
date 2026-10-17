@@ -1,13 +1,13 @@
-# Qadam 0.5.1: физическая Android-приёмка
+# Qadam 0.5.2: физическая Android-приёмка
 
 **Не выполнена: ADB не обнаружил телефон.** Этот документ — план, а не результаты.
-APK/полный source SHA/checksum: [отчёт сборки](reports/mobile-051-apk-audit.json).
-[Скачать APK0.5.1+10](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-0.5.1-640d0ef-internal.apk).
-Source: `640d0ef7c936a403162a8c7185f2438ca6679bba`.
-SHA256: `bce1d35b0b848124f8fb41becacdadf03faa29e88cd1a2565160fb875b9eb29f`.
-Отдельный [эмуляторный прогон](reports/android-051/README.md) не заменяет этот чек-лист.
+APK/полный source SHA/checksum: [отчёт сборки](reports/mobile-052-apk-audit.json).
+[Скачать APK0.5.2+11](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk).
+Source: `79a29b9341b03e4ac3ffc58ebf6a06b00374d2f4`.
+SHA256: `3ff67b9b916c061ab2b8a0b110c29fd4ab15fdc95d36e1643beddc91d1a334d6`.
+Отдельный [эмуляторный прогон](reports/android-052/README.md) не заменяет этот чек-лист.
 Постоянный API: `https://qadamx-taraz.onrender.com/api/v1`.
-Frontend: `https://qadamx-taraz.vercel.app`; кабинет/магазины открываются нативно.
+Frontend: `https://qadamx-taraz.pages.dev`; кабинет/магазины открываются нативно.
 
 Перед началом записать модель, Android, сеть, участника, дату, старый versionCode,
 APK SHA256 и source SHA. Пароли A/B получить закрыто, ввод не снимать. Использовать
@@ -16,7 +16,7 @@ APK SHA256 и source SHA. Пароли A/B получить закрыто, вв
 
 | Шаг | Ожидаемый результат | Факт |
 |---|---|---|
-| Установить 0.5.1+10 поверх имеющейся 0.4.0/0.5.0 без удаления | Тот же package/signature, данные и сессия сохраняются; версия10 | Не выполнено |
+| Установить 0.5.2+11 поверх имеющейся 0.4.0/0.5.0/0.5.1 без удаления | Тот же package/signature, данные и сессия сохраняются; версия11 | Не выполнено |
 | Главная → Площадки → площадка → поиск/категория → магазин | Данные API, каталог с наличием/ценой; null — «Цена не указана»; UUID не видны | Не выполнено |
 | Площадки → Мал базар → системный Back; Профиль → свои объявления/помощь/язык | Мал базар находится среди площадок; Back возвращает к ним; профиль открывает правильный раздел | Не выполнено |
 | MART/Кайкармет/Ауыл Береке: поворот/zoom/reset → каждый маркер | Правильный нативный магазин; после Back — площадка; при сбое 3D работают poster и список | Не выполнено |
