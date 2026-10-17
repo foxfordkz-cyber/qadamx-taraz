@@ -1,0 +1,7 @@
+{
+  "disable_signup": false,
+  "mailer_autoconfirm": false,
+  "phone_autoconfirm": false,
+  "email_provider_enabled": true,
+  "site_url_redirect_allowlist_templates_not_public": true
+}
