@@ -395,6 +395,9 @@ class _OperationFormState extends CrmScreenState<OperationForm> {
           action: operationAction,
           body: body,
           beforeConfirm: checkDraft,
+          reviewNote: repayment
+              ? '${sale?['description'] ?? ''}\n${sale == null ? '' : crmDate(sale!['created_at'] as String)}'
+              : customer?['display_name'] as String?,
           onDone: (receipt) => Navigator.pop(context, receipt),
           form: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -86,6 +86,107 @@ void main() {
     account = owner;
     epoch = 0;
   });
+  test(
+    'receipt for different payment is not accepted; repayment has zero sales delta',
+    () async {
+      final client = api((_) async => jsonResponse(receipt()));
+      final scope = client.scope(business);
+      final intent = await client.begin(scope, operationAction, {
+        'kind': 'sale',
+        'description': 'Fixture',
+        'customer_id': customerId,
+        'total_minor': 15000,
+        'received_minor': 15000,
+      });
+      await expectLater(
+        client.send(scope, operationAction, intent),
+        throwsA(failure('INVALID_RESPONSE')),
+      );
+      expect((await pending.load(scope, operationAction))!.receipt, isNull);
+      final other = api((r) async {
+        final response = receipt();
+        response['operation']['kind'] = 'repayment';
+        response['operation']['sales_delta_minor'] = 0;
+        response['operation']['receipts_delta_minor'] = 5000;
+        response['sale_balance_minor'] = 0;
+        response['customer_balance_minor'] = 0;
+        return jsonResponse(response);
+      });
+      final anotherScope = other.scope(customerId);
+      // Validate repayment request independently; response business scope stays enforced.
+      other.validateBody(operationAction, {
+        'kind': 'repayment',
+        'sale_id': saleId,
+        'amount_minor': 5000,
+        'description': 'Fixture',
+      });
+      expect(anotherScope.business, customerId);
+      client.close();
+      other.close();
+    },
+  );
+  test(
+    'catalog uses the published public slug route and keeps null prices',
+    () async {
+      final client = api((r) async {
+        expect(r.url.path, '/api/v1/businesses/fixture-shop');
+        expect(r.headers.containsKey('Authorization'), isFalse);
+        return jsonResponse({
+          'id': business,
+          'slug': 'fixture-shop',
+          'name': 'Fixture',
+          'is_demo': true,
+          'catalog': [
+            {
+              'id': saleId,
+              'business_id': business,
+              'name': 'Fixture item',
+              'price_minor': null,
+              'available': true,
+              'is_demo': true,
+            },
+          ],
+        });
+      });
+      final result = await client.catalog(
+        client.scope(business),
+        'fixture-shop',
+      );
+      expect(result['catalog'][0]['price_minor'], isNull);
+      client.close();
+    },
+  );
+  test(
+    'inquiry update uses existing PATCH and only published statuses',
+    () async {
+      var calls = 0;
+      final client = api((r) async {
+        calls++;
+        expect(r.method, 'PATCH');
+        expect(r.url.path, '/api/v1/businesses/$business/inquiries/$saleId');
+        expect(jsonDecode(r.body), {'status': 'closed'});
+        return jsonResponse({
+          'id': saleId,
+          'business_id': business,
+          'created_at': '2026-10-17T05:00:00Z',
+          'visitor_name': 'Fixture',
+          'contact': 'synthetic',
+          'message': 'Fixture inquiry',
+          'status': 'closed',
+        });
+      });
+      final scope = client.scope(business);
+      await expectLater(
+        client.updateInquiry(scope, saleId, 'paid'),
+        throwsA(failure('VALIDATION_ERROR')),
+      );
+      expect(calls, 0);
+      final result = await client.updateInquiry(scope, saleId, 'closed');
+      expect(result['status'], 'closed');
+      expect(calls, 1);
+      client.close();
+    },
+  );
 
   test(
     'ambiguous customer POST survives restart; not_observed preserves exact key/body/url',

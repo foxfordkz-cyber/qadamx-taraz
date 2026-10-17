@@ -26,7 +26,13 @@ void main() {
         pending: CrmPending(fixture.MemoryCrmVault()),
         client: MockClient((r) async {
           posts++;
-          return fixture.jsonResponse(fixture.receipt());
+          final result = fixture.receipt();
+          result['operation']['description'] = '';
+          result['operation']['customer_id'] = null;
+          result['operation']['receipts_delta_minor'] = 15000;
+          result['sale_balance_minor'] = 0;
+          result['customer_balance_minor'] = null;
+          return fixture.jsonResponse(result);
         }),
       );
       runtime = MobileRuntime(auth: auth, crmApi: api);

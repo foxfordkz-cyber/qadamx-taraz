@@ -323,7 +323,7 @@ class CrmApi {
       throw const ApiFailure('PENDING_CHANGED', uncertain: true);
     }
     if (saved!.receipt != null) {
-      _validateReceipt(scope, action, saved.receipt!);
+      _validateReceipt(scope, action, saved.receipt!, intent.body);
       return saved;
     }
     final value = await request(
@@ -333,15 +333,38 @@ class CrmApi {
       body: intent.body,
       key: intent.key,
     );
-    _validateReceipt(scope, action, value);
+    _validateReceipt(scope, action, value, intent.body);
     check(scope);
     return pending.complete(intent, value);
   }
 
-  void _validateReceipt(CrmScope scope, String action, CrmJson response) =>
-      action == customerAction
-      ? validateCustomer(response, scope.business)
-      : validateOperationReceipt(response, scope.business);
+  void _validateReceipt(
+    CrmScope scope,
+    String action,
+    CrmJson response,
+    CrmJson body,
+  ) {
+    if (action == customerAction) {
+      validateCustomer(response, scope.business);
+      return;
+    }
+    validateOperationReceipt(response, scope.business);
+    final operation = crmObject(response['operation']);
+    if (operation['kind'] != body['kind'] ||
+        operation['description'] != body['description'])
+      throw const ApiFailure('INVALID_RESPONSE');
+    if (body['kind'] == 'sale') {
+      if (operation['customer_id'] != body['customer_id'] ||
+          operation['sales_delta_minor'] != body['total_minor'] ||
+          operation['receipts_delta_minor'] != body['received_minor'])
+        throw const ApiFailure('INVALID_RESPONSE');
+    } else if (operation['sale_id'] != body['sale_id'] ||
+        operation['sales_delta_minor'] != 0 ||
+        operation['receipts_delta_minor'] != body['amount_minor']) {
+      throw const ApiFailure('INVALID_RESPONSE');
+    }
+  }
+
   Future<CrmIntent> recoverCustomer(CrmScope scope, CrmIntent intent) async {
     check(scope);
     if (intent.slot != scope.slot(customerAction)) {

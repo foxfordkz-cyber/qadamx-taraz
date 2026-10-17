@@ -140,6 +140,7 @@ class CrmWritePanel extends StatefulWidget {
     required this.body,
     required this.onDone,
     this.beforeConfirm,
+    this.reviewNote,
   });
   final CrmApi api;
   final CrmScope scope;
@@ -149,6 +150,7 @@ class CrmWritePanel extends StatefulWidget {
   final CrmJson Function() body;
   final ValueChanged<CrmJson> onDone;
   final void Function()? beforeConfirm;
+  final String? reviewNote;
   @override
   State<CrmWritePanel> createState() => _CrmWritePanelState();
 }
@@ -197,7 +199,9 @@ class _CrmWritePanelState extends State<CrmWritePanel> {
         context: context,
         builder: (context) => AlertDialog(
           title: Text(tr(kk, 'Проверьте запись', 'Жазбаны тексеріңіз')),
-          content: SingleChildScrollView(child: Text(_description(body))),
+          content: SingleChildScrollView(
+            child: Text('${widget.reviewNote ?? ''}\n${_description(body)}'),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
