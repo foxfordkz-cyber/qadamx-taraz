@@ -95,6 +95,7 @@ export async function getBusiness(slug: string) {
     throw new ApiError(0, "INVALID_RESPONSE");
   return {
     ...b,
+    venue: venues.find((v) => v.id === b.venue_id),
     venue_slug: venues.find((v) => v.id === b.venue_id)?.slug,
   } as Business;
 }

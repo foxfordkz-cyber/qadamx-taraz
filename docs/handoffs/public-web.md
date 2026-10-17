@@ -1,34 +1,45 @@
 # Передача работы публичной витрины
 
-Роль: public-web. Обновлено: 2026-10-17. Ветка: `feature/public-inquiry-form`, основана на `integration/seller-analytics-061` (`13248851fd2b2a502aff211a506f71e85c2b0ab1`). Этот base сверён с актуальной сводкой и `origin`; integration-agent-сессия недоступна, поэтому прямого подтверждения от агента нет.
+Роль: public-web. Обновлено: 2026-10-17. Ветка: `feature/public-inquiry-form`; базовая ветка `integration/seller-analytics-061` на SHA `13248851fd2b2a502aff211a506f71e85c2b0ab1`. База совпадает с актуальной сводкой и remote; integration-agent в сессиях недоступен, прямого подтверждения агента не было. Текущий commit и проверки — в истории ветки.
 
 ## Сделано
 
-- Обновлена отдельная форма публичной заявки: RU/KZ, проверка обязательных полей и ограничений контракта, контекст магазина, состояния отправки, отказа, неопределённого результата и повтора.
-- При сетевом сбое/таймауте/5xx/409 форма сохраняет тот же payload и `client_request_id`; неизвестный результат не называется неуспешным. При однозначном 4xx данные остаются в форме, можно исправить и отправить заново.
-- Успех показывается только после валидной квитанции API и называет магазин, если родитель передал `businessName`. `ShopPage` не менялся; владелец страницы должен передать `businessName={b.name}`. До подключения используется текст «этому магазину».
-- Живые отправки не выполнялись; тесты используют заглушку API, контакты не записываются в логи.
+- Страница `/shops/:slug` показывает название, категорию, описание и доступные от API название/подпись площадки. Обратный переход использует `venue_slug` из найденной по `venue_id` площадки; для некорректной/неизвестной связи ссылка ведёт на главную, не придумывая адрес.
+- Основное действие ведёт к форме заявки конкретного магазина. Его API `businessId` и название передаются из загруженного `ShopResponse`.
+- Каталог оформлен карточками с именем, ценой в KZT, статусом `available`, отдельной пометкой каждого учебного товара и доступным пустым состоянием.
+- Фото магазина и товаров в публичном контракте отсутствуют: показываются явно подписанные нейтральные placeholders, не выданные за реальные фотографии. Статические товары/демо fallback не добавлялись.
+- Учебные магазины помечены только по `is_demo`; учебные товары помечаются отдельно по `is_demo`. Сбой Live API отображает ошибку и retry, не включает Demo.
+- Витрина и форма локализованы на RU/KZ; адаптивная карточная сетка проверена на 360/390/768/1440 px. Успех формы отображается лишь после квитанции API. Повтор после потерянного/неопределённого ответа использует прежний payload и `client_request_id`.
+- Проверена согласованность всех девяти hotspot UUID/slug с API demo seed; несовпадающий ID не может перенаправить на другую точку. В браузерном тесте все девять точек открываются по карточке, reload сохраняет маршрут, POST использует ID именно загруженного магазина.
 
-## Файлы и интерфейс
+## Файлы и контракт
 
+- `apps/web/src/features/explore/ShopPage.tsx`, `explore.css`, `i18n.ts`
+- `apps/web/src/features/explore/api.ts`, `types.ts`, `hotspots.ts`, `VenueScene.tsx`
 - `apps/web/src/features/inquiry/InquiryForm.tsx`
-- `apps/web/src/test/inquiry.test.tsx`
-- Контракт: `POST /businesses/{id}/inquiries`, поля `client_request_id`, `visitor_name` (1–100), `contact` (1–200), `message` (1–2000); ответ `InquiryReceipt {id, created_at}`. Идемпотентность по `client_request_id` уже есть.
-- Интерфейс компонента для страницы: `InquiryForm({ businessId, businessName })`. `businessName` пока необязателен для совместимости с неизменённым `ShopPage`.
-- API не поддерживает поле товара в заявке: товар не подставляется. Backend-изменения для формы не требуются.
+- `apps/web/src/test/hotspots.test.ts`, `apps/web/src/test/inquiry.test.tsx`
+- `apps/web/e2e/public-design.spec.ts`
+- `docs/screenshots/team-mvp-design/public-shop-api-stub-desktop.png`
+- `docs/screenshots/team-mvp-design/public-shop-api-stub-mobile.png`
+
+Используется существующий публичный контракт: `GET /businesses/{slug}`, `GET /venues`, `POST /businesses/{id}/inquiries`. Квитанция не содержит контакт покупателя. Уникальный `client_request_id` и повтор квитанции уже реализованы backend; товарное поле и поля фото магазина/каталога отсутствуют. Изменения backend/OpenAPI не нужны для нынешней компоновки; настоящие изображения потребуют отдельного согласованного контрактного расширения.
 
 ## Проверки
 
 Из `apps/web`:
 
-- `npm test -- src\test\inquiry.test.tsx` — **PASS**, 4 теста.
-- `npm run build` — **PASS**; Vite сообщил о существующем крупном чанке `OrbitControls` (>500 kB).
-- `npx eslint src\features\inquiry\InquiryForm.tsx src\test\inquiry.test.tsx --max-warnings 0` — **PASS**.
-- `npx prettier --check src\features\inquiry\InquiryForm.tsx src\test\inquiry.test.tsx` — **PASS**.
+- `npm test -- src\test\hotspots.test.ts src\test\inquiry.test.tsx` — **PASS**, 6 unit-тестов.
+- `npx playwright test public-design.spec.ts --config=playwright.config.ts` — **PASS**, 3 браузерных теста; все API-запросы перехватывались локальными синтетическими fixtures, POST не доходил до backend.
+- `npm run build` — **PASS**; сохраняется предупреждение Vite о крупном чанке `OrbitControls` (>500 kB).
+- `npm run typecheck` — **PASS**.
+- Точечный `npx eslint ... --max-warnings 0` для изменённых TS/TSX/E2E-файлов — **PASS**.
+- `npx prettier --check ...` для изменённых исходников и тестов — **PASS**.
 - `git diff --check` — **PASS**.
 
 ## Ограничения и следующий шаг
 
-- Не проверены реальный hotspot → магазин → API → inbox продавца, изоляция чужой точки, прямой reload, отказ живого API и мобильный визуальный экран; живую учебную заявку не создавать без согласования интегратора.
-- Владелец страницы подключает `businessName={b.name}` и CTA к форме; затем провести совместный визуальный и маршрутный smoke-тест на 360/390 px и desktop. Сверить inbox только на изолированных данных либо после явного разрешения.
-- Скриншоты магазина не приложены: общая страница принадлежит первому frontend. Feature-ветка опубликована, но Draft PR создать не удалось: GitHub CLI отсутствует, а браузерная сессия не авторизована. [Сравнение веток и создание PR](https://github.com/foxfordkz-cyber/qadamx-taraz/compare/integration/seller-analytics-061...feature/public-inquiry-form?expand=1).
+- Прямой живой запрос, реальный inbox, production/live API, а также получение заявки продавцом A и отказ продавцу B не проверялись: не создавали лишние учебные заявки. Backend изолирующий сценарий уже описан в `apps/api/tests/test_public.py::test_inquiry_replay_scope_summary_and_status`, но для него нужна отдельная пустая PostgreSQL `*_test`; этот тест здесь не запускался.
+- Playwright проверил WebGL fallback, каталожные карточки и hotspot-to-seed binding; реальное нажатие WebGL-кнопок на GPU-девайсе и физический телефон не проверялись.
+- Скриншоты — только API-stub/demo fixture, не живой магазин или реальные товары.
+- GitHub Draft PR не создан в этой среде: CLI отсутствует, browser GitHub-сессия требует входа, а доступный GitHub MCP read-only. После входа создать Draft из `feature/public-inquiry-form` в `integration/seller-analytics-061`: [сравнение веток](https://github.com/foxfordkz-cyber/qadamx-taraz/compare/integration/seller-analytics-061...feature/public-inquiry-form?expand=1).
+- Следующий шаг: после проверки base integration-agent и входа GitHub открыть Draft PR; затем выполнить согласованный изолированный API smoke до inbox и проверить запрет чтения заявки вторым owner.

@@ -6,6 +6,7 @@ export type Venue = components["schemas"]["VenueResponse"] & {
 export type Business = components["schemas"]["PublicBusiness"] & {
   catalog?: components["schemas"]["CatalogResponse"][];
   venue_slug?: string;
+  venue?: Venue;
 };
 export type InquiryInput = components["schemas"]["InquiryCreate"];
 export type InquiryResult = components["schemas"]["InquiryReceipt"];

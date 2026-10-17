@@ -9,6 +9,7 @@ import {
 } from "react";
 import { Vector3, PerspectiveCamera } from "three";
 import type { Business, VenueAsset } from "./types";
+import { resolveHotspots } from "./hotspots";
 import { useT } from "./i18n";
 
 class Boundary extends Component<
@@ -84,13 +85,7 @@ export default function VenueScene({
     }
   });
   if (!asset) return <p role="status">{t("scene_off")}</p>;
-  // A mismatched marker is omitted, never redirected to a different shop.
-  const markers = asset.hotspots.flatMap((h) => {
-    const b = businesses.find(
-      (b) => b.id === h.business_id && b.slug === h.business_slug,
-    );
-    return b ? [{ ...h, name: b.name }] : [];
-  });
+  const markers = resolveHotspots(asset, businesses);
   const fallback = (
     <div className="venue-fallback">
       <img
