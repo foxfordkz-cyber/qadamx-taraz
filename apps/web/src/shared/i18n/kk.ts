@@ -1,5 +1,40 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  assistantTitle: "Qadam-нан сұраңыз",
+  assistantOtherQuestion: "Басқа сұрақ қою",
+  assistantFacts: "Жауаптағы деректер",
+  assistantWeekTitle: "Аптаның AI-қорытындысы",
+  assistantPeriodTitle: "Кезеңнің AI-қорытындысы",
+  assistantIntro: "Сауда нүктеңіздің сатылымдары мен қарыздары туралы сұраңыз.",
+  assistantQuestion: "Сұрағыңыз",
+  assistantAsk: "Сұрау",
+  assistantExplain: "Көрсеткіштерімді түсіндіру",
+  assistantSummaryQuestion: "Кезеңнің қысқаша қорытындысын жаса",
+  assistantSuggestions: "Сұрақ мысалдары",
+  assistantSuggestDebts: "Маған кімнің қарызы ең көп?",
+  assistantSuggestWeek: "Апта қалай өтті?",
+  assistantSuggestReminder: "Қарыз туралы еске салу мәтінін жаз",
+  assistantSuggestToday: "Бүгін не істеу керек?",
+  assistantAnswer: "Qadam жауабы",
+  assistantSourceAI:
+    "AI жауабы сіздің деректеріңізге негізделген. Сандарды сервер есептеді",
+  assistantSourceFallback: "AI қолжетімсіз, сервер деректері көрсетілген",
+  assistantDemo: "Демодағы жауап мысалы, AI қолданылмайды",
+  assistantEmpty:
+    "Жауап беру үшін деректер әлі жоқ. Алғашқы сатылымды қосыңыз немесе басқа сұрақ қойыңыз.",
+  assistantLimit: "Бүгінгі сұрақтар лимиті бітті. Ертең қайталап көріңіз.",
+  assistantReminder: "Еске салу нобайы",
+  assistantCopy: "Көшіру",
+  assistantCopied: "Көшірілді",
+  assistantCopyFailed:
+    "Көшіру мүмкін болмады. Мәтінді белгілеп, қолмен көшіріңіз.",
+  assistantCopyHint: "Бұл мәтінді клиентке қашан жіберуді өзіңіз шешесіз.",
+  assistantWhoToRemind: "Кімге еске салу керек",
+  assistantNoDebtors: "Жауапта қарызы бар клиенттер жоқ.",
+  assistantDebtorsHint:
+    "«Көрсеткіштерімді түсіндіру» түймесін басыңыз — сервер деректері бойынша қарызы ең көп бес клиентке дейін көрсетіледі.",
+  assistantDebtorsOpen: "Қазіргі қалдықтарды қарыздар тізімінен қараңыз.",
+  analyticsDetails: "Толығырақ",
   callbackTitle: "Электрондық поштаны растау",
   callbackPending:
     "Растауды және кабинетке кіру мүмкіндігін тексеріп жатырмыз…",
