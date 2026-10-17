@@ -36,7 +36,7 @@ const ru = {
   price_ask: "Уточнить",
   demo_shop: "Учебная точка",
   point_on_scheme: "точка {n} на схеме",
-  write_seller: "Написать продавцу",
+  write_seller: "Оставить заявку",
   in_stock: "В наличии",
   out_of_stock: "Нет в наличии",
   back: "Назад",
@@ -73,6 +73,7 @@ const ru = {
   send_error:
     "Заявка не отправлена. Текст сохранён — нажмите «Отправить заявку» ещё раз.",
   sent_title: "Заявка отправлена",
+  request_no: "Номер заявки",
   sent_text:
     "Продавец увидит её в своём кабинете. Ответ и наличие товара зависят от продавца.",
   send_another: "Отправить ещё одну",
@@ -125,7 +126,7 @@ const kk: Record<keyof typeof ru, string> = {
   price_ask: "Нақтылау",
   demo_shop: "Оқу нүктесі",
   point_on_scheme: "сызбадағы {n}-нүкте",
-  write_seller: "Сатушыға жазу",
+  write_seller: "Өтінім қалдыру",
   in_stock: "Бар",
   out_of_stock: "Жоқ",
   back: "Артқа",
@@ -163,6 +164,7 @@ const kk: Record<keyof typeof ru, string> = {
   send_error:
     "Өтінім жіберілмеді. Мәтін сақталды — «Өтінім жіберу» түймесін қайта басыңыз.",
   sent_title: "Өтінім жіберілді",
+  request_no: "Өтінім нөмірі",
   sent_text:
     "Сатушы оны өз кабинетінде көреді. Жауап пен тауардың болуы сатушыға байланысты.",
   send_another: "Тағы бір өтінім жіберу",

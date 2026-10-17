@@ -1,5 +1,7 @@
 # Qadam Business
 
+**Следующий web-выпуск — форма заявки:** [review, одна живая учебная заявка, версии и ограничения](docs/INQUIRY_RELEASE_REVIEW.md), [передача компонента](docs/handoffs/public-inquiry.md). Recovery PR41/42 сохранён. [Регистрация PR43](docs/REGISTRATION_43_CONTRACT_REVIEW.md) остаётся отдельно; [APK0.2.2+5](docs/MOBILE_022_ARTIFACT_REVIEW.md) проверен как файл, физический Android ещё ожидается.
+
 **Совместный выпуск PR42 Customer Recovery + PR41 полировка:** [приёмка, учебная запись и deployment](docs/RECOVERY_POLISH_RELEASE.md). API остаётся0.6.2; backend/GLB сохранены. PR43 отдельно: [контракт callback](packages/contracts/REGISTRATION_CALLBACK.md), без включения до живой email-приёмки.
 
 ## Общая база команды — 17 октября 2026

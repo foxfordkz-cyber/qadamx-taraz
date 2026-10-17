@@ -173,8 +173,9 @@ test("public venue/shop/catalog/inquiry routes and WebGL fallback — intercepte
     ).toBeVisible();
     await expect(page.getByText("15 000 ₸", { exact: true })).toBeVisible();
     await expect(
-      page.getByRole("heading", { name: "Заявка продавцу", exact: true }),
+      page.getByRole("heading", { name: "Оставить заявку", exact: true }),
     ).toBeVisible();
+    await expect(page.locator(".inq strong").first()).toHaveText(business.name);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -199,27 +200,25 @@ test("public venue/shop/catalog/inquiry routes and WebGL fallback — intercepte
     await page
       .getByRole("button", { name: "Отправить заявку", exact: true })
       .click();
-    await expect(page.getByText("Заполните поле", { exact: true })).toHaveCount(
-      3,
-    );
     await expect(
-      page.getByRole("heading", { name: "Заявка отправлена", exact: true }),
+      page.getByText("Обязательное поле", { exact: true }),
+    ).toHaveCount(3);
+    await expect(
+      page.getByRole("heading", { name: "Заявка отправлена:", exact: true }),
     ).toHaveCount(0);
+    await page.getByRole("textbox", { name: /Ваше имя/ }).fill("Әсел · тест");
     await page
-      .getByLabel("Имя посетителя", { exact: true })
-      .fill("Әсел · тест");
-    await page
-      .getByLabel("Контакт", { exact: false })
+      .getByRole("textbox", { name: /Как с вами связаться/ })
       .fill("@playwright_fixture");
     await page
       .locator(".inq textarea")
       .fill("Это тест формы без отправки на сервер.");
     await page.getByRole("button", { name: "KZ", exact: true }).click();
-    await expect(page.getByLabel("Келушінің аты", { exact: true })).toHaveValue(
+    await expect(page.getByRole("textbox", { name: /Атыңыз/ })).toHaveValue(
       "Әсел · тест",
     );
     await expect(
-      page.getByRole("heading", { name: "Сатушыға өтінім", exact: true }),
+      page.getByRole("heading", { name: "Өтінім қалдыру", exact: true }),
     ).toBeVisible();
     await page.getByRole("button", { name: "RU", exact: true }).click();
     await page.getByRole("link", { name: /Назад/ }).click();

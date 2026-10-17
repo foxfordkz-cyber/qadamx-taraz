@@ -107,7 +107,8 @@ export default function ShopPage() {
             </section>
 
             <div id="inquiry" className="inquiry-anchor">
-              <InquiryForm key={b.id} businessId={b.id} />
+              {/* Form by its own owner (features/inquiry); the page passes the shop. */}
+              <InquiryForm key={b.id} businessId={b.id} businessName={b.name} />
             </div>
           </>
         )}

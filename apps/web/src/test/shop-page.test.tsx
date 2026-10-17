@@ -1,11 +1,6 @@
-/** Public shop page: only API data, honest demo marking, no internal ids. Synthetic API. */
-import {
-  act,
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-} from "@testing-library/react";
+/** Public shop page: only API data, honest demo marking, form wiring. Synthetic API.
+ * The inquiry form itself belongs to its own owner and is covered by inquiry.test.tsx. */
+import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { I18nProvider } from "../shared/i18n";
@@ -13,9 +8,17 @@ import { I18nProvider } from "../shared/i18n";
 const api = vi.hoisted(() => ({
   getBusiness: vi.fn(),
   getVenues: vi.fn(),
-  postInquiry: vi.fn(),
 }));
 vi.mock("../features/explore/api", () => api);
+vi.mock("../features/inquiry/InquiryForm", () => ({
+  default: (props: { businessId: string; businessName: string }) => (
+    <section
+      data-testid="inquiry-form"
+      data-business-id={props.businessId}
+      data-business-name={props.businessName}
+    />
+  ),
+}));
 import ShopPage from "../features/explore/ShopPage";
 
 const venueId = "e4b1e55f-44a2-5296-a4e0-864a85173eff";
@@ -72,10 +75,6 @@ const venue = {
 beforeEach(() => {
   api.getBusiness.mockReset().mockResolvedValue(shop);
   api.getVenues.mockReset().mockResolvedValue([venue]);
-  api.postInquiry.mockReset().mockResolvedValue({
-    id: "70000000-0000-4000-8000-000000000001",
-    created_at: "2026-10-17T10:00:00Z",
-  });
 });
 afterEach(cleanup);
 
@@ -109,7 +108,7 @@ describe("Страница магазина", () => {
     expect(screen.getByText("3 000 ₸")).toBeInTheDocument();
     expect(screen.getByText("Уточнить")).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Написать продавцу" }),
+      screen.getByRole("link", { name: "Оставить заявку" }),
     ).toHaveAttribute("href", "#inquiry");
   });
 
@@ -125,33 +124,11 @@ describe("Страница магазина", () => {
     expect(screen.getAllByText("Учебная точка")).toHaveLength(1);
   });
 
-  it("puts the name error next to the field and hides the request id after sending", async () => {
+  it("wires the inquiry form with the current shop id and name", async () => {
     renderShop();
-    await screen.findByRole("heading", { level: 1 });
-    await act(async () =>
-      fireEvent.click(screen.getByRole("button", { name: "Отправить заявку" })),
-    );
-    const nameField = screen.getByLabelText(/Имя посетителя/);
-    expect(nameField).toHaveAttribute("aria-invalid", "true");
-    expect(document.getElementById("name-error")).toHaveTextContent(
-      "Заполните поле",
-    );
-    expect(nameField).toHaveAttribute("aria-describedby", "name-error");
-    expect(screen.getByLabelText("Имя посетителя")).toBe(nameField);
-    expect(screen.getAllByText("Заполните поле")).toHaveLength(3);
-    fireEvent.change(nameField, { target: { value: "Әсел" } });
-    fireEvent.change(screen.getByLabelText(/Контакт/), {
-      target: { value: "@qadam_test" },
-    });
-    fireEvent.change(screen.getByLabelText(/Сообщение/), {
-      target: { value: "Есть этот товар?" },
-    });
-    await act(async () =>
-      fireEvent.click(screen.getByRole("button", { name: "Отправить заявку" })),
-    );
-    expect(
-      await screen.findByRole("heading", { name: "Заявка отправлена" }),
-    ).toBeInTheDocument();
-    expect(document.body.textContent).not.toContain("70000000-0000");
+    const form = await screen.findByTestId("inquiry-form");
+    expect(form).toHaveAttribute("data-business-id", shop.id);
+    expect(form).toHaveAttribute("data-business-name", shop.name);
+    expect(form.closest("#inquiry")).not.toBeNull();
   });
 });
