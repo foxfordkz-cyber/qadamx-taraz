@@ -8,7 +8,7 @@
 |---|---|---|
 | **Проверено сегодня** | Сайт https://qadamx-taraz.pages.dev отвечает, загружает сборку `index-BJkMxsgm.js` из отчёта выпуска | HTTP-запрос 17.10 |
 | **Проверено сегодня** | API https://qadamx-taraz.onrender.com/api/v1 отвечает, OpenAPI 0.6.3 | HTTP-запрос 17.10 |
-| **Подтверждено отчётом выпуска** | Pages и Render выпущены из `8fa0029`. Миграции 0007/0008 применены после backup и проверки восстановления. Данные, memberships и Environment сохранены. Вход A/B, изоляция точек, история, аналитика, чтение recovery. 22 файла Pages совпали с манифестом | `docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md` (ветка `docs/markets-pages-rollout-20261017`) |
+| **Подтверждено отчётом выпуска** | Pages и Render выпущены из `8fa0029`. Миграции 0007/0008 применены после backup и проверки восстановления. Данные, memberships и Environment сохранены. Вход A/B, изоляция точек, история, аналитика, чтение recovery. 22 файла Pages совпали с манифестом | [`docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md`](../PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md) |
 | **Подтверждено отчётом выпуска** | Автотесты объединённого кода: 357 backend, 395 web unit/component, 9 E2E заявки, 1 voice integration, 5 E2E recovery | Там же |
 | **Один прогон** | Контрольный текстовый AI-запрос: HTTP 200, 4,719 с, черновик 300000/100000 тиын, денежная запись не создавалась | Отчёт команды, PR #77 (`docs/DECISIONS.md` в ветке `docs/ai-defense-budget-20`) |
 | **Один прогон** | Аудио RU → распознавание → извлечение: 4,594 с, 3 000 / 1 000 ₸ верно. Локальная оценка, не production | `docs/OPENAI_DEFENSE_READINESS.md` |

@@ -29,7 +29,7 @@
 
 - **Сайт:** [qadamx-taraz.pages.dev](https://qadamx-taraz.pages.dev) — витрина және сатушы кабинеті (`/login`)
 - **API:** [https://qadamx-taraz.onrender.com/api/v1](https://qadamx-taraz.onrender.com/api/v1/health), құжаттама [Swagger](https://qadamx-taraz.onrender.com/docs). Тегін сервер бір минутқа дейін оянуы мүмкін
-- **Android:** Ішкі сынақ APK-лары [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases) бетінде (pre-release). Нақты құрылғыларда тексеру аяқталған жоқ
+- **Android:** Сынақ [APK 0.5.2](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk) (pre-release, жүктелген файлдың SHA-256 тексерілді), барлық нұсқалар — [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases). Телефонға орнату және қабылдау расталмаған
 - **Видео:** Прогон жазылғаннан кейін қосылады
 
 ## Кімге және немен көмектеседі
@@ -131,10 +131,11 @@ cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
 
 API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (дерекқормен тесттер — тек бөлек PostgreSQL-де). Web: `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
 
-- Pages пен Render-дегі `8fa0029` шығарылымы: backup пен қалпына келтіруді тексергеннен кейін 0007/0008 миграциялары, A/B кіру, нүктелерді оқшаулау, тарих, аналитика (интегратор есебі бойынша)
+- Pages пен Render-дегі `8fa0029` шығарылымы: backup пен қалпына келтіруді тексергеннен кейін 0007/0008 миграциялары, A/B кіру, нүктелерді оқшаулау, тарих, аналитика. [Rollout есебі](docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md)
 - Шығарылым есебі бойынша біріккен кодтың автотесттері: 357 backend, 395 web unit/component, өтінім, дауыс және recovery E2E
 - Production-дағы бір бақылау мәтіндік AI сұрауы: HTTP 200, 4,719 с, 300000/100000 тиын, ақша жазбасы жасалмаған. Бұл бір прогон, орташа кідіріс емес
 - Автотесттер телефондағы тексеруді алмастырмайды. `main` жарияланған нұсқадан алда болуы мүмкін
+- `health.stage=manual-ledger` — бұрынғы қызметтік белгі: AI жоқ дегенді білдірмейді және жаңа deployment талап етпейді
 
 ## Оқу деректері және қауіпсіздік
 
@@ -154,6 +155,6 @@ API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv
 
 <sub>Рөлдер коммиттер тарихы мен жұмысты тапсыру құжаттары бойынша көрсетілген.</sub>
 
-Құжаттар: [Өнімнің ТТ](docs/team5/00_PRODUCT_TZ.md) · [API келісімшарты](docs/team5/02_ARCHITECTURE_API.md) · [Шешімдер](docs/DECISIONS.md) · [Ағымдағы күй](docs/PROJECT_STATUS.md) · [Қорғау материалдары](docs/pitch/PITCH.md) · [Шығарылымдар тарихы](docs/RELEASE_HISTORY.md) · [AI нұсқаулары](AGENTS.md) · [Git ережелері](CONTRIBUTING.md)
+Құжаттар: [Өнімнің ТТ](docs/team5/00_PRODUCT_TZ.md) · [API келісімшарты](docs/team5/02_ARCHITECTURE_API.md) · [Шешімдер](docs/DECISIONS.md) · [Ағымдағы күй](docs/PROJECT_STATUS.md) · [Қорғау материалдары](docs/pitch/PITCH.md) · [Тапсыру чек-парағы](docs/submission/DEFENSE_CHECKLIST.md) · [Шығарылымдар тарихы](docs/RELEASE_HISTORY.md) · [AI нұсқаулары](AGENTS.md) · [Git ережелері](CONTRIBUTING.md)
 
 <p align="center"><sub>Zhambyl Hub · AI трегі · AI for SME & Local Business · 2026</sub></p>

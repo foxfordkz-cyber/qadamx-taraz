@@ -29,7 +29,7 @@
 
 - **Сайт:** [qadamx-taraz.pages.dev](https://qadamx-taraz.pages.dev) — витрина и кабинет продавца (`/login`)
 - **API:** [https://qadamx-taraz.onrender.com/api/v1](https://qadamx-taraz.onrender.com/api/v1/health), документация [Swagger](https://qadamx-taraz.onrender.com/docs). Бесплатный сервер может просыпаться до минуты
-- **Android:** Внутренние тестовые APK в [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases) (pre-release). Приёмка на физических устройствах не завершена
+- **Android:** Тестовый [APK 0.5.2](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk) (pre-release, SHA-256 скачанного файла проверен), все сборки — в [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases). Установка и приёмка на телефоне не подтверждены
 - **Видео:** Будет добавлено после записи прогона
 
 ## Кому и чем помогает
@@ -131,10 +131,11 @@ cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
 
 API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (тесты с БД — только на отдельной PostgreSQL). Web: `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
 
-- Выпуск `8fa0029` на Pages и Render: миграции 0007/0008 после backup и проверки восстановления, вход A/B, изоляция точек, история, аналитика (по отчёту интегратора)
+- Выпуск `8fa0029` на Pages и Render: миграции 0007/0008 после backup и проверки восстановления, вход A/B, изоляция точек, история, аналитика. [Отчёт rollout](docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md)
 - Автотесты объединённого кода по отчёту выпуска: 357 backend, 395 web unit/component, E2E заявки, голоса и recovery
 - Один контрольный текстовый AI-запрос на production: HTTP 200, 4,719 с, 300000/100000 тиын, без денежной записи. Это один прогон, не средняя задержка
 - Автотесты не заменяют проверку на телефоне. `main` может быть впереди опубликованной сборки
+- `health.stage=manual-ledger` — прежняя служебная метка: она не означает отсутствие AI и не требует нового deployment
 
 ## Учебные данные и безопасность
 
@@ -154,6 +155,6 @@ API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv
 
 <sub>Роли указаны по истории коммитов и передачам работы.</sub>
 
-Документы: [Продуктовое ТЗ](docs/team5/00_PRODUCT_TZ.md) · [Контракт API](docs/team5/02_ARCHITECTURE_API.md) · [Решения](docs/DECISIONS.md) · [Текущее состояние](docs/PROJECT_STATUS.md) · [Материалы защиты](docs/pitch/PITCH.md) · [История выпусков](docs/RELEASE_HISTORY.md) · [Инструкции для AI](AGENTS.md) · [Правила Git](CONTRIBUTING.md)
+Документы: [Продуктовое ТЗ](docs/team5/00_PRODUCT_TZ.md) · [Контракт API](docs/team5/02_ARCHITECTURE_API.md) · [Решения](docs/DECISIONS.md) · [Текущее состояние](docs/PROJECT_STATUS.md) · [Материалы защиты](docs/pitch/PITCH.md) · [Чек-лист сдачи](docs/submission/DEFENSE_CHECKLIST.md) · [История выпусков](docs/RELEASE_HISTORY.md) · [Инструкции для AI](AGENTS.md) · [Правила Git](CONTRIBUTING.md)
 
 <p align="center"><sub>Zhambyl Hub · трек AI · AI for SME & Local Business · 2026</sub></p>
