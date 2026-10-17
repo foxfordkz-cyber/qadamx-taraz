@@ -240,4 +240,4 @@ class ErrorResponse(Contract):
 class HealthResponse(Contract):
     status: Literal["ok"] = "ok"
     service: Literal["qadam-api"] = "qadam-api"
-    stage: Literal["manual-ledger"] = "manual-ledger"
+    stage: Literal["mvp"] = "mvp"

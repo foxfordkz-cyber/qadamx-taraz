@@ -130,6 +130,7 @@ export const ru = {
   searching: "Ищем клиентов…",
   app: "Qadam Business",
   cabinet: "Кабинет продавца",
+  publicTitle: "Магазины рынков Тараза",
   home: "Главная",
   login: "Войти",
   logout: "Выйти",

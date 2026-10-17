@@ -1,92 +1,72 @@
 # Qadam Business
 
-**Интеграция команды 17 октября (вечер):** форма заявки #71, исходники Flutter 0.5.1,
-backend RU/KZ и канонических рынков #70/#72. [Состав и проверки](docs/TEAM_FINAL_INTEGRATION_20261017.md).
-**Новый backend требует миграций 0007/0008 до deployment.** Git-слияние не обновляет
-Cloudflare Direct Upload, работающий Render или установленный APK.
+Голосовой учёт продаж, оплат и долгов для продавцов рынков Тараза. Продавец говорит фразу на русском или казахском, AI готовит черновик, продавец проверяет его и записывает. Суммы и долги считает сервер. Покупатели находят точки через 3D-витрину площадок и оставляют заявки.
 
-**Общая версия 17 октября:** обзор площадок и концепция Мал базара, безопасные имена клиентов, состояния истории, совместимость диалогов/записи, компактная аналитика и исходники Flutter 0.5.0. [Состав, проверки, ограничения и просмотр](docs/ALL_READY_RELEASE_20261017.md). Регистрация и физическая приёмка iPhone/Android остаются открытыми. Старые записи ниже — история выпусков.
+- **Сайт:** https://qadamx-taraz.vercel.app (копия на Cloudflare Pages: https://qadamx-taraz.pages.dev)
+- **API:** https://qadamx-taraz.onrender.com/api/v1, Swagger: `/docs`
+- **Кабинет продавца:** `/login`. Кнопка «Посмотреть демо» открывает кабинет только для чтения: деньги и AI в демо не записываются.
 
-**Новый общий выпуск:** читаемая аналитика (6 показателей), безопасное ожидание заявки и ссылка на тестовый APK 0.3.0. [Состав, проверки и просмотр](docs/LATEST_VISIBLE_RELEASE.md), [все опубликованные ветки](docs/TEAM_BRANCHES_20261017.md). Регистрация и независимая приёмка нативного Flutter остаются отдельными задачами. Нижние записи — история выпусков.
+## Что работает
 
-**Выпуск PR47/49/52 — каталог, площадка и магазин:** [состав, проверки и фактическое состояние публикации](docs/ABZAL_PUBLIC_RELEASE.md). InquiryForm/recovery/API0.6.2 сохранены.
+| Сценарий | Как |
+|---|---|
+| Продажа голосом или текстом | Запись до 30 с, загрузка файла или текст на RU/KZ → черновик AI → проверка → запись |
+| Частичная оплата и долг | Продажа 3 000 ₸, получено 1 000 ₸ → долг 2 000 ₸. Доплата уменьшает долг и не увеличивает продажи |
+| Надёжность учёта | Деньги в целых тиынах. Запись атомарная и идемпотентная: повторное нажатие не создаёт дубль. Отмена сохраняет историю |
+| Клиенты, история, итог дня, аналитика | Поиск клиента, неоплаченные продажи, отмена ошибочной записи, итоги за день, 7 и 30 дней |
+| Витрина и заявки | Три площадки в 3D и обычным списком, карточка точки, заявка приходит нужному продавцу |
+| Ручной ввод | Работает, если AI недоступен |
+| Мал базар | Концепт и мобильное приложение Flutter (`apps/mobile`) для объявлений о скоте |
 
-**Следующий web-выпуск — форма заявки:** [review, одна живая учебная заявка, версии и ограничения](docs/INQUIRY_RELEASE_REVIEW.md), [передача компонента](docs/handoffs/public-inquiry.md). Recovery PR41/42 сохранён. [Регистрация PR43](docs/REGISTRATION_43_CONTRACT_REVIEW.md) остаётся отдельно; [APK0.2.2+5](docs/MOBILE_022_ARTIFACT_REVIEW.md) проверен как файл, физический Android ещё ожидается.
+## Что учебное
 
-**Совместный выпуск PR42 Customer Recovery + PR41 полировка:** [приёмка, учебная запись и deployment](docs/RECOVERY_POLISH_RELEASE.md). API остаётся0.6.2; backend/GLB сохранены. PR43 отдельно: [контракт callback](packages/contracts/REGISTRATION_CALLBACK.md), без включения до живой email-приёмки.
+- Площадки, точки, товары и клиенты учебные и помечены «Демо». Партнёрств с MART, Кайкарметом и Ауыл Береке нет.
+- 3D-модели — условные схемы по внешним референсам, а не планы реальных рынков.
+- Физическая приёмка на iPhone и Android, регистрация продавцов (#43) и пользовательский тест пользы не завершены.
 
-## Общая база команды — 17 октября 2026
+## Стек
 
-Актуальная интеграция объединяет production web/API из `8be10b3` (включая модели PR36 и диагностику `e699158`) и исходники Flutter PR25 `421b2fb`. [Состав, проверки и ограничения выпуска](docs/MAIN_RELEASE_20261017.md). После публикации этой интеграции начинайте новые задачи от свежего `origin/main`.
+FastAPI, Pydantic, SQLAlchemy, Alembic, PostgreSQL (Supabase), Supabase Auth, OpenAI или Gemini через серверный адаптер · React, TypeScript, Vite, React Three Fiber · Flutter.
 
-Постоянные адреса: [сайт](https://qadamx-taraz.vercel.app), API `https://qadamx-taraz.onrender.com/api/v1`. API 0.6.2; общая Supabase 0006. Не запускать seed/очищающие тесты на общей БД. Recovery UI `9a3c868` и незавершённый signup/callback PR31 не включены. Backend recovery уже присутствует.
+```
+apps/api        backend, миграции, AI-адаптеры, тесты
+apps/web        сайт: витрина, кабинет продавца, голосовой учёт
+apps/mobile     Flutter-приложение
+packages/contracts  OpenAPI, примеры JSON, контракты
+docs            ТЗ, решения, передачи работы, отчёты приёмки
+```
 
-Flutter находится в `apps/mobile`; это исходники, не новый APK. Нужен SDK автора Flutter 3.47.7 / Dart 3.13.5 и отдельная сборка с постоянными URL. Физический Android ещё не принят. Нижние записи сохранены как история и не заменяют эту сводку.
+## Запуск локально
 
-**Опубликованные хостинги:** [web](https://qadamx-taraz.vercel.app), API_BASE_URL `https://qadamx-taraz.onrender.com/api/v1`, OpenAPI0.6.2 / Supabase0006. [Новая живая Auth/AI-приёмка, точные границы доказательств и открытые пункты](docs/HOSTING_AI_ACCEPTANCE.md), [передача команде и Flutter](docs/HOSTING_TEAM_HANDOFF.md). Капитан переключил Render на OpenAI вручную; локальный резервный API и туннели сохранены. Старые указания ниже — исторические этапы. Полная приёмка хостинга и конкретной recording.webm ещё не объявляется завершённой.
+API (нужен серверный `.env` по [apps/api/README.md](apps/api/README.md)):
 
-**Отдельный кандидат интеграции:** `integration/unified-web-062`, проверенный код **b899902** — дизайн PR24/26/27/29, Auth c2a9402 и AI-уточнения PR32 поверх работающего backend4e983b4. [Состав, тесты, блокеры recovery/регистрации и предложение preview](docs/UNIFIED_WEB_062_REVIEW.md). Это ещё не код общего HTTPS preview. Recovery fd21874 исключён после воспроизведения нового ключа между двумя формами; поздняя незавершённая регистрация PR31 10d9bba не включена.
+```bash
+cd apps/api && uv sync --locked && uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
+```
 
-**Текущая общая среда:** API **0.6.2**, код **4e983b4**, Supabase **0006_customer_requests**. [Rollout, адреса и новая живая приёмка](docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Voice frontend7f511dd и оба туннеля сохранены, команда может продолжать работу. Recovery UI подключает Бекзат. Ниже — история подготовки: старые URL и ожидания rollout больше не являются текущими указаниями.
+Web (публичный `.env.local` с `VITE_` переменными):
 
-## История подготовки и интеграции
+```bash
+cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
+```
 
-**PR22 готовится к согласованию rollout, не развёрнут:** [review и фактический backup/restore0006](docs/CUSTOMER_RECOVERY_ROLLOUT.md). Работающие API0.6.1, voice preview и туннели сохранены; актуальные адреса — в [опубликованной инструкции восстановления](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/0737439/docs/VOICE_HTTPS_RESTORED.md). Сведения о прежних адресах ниже относятся к прошлым запускам.
+Проверки: API — `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (тесты с БД — только на отдельной PostgreSQL). Web — `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
 
-**Ветка customer recovery (API 0.6.2):** [контракт и JSON](packages/contracts/CUSTOMER_RECOVERY_API.md), [локальный запуск и обязательная0006](apps/api/README.md). Основа — PR18/1324885. Работающие HTTPS preview/API остаются на прежних сборках, API0.6.1/Supabase0005; новый recovery ещё не включён в общей среде. Сохранены Analytics, market/minimum и старые POST customers.
+Секреты не коммитятся. Не запускайте seed, миграции и очищающие тесты на общей Supabase.
 
-**Восстановлено 2026-10-16,18:40:** [HTTPS frontend с voice PR23](https://negotiations-exist-newman-ohio.trycloudflare.com/login), API_BASE_URL `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Проверенная сборка7f511dd, backend4f67e2c/API0.6.1, Supabase0005. [Точные commits, все проверки, условия доступности и подключение](docs/VOICE_HTTPS_RESTORED.md). Playback/cancel прошли синтетические браузерные проверки; физический микрофон ещё не проверен. Локальный5191 теперь показывает эту сборку.
+> **Deployment.** Код API в `main` — 0.6.3, ему нужны миграции 0007/0008. На production Render работает 0.6.2. Не деплойте backend из `main`, пока не проведён rollout миграций по [TEAM_FINAL_INTEGRATION_20261017](docs/TEAM_FINAL_INTEGRATION_20261017.md).
 
-**Далее — история предыдущих запусков. Старые HTTPS-адреса недоступны; текущие адреса указаны выше.**
-
-**HTTPS frontend для телефона:** [вход](https://crucial-funky-marion-barcelona.trycloudflare.com/login), сборка PR18 **5ab11b1**. [Точные commits, CORS, результаты и физическая проверка](docs/HTTPS_FRONTEND_PREVIEW.md). API HTTPS прежний; локальные5188/5191 сохранены. Record/Stop проверены только синтетическим Chromium; физический микрофон, playback/cancel не подтверждены.
-
-**Просмотр PR18:** [интегрированная аналитика на5191](http://127.0.0.1:5191/seller/analytics), только наПК капитана;5188 остаётся прежним web. [Живая продажа/доплата, обновление Analytics и повтор без дубля — PASS](docs/ANALYTICS_LEDGER_LIVE_ACCEPTANCE.md). API8018 и временный HTTPS дляFlutter сохранены.
-
-**Актуальная общая проверка 2026-10-16:** `integration/seller-analytics-061`, merge **94e2b7a** объединяет PR #17/API0.6.1 и Seller Analytics PR #16. [Состав, живая приёмка аналитики, проверки и отдельный запуск](docs/ANALYTICS_061_INTEGRATION.md). Backend,0005,market/minimum и Flutter-конфиг сохранены; работающие API8018/web5188/HTTPS не перезапускались. Новая ветка для Draft review, main не изменён. Указания и commits прежних этапов ниже — история; текущее состояние БД **0005_livestock_market**, UI аналитики уже включён.
-
-**Актуальное дополнение 2026-10-16:** `integration/livestock-https`, API **0.6.1**, общая Supabase **0005_livestock_market** после проверенного восстановления backup. [Рабочий временный HTTPS и конфиг Flutter](docs/FLUTTER_CONNECTION.md), [план постоянного размещения](docs/PERMANENT_HOSTING_PLAN.md). Аналитика и денежные правила сохранены. Нижние commits/результаты относятся к предыдущему этапу общей интеграции.
-
-**Общая проверенная версия:** `integration/local-combined-check`, backend `cd655e96ec809bb8857666ad1fffa16e56e6d02a`. [Живая приёмка, исправления review, запуск и зависимости PR](docs/COMBINED_ACCEPTANCE.md). Текущий просмотр капитана: `http://127.0.0.1:5188`, API `http://127.0.0.1:8018/api/v1` — только на его компьютере. Общая Supabase уже на `0004_livestock`, private Storage подключён и проверен через настоящий HTTP. Актуальное подключение удалённого Flutter — [FLUTTER_CONNECTION](docs/FLUTTER_CONNECTION.md). Аналитика 7/30 дней — [контракт](packages/contracts/ANALYTICS_API.md), API 0.6.0; UI делает frontend.
-
-AI-кабинет продавца для торговых точек Тараза: голосовой ввод продаж и оплат, долги клиентов, заявки и итог дня. Публичная 3D-витрина объединяет концепции MART, Кайкармета и Ауыл Береке.
-
-## Начало работы
-
-1. Прочитайте [инструкцию по GitHub и работе с AI](docs/START_HERE.md).
-2. Изучите [продуктовое ТЗ](docs/team5/00_PRODUCT_TZ.md) и [правила разработки](CONTRIBUTING.md).
-3. Выберите своё задание и стартовый запрос из [AI_PROMPTS](docs/AI_PROMPTS.md).
-4. Перед кодом проверьте [текущее состояние](docs/PROJECT_STATUS.md) и файл передачи своей роли.
+## Команда и документы
 
 | Роль | Задание | Передача работы |
 |---|---|---|
-| Капитан, весь backend | [Backend](docs/team5/03_TEAM_BACKEND.md) | [backend](docs/handoffs/backend.md) |
-| Frontend публичной витрины | [Витрина и интеграция 3D](docs/team5/04_TEAM_PUBLIC_FRONTEND.md) | [public-web](docs/handoffs/public-web.md) |
-| Frontend кабинета | [Каркас, вход, заявки, клиенты](docs/team5/05_TEAM_SELLER_FRONTEND.md) | [seller-web](docs/handoffs/seller-web.md) |
-| Frontend учёта | [Голос, продажи, долги, отчёты](docs/team5/06_TEAM_LEDGER_FRONTEND.md) | [ledger-web](docs/handoffs/ledger-web.md) |
-| 3D-художник | [Модели трёх площадок](docs/team5/07_TEAM_3D.md) | [assets-3d](docs/handoffs/assets-3d.md) |
-| Mobile, шестой участник | [Flutter «Мал базар»](docs/team5/09_TEAM_MOBILE.md) | apps/mobile — ожидается от участника |
+| Капитан, backend | [Backend](docs/team5/03_TEAM_BACKEND.md) | [backend](docs/handoffs/backend.md) |
+| Публичная витрина | [Витрина и 3D](docs/team5/04_TEAM_PUBLIC_FRONTEND.md) | [public-web](docs/handoffs/public-web.md) |
+| Кабинет продавца | [Каркас, вход, заявки, клиенты](docs/team5/05_TEAM_SELLER_FRONTEND.md) | [seller-web](docs/handoffs/seller-web.md) |
+| Учёт | [Голос, продажи, долги, отчёты](docs/team5/06_TEAM_LEDGER_FRONTEND.md) | [ledger-web](docs/handoffs/ledger-web.md) |
+| 3D | [Модели площадок](docs/team5/07_TEAM_3D.md) | [assets-3d](docs/handoffs/assets-3d.md) |
+| Mobile | [Flutter «Мал базар»](docs/team5/09_TEAM_MOBILE.md) | [mobile](docs/handoffs/mobile.md) |
 
-Контракт мобильного модуля: [LIVESTOCK_API](packages/contracts/LIVESTOCK_API.md). Общий backend — apps/api; объявления принадлежат Supabase user и не требуют членства в магазине.
-
-В общей интеграции API **0.6.0** сохраняет контракт Мал базара 0.5.0 и добавляет аналитику точки. `0004_livestock` и private bucket `livestock-photos` уже подключены в qadam-demo; повторная настройка не нужна. Flutter UI делает mobile-участник: опубликована отдельная `feature/mobile-livestock-api:da6a3a0`, в эту ветку автоматически не включалась. API/Storage проверены через HTTP, физическое устройство и удалённый HTTPS пока не проверены.
-
-## Общие договорённости
-
-- [AGENTS.md](AGENTS.md) — короткие инструкции AI для этого проекта.
-- [Контракт API](docs/team5/02_ARCHITECTURE_API.md) — методы и данные для всех разработчиков.
-- [Решения](docs/DECISIONS.md) — принятый стек и ограничения.
-- [План двух дней и защита](docs/team5/08_PLAN_DEMO_QA.md).
-- [Обзор рынка](docs/team5/01_TARAZ_MARKET.md).
-
-## Единая интеграция
-
-Ветка `integration/team-mvp` объединяет основной `apps/api` (FastAPI/PostgreSQL/Supabase/Gemini), Seller Frontend и ledger/voice/summary/public modules в одном `apps/web`. Второй backend и корневой frontend PR #7 удалены после переноса полезных сценариев, история сохранена.
-
-**[Запуск, env, commits, API, тестовые точки и приёмка](docs/TEAM_INTEGRATION.md)**. Кратко: из `apps/api` — `uv sync --locked`, затем с настроенным серверным `.env` — `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000`; из `apps/web` — `npm ci`, настроить публичный `.env.local`, `npm run dev -- --port 5173 --strictPort`.
-
-Base URL `http://127.0.0.1:8000/api/v1`, Swagger `/docs`, OpenAPI `/openapi.json`. Localhost доступен только на вашем компьютере. Секреты БД и Gemini никогда не имеют префикса VITE_. Общая Supabase — `0004_livestock`: не выполнять повторный setup, seed, очищающие тесты или миграции. Каталог/заявки используют уже существующие таблицы, новая миграция не нужна.
-
-Проверки: API — `uv run python -m app.export_contracts --check`, ruff, pytest **только с отдельной test PostgreSQL** по [README API](apps/api/README.md). Web — `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`. Реальные и stub-результаты разделены в [backend handoff](docs/handoffs/backend.md).
-
-Учебные точки, клиенты и концептуальные 3D-модели не являются реальными партнёрами/долгами/навигацией. PR остаётся Draft до review команды; merge и деплой в этой задаче не выполняются.
+- [Продуктовое ТЗ](docs/team5/00_PRODUCT_TZ.md), [контракт API](docs/team5/02_ARCHITECTURE_API.md), [решения](docs/DECISIONS.md)
+- [Текущее состояние](docs/PROJECT_STATUS.md), [история выпусков](docs/RELEASE_HISTORY.md)
+- [Инструкции для AI](AGENTS.md), [правила работы с Git](CONTRIBUTING.md), [с чего начать](docs/START_HERE.md)

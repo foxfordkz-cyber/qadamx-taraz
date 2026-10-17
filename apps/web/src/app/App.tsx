@@ -84,9 +84,10 @@ function LanguageHeader() {
 function RouteEffects() {
   const { pathname } = useLocation();
   const { t } = useI18n();
+  const cabinet = pathname === "/login" || pathname.startsWith("/seller");
   useEffect(() => {
-    document.title = `${t("cabinet")} · Qadam Business`;
-  }, [t]);
+    document.title = `${t(cabinet ? "cabinet" : "publicTitle")} · Qadam Business`;
+  }, [t, cabinet]);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
     document.getElementById("main-content")?.focus({ preventScroll: true });

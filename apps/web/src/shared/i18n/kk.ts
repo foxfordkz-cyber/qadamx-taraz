@@ -134,6 +134,7 @@ export const kk: Record<keyof typeof ru, string> = {
   searching: "Клиенттер ізделуде…",
   app: "Qadam Business",
   cabinet: "Сатушы кабинеті",
+  publicTitle: "Тараз базарларының дүкендері",
   home: "Басты бет",
   login: "Кіру",
   logout: "Шығу",

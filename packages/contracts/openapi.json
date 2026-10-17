@@ -4247,9 +4247,9 @@
           },
           "stage": {
             "type": "string",
-            "const": "manual-ledger",
+            "const": "mvp",
             "title": "Stage",
-            "default": "manual-ledger"
+            "default": "mvp"
           }
         },
         "additionalProperties": false,
