@@ -3,6 +3,7 @@ import '../ui/common.dart' show tr;
 import 'crm_models.dart';
 import 'crm_api.dart';
 import 'crm_ui.dart';
+import 'crm_visual_components.dart';
 
 class DailySummaryPage extends CrmScreen {
   const DailySummaryPage({
@@ -16,6 +17,9 @@ class DailySummaryPage extends CrmScreen {
 }
 
 class _DailySummaryPageState extends CrmScreenState<DailySummaryPage> {
+  @override
+  bool get kk => Localizations.localeOf(context).languageCode == 'kk';
+
   CrmJson? summary;
   String? date;
   bool busy = true;
@@ -66,55 +70,88 @@ class _DailySummaryPageState extends CrmScreenState<DailySummaryPage> {
       padding: const EdgeInsets.all(16),
       children: [
         Text(
-          tr(kk, 'Серверный день · Asia/Almaty', 'Сервер күні · Asia/Almaty'),
+          tr(kk, 'По времени Тараза', 'Тараз уақыты бойынша'),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
-        OutlinedButton(
+        const SizedBox(height: 8),
+        OutlinedButton.icon(
           onPressed: busy ? null : choose,
-          child: Text(date ?? tr(kk, 'Выбрать дату', 'Күнді таңдау')),
-        ),
-        TextButton(
-          onPressed: busy
-              ? null
-              : () {
-                  date = null;
-                  load();
-                },
-          child: Text(tr(kk, 'Сегодня по серверу', 'Сервер бойынша бүгін')),
-        ),
-        if (busy) const LinearProgressIndicator(),
-        if (error != null) ...[
-          Text(crmError(error!, kk)),
-          OutlinedButton(
-            onPressed: busy ? null : load,
-            child: Text(tr(kk, 'Повторить', 'Қайталау')),
+          icon: const Icon(Icons.calendar_today_outlined),
+          label: Text(
+            summary != null
+                ? crmCalendarDate(context, summary!['date'] as String)
+                : date != null
+                ? crmCalendarDate(context, date!)
+                : tr(kk, 'Выбрать дату', 'Күнді таңдау'),
           ),
-        ],
-        if (summary != null)
-          crmCard([
-            Text(
-              summary!['date'] as String,
-              style: Theme.of(context).textTheme.titleLarge,
+        ),
+        if (date != null)
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextButton.icon(
+              onPressed: busy
+                  ? null
+                  : () {
+                      date = null;
+                      load();
+                    },
+              icon: const Icon(Icons.today_outlined),
+              label: Text(tr(kk, 'Вернуться к сегодня', 'Бүгінге оралу')),
             ),
-            Text(
-              '${tr(kk, 'Движения продаж', 'Сатылым қозғалысы')}: ${crmMoney(summary!['sales_minor'] as int, kk)}',
-            ),
-            Text(
-              '${tr(kk, 'Поступления', 'Түсімдер')}: ${crmMoney(summary!['receipts_minor'] as int, kk)}',
-            ),
-            Text(
-              '${tr(kk, 'Текущий общий долг', 'Ағымдағы жалпы қарыз')}: ${crmMoney(summary!['outstanding_minor'] as int, kk)}',
-            ),
-            Text(
-              '${tr(kk, 'Новые заявки', 'Жаңа өтінімдер')}: ${summary!['new_inquiries_count']}',
-            ),
-            Text(
-              tr(
-                kk,
-                'Отмены учитываются движениями в день отмены. Текущий долг — за всё время.',
-                'Жоюлар жойылған күнгі қозғалыста есептеледі. Ағымдағы қарыз — барлық уақыт үшін.',
+          ),
+        const SizedBox(height: 16),
+        if (busy) const LinearProgressIndicator(),
+        if (error != null) CrmReadError(onRetry: load, error: error),
+        if (summary != null) ...[
+          if (date == null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: Text(
+                tr(
+                  kk,
+                  'Сегодняшний день ещё продолжается',
+                  'Бүгінгі күн әлі жалғасуда',
+                ),
               ),
             ),
-          ]),
+          CrmResponsiveGrid(
+            children: [
+              CrmMetric(
+                label: tr(kk, 'Движения продаж', 'Сатылым қозғалысы'),
+                value: crmMoney(summary!['sales_minor'] as int, kk),
+                emphasized: true,
+              ),
+              CrmMetric(
+                label: tr(kk, 'Поступления', 'Түсімдер'),
+                value: crmMoney(summary!['receipts_minor'] as int, kk),
+              ),
+              CrmMetric(
+                label: tr(kk, 'Текущий общий долг', 'Ағымдағы жалпы қарыз'),
+                value: crmMoney(summary!['outstanding_minor'] as int, kk),
+                caption: tr(kk, 'За все даты', 'Барлық күндер үшін'),
+              ),
+              CrmMetric(
+                label: tr(kk, 'Новые заявки', 'Жаңа өтінімдер'),
+                value: '${summary!['new_inquiries_count']}',
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Text(
+            tr(
+              kk,
+              'Отмены учитываются в день отмены. Долг отражает текущее состояние за все даты.',
+              'Жоюлар жойылған күні есептеледі. Қарыз барлық күндер бойынша ағымдағы күйді көрсетеді.',
+            ),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 12),
+          TextButton.icon(
+            onPressed: busy ? null : load,
+            icon: const Icon(Icons.refresh),
+            label: Text(tr(kk, 'Обновить', 'Жаңарту')),
+          ),
+        ],
       ],
     ),
   );
@@ -134,6 +171,9 @@ class ReverseOperationPage extends CrmScreen {
 }
 
 class _ReverseOperationPageState extends CrmScreenState<ReverseOperationPage> {
+  @override
+  bool get kk => Localizations.localeOf(context).languageCode == 'kk';
+
   final description = TextEditingController();
   @override
   void dispose() {

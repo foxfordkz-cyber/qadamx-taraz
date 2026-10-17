@@ -4,6 +4,8 @@ import '../data/api_failure.dart';
 import '../ui/common.dart';
 import 'crm_models.dart';
 import 'crm_ui.dart';
+import 'crm_visual_components.dart';
+import 'crm_charts.dart';
 
 void validateAnalytics(CrmJson value, String business, int days) {
   crmBusiness(value, business);
@@ -82,6 +84,9 @@ class AnalyticsPage extends CrmScreen {
 }
 
 class _AnalyticsPageState extends CrmScreenState<AnalyticsPage> {
+  @override
+  bool get kk => Localizations.localeOf(context).languageCode == 'kk';
+
   int days = 7;
   int generation = 0;
   CrmJson? data;
@@ -120,103 +125,129 @@ class _AnalyticsPageState extends CrmScreenState<AnalyticsPage> {
   @override
   Widget build(BuildContext context) {
     final cards = data == null ? null : crmObject(data!['cards']);
+    final theme = Theme.of(context);
     return page(
       'Аналитика',
       'Аналитика',
       ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Wrap(
-            spacing: 12,
+          Row(
             children: [
-              for (final count in [7, 30])
-                ChoiceChip(
-                  label: Text(tr(kk, '$count дней', '$count күн')),
-                  selected: days == count,
-                  onSelected: (_) {
-                    days = count;
-                    load();
-                  },
+              Expanded(
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final count in [7, 30])
+                      ChoiceChip(
+                        label: Text(tr(kk, '$count дней', '$count күн')),
+                        selected: days == count,
+                        onSelected: (_) {
+                          if (days == count) return;
+                          days = count;
+                          load();
+                        },
+                      ),
+                  ],
                 ),
+              ),
+              IconButton(
+                tooltip: tr(kk, 'Обновить', 'Жаңарту'),
+                onPressed: busy ? null : load,
+                icon: const Icon(Icons.refresh),
+              ),
             ],
           ),
-          crmGap,
-          Text(
-            tr(
-              kk,
-              'Asia/Almaty. Сегодняшний день ещё не завершён. Общий долг и число должников — за всё время.',
-              'Asia/Almaty. Бүгінгі күн әлі аяқталған жоқ. Жалпы қарыз бен борышкерлер саны — бүкіл кезең үшін.',
-            ),
-          ),
-          crmGap,
+          const SizedBox(height: 12),
           if (busy) const LinearProgressIndicator(),
-          if (error != null) Text(crmError(error!, kk)),
-          OutlinedButton(
-            onPressed: busy ? null : load,
-            child: Text(tr(kk, 'Обновить', 'Жаңарту')),
-          ),
+          if (error != null) CrmReadError(onRetry: load, error: error),
           if (cards != null) ...[
-            Text('${data!['period_from']} — ${data!['period_to']}'),
             Text(
-              '${tr(kk, 'Получено на', 'Алынған уақыт')}: ${crmDate(data!['as_of'] as String)}',
+              '${crmCalendarDate(context, data!['period_from'] as String)} — ${crmCalendarDate(context, data!['period_to'] as String)}',
+              style: theme.textTheme.titleMedium,
             ),
-            crmGap,
-            crmCard([
-              Text(
-                '${tr(kk, 'Продажи', 'Сатылымдар')}: ${crmMoney(cards['sales_minor'] as int, kk)}',
+            const SizedBox(height: 4),
+            Text(
+              tr(
+                kk,
+                'Сегодня — неполный день · время Тараза',
+                'Бүгінгі күн әлі аяқталмады · Тараз уақыты',
               ),
-              Text(
-                '${tr(kk, 'Поступления', 'Түсімдер')}: ${crmMoney(cards['receipts_minor'] as int, kk)}',
-              ),
-              Text(
-                '${tr(kk, 'Количество продаж', 'Сатылым саны')}: ${cards['sales_count']}',
-              ),
-              Text(
-                '${tr(kk, 'Средний чек', 'Орташа чек')}: ${crmMoney(cards['average_ticket_minor'] as int?, kk)}',
-              ),
-              Text(
-                '${tr(kk, 'Общий долг', 'Жалпы қарыз')}: ${crmMoney(cards['outstanding_minor'] as int, kk)}',
-              ),
-              Text(
-                '${tr(kk, 'Должников', 'Борышкерлер')}: ${cards['debtors_count']}',
-              ),
-            ]),
+              style: theme.textTheme.bodySmall,
+            ),
+            const SizedBox(height: 16),
+            CrmResponsiveGrid(
+              children: [
+                CrmMetric(
+                  label: tr(
+                    kk,
+                    'Действующие продажи',
+                    'Қолданыстағы сатылымдар',
+                  ),
+                  value: crmMoney(cards['sales_minor'] as int, kk),
+                  emphasized: true,
+                ),
+                CrmMetric(
+                  label: tr(kk, 'Поступления', 'Түсімдер'),
+                  value: crmMoney(cards['receipts_minor'] as int, kk),
+                ),
+                CrmMetric(
+                  label: tr(kk, 'Количество продаж', 'Сатылым саны'),
+                  value: '${cards['sales_count']}',
+                ),
+                CrmMetric(
+                  label: tr(kk, 'Средний чек', 'Орташа чек'),
+                  value: crmMoney(cards['average_ticket_minor'] as int?, kk),
+                ),
+                CrmMetric(
+                  label: tr(kk, 'Общий долг', 'Жалпы қарыз'),
+                  value: crmMoney(cards['outstanding_minor'] as int, kk),
+                  caption: tr(kk, 'За все даты', 'Барлық күндер үшін'),
+                ),
+                CrmMetric(
+                  label: tr(kk, 'Должников', 'Борышкерлер'),
+                  value: '${cards['debtors_count']}',
+                  caption: tr(kk, 'За все даты', 'Барлық күндер үшін'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
             if (cards['sales_count'] == 0)
-              Text(
-                tr(
-                  kk,
-                  'Продаж за период нет. Поступления по прошлым продажам всё равно учитываются.',
-                  'Осы кезеңде сатылым жоқ. Бұрынғы сатылымдар бойынша түсімдер есепке алынады.',
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Text(
+                  tr(
+                    kk,
+                    'Продаж за период нет. Поступления по прошлым продажам всё равно учитываются.',
+                    'Осы кезеңде сатылым жоқ. Бұрынғы сатылымдар бойынша түсімдер есепке алынады.',
+                  ),
                 ),
               ),
-            Text(
-              tr(kk, 'По дням', 'Күндер бойынша'),
-              style: Theme.of(context).textTheme.titleLarge,
+            CrmDailyChart(
+              days: (data!['daily'] as List).map(crmObject).toList(),
             ),
-            for (final day in data!['daily'] as List)
-              crmCard([
-                Text(
-                  '${day['date']}${day['is_partial'] == true ? tr(kk, ' · день продолжается', ' · күн жалғасуда') : ''}',
-                ),
-                Text(
-                  '${tr(kk, 'Продажи', 'Сатылымдар')}: ${crmMoney(day['sales_minor'] as int, kk)} · ${day['sales_count']}',
-                ),
-                Text(
-                  '${tr(kk, 'Поступления', 'Түсімдер')}: ${crmMoney(day['receipts_minor'] as int, kk)}',
-                ),
-              ]),
-            Text(
-              tr(kk, 'Продажи по часам', 'Сағат бойынша сатылымдар'),
-              style: Theme.of(context).textTheme.titleLarge,
+            CrmHourlyChart(
+              hours: (data!['hourly'] as List).map(crmObject).toList(),
             ),
-            for (final hour in data!['hourly'] as List)
-              ListTile(
-                dense: true,
-                title: Text(
-                  '${(hour['hour'] as int).toString().padLeft(2, '0')}:00',
+            ExpansionTile(
+              tilePadding: EdgeInsets.zero,
+              title: Text(tr(kk, 'Как читать отчёт', 'Есепті қалай оқу керек')),
+              children: [
+                Text(
+                  tr(
+                    kk,
+                    'Продажи учитываются без отменённых записей. Отмена исключает исходную продажу из её дня. Поступления включают доплаты и отрицательные движения в день отмены. Долг и число должников — за все даты.',
+                    'Жойылған жазбалар сатылымдарға кірмейді. Жою бастапқы сатылымды оның күнінен алып тастайды. Түсімдерге қосымша төлемдер мен жойылған күнгі теріс қозғалыстар кіреді. Қарыз бен борышкерлер саны — барлық күндер үшін.',
+                  ),
                 ),
-                trailing: Text('${hour['sales_count']}'),
-              ),
+                const SizedBox(height: 12),
+                Text(
+                  '${tr(kk, 'Получено на', 'Алынған уақыт')}: ${crmDate(data!['as_of'] as String)}',
+                  style: theme.textTheme.bodySmall,
+                ),
+              ],
+            ),
           ],
         ],
       ),
