@@ -33,8 +33,8 @@ class CrmApi {
   final CrmPending pending;
   final http.Client client;
   final Duration timeout;
-  // PR61 is not deployed yet. Enable only after the agreed API rollout and
-  // verification of its exact deployed SHA plus the ids OpenAPI parameter.
+  // Default off for APIs without a verified rollout. MobileRuntime enables
+  // only the confirmed production URL after PR61 f6b3a9a and live ids evidence.
   // This is deliberately not a public configuration or automatic version gate:
   // both the older and candidate servers identify themselves as API 0.6.2.
   final bool customerIdsEnabled;

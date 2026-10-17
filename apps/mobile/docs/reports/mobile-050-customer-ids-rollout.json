@@ -1,0 +1,29 @@
+{
+  "public_openapi_check": {
+    "checked_at_utc": "2026-10-17T13:45:30.1348301Z",
+    "url": "https://qadamx-taraz.onrender.com/openapi.json",
+    "version": "0.6.2",
+    "path": "/api/v1/businesses/{id}/customers",
+    "query_parameters": ["q", "limit", "cursor", "ids"],
+    "ids_present": true,
+    "scope": "Anonymous GET by the mobile agent; no private calls or writes."
+  },
+  "upstream_rollout_evidence": {
+    "report_commit": "c6cfe06b9c1bd8d8c5bf7284be7ed88ddc3bfca9",
+    "report_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/blob/c6cfe06b9c1bd8d8c5bf7284be7ed88ddc3bfca9/docs/CUSTOMER_IDS_RENDER_WINDOW.md",
+    "results_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/blob/c6cfe06b9c1bd8d8c5bf7284be7ed88ddc3bfca9/docs/qa/customer-ids/hosted-acceptance.json",
+    "accepted_backend_sha": "f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5",
+    "sha_evidence": "Captain supplied Render Live panel text; not independently read from management API by the mobile agent.",
+    "new_deployment_id": null,
+    "reported_result": "https_contract_and_isolation_pass",
+    "reported_checks": ["schema matches candidate", "A/B scoped ids", "foreign/missing UUID omission", "validation 422", "server balances", "legacy pagination"],
+    "repeated_privately_by_mobile_agent": false
+  },
+  "mobile_activation": {
+    "enabled_only_for": "https://qadamx-taraz.onrender.com/api/v1",
+    "other_api_default": false,
+    "additional_environment_variables": [],
+    "legacy_fallback_after_ids_error": false,
+    "physical_android_acceptance": "not_performed"
+  }
+}

@@ -77,6 +77,12 @@ class MobileRuntime extends ChangeNotifier {
         epoch: () => epoch,
         accessToken: () async => _auth?.accessToken(),
         pending: CrmPending(SecureCrmVault()),
+        // PR61 f6b3a9a rollout: captain's Live panel + published A/B evidence;
+        // public OpenAPI independently rechecked 2026-10-17 13:45 UTC.
+        // Other configured APIs remain disabled: API version alone is unsafe.
+        customerIdsEnabled:
+            config.apiUri!.toString() ==
+            'https://qadamx-taraz.onrender.com/api/v1',
       );
     }
   }
