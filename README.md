@@ -1,5 +1,7 @@
 # Qadam Business
 
+**Совместный выпуск PR42 Customer Recovery + PR41 полировка:** [приёмка, учебная запись и deployment](docs/RECOVERY_POLISH_RELEASE.md). API остаётся0.6.2; backend/GLB сохранены. PR43 отдельно: [контракт callback](packages/contracts/REGISTRATION_CALLBACK.md), без включения до живой email-приёмки.
+
 ## Общая база команды — 17 октября 2026
 
 Актуальная интеграция объединяет production web/API из `8be10b3` (включая модели PR36 и диагностику `e699158`) и исходники Flutter PR25 `421b2fb`. [Состав, проверки и ограничения выпуска](docs/MAIN_RELEASE_20261017.md). После публикации этой интеграции начинайте новые задачи от свежего `origin/main`.

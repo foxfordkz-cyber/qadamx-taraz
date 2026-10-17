@@ -511,7 +511,11 @@ describe("QA Customers — real bindings, hooks and HTTP transport with mock res
     await userEvent.click(
       form.getByRole("button", { name: "Создать клиента" }),
     );
-    await screen.findByText(/Клиент: Picker recovery/);
+    // PR41 renders the selected name separately from its label.
+    expect(
+      await screen.findByText("Picker recovery", { selector: "strong" }),
+    ).toBeInTheDocument();
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
     expect(
       fetcher.mock.calls.filter(([, init]) => init?.method === "POST"),
     ).toHaveLength(1);
