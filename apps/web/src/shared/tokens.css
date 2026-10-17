@@ -49,6 +49,63 @@
   --qadam-radius-hero: 28px;
   --qadam-radius-pill: 999px;
   --qadam-shadow: 0 2px 4px #172a2605, 0 8px 24px #172a2604;
+
+  /* Unified visual layer (feature/unified-visual-3d). One source for seller,
+     public storefront and 3D overlays; module CSS maps its local names here. */
+  /* Neutral surfaces, lightest to darkest: white > raised > paper > subtle > muted. */
+  --qadam-surface-raised: #faf9f3;
+  --qadam-surface-subtle: #f0f0e6;
+  --qadam-surface-muted: #e9e9df;
+  --qadam-line-strong: #d9ded4;
+  --qadam-line-hover: #b8c5b6;
+  /* Decorative only (icons, rules, large numerals); text uses --qadam-muted. */
+  --qadam-muted-light: #7d8a7f;
+  --qadam-scene-sky: #dfeceb;
+  /* On the deep green hero and welcome panels. */
+  --qadam-on-dark-fill: #ffffff14;
+  --qadam-on-dark-line: #ffffff24;
+  --qadam-on-dark-muted: #d2e2d4;
+  --qadam-backdrop: #142b2866;
+  --qadam-lime-hover: #e5ff89;
+  --qadam-lime-deep: #b4d84c;
+  --qadam-orange-deep: #d98334;
+  /* Status colours always travel with a text label or icon, never alone. */
+  --qadam-success: #2f6b3c;
+  --qadam-success-soft: #e3efdc;
+  --qadam-warning: #8a5410;
+  --qadam-warning-soft: #fff2cf;
+  --qadam-danger: #9d2f1c;
+  --qadam-danger-soft: #fbe7e0;
+  --qadam-info: #1f5f73;
+  --qadam-info-soft: #e1eef1;
+  --qadam-success-line: #c6d6c0;
+  --qadam-warning-line: #f2d68c;
+  --qadam-danger-line: #d69785;
+  /* Analytics series: distinct hues, each chart also labels its series in text. */
+  --qadam-chart-primary: var(--qadam-green);
+  --qadam-chart-secondary: #5f8053;
+  --qadam-chart-amber: #b36d20;
+  --qadam-chart-rust: #9a4627;
+  --qadam-chart-neutral: #84927a;
+  --qadam-chart-grid: #e8eadd;
+  --qadam-chart-today: #dce7b9;
+  /* Type scale: 12 / 14 / 16 / 20 / 28 / display. Money uses tabular figures. */
+  /* Floors: running text never below xs; short uppercase labels never below label. */
+  --qadam-text-label: 0.6875rem;
+  --qadam-text-xs: 0.75rem;
+  --qadam-text-sm: 0.875rem;
+  --qadam-text-md: 1rem;
+  --qadam-text-lg: 1.25rem;
+  --qadam-text-xl: 1.75rem;
+  --qadam-text-display: clamp(2.5rem, 6.8vw, 5.9rem);
+  --qadam-control-height: 44px;
+  --qadam-radius-small: 8px;
+  --qadam-focus-ring: 3px solid var(--qadam-green);
+  --qadam-shadow-raised: 0 4px 10px #172a260a, 0 18px 40px #172a2612;
+  --qadam-shadow-overlay: 0 24px 100px #103b3130;
+  --qadam-shadow-bar: 0 -6px 25px #164c3e08;
+  --qadam-content-width: 1200px;
+
   --bg: var(--qadam-paper);
   --text: var(--qadam-ink);
   --primary: var(--qadam-green);

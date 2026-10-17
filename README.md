@@ -1,5 +1,25 @@
 # Qadam Business
 
+## Общая база команды — 17 октября 2026
+
+Актуальная интеграция объединяет production web/API из `8be10b3` (включая модели PR36 и диагностику `e699158`) и исходники Flutter PR25 `421b2fb`. [Состав, проверки и ограничения выпуска](docs/MAIN_RELEASE_20261017.md). После публикации этой интеграции начинайте новые задачи от свежего `origin/main`.
+
+Постоянные адреса: [сайт](https://qadamx-taraz.vercel.app), API `https://qadamx-taraz.onrender.com/api/v1`. API 0.6.2; общая Supabase 0006. Не запускать seed/очищающие тесты на общей БД. Recovery UI `9a3c868` и незавершённый signup/callback PR31 не включены. Backend recovery уже присутствует.
+
+Flutter находится в `apps/mobile`; это исходники, не новый APK. Нужен SDK автора Flutter 3.47.7 / Dart 3.13.5 и отдельная сборка с постоянными URL. Физический Android ещё не принят. Нижние записи сохранены как история и не заменяют эту сводку.
+
+**Опубликованные хостинги:** [web](https://qadamx-taraz.vercel.app), API_BASE_URL `https://qadamx-taraz.onrender.com/api/v1`, OpenAPI0.6.2 / Supabase0006. [Новая живая Auth/AI-приёмка, точные границы доказательств и открытые пункты](docs/HOSTING_AI_ACCEPTANCE.md), [передача команде и Flutter](docs/HOSTING_TEAM_HANDOFF.md). Капитан переключил Render на OpenAI вручную; локальный резервный API и туннели сохранены. Старые указания ниже — исторические этапы. Полная приёмка хостинга и конкретной recording.webm ещё не объявляется завершённой.
+
+**Отдельный кандидат интеграции:** `integration/unified-web-062`, проверенный код **b899902** — дизайн PR24/26/27/29, Auth c2a9402 и AI-уточнения PR32 поверх работающего backend4e983b4. [Состав, тесты, блокеры recovery/регистрации и предложение preview](docs/UNIFIED_WEB_062_REVIEW.md). Это ещё не код общего HTTPS preview. Recovery fd21874 исключён после воспроизведения нового ключа между двумя формами; поздняя незавершённая регистрация PR31 10d9bba не включена.
+
+**Текущая общая среда:** API **0.6.2**, код **4e983b4**, Supabase **0006_customer_requests**. [Rollout, адреса и новая живая приёмка](docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Voice frontend7f511dd и оба туннеля сохранены, команда может продолжать работу. Recovery UI подключает Бекзат. Ниже — история подготовки: старые URL и ожидания rollout больше не являются текущими указаниями.
+
+## История подготовки и интеграции
+
+**PR22 готовится к согласованию rollout, не развёрнут:** [review и фактический backup/restore0006](docs/CUSTOMER_RECOVERY_ROLLOUT.md). Работающие API0.6.1, voice preview и туннели сохранены; актуальные адреса — в [опубликованной инструкции восстановления](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/0737439/docs/VOICE_HTTPS_RESTORED.md). Сведения о прежних адресах ниже относятся к прошлым запускам.
+
+**Ветка customer recovery (API 0.6.2):** [контракт и JSON](packages/contracts/CUSTOMER_RECOVERY_API.md), [локальный запуск и обязательная0006](apps/api/README.md). Основа — PR18/1324885. Работающие HTTPS preview/API остаются на прежних сборках, API0.6.1/Supabase0005; новый recovery ещё не включён в общей среде. Сохранены Analytics, market/minimum и старые POST customers.
+
 **Восстановлено 2026-10-16,18:40:** [HTTPS frontend с voice PR23](https://negotiations-exist-newman-ohio.trycloudflare.com/login), API_BASE_URL `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Проверенная сборка7f511dd, backend4f67e2c/API0.6.1, Supabase0005. [Точные commits, все проверки, условия доступности и подключение](docs/VOICE_HTTPS_RESTORED.md). Playback/cancel прошли синтетические браузерные проверки; физический микрофон ещё не проверен. Локальный5191 теперь показывает эту сборку.
 
 **Далее — история предыдущих запусков. Старые HTTPS-адреса недоступны; текущие адреса указаны выше.**

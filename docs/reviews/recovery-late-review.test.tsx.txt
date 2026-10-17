@@ -1,0 +1,37 @@
+import { act, renderHook, waitFor } from '@testing-library/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { afterEach, expect, it, vi } from 'vitest';
+import type { ReactNode } from 'react';
+import { useCustomerCreationRecovery } from '../features/seller/queries';
+
+const mocks = vi.hoisted(() => ({ create: vi.fn(), lookup: vi.fn() }));
+vi.mock('../app/auth', () => ({ useAuth: () => ({ session: { user: { id: 'owner-A' } } }) }));
+vi.mock('../app/runtime', () => ({
+  useBusiness: () => ({ business: { id: 'business-A' } }),
+  useRuntime: () => ({ scope: 'owner-A', gateway: { mode: 'live', createCustomer: mocks.create, customerCreationResult: mocks.lookup } }),
+}));
+afterEach(() => { localStorage.clear(); vi.unstubAllEnvs(); });
+it('late success from an unmounted form must not erase a newer unresolved intent', async () => {
+  vi.stubEnv('VITE_API_BASE_URL', 'https://qa.invalid/api/v1');
+  const storageKey = `qadam.customer-create.v1:${encodeURIComponent('https://qa.invalid/api/v1')}:owner-A:business-A`;
+  const savedCustomer = { id: 'customer-1', business_id: 'business-A', display_name: 'QA first' };
+  let resolveFirst!: (value: typeof savedCustomer) => void;
+  const firstResponse = new Promise<typeof savedCustomer>(resolve => { resolveFirst = resolve; });
+  mocks.create.mockImplementationOnce(() => firstResponse).mockRejectedValueOnce(new TypeError('Lost response'));
+  mocks.lookup.mockResolvedValue({ status: 'not_observed', customer: null });
+  const wrapper = ({ children }: { children: ReactNode }) => <QueryClientProvider client={new QueryClient()}>{children}</QueryClientProvider>;
+  const first = renderHook(() => useCustomerCreationRecovery(), { wrapper });
+  let oldRequest!: Promise<void>;
+  act(() => { oldRequest = first.result.current.create({ display_name: 'QA first', note: '', contact: '' }); });
+  await waitFor(() => expect(mocks.create).toHaveBeenCalledTimes(1));
+  first.unmount(); // route/session leaves while POST response is still pending
+  mocks.lookup.mockResolvedValueOnce({ status: 'completed', customer: savedCustomer });
+  const second = renderHook(() => useCustomerCreationRecovery(), { wrapper });
+  await waitFor(() => expect(second.result.current.state).toBe('complete'));
+  await act(async () => { await second.result.current.create({ display_name: 'QA second', note: '', contact: '' }); });
+  expect(second.result.current.state).toBe('unknown');
+  const pendingSecond = localStorage.getItem(storageKey);
+  expect(pendingSecond).not.toBeNull();
+  await act(async () => { resolveFirst(savedCustomer); await oldRequest; });
+  expect(localStorage.getItem(storageKey)).toBe(pendingSecond);
+});

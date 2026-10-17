@@ -1,3 +1,29 @@
+# Seller web — main synchronization, 2026-10-17
+
+Branch feature/seller-registration-onboarding receives origin/main
+07197bec0a8ac331714eea3036f3af6eac939e7e through an explicitly authorized merge.
+Only docs/DECISIONS.md conflicted; both sides' decisions were retained.
+Production Backend, OpenAPI/generated, public/Voice/financial modules match main.
+Registration remains separate Draft PR #31 (existing base integration/voice-preview-061,
+not silently retargeted). Callback and live email acceptance remain Blocked.
+Customer Recovery is a separate follow-up branch from main, not part of this PR.
+
+Own post-merge checks from apps/web: npm ci; check:api; typecheck; lint;
+npm test -- --no-file-parallelism: **288/288**, 19 files; build; format:check;
+git diff --check. Chromium Auth/Registration **17/17**, money/Analytics **1/1**,
+Seller/Analytics/public **24 cases passed** (23 initial + isolated repeat),
+fake-device microphone **18 cases passed** (17 initial + isolated repeat).
+Parallel unit run initially had 27 timeouts; serial run passed all unchanged
+assertions. Public fallback and microphone1440 also passed isolated repeats.
+Screenshots stayed in ignored test-results/main-sync-screenshots.
+Three inherited dev dependency audit findings and large 3D chunk warning remain.
+All Auth/API/audio are synthetic; no live email, financial writes, paid AI or
+physical Android acceptance. No deployment/migration or service interruption.
+
+Previous Registration HEAD: 10d9bbad02df72ccbc8cfc33725327a72c86783a.
+Exact merge/publication HEAD: git log -1 --format=%H; publication follows checks.
+Historical checkpoints below are preserved.
+
 # Seller web — Approved Registration MVP
 
 2026-10-16. Continue `feature/seller-registration-onboarding`, Draft PR #31,

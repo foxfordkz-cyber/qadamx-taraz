@@ -5,6 +5,7 @@ import { useFetch } from "./hooks";
 import { useT } from "./i18n";
 import { venueBlocks } from "./layout";
 import { LangSwitch, State } from "./ui";
+import { MalBazarSection } from "./MalBazar";
 import "./explore.css";
 
 const Scene = lazy(() => import("./Scene")); // three.js грузится отдельным чанком
@@ -196,6 +197,7 @@ export default function ExplorePage() {
           )}
         </State>
       </section>
+      <MalBazarSection />
     </main>
   );
 }

@@ -86,6 +86,26 @@ class Customer(Base):
     contact: Mapped[str | None] = mapped_column(String(200))
 
 
+class CustomerCreationRequest(Base):
+    __tablename__ = "customer_creation_requests"
+    __table_args__ = (
+        ForeignKeyConstraint(
+            ["business_id", "result_customer_id"],
+            ["qadam.customers.business_id", "qadam.customers.id"],
+            name="fk_customer_creation_customer_tenant",
+        ),
+    )
+    business_id: Mapped[UUID] = mapped_column(ForeignKey("qadam.businesses.id"), primary_key=True)
+    created_by: Mapped[UUID] = mapped_column(Uuid, primary_key=True)
+    key: Mapped[str] = mapped_column(String(200), primary_key=True)
+    request_hash: Mapped[str] = mapped_column(String(64))
+    result_customer_id: Mapped[UUID] = mapped_column(Uuid)
+    response_json: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.clock_timestamp()
+    )
+
+
 class Operation(Base):
     __tablename__ = "operations"
     __table_args__ = (

@@ -106,7 +106,7 @@ def _pointed_curve(cx, radius, spring, rise, steps=32):
             for i in range(steps + 1)]
 
 
-def _ribbon(name, points, z, width, depth=.18, mat="mart_screen"):
+def _ribbon(name, points, z, width, depth=.18, mat="mart_screen", taper=.20):
     """Solid scroll with local width limits so tight curls cannot fold faces."""
     n = len(points)
     normals, halves = [], []
@@ -115,7 +115,7 @@ def _ribbon(name, points, z, width, depth=.18, mat="mart_screen"):
         dx, dy = b[0] - a[0], b[1] - a[1]
         norm = math.hypot(dx, dy)
         normals.append((-dy / norm, dx / norm))
-        halves.append(width * (.5 - .20 * i / (n - 1)))
+        halves.append(width * (.5 - taper * i / (n - 1)))
     # A wide offset on the inside of a small-radius bend can turn a quad into
     # a bow tie. Limit only the affected neighbouring widths, retaining the
     # broad outer leaves and the existing path. Explicit triangles below then
@@ -155,36 +155,6 @@ def _ribbon(name, points, z, width, depth=.18, mat="mart_screen"):
     mesh(name, verts, triangles, mat)
 
 
-def _scroll_pair(name, cx, cy, radius, z, width=.76):
-    """A new paired ram-horn motif inspired by the photographed pale screen."""
-    for side in (-1, 1):
-        points = []
-        for i in range(25):
-            t = i / 24
-            angle = -math.pi / 2 + 1.85 * math.pi * t
-            r = radius * (1 - .78 * t)
-            points.append((cx + side * (radius * .9 + r * math.cos(angle)),
-                           cy + r * math.sin(angle)))
-        _ribbon(name, points, z, width)
-
-
-def _screen_curl(name, cx, cy, radius, z, mirror=1, flip=1):
-    """Broad curled leaf with a pointed tail, drawn afresh in four-column rows."""
-    points = []
-    for i in range(27):
-        t = i / 26
-        a = -.65 * math.pi + 1.85 * math.pi * t
-        r = radius * (1 - .72 * t)
-        points.append((cx + mirror * r * math.cos(a), cy + flip * r * math.sin(a)))
-    _ribbon(name + " curl", points, z, radius * .76, .22)
-    # A leaf-like flare gives the positive/negative pattern the weight seen in
-    # the kr2b night close-up; it avoids the earlier thin 'tree' silhouette.
-    tail = [(-.58, -.85), (-.80, -1.25), (.28, -.92),
-            (.87, -.55), (.30, -.52), (-.20, -.18)]
-    prism(name + " pointed leaf", [(cx + mirror * radius * x, cy + flip * radius * y)
-                                   for x, y in tail], z, .22, "mart_screen")
-
-
 def _bezier_chain(segments, steps=6):
     points = []
     for segment in segments:
@@ -197,54 +167,69 @@ def _bezier_chain(segments, steps=6):
     return points + [segments[-1][-1]]
 
 
-def _foliate_scroll(name, cx, cy, sx, sy, z, mirror=1, flip=1):
-    """Unequal counter-curls sharing one stem, with a broad branching leaf."""
-    segments = [
-        ((-.65, -.8), (-.85, -1.5), (.1, -1.65), (.35, -1.05)),
-        ((.35, -1.05), (.65, -.2), (-.6, -.25), (-1.0, .35)),
-        ((-1.0, .35), (-1.8, 1.5), (-.65, 2.15), (.15, 1.65)),
-        ((.15, 1.65), (.85, 1.18), (.42, .5), (-.10, .68)),
-        ((-.10, .68), (-.5, .8), (-.4, 1.3), (-.15, 1.23)),
-    ]
-    transform = lambda p: (cx + mirror * sx * p[0], cy + flip * sy * p[1])
-    _ribbon(name + " joined counter curls", [transform(p) for p in _bezier_chain(segments)],
-            z, min(sx, sy) * 1.12, .22)
-    # The spreading leaves break the silhouette of repeated numeral-like rings.
-    # Each leaf connects into its neighbouring curl rather than floating alone.
-    leaf = _bezier_chain([
-        ((-.72, .05), (-.22, -.20), (.28, -.10), (.95, .72)),
-        ((.95, .72), (.58, .56), (.40, .85), (.53, 1.21)),
-        ((.53, 1.21), (.07, .97), (-.13, .54), (-.72, .05)),
-    ], 4)[:-1]
-    prism(name + " spreading leaf", [transform(p) for p in leaf], z, .22, "mart_screen")
+def _horn_path(x, y, h, side, flip=1, reach=.86, r0=.8, steps=18, stem_steps=5):
+    """Ram-horn band: a short stalk from (x, y) curling outwards and back in.
+
+    side=1 curls to +X, flip=-1 hangs the motif downwards. Newly drawn; the
+    photographs show broad paired curls, not this exact outline.
+    """
+    centre = (reach, 1.3 * h)
+    start = math.radians(170)
+    join = (centre[0] + r0 * math.cos(start), centre[1] + r0 * math.sin(start))
+    stem = _bezier_chain([((0, 0), (0, .45 * centre[1]),
+                           (join[0] - .05, join[1] - .5 * centre[1]), join)], stem_steps)
+    curl = []
+    for i in range(1, steps + 1):
+        t = i / steps
+        r = r0 * (1 - .6 * t)
+        a = start - math.radians(320) * t
+        curl.append((centre[0] + r * math.cos(a), centre[1] + r * math.sin(a)))
+    return [(x + side * px, y + flip * py) for px, py in stem + curl]
 
 
 def _entrance_screen(cx, z):
-    # kr2b's finished entrance and El.kz show paired large central curls with
-    # smaller branching edge/crown motifs, not a grid of identical glyphs.
+    # kr2b's night photo and the El.kz 2023 daylight photo show a pale screen
+    # filling the pointed opening above the doors: a frame of four columns and
+    # two rows, with broad paired curls joined to it and dark gaps between.
+    # Pale material dominates, so it reads as lace rather than separate glyphs.
+    radius, spring, rise, bottom, split = 7.55, 9.8, 9.0, 4.45, 10.75
+    tile = radius / 4
+    curve = _pointed_curve(cx, radius, spring, rise)
+    _ribbon("Pale screen arched frame", [(cx - radius, bottom)] + curve[::-1]
+            + [(cx + radius, bottom)], z, .6, .22, taper=0)
+    # Overlapping pale parts get different depths: coincident faces would
+    # flicker in WebGL and render black in the Cycles preview.
+    box("Pale screen bottom rail", (cx, bottom, z), (2 * radius + .6, .6, .26), "mart_screen", 0)
+    box("Pale screen middle rail", (cx, split, z), (2 * radius - .1, .5, .24), "mart_screen", 0)
+    for k in (-1, 0, 1):
+        x = cx + k * 2 * tile
+        top = _pointed_y(x - cx, radius, spring, rise) - .1
+        box("Pale screen column bar", (x, (bottom + top) / 2, z), (.5, top - bottom, .28),
+            "mart_screen", 0)
+    for col in range(4):
+        tx = cx - radius + tile * (2 * col + 1)
+        top = min(_pointed_y(tx - cx + s * tile * .5, radius, spring, rise) for s in (-1, 1))
+        for side in (-1, 1):
+            depth = .19 + .015 * side
+            _ribbon("Lower rising horn curl", _horn_path(tx, bottom + .25, 1.25, side), z, .9, depth)
+            _ribbon("Lower hanging horn curl",
+                    _horn_path(tx, split - .25, 1.0, side, -1, .82, .7), z, .8, depth)
+            _ribbon("Upper rising horn curl", _horn_path(tx, split + .25, 1.35, side), z, .9, depth)
+            if top - split > 6.5:
+                _ribbon("Crown hanging horn curl",
+                        _horn_path(tx, top - .3, .8, side, -1, .7, .55), z, .7, depth)
+
+
+def _wing_tile(x, y, z, w=2.2, h=3.4):
+    """Pale ornament tile of the right wing (El.kz 2023): frame and a horn pair."""
+    for dy in (-1, 1):
+        box("Wing ornament tile frame", (x, y + dy * (h / 2 - .11), z), (w, .22, .14), "mart_screen", 0)
+    for dx in (-1, 1):
+        box("Wing ornament tile frame", (x + dx * (w / 2 - .11), y, z), (.22, h - .44, .14),
+            "mart_screen", 0)
     for side in (-1, 1):
-        _foliate_scroll("Lower central foliage", cx + side * 2.15, 7.0,
-                        1.35, 1.45, z, side)
-        _foliate_scroll("Upper central foliage", cx + side * 2.05, 12.65,
-                        1.24, 1.48, z, -side, -1)
-        _foliate_scroll("Lower outer foliage", cx + side * 6.05, 7.05,
-                        .88, 1.26, z, -side, -1)
-        _foliate_scroll("Middle outer foliage", cx + side * 6.0, 12.5,
-                        .92, 1.08, z, side)
-        _foliate_scroll("Crown foliage", cx + side * 1.65, 17.1,
-                        .98, .86, z, side, -1)
-        # Sweeping connections make the white silhouette a continuous screen.
-        for cy, flip in ((5.2, 1), (10.0, -1), (15.4, 1)):
-            scale = .80 if cy > 15 else 1.0
-            points = _bezier_chain([
-                ((.22, .0), (1.2, -.6), (1.65, -.72), (2.7, -.30)),
-                ((2.7, -.30), (3.8, .15), (5.3, .62), (7.25, .40)),
-            ], 7)
-            _ribbon("Paired sweeping foliage branch", [(cx + side * scale * x,
-                    cy + flip * y) for x, y in points], z, .72 * scale, .22)
-    for y in (4.55, 10.0, 15.4):
-        width = 11.6 if y > 15 else 15.6
-        box("Screen support rail", (cx, y, z - .17), (width, .10, .12), "mart_joint", 0)
+        _ribbon("Wing ornament horn curl",
+                _horn_path(x, y - h / 2 + .2, 1.45, side, 1, .5, .4, 9, 3), z, .46, .11 + .01 * side)
 
 
 def _relief(x0, x1, y0, y1, z, step_x=1.45, step_y=1.25, name="Raised brick"):
@@ -460,9 +445,8 @@ def mart():
             centre = x + 5.8
             box("Right wing ornament dark inset", (centre, 9.1, 33.22),
                 (9.6, 4.2, .13), "mart_joint", 0)
-            for col, dx in enumerate((-3.55, -1.18, 1.18, 3.55)):
-                _screen_curl("Right wing ornamental leaf", centre + dx, 9.25,
-                             .93, 33.42, -1 if col > 1 else 1)
+            for dx in (-3.55, -1.18, 1.18, 3.55):
+                _wing_tile(centre + dx, 9.1, 33.42)
     box("Front roof edge", (6.0, 22.48, 32.6), (33, .25, 2.7), "mart_joint", 0)
 
     # Forecourt is context, not a surveyed pedestrian route.
@@ -499,7 +483,7 @@ CONFIG = {
     "label_kk": "Фотосуреттер бойынша · өлшемдері болжамды",
     "geometry_status": "reference_based",
     "camera": [32, 48, 295], "target": [0, 11, 12], "render_scale": 214,
-    "preview_camera": [-86, 30, 225], "preview_target": [-27, 14, 33], "preview_scale": 118,
+    "preview_camera": [-86, 30, 225], "preview_target": [-31, 17, 33], "preview_scale": 98,
     "render_exposure": -.2,
     "hotspots": [[-75, 7, 35.5], [-14, 7.1, 35.8], [57, 6.8, 35.8]],
     "reconstruction": {

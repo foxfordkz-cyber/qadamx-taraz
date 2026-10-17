@@ -10,11 +10,14 @@ meshes are original stylizations.
 """
 from venue_geometry import *
 
+# Navy frieze, blue-grey columns and dark olive bronze follow the May and
+# September 2024 photos; fence and gate leaves stay near-black steel.
 PALETTE.update({
-    "auyl_gate": "293a43", "auyl_gate_edge": "4d6069",
+    "auyl_gate": "24324e", "auyl_gate_edge": "4b5d74",
+    "auyl_steel": "1f2326",
     "auyl_pier": "b39b88", "auyl_pier_light": "d2bdab",
-    "auyl_gold": "c59b65", "auyl_bronze": "6d5a44",
-    "auyl_bronze_dark": "4b3d32", "auyl_mauve": "a56f8e",
+    "auyl_gold": "c59b65", "auyl_bronze": "5b5439",
+    "auyl_bronze_dark": "3a3424", "auyl_mauve": "a56f8e",
     "auyl_roof": "aab9bd", "auyl_roof_light": "c4d0d0",
     "auyl_roof_seam": "8a9da4", "auyl_wall": "dfddd0",
     "auyl_window": "546268", "auyl_orange": "bc7054",
@@ -43,13 +46,17 @@ def oval(name, center, dimensions, mat, detail=1, pitch=0):
 
 
 def horse_sketch(x, z, facing, raised):
-    """Original faceted sculpture study: one rearing horse, one standing horse."""
+    """Original faceted sculpture study: one prancing horse, one standing horse.
+
+    The September 2024 photo shows the near horse with one foreleg raised and
+    bent while three hooves stay on the plinth, not a full rear.
+    """
     scale, bottom = 1.27, 1.71
     def p(a, b, depth=0):
         return (x + facing * a * scale, bottom + b * scale, z + depth * scale)
-    lift = .65 if raised else 0
+    lift = .18 if raised else 0
     oval("Horse barrel",p(.15,2.36+lift*.35),(1.09*scale,.61*scale,.48*scale),
-         "auyl_bronze",2,pitch=.32*facing if raised else 0)
+         "auyl_bronze",2,pitch=.07*facing if raised else 0)
     oval("Horse chest",p(-.55,2.21+lift),(.58*scale,.8*scale,.46*scale),"auyl_bronze",2)
     oval("Horse haunch",p(.91,2.15),(.52*scale,.72*scale,.46*scale),"auyl_bronze",2)
     beam("Horse rising neck",p(-.65,2.48+lift),p(-1.16,3.48+lift),.44*scale,"auyl_bronze")
@@ -65,8 +72,9 @@ def horse_sketch(x, z, facing, raised):
     legs=[(.88,1.83,1.10,.79,1.17,.11,.29),
           (.65,1.81,.77,.87,.81,.11,-.29)]
     if raised:
-        legs += [(-.42,2.64,-1.02,2.3,-1.51,2.79,-.34),
-                 (-.68,2.75,-1.29,2.05,-1.88,2.21,.36)]
+        # Near foreleg lifted forward with the knee bent; far foreleg planted.
+        legs += [(-.40,2.0,-1.12,1.35,-.92,.72,-.34),
+                 (-.58,1.9,-.72,.8,-.74,.11,.29)]
     else:
         legs += [(-.35,1.86,-.61,.78,-.73,.11,-.34),
                  (-.58,1.86,-.75,.79,-.71,.11,.29)]
@@ -91,7 +99,7 @@ def long_canopy(x, z, width, depth, rise=1.25):
         for side in (-1,1):
             xx=x+side*(width/2-.5)
             box("Original repetitive stall recess",(xx,2.08,zz),(.1,3.15,3.2),"auyl_stall",0)
-            box("Exposed canopy steel upright",(xx,2.38,zz+1.72),(.12,3.76,.12),"auyl_gate",0)
+            box("Exposed canopy steel upright",(xx,2.38,zz+1.72),(.12,3.76,.12),"auyl_steel",0)
     box("Unlettered functional row fascia",(x,3.8,z+depth/2-.45),(width-1.05,.48,.12),"auyl_gate_edge",0)
 
 
@@ -162,6 +170,8 @@ def entrance_gate():
         horse_sketch(x,z+4,1,side==1)
     box("Broad dark entrance entablature",(0,10.96,z),(25.7,1.65,3.35),"auyl_gate",0)
     box("Entablature lower moulding",(0,10.09,z+.05),(26.05,.18,3.57),"auyl_gate_edge",0)
+    # September 2024 photo: the underside of the span between the piers is pale.
+    box("Pale soffit under the span",(0,9.97,z+.05),(19.1,.06,3.3),"auyl_pier_light",0)
     box("Continuous upper cornice",(0,11.91,z+.05),(26.5,.29,3.79),"auyl_gate_edge",0)
     box("Dark upper cornice edge",(0,12.12,z+.05),(26.75,.15,3.94),"auyl_gate",0)
     for yy in (10.34,11.61):
@@ -181,13 +191,13 @@ def entrance_gate():
             box("Fence pale cap",(x,4.7,20),(.7,.13,.69),"auyl_pier_light",0)
         box("Fence pale low wall",(side*19.5,.91,20),(9.2,.82,.52),"auyl_pier_light",0)
         for i in range(21):
-            box("Black steel fence picket",(side*(15.1+i*.44),2.58,20),(.047,2.52,.06),"auyl_gate",0)
+            box("Black steel fence picket",(side*(15.1+i*.44),2.58,20),(.047,2.52,.06),"auyl_steel",0)
         for y in (1.63,3.39):
-            box("Black horizontal fence rail",(side*19.5,y,20),(9.2,.055,.07),"auyl_gate",0)
+            box("Black horizontal fence rail",(side*19.5,y,20),(9.2,.055,.07),"auyl_steel",0)
         for i in range(12):
-            box("Open gate leaf vertical",(side*8.9,1.87,18.2-i*.34),(.065,2.66,.045),"auyl_gate",0)
+            box("Open gate leaf vertical",(side*8.9,1.87,18.2-i*.34),(.065,2.66,.045),"auyl_steel",0)
         for y in (.56,3.18):
-            box("Open gate leaf rail",(side*8.9,y,16.32),(.08,.08,4.15),"auyl_gate",0)
+            box("Open gate leaf rail",(side*8.9,y,16.32),(.08,.08,4.15),"auyl_steel",0)
     # Place this independently editable entrance into the west-facing vignette.
     # Vertex transforms stay baked, with unit object scales and shared origin.
     for obj in PARTS[start:]:
@@ -239,7 +249,7 @@ CONFIG = {
     "geometry_status":"reference_based",
     "label_ru":"Западный вход и ряды · схема, размеры оценочные",
     "label_kk":"Батыс кіреберіс пен қатарлар · өлшемдері болжамды",
-    "camera":[47,52,157], "target":[0,5,5], "render_scale":0,
+    "camera":[35.5,47.5,162], "target":[-11.5,.5,10], "render_scale":0,
     "preview_camera":[12,13,96], "preview_target":[0,7.5,52], "preview_scale":50,
     "hotspots":[[-42,6,-35],[0,3,45],[29,10.7,7]],
     "reconstruction": {

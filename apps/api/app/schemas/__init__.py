@@ -61,6 +61,21 @@ class CustomerResponse(CustomerCreate):
     balance_minor: Balance
 
 
+class CustomerCreationCompleted(Contract):
+    status: Literal["completed"]
+    customer: CustomerResponse
+
+
+class CustomerCreationNotObserved(Contract):
+    status: Literal["not_observed"]
+    customer: None
+
+
+CustomerCreationResult = Annotated[
+    CustomerCreationCompleted | CustomerCreationNotObserved, Field(discriminator="status")
+]
+
+
 class CustomerCandidate(Contract):
     id: UUID
     display_name: str

@@ -323,3 +323,9 @@ def analytics_example(sales=0, receipts=0, count=0, debt=0, debtors=0):
 EXAMPLES["AnalyticsEmpty"] = analytics_example()
 EXAMPLES["AnalyticsSaleAndRepayment"] = analytics_example(300000, 150000, 1, 150000, 1)
 EXAMPLES["AnalyticsOldSaleReversedToday"] = analytics_example(receipts=-100000)
+
+EXAMPLES["CustomerCreationCompleted"] = {
+    "status": "completed",
+    "customer": {**EXAMPLES["CustomerResponse"], "balance_minor": 0},
+}
+EXAMPLES["CustomerCreationNotObserved"] = {"status": "not_observed", "customer": None}

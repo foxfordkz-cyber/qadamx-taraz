@@ -1,4 +1,57 @@
-# Flutter: живой HTTPS, API 0.6.1 и рынок
+# Flutter: действующий HTTPS API 0.6.2
+
+**Постоянные адреса опубликованы:** API_BASE_URL `https://qadamx-taraz.onrender.com/api/v1`, FRONTEND_BASE_URL `https://qadamx-taraz.vercel.app`. [Точный публичный конфиг PR25/421b2fb, пересборка и checklist устройства](HOSTING_TEAM_HANDOFF.md#flutter-pr25--421b2fb), [фактическая hosted-приёмка и ограничения](HOSTING_AI_ACCEPTANCE.md). Ниже сохранена история действующих резервных туннелей; их не выключаем до завершения перехода. Не переносить неизвестные pending операции на новый URL с новым ключом.
+
+**16 октября 2026, после разрешённого rollout:** backend **`4e983b42a2a0466d2fc07e4de09becf87a8ef7d5`**, Supabase **0006_customer_requests**. [Backup/restore, живая приёмка и ограничения](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Все прежние схемы и8 livestock OpenAPI paths сохранены относительно0.6.1. Migration/setup повторять не нужно.
+
+## Текущий конфиг Flutter
+
+`apps/mobile/config/public.local.json` (игнорируемый файл, только публичные значения):
+
+```json
+{
+  "API_BASE_URL": "https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1",
+  "SUPABASE_URL": "https://pdjjdqgoitnkpgkbqjtp.supabase.co",
+  "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_w17k2VDn1gf_Jr8hoXhGeQ_-T9NRnfz"
+}
+```
+
+- [Health](https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1/health), [живой OpenAPI0.6.2](https://thorough-readings-riverside-suggesting.trycloudflare.com/openapi.json), [Swagger](https://thorough-readings-riverside-suggesting.trycloudflare.com/docs).
+- [Зафиксированный OpenAPI](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/4e983b42a2a0466d2fc07e4de09becf87a8ef7d5/packages/contracts/openapi.json), [Мал базар](../packages/contracts/LIVESTOCK_API.md), [примеры](../packages/contracts/examples.json).
+- [HTTPS frontend](https://negotiations-exist-newman-ohio.trycloudflare.com/login) — прежний voice-код7f511dd; браузер использует внешнийAPI.
+
+PR15 проверен на head **1a93469f26a93fb12b7adb7158a1800009f0d257**. Его transport/response validators совместимы; optional market/minimum сохраняются. Изменения customer recovery не требуют смены livestock-запросов. Ветка Flutter не менялась; Flutter SDK и физическое устройство здесь не запускались.
+
+```powershell
+cd apps/mobile
+flutter pub get
+flutter analyze
+flutter test
+flutter run --dart-define-from-file=config/public.local.json
+```
+
+Проверить со своего устройства health → обычный Supabase login → мои объявления → фото/replay → logout/другой аккаунт. Настоящий HTTP с ПК капитана уже проверил эти серверные зависимости, но не заменяет устройство. `/api/v1` обязателен; localhost капитана и10.0.2.2 не являются удалёнными адресами. Аккаунт получить лично у капитана через закрытый канал/менеджер паролей; пароль вводить только в login. DATABASE_URL, STORAGE_SERVICE_KEY, AI/OpenAI keys и готовыеJWT разработчику не передаются.
+
+Оба адреса **временные**, прежние cloudflared сохранены. Доступ требует включённых ПК капитана, сети, API и туннелей. Фиксированного срока нет; после перезапуска туннеля адрес может измениться. Не зашивать production URL и не заменять ключ pending-запроса при смене среды. PostgreSQL не опубликован, JWT и private Storage сохранены.
+
+## Возобновление API капитаном, только если он остановлен
+
+Сейчас сервер работает: **не запускать дубликат и не перезапускать во время приёмки**. Checkout должен быть чистым4e983b4, общая БД уже0006. Серверный env остаётся в исходном игнорируемом файле; не копировать его во frontend/Flutter. Сохранить exact origins и текущий Gemini, fallback off:
+
+```powershell
+cd C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\tmp\openai-recovery-062\apps\api
+$serverEnv = 'C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\apps\api\.env'
+$env:ALLOWED_ORIGINS = '["http://127.0.0.1:5188","http://127.0.0.1:5191","http://127.0.0.1:5192","https://negotiations-exist-newman-ohio.trycloudflare.com"]'
+$env:AI_PROVIDER = 'gemini'
+$env:AI_FALLBACK_OPENAI = 'false'
+& C:\Users\karab\Documents\Codex\2026-10-15\x20\work\qadamx-taraz\apps\api\.venv\Scripts\python.exe -m uvicorn app.main:app --env-file $serverEnv --host 127.0.0.1 --port 8018 --no-access-log
+```
+
+Не останавливать действующие туннели и не применять0006 повторно. При сбое версии — [защитный guard-откат](CUSTOMER_RECOVERY_ROLLOUT.md), не raw0.6.1. Постоянный деплой — отдельный этап.
+
+## Исторический отчёт API0.6.1
+
+Ниже сохранены результаты первоначальной передачи без ретроспективного изменения. **Старые URL, commits, ревизия и команды запуска ниже не являются текущей инструкцией**; использовать конфиг и запуск выше. Формулировка об ожидающемся market UI относится к старому PR15, не к текущему head1a93469.
 
 **Среда восстановлена 2026-10-16,18:40:** API_BASE_URL **изменился** на `https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1`. Backend4f67e2c/API0.6.1 и фактическая Supabase0005 сохранены,0006 не применена. [Новый frontend с voice PR23, commits и результаты](VOICE_HTTPS_RESTORED.md). Все прежние результаты ниже отмечены как исторические; Flutter/физический телефон здесь не проверялись.
 

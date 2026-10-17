@@ -35,7 +35,7 @@
   flex-shrink: 0;
   width: 42px;
   height: 42px;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   background: var(--qadam-white);
   border: 1px solid var(--qadam-line);
   color: var(--qadam-green);
@@ -43,7 +43,7 @@
 .analytics-eyebrow {
   display: block;
   color: var(--qadam-muted);
-  font-size: 10px;
+  font-size: var(--qadam-text-label);
   font-weight: 750;
   letter-spacing: 0.65px;
   text-transform: uppercase;
@@ -54,14 +54,14 @@
   align-items: stretch;
   padding: 4px;
   gap: 3px;
-  background: #e9eadf;
+  background: var(--qadam-surface-muted);
   border: 1px solid var(--qadam-line);
-  border-radius: 13px;
+  border-radius: var(--qadam-radius-control);
   flex-shrink: 0;
 }
 .analytics-period-switch .button,
 .analytics-series .button {
-  border-radius: 9px;
+  border-radius: var(--qadam-radius-small);
   min-height: 44px;
   padding: 8px 17px;
   font-size: 12px;
@@ -71,7 +71,7 @@
 .analytics-series .button[aria-pressed="true"] {
   background: var(--qadam-white);
   color: var(--qadam-green-deep);
-  box-shadow: 0 1px 5px #172a2612;
+  box-shadow: var(--qadam-shadow);
 }
 .analytics-demo-panel {
   display: grid;
@@ -79,9 +79,9 @@
   gap: 20px;
   align-items: center;
   padding: 17px 20px;
-  border: 1px dashed #b6c49e;
+  border: 1px dashed var(--qadam-line-hover);
   border-radius: var(--qadam-radius-card);
-  background: #f0f2e6;
+  background: var(--qadam-surface-subtle);
 }
 .analytics-demo-panel .alert {
   border: 0;
@@ -117,7 +117,7 @@
   font-size: 13px;
 }
 .analytics-snapshot-meta > div > span {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   color: var(--qadam-muted);
   line-height: 1.5;
 }
@@ -143,7 +143,7 @@
   width: 32px;
   height: 32px;
   margin-bottom: 16px;
-  border-radius: 9px;
+  border-radius: var(--qadam-radius-small);
   background: var(--qadam-soft);
   color: var(--qadam-green);
 }
@@ -152,7 +152,7 @@
   height: 19px;
 }
 .analytics-kpi h2 {
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   font-weight: 650;
   line-height: 1.5;
   color: var(--qadam-muted);
@@ -168,7 +168,7 @@
 .analytics-kpi p,
 .analytics-kpi small {
   color: var(--qadam-muted);
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.65;
   margin: 10px 0 0;
 }
@@ -183,12 +183,12 @@
 }
 .analytics-kpi-primary .analytics-kpi-icon {
   color: var(--qadam-lime);
-  background: #ffffff14;
+  background: var(--qadam-on-dark-fill);
 }
 .analytics-kpi-primary h2,
 .analytics-kpi-primary p,
 .analytics-kpi-primary small {
-  color: #e0ead7;
+  color: var(--qadam-on-dark-muted);
 }
 .analytics-kpi-primary .analytics-kpi-value {
   color: var(--qadam-lime);
@@ -204,7 +204,7 @@
 .analytics-financial-note {
   margin: -9px 0 0;
   color: var(--qadam-muted);
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
 }
 .analytics-chart-card {
   min-width: 0;
@@ -230,29 +230,29 @@
   max-width: 100%;
 }
 .analytics-series .button {
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   padding: 7px 12px;
 }
 .analytics-chart-explanation,
 .analytics-signed-note {
   color: var(--qadam-muted);
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.75;
   max-width: 800px;
   margin: 13px 0 0;
 }
 .analytics-signed-note {
   padding: 9px 12px;
-  border-radius: 9px;
-  color: #784323;
-  background: #f6ecdf;
+  border-radius: var(--qadam-radius-small);
+  color: var(--qadam-warning);
+  background: var(--qadam-warning-soft);
 }
 .analytics-chart-legend {
   display: flex;
   align-items: center;
   gap: 7px;
   margin: 23px 0 13px;
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   color: var(--qadam-muted);
 }
 .analytics-chart-legend strong {
@@ -265,13 +265,13 @@
   height: 8px;
   flex-shrink: 0;
   background: var(--qadam-green);
-  border-radius: 3px;
+  border-radius: var(--qadam-radius-small);
 }
 .analytics-receipt-dot {
-  background: #b36d20;
+  background: var(--qadam-chart-amber);
 }
 .analytics-hourly-dot {
-  background: #59773f;
+  background: var(--qadam-chart-secondary);
 }
 .analytics-chart-scroll {
   min-width: 0;
@@ -279,7 +279,7 @@
   overflow-x: auto;
   padding: 5px 2px 4px;
   overscroll-behavior-x: contain;
-  scrollbar-color: #bac6aa #f1f1e6;
+  scrollbar-color: var(--qadam-line-hover) var(--qadam-surface-subtle);
   scrollbar-width: thin;
 }
 .analytics-bars {
@@ -296,16 +296,16 @@
   padding: 0 7px;
   background: transparent;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--qadam-radius-small);
   color: var(--qadam-muted);
   cursor: pointer;
   -webkit-tap-highlight-color: #d7f36a50;
 }
 .analytics-bar-button:hover {
-  background: #edf1e5;
+  background: var(--qadam-soft);
 }
 .analytics-bar-selected {
-  background: #edf1e5;
+  background: var(--qadam-soft);
   color: var(--qadam-green-deep);
 }
 .analytics-bar-button:focus-visible,
@@ -325,8 +325,8 @@
     to top,
     transparent 0,
     transparent calc(25% - 1px),
-    #e8eadd calc(25% - 1px),
-    #e8eadd 25%
+    var(--qadam-chart-grid) calc(25% - 1px),
+    var(--qadam-chart-grid) 25%
   );
 }
 .analytics-bar {
@@ -342,21 +342,21 @@
 .analytics-partial-bar {
   background: repeating-linear-gradient(
     135deg,
-    #5f8053 0,
-    #5f8053 4px,
-    #dce7b9 4px,
-    #dce7b9 7px
+    var(--qadam-chart-secondary) 0,
+    var(--qadam-chart-secondary) 4px,
+    var(--qadam-chart-today) 4px,
+    var(--qadam-chart-today) 7px
   );
 }
 .analytics-receipt-bar {
-  background: #b78037;
+  background: var(--qadam-chart-amber);
 }
 .analytics-negative-bar {
-  background: #9a4627;
+  background: var(--qadam-chart-rust);
   border-radius: 1px 1px 5px 5px;
 }
 .analytics-hourly-bar {
-  background: #65804c;
+  background: var(--qadam-chart-secondary);
 }
 .analytics-zero-line {
   position: absolute;
@@ -364,7 +364,7 @@
   left: 0;
   right: 0;
   height: 1px;
-  background: #84927a;
+  background: var(--qadam-chart-neutral);
 }
 .analytics-bar-label {
   position: absolute;
@@ -380,14 +380,14 @@
   margin-left: 3px;
 }
 .analytics-negative-label {
-  color: #8b3821;
+  color: var(--qadam-danger);
   font-size: 10px;
   text-align: right;
   margin-top: 5px;
 }
 .analytics-chart-help {
   color: var(--qadam-muted);
-  font-size: 10px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.6;
   margin: 11px 0 16px;
 }
@@ -397,7 +397,7 @@
   justify-content: space-between;
   gap: 20px;
   padding: 16px 18px;
-  border-radius: 12px;
+  border-radius: var(--qadam-radius-control);
   background: var(--qadam-paper);
   margin-bottom: 20px;
 }
@@ -410,7 +410,7 @@
   font-size: 12px;
 }
 .analytics-selection-date > span {
-  font-size: 9px;
+  font-size: var(--qadam-text-xs);
   color: var(--qadam-muted);
 }
 .analytics-selection dl {
@@ -420,7 +420,7 @@
   margin: 0;
 }
 .analytics-selection dt {
-  font-size: 9px;
+  font-size: var(--qadam-text-xs);
   line-height: 1.5;
   color: var(--qadam-muted);
 }
@@ -437,7 +437,7 @@
   cursor: pointer;
   min-height: 52px;
   padding: 17px 0;
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   font-weight: 750;
   color: var(--qadam-green);
 }
@@ -453,7 +453,7 @@
 .analytics-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11px;
+  font-size: var(--qadam-text-xs);
   text-align: left;
 }
 .analytics-table caption {
@@ -484,7 +484,7 @@
 .analytics-table small {
   display: block;
   color: var(--qadam-muted);
-  font-size: 9px;
+  font-size: var(--qadam-text-xs);
   font-weight: 500;
   margin-top: 4px;
 }
@@ -548,13 +548,13 @@
   .analytics-kpi {
     padding: 15px;
     min-height: 215px;
-    border-radius: 15px;
+    border-radius: var(--qadam-radius-control);
   }
   .analytics-kpi-icon {
     margin-bottom: 13px;
   }
   .analytics-kpi h2 {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
     min-height: 30px;
   }
   .analytics-kpi-value {
@@ -563,7 +563,7 @@
   }
   .analytics-kpi p,
   .analytics-kpi small {
-    font-size: 9px;
+    font-size: var(--qadam-text-xs);
   }
   .analytics-chart-card {
     padding: 20px 16px 0;
@@ -581,7 +581,7 @@
   }
   .analytics-chart-explanation,
   .analytics-signed-note {
-    font-size: 10px;
+    font-size: var(--qadam-text-xs);
   }
   .analytics-selection {
     align-items: start;
