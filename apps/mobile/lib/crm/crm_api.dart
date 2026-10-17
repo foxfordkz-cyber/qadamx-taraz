@@ -10,6 +10,10 @@ import 'crm_pending.dart';
 const customerAction = 'customer.create.v1';
 const operationAction = 'operation.create.v1';
 const reversalAction = 'operation.reverse.v1';
+String reversalActionFor(String operation) => '$reversalAction/$operation';
+bool isReversalAction(String action) =>
+    action.startsWith('$reversalAction/') &&
+    crmUuid.hasMatch(action.substring(reversalAction.length + 1));
 
 class CrmApi {
   CrmApi({
@@ -274,7 +278,7 @@ class CrmApi {
           (body['contact'] != null && !text('contact', 200))) {
         throw const ApiFailure('VALIDATION_ERROR');
       }
-    } else if (action == reversalAction) {
+    } else if (isReversalAction(action)) {
       keys({
         'operation_id',
         'sale_id',
@@ -285,7 +289,8 @@ class CrmApi {
       });
       final sales = body['sales_delta_minor'];
       final receipts = body['receipts_delta_minor'];
-      if (body['operation_id'] is! String ||
+      if (action != reversalActionFor(body['operation_id'].toString()) ||
+          body['operation_id'] is! String ||
           !crmUuid.hasMatch(body['operation_id'] as String) ||
           body['sale_id'] is! String ||
           !crmUuid.hasMatch(body['sale_id'] as String) ||
@@ -387,10 +392,10 @@ class CrmApi {
       'POST',
       action == customerAction
           ? 'customers'
-          : action == reversalAction
+          : isReversalAction(action)
           ? 'operations/${intent.body['operation_id']}/reverse'
           : 'operations',
-      body: action == reversalAction
+      body: isReversalAction(action)
           ? {'description': intent.body['description']}
           : intent.body,
       key: intent.key,
@@ -412,7 +417,7 @@ class CrmApi {
     }
     validateOperationReceipt(response, scope.business);
     final operation = crmObject(response['operation']);
-    if (action == reversalAction) {
+    if (isReversalAction(action)) {
       if (operation['kind'] != 'reversal' ||
           operation['reversal_of'] != body['operation_id'] ||
           operation['sale_id'] != body['sale_id'] ||

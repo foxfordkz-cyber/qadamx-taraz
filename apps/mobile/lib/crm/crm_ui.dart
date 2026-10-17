@@ -268,7 +268,7 @@ class _CrmWritePanelState extends State<CrmWritePanel> {
   }
 
   String _description(CrmJson body) {
-    if (widget.action == reversalAction) {
+    if (isReversalAction(widget.action)) {
       return '${tr(kk, 'Отмена выбранной операции', 'Таңдалған операцияны жою')}\n${tr(kk, 'Изменение продаж', 'Сатылым өзгерісі')}: ${crmMoney(-(body['sales_delta_minor'] as int), kk)}\n${tr(kk, 'Изменение поступлений', 'Түсім өзгерісі')}: ${crmMoney(-(body['receipts_delta_minor'] as int), kk)}\n${body['description']}';
     }
     if (widget.action == customerAction) {

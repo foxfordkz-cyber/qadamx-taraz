@@ -6,6 +6,7 @@ import 'package:qadam_mobile/crm/crm_pending.dart';
 import 'crm_test.dart' as f;
 
 void main() {
+  final action = reversalActionFor(f.saleId);
   final body = {
     'operation_id': f.saleId,
     'sale_id': f.saleId,
@@ -53,21 +54,31 @@ void main() {
       );
       final first = create();
       final scope = first.scope(f.business);
-      final intent = await first.begin(scope, reversalAction, body);
+      final intent = await first.begin(scope, action, body);
       await expectLater(
-        first.send(scope, reversalAction, intent),
+        first.send(scope, action, intent),
         throwsA(f.failure('INVALID_RESPONSE')),
       );
       first.close();
       final second = create();
-      final restored = (await second.pending.load(scope, reversalAction))!;
+      final restored = (await second.pending.load(scope, action))!;
       expect(restored.receipt, isNull);
       invalid = false;
-      final result = await second.send(scope, reversalAction, restored);
+      final result = await second.send(scope, action, restored);
       expect(result.receipt!['operation']['kind'], 'reversal');
       expect(requests[0], requests[1]);
-      await second.send(scope, reversalAction, result);
+      await second.send(scope, action, result);
       expect(requests.length, 2);
+      // A pending sale reversal must not block reversing its dependent payment.
+      const paymentId = '66666666-6666-4666-8666-666666666666';
+      final paymentAction = reversalActionFor(paymentId);
+      final payment = await second.begin(scope, paymentAction, {
+        ...body,
+        'operation_id': paymentId,
+        'sales_delta_minor': 0,
+      });
+      expect(payment.key, isNot(intent.key));
+      expect((await second.pending.load(scope, action))!.key, intent.key);
       second.close();
     },
   );
@@ -86,7 +97,7 @@ void main() {
           return f.jsonResponse({
             'date': mismatch ? '2026-10-17' : '2026-10-16',
             'timezone': 'Asia/Almaty',
-          'currency': 'KZT',
+            'currency': 'KZT',
             'sales_minor': -15000,
             'receipts_minor': -10000,
             'outstanding_minor': 0,

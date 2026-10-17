@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../ui/common.dart' show tr;
 import 'crm_models.dart';
+import 'crm_api.dart';
 import 'crm_ui.dart';
 
 class DailySummaryPage extends CrmScreen {
@@ -159,7 +160,7 @@ class _ReverseOperationPageState extends CrmScreenState<ReverseOperationPage> {
           api: api,
           scope: scope,
           kk: kk,
-          action: 'operation.reverse.v1',
+          action: reversalActionFor(widget.operation['id'] as String),
           form: TextField(
             controller: description,
             maxLength: 1000,
