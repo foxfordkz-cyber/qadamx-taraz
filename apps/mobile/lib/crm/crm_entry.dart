@@ -69,7 +69,11 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.detached) {
-      if (voice.recording) unawaited(voice.stop());
+      if (voice.busy) {
+        unawaited(voice.cancel());
+      } else if (voice.recording) {
+        unawaited(voice.stop());
+      }
       unawaited(stopPlayback());
     }
   }

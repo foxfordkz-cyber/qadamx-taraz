@@ -178,8 +178,9 @@ class CrmApi {
     String status,
   ) async {
     if (!crmUuid.hasMatch(id) ||
-        !const ['new', 'in_progress', 'closed'].contains(status))
+        !const ['new', 'in_progress', 'closed'].contains(status)) {
       throw const ApiFailure('VALIDATION_ERROR');
+    }
     final result = await request(
       scope,
       'PATCH',
@@ -187,15 +188,17 @@ class CrmApi {
       body: {'status': status},
     );
     validateInquiry(result, scope.business);
-    if (result['id'] != id || result['status'] != status)
+    if (result['id'] != id || result['status'] != status) {
       throw const ApiFailure('INVALID_RESPONSE');
+    }
     return result;
   }
 
   Future<CrmJson> catalog(CrmScope scope, String slug) async {
     check(scope);
-    if (slug.isEmpty || slug.contains('/') || slug.contains('..'))
+    if (slug.isEmpty || slug.contains('/') || slug.contains('..')) {
       throw const ApiFailure('VALIDATION_ERROR');
+    }
     final request = http.Request(
       'GET',
       baseUrl.replace(pathSegments: ['api', 'v1', 'businesses', slug]),
@@ -212,18 +215,21 @@ class CrmApi {
       if (value['id'] != scope.business ||
           value['slug'] != slug ||
           value['catalog'] is! List ||
-          value['is_demo'] is! bool)
+          value['is_demo'] is! bool) {
         throw const ApiFailure('INVALID_RESPONSE');
+      }
       crmString(value, 'name');
       for (final raw in value['catalog'] as List) {
         final item = crmObject(raw);
         crmBusiness(item, scope.business);
         crmId(item, 'id');
         crmString(item, 'name');
-        if (item['price_minor'] != null)
+        if (item['price_minor'] != null) {
           crmInt(item, 'price_minor', nonnegative: true);
-        if (item['is_demo'] is! bool || item['available'] is! bool)
+        }
+        if (item['is_demo'] is! bool || item['available'] is! bool) {
           throw const ApiFailure('INVALID_RESPONSE');
+        }
       }
       return value;
     } on ApiFailure {
@@ -309,11 +315,13 @@ class CrmApi {
 
   void validateSaved(CrmScope scope, String action, CrmIntent intent) {
     check(scope);
-    if (intent.slot != scope.slot(action))
+    if (intent.slot != scope.slot(action)) {
       throw const ApiFailure('ACCOUNT_CHANGED');
+    }
     validateBody(action, intent.body);
-    if (intent.receipt != null)
+    if (intent.receipt != null) {
       _validateReceipt(scope, action, intent.receipt!, intent.body);
+    }
   }
 
   Future<CrmIntent> send(
@@ -360,13 +368,15 @@ class CrmApi {
     validateOperationReceipt(response, scope.business);
     final operation = crmObject(response['operation']);
     if (operation['kind'] != body['kind'] ||
-        operation['description'] != body['description'])
+        operation['description'] != body['description']) {
       throw const ApiFailure('INVALID_RESPONSE');
+    }
     if (body['kind'] == 'sale') {
       if (operation['customer_id'] != body['customer_id'] ||
           operation['sales_delta_minor'] != body['total_minor'] ||
-          operation['receipts_delta_minor'] != body['received_minor'])
+          operation['receipts_delta_minor'] != body['received_minor']) {
         throw const ApiFailure('INVALID_RESPONSE');
+      }
     } else if (operation['sale_id'] != body['sale_id'] ||
         operation['sales_delta_minor'] != 0 ||
         operation['receipts_delta_minor'] != body['amount_minor']) {

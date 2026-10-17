@@ -10,8 +10,9 @@ void validateInquiry(CrmJson value, String business) {
   for (final key in ['visitor_name', 'contact', 'message', 'created_at']) {
     crmString(value, key);
   }
-  if (!const ['new', 'in_progress', 'closed'].contains(value['status']))
+  if (!const ['new', 'in_progress', 'closed'].contains(value['status'])) {
     throw const ApiFailure('INVALID_RESPONSE');
+  }
 }
 
 final crmUuid = RegExp(r'^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$');

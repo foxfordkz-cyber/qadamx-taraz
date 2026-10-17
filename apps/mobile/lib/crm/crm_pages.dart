@@ -785,13 +785,14 @@ class _InquiriesPageState extends CrmScreenState<InquiriesPage> {
         item['id'] as String,
         status,
       );
-      if (active)
+      if (active) {
         setState(
           () => items = [
             for (final old in items)
               if (old['id'] == value['id']) value else old,
           ],
         );
+      }
     } catch (e) {
       if (active) setState(() => error = e);
     } finally {

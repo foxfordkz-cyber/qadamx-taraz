@@ -176,8 +176,9 @@ class VoiceCapture extends ChangeNotifier {
       if (_disposed || revision != _revision) return;
       duration = validateVoiceWav(bytes);
     } catch (_) {
-      if (!_disposed && revision == _revision)
+      if (!_disposed && revision == _revision) {
         error = const ApiFailure('AUDIO_INVALID');
+      }
       duration = null;
       try {
         await recorder.cancel();

@@ -173,8 +173,9 @@ class _CrmWritePanelState extends State<CrmWritePanel> {
     try {
       final saved = await widget.api.pending.load(widget.scope, widget.action);
       if (!valid) return;
-      if (saved != null)
+      if (saved != null) {
         widget.api.validateSaved(widget.scope, widget.action, saved);
+      }
       setState(() {
         intent = saved;
         unavailable = false;
