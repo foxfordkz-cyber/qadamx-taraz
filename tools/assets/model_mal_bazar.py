@@ -258,7 +258,7 @@ CONFIG = {
     "geometry_status": "conceptual",
     "label_ru": "Концепт-модель скотного рынка · не план реального места",
     "label_kk": "Мал базарының тұжырымдамалық моделі · нақты орынның жоспары емес",
-    "camera": [46, 38, 64], "target": [0, 1.5, 0], "render_scale": 0,
+    "camera": [9, 51, 62], "target": [0, 1.5, 0], "render_scale": 0,
     "preview_camera": [24, 40, 62], "preview_target": [3, 2, -1], "preview_scale": 54,
     "hotspots": [],
     "descriptor": "mal-bazar-asset.json",

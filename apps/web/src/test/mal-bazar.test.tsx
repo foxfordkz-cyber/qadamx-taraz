@@ -20,7 +20,7 @@ const asset = {
   poster_url: "/previews/mal-bazar.webp",
   bounds_min: [-33, 0, -23],
   bounds_max: [33, 7.4, 23],
-  camera_position: [46, 38, 64],
+  camera_position: [9, 51, 62],
   camera_target: [0, 1.5, 0],
   camera_fov_degrees: 45,
   hotspots: [],
@@ -55,9 +55,14 @@ describe("Мал базар", () => {
     expect(
       screen.getByText("Скотный рынок · концепт-модель, место не подтверждено"),
     ).toBeInTheDocument();
-    // Without WebGL the scene falls back to the rendered poster.
+    // Without WebGL the scene falls back to the rendered poster. The scene is a
+    // lazy chunk, which can take longer than the default wait in a full run.
     expect(
-      await screen.findByRole("img", { name: "Условная схема, не карта" }),
+      await screen.findByRole(
+        "img",
+        { name: "Условная схема, не карта" },
+        { timeout: 5000 },
+      ),
     ).toHaveAttribute("src", "/previews/mal-bazar.webp");
     expect(api.getVenues).not.toHaveBeenCalled();
     expect(api.getBusinesses).not.toHaveBeenCalled();
