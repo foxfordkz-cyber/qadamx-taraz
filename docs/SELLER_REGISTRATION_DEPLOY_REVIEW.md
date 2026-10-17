@@ -42,6 +42,14 @@ Documentation changed: this report, `SELLER_REGISTRATION_AUDIT.md`,
 `DECISIONS.md`, and `handoffs/seller-web.md`. Production Backend, contracts,
 generated types, Voice, financial/customer logic, Analytics, public storefront,
 styles/components, Flutter, 3D, dependencies and tracked screenshots are retained.
+Only `docs/DECISIONS.md` overlaps the inspected PR #41 (`7d84cb6`, base deploy-062);
+its production changes do not overlap this Registration diff. PR #42 shares
+translation/documentation files but remains a separate Recovery review.
+
+Own Chromium screenshots, visually checked (synthetic email, no live identity):
+[mobile 360](qa/registration-deploy/registration-waiting-360.png),
+[desktop 1440](qa/registration-deploy/registration-waiting-1440.png).
+These two new files belong to this report; the existing designer gallery is unchanged.
 
 ## Diagnosis of the reported incidents
 
@@ -110,8 +118,29 @@ and process first, then `/me` status, issuer match, CORS and response validation
 
 ## Verification
 
-Final local run is in progress; use the completed results in the seller handoff
-after publication. Do not treat source PR results as a new run.
+Own final run on code `44aaed4fd01284b1115ce8cbb680686260931746`, from this
+worktree (Node 24.21.0/npm 11.19.0), not source PR results:
+
+| Check | Result |
+|---|---|
+| npm ci / check:api / typecheck / lint / build / format:check / diff --check | PASS |
+| Full serial unit/component | **311/311**, 20 files |
+| New Auth deployment diagnostics (included above) | **23/23** |
+| Registration component (included above) | **23/23** |
+| Strict microphone components | **35/35** |
+| Auth/Registration browser | **17/17** |
+| QA Customer/Auth/Seller browser | **21/21** |
+| Synthetic customer → money retry → summary/Analytics journey | **1/1** |
+| Microphone browser | **18/18** |
+| Analytics/Seller/public browser | **24/24** |
+
+No skipped/inverted assertions. The GET retries use the unchanged QueryClient
+policy; no POST retry was introduced. Counts overlap: strict microphone includes
+27 default-suite cases; QA and Analytics repeat 8 Seller cases. Do not sum as
+unique coverage. RU/KZ and 360/390/768/1440 passed in actual Chromium. Two waiting
+screen snapshots were visually reviewed and added to this report's own folder.
+Logs are ignored under `apps/web/test-results/registration-deploy`.
+
 Initial new diagnostic tests exposed two test assumptions: informational Alert
 has role `status`, and GET network/5xx has one 1-second retry. Tests now use the
 actual accessibility role and wait for that policy, preserving error assertions.

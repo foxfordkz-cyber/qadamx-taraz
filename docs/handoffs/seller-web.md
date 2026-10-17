@@ -25,9 +25,12 @@ The old audit and earlier snapshots below remain historical.
 
 Own checks: npm ci/check:api/typecheck/lint/build/format:check PASS; full serial
 unit/component **311/311 in 20 files**, strict microphone **35/35**.
-Browser verification is running; no final browser result is claimed yet.
+Browser verification PASS: Auth/Registration **17/17**, Customer/Auth/Seller QA
+**21/21**, financial retry/Analytics **1/1**, microphone **18/18**,
+Analytics/Seller/public **24/24**. Synthetic SDK/HTTP/audio only; suites overlap.
 Ignored logs: `apps/web/test-results/registration-deploy`; screenshots stay in
-test result folders, not the designer's tracked gallery.
+test result folders. Two visually reviewed 360/1440 PNGs were copied to
+`docs/qa/registration-deploy` for this PR; the designer's gallery is unchanged.
 
 Own read-only production evidence: `/login`, health and OpenAPI 200/API0.6.2;
 anonymous `/me` 401 AUTH_REQUIRED; CORS preflight for the permanent origin 200
@@ -43,9 +46,11 @@ a definitive cause without sanitized incident evidence. No personal Supabase is
 connected to the team API. No live writes, paid AI, physical Android, manual
 deployment, service restart or Supabase settings changes.
 
-Next: finish browser gates, publish own Draft to deploy-062, then captain review
-and separate callback/live acceptance approval. Current exact SHA:
-`git log -1 --format=%H`; do not merge/deploy from these instructions.
+Verified code **44aaed4fd01284b1115ce8cbb680686260931746** was pushed to the own
+branch and local/remote HEAD matched. All requested local gates are complete;
+later commits only record verification/publication. Next: publish the separate
+Draft to deploy-062, captain review and separate callback/live acceptance approval.
+Current exact SHA: `git log -1 --format=%H`; do not merge/deploy from these instructions.
 
 ---
 
