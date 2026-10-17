@@ -32,13 +32,14 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   bool playing = false;
   bool preparing = false;
   Object? localError;
+  int sourceRevision = 0;
   StreamSubscription<void>? playback;
   @override
   void initState() {
     super.initState();
     drafts = CrmDrafts(api, scope)..addListener(changed);
     voice = VoiceCapture()..addListener(changed);
-    text.addListener(drafts.invalidate);
+    text.addListener(sourceChanged);
     playback = player.onPlayerComplete.listen((_) {
       if (mounted) setState(() => playing = false);
     });
@@ -47,6 +48,11 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
 
   void changed() {
     if (mounted) setState(() {});
+  }
+
+  void sourceChanged() {
+    sourceRevision++;
+    drafts.invalidate();
   }
 
   @override
@@ -88,7 +94,7 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   }
 
   Future<void> resetAudio() async {
-    drafts.invalidate();
+    sourceChanged();
     await stopPlayback();
     await voice.cancel();
     if (mounted) setState(() => localError = null);
@@ -96,6 +102,8 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
 
   Future<void> analyze() async {
     if (preparing || drafts.busy || !active) return;
+    final revision = sourceRevision;
+    final sourceText = text.text;
     setState(() {
       preparing = true;
       localError = null;
@@ -103,9 +111,9 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
     try {
       await stopPlayback();
       final bytes = voiceMode ? await voice.bytes() : null;
-      if (!active) return;
+      if (!active || revision != sourceRevision) return;
       await drafts.analyze(
-        text: voiceMode ? null : text.text,
+        text: voiceMode ? null : sourceText,
         wav: bytes,
         locale: kk ? 'kk' : 'ru',
       );
@@ -141,7 +149,7 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    text.removeListener(drafts.invalidate);
+    text.removeListener(sourceChanged);
     text.dispose();
     drafts.removeListener(changed);
     drafts.dispose();

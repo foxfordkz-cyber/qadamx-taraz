@@ -84,6 +84,31 @@ class FakeRecorder implements VoiceRecorderPort {
 }
 
 void main() {
+  test(
+    'cancel waits for stop finalization and cannot resurrect a deleted preview',
+    () async {
+      final recorder = FakeRecorder()..stopResult = Completer<String?>();
+      final voice = VoiceCapture(
+        recorder: recorder,
+        createPath: () async => '/synthetic/audio.wav',
+        read: (_) async => wav(),
+        remove: (_) async {},
+      );
+      await voice.start();
+      final stopping = voice.stop();
+      final cancelling = voice.cancel();
+      await voice.start();
+      expect(recorder.starts, 1);
+      recorder.stopResult!.complete('/synthetic/audio.wav');
+      await stopping;
+      await cancelling;
+      expect(voice.path, isNull);
+      expect(voice.duration, isNull);
+      expect(voice.error, isNull);
+      expect(voice.busy, isFalse);
+      voice.dispose();
+    },
+  );
   late String? account;
   late int epoch;
   late CrmApi api;

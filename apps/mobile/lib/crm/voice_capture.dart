@@ -79,7 +79,9 @@ class VoiceCapture extends ChangeNotifier {
   }
 
   bool recording = false;
-  bool busy = false;
+  bool _working = false;
+  bool _cancelling = false;
+  bool get busy => _working || _cancelling;
   bool _disposed = false;
   int _revision = 0;
   String? path;
@@ -88,6 +90,8 @@ class VoiceCapture extends ChangeNotifier {
   Object? error;
   Timer? _timer;
   Completer<void>? _starting;
+  Completer<void>? _stopping;
+  Completer<void>? _cancellation;
   final Stopwatch _clock = Stopwatch();
   void _notify() {
     if (!_disposed) notifyListeners();
@@ -96,7 +100,7 @@ class VoiceCapture extends ChangeNotifier {
   Future<void> start() async {
     if (busy || recording || _disposed) return;
     final revision = ++_revision;
-    busy = true;
+    _working = true;
     error = null;
     duration = null;
     _notify();
@@ -145,7 +149,7 @@ class VoiceCapture extends ChangeNotifier {
         path = null;
       }
     } finally {
-      busy = false;
+      _working = false;
       starting.complete();
       if (identical(_starting, starting)) _starting = null;
       _notify();
@@ -154,19 +158,26 @@ class VoiceCapture extends ChangeNotifier {
 
   Future<void> stop() async {
     if (!recording || busy || _disposed) return;
-    busy = true;
+    _working = true;
+    final revision = _revision;
+    final stopping = Completer<void>();
+    _stopping = stopping;
     _timer?.cancel();
     _clock.stop();
     _notify();
     try {
       final saved = await recorder.stop();
+      if (_disposed || revision != _revision) return;
       recording = false;
       if (saved == null || saved != path) {
         throw const ApiFailure('AUDIO_INVALID');
       }
-      duration = validateVoiceWav(await read(saved));
+      final bytes = await read(saved);
+      if (_disposed || revision != _revision) return;
+      duration = validateVoiceWav(bytes);
     } catch (_) {
-      error = const ApiFailure('AUDIO_INVALID');
+      if (!_disposed && revision == _revision)
+        error = const ApiFailure('AUDIO_INVALID');
       duration = null;
       try {
         await recorder.cancel();
@@ -179,7 +190,9 @@ class VoiceCapture extends ChangeNotifier {
       }
     } finally {
       recording = false;
-      busy = false;
+      _working = false;
+      stopping.complete();
+      if (identical(_stopping, stopping)) _stopping = null;
       _notify();
     }
   }
@@ -194,11 +207,17 @@ class VoiceCapture extends ChangeNotifier {
   }
 
   Future<void> cancel() async {
+    if (_cancellation != null) return _cancellation!.future;
+    final cancellation = Completer<void>();
+    _cancellation = cancellation;
+    _cancelling = true;
     _revision++;
     _timer?.cancel();
     _clock.stop();
     final starting = _starting;
     if (starting != null) await starting.future;
+    final stopping = _stopping;
+    if (stopping != null) await stopping.future;
     try {
       await recorder.cancel();
     } catch (_) {}
@@ -209,10 +228,13 @@ class VoiceCapture extends ChangeNotifier {
     }
     path = null;
     recording = false;
-    busy = false;
+    _working = false;
+    _cancelling = false;
     duration = null;
     seconds = 0;
     error = null;
+    cancellation.complete();
+    _cancellation = null;
     _notify();
   }
 
