@@ -1,5 +1,6 @@
 export const ru = {
   analyticsPeriodScope: "За выбранный период",
+  analyticsShowCharts: "Показать по дням и часам",
   analyticsCurrentScope: "Сейчас · все даты",
   analyticsActiveCountHint: "Только действующие продажи, без отменённых",
   analyticsDebtorsCount: "Количество должников",

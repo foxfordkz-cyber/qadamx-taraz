@@ -59,7 +59,6 @@ function moveBar(
   else return;
   event.preventDefault();
   buttons[next]?.focus({ preventScroll: true });
-  buttons[next]?.scrollIntoView({ block: "nearest", inline: "nearest" });
 }
 
 function useSelectedBarScroll(
@@ -71,19 +70,40 @@ function useSelectedBarScroll(
     const container = viewport.current;
     const button = buttons.current[selected];
     if (!container || !button) return;
-    // Scroll only the chart, never the document. Mobile initially shows today
-    // and the busiest registration hour rather than an off-screen selection.
-    const center = () => {
-      const position =
-        button.getBoundingClientRect().left -
-        container.getBoundingClientRect().left +
-        container.scrollLeft;
-      container.scrollLeft =
-        position - (container.clientWidth - button.offsetWidth) / 2;
+    // Fit whole columns and align the scroll to their boundaries. Arbitrary
+    // centering clipped edge labels (including the month) on narrow viewports.
+    // Only scroll this chart; leave the document and the selected value alone.
+    const align = () => {
+      const row = button.parentElement;
+      if (!row || container.clientWidth === 0) return;
+      const style = getComputedStyle(container);
+      const available =
+        container.clientWidth -
+        parseFloat(style.paddingLeft) -
+        parseFloat(style.paddingRight);
+      const gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+      const minimum = parseFloat(getComputedStyle(button).minWidth);
+      const visible = Math.max(
+        1,
+        Math.min(
+          buttons.current.length,
+          Math.floor((available + gap) / (minimum + gap)),
+        ),
+      );
+      const width = (available - gap * (visible - 1)) / visible;
+      row.style.setProperty("--analytics-bar-width", `${width}px`);
+      const first = Math.max(
+        0,
+        Math.min(
+          selected - Math.floor((visible - 1) / 2),
+          buttons.current.length - visible,
+        ),
+      );
+      container.scrollLeft = first * (width + gap);
     };
-    center();
+    align();
     if (typeof ResizeObserver === "undefined") return;
-    const observer = new ResizeObserver(center);
+    const observer = new ResizeObserver(align);
     observer.observe(container);
     return () => observer.disconnect();
   }, [selected, buttons]);

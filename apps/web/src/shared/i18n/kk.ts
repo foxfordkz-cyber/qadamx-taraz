@@ -1,6 +1,7 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
   analyticsPeriodScope: "Таңдалған кезеңде",
+  analyticsShowCharts: "Күндер мен сағаттар бойынша көрсету",
   analyticsCurrentScope: "Қазір · барлық күндер",
   analyticsActiveCountHint: "Тек күші жойылмаған сатылымдар",
   analyticsDebtorsCount: "Борышкерлер саны",
