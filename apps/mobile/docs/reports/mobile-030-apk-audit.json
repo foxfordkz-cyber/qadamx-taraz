@@ -27,12 +27,13 @@
     "armeabi-v7a",
     "x86_64"
   ],
-  "physical_android_acceptance": "NOT_PERFORMED_NO_DEVICE",
+  "physical_android_acceptance": "USER_REPORTED_INSTALL_FAILURE_INVALID_PACKAGE",
   "scope": "Static artifact/config inspection, not proof of runtime login or physical device behavior.",
   "build_mode": "release_internal_debug_signed",
   "package": "kz.qadam.qadam_mobile",
   "min_sdk": 24,
   "target_sdk": 36,
   "signature_v2_verified": true,
-  "same_signing_certificate_as_0_2_2": true
+  "same_signing_certificate_as_0_2_2": true,
+  "physical_install_failure_details": "User screenshot; model, Android version and exact Package Manager code unknown. No successful installation confirmed."
 }

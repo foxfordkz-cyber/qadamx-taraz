@@ -1,4 +1,4 @@
-# 17 октября 2026 — отказ установки 0.3.0, подготовка 0.3.1
+# 17 октября 2026 — APK 0.3.1, расследование отказа установки 0.3.0
 
 Пользователь прислал скриншот Android: установка `qadam-0.3.0-434f791-internal.apk`
 завершилась сообщением «App not installed as package appears to be invalid».
@@ -15,9 +15,41 @@ ZIP CRC, apksigner v2, zipalign `-c -P 16 4` проходят. Все ELF LOAD �
 сжатые native-библиотеки с извлечением при установке (`useLegacyPackaging=true`)
 и подписи v1/v2/v3. Это совместимый альтернативный способ упаковки по
 [Android docs](https://developer.android.com/guide/practices/page-sizes#update-packaging),
-а не доказанное исправление причины на телефоне. Сборка и публикация кандидата — следующий шаг.
+а не доказанное исправление причины на телефоне. APK собран; статические проверки перечислены ниже. Успешная установка 0.3.1 на телефоне пока не подтверждена.
 Не удалять установленный Qadam, не очищать его данные и не обходить ограничения установщика.
 Backend, финансовая логика, API-конфигурация и production deploy не менялись.
+
+## Кандидат APK 0.3.1+7
+
+[Скачать 0.3.1](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.3.1-install.1/qadam-0.3.1-10f8c5a-internal.apk).
+Source commit: **10f8c5aa8e374708fb2e4307c4dfb5f9198911d8**.
+Файл **25837095 bytes** (24,6 MiB); SHA256:
+**d616cabd26c7b02e6f4bd3b50e0fae9df184ff76d8cbc50de84e0ddb909f1f8e**.
+Package `kz.qadam.qadam_mobile`, versionCode=7, minSdk=24, targetSdk=36.
+Публичные постоянные Render/Vercel URL и прежний Supabase config сохранены.
+
+- `tool/build_android.ps1 ... -Release`: PASS, assembleRelease 323,6с.
+- `apksigner verify`: v2/v3 PASS; v1 отдельно проверена с override диапазона SDK23
+  (это проверка подписи JAR, не поддержка установки на Android6). Сертификат прежний.
+- ZIP CRC и zipalign `-c -P 16 4`: PASS. Все 12 native `.so` сжаты;
+  `extractNativeLibs=true`, ELF LOAD >=16KiB; ARM32/ARM64/x86_64 сохранены.
+- [Аудит APK](../../apps/mobile/docs/reports/mobile-031-apk-audit.json): public config
+  найден, private configuration/server key patterns/trycloudflare — 0.
+- Dart runtime и зависимости не менялись; прежние 95 unit/widget тестов и анализатор
+  относятся к 0.3.0. Повторный полный mock-прогон не выдаётся за проверку установки.
+- `tool/check_android_install.ps1`: PowerShell parse PASS; неправильная checksum
+  и отсутствие ADB-устройства корректно останавливают установку. Положительный
+  сценарий команды ещё не проверен. Скрипт не читает logcat/данные приложения/токены,
+  не выводит serial/IMEI и не удаляет данные; сохраняет код `INSTALL_FAILED_...`.
+- Эмулятор не дал результата установки: существующий образ API29 имеет только x86,
+  запуск упёрся в память ПК, Package Manager не был готов. Загрузка подходящего
+  API36/x86_64 не завершилась за ограниченное окно. Созданный тестовый AVD удалён;
+  успешная эмуляторная/физическая установка **не заявляется**.
+
+[Команда диагностики и чек-лист](../../apps/mobile/docs/NATIVE_ANDROID_ACCEPTANCE.md).
+Следующее доказательство — установка 0.3.1 на устройстве пользователя либо точный
+код отказа через ADB. Отказ 0.3.0 остаётся открытым, пока этого доказательства нет.
+Draft PR #53 сохранён; main/backend/БД/production deploy/платный AI не менялись.
 
 ## Предыдущая передача: Qadam Business, native CRM 0.3.0+6
 

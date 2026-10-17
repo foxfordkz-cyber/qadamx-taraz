@@ -1,14 +1,40 @@
-# Qadam Business 0.3.0: приёмка на Android
+# Qadam Business 0.3.1: приёмка на Android
 
-Статус: **НЕ ВЫПОЛНЕНА — телефон не подключён**. Автотесты и APK-аудит не заменяют этот проход.
+Статус 0.3.1: **НЕ ВЫПОЛНЕНА — телефон не подключён к ADB**.
+Предыдущая 0.3.0: **FAIL установки** по скриншоту пользователя — «package appears to be invalid».
+Причина пока неизвестна. 0.3.1 — кандидат с изменённой упаковкой, не подтверждённое
+исправление на телефоне. Автотесты и APK-аудит не заменяют этот проход.
 
 ## Артефакт
 
-Source commit: `434f791ea8725ec05844915947391ed57030cb55`; версия `0.3.0+6`.
+Source commit: `10f8c5aa8e374708fb2e4307c4dfb5f9198911d8`; версия `0.3.1+7`.
 Постоянные адреса: `https://qadamx-taraz.onrender.com/api/v1` и `https://qadamx-taraz.vercel.app`.
-[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.3.0-native.1/qadam-0.3.0-434f791-internal.apk) — `qadam-0.3.0-434f791-internal.apk`, 57263712 bytes.
-SHA256: `80b26e9547d3747373b63eac978257862323e8a09548df4dd7b63268aa5b9309`. Подпись совпадает с предыдущей 0.2.2.
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.3.1-install.1/qadam-0.3.1-10f8c5a-internal.apk) — `qadam-0.3.1-10f8c5a-internal.apk`, 25837095 bytes.
+SHA256: `d616cabd26c7b02e6f4bd3b50e0fae9df184ff76d8cbc50de84e0ddb909f1f8e`. Сертификат совпадает с 0.1.1/0.2.2/0.3.0.
 Внутренний release APK с debug-подписью, Android 7.0+, package `kz.qadam.qadam_mobile`.
+
+## Если Android снова отклоняет пакет
+
+Не удалять Qadam и не очищать данные. Скачать именно 0.3.1 по ссылке выше и открыть
+из загрузок, разрешив установку этому браузеру/файловому менеджеру только обычным
+системным способом. Не отключать защиту телефона и не использовать обходы установщика.
+Если отказ повторится, нужен точный код Package Manager, а не новая переустановка наугад.
+
+На компьютере с Android Platform Tools, подключённым по USB телефоном и разрешённой
+отладкой запустить из `apps/mobile` (путь к скачанному APK заменить своим):
+
+```powershell
+./tool/check_android_install.ps1 -ApkPath C:/Downloads/qadam-0.3.1-10f8c5a-internal.apk `
+  -ExpectedSha256 d616cabd26c7b02e6f4bd3b50e0fae9df184ff76d8cbc50de84e0ddb909f1f8e `
+  -Install
+```
+
+При необходимости передать `-AdbPath C:/Android/platform-tools/adb.exe`.
+Скрипт проверяет checksum, фиксирует модель/Android/ABI/установленную версию и
+использует `adb install --no-streaming -r`, сохраняя данные. JSON содержит только
+метаданные и код `INSTALL_FAILED_...`, без serial/IMEI, логов приложения и токенов.
+Без `-Install` он только читает метаданные. Несовпадение hash или отсутствие
+авторизованного устройства останавливают работу до установки.
 
 ## Короткий проход (учебные точки и данные)
 
@@ -50,7 +76,7 @@ SHA256: `80b26e9547d3747373b63eac978257862323e8a09548df4dd7b63268aa5b9309`. По
 | Поле / шаг | Факт |
 |---|---|
 | Модель / Android / участник | Не предоставлены |
-| APK / source SHA | 0.3.0+6 / 434f791ea8725ec05844915947391ed57030cb55 |
+| APK / source SHA | 0.3.1+7 / 10f8c5aa8e374708fb2e4307c4dfb5f9198911d8 |
 | Установка, запуск, RU/KZ, клавиатура | НЕ ПРОВЕРЕНО |
 | A/B, выбор точки, браузер, изоляция | НЕ ПРОВЕРЕНО |
 | Продажа, клиент, доплата, history/recovery | НЕ ПРОВЕРЕНО |
