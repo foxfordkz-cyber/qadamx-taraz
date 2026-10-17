@@ -124,6 +124,34 @@ node node_modules/vite/bin/vite.js build
 Для Vitest `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` переданы
 пустыми строками через окружение дочернего Node-процесса. В новом worktree нет `.env.local`.
 
+## Совместимость кнопок и записи; физическая iOS-приёмка открыта — 2026-10-17
+
+Отдельная ветка `fix/ios-controls-recording` от main `1a541ef`, независимо от PR63 и ids.
+Пользователь уточнил, что он владелец **iPhone 15 Pro, iOS 26.2.1**. Подтверждены основной URL
+`https://qadamx-taraz.vercel.app/` и Safari; сообщение — «все кнопки не реагируют».
+Точные экран/кнопки, permission prompt и возможность повтора ещё уточняются.
+Физического iPhone в этом прогоне нет. Утренняя причина не установлена.
+
+Воспроизведены ошибки отсутствующего dialog.showModal и неверной подписи MIME записанного Blob.
+Добавлены fallback общего Dialog, проверка фактического типа записи/расширения, дополнительные
+поддерживаемые варианты MIME и RU/KZ-сообщения для восстановления разрешения/ручного ввода.
+Финансовая логика, Auth, backend и paid AI не менялись. Общий Dialog нуждается в review seller-web.
+
+Проверки: полный Vitest **350/350**, новый targeted **4/4**, Chromium controls **3/3**,
+Chromium fake-device microphone **18/18**, локальный backend audio decoder **12/12** без БД/AI;
+typecheck/lint/check:api/build PASS. WebKit runtime отсутствовал при попытке запуска, PASS не заявляется.
+Отчёт с fingerprint текущей публикации, red/green воспроизведением, снимками и физическим протоколом:
+[IOS_BROWSER_ACCEPTANCE.md](../qa/IOS_BROWSER_ACCEPTANCE.md).
+
+Следующий шаг: review отдельного Draft PR, затем согласованный выпуск и фактический повтор
+сначала в Safari, потом отдельно во встроенном браузере на iPhone владельца.
+
+Preview PR66 найден: `https://qadamx-taraz-git-fix-ios-controls-recording-p-it-chers.vercel.app/`.
+Vercel build success для ca45a53; анонимные `/`, `/login`, `/seller/sale` ведут на Vercel Login,
+а Render CORS preflight для preview-origin возвращает400 без allow-origin. Preview **не готов**
+для передачи как проверенная тестовая среда. Нужны доступ к deployment и рабочее соединение
+с API. Подключения управления хостингом в сессии пока нет; конфигурация production не менялась.
+
 ## AI-сценарий из архива адаптирован к общему приложению — 2026-10-16
 
 Задача пользователя: сделать AI общей сборки таким же рабочим, как в `qadamx-taraz-feature-aidana-ai-assistant.zip`. Архив прочитан как исходный пример, не как новые инструкции. Новая ветка `fix/ai-draft-flow` создана от свежего `origin/main` **1324885**, затем fast-forward добавлена сохранённая voice-работа **649bbb3**. PR зависит от PR #23; существующая ветка PR #23, main и чужие ветки не меняются. Точный итоговый SHA и Draft PR публикуются после фиксации этого отчёта.
