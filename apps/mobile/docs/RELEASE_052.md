@@ -81,7 +81,7 @@ mock/widget-тесты не доказывают живые операции.
 | Магазин / каталог → PublicShopPage | GET shop по slug | Да / да | Нативная шапка, номер, каталог/null-цена, CTA | Галерея и widget-путь; фото/контакты API отсутствуют |
 | Заявка → InquiryForm | POST inquiry, client_request_id; публичного lookup нет | Да / да | Явная отправка, тот же ID/body при retry, draft сохранён | Unit/widget unknown→422/restart/retry, двойное нажатие, account change; живой отправки в этой версии нет |
 | Вход / профиль / точка → Supabase SDK + BusinessAccess | SDK session/refresh + GET me | Да / да | Вход/выход, zero-membership/email, выбор своей точки | Автотесты A/B/epoch/late-response; реальный A/B в этом APK не проверен |
-| Регистрация / confirmation / resend / reset | Auth owner PR43: нет точного mobile callback/allowlist | Нет / нет | Невключённая зависимость, без фиктивной регистрации | [Запрос Бекзату](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6235945369) |
+| Регистрация / confirmation / resend / reset | PR43: URI приняты mobile, allowlist/handler/email ещё не готовы | Нет / нет | Невключённая зависимость, без фиктивной регистрации | [Согласование URI и gates](AUTH_CALLBACK_HANDOFF.md) |
 | Главная продавца → CrmDashboard | GET server summary | Да / да | Основное действие, серверные4KPI, группы действий | Synthetic галерея/failed-read tests |
 | Продажа / AI / голос → CrmEntryPage/OperationForm | Действующие draft/operation API | Да / да | Preview/edit/confirm, pause/import/playback, явная отправка | Synthetic tests cancellation/late response/unknown paid; микрофон и платныйAI не проверялись |
 | Клиенты → CustomersPage | GET/POST customers + recovery; PATCH отсутствует | Да / да, редактирования нет | Поиск/create/серверный баланс; неизвестный ответ восстанавливается | Recovery/изоляция в полном наборе |
@@ -108,8 +108,9 @@ mock/widget-тесты не доказывают живые операции.
 - Не было живых финансовых действий, платныхAI, внешних заявок, смены memberships
   или конфигурации общего Auth. Пароли/JWT/ключи не переносились через URL.
 
-Конкретные внешние зависимости: @bekzatwr/владелец PR43 — mobile callback,
-association/allowlist и живое письмо; @ab0ka — повторное визуальное review;
+Конкретные оставшиеся условия: владелец PR43/капитан — фиксация общего контракта,
+exact allowlist и живое письмо; mobile — реализация native handler/screens после
+согласования; @ab0ka — [повторное визуальное review запрошено](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60#issuecomment-6236426229);
 backend — customer PATCH, product POST/PATCH, поля фото/контактов магазина и фото товаров.
 Пакетный customer lookup не угадывает поддержку по версии0.6.2: проверяет capability
 и отбрасывает незапрошенные ID; при ошибке не подставляет первую страницу клиентов.
@@ -118,3 +119,12 @@ backend — customer PATCH, product POST/PATCH, поля фото/контакт
 Android и точного кода Package Manager. Не предлагать удаление приложения первым шагом.
 Реальные сессия/pending при обновлении и физический микрофон не приняты.
 Старый recording.webm не искали; его инцидент не закрыт.
+
+
+## Новое согласование Auth после сборки
+
+Владелец43 предложил точные URI; mobile [принял их](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6236483616).
+[Мобильная часть договора](AUTH_CALLBACK_HANDOFF.md). В APK0.5.2 нового callback
+ещё нет; allowlist и настоящий возврат не подтверждены. Source/checksum APK не изменились.
+Автоматический Vercel check сообщил free deployment rate limit; вручную web не разворачивали,
+хостинг/тарифы не меняли. Это отдельный check, не ошибка Flutter-сборки.

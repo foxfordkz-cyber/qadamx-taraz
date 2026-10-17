@@ -40,9 +40,12 @@ Android SDK эмулятор Android7/API24/x86_64: **обновление10→1
 [Физический чек-лист](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
 
 Auth: Бекзату отправлен [запрос точного mobile callback/allowlist](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6235945369).
-Ответа с согласованным URI пока нет; регистрацию/email/resend/reset не включали
-и реальное письмо не проверяли. Повторное review Абзала запрашивается на опубликованные
-исправления, его одобрение не заявляется. Backend-зависимости и доказательства каждого
+Получен ответ владельца43 с точными URI, mobile их принял:
+[согласование и условия следующего этапа](../../apps/mobile/docs/AUTH_CALLBACK_HANDOFF.md).
+В APK0.5.2 native callback/signup/resend/reset ещё не включены; implementation,
+allowlist и реальное письмо остаются незавершёнными.
+[Повторное review Абзала запрошено](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60#issuecomment-6236426229),
+он назначен reviewer; одобрение не заявляется. Backend-зависимости и доказательства каждого
 P2 перечислены в RELEASE_052.md. PR сохраняется Draft до внешней приёмки.
 
 Команды из apps/mobile: `flutter analyze --no-pub`,
