@@ -1,16 +1,8 @@
 import { lazy, Suspense, useState } from "react";
 import { useT } from "./i18n";
+import { hasWebGL } from "./webgl";
 
 const MalBazarScene = lazy(() => import("./MalBazarScene"));
-
-const hasWebGL = () => {
-  try {
-    const c = document.createElement("canvas");
-    return !!(c.getContext("webgl2") || c.getContext("webgl"));
-  } catch {
-    return false;
-  }
-};
 
 // Plan view of the same conceptual layout as the 3D scheme: six pens, a shaded aisle, one gate.
 function MalBazarPlan({ label }: { label: string }) {

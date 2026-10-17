@@ -1,29 +1,16 @@
-import { lazy, Suspense, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getVenues } from "./api";
 import { useFetch } from "./hooks";
 import { useT } from "./i18n";
-import { venueBlocks } from "./layout";
 import { LangSwitch, State } from "./ui";
 import { MalBazarSection } from "./MalBazar";
+import { VenueShowcase } from "./VenueShowcase";
 import "./explore.css";
 
-const Scene = lazy(() => import("./Scene")); // three.js грузится отдельным чанком
-
 export default function ExplorePage() {
-  const { t, name, categoryName } = useT();
-  const nav = useNavigate();
+  const { t } = useT();
   const { data, loading, error, reload } = useFetch(getVenues, []);
-  const [hover, setHover] = useState<string | null>(null);
-  const [picked, setPicked] = useState<string | null>(null);
   const venues = data ?? [];
-  const blocks = useMemo(() => venueBlocks(venues), [data]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const open = (slug: string) => {
-    setPicked(slug); // камера подлетает, затем переход
-    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setTimeout(() => nav(`/venues/${slug}`), reduced ? 0 : 450);
-  };
 
   return (
     <main className="ex">
@@ -111,23 +98,6 @@ export default function ExplorePage() {
         </div>
       </section>
 
-      <Suspense
-        fallback={
-          <p className="state" role="status" aria-busy="true">
-            {t("loading_scene")}
-          </p>
-        }
-      >
-        {venues.length > 0 && (
-          <Scene
-            blocks={blocks}
-            selectedId={picked}
-            hoverId={hover}
-            onSelect={open}
-          />
-        )}
-      </Suspense>
-
       <section id="venues" aria-labelledby="venues-h">
         <div className="section-heading">
           <div>
@@ -150,50 +120,7 @@ export default function ExplorePage() {
               </div>
             </div>
           ) : (
-            <ul className="cards">
-              {venues.map((v, index) => (
-                <li key={v.id}>
-                  <Link
-                    className={`card venue-card venue-card--${(index % 3) + 1}`}
-                    to={`/venues/${v.slug}`}
-                    onMouseEnter={() => setHover(v.slug)}
-                    onMouseLeave={() => setHover(null)}
-                    onFocus={() => setHover(v.slug)}
-                    onBlur={() => setHover(null)}
-                  >
-                    <span className="card-index" aria-hidden="true">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    {v.asset ? (
-                      <img
-                        className="venue-poster"
-                        src={v.asset.poster_url}
-                        alt={name(v)}
-                      />
-                    ) : (
-                      <span className="venue-art" aria-hidden="true">
-                        <span className="venue-art-hall venue-art-hall--one" />
-                        <span className="venue-art-hall venue-art-hall--two" />
-                        <span className="venue-art-stall" />
-                        <span className="venue-art-sun" />
-                      </span>
-                    )}
-                    <h3>
-                      {name(v)}{" "}
-                      <span className="card-arrow" aria-hidden="true">
-                        ↗
-                      </span>
-                    </h3>
-                    <p className="muted">
-                      {v.categories.map(categoryName).join(", ")}
-                    </p>
-                    <span className="card-open">
-                      {t("open_venue")} <span aria-hidden="true">→</span>
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <VenueShowcase venues={venues} />
           )}
         </State>
       </section>
