@@ -1,5 +1,22 @@
 # Передача работы backend
 
+## 2026-10-17 — условия совместного review #70 / #72
+
+[План выпуска, backup/restore и отката](../PUBLIC_DATA_MARKETS_ROLLOUT.md) дополнен
+матрицей старых web/Flutter, защитой legacy listings, ids/recovery и CORS.
+Целевой повтор на отдельной PostgreSQL: **60 PASS**, часть прежнего полного набора357.
+Код Auth/config/customer service/ledger и прежние маршруты ids/recovery сохранены.
+Настоящий Render HTTPS preflight разрешает Pages, Vercel, Preview43 и прежний Cloudflare
+origin; посторонний origin отклонён. Environment не менялся; полный список origins
+перед окном нужно сохранить из панели, а не заменить известными четырьмя адресами.
+
+Свежий backup/restore общей БД и испытание rollback на восстановленной копии — условия
+будущего окна, **ещё не выполнены**. Старый API игнорирует market_id и не проверяет
+статус рынка: после появления canonical links обычный откат может раскрыть скрытое.
+Нужен forward fix либо подготовленный guard, а не простой возврат старого приложения.
+Миграции/Render не переключены, registry остаётся пустым, reviewed=false до языкового
+review #70. В этом дополнении изменена только документация; production-записей нет.
+
 ## 2026-10-17 — PR B #72: канонические рынки, кандидат API 0.6.3
 
 Ветка backend/canonical-markets, Draft PR #72 поверх backend/public-localization
