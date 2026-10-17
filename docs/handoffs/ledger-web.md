@@ -70,6 +70,9 @@ Render `3061623`/API 0.7.0 и включённом `ASSISTANT_ENABLED=true` (01:
 `VITE_ASSISTANT_ENABLED=true`. Повторный backend deployment для этой UI-правки
 не нужен. Публикация Git отдельно от публикации Pages/Render.
 
+Передано: код **48a1ce7**, ветка опубликована, [Draft PR #87](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/87)
+содержит четыре снимка и результаты проверок. Main и Pages этой задачей не изменялись.
+
 ## Подключение PR61 под выключенным флагом — 2026-10-17
 
 Ветка `fix/ledger-customer-ids-gated` продолжает `ae593c1` (PR63); сам PR63 и его ветка не менялись.
