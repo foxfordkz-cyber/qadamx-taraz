@@ -6,6 +6,7 @@ import 'crm_pages.dart';
 import 'crm_ui.dart';
 import 'crm_entry.dart';
 import 'crm_analytics.dart';
+import 'crm_catalog.dart';
 
 class CrmDashboard extends CrmScreen {
   const CrmDashboard({
@@ -13,7 +14,9 @@ class CrmDashboard extends CrmScreen {
     required super.runtime,
     required super.business,
     required super.kk,
+    this.slug = '',
   });
+  final String slug;
   @override
   State<CrmDashboard> createState() => _CrmDashboardState();
 }
@@ -154,6 +157,9 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
             business: widget.business,
             kk: kk,
           ),
+      if (widget.slug.isNotEmpty)
+        action('Каталог', 'Каталог', Icons.inventory_2_outlined,
+          CatalogPage(runtime: widget.runtime, business: widget.business, kk: kk, slug: widget.slug)),
         ),
         crmGap,
       ],

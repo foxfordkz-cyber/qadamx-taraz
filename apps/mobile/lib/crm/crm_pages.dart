@@ -702,6 +702,57 @@ class _InquiriesPageState extends CrmScreenState<InquiriesPage> {
     }
   }
 
+  String statusLabel(String status) => switch (status) {
+    'new' => tr(kk, 'Новая', 'Жаңа'),
+    'in_progress' => tr(kk, 'В работе', 'Жұмыста'),
+    _ => tr(kk, 'Закрыта', 'Жабық'),
+  };
+  Future<void> update(CrmJson item, String status) async {
+    if (busy || !active) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          tr(kk, 'Изменить статус заявки?', 'Өтінім күйін өзгерту керек пе?'),
+        ),
+        content: Text('${item['visitor_name']} → ${statusLabel(status)}'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(tr(kk, 'Отмена', 'Бас тарту')),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(tr(kk, 'Подтвердить', 'Растау')),
+          ),
+        ],
+      ),
+    );
+    if (!active || confirmed != true) return;
+    setState(() {
+      busy = true;
+      error = null;
+    });
+    try {
+      final value = await api.updateInquiry(
+        scope,
+        item['id'] as String,
+        status,
+      );
+      if (active)
+        setState(
+          () => items = [
+            for (final old in items)
+              if (old['id'] == value['id']) value else old,
+          ],
+        );
+    } catch (e) {
+      if (active) setState(() => error = e);
+    } finally {
+      if (active) setState(() => busy = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => page(
     'Заявки',
@@ -712,8 +763,8 @@ class _InquiriesPageState extends CrmScreenState<InquiriesPage> {
         Text(
           tr(
             kk,
-            'Просмотр заявок. Изменить статус можно в кабинете в браузере.',
-            'Өтінімдерді қарау. Күйін браузердегі кабинетте өзгертуге болады.',
+            'Заявки с витрины. Изменение статуса не создаёт продажу.',
+            'Витринадан түскен өтінімдер. Күйді өзгерту сатылым жасамайды.',
           ),
         ),
         OutlinedButton(
@@ -734,6 +785,17 @@ class _InquiriesPageState extends CrmScreenState<InquiriesPage> {
               'in_progress' => tr(kk, 'В работе', 'Жұмыста'),
               _ => tr(kk, 'Закрыта', 'Жабық'),
             }),
+            Wrap(
+              spacing: 8,
+              children: [
+                for (final status in ['new', 'in_progress', 'closed'])
+                  if (status != item['status'])
+                    OutlinedButton(
+                      onPressed: busy ? null : () => update(item, status),
+                      child: Text(statusLabel(status)),
+                    ),
+              ],
+            ),
           ]),
         if (next != null)
           OutlinedButton(

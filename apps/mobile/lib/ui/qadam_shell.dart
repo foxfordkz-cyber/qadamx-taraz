@@ -365,6 +365,7 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
                       ),
                       runtime: runtime,
                       business: access.selectedId!,
+                      slug: access.selected!.slug,
                       kk: kk,
                     ),
                   _webAccess(),

@@ -4,6 +4,16 @@ import '../data/api_failure.dart';
 import '../data/money.dart';
 
 typedef CrmJson = Map<String, dynamic>;
+void validateInquiry(CrmJson value, String business) {
+  crmBusiness(value, business);
+  crmId(value, 'id');
+  for (final key in ['visitor_name', 'contact', 'message', 'created_at']) {
+    crmString(value, key);
+  }
+  if (!const ['new', 'in_progress', 'closed'].contains(value['status']))
+    throw const ApiFailure('INVALID_RESPONSE');
+}
+
 final crmUuid = RegExp(r'^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$');
 
 CrmJson crmObject(Object? value) {

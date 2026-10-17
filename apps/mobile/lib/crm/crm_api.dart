@@ -169,14 +169,70 @@ class CrmApi {
           'inquiries',
           query: {'limit': '50', 'cursor': ?cursor},
         ),
-        (item) {
-          crmBusiness(item, scope.business);
-          crmId(item, 'id');
-          for (final key in ['visitor_name', 'contact', 'message', 'status']) {
-            crmString(item, key);
-          }
-        },
+        (item) => validateInquiry(item, scope.business),
       );
+
+  Future<CrmJson> updateInquiry(
+    CrmScope scope,
+    String id,
+    String status,
+  ) async {
+    if (!crmUuid.hasMatch(id) ||
+        !const ['new', 'in_progress', 'closed'].contains(status))
+      throw const ApiFailure('VALIDATION_ERROR');
+    final result = await request(
+      scope,
+      'PATCH',
+      'inquiries/$id',
+      body: {'status': status},
+    );
+    validateInquiry(result, scope.business);
+    if (result['id'] != id || result['status'] != status)
+      throw const ApiFailure('INVALID_RESPONSE');
+    return result;
+  }
+
+  Future<CrmJson> catalog(CrmScope scope, String slug) async {
+    check(scope);
+    if (slug.isEmpty || slug.contains('/') || slug.contains('..'))
+      throw const ApiFailure('VALIDATION_ERROR');
+    final request = http.Request(
+      'GET',
+      baseUrl.replace(pathSegments: ['api', 'v1', 'businesses', slug]),
+    );
+    request.followRedirects = false;
+    try {
+      final response = await client
+          .send(request)
+          .then(http.Response.fromStream)
+          .timeout(timeout);
+      check(scope);
+      if (response.statusCode != 200) throw const ApiFailure('CRM_UNAVAILABLE');
+      final value = crmObject(jsonDecode(utf8.decode(response.bodyBytes)));
+      if (value['id'] != scope.business ||
+          value['slug'] != slug ||
+          value['catalog'] is! List ||
+          value['is_demo'] is! bool)
+        throw const ApiFailure('INVALID_RESPONSE');
+      crmString(value, 'name');
+      for (final raw in value['catalog'] as List) {
+        final item = crmObject(raw);
+        crmBusiness(item, scope.business);
+        crmId(item, 'id');
+        crmString(item, 'name');
+        if (item['price_minor'] != null)
+          crmInt(item, 'price_minor', nonnegative: true);
+        if (item['is_demo'] is! bool || item['available'] is! bool)
+          throw const ApiFailure('INVALID_RESPONSE');
+      }
+      return value;
+    } on ApiFailure {
+      rethrow;
+    } catch (_) {
+      check(scope);
+      throw const ApiFailure('CRM_UNAVAILABLE');
+    }
+  }
 
   void validateBody(String action, CrmJson body) {
     bool text(String key, int max, {bool empty = true}) =>
