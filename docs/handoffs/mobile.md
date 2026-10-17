@@ -1,5 +1,20 @@
 # Mobile · единое приложение Qadam · API 0.6.2
 
+## 2026-10-17 — постоянный APK и начало нативной CRM от актуального main
+
+Новая работа начата от **8ee78ae58e529e3e32c11082a425576b558b0f9e**, проверены PR15/25
+и remote mobile/recovery heads. Существующее приложение не переписывается.
+[Матрица функций и этапы](../../apps/mobile/docs/NATIVE_CRM_PLAN.md).
+
+[APK 0.2.2+5](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.2.2-hosted.1/qadam-0.2.2-96ef1c4-debug.apk),
+source **96ef1c42ba341dc9fcdc6539d9ee499ab797c178**, **167895465 bytes**,
+SHA256 **6b34d1f7abd01bea036fb02a2d1898f8905dd18b9e0d6d9577a88138b79bcf8f**.
+GitHub asset digest совпадает; постоянные Render/Vercel URL проверены в APK,
+7 config tests и подпись PASS. [Чек-лист](../../apps/mobile/docs/ANDROID_TEAM_HANDOFF.md).
+Android не подключён: все физические шаги НЕ ВЫПОЛНЕНЫ. Сейчас CRM — браузерная;
+нативны оболочка/Auth/выбор точки/Мал базар. С компьютера OpenAPI0.6.2 совпал с контрактом,
+Vercel login200; это не авторизованная или Android-приёмка. Paid AI calls — 0.
+
 ## Передача участнику с Android — 2026-10-16
 
 Подготовлена [инструкция участнику и протокол шести шагов](../../apps/mobile/docs/ANDROID_TEAM_HANDOFF.md):
