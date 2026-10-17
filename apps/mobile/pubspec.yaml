@@ -40,6 +40,9 @@ flutter:
     - family: QadamKazakh
       fonts:
         - asset: assets/fonts/NotoSans-Cyrillic.ttf
+    - family: QadamSymbols
+      fonts:
+        - asset: assets/fonts/NotoSans-LatinExt.ttf
   assets:
     - assets/venues/
     - assets/venues/models/

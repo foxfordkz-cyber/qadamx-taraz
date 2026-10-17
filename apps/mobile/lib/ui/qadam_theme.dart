@@ -18,7 +18,7 @@ class QadamTheme {
     final base = ThemeData(
       useMaterial3: true,
       fontFamily: 'Manrope',
-      fontFamilyFallback: const ['QadamKazakhExt', 'QadamKazakh'],
+      fontFamilyFallback: const ['QadamKazakhExt', 'QadamKazakh', 'QadamSymbols'],
       colorScheme: ColorScheme.fromSeed(seedColor: green).copyWith(
         primary: green,
         onPrimary: surface,
@@ -77,7 +77,7 @@ class QadamTheme {
         surfaceTintColor: Colors.transparent,
         titleTextStyle: TextStyle(
           fontFamily: 'Manrope',
-          fontFamilyFallback: ['QadamKazakhExt', 'QadamKazakh'],
+          fontFamilyFallback: ['QadamKazakhExt', 'QadamKazakh', 'QadamSymbols'],
           color: ink,
           fontSize: 20,
           fontWeight: FontWeight.w800,
