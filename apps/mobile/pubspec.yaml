@@ -44,6 +44,7 @@ flutter:
       fonts:
         - asset: assets/fonts/NotoSans-LatinExt.ttf
   assets:
+    - assets/data/livestock-price-sources.json
     - assets/fonts/Manrope-OFL.txt
     - assets/fonts/NotoSans-OFL.txt
     - assets/venues/

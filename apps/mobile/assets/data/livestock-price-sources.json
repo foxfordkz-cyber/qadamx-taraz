@@ -1,0 +1,67 @@
+{
+  "collected_on": "2026-10-17",
+  "currency": "KZT",
+  "locality": "Тараз",
+  "species": "cattle",
+  "price_basis": "listing",
+  "availability_confirmed": false,
+  "entries": [
+    {
+      "id": "taraz-bulls-20261013",
+      "title_ru": "Бычки",
+      "title_kk": "Бұқалар",
+      "price_minor": 22500000,
+      "published_on": "2026-10-13",
+      "source_url": "https://www.olx.kz/zhivotnye/selskohozyaystvennye-zhivotnye/korovy-byki/q-%D0%BC%D0%B5%D1%81%D1%8F%D1%87%D0%BD%D1%8B%D0%B5-%D1%82%D0%B5%D0%BB%D1%8F%D1%82%D0%B0/",
+      "source_kind": "search_results",
+      "source_title": "Бұқалар сатылады. Продам бычков"
+    },
+    {
+      "id": "olx-375573565",
+      "title_ru": "Корова на откорме",
+      "title_kk": "Бордақы сиыр",
+      "price_minor": 75000000,
+      "published_on": "2026-10-03",
+      "source_url": "https://www.olx.kz/d/obyavlenie/prodaetsya-korova-otkormlennaya-IDppRQ9.html",
+      "source_kind": "listing",
+      "evidence_url": "https://www.olx.kz/zhivotnye/selskohozyaystvennye-zhivotnye/q-%D0%BA%D0%BE%D1%80%D0%BE%D0%B2%D0%B0-%D1%81%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%B0/?page=4"
+    },
+    {
+      "id": "olx-374107278",
+      "title_ru": "Корова с высоким удоем",
+      "title_kk": "Сүті мол сиыр",
+      "price_minor": 100000000,
+      "published_on": "2026-09-26",
+      "source_url": "https://www.olx.kz/d/obyavlenie/prodam-korovu-vysoko-udoynaya-IDpjIom.html?reason=extended_search_extended_s2v",
+      "source_kind": "listing"
+    },
+    {
+      "id": "olx-401138961",
+      "title_ru": "Корова молочной породы",
+      "title_kk": "Сүтті тұқымды сиыр",
+      "price_minor": 65000000,
+      "published_on": "2026-09-22",
+      "source_url": "https://www.olx.kz/d/obyavlenie/prodam-korovu-molochnoy-porody-IDr98zf.html?reason=extended_search_extended_s2v",
+      "source_kind": "listing"
+    },
+    {
+      "id": "olx-IDr4DPz",
+      "title_ru": "Двухлетняя тёлка",
+      "title_kk": "Екі жасар құнажын",
+      "price_minor": 65000000,
+      "published_on": "2026-09-21",
+      "source_url": "https://www.olx.kz/d/obyavlenie/nazhyn-otkorm-2zhasar-amangeldyde-tr-IDr4DPz.html",
+      "source_kind": "listing",
+      "evidence_url": "https://www.olx.kz/kk/zhivotnye/selskohozyaystvennye-zhivotnye/taraz/q-.%D0%BA%D0%BE%D1%80%D0%BE%D0%B2%D1%8B/"
+    },
+    {
+      "id": "olx-399587646",
+      "title_ru": "Тёлка на откорме",
+      "title_kk": "Бордақы құнажын",
+      "price_minor": 55000000,
+      "published_on": "2026-09-07",
+      "source_url": "https://www.olx.kz/d/obyavlenie/prodaetsya-otkormlennaya-telka-IDr2D02.html?reason=extended_search_extended_s2v",
+      "source_kind": "listing"
+    }
+  ]
+}

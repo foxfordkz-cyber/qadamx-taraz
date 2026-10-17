@@ -11,6 +11,7 @@ import 'qadam_theme.dart';
 import 'language.dart';
 import 'common.dart';
 import 'listing_form.dart';
+import 'reference_prices.dart';
 
 class MobileApp extends StatefulWidget {
   const MobileApp({
@@ -76,6 +77,7 @@ class _MobileAppState extends State<MobileApp> {
       market: _Home(
         runtime: widget.runtime,
         kk: _kk,
+        browserLauncher: widget.browserLauncher,
         toggleLanguage: () => setState(() => _kk = !_kk),
       ),
     ),
@@ -87,10 +89,12 @@ class _Home extends StatefulWidget {
     required this.runtime,
     required this.kk,
     required this.toggleLanguage,
+    required this.browserLauncher,
   });
   final MobileRuntime runtime;
   final bool kk;
   final VoidCallback toggleLanguage;
+  final BrowserLauncher browserLauncher;
   @override
   State<_Home> createState() => _HomeState();
 }
@@ -394,7 +398,12 @@ class _HomeState extends State<_Home> with WidgetsBindingObserver {
               child: !runtime.configured || runtime.api == null
                   ? _Unavailable(kk: kk)
                   : _tab == 1
-                  ? _Statistics(api: runtime.api!, kk: kk, reload: _reload)
+                  ? _Statistics(
+                      api: runtime.api!,
+                      kk: kk,
+                      reload: _reload,
+                      browserLauncher: widget.browserLauncher,
+                    )
                   : _tab == 2 && runtime.accountId == null
                   ? _SignInPrompt(
                       kk: kk,
@@ -792,10 +801,12 @@ class _Statistics extends StatefulWidget {
     required this.api,
     required this.kk,
     required this.reload,
+    required this.browserLauncher,
   });
   final LivestockApi api;
   final bool kk;
   final int reload;
+  final BrowserLauncher browserLauncher;
   @override
   State<_Statistics> createState() => _StatisticsState();
 }
@@ -863,6 +874,15 @@ class _StatisticsState extends State<_Statistics> {
       Text(
         tr(kk, 'Цены предложений', 'Ұсыныс бағалары'),
         style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+      ),
+      const SizedBox(height: 20),
+      ReferencePrices(kk: kk, browserLauncher: widget.browserLauncher),
+      const SizedBox(height: 24),
+      const Divider(),
+      const SizedBox(height: 16),
+      Text(
+        tr(kk, 'Объявления Qadam за сегодня', 'Qadam-ның бүгінгі хабарландырулары'),
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       const SizedBox(height: 12),
       Text(
