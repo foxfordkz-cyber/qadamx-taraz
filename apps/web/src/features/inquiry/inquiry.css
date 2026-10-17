@@ -1,0 +1,72 @@
+/* Scoped to the inquiry. Shared components and Abzal's tokens remain canonical. */
+.inquiry-form.inq {
+  max-width: 640px;
+  min-width: 0;
+  margin: var(--qadam-space-6) 0;
+  padding: var(--qadam-space-5);
+  border: 1px solid var(--qadam-line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--qadam-white);
+  color: var(--qadam-ink);
+  overflow-wrap: anywhere;
+}
+.inquiry-form.inq h2 {
+  font-size: var(--qadam-text-lg);
+}
+.inquiry-form.inq fieldset {
+  display: grid;
+  gap: var(--qadam-space-4);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.inquiry-form.inq .field {
+  display: grid;
+  gap: var(--qadam-space-2);
+  margin: 0;
+}
+.inquiry-form.inq .field input,
+.inquiry-form.inq .field textarea {
+  min-height: var(--qadam-control-height);
+  font-size: var(--qadam-text-md);
+  font-weight: 400;
+}
+.inquiry-form.inq form {
+  display: grid;
+  gap: var(--qadam-space-4);
+}
+.inquiry-form.inq form > p,
+.inquiry-form.inq form > .alert {
+  margin: 0;
+}
+.inquiry-form.inq .field small,
+.inquiry-form.inq form > .muted {
+  font-size: var(--qadam-text-sm);
+  line-height: 1.5;
+}
+.inquiry-form.inq textarea[aria-invalid="true"] {
+  border-color: var(--qadam-danger);
+}
+.inquiry-form.inq [readonly] {
+  background: var(--qadam-surface-subtle);
+}
+.inquiry-form.inq .button {
+  min-height: var(--qadam-control-height);
+  white-space: normal;
+}
+.inquiry-form.inq .inquiry-context {
+  margin-bottom: var(--qadam-space-4);
+}
+.inquiry-form.inq .inquiry-receipt {
+  margin-bottom: 0;
+  font-size: var(--qadam-text-sm);
+}
+@media (max-width: 480px) {
+  .inquiry-form.inq {
+    padding: var(--qadam-space-4);
+  }
+  .inquiry-form.inq .button {
+    width: 100%;
+  }
+}
