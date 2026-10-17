@@ -862,6 +862,132 @@ void main() {
     });
   }
 
+  testWidgets('demo price example stays separate from live data and errors', (
+    tester,
+  ) async {
+      tester.view.physicalSize = const Size(320, 640);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final fixture =
+          jsonDecode(
+                File('test/data/livestock_fixtures.json').readAsStringSync(),
+              )
+              as Map;
+      final requests = <http.Request>[];
+      var priceCalls = 0;
+      final api = LivestockApi(
+        baseUrl: Uri.parse('https://api.example.test/api/v1'),
+        accountId: () => null,
+        accessToken: () async => null,
+        store: _MemoryStore(),
+        client: MockClient((request) async {
+          requests.add(request);
+          if (request.url.path.endsWith('/prices')) {
+            priceCalls++;
+            if (priceCalls > 1) {
+              throw http.ClientException('private transport detail');
+            }
+            return _jsonResponse(
+              jsonEncode({
+                ...Map<String, dynamic>.from(fixture['PriceStats'] as Map),
+                'sample_count': 0,
+                'min_price_per_head_minor': null,
+                'median_price_per_head_minor': null,
+                'status': 'insufficient_data',
+              }),
+              200,
+            );
+          }
+          return _jsonResponse('{"items":[],"next_cursor":null}', 200);
+        }),
+      );
+      final runtime = MobileRuntime(api: api);
+      await tester.pumpWidget(MobileApp(runtime: runtime));
+      await tester.pumpAndSettle();
+      await openMarket(tester);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Цены'));
+      await tester.pumpAndSettle();
+      final locality = find.widgetWithText(TextField, 'Город или село');
+      await tester.scrollUntilVisible(locality, 160, scrollable: pageScroll());
+      await tester.pumpAndSettle();
+      await tester.enterText(locality, 'Тараз');
+      tester.testTextInput.hide();
+      await tester.scrollUntilVisible(
+        find.text('Посмотреть цены'),
+        160,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Посмотреть цены'));
+      await tester.pumpAndSettle();
+
+      await tester.scrollUntilVisible(
+        find.byKey(const ValueKey('toggle-demo-price-example')),
+        160,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('Пока мало данных'), findsOneWidget);
+      expect(find.text('Нет данных'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('toggle-demo-price-example')),
+        findsOneWidget,
+      );
+      expect(find.text('350 000 ₸'), findsNothing);
+
+      await tester.tap(find.byKey(const ValueKey('toggle-demo-price-example')));
+      await tester.pumpAndSettle();
+      expect(find.text('Учебный пример · не рынок'), findsOneWidget);
+      expect(
+        find.text('5 вымышленных предложений для демонстрации'),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining('не данные выбранного города'),
+        findsOneWidget,
+      );
+      expect(find.text('320 000 ₸'), findsOneWidget);
+      expect(find.text('350 000 ₸'), findsOneWidget);
+      expect(find.text('Пока мало данных'), findsOneWidget);
+      expect(
+        requests.where((r) => r.url.path.endsWith('/prices')).length,
+        1,
+      );
+      expect(requests.every((r) => r.method == 'GET'), isTrue);
+
+      await tester.tap(find.text('ҚАЗ'));
+      await tester.pumpAndSettle();
+      expect(find.text('Оқу үлгісі · нарық дерегі емес'), findsOneWidget);
+      expect(find.textContaining('таңдалған қала'), findsOneWidget);
+      expect(find.text('Демо үлгісін көрсету'), findsNothing);
+      expect(find.text('Үлгіні жасыру'), findsOneWidget);
+
+      await tester.scrollUntilVisible(
+        find.text('Бағаларды көру'),
+        -180,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Бағаларды көру'));
+      await tester.pumpAndSettle();
+      expect(find.text('Деректер әлі аз'), findsNothing);
+      expect(find.text('Оқу үлгісі · нарық дерегі емес'), findsNothing);
+      expect(
+        find.byKey(const ValueKey('toggle-demo-price-example')),
+        findsNothing,
+      );
+      expect(find.textContaining('Байланысты тексеріп'), findsOneWidget);
+      expect(priceCalls, 2);
+      expect(requests.every((r) => r.method == 'GET'), isTrue);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox());
+      runtime.dispose();
+      api.close();
+    },
+  );
+
   for (final owned in [false, true]) {
     testWidgets('market filter owns cursor and resets pages owned=$owned', (
       tester,
