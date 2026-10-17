@@ -35,7 +35,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
         fetcher,
       });
       await screen.findByRole("heading", {
-        name: "Нет доступных торговых точек",
+        name: "У вас пока нет торговых точек",
       });
       expect(qa.auth().session?.user.id).toBe(ids.a);
       expect(qa.auth().demo).toBe(false);
@@ -53,7 +53,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
       ).toBe(`Bearer ${session().access_token}`);
       await userEvent.click(screen.getByRole("button", { name: "KZ" }));
       await screen.findByRole("heading", {
-        name: "Қолжетімді сауда нүктесі жоқ",
+        name: "Сізде әзірге сауда нүктелері жоқ",
       });
       expect(fetcher).toHaveBeenCalledTimes(1);
     },
@@ -68,7 +68,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     );
     renderQa({ route: "/seller/customers", fetcher });
     await screen.findByRole("heading", {
-      name: "Нет доступных торговых точек",
+      name: "У вас пока нет торговых точек",
     });
     expect(
       screen.getByText(
@@ -78,7 +78,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     await userEvent.click(screen.getByRole("button", { name: "Обновить" }));
     await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
     expect(
-      screen.getByRole("heading", { name: "Нет доступных торговых точек" }),
+      screen.getByRole("heading", { name: "У вас пока нет торговых точек" }),
     ).toBeInTheDocument();
     expect(
       fetcher.mock.calls.every(([url]) => String(url).endsWith("/me")),
@@ -100,7 +100,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     );
     const qa = renderQa({ route: "/seller", fetcher });
     await screen.findByRole("heading", {
-      name: "Нет доступных торговых точек",
+      name: "У вас пока нет торговых точек",
     });
     await userEvent.click(screen.getByRole("button", { name: "Выйти" }));
     await screen.findByRole("button", { name: "Войти" });
@@ -118,7 +118,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     );
     const qa = renderQa({ fetcher });
     await screen.findByRole("heading", {
-      name: "Нет доступных торговых точек",
+      name: "У вас пока нет торговых точек",
     });
     const oldScope = qa.auth().scope;
     act(() => qa.mock.emit(session(ids.b)));

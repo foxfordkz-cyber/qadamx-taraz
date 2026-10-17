@@ -1,4 +1,55 @@
-# Seller web — Registration readiness / Android preparation
+# Seller web — Registration on deploy-062, 2026-10-17
+
+Worktree `work/qadam-registration-deploy-review`, branch
+`integration/seller-registration-deploy-review`, base deploy-062
+**9845b91b64d388c54312d2a8a75000218c7774af**. Main has the same base at task start.
+Selected 12 Registration source/test files from PR #31
+**6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, without a merge. PR #31 and Recovery
+PR #42 remain independent and unchanged. No Recovery coordinator was imported.
+
+Implemented `/register`, existing AuthProvider signUp/resend, neutral confirmation
+waiting, validation, synchronous duplicate-submit protection, service quota/error
+messages, RU/KZ. Credentials stay in memory; waiting marker has no identity data.
+Login/logout/session persistence and the existing session-generation guards remain.
+`/me` alone grants memberships; empty list shows waiting + explicit Refresh,
+API failures stay errors, no automatic Demo/provisioning or foreign-point access.
+
+New safe public URL diagnosis refuses malformed/service URLs before SDK creation,
+without repairing the destination or exposing its value. New integration tests
+cover wrong Project URL and missing API/network/401/403/404/500/malformed `/me`.
+Existing customer, financial, Voice, Analytics/public modules and API 0.6.2 are
+unchanged. No Backend, generated, package/lock, styles, Flutter or 3D edits.
+
+[Full changed-file list, diagnosis, commands, live gates](../SELLER_REGISTRATION_DEPLOY_REVIEW.md).
+The old audit and earlier snapshots below remain historical.
+
+Own checks: npm ci/check:api/typecheck/lint/build/format:check PASS; full serial
+unit/component **311/311 in 20 files**, strict microphone **35/35**.
+Browser verification is running; no final browser result is claimed yet.
+Ignored logs: `apps/web/test-results/registration-deploy`; screenshots stay in
+test result folders, not the designer's tracked gallery.
+
+Own read-only production evidence: `/login`, health and OpenAPI 200/API0.6.2;
+anonymous `/me` 401 AUTH_REQUIRED; CORS preflight for the permanent origin 200
+with Authorization allowed. Published entry JS contains expected team Supabase
+and Render API URLs. Public Auth settings allow signup and require email
+confirmation. These are not authenticated login/DB/email acceptance.
+
+**Blocked:** exact callback route/HTTPS URL/allowlist/flow/destination, provider
+email settings/quota and agreed test account/environment. Existing proposals are
+not approvals. `detectSessionInUrl:false` remains; no callback/token exchange or
+real emails. The user's local `otp_expired` and Dashboard failure cannot be given
+a definitive cause without sanitized incident evidence. No personal Supabase is
+connected to the team API. No live writes, paid AI, physical Android, manual
+deployment, service restart or Supabase settings changes.
+
+Next: finish browser gates, publish own Draft to deploy-062, then captain review
+and separate callback/live acceptance approval. Current exact SHA:
+`git log -1 --format=%H`; do not merge/deploy from these instructions.
+
+---
+
+# Historical Seller web — Registration readiness / Android preparation
 
 2026-10-16. Branch `feature/seller-registration-onboarding`, separate worktree
 `work/qadam-seller-registration`. User/captain approved base

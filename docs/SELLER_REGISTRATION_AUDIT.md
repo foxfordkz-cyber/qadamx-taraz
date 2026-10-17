@@ -1,4 +1,13 @@
-# Seller Auth / Registration readiness — 2026-10-16
+# Seller Auth / Registration audit
+
+2026-10-17: the approved signup/resend MVP from PR #31 is selectively integrated
+on deploy-062 `9845b91` in `integration/seller-registration-deploy-review`.
+[Current diagnosis, selected files, tests and acceptance gates](SELLER_REGISTRATION_DEPLOY_REVIEW.md).
+Registration UI is implemented; callback and live email acceptance remain Blocked
+until exact settings and test environment are confirmed. The readiness entries
+below describe the historical pre-implementation stage, not current UI status.
+
+# Historical readiness — 2026-10-16
 
 ## Scope and approved base
 

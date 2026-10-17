@@ -1,5 +1,16 @@
 # Общие решения команды
 
+## 2026-10-17 — Registration review на deploy-062
+
+По отдельному заданию капитана signup/resend PR31 `6f80867` переносится выборочно
+в `integration/seller-registration-deploy-review` от deploy-062 `9845b91`.
+Сохраняются единый AuthProvider, API 0.6.2 и действующие модули; Recovery PR42
+не включается. Некорректный Supabase service URL отклоняется без исправления
+адреса и раскрытия конфигурации. Ошибка `/me` не означает пустые memberships.
+Callback URL/allowlist/механизм и live email не считаются согласованными по одному
+production origin. Draft не разрешает merge/deployment или изменение Supabase.
+[Диагностика и приёмка](SELLER_REGISTRATION_DEPLOY_REVIEW.md).
+
 ## 2026-10-17 — единая база main и deploy по поручению капитана
 
 Принятая web/API production-версия объединяется с исходниками Flutter PR25. После проверок main и обе deploy-ветки продвигаются обычным fast-forward; ветки участников сохраняются. Это не массовое слияние всех PR: дефектный recovery UI и незавершённый signup остаются отдельно. Render не перезапускается при идентичном apps/api; Vercel сборка подтверждается отдельно. Flutter SDK/Android-приёмка и новый APK остаются ответственностью mobile. [Состав и проверки](MAIN_RELEASE_20261017.md).
