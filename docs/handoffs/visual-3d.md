@@ -27,6 +27,8 @@
 
 ## Сделано
 
+Прокрутка боковой панели кабинета (`fix/seller-sidebar-scroll` от `main` @ `6e8bd1b`): sticky-панель высотой в экран не прокручивалась, на 1366×768 и при масштабе 125–150 % «Публичная витрина» и последние пункты уходили за край. `.sidebar` получила собственную прокрутку (`overflow-y: auto`, `overscroll-behavior: contain`), её блоки не сжимаются; шрифты и пункты не менялись. Регрессия — `e2e/seller-sidebar.spec.ts`; галерея — [sidebar-scroll](../screenshots/sidebar-scroll/README.md).
+
 Этап A: аудит 13 страниц на 1440/768/390/360, токены направления, единая палитра и шрифт витрины с казахским fallback, touch-цели 44 px на витрине и в выборе точки, вписывание камеры площадки по габаритам, порядок карточек по маркерам. Подробности и метрики — [VISUAL_AUDIT](../VISUAL_AUDIT.md).
 
 Этап B (`feature/unified-visual-3d-b`, поверх A): токены вместо 137 цветовых литералов, единые радиусы и тени, нижние границы шрифта 12/11 px, читаемые disabled, общий фокус витрины, стиль выбора файла. Изменены только `shared/{tokens,styles,merchant}.css`, `features/explore/explore.css`, `features/seller/analytics/analytics.css`; разметка и логика не менялись. Подробности — раздел «Этап B» в [VISUAL_AUDIT](../VISUAL_AUDIT.md).
