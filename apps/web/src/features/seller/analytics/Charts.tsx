@@ -10,6 +10,23 @@ import { useI18n, type Locale } from "../../../shared/i18n";
 import { Button, Card } from "../../../shared/ui";
 import type { AnalyticsSnapshot } from "./model";
 
+// Chromium's compact ICU can render kk-KZ months as "M10" even while reporting
+// that locale as supported. Snapshot dates are already local calendar dates.
+const kazakhMonths = [
+  ["қаңтар", "қаң."],
+  ["ақпан", "ақп."],
+  ["наурыз", "нау."],
+  ["сәуір", "сәу."],
+  ["мамыр", "мам."],
+  ["маусым", "мау."],
+  ["шілде", "шіл."],
+  ["тамыз", "там."],
+  ["қыркүйек", "қыр."],
+  ["қазан", "қаз."],
+  ["қараша", "қар."],
+  ["желтоқсан", "жел."],
+] as const;
+
 export function analyticsDate(
   value: string,
   locale: Locale,
@@ -17,7 +34,11 @@ export function analyticsDate(
   short = false,
 ): string {
   // Calendar dates come from the snapshot, never from the browser's local day.
-  return new Intl.DateTimeFormat(locale === "kk" ? "kk-KZ" : "ru-KZ", {
+  if (locale === "kk") {
+    const month = kazakhMonths[Number(value.slice(5, 7)) - 1];
+    return `${Number(value.slice(8, 10))} ${month[short ? 1 : 0]}`;
+  }
+  return new Intl.DateTimeFormat("ru-KZ", {
     timeZone: timezone,
     day: "numeric",
     month: short ? "short" : "long",
@@ -120,13 +141,42 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
       {series === "receipts_minor" && (
         <p className="analytics-signed-note">{t("analyticsSignedHint")}</p>
       )}
+      <div
+        className="analytics-selection"
+        role="status"
+        aria-label={t("analyticsSelected")}
+      >
+        <div className="analytics-selection-date">
+          <span>{t("analyticsSelectedDay")}</span>
+          <strong>
+            {analyticsDate(point.date, locale, snapshot.timezone)}
+          </strong>
+          {point.is_partial && <span>{t("analyticsPartial")}</span>}
+        </div>
+        <dl>
+          <div>
+            <dt>{t("analyticsSales")}</dt>
+            <dd>{formatKZT(point.sales_minor, locale)}</dd>
+          </div>
+          <div>
+            <dt>{t("analyticsReceipts")}</dt>
+            <dd>{formatKZT(point.receipts_minor, locale)}</dd>
+          </div>
+          <div>
+            <dt>{t("analyticsCount")}</dt>
+            <dd>{point.sales_count}</dd>
+          </div>
+        </dl>
+      </div>
       <div className="analytics-chart-legend">
         <span
           className={`analytics-series-dot ${series === "receipts_minor" ? "analytics-receipt-dot" : ""}`}
           aria-hidden="true"
         />
         <span>{seriesLabel}</span>
-        <strong>{formatKZT(positive, locale)}</strong>
+        <strong>
+          {t("analyticsDailyMaximum")}: {formatKZT(Math.max(...values), locale)}
+        </strong>
       </div>
       <div
         className="analytics-chart-scroll"
@@ -169,7 +219,7 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
                   />
                 </span>
                 <span className="analytics-bar-label" aria-hidden="true">
-                  {day.date.slice(8)}
+                  {analyticsDate(day.date, locale, snapshot.timezone, true)}
                   {day.is_partial && (
                     <span className="analytics-partial-dot">•</span>
                   )}
@@ -181,38 +231,12 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
       </div>
       {negative > 0 && (
         <div className="analytics-negative-label">
-          {formatKZT(-negative, locale)}
+          {t("analyticsDailyMinimum")}: {formatKZT(-negative, locale)}
         </div>
       )}
       <p className="analytics-chart-help" id={helpId}>
         {t("analyticsChartHint")}
       </p>
-      <div
-        className="analytics-selection"
-        role="status"
-        aria-label={t("analyticsSelected")}
-      >
-        <div className="analytics-selection-date">
-          <strong>
-            {analyticsDate(point.date, locale, snapshot.timezone)}
-          </strong>
-          {point.is_partial && <span>{t("analyticsPartial")}</span>}
-        </div>
-        <dl>
-          <div>
-            <dt>{t("analyticsSales")}</dt>
-            <dd>{formatKZT(point.sales_minor, locale)}</dd>
-          </div>
-          <div>
-            <dt>{t("analyticsReceipts")}</dt>
-            <dd>{formatKZT(point.receipts_minor, locale)}</dd>
-          </div>
-          <div>
-            <dt>{t("analyticsCount")}</dt>
-            <dd>{point.sales_count}</dd>
-          </div>
-        </dl>
-      </div>
       <details className="analytics-table-details">
         <summary>{t("analyticsShowDailyTable")}</summary>
         <div
@@ -277,6 +301,24 @@ export function HourlyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
         </div>
       </div>
       <p className="analytics-chart-explanation">{t("analyticsHourlyHint")}</p>
+      <div
+        className="analytics-selection analytics-hour-selection"
+        role="status"
+        aria-label={t("analyticsSelected")}
+      >
+        <div className="analytics-selection-date">
+          <span>{t("analyticsSelectedHour")}</span>
+          <strong>
+            {hourLabel(point.hour)} — {String(point.hour).padStart(2, "0")}:59
+          </strong>
+        </div>
+        <dl>
+          <div>
+            <dt>{t("analyticsCount")}</dt>
+            <dd>{point.sales_count}</dd>
+          </div>
+        </dl>
+      </div>
       <div className="analytics-chart-legend">
         <span
           className="analytics-series-dot analytics-hourly-dot"
@@ -284,7 +326,8 @@ export function HourlyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
         />
         <span>{t("analyticsCount")}</span>
         <strong>
-          {max === 1 && snapshot.cards.sales_count === 0 ? 0 : max}
+          {t("analyticsHourlyMaximum")}:{" "}
+          {Math.max(...snapshot.hourly.map((hour) => hour.sales_count))}
         </strong>
       </div>
       <div
@@ -310,6 +353,9 @@ export function HourlyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
               onFocus={() => setSelected(index)}
               onKeyDown={(event) => moveBar(event, index, buttons.current)}
             >
+              <span className="analytics-hour-count" aria-hidden="true">
+                {hour.sales_count}
+              </span>
               <span className="analytics-bar-plot" aria-hidden="true">
                 <span className="analytics-zero-line" />
                 <span
@@ -323,7 +369,7 @@ export function HourlyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
                 />
               </span>
               <span className="analytics-bar-label" aria-hidden="true">
-                {String(hour.hour).padStart(2, "0")}
+                {hourLabel(hour.hour)}
               </span>
             </button>
           ))}
@@ -332,21 +378,6 @@ export function HourlyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
       <p className="analytics-chart-help" id={helpId}>
         {t("analyticsChartHint")}
       </p>
-      <div
-        className="analytics-selection analytics-hour-selection"
-        role="status"
-        aria-label={t("analyticsSelected")}
-      >
-        <strong>
-          {hourLabel(point.hour)} — {String(point.hour).padStart(2, "0")}:59
-        </strong>
-        <dl>
-          <div>
-            <dt>{t("analyticsCount")}</dt>
-            <dd>{point.sales_count}</dd>
-          </div>
-        </dl>
-      </div>
       <details className="analytics-table-details">
         <summary>{t("analyticsShowHourlyTable")}</summary>
         <div

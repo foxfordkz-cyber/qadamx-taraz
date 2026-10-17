@@ -1,3 +1,18 @@
+# Seller web — Analytics readability, 2026-10-17
+
+Отдельная ветка `feature/seller-analytics-readability` от актуального main,
+обновлённая до **6e8bd1b8bbffd8437918dfa2b461d85f49f19b5a**. Шесть KPI, сводка
+по API с разделением периода/текущего долга, подписи и выбор на графиках,
+переходы к истории/долгам, новая продажа из пустого периода, RU/KZ и мобильные
+состояния. Backend/контракт/общий UI/финансовая логика/Customers не менялись.
+
+[Состав, проверки, ограничения и отсутствие новых backend-зависимостей](../SELLER_ANALYTICS_READABILITY.md).
+[Снимки до/после](../screenshots/analytics-readability/README.md).
+Оформление передано на согласование Абзалу через капитана; ответа пока нет.
+Передача — отдельный Draft PR, main/deploy не переключались.
+
+Ниже сохранены предыдущие передачи без изменений.
+
 # Seller web — Customer Recovery verification, 2026-10-17
 
 Branch **fix/seller-customer-recovery-safe**, existing separate worktree

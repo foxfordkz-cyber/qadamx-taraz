@@ -1,5 +1,25 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  analyticsPeriodScope: "Таңдалған кезеңде",
+  analyticsCurrentScope: "Қазір · барлық күндер",
+  analyticsActiveCountHint: "Тек күші жойылмаған сатылымдар",
+  analyticsDebtorsCount: "Борышкерлер саны",
+  analyticsDebtorsHint: "Өтелмеген қарызы бар сатып алушылар",
+  analyticsSummaryTitle: "Қысқаша қорытынды",
+  analyticsSummaryPeriod:
+    "Тіркелген сатылымдар: {count}, жалпы сомасы {sales}. Түсімдер: {receipts}.",
+  analyticsSummaryDebt: "Жалпы қарыз: {debt}. Борышкерлер: {debtors}.",
+  analyticsNegativeReceiptsSummary:
+    "Түсімдер теріс: күші жойылған сатылымдардың қайтарымдары кезеңде алынған төлемдерден асып түсті.",
+  analyticsReportLinks: "Сауда нүктесінің тарихы мен қарыздары",
+  analyticsOpenHistory: "Тарихты ашу",
+  analyticsOpenDebts: "Қарыздарды ашу",
+  analyticsNewSale: "Жаңа сатылым",
+  analyticsSelectedDay: "Таңдалған күн",
+  analyticsSelectedHour: "Таңдалған сағат · бүкіл кезең бойынша",
+  analyticsDailyMaximum: "Күндік ең жоғары мән",
+  analyticsDailyMinimum: "Күндік ең төмен мән",
+  analyticsHourlyMaximum: "Сағаттық ең жоғары мән",
   analytics: "Аналитика",
   analyticsTitle: "Менің сауда нүктемнің аналитикасы",
   analyticsSubtitle:

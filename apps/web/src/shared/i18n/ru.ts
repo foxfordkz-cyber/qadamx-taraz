@@ -1,4 +1,24 @@
 export const ru = {
+  analyticsPeriodScope: "За выбранный период",
+  analyticsCurrentScope: "Сейчас · все даты",
+  analyticsActiveCountHint: "Только действующие продажи, без отменённых",
+  analyticsDebtorsCount: "Количество должников",
+  analyticsDebtorsHint: "Покупатели с непогашенным долгом",
+  analyticsSummaryTitle: "Краткая сводка",
+  analyticsSummaryPeriod:
+    "Зарегистрировано продаж: {count}, на сумму {sales}. Поступления: {receipts}.",
+  analyticsSummaryDebt: "Общий долг: {debt}. Должников: {debtors}.",
+  analyticsNegativeReceiptsSummary:
+    "Поступления отрицательные: возвраты при отменах превысили полученные оплаты за период.",
+  analyticsReportLinks: "История и долги точки",
+  analyticsOpenHistory: "Открыть историю",
+  analyticsOpenDebts: "Открыть долги",
+  analyticsNewSale: "Новая продажа",
+  analyticsSelectedDay: "Выбранный день",
+  analyticsSelectedHour: "Выбранный час · за весь период",
+  analyticsDailyMaximum: "Максимум за день",
+  analyticsDailyMinimum: "Минимум за день",
+  analyticsHourlyMaximum: "Максимум за час",
   analytics: "Аналитика",
   analyticsTitle: "Аналитика моей точки",
   analyticsSubtitle:
