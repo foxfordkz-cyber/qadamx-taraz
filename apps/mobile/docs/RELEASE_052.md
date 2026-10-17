@@ -20,6 +20,8 @@ SHA256: **`3ff67b9b916c061ab2b8a0b110c29fd4ab15fdc95d36e1643beddc91d1a334d6`**.
 ELF LOAD>=16KiB, 7/7 принятых asset hashes PASS; четыре публичных параметра совпали.
 Известные credential patterns и приватные конфигурационные файлы не найдены.
 Статический scan не гарантирует отсутствие любого возможного секрета.
+[Публикация проверена](reports/mobile-052-release-verification.json): GitHub digest и
+полное повторное публичное скачивание всех28 667 431байт совпали с локальным SHA256.
 
 API: `https://qadamx-taraz.onrender.com/api/v1`.
 Frontend: **`https://qadamx-taraz.pages.dev`**, обновлён в публичной конфигурации сборки.

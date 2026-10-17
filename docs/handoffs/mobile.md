@@ -5,6 +5,7 @@
 [Скачать новый APK0.5.2+11](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk).
 **28 667 431 bytes / 27.34 MiB**, versionCode11.
 SHA256: `3ff67b9b916c061ab2b8a0b110c29fd4ab15fdc95d36e1643beddc91d1a334d6`.
+[GitHub digest и полное повторное скачивание совпали](../../apps/mobile/docs/reports/mobile-052-release-verification.json).
 Подробный [release/матрица/P2/зависимости](../../apps/mobile/docs/RELEASE_052.md),
 [галерея до/после](../../apps/mobile/docs/reports/visual-052/README.md).
 
