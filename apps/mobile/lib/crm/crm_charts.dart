@@ -449,33 +449,24 @@ class _PlotPainter extends CustomPainter {
         plot.left + plot.width * i / math.max(first.length - 1, 1);
     double y(double n) =>
         plot.bottom - (n - minimum) / (maximum - minimum) * plot.height;
-    void label(
-      String value,
-      Offset offset, {
-      bool right = false,
-      double? width,
-    }) {
-      final painter = TextPainter(
-        text: TextSpan(
-          text: value,
-          style: text.copyWith(fontSize: 11 * scale),
-        ),
-        textDirection: TextDirection.ltr,
-        textAlign: right ? TextAlign.right : TextAlign.center,
-      )..layout(maxWidth: width ?? size.width);
-      painter.paint(
-        canvas,
-        Offset(
-          right ? offset.dx - painter.width : offset.dx - painter.width / 2,
-          offset.dy,
-        ),
-      );
-    }
+    TextPainter label(String value, {double? width, bool right = false}) =>
+        TextPainter(
+          text: TextSpan(
+            text: value,
+            style: text.copyWith(fontSize: 11 * scale),
+          ),
+          textDirection: TextDirection.ltr,
+          textAlign: right ? TextAlign.right : TextAlign.left,
+        )..layout(maxWidth: width ?? plot.width);
 
-    final ticks = <double>{minimum, maximum, 0};
+    // Always retain the zero line and both signed bounds in the plot. Labels
+    // are measured separately so a small negative value beside a large positive
+    // value never produces overlapping zero/minimum text.
+    final ticks = <double>{0, maximum, minimum};
     if (minimum == 0 && maximum > 1) {
       ticks.add(bars ? (maximum / 2).floorToDouble() : maximum / 2);
     }
+    final occupiedY = <Rect>[];
     for (final tick in ticks) {
       final height = y(tick);
       canvas.drawLine(
@@ -485,12 +476,17 @@ class _PlotPainter extends CustomPainter {
           ..color = grid
           ..strokeWidth = tick == 0 ? 1.5 : 1,
       );
-      label(
-        axis(tick),
-        Offset(plot.left - 8, height - 7 * scale),
-        right: true,
-        width: left - 8,
+      final painter = label(axis(tick), right: true, width: left - 8);
+      final rect = Rect.fromLTWH(
+        plot.left - 8 - painter.width,
+        (height - painter.height / 2).clamp(0, size.height - painter.height),
+        painter.width,
+        painter.height,
       );
+      if (occupiedY.every((previous) => !previous.inflate(4).overlaps(rect))) {
+        painter.paint(canvas, rect.topLeft);
+        occupiedY.add(rect);
+      }
     }
     canvas.drawLine(
       Offset(x(selected), plot.top),
@@ -499,12 +495,22 @@ class _PlotPainter extends CustomPainter {
         ..color = primary.withValues(alpha: .24)
         ..strokeWidth = 1,
     );
-    final labelIndices = <int>{0, labels.length ~/ 2, labels.length - 1};
-    for (final i in labelIndices) {
-      label(
-        labels[i],
-        Offset(x(i).clamp(plot.left + 6, plot.right - 6), plot.bottom + 8),
+
+    // Edge labels stay within the plot. The middle date/hour is optional when
+    // enlarged system text leaves too little horizontal room for three ticks.
+    final occupiedX = <Rect>[];
+    for (final i in <int>{0, labels.length - 1, labels.length ~/ 2}) {
+      final painter = label(labels[i]);
+      final rect = Rect.fromLTWH(
+        (x(i) - painter.width / 2).clamp(plot.left, plot.right - painter.width),
+        plot.bottom + 8,
+        painter.width,
+        painter.height,
       );
+      if (occupiedX.every((previous) => !previous.inflate(4).overlaps(rect))) {
+        painter.paint(canvas, rect.topLeft);
+        occupiedX.add(rect);
+      }
     }
     canvas.save();
     canvas.clipRect(plot.inflate(4));
