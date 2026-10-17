@@ -5,8 +5,8 @@
 <p align="center"><a href="README.md">Русский</a> · <b>Қазақша</b></p>
 
 <p align="center">
-  <a href="https://qadamx-taraz.vercel.app"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-%D0%B0%D1%88%D1%83-1C4A3C?style=for-the-badge" alt="Сайт"></a>
-  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.2%20production-D7F36A?style=for-the-badge" alt="API"></a>
+  <a href="https://qadamx-taraz.pages.dev/"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-%D0%B0%D1%88%D1%83-1C4A3C?style=for-the-badge" alt="Сайт"></a>
+  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.3%20production-D7F36A?style=for-the-badge" alt="API"></a>
   <a href="https://qadamx-taraz.onrender.com/docs"><img src="https://img.shields.io/badge/Swagger-docs-2F6F5A?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger"></a>
 </p>
 
@@ -100,7 +100,7 @@ cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
 **Тексерулер.** API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (дерекқормен тесттер — тек бөлек PostgreSQL-де). Web: `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
 
 > [!WARNING]
-> `main` тармағындағы API коды — 0.6.3, оған 0007/0008 миграциялары қажет. Production Render-де 0.6.2 жұмыс істейді. Миграциялар [TEAM_FINAL_INTEGRATION_20261017](docs/TEAM_FINAL_INTEGRATION_20261017.md) бойынша өткізілмейінше, backend-ті `main`-нан жарияламаңыз. Құпиялар коммитке қосылмайды. Ортақ Supabase-те seed, миграция және тазалайтын тесттерді іске қоспаңыз.
+> Production Render-де **API 0.6.3** жұмыс істейді; backup/restore тексерілгеннен кейін **0007/0008 миграциялары қолданылды**. Негізгі сайт — [Cloudflare Pages](https://qadamx-taraz.pages.dev/). [Орындалған rollout есебі](docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md). `health.stage=manual-ledger` — бұрынғы қызметтік белгі, AI жоқ дегенді білдірмейді және жаңа deployment талап етпейді. Жаңа жергілікті дерекқорға ағымдағы схема қажет; ортақ Supabase-те миграцияларды қайта орындамаңыз, seed пен тазалайтын тесттерді іске қоспаңыз. Құпиялар коммитке қосылмайды.
 
 ## Команда және құжаттар
 

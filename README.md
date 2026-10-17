@@ -5,8 +5,8 @@
 <p align="center"><b>Русский</b> · <a href="README.kk.md">Қазақша</a></p>
 
 <p align="center">
-  <a href="https://qadamx-taraz.vercel.app"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C-1C4A3C?style=for-the-badge" alt="Сайт"></a>
-  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.2%20production-D7F36A?style=for-the-badge" alt="API"></a>
+  <a href="https://qadamx-taraz.pages.dev/"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C-1C4A3C?style=for-the-badge" alt="Сайт"></a>
+  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.3%20production-D7F36A?style=for-the-badge" alt="API"></a>
   <a href="https://qadamx-taraz.onrender.com/docs"><img src="https://img.shields.io/badge/Swagger-docs-2F6F5A?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger"></a>
 </p>
 
@@ -100,7 +100,7 @@ cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
 **Проверки.** API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (тесты с БД — только на отдельной PostgreSQL). Web: `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
 
 > [!WARNING]
-> Код API в `main` — 0.6.3, ему нужны миграции 0007/0008. На production Render работает 0.6.2. Не деплойте backend из `main` до rollout миграций по [TEAM_FINAL_INTEGRATION_20261017](docs/TEAM_FINAL_INTEGRATION_20261017.md). Секреты не коммитятся. Seed, миграции и очищающие тесты на общей Supabase не запускать.
+> На production Render работает **API 0.6.3**, миграции **0007/0008 уже применены** после backup/restore. Основной сайт — [Cloudflare Pages](https://qadamx-taraz.pages.dev/). [Отчёт выполненного rollout](docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md). `health.stage=manual-ledger` — прежняя служебная метка, она не означает отсутствие AI и не требует нового deployment. Для новой локальной БД нужна актуальная схема; на общей Supabase повторные миграции, seed и очищающие тесты не запускать. Секреты не коммитятся.
 
 ## Команда и документы
 

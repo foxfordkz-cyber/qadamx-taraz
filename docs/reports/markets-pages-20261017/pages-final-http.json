@@ -1,0 +1,147 @@
+{
+  "source_sha": "8fa0029a847895a2b968592fb6ab5b8cc39ee0a1",
+  "files": [
+    {
+      "path": "asset-sources.md",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "assets/auth-CB7MGzWB.js",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "assets/index-B-BytHDI.css",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "assets/index-BJkMxsgm.js",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "assets/VenueScene-CJU2Iraw.js",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "fonts/Manrope-OFL.txt",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "fonts/Manrope-Variable.ttf",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "fonts/NotoSans-Cyrillic.woff2",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "fonts/NotoSans-CyrillicExt.woff2",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "fonts/NotoSans-OFL.txt",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "fonts/README.md",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "index.html",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "mal-bazar-asset.json",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "models/auyl-bereke.glb",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "models/kaikarmet.glb",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "models/mal-bazar.glb",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "models/mart.glb",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "previews/auyl-bereke.webp",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "previews/kaikarmet.webp",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "previews/mal-bazar.webp",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "previews/mart.webp",
+      "status": 200,
+      "sha256_match": true
+    },
+    {
+      "path": "venue-assets.json",
+      "status": 200,
+      "sha256_match": true
+    }
+  ],
+  "routes": [
+    {
+      "path": "/",
+      "status": 200,
+      "spa": true
+    },
+    {
+      "path": "/venues/mart",
+      "status": 200,
+      "spa": true
+    },
+    {
+      "path": "/venues/mal-bazar",
+      "status": 200,
+      "spa": true
+    },
+    {
+      "path": "/login",
+      "status": 200,
+      "spa": true
+    },
+    {
+      "path": "/seller",
+      "status": 200,
+      "spa": true
+    },
+    {
+      "path": "/seller/sale",
+      "status": 200,
+      "spa": true
+    }
+  ]
+}
