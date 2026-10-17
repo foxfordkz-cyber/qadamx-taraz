@@ -1,0 +1,106 @@
+{
+  "checks": [
+    {
+      "width": 360,
+      "venue": "mart",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 360,
+      "venue": "kaikarmet",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 360,
+      "venue": "auyl-bereke",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "venue": "mart",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "venue": "kaikarmet",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "venue": "auyl-bereke",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "venue": "mart",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "venue": "kaikarmet",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "width": 1440,
+      "venue": "auyl-bereke",
+      "hotspots": 3,
+      "canvas": true,
+      "overflow": false
+    },
+    {
+      "failure": "webgl",
+      "venue": "mart",
+      "preview": true,
+      "shops": 3
+    },
+    {
+      "failure": "webgl",
+      "venue": "kaikarmet",
+      "preview": true,
+      "shops": 3
+    },
+    {
+      "failure": "webgl",
+      "venue": "auyl-bereke",
+      "preview": true,
+      "shops": 3
+    },
+    {
+      "failure": "glb",
+      "venue": "mart",
+      "preview": true,
+      "shops": 3
+    },
+    {
+      "failure": "glb",
+      "venue": "kaikarmet",
+      "preview": true,
+      "shops": 3
+    },
+    {
+      "failure": "glb",
+      "venue": "auyl-bereke",
+      "preview": true,
+      "shops": 3
+    }
+  ],
+  "writesBlocked": 0,
+  "apiSource": "production Vercel to Render; no API interception",
+  "softwareWebGL": true
+}

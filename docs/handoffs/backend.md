@@ -1,5 +1,9 @@
 # Передача работы backend
 
+## 2026-10-17 — публичная заявка выпущена
+
+Main/обеdeploy: **ad63a00bb5434f2c7977e4992851d65a46676328**, PR51 merged. Vercel success + реальные bytes подтверждают новую сборку. Production browser A6/B3, inquiry inbox/reload/foreign404, прежний customer recovery receipt, история/summary/analytics7/30, RU/KZ360/390/1440, hotspots/fallback PASS. Два timeout harness были испорченными UTF-8 селекторами до отправки Auth; после исправления скрипта полный прогон PASS. Render не перезапускался, API0.6.2; process e699158 — прежнее подтверждение капитана, не собственное management-чтение. После deploy новых записей/AI0. Единственная учебная заявка e77aa7d2-1799-4139-be37-728642d0925d сохранена. PR43/45/46 отдельно; APK0.2.2+5/source96ef1c4 проверен как файл, Android ещё не принят. [Фактический отчёт](../INQUIRY_RELEASE_REVIEW.md#production-после-выпуска--2026-10-17). Это docs-only дополнение не меняет productionSHA.
+
 ## 2026-10-17 — следующая интеграция публичной заявки
 
 От main8ee78ae, без повторного PR41/42: выборочный перенос формы e6c9dd, реальное имя ShopPage, защита unknown→4xx сохраняет key/body, смена магазина изолирует late response. Отдельный public-inquiry.md по поручению капитана, public-web.md не заменён. Apps/api/OpenAPI/AI/recovery/аналитика/GLB не менялись, Render не перезапускается.

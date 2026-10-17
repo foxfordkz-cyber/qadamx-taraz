@@ -1,0 +1,45 @@
+{
+  "branches": {
+    "main": "ad63a00bb5434f2c7977e4992851d65a46676328",
+    "deploy-062": "ad63a00bb5434f2c7977e4992851d65a46676328",
+    "deploy/permanent-062": "ad63a00bb5434f2c7977e4992851d65a46676328"
+  },
+  "prs": [
+    {
+      "number": 43,
+      "head": "eba0f911682e03ce2207c9d71eb4939b236a5ea9",
+      "state": "open",
+      "merged": false,
+      "draft": true
+    },
+    {
+      "number": 45,
+      "head": "cbb4d0c3ad71d661d3b9c1391443caf7daa0340c",
+      "state": "open",
+      "merged": false,
+      "draft": true
+    },
+    {
+      "number": 46,
+      "head": "721da4ea1140086c21fd093219497862eee57836",
+      "state": "open",
+      "merged": false,
+      "draft": true
+    },
+    {
+      "number": 51,
+      "head": "ad63a00bb5434f2c7977e4992851d65a46676328",
+      "state": "closed",
+      "merged": true,
+      "draft": false
+    }
+  ],
+  "vercel": [
+    {
+      "context": "Vercel",
+      "state": "success",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/DaMb4nuu7uLN2itffFhLbd4Q4iRu",
+      "updated_at": "2026-10-17T09:44:00Z"
+    }
+  ]
+}
