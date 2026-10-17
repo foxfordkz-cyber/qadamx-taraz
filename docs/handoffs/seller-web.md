@@ -1,5 +1,19 @@
 # Seller web — PR43 Cloudflare callback, 2026-10-17
 
+## Integrator update — live Pages acceptance
+
+Published source `818bb25`, deployment `51e0a264-e0e7-4635-9b26-e02c6587badd`.
+The original ff89693 ZIP had a verified Cloudflare 308 callback redirect; the
+explicit rewrites were removed while retaining callback security headers.
+The captain completed the real email flow; the agent verified the new account's
+zero-membership screen and reload, then the existing ordinary account with six
+businesses and reload. Exact Pages callback added; previous URLs retained.
+Main 672731a and PR43 head 2b3c374 are preserved in `fix/registration-pages-routing`.
+Do not publish the original ff89693 ZIP again or merge PR43 without 818bb25.
+[Deployment, evidence limits and rollback](../REGISTRATION_PAGES_LIVE_20261017.md).
+Render, DB schema/data, memberships and AI settings unchanged by this task.
+Earlier sections below describe preparation before this verified release.
+
 Продолжена существующая ветка #43. Исходный handoff сохранён `ad30329`, затем
 обычный merge `origin/main` **86ca9af15017b163a9e47335c68eee46ac2fafde**:
 **4ed9fd4835900576d72e2870393a9820802f65ab**. Затем main обновился до

@@ -1,5 +1,14 @@
 # Общие решения команды
 
+## 2026-10-17 — registration Pages routing and live acceptance
+
+Use native Pages SPA fallback, not explicit rewrites to `/index.html`: those
+rewrites returned 308 to `/` for the real callback. Check routes without following
+redirects. Exact Pages callback added while retaining prior URLs; user-assisted
+real email/new-session/reload and existing-account checks completed.
+Published source818bb25; main672731a preserved in the integration branch, not
+overwritten. [Evidence and rollback](REGISTRATION_PAGES_LIVE_20261017.md).
+
 ## 2026-10-17 — выпуск рынков завершён; финальное окно только web
 
 Отчёт rollout80a3242 перенесён без замены новых handoff: API0.6.3/source8fa0029,
