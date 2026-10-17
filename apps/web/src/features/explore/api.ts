@@ -102,13 +102,31 @@ export async function postInquiry(
   id: string,
   body: InquiryInput,
 ): Promise<InquiryResult> {
-  const r = record(
-    await publicRequest(`/businesses/${id}/inquiries`, {
-      method: "POST",
-      body: JSON.stringify(body),
-    }),
-  );
-  if (typeof r.id !== "string" || typeof r.created_at !== "string")
-    throw new ApiError(0, "INVALID_RESPONSE");
-  return r as InquiryResult;
+  // PR46 transport safeguards, retaining the already released form/retry logic.
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 20_000);
+  try {
+    const r = record(
+      await publicRequest(`/businesses/${id}/inquiries`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        signal: controller.signal,
+      }),
+    );
+    if (
+      typeof r.id !== "string" ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+        r.id,
+      ) ||
+      typeof r.created_at !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/i.test(
+        r.created_at,
+      ) ||
+      !Number.isFinite(Date.parse(r.created_at))
+    )
+      throw new ApiError(0, "INVALID_RESPONSE");
+    return { id: r.id, created_at: r.created_at };
+  } finally {
+    clearTimeout(timer);
+  }
 }

@@ -109,7 +109,9 @@ export function CatalogPage() {
                 </Badge>
               </div>
               <h2>{item.name}</h2>
-              <p className="price">
+              <p
+                className={`price${item.price_minor === null ? " price--missing" : ""}`}
+              >
                 {item.price_minor === null
                   ? t("noPrice")
                   : formatKZT(item.price_minor, locale)}

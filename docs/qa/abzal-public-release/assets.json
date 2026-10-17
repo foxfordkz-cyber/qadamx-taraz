@@ -1,0 +1,101 @@
+{
+  "ok": true,
+  "public_dir": "apps/web/public",
+  "venues": [
+    {
+      "slug": "mart",
+      "errors": [],
+      "bytes": 1441176,
+      "triangles": 27398,
+      "stored_triangles": 27398,
+      "vertices": 52195,
+      "meshes": 29,
+      "primitives": 29,
+      "bounds_min": [
+        -99.0,
+        0.0,
+        -47.0
+      ],
+      "bounds_max": [
+        99.0,
+        34.23999786376953,
+        47.0
+      ],
+      "textures": [],
+      "degenerate_triangles": 0,
+      "poster_bytes": 32706,
+      "poster_dimensions": [
+        1024,
+        543
+      ]
+    },
+    {
+      "slug": "kaikarmet",
+      "errors": [],
+      "bytes": 717596,
+      "triangles": 13810,
+      "stored_triangles": 13810,
+      "vertices": 25755,
+      "meshes": 19,
+      "primitives": 19,
+      "bounds_min": [
+        -47.0,
+        0.0,
+        -32.0
+      ],
+      "bounds_max": [
+        47.0,
+        8.06248664855957,
+        32.0
+      ],
+      "textures": [],
+      "degenerate_triangles": 0,
+      "poster_bytes": 29048,
+      "poster_dimensions": [
+        1024,
+        640
+      ]
+    },
+    {
+      "slug": "auyl-bereke",
+      "errors": [],
+      "bytes": 746584,
+      "triangles": 13808,
+      "stored_triangles": 13808,
+      "vertices": 27000,
+      "meshes": 18,
+      "primitives": 18,
+      "bounds_min": [
+        -48.0,
+        0.0,
+        -69.0
+      ],
+      "bounds_max": [
+        48.0,
+        15.76050090789795,
+        69.0
+      ],
+      "textures": [],
+      "degenerate_triangles": 0,
+      "poster_bytes": 31078,
+      "poster_dimensions": [
+        1024,
+        519
+      ]
+    }
+  ],
+  "errors": [],
+  "warnings": [],
+  "budgets": {
+    "glb_bytes": 1500000,
+    "triangles": 30000,
+    "poster_bytes": 200000,
+    "texture_max_dimension": 1024
+  },
+  "manual_checks": [
+    "Visual identity and +Z facade orientation",
+    "Camera framing, lighting and hotspot clickability in the real app",
+    "Mobile loading and image fallback; image pixels are not decoded here",
+    "References, authorship and usage rights in asset-sources.md"
+  ]
+}

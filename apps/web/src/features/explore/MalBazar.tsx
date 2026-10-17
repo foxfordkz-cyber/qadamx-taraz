@@ -70,7 +70,7 @@ function MalBazarPlan({ label }: { label: string }) {
 /** Published Android test build with the livestock feed; the web has no listings
     of its own. Update together with each mobile release. */
 const MOBILE_APP_RELEASE =
-  "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.2.1-shell.1";
+  "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.3.0-native.1";
 
 export function MalBazarSection() {
   const { t } = useT();

@@ -1,4 +1,24 @@
 export const ru = {
+  analyticsPeriodScope: "За выбранный период",
+  analyticsCurrentScope: "Сейчас · все даты",
+  analyticsActiveCountHint: "Только действующие продажи, без отменённых",
+  analyticsDebtorsCount: "Количество должников",
+  analyticsDebtorsHint: "Покупатели с непогашенным долгом",
+  analyticsSummaryTitle: "Краткая сводка",
+  analyticsSummaryPeriod:
+    "Зарегистрировано продаж: {count}, на сумму {sales}. Поступления: {receipts}.",
+  analyticsSummaryDebt: "Общий долг: {debt}. Должников: {debtors}.",
+  analyticsNegativeReceiptsSummary:
+    "Поступления отрицательные: возвраты при отменах превысили полученные оплаты за период.",
+  analyticsReportLinks: "История и долги точки",
+  analyticsOpenHistory: "Открыть историю",
+  analyticsOpenDebts: "Открыть долги",
+  analyticsNewSale: "Новая продажа",
+  analyticsSelectedDay: "Выбранный день",
+  analyticsSelectedHour: "Выбранный час · за весь период",
+  analyticsDailyMaximum: "Максимум за день",
+  analyticsDailyMinimum: "Минимум за день",
+  analyticsHourlyMaximum: "Максимум за час",
   analytics: "Аналитика",
   analyticsTitle: "Аналитика моей точки",
   analyticsSubtitle:
@@ -20,7 +40,7 @@ export const ru = {
   analyticsReversalScenario: "Отмена старой продажи",
   analyticsWaitingTitle: "Аналитика ожидает подключения",
   analyticsWaitingHint:
-    "Адрес API не настроен для этого приложения. Обратитесь к капитану, чтобы подключить сервер аналитики. Учебные данные доступны только в отдельном Demo-режиме.",
+    "Аналитика в этом приложении пока не подключена. Обратитесь к администратору Qadam. Учебный пример доступен в демо-режиме.",
   analyticsAsOf: "Снимок на",
   analyticsTimezone: "Часовой пояс",
   analyticsPartial: "Сегодня — неполный день",
@@ -116,7 +136,7 @@ export const ru = {
   password: "Пароль",
   passwordShow: "Показать пароль",
   welcome: "Ваш бизнес. Всё под рукой.",
-  loginHint: "Войдите с аккаунтом, который выдал капитан команды.",
+  loginHint: "Войдите с аккаунтом продавца, который выдал администратор Qadam.",
   authUnavailable:
     "Вход пока недоступен. Подключение сервиса авторизации ожидается.",
   authError: "Не удалось войти. Проверьте данные и попробуйте снова.",
@@ -131,7 +151,7 @@ export const ru = {
   business: "Торговая точка",
   noBusiness: "Нет доступных торговых точек",
   noBusinessHint:
-    "Доступ к торговой точке ещё не назначен. Создание точки и приглашения в кабинете пока недоступны. Обратитесь к капитану, затем обновите список.",
+    "Доступ к торговой точке ещё не назначен. Создание точки и приглашения в кабинете пока недоступны. Обратитесь к администратору Qadam, затем обновите список.",
   sale: "Продажа",
   debts: "Мне должны",
   inquiries: "Заявки",
