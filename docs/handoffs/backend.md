@@ -1,5 +1,13 @@
 # Передача работы backend
 
+## 2026-10-17 — следующая интеграция публичной заявки
+
+От main8ee78ae, без повторного PR41/42: выборочный перенос формы e6c9dd, реальное имя ShopPage, защита unknown→4xx сохраняет key/body, смена магазина изолирует late response. Отдельный public-inquiry.md по поручению капитана, public-web.md не заменён. Apps/api/OpenAPI/AI/recovery/аналитика/GLB не менялись, Render не перезапускается.
+
+333unit/component, typecheck/lint/build/check:api PASS; recovery5/QA21/voice1/microphone18/general24/Auth7 PASS с заглушками (пересечения). Один устаревший E2E-selector формы обновлён, повтор прошёл. Живой кандидат с real Supabase/Render: hotspot→магазин→POST→локально потерянный ответ→тот же intent→та же квитанция; inboxA/foreignB404. Заявка e77aa7d2-1799-4139-be37-728642d0925d, точкаad6203bc-7320-5b36-982b-135504c5af68. Денег/AI/миграций/seed/cleanup0.
+
+[Review, rollout и ограничения](../INQUIRY_RELEASE_REVIEW.md). PR43 eba0f91 не содержит согласованный callback, оставлен отдельно; текущие public Auth flags сняты read-only, Site URL/allowlist не видны без администратора. PR45 cbb4d0c: APK0.2.2+5/source96ef1c4 скачан, SHA/config проверены; устройство ожидается, APK не собирался. Ссылка витрины ведёт на новый test release. Новые721da4e/PR46 и d010f5e сравнили, whole-branch не добавляли; следующий шаг владельцам — сверка с выпущенной формой и отдельная приёмка их оставшихся изменений.
+
 ## 2026-10-17 — совместная приёмка PR42 recovery + PR41 polish
 
 От свежего main9845b91 в отдельной `integration/recovery-polish-062` объединены remote heads **2058b91** и **7d84cb6**, production-код merge **539bee6**. Пересечения Customers/test прочитаны: сохранены compare-and-clear, owner/session guards, Web Locks и полировка без UUID. Исправлен один тестовый селектор имени; приложение ради теста не менялось. API0.6.2/OpenAPI/generated/Auth/GLB/Flutter сохранены; apps/api равен e699158.

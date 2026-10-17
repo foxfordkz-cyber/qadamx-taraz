@@ -90,7 +90,7 @@ export default function ShopPage() {
               )}
             </section>
 
-            <InquiryForm key={b.id} businessId={b.id} />
+            <InquiryForm key={b.id} businessId={b.id} businessName={b.name} />
           </>
         )}
       </State>
