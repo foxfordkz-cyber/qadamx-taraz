@@ -273,6 +273,8 @@ EXAMPLES["CustomerIdsEmptyPage"] = {"items": [], "next_cursor": None}
 
 
 def model_for_example(name):
+    if name == "CanonicalMarketPriceStats":
+        return livestock_schemas.PriceStats
     if name.startswith("LocalizedShop"):
         return schemas.ShopResponse
     if name.startswith("Analytics"):
@@ -347,4 +349,24 @@ EXAMPLES["LocalizedShopKK"] = {
 EXAMPLES["LocalizedShopRU"] = {
     **EXAMPLES["LocalizedShopKK"],
     "name": "Демо MART — Одежда",
+}
+
+EXAMPLES["MarketResponse"] = {
+    "id": "10000000-0000-4000-8000-000000000001",
+    "key": "example-market",
+    "name": "Учебный пример рынка",
+    "name_i18n": None,
+    "locality": "Тараз",
+    "verification_status": "unverified",
+    "verified_at": None,
+    "accepts_listings": False,
+}
+EXAMPLES["CanonicalMarketPriceStats"] = {
+    **EXAMPLES["PriceStats"],
+    "market_id": EXAMPLES["MarketResponse"]["id"],
+    "market": None,
+    "sample_count": 0,
+    "min_price_per_head_minor": None,
+    "median_price_per_head_minor": None,
+    "status": "insufficient_data",
 }
