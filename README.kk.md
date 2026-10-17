@@ -66,7 +66,8 @@
 | Flutter қосымшасы | 🟡 Сынақ APK | Алаңдар, дүкендер, CRM. Құрылғыда тексеру ашық |
 | Мал базар | 🟡 Концепт | Базарлар келісімшарты дайын, анықтамалық бос, нақты баға жоқ |
 | Сатушыларды тіркеу | ✅ Сайтта тексерілді | Нақты хат, жаңа аккаунт, бетті жаңарту және бұрынғы аккаунтқа қайта кіру; сауда нүктесіне рұқсат бөлек беріледі. [Тексеру нәтижесі](docs/REGISTRATION_PAGES_LIVE_20261017.md) |
-| iPhone/Safari және Android | ⏳ Қабылданбады | Автотесттер бар, құрылғыда тексеру аяқталмаған |
+| Safari-дегі сайт | ✅ Команда тексерді | Сайттың негізгі функциялары Safari-де қолмен тексерілді |
+| Нақты Android және iPhone-дағы Flutter | ⏳ Қабылданбады | APK эмуляторда тексерілді, телефондарға орнату аяқталмаған |
 | Пайдалылықты өлшеу | ⏳ Өткізілмеді | Қолмен енгізу мен дауысты салыстыру — келесі қадам |
 
 ## Скриншоттар
@@ -111,21 +112,96 @@ docs                ТТ, шешімдер, жұмысты тапсыру, ес�
 
 ## Жергілікті іске қосу
 
-API (Python және uv, серверлік `.env` — [apps/api/README.md](apps/api/README.md) бойынша):
+### Не қажет
+
+| Құрал | Нұсқа | Не үшін |
+|---|---|---|
+| Python | 3.12 (`apps/api/.python-version`) | API |
+| [uv](https://docs.astral.sh/uv/) | кез келген өзекті нұсқа | `uv.lock` бойынша API тәуелділіктері |
+| Node.js және npm | 20.19+ не 22.12+ (Node 24-те тексерілді) | сайт |
+| PostgreSQL | өз жергілікті дерекқорыңыз, ортақ Supabase емес | API деректері |
+| Supabase жобасы | өзіңіздікі не сынақ жобасы | сатушылардың кіруі (JWT) |
+| OpenAI не Gemini кілті | міндетті емес | дауыстық және мәтіндік жобалар. Кілтсіз қолмен енгізу жұмыс істейді |
+| Flutter | 3.47.7 / Dart 3.13.5 | тек `apps/mobile` үшін |
+
+### 1. Дерекқор
+
+Бөлек PostgreSQL қажет. Docker арқылы мысал:
 
 ```bash
-cd apps/api && uv sync --locked && uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
+docker run -d --name qadam-db -e POSTGRES_PASSWORD=qadam -e POSTGRES_DB=qadam -p 5432:5432 postgres:16
 ```
 
-Web (Node.js, жария `.env.local` — `apps/web/.env.example` бойынша):
+`DATABASE_URL` `postgresql://` және `postgresql+psycopg://` схемаларын қабылдайды, мысалы `postgresql://postgres:qadam@127.0.0.1:5432/qadam`. pytest үшін `TEST_DATABASE_URL`-де екінші бос дерекқор керек: тесттер оны тазалайды.
+
+### 2. API
 
 ```bash
-cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
+cd apps/api
+uv sync --locked
+cp .env.example .env              # PowerShell: Copy-Item .env.example .env
+# .env толтырыңыз: DATABASE_URL, SUPABASE_URL, JWT_ISSUER, ALLOWED_ORIGINS=["http://127.0.0.1:5173"]
+uv run alembic upgrade head       # 0001–0008 миграциялары
+uv run python -m app.seed --demo  # 3 алаң, 9 оқу нүктесі, тауарлар мен клиенттер
+uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
+
+Тексеру: http://127.0.0.1:8000/api/v1/health, Swagger — http://127.0.0.1:8000/docs. Оқу нүктелері сынақ пайдаланушыларыңыздың кабинетінде көрінуі үшін `DEMO_OWNER_*` толтырып, `uv run python -m app.seed --demo --bind-owners` орындаңыз (толығы — [apps/api/README.md](apps/api/README.md)). AI үшін `AI_PROVIDER=openai` пен `OPENAI_*` не `AI_PROVIDER=gemini` пен `AI_API_KEY`/`AI_MODEL` көрсетіңіз.
+
+### 3. Сайт
+
+```bash
+cd apps/web
+npm ci
+cp .env.example .env.local        # PowerShell: Copy-Item .env.example .env.local
+# .env.local толтырыңыз: VITE_API_BASE_URL=http://127.0.0.1:8000/api/v1, VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY
+npm run dev -- --port 5173 --strictPort
+```
+
+http://127.0.0.1:5173 ашыңыз. Витрина бір API-мен жұмыс істейді. `/login` бетіндегі демо батырмасы Supabase-сіз де кабинетті кірістірілген оқу деректерімен ашады. Production-нұсқадағы тіркеу `https://qadamx-taraz.pages.dev/auth/callback` мекенжайына байланған, жергілікті түрде бар сынақ пайдаланушыларымен кіріңіз.
+
+### 4. Мобильді қосымша (міндетті емес)
+
+```bash
+cd apps/mobile
+cp config/public.example.json config/public.local.json   # API мен Supabase жария мекенжайларын толтырыңыз
+flutter pub get
+flutter run --dart-define-from-file=config/public.local.json
+```
+
+Толығы — [apps/mobile/README.md](apps/mobile/README.md).
 
 ### Орта айнымалылары
 
-Мәндер коммитке қосылмайды, репозиторийде тек `.env.example` үлгілері бар. API: DATABASE_URL, TEST_DATABASE_URL, SUPABASE_URL, JWT_ISSUER, JWT_AUDIENCE, ALLOWED_ORIGINS, AI_PROVIDER, AI_API_KEY, AI_MODEL, OPENAI_API_KEY, OPENAI_MODEL, OPENAI_TRANSCRIPTION_MODEL, AI_FALLBACK_OPENAI, AI_PRIMARY_TIMEOUT_SECONDS, STORAGE_SERVICE_KEY, STORAGE_BUCKET, LIVESTOCK_DEMO_MODE, DEMO_OWNER_A_SUB, DEMO_OWNER_B_SUB, DEMO_OWNER_A_TOKEN, DEMO_OWNER_B_TOKEN. Web: VITE_API_BASE_URL, VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY, VITE_CUSTOMER_IDS_ENABLED. `VITE_` префиксі тек жария мәндерде.
+Мәндер коммитке қосылмайды, репозиторийде тек `.env.example` үлгілері бар. `VITE_` префиксі — тек браузерге түсетін жария мәндерде.
+
+| Қайда | Айнымалылар |
+|---|---|
+| API, міндетті | `DATABASE_URL`, `SUPABASE_URL`, `JWT_ISSUER`, `JWT_AUDIENCE`, `ALLOWED_ORIGINS` |
+| API, AI | `AI_PROVIDER`, `AI_API_KEY`, `AI_MODEL`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_TRANSCRIPTION_MODEL`, `AI_FALLBACK_OPENAI`, `AI_PRIMARY_TIMEOUT_SECONDS` |
+| API, Мал базар суреттері | `STORAGE_SERVICE_KEY`, `STORAGE_BUCKET`, `LIVESTOCK_DEMO_MODE` |
+| API, тесттер мен оқу иелері | `TEST_DATABASE_URL`, `DEMO_OWNER_A_SUB`, `DEMO_OWNER_B_SUB`, `DEMO_OWNER_A_TOKEN`, `DEMO_OWNER_B_TOKEN` |
+| Сайт | `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_CUSTOMER_IDS_ENABLED` |
+
+## Deploy қалай құрылған
+
+```mermaid
+flowchart LR
+  Dev["main → deploy/permanent-062"] --> Pages["Cloudflare Pages · сайт"]
+  Dev --> Render["Render · API"]
+  Render --> Supa["Supabase · Auth және PostgreSQL"]
+  Render --> OAI["OpenAI · жобалар"]
+```
+
+| Бөлік | Қайда | Қалай шығарылады |
+|---|---|---|
+| Сайт | [Cloudflare Pages](https://qadamx-taraz.pages.dev) | `apps/web` ішінде `npm run build:hosted` жария баптаулармен `dist` жинайды, содан кейін Pages-ке Direct Upload. Git push сайтты өзі жаңартпайды. SPA маршруттарын, соның ішінде `/auth/callback`, Pages өңдейді |
+| API | [Render](https://qadamx-taraz.onrender.com/api/v1/health), тегін жоспар, Сингапур | [`render.yaml`](render.yaml)-да сипатталған: `deploy/permanent-062` тармағы, автодеплой өшірулі, қолмен шығарылады. `deploy_start.py` баптауларды тексереді, миграция мен seed іске қоспайды. Құпиялар тек Render Environment-те |
+| Дерекқор және кіру | Supabase, 0008 схемасы | Ортақ дерекқордағы миграциялар — тек backup пен қалпына келтіруді тексеретін бөлек rollout арқылы |
+| AI | Серверлік адаптер арқылы OpenAI | Кілт тек Render-де. Провайдер `AI_PROVIDER` айнымалысымен таңдалады |
+| Android | [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases) | APK `apps/mobile`-дан бөлек жиналып, pre-release ретінде жарияланады |
+
+Тегін Render бос тұрғаннан кейін ұйықтайды, алғашқы сұрау бір минутқа дейін созылуы мүмкін. Ескі `qadamx-taraz.vercel.app` мекенжайы енді негізгі емес: құрастыру лимитіне байланысты жаңармайды, Pages-ті пайдаланыңыз.
 
 ## Тексерулер және дәлелдің шекарасы
 
