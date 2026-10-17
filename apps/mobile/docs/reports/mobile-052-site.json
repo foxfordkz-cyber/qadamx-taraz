@@ -1,0 +1,18 @@
+{
+  "url": "https://qadamx-taraz.pages.dev",
+  "checked_utc": "2026-10-17T16:00:08.507650+00:00",
+  "runtime_commit": "NOT_INDEPENDENTLY_VERIFIED",
+  "observation": "Browser public home -> Kaikarmet -> food shop with catalog and inquiry. No submission.",
+  "script": "/assets/index-cqB5t7QT.js",
+  "stylesheet": "/assets/index-lZdhYnpt.css",
+  "stylesheet_sha256": "ce51fa27e835f2d207565b798a4beb5514058e79224128b86fab93af6c24cfed",
+  "tokens": {
+    "green": "#164c3e",
+    "lime": "#d7f36a",
+    "scene-sky": "#dfeceb",
+    "warning": "#8a5410",
+    "warning-soft": "#fff2cf",
+    "warning-line": "#f2d68c",
+    "chart-amber": "#b36d20"
+  }
+}

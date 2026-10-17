@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../ui/qadam_name.dart';
 
 import '../ui/common.dart';
 import '../ui/qadam_theme.dart';
@@ -85,7 +86,7 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
+              QadamName(
                 tr(kk, 'Хорошего рабочего дня!', 'Жұмысыңыз сәтті болсын!'),
                 style: Theme.of(
                   context,
