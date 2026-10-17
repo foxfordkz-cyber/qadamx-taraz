@@ -63,11 +63,13 @@
 }
 
 .ex .ex-top {
-  height: 58px;
+  /* Large text wraps the language switch to its own row instead of overflowing. */
+  min-height: 58px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
+  gap: 8px 16px;
   margin-bottom: 26px;
 }
 .ex .brand {
@@ -755,7 +757,7 @@
     padding: 10px 16px 36px;
   }
   .ex .ex-top {
-    height: 48px;
+    min-height: 48px;
     gap: 8px;
     margin-bottom: 14px;
   }
