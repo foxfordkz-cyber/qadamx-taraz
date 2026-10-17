@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 from app import schemas
 from app.db import public_session
 from app.errors import APIError
+from app.localization import Language, localized
 from app.models import Business, CatalogItem, Inquiry, Venue
 from app.routers import Limit, User
 from app.services.ledger import require_membership
@@ -19,25 +20,26 @@ router = APIRouter(prefix="/api/v1", tags=["catalog-inquiries"])
 DB = Annotated[Session, Depends(public_session)]
 
 
-def page(db, stmt, model, limit, cursor):
+def page(db, stmt, model, limit, cursor, schema=None, lang=None):
     if cursor:
         stmt = stmt.where(model.id > cursor)
     rows = list(db.scalars(stmt.order_by(model.id).limit(limit + 1)))
     return {
-        "items": rows[:limit],
+        "items": [localized(row, schema, lang) for row in rows[:limit]] if schema else rows[:limit],
         "next_cursor": str(rows[limit - 1].id) if len(rows) > limit else None,
     }
 
 
 @router.get("/venues", response_model=schemas.Page[schemas.VenueResponse])
-def venues(db: DB, limit: Limit = 50, cursor: UUID | None = None):
-    return page(db, select(Venue), Venue, limit, cursor)
+def venues(db: DB, limit: Limit = 50, cursor: UUID | None = None, lang: Language | None = None):
+    return page(db, select(Venue), Venue, limit, cursor, schemas.VenueResponse, lang)
 
 
 @router.get("/businesses", response_model=schemas.Page[schemas.PublicBusiness])
 def businesses(
     db: DB,
     venue_id: UUID | None = None,
+    lang: Language | None = None,
     category: Annotated[str, Query(max_length=100)] = "",
     q: Annotated[str, Query(max_length=200)] = "",
     limit: Limit = 50,
@@ -50,11 +52,11 @@ def businesses(
         stmt = stmt.where(Business.category == category)
     if q.strip():
         stmt = stmt.where(Business.name.icontains(q.strip(), autoescape=True))
-    return page(db, stmt, Business, limit, cursor)
+    return page(db, stmt, Business, limit, cursor, schemas.PublicBusiness, lang)
 
 
 @router.get("/businesses/{slug}", response_model=schemas.ShopResponse)
-def shop(slug: str, db: DB):
+def shop(slug: str, db: DB, lang: Language | None = None):
     business = db.scalar(select(Business).where(Business.slug == slug))
     if not business:
         raise APIError(404, "NOT_FOUND", "Business not found")
@@ -62,8 +64,8 @@ def shop(slug: str, db: DB):
         select(CatalogItem).where(CatalogItem.business_id == business.id).order_by(CatalogItem.id)
     ).all()
     return schemas.ShopResponse(
-        **schemas.PublicBusiness.model_validate(business).model_dump(),
-        catalog=[schemas.CatalogResponse.model_validate(row) for row in catalog],
+        **localized(business, schemas.PublicBusiness, lang).model_dump(),
+        catalog=[localized(row, schemas.CatalogResponse, lang) for row in catalog],
     )
 
 

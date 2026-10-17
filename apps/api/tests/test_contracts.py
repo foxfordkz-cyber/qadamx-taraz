@@ -42,6 +42,8 @@ def test_openapi_refs_auth_and_operation_union():
         ("/api/v1/livestock/listings/{id}", "get"),
         ("/api/v1/livestock/listings/{id}/photos/{photo_id}", "get"),
         ("/api/v1/livestock/prices", "get"),
+        ("/api/v1/livestock/markets", "get"),
+        ("/api/v1/livestock/markets/{id}", "get"),
     }
     for path, methods in schema["paths"].items():
         for method, route in methods.items():

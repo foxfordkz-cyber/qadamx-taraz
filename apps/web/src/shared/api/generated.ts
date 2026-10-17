@@ -270,6 +270,40 @@ export interface paths {
     patch: operations["update_inquiry_api_v1_businesses__id__inquiries__inquiry_id__patch"];
     trace?: never;
   };
+  "/api/v1/livestock/markets": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Markets */
+    get: operations["markets_api_v1_livestock_markets_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/livestock/markets/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Market Detail */
+    get: operations["market_detail_api_v1_livestock_markets__id__get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/livestock/listings": {
     parameters: {
       query?: never;
@@ -508,6 +542,7 @@ export interface components {
     };
     /** BusinessMembership */
     BusinessMembership: {
+      name_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -526,6 +561,7 @@ export interface components {
     };
     /** CatalogResponse */
     CatalogResponse: {
+      name_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -773,6 +809,8 @@ export interface components {
     };
     /** ListingWrite */
     ListingWrite: {
+      /** Market Id */
+      market_id?: string | null;
       /**
        * Species
        * @enum {string}
@@ -801,6 +839,33 @@ export interface components {
       contact: string;
       /** Contact Consent */
       contact_consent: boolean;
+    };
+    /** MarketResponse */
+    MarketResponse: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /** Key */
+      key: string;
+      /** Name */
+      name: string;
+      name_i18n?: components["schemas"]["Translations"] | null;
+      /** Locality */
+      locality: string;
+      /**
+       * Verification Status
+       * @enum {string}
+       */
+      verification_status: "unverified" | "verified" | "retired";
+      /** Verified At */
+      verified_at: string | null;
+      /**
+       * Accepts Listings
+       * @default false
+       */
+      accepts_listings: boolean;
     };
     /** MeResponse */
     MeResponse: {
@@ -893,6 +958,8 @@ export interface components {
     };
     /** OwnerListing */
     OwnerListing: {
+      /** Market Id */
+      market_id?: string | null;
       /**
        * Id
        * Format: uuid
@@ -966,6 +1033,13 @@ export interface components {
       /** Next Cursor */
       next_cursor?: string | null;
     };
+    /** Page[MarketResponse] */
+    Page_MarketResponse_: {
+      /** Items */
+      items: components["schemas"]["MarketResponse"][];
+      /** Next Cursor */
+      next_cursor?: string | null;
+    };
     /** Page[OpenSale] */
     Page_OpenSale_: {
       /** Items */
@@ -1018,6 +1092,8 @@ export interface components {
     };
     /** PriceStats */
     PriceStats: {
+      /** Market Id */
+      market_id?: string | null;
       /**
        * Species
        * @enum {string}
@@ -1075,6 +1151,8 @@ export interface components {
     };
     /** PublicBusiness */
     PublicBusiness: {
+      name_i18n?: components["schemas"]["Translations"] | null;
+      description_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1098,6 +1176,8 @@ export interface components {
     };
     /** PublicListing */
     PublicListing: {
+      /** Market Id */
+      market_id?: string | null;
       /**
        * Id
        * Format: uuid
@@ -1184,6 +1264,8 @@ export interface components {
     };
     /** ShopResponse */
     ShopResponse: {
+      name_i18n?: components["schemas"]["Translations"] | null;
+      description_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1235,8 +1317,17 @@ export interface components {
       /** New Inquiries Count */
       new_inquiries_count: number;
     };
+    /** Translations */
+    Translations: {
+      /** Ru */
+      ru?: string | null;
+      /** Kk */
+      kk?: string | null;
+    };
     /** VenueResponse */
     VenueResponse: {
+      name_i18n?: components["schemas"]["Translations"] | null;
+      address_label_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1394,7 +1485,9 @@ export interface operations {
   };
   me_api_v1_me_get: {
     parameters: {
-      query?: never;
+      query?: {
+        lang?: ("ru" | "kk") | null;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -2151,6 +2244,7 @@ export interface operations {
       query?: {
         limit?: number;
         cursor?: string | null;
+        lang?: ("ru" | "kk") | null;
       };
       header?: never;
       path?: never;
@@ -2218,6 +2312,7 @@ export interface operations {
     parameters: {
       query?: {
         venue_id?: string | null;
+        lang?: ("ru" | "kk") | null;
         category?: string;
         q?: string;
         limit?: number;
@@ -2287,7 +2382,9 @@ export interface operations {
   };
   shop_api_v1_businesses__slug__get: {
     parameters: {
-      query?: never;
+      query?: {
+        lang?: ("ru" | "kk") | null;
+      };
       header?: never;
       path: {
         slug: string;
@@ -2574,12 +2671,152 @@ export interface operations {
       };
     };
   };
+  markets_api_v1_livestock_markets_get: {
+    parameters: {
+      query?: {
+        status?: "unverified" | "verified" | "retired";
+        lang?: ("ru" | "kk") | null;
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["Page_MarketResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  market_detail_api_v1_livestock_markets__id__get: {
+    parameters: {
+      query?: {
+        lang?: ("ru" | "kk") | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["MarketResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
   feed_api_v1_livestock_listings_get: {
     parameters: {
       query?: {
         species?: ("cattle" | "sheep" | "goat" | "horse" | "camel") | null;
         locality?: string | null;
         market?: string | null;
+        market_id?: string | null;
         limit?: number;
         cursor?: string | null;
       };
@@ -2723,6 +2960,7 @@ export interface operations {
         species?: ("cattle" | "sheep" | "goat" | "horse" | "camel") | null;
         locality?: string | null;
         market?: string | null;
+        market_id?: string | null;
         limit?: number;
         cursor?: string | null;
       };
@@ -3007,6 +3245,7 @@ export interface operations {
         species: "cattle" | "sheep" | "goat" | "horse" | "camel";
         locality: string;
         market?: string | null;
+        market_id?: string | null;
       };
       header?: never;
       path?: never;

@@ -1,5 +1,35 @@
 # Qadam API — журнал, AI-черновики и «Мал базар»
 
+## Кандидат рынков API 0.6.3 — не развёрнут
+
+[Контракт и защита отката](../../packages/contracts/LIVESTOCK_MARKETS_API.md).
+PR #72 зависит от PR #70: после отдельного согласования сначала backup/restore,
+`alembic upgrade 0008_canonical_markets` (включает 0007), затем новый API.
+До миграции новый ORM не запускать. Справочник пуст; seed и привязки по похожим
+именам не выполняются. Реальные рынки добавляются отдельным проверенным планом.
+
+В apps/api: `uv run pytest -q` только с отдельной пустой TEST_DATABASE_URL,
+`uv run ruff check app tests migrations`,
+`uv run python -m app.export_contracts --check`.
+Web: `npm run typecheck`, `npm run check:api`, `npm run lint`, `npm run build`.
+На общей Supabase миграции и очищающие тесты не запускались.
+При откате не обслуживать market_id прежним API, который игнорирует этот query.
+Отключить зависимый UI и поставить защитный отказ; таблицы и связи сохранить.
+
+## Кандидат API0.6.3: RU/KK публичные данные (не развёрнут)
+
+[Контракт и rollout](../../packages/contracts/PUBLIC_LOCALIZATION_API.md): сначала
+backup/restore и `alembic upgrade 0007_public_i18n`, затем API. Текущий production
+остаётся0.6.2/0006; новый ORM нельзя запускать против0006. Старые клиенты без lang
+сохраняют исходные строки; новые передают lang=ru/kk. OpenAPI/generated.ts обновлены.
+
+Переводы учебных шаблонов лежат в `packages/contracts/demo-translations-proposed.json`
+с reviewed=false. После проверки носителем языка отдельная команда (не seed):
+`python -m app.demo_translations ../../packages/contracts/demo-translations-proposed.json`
+— только dry-run; `--apply` выполняет согласованный data patch. В текущей подготовке
+на общей БД ни одна команда не запускалась. UUID/slug/исходные тексты сохраняются.
+Откат приложения допускает оставить0007; downgrade удаляет переводы и не нужен.
+
 **Кандидат PR61, ещё не Render:** [GET customers по ids](../../packages/contracts/CUSTOMER_IDS_API.md)
 возвращает полный Page для максимум100 UUID через повторяющийся query `ids`.
 Не совмещать с q/cursor/limit; пропущенные и чужие ID не различаются. Без ids

@@ -1,0 +1,73 @@
+{
+  "checked_at_utc": "2026-10-17T15:33:11.981397+00:00",
+  "source_commit": "640d0ef7c936a403162a8c7185f2438ca6679bba",
+  "api_base_url": "https://qadamx-taraz.onrender.com/api/v1",
+  "emulator": "Official Android SDK; isolated Android 7.0/API24/x86_64 AVD",
+  "screen": {
+    "pixels": "1080x1920",
+    "density": 420,
+    "approx_width_dp": 411,
+    "font_scale_setting": null
+  },
+  "install": {
+    "apk_file": "qadam-0.5.1-640d0ef-internal.apk",
+    "apk_bytes": 28649937,
+    "apk_sha256": "bce1d35b0b848124f8fb41becacdadf03faa29e88cd1a2565160fb875b9eb29f",
+    "published_checksum_checked": true,
+    "device_type": "emulator",
+    "manufacturer": "unknown",
+    "model": "Android SDK built for x86_64",
+    "android": "7.0",
+    "sdk": "24",
+    "abis": "x86_64,x86",
+    "package": "kz.qadam.qadam_mobile",
+    "installed_version_code_before": "9",
+    "installed_version_name_before": "0.5.0",
+    "install_result": "SUCCESS",
+    "install_exit_code": 0
+  },
+  "package_after": {
+    "versionCode": 10,
+    "versionName": "0.5.1",
+    "minSdk": 24,
+    "targetSdk": 36
+  },
+  "checks": {
+    "launch_and_restart": "PASS",
+    "home_to_venues": "PASS",
+    "venues_to_mal_bazar": "PASS; live API empty state",
+    "system_back_to_venues": "PASS",
+    "guest_profile_help_language_ru_kk": "PASS",
+    "kaikarmet_category_food_shop_catalog_form": "PASS; form not submitted",
+    "return_from_shop_filter_and_list_context": "PASS",
+    "3d": "NOT_LOADED; cause not diagnosed; timeout poster and usable native list observed",
+    "physical_android": "NOT_PERFORMED_NO_DEVICE",
+    "authenticated_A_B": "NOT_PERFORMED",
+    "financial_ai_inquiry_writes": "NOT_PERFORMED",
+    "camera_microphone": "NOT_PERFORMED",
+    "real_session_pending_preservation_on_update": "NOT_PERFORMED_GUEST_RUN"
+  },
+  "screenshots": [
+    "home",
+    "venues",
+    "market",
+    "profile",
+    "profile-menu",
+    "help",
+    "home-kk",
+    "shop",
+    "inquiry",
+    "shop-back",
+    "restart"
+  ],
+  "video": {
+    "file": "qadam-051-native-emulator.mp4",
+    "duration_seconds": 70.09,
+    "bytes": 1331712,
+    "sha256": "7a37417d9ac54ae5b3ac4e39c908c6982216bb4e6bec5cd4d5a4b5c1c61ab2d5",
+    "origin": "Android screenrecord, no credentials entered, unedited",
+    "decode": "PASS"
+  },
+  "user_installation_incident": "OPEN_PACKAGE_ERROR; phone model/OS/Package Manager code unavailable",
+  "uninstall_or_clear_used": false
+}

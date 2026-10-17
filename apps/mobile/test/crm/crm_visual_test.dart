@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -59,6 +61,60 @@ Widget app(Widget child, {String language = 'ru'}) => MaterialApp(
 );
 
 void main() {
+  testWidgets(
+    'chart legend paints distinct solid green and dashed amber samples',
+    (tester) async {
+      await tester.pumpWidget(
+        app(
+          Scaffold(
+            body: SingleChildScrollView(
+              child: CrmDailyChart(
+                days: (emptyAnalytics()['daily'] as List).cast<CrmJson>(),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.text('━'), findsNothing);
+      expect(find.text('┄'), findsNothing);
+      for (final entry in [
+        ('legend-sales', QadamTheme.green, 1),
+        ('legend-receipts', QadamTheme.chartAmber, 3),
+      ]) {
+        final sample = tester.widget<CustomPaint>(find.byKey(Key(entry.$1)));
+        final recorder = ui.PictureRecorder();
+        sample.painter!.paint(Canvas(recorder), const Size(24, 12));
+        final picture = recorder.endRecording();
+        final pixels = await tester.runAsync(() async {
+          final image = await picture.toImage(24, 12);
+          final bytes = await image.toByteData(
+            format: ui.ImageByteFormat.rawRgba,
+          );
+          image.dispose();
+          return bytes!;
+        });
+        picture.dispose();
+        var segments = 0;
+        var previous = false;
+        for (var x = 0; x < 24; x++) {
+          final offset = (6 * 24 + x) * 4;
+          final present = pixels!.getUint8(offset + 3) > 200;
+          if (present) {
+            final rgb =
+                (pixels.getUint8(offset) << 16) |
+                (pixels.getUint8(offset + 1) << 8) |
+                pixels.getUint8(offset + 2);
+            expect(rgb, entry.$2.toARGB32() & 0xffffff);
+          }
+          if (present && !previous) segments++;
+          previous = present;
+        }
+        expect(segments, entry.$3);
+      }
+    },
+  );
+
   testWidgets('metrics grow at 2x, and use two columns at regular width', (
     tester,
   ) async {

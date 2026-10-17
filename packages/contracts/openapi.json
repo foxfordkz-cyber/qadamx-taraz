@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.6.2"
+    "version": "0.6.3"
   },
   "paths": {
     "/api/v1/health": {
@@ -155,6 +155,33 @@
         ],
         "summary": "Me",
         "operationId": "me_api_v1_me_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -167,61 +194,56 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Unauthorized"
           },
           "404": {
-            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Not Found"
           },
           "409": {
-            "description": "Conflict",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Conflict"
           },
           "422": {
-            "description": "Unprocessable Entity",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           },
           "503": {
-            "description": "Service Unavailable",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Service Unavailable"
           }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/api/v1/businesses/{id}/customers": {
@@ -1437,6 +1459,26 @@
               ],
               "title": "Cursor"
             }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
           }
         ],
         "responses": {
@@ -1526,6 +1568,26 @@
                 }
               ],
               "title": "Venue Id"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
             }
           },
           {
@@ -1659,6 +1721,26 @@
             "schema": {
               "type": "string",
               "title": "Slug"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
             }
           }
         ],
@@ -2052,6 +2134,246 @@
         }
       }
     },
+    "/api/v1/livestock/markets": {
+      "get": {
+        "tags": [
+          "livestock"
+        ],
+        "summary": "Markets",
+        "operationId": "markets_api_v1_livestock_markets_get",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "unverified",
+                "verified",
+                "retired"
+              ],
+              "type": "string",
+              "default": "verified",
+              "title": "Status"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Page_MarketResponse_"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/livestock/markets/{id}": {
+      "get": {
+        "tags": [
+          "livestock"
+        ],
+        "summary": "Market Detail",
+        "operationId": "market_detail_api_v1_livestock_markets__id__get",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarketResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/livestock/listings": {
       "get": {
         "tags": [
@@ -2119,6 +2441,23 @@
                 }
               ],
               "title": "Market"
+            }
+          },
+          {
+            "name": "market_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Market Id"
             }
           },
           {
@@ -2404,6 +2743,23 @@
                 }
               ],
               "title": "Market"
+            }
+          },
+          {
+            "name": "market_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Market Id"
             }
           },
           {
@@ -2850,6 +3206,23 @@
                 }
               ],
               "title": "Market"
+            }
+          },
+          {
+            "name": "market_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Market Id"
             }
           }
         ],
@@ -3431,6 +3804,16 @@
       },
       "BusinessMembership": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -3462,6 +3845,16 @@
       },
       "CatalogResponse": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -4032,6 +4425,18 @@
       },
       "ListingWrite": {
         "properties": {
+          "market_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Id"
+          },
           "species": {
             "type": "string",
             "enum": [
@@ -4148,6 +4553,74 @@
           "contact_consent"
         ],
         "title": "ListingWrite"
+      },
+      "MarketResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "key": {
+            "type": "string",
+            "title": "Key"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "locality": {
+            "type": "string",
+            "title": "Locality"
+          },
+          "verification_status": {
+            "type": "string",
+            "enum": [
+              "unverified",
+              "verified",
+              "retired"
+            ],
+            "title": "Verification Status"
+          },
+          "verified_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Verified At"
+          },
+          "accepts_listings": {
+            "type": "boolean",
+            "title": "Accepts Listings",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "key",
+          "name",
+          "locality",
+          "verification_status",
+          "verified_at"
+        ],
+        "title": "MarketResponse"
       },
       "MeResponse": {
         "properties": {
@@ -4361,6 +4834,18 @@
       },
       "OwnerListing": {
         "properties": {
+          "market_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Id"
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -4570,6 +5055,35 @@
         ],
         "title": "Page[InquiryResponse]"
       },
+      "Page_MarketResponse_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/MarketResponse"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "Page[MarketResponse]"
+      },
       "Page_OpenSale_": {
         "properties": {
           "items": {
@@ -4761,6 +5275,18 @@
       },
       "PriceStats": {
         "properties": {
+          "market_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Id"
+          },
           "species": {
             "type": "string",
             "enum": [
@@ -4871,6 +5397,26 @@
       },
       "PublicBusiness": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -4917,6 +5463,18 @@
       },
       "PublicListing": {
         "properties": {
+          "market_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Market Id"
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -5164,6 +5722,26 @@
       },
       "ShopResponse": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -5265,8 +5843,61 @@
         ],
         "title": "SummaryResponse"
       },
+      "Translations": {
+        "properties": {
+          "ru": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ru"
+          },
+          "kk": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kk"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Translations"
+      },
       "VenueResponse": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "address_label_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",

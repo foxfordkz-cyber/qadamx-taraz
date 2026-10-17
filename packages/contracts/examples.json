@@ -875,5 +875,79 @@
   "CustomerCreationNotObserved": {
     "status": "not_observed",
     "customer": null
+  },
+  "LocalizedShopKK": {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "venue_id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart-demo-clothes",
+    "name": "Демо MART — Киім",
+    "category": "clothes",
+    "description": "Synthetic demo",
+    "is_demo": true,
+    "catalog": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "business_id": "20000000-0000-4000-8000-000000000001",
+        "name": "Demo item",
+        "price_minor": 300000,
+        "available": true,
+        "is_demo": true
+      }
+    ],
+    "name_i18n": {
+      "ru": "Демо MART — Одежда",
+      "kk": "Демо MART — Киім"
+    },
+    "description_i18n": null
+  },
+  "LocalizedShopRU": {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "venue_id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart-demo-clothes",
+    "name": "Демо MART — Одежда",
+    "category": "clothes",
+    "description": "Synthetic demo",
+    "is_demo": true,
+    "catalog": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "business_id": "20000000-0000-4000-8000-000000000001",
+        "name": "Demo item",
+        "price_minor": 300000,
+        "available": true,
+        "is_demo": true
+      }
+    ],
+    "name_i18n": {
+      "ru": "Демо MART — Одежда",
+      "kk": "Демо MART — Киім"
+    },
+    "description_i18n": null
+  },
+  "MarketResponse": {
+    "id": "10000000-0000-4000-8000-000000000001",
+    "key": "example-market",
+    "name": "Учебный пример рынка",
+    "name_i18n": null,
+    "locality": "Тараз",
+    "verification_status": "unverified",
+    "verified_at": null,
+    "accepts_listings": false
+  },
+  "CanonicalMarketPriceStats": {
+    "species": "cattle",
+    "locality": "Тараз",
+    "market": null,
+    "period_from": "2026-10-16",
+    "period_to": "2026-10-16",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "unit": "head",
+    "sample_count": 0,
+    "min_price_per_head_minor": null,
+    "median_price_per_head_minor": null,
+    "status": "insufficient_data",
+    "source": "asking_prices",
+    "market_id": "10000000-0000-4000-8000-000000000001"
   }
 }

@@ -1,5 +1,11 @@
 # «Мал базар»: контракт Flutter v1
 
+**Подготовлен, не развёрнут:** [канонические рынки API 0.6.3](LIVESTOCK_MARKETS_API.md),
+миграции 0007 → 0008. Новый market_id не заменяет свободный market/market_key;
+справочник изначально пуст, связь устанавливается только явно. Рынок должен быть
+проверен, иначе его публичные объявления и фото недоступны, цены отсутствуют.
+История прежних проверок ниже сохраняется.
+
 Текущая публикация: [Draft PR #17](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/17) → integration/local-combined-check, API0.6.1; зависит от PR13.
 
 Текущая ветка HTTP/market — `integration/livestock-https`, основанная на `integration/local-combined-check` ([зависимость: Draft PR #13](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/13) → backend/livestock). Точный проверенный commit, запуск и удалённое подключение: [FLUTTER_CONNECTION](../../docs/FLUTTER_CONNECTION.md). [OpenAPI 0.6.1](openapi.json), [JSON-примеры](examples.json); 0.6.1 добавляет optional market/минимум, сохраняя прежние поля 0.5.0 и аналитику 0.6.0.

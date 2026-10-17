@@ -1,0 +1,65 @@
+{
+  "checked_at_utc": "2026-10-17T14:41:36Z",
+  "source_commit": "7b3a8bad757b13e0dc37d35d703e6a53cd4d9940",
+  "emulator": "Official Android SDK; isolated Android 7/API24 x86_64",
+  "screen": {
+    "smallest_width_dp": 411,
+    "font_scale_setting": null,
+    "density": 420,
+    "pixels": "1080x1920"
+  },
+  "clean_install": {
+    "apk_file": "qadam-0.4.0-62cc9a5-internal.apk",
+    "apk_bytes": 27731371,
+    "apk_sha256": "7aa48df10815168aaaf9ba1a208423c17b5782b77e9924cc42a07388719e15db",
+    "published_checksum_checked": true,
+    "device_type": "emulator",
+    "manufacturer": "unknown",
+    "model": "Android SDK built for x86_64",
+    "android": "7.0",
+    "sdk": "24",
+    "abis": "x86_64,x86",
+    "package": "kz.qadam.qadam_mobile",
+    "installed_version_code_before": null,
+    "installed_version_name_before": null,
+    "install_result": "SUCCESS",
+    "install_exit_code": 0
+  },
+  "update_install": {
+    "apk_file": "verified-public-050.apk",
+    "apk_bytes": 28335925,
+    "apk_sha256": "14f3f145ba68202611b7d0745bef8297a023fe7d23ec8bd5697688f3d9e3eccf",
+    "published_checksum_checked": true,
+    "device_type": "emulator",
+    "manufacturer": "unknown",
+    "model": "Android SDK built for x86_64",
+    "android": "7.0",
+    "sdk": "24",
+    "abis": "x86_64,x86",
+    "package": "kz.qadam.qadam_mobile",
+    "installed_version_code_before": "8",
+    "installed_version_name_before": "0.4.0",
+    "install_result": "SUCCESS",
+    "install_exit_code": 0
+  },
+  "package_after": {
+    "targetSdk": 36,
+    "minSdk": 24,
+    "versionCode": 9,
+    "versionName": "0.5.0"
+  },
+  "launch": {
+    "screenshot": "android24-050-launch.png",
+    "visual_result": "Public venues rendered",
+    "command": "am start -W -n kz.qadam.qadam_mobile/.MainActivity",
+    "status": "ok"
+  },
+  "limitations": [
+    "Physical user installation failure unresolved",
+    "No physical ARM device",
+    "No real session or pending data preservation verified",
+    "No Auth A/B, financial, microphone, camera or 3D gesture checks"
+  ],
+  "user_incident": "OPEN_PACKAGE_ERROR",
+  "app_rebuilt": false
+}

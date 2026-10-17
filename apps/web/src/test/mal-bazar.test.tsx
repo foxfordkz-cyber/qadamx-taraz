@@ -2,7 +2,7 @@
  * web, an explicit concept mark, the app link and a poster without WebGL. */
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { I18nProvider } from "../shared/i18n";
 
 const api = vi.hoisted(() => ({
@@ -13,6 +13,12 @@ const api = vi.hoisted(() => ({
 vi.mock("../features/explore/api", () => api);
 import VenueRoute from "../features/explore/VenuePage";
 import { MalBazarSection } from "../features/explore/MalBazar";
+
+// Transform the real Three.js module during setup. This test checks fallback UI,
+// not the host machine's cold module compilation speed; do not mock the scene.
+beforeAll(async () => {
+  await import("../features/explore/VenueScene");
+});
 
 const asset = {
   slug: "mal-bazar",
