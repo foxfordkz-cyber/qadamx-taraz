@@ -26,7 +26,9 @@ class MobileApp extends StatefulWidget {
 
 class _MobileAppState extends State<MobileApp> {
   bool _kk = false;
-  int _section = 3; // Public venues are available before login.
+  int _section = 4; // Home and all four venues are public.
+  int _marketTab = 0;
+  int _marketRequest = 0;
   String? _account;
   @override
   void initState() {
@@ -73,7 +75,15 @@ class _MobileAppState extends State<MobileApp> {
       toggleLanguage: () => setState(() => _kk = !_kk),
       login: (context) => showLogin(context, widget.runtime, _kk),
       browserLauncher: widget.browserLauncher,
+      onMarket: (tab) => setState(() {
+        _marketTab = tab;
+        _marketRequest++;
+        _section = 1;
+      }),
       market: _Home(
+        onBack: () => setState(() => _section = 3),
+        requestedTab: _marketTab,
+        request: _marketRequest,
         runtime: widget.runtime,
         kk: _kk,
         toggleLanguage: () => setState(() => _kk = !_kk),
@@ -84,6 +94,9 @@ class _MobileAppState extends State<MobileApp> {
 
 class _Home extends StatefulWidget {
   const _Home({
+    required this.onBack,
+    required this.requestedTab,
+    required this.request,
     required this.runtime,
     required this.kk,
     required this.toggleLanguage,
@@ -93,10 +106,18 @@ class _Home extends StatefulWidget {
   final VoidCallback toggleLanguage;
   @override
   State<_Home> createState() => _HomeState();
+  final VoidCallback onBack;
+  final int requestedTab, request;
 }
 
 class _HomeState extends State<_Home> with WidgetsBindingObserver {
   int _tab = 0;
+  @override
+  void didUpdateWidget(_Home oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.request != widget.request) _tab = widget.requestedTab;
+  }
+
   int _reload = 0;
   PendingIntent? _pending;
   bool _retrying = false;
@@ -270,6 +291,7 @@ class _HomeState extends State<_Home> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
+      leading: BackButton(onPressed: widget.onBack),
       title: const Text('Мал базар', style: QadamTheme.appTitle),
       actions: [
         TextButton(

@@ -8,6 +8,7 @@ import '../runtime.dart';
 import '../ui/common.dart' show tr;
 import '../ui/language.dart';
 import '../ui/qadam_theme.dart';
+import '../ui/qadam_components.dart';
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
 import 'venue_viewer.dart';
@@ -87,10 +88,15 @@ class PublicHome extends StatefulWidget {
     required this.runtime,
     required this.kk,
     required this.toggleLanguage,
+    this.landing = false,
+    this.onExplore,
+    this.onBusiness,
+    this.onMarket,
   });
   final MobileRuntime runtime;
-  final bool kk;
+  final bool kk, landing;
   final VoidCallback toggleLanguage;
+  final VoidCallback? onExplore, onBusiness, onMarket;
   @override
   State<PublicHome> createState() => _PublicHomeState();
 }
@@ -133,12 +139,72 @@ class _PublicHomeState extends State<PublicHome> {
     }
   }
 
+  Widget venueCard({
+    required String name,
+    required String subtitle,
+    required Widget image,
+    required VoidCallback onTap,
+    bool demo = false,
+    Key? key,
+  }) {
+    final large = MediaQuery.textScalerOf(context).scale(14) > 20;
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(name, style: Theme.of(context).textTheme.titleMedium),
+        const SizedBox(height: 4),
+        Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
+        if (demo) ...[const SizedBox(height: 6), demoLabel(qadamKk(context))],
+      ],
+    );
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        key: key,
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: large
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    SizedBox(height: 90, child: image),
+                    const SizedBox(height: 12),
+                    details,
+                    const Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(Icons.arrow_forward, size: 20),
+                    ),
+                  ],
+                )
+              : Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: ColoredBox(
+                        color: QadamTheme.paper,
+                        child: SizedBox(width: 100, height: 88, child: image),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(child: details),
+                    const SizedBox(width: 8),
+                    const Icon(Icons.chevron_right, size: 20),
+                  ],
+                ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final kk = qadamKk(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Qadam'),
+        title: widget.landing
+            ? const QadamBrand()
+            : Text(tr(kk, 'Площадки', 'Алаңдар')),
         actions: [
           TextButton(
             onPressed: widget.toggleLanguage,
@@ -150,21 +216,43 @@ class _PublicHomeState extends State<PublicHome> {
         child: RefreshIndicator(
           onRefresh: load,
           child: ListView(
-            key: const PageStorageKey('public-venues'),
+            key: PageStorageKey(
+              widget.landing ? 'qadam-home' : 'public-venues',
+            ),
             padding: const EdgeInsets.all(16),
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
-              Text(
-                tr(kk, 'Площадки Тараза', 'Тараз алаңдары'),
-                style: QadamTheme.heading(context),
+              if (widget.landing) ...[
+                QadamWelcome(
+                  kk: kk,
+                  explore: widget.onExplore!,
+                  business: widget.onBusiness!,
+                ),
+                const SizedBox(height: 24),
+              ],
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      tr(kk, 'Площадки Тараза', 'Тараз алаңдары'),
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                  ),
+                  if (widget.landing)
+                    TextButton(
+                      onPressed: widget.onExplore,
+                      child: Text(tr(kk, 'Все', 'Барлығы')),
+                    ),
+                ],
               ),
               const SizedBox(height: 8),
               Text(
                 tr(
                   kk,
-                  'Выберите площадку, найдите магазин и оставьте заявку.',
-                  'Алаңды таңдап, дүкен тауып, өтінім қалдырыңыз.',
+                  'Выберите площадку — магазины и объявления внутри.',
+                  'Алаңды таңдаңыз — дүкендер мен хабарландырулар ішінде.',
                 ),
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
               const SizedBox(height: 16),
               if (busy) const LinearProgressIndicator(),
@@ -176,82 +264,76 @@ class _PublicHomeState extends State<PublicHome> {
                 ),
               ],
               if (!busy && error == null && venues.isEmpty)
-                Text(tr(kk, 'Площадок пока нет.', 'Әзірге алаңдар жоқ.')),
-              if (error == null)
-                for (final v in venues)
-                  Card(
-                    clipBehavior: Clip.antiAlias,
-                    child: InkWell(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => VenuePage(
-                            runtime: widget.runtime,
-                            venue: v,
-                            asset: assets[v['slug']],
-                            kk: kk,
-                          ),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            poster(assets[v['slug']], kk),
-                            const SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    v['name'] as String,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleLarge,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Icon(Icons.arrow_forward),
-                              ],
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              v['address_label'] as String,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            if (v['is_demo'] == true) ...[
-                              const SizedBox(height: 8),
-                              QadamBadge(
-                                tr(kk, 'Учебная витрина', 'Оқу сөресі'),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text(
+                    tr(
+                      kk,
+                      'Магазины площадок пока не добавлены.',
+                      'Алаң дүкендері әлі қосылмаған.',
                     ),
-                  ),
-              ExpansionTile(
-                key: const PageStorageKey('venue-information'),
-                tilePadding: EdgeInsets.zero,
-                title: Text(
-                  tr(
-                    kk,
-                    'О площадках и учебных данных',
-                    'Алаңдар мен оқу деректері туралы',
                   ),
                 ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(
-                      tr(
+              if (error == null)
+                for (final v in venues)
+                  venueCard(
+                    name: v['name'] as String,
+                    subtitle: switch (v['slug']) {
+                      'mart' => tr(
                         kk,
-                        'Модели по референсам, размеры оценочные. Учебные точки не задают точный маршрут к реальному продавцу.',
-                        'Үлгілер дереккөздер бойынша, өлшемдері болжамды. Оқу нүктелері нақты сатушыға жол көрсетпейді.',
+                        'Торговый центр · магазины',
+                        'Сауда орталығы · дүкендер',
+                      ),
+                      'kaikarmet' => tr(
+                        kk,
+                        'Торговые ряды · магазины',
+                        'Сауда қатарлары · дүкендер',
+                      ),
+                      'auyl-bereke' => tr(
+                        kk,
+                        'Рынок · магазины',
+                        'Базар · дүкендер',
+                      ),
+                      _ => v['address_label'] as String,
+                    },
+                    image: poster(assets[v['slug']], kk),
+                    demo: v['is_demo'] == true,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => VenuePage(
+                          runtime: widget.runtime,
+                          venue: v,
+                          asset: assets[v['slug']],
+                          kk: kk,
+                        ),
                       ),
                     ),
                   ),
-                ],
+              if (widget.onMarket != null)
+                venueCard(
+                  key: const Key('nav-market'),
+                  name: 'Мал базар',
+                  subtitle: tr(
+                    kk,
+                    'Скот · объявления и цены',
+                    'Мал · хабарландырулар мен бағалар',
+                  ),
+                  image: const Icon(
+                    Icons.agriculture_outlined,
+                    size: 42,
+                    color: QadamTheme.green,
+                  ),
+                  onTap: widget.onMarket!,
+                ),
+              const SizedBox(height: 8),
+              Text(
+                tr(
+                  kk,
+                  'Схемы площадок условные. Учебные магазины отмечены отдельно.',
+                  'Алаң сызбалары шартты. Оқу дүкендері бөлек белгіленген.',
+                ),
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
