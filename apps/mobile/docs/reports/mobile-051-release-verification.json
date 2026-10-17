@@ -1,0 +1,36 @@
+{
+  "assets": [
+    {
+      "browser_download_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-0.5.1-640d0ef-internal.apk",
+      "digest": "sha256:bce1d35b0b848124f8fb41becacdadf03faa29e88cd1a2565160fb875b9eb29f",
+      "name": "qadam-0.5.1-640d0ef-internal.apk",
+      "size": 28649937,
+      "state": "uploaded"
+    },
+    {
+      "browser_download_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-0.5.1-640d0ef-internal.apk.sha256",
+      "digest": "sha256:7ba269370b2206c429b11c61e48f30c1e9cbc64f0cddfa7f7407592f82c4a3a1",
+      "name": "qadam-0.5.1-640d0ef-internal.apk.sha256",
+      "size": 100,
+      "state": "uploaded"
+    },
+    {
+      "browser_download_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-051-native-emulator.mp4",
+      "digest": "sha256:7a37417d9ac54ae5b3ac4e39c908c6982216bb4e6bec5cd4d5a4b5c1c61ab2d5",
+      "name": "qadam-051-native-emulator.mp4",
+      "size": 1331712,
+      "state": "uploaded"
+    }
+  ],
+  "draft": false,
+  "id": 415882373,
+  "prerelease": true,
+  "tag": "mobile-v0.5.1-navigation.1",
+  "full_public_download": {
+    "result": "PASS",
+    "method": "anonymous HTTP Range, complete reassembly",
+    "bytes": 28649937,
+    "sha256": "bce1d35b0b848124f8fb41becacdadf03faa29e88cd1a2565160fb875b9eb29f"
+  },
+  "checked_at_utc": "2026-10-17T15:33:11.938644+00:00"
+}

@@ -5,9 +5,11 @@ import '../crm/crm_pending.dart';
 import '../crm/crm_ui.dart' show crmCard, crmGap;
 import '../data/api_failure.dart';
 import '../runtime.dart';
-import '../ui/common.dart' show tr;
+import '../ui/common.dart' show tr, Notice, ReadError;
 import '../ui/language.dart';
 import '../ui/qadam_theme.dart';
+import '../ui/qadam_badge.dart';
+import '../ui/qadam_name.dart';
 import '../ui/qadam_components.dart';
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
@@ -25,21 +27,8 @@ String categoryName(String code, bool kk) => switch (code) {
   'services' => tr(kk, 'Услуги', 'Қызметтер'),
   _ => code,
 };
-Widget demoLabel(bool kk) => QadamBadge(tr(kk, 'Учебная точка', 'Оқу нүктесі'));
-
-class QadamBadge extends StatelessWidget {
-  const QadamBadge(this.label, {super.key});
-  final String label;
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.secondaryContainer,
-      borderRadius: BorderRadius.circular(8),
-    ),
-    child: Text(label, style: Theme.of(context).textTheme.labelSmall),
-  );
-}
+Widget demoLabel(bool kk) =>
+    QadamBadge(tr(kk, 'Учебная точка', 'Оқу нүктесі'), warning: true);
 
 Widget poster(VenueAsset? asset, bool kk) => AspectRatio(
   aspectRatio: 2.1,
@@ -63,6 +52,25 @@ int? pointNumber(VenueAsset? asset, CrmJson business, String venueId) {
     }
   }
   return null;
+}
+
+/// Stable manifest order; unnumbered API entries follow in their original order.
+List<CrmJson> shopsInPointOrder(
+  List<CrmJson> shops,
+  VenueAsset? asset,
+  String venueId,
+) {
+  final indexed = shops.indexed.toList();
+  indexed.sort((a, b) {
+    final an = pointNumber(asset, a.$2, venueId);
+    final bn = pointNumber(asset, b.$2, venueId);
+    if (an == null && bn == null) return a.$1.compareTo(b.$1);
+    if (an == null) return 1;
+    if (bn == null) return -1;
+    final order = an.compareTo(bn);
+    return order == 0 ? a.$1.compareTo(b.$1) : order;
+  });
+  return indexed.map((entry) => entry.$2).toList();
 }
 
 Future<List<CrmJson>> allPublicPages(
@@ -156,7 +164,10 @@ class _PublicHomeState extends State<PublicHome> {
         Text(subtitle, style: Theme.of(context).textTheme.bodySmall),
         if (demo) ...[
           const SizedBox(height: 6),
-          QadamBadge(tr(qadamKk(context), 'Учебная витрина', 'Оқу сөресі')),
+          QadamBadge(
+            tr(qadamKk(context), 'Учебная витрина', 'Оқу сөресі'),
+            warning: true,
+          ),
         ],
       ],
     );
@@ -259,13 +270,7 @@ class _PublicHomeState extends State<PublicHome> {
               ),
               const SizedBox(height: 16),
               if (busy) const LinearProgressIndicator(),
-              if (error != null) ...[
-                Text(publicError(kk)),
-                OutlinedButton(
-                  onPressed: busy ? null : load,
-                  child: Text(tr(kk, 'Повторить', 'Қайталау')),
-                ),
-              ],
+              if (error != null) ReadError(onRetry: busy ? null : load),
               if (!busy && error == null && venues.isEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -404,7 +409,11 @@ class _VenuePageState extends State<VenuePage> {
       );
       if (mounted && run == generation) {
         setState(() {
-          shops = result;
+          shops = shopsInPointOrder(
+            result,
+            widget.asset,
+            widget.venue['id'] as String,
+          );
           if (initial) {
             categories = result
                 .map((b) => b['category'] as String)
@@ -449,7 +458,10 @@ class _VenuePageState extends State<VenuePage> {
             runSpacing: 8,
             children: [
               if (widget.venue['is_demo'] == true)
-                QadamBadge(tr(kk, 'Учебная витрина', 'Оқу сөресі')),
+                QadamBadge(
+                  tr(kk, 'Учебная витрина', 'Оқу сөресі'),
+                  warning: true,
+                ),
               QadamBadge(tr(kk, 'Схема площадки', 'Алаң сызбасы')),
             ],
           ),
@@ -470,6 +482,14 @@ class _VenuePageState extends State<VenuePage> {
             )
           else
             poster(widget.asset, kk),
+          const SizedBox(height: 8),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: QadamBadge(
+              tr(kk, 'Условная схема, не карта', 'Шартты сызба, карта емес'),
+              warning: true,
+            ),
+          ),
           const SizedBox(height: 16),
           Text(
             tr(kk, 'Магазины площадки', 'Алаң дүкендері'),
@@ -528,13 +548,8 @@ class _VenuePageState extends State<VenuePage> {
             ),
           const SizedBox(height: 12),
           if (busy) const LinearProgressIndicator(),
-          if (error != null) ...[
-            Text(publicError(kk)),
-            OutlinedButton(
-              onPressed: () => load(initial: categories.isEmpty),
-              child: Text(tr(kk, 'Повторить', 'Қайталау')),
-            ),
-          ],
+          if (error != null)
+            ReadError(onRetry: () => load(initial: categories.isEmpty)),
           if (!busy && error == null && shops.isEmpty)
             Text(
               tr(
@@ -576,7 +591,7 @@ class _VenuePageState extends State<VenuePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            QadamName(
                               b['name'] as String,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
@@ -675,13 +690,7 @@ class _PublicShopPageState extends State<PublicShopPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (busy) const LinearProgressIndicator(),
-              if (error != null) ...[
-                Text(publicError(kk)),
-                OutlinedButton(
-                  onPressed: load,
-                  child: Text(tr(kk, 'Повторить', 'Қайталау')),
-                ),
-              ],
+              if (error != null) ReadError(onRetry: load),
               if (b != null) ...[
                 Wrap(
                   spacing: 8,
@@ -692,7 +701,10 @@ class _PublicShopPageState extends State<PublicShopPage> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(b['name'] as String, style: QadamTheme.heading(context)),
+                QadamName(
+                  b['name'] as String,
+                  style: QadamTheme.heading(context),
+                ),
                 const SizedBox(height: 8),
                 if (widget.venue != null)
                   Text(
@@ -705,6 +717,7 @@ class _PublicShopPageState extends State<PublicShopPage> {
                 if (widget.runtime.inquiries != null)
                   FilledButton.icon(
                     key: const Key('shop-inquiry-action'),
+                    style: QadamTheme.limeAction,
                     onPressed: () {
                       final target = inquiryAnchor.currentContext;
                       if (target != null) {
@@ -943,7 +956,10 @@ class _InquiryFormState extends State<InquiryForm> {
   }) => Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Text(tr(kk, ru, kz), style: Theme.of(context).textTheme.titleMedium),
+      Text(
+        '${tr(kk, ru, kz)} *',
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
       const SizedBox(height: 8),
       Semantics(
         label: tr(kk, ru, kz),
@@ -956,6 +972,7 @@ class _InquiryFormState extends State<InquiryForm> {
                 : 'inquiry-message',
           ),
           onChanged: (_) => setState(() {}),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: controller,
           enabled: !busy && saved == null,
           maxLines: lines,
@@ -1073,7 +1090,12 @@ class _InquiryFormState extends State<InquiryForm> {
           tr(kk, 'Оставить заявку', 'Өтінім қалдыру'),
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        Text(widget.name),
+        const SizedBox(height: 8),
+        Text(
+          tr(kk, 'Получатель: ${widget.name}', 'Алушы: ${widget.name}'),
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: 8),
         Text(
           tr(
             kk,
@@ -1081,18 +1103,14 @@ class _InquiryFormState extends State<InquiryForm> {
             'Байланысты тек осы дүкен көреді. Өтінім тек батырманы басқанда жіберіледі.',
           ),
         ),
+        const SizedBox(height: 24),
         Form(
           key: form,
           child: Column(
             children: [
               field(name, 'Ваше имя', 'Атыңыз', 100),
               crmGap,
-              field(
-                contact,
-                'Как с вами связаться',
-                'Сізбен қалай байланысуға болады',
-                200,
-              ),
+              field(contact, 'Как с вами связаться', 'Байланыс дерегі', 200),
               crmGap,
               field(
                 message,
@@ -1107,16 +1125,18 @@ class _InquiryFormState extends State<InquiryForm> {
         crmGap,
         if (busy) const LinearProgressIndicator(),
         if (saved != null)
-          Text(
-            tr(
+          Notice(
+            text: tr(
               kk,
               'Результат ещё не подтверждён. Повтор отправит исходные данные без новой заявки.',
               'Нәтиже әлі расталмады. Қайталау бастапқы деректерді жаңа өтінімсіз жібереді.',
             ),
           ),
         if (error != null)
-          Text(
-            error is ApiFailure &&
+          Notice(
+            error: true,
+            text:
+                error is ApiFailure &&
                     (error as ApiFailure).code == 'INQUIRY_REJECTED'
                 ? tr(
                     kk,
@@ -1125,8 +1145,10 @@ class _InquiryFormState extends State<InquiryForm> {
                   )
                 : publicError(kk),
           ),
+        const SizedBox(height: 16),
         FilledButton(
           onPressed: busy ? null : send,
+          style: QadamTheme.limeAction,
           child: Text(
             saved == null
                 ? tr(kk, 'Отправить заявку', 'Өтінім жіберу')

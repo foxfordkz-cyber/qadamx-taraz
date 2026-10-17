@@ -58,7 +58,10 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    /** Get Customers */
+    /**
+     * Get Customers
+     * @description Without ids: existing search and cursor pagination. With repeated query ids (ids=UUID&ids=UUID): 1-100 values before deduplication, first-occurrence order, only customers in the accessible business. Missing/foreign IDs are omitted equally. Explicit q, cursor or limit with ids returns 422. The complete result uses the same Page and server-calculated balances, with next_cursor=null; no default limit truncation.
+     */
     get: operations["get_customers_api_v1_businesses__id__customers_get"];
     put?: never;
     /**
@@ -1460,6 +1463,8 @@ export interface operations {
         q?: string;
         limit?: number;
         cursor?: string | null;
+        /** @description Repeat ids once per UUID (form/explode). Empty values or >100 entries return 422; duplicates count toward the limit and are returned once. Do not combine with q, cursor or limit, even their default/empty values. */
+        ids?: string[] | null;
       };
       header?: never;
       path: {

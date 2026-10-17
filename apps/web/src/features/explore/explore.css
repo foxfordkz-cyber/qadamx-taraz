@@ -141,8 +141,8 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  min-height: 370px;
-  padding: clamp(28px, 6vw, 72px);
+  min-height: 340px;
+  padding: clamp(28px, 4.5vw, 56px);
   border-radius: var(--qadam-radius-hero);
   background: linear-gradient(
     125deg,
@@ -187,8 +187,11 @@
   background: var(--lime);
   box-shadow: none;
 }
+/* Two lines on desktop, so the venue overview starts on the first screen. */
 .ex .hero h1 {
   color: var(--qadam-white);
+  font-size: clamp(2.5rem, 5.2vw, 4.6rem);
+  max-width: 15ch;
 }
 .ex .hero-copy > p {
   max-width: 47ch;
@@ -1361,7 +1364,7 @@
   pointer-events: auto;
 }
 
-/* Мал базар — demonstration scheme (no listings until the web API integration exists). */
+/* Мал базар — concept model; no listings until the market has a confirmed key. */
 .ex .mal {
   margin-top: 64px;
 }
@@ -1396,49 +1399,227 @@
 .ex .mal-visual .scene {
   margin: 0;
 }
-.ex .mal-plan {
+.ex .mal-poster {
   display: block;
   width: 100%;
-  height: auto;
-  max-width: 100%;
-  border: 1px solid var(--qadam-line-strong);
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid var(--line);
   border-radius: var(--qadam-radius-card);
-  background: var(--qadam-white);
+  background: var(--qadam-surface-subtle);
 }
-.ex .mal-plan-yard {
-  fill: var(--qadam-surface-subtle);
-  stroke: var(--qadam-line-strong);
+/* Mal bazar page: what works now, as three plain cards. */
+.ex .mal-facts {
+  margin-top: 36px;
 }
-.ex .mal-plan-aisle {
-  fill: var(--qadam-soft);
-  stroke: var(--qadam-green);
-  stroke-dasharray: 6 5;
+.ex .mal-facts ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.ex .mal-plan-pen {
-  fill: var(--qadam-white);
-  stroke: var(--qadam-muted-light);
-  stroke-width: 2;
+.ex .mal-facts li {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
 }
-.ex .mal-plan-gate {
-  fill: none;
-  stroke: var(--qadam-green);
-  stroke-width: 6;
-  stroke-linecap: round;
+.ex .mal-facts h3 {
+  margin: 0;
+  font-size: 1.1rem;
 }
-.ex .mal-plan-arrow {
-  fill: none;
-  stroke: var(--qadam-orange-deep);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.ex .mal-facts p {
+  margin: 0;
 }
-.ex .mal-plan-text {
-  fill: var(--qadam-ink);
-  font: 700 13px var(--qadam-font);
+.ex .mal-facts .btn {
+  justify-self: start;
 }
 @media (max-width: 760px) {
   .ex .mal-body {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+  .ex .mal-facts ul {
+    grid-template-columns: 1fr;
+  }
+  .ex .mal-copy .btn,
+  .ex .mal-facts .btn {
+    justify-self: stretch;
+  }
+}
+
+/* Venue overview on the home page: the chosen venue large, its facts and one
+   action beside it, the other venues one tap away. Not a map of neighbours. */
+.ex .showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
+  grid-template-areas:
+    "tabs tabs"
+    "stage card";
+  gap: 16px;
+  align-items: start;
+}
+.ex .showcase-tabs {
+  grid-area: tabs;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.ex .showcase-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 6px 18px 6px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-pill);
+  background: var(--white);
+  color: var(--ink);
+  font: 700 0.95rem var(--qadam-font);
+  cursor: pointer;
+}
+.ex .showcase-tabs button:hover {
+  border-color: var(--qadam-line-hover);
+}
+.ex .showcase-tabs button[aria-pressed="true"] {
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--qadam-white);
+}
+/* A long name must not push the other venues out of the row; the card shows it in full. */
+.ex .showcase-tabs span {
+  max-width: 14em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ex .showcase-tabs img {
+  width: 58px;
+  height: 40px;
+  object-fit: cover;
+  object-position: 50% 60%;
+  border-radius: var(--qadam-radius-pill);
+}
+.ex .showcase-stage {
+  grid-area: stage;
+  min-width: 0;
+}
+.ex .showcase-stage .scene {
+  height: clamp(300px, 30vw, 400px);
+  margin: 0;
+}
+/* The section heading already carries the "conceptual scheme" badge. */
+.ex .showcase-stage .scene-meta {
+  display: none;
+}
+.ex .showcase-still {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.ex .showcase-poster,
+.ex .showcase-still .venue-art {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--qadam-surface-subtle);
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+/* A failed model load keeps the poster in the same frame as the no-WebGL view. */
+.ex .showcase-stage .venue-fallback {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+.ex .showcase-stage .venue-poster {
+  max-height: none;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+.ex .showcase-stage .venue-fallback [role="status"] {
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-control);
+  background: var(--white);
+}
+.ex .showcase-still .venue-art {
+  position: relative;
+  inset: auto;
+  height: auto;
+}
+.ex .showcase-card {
+  grid-area: card;
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: clamp(20px, 2.4vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
+}
+.ex .showcase-card .card-index {
+  margin: 0;
+}
+.ex .showcase-card h3 {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.6vw, 2.3rem);
+  overflow-wrap: anywhere;
+}
+.ex .showcase-card p {
+  margin: 0;
+}
+.ex .showcase-cats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ex .showcase-cats li {
+  padding: 6px 12px;
+  border-radius: var(--qadam-radius-pill);
+  background: var(--qadam-surface-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.ex .showcase-card .btn {
+  justify-self: start;
+  margin-top: 6px;
+}
+@media (max-width: 760px) {
+  .ex .showcase {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "tabs"
+      "stage"
+      "card";
+  }
+  .ex .showcase-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-snap-type: x mandatory;
+  }
+  .ex .showcase-tabs button {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+  }
+  .ex .showcase-stage .scene {
+    height: 260px;
+  }
+  .ex .showcase-card .btn {
+    justify-self: stretch;
   }
 }

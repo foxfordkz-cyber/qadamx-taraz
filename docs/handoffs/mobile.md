@@ -1,10 +1,10 @@
 # 17 октября 2026 — изолированный демо-пример цен Мал базара
 
 Отдельная feature-ветка `feature/mobile-demo-price-fixtures`, основанная на
-актуальной на момент интеграции mobile-ветке
-`feature/mobile-native-parity:640d0ef7c936a403162a8c7185f2438ca6679bba`.
-Более поздние изменения mobile автора сохранены обычным merge; рабочая копия
-не основана на `main`. PR должен сравниваться именно с `feature/mobile-native-parity`.
+актуальной mobile-ветке `feature/mobile-native-parity`, SHA
+`76476cce6d1fcd4a2c2504a06d7f947b33817664`, сохранённой обычным merge вместе
+с более поздними изменениями автора. PR сравнивается с `feature/mobile-native-parity`,
+не с `main`.
 
 Для статистики `insufficient_data` UI предлагает явно открыть отдельный
 вымышленный пример для cattle/sheep/goat/horse/camel. Он не зависит от
@@ -19,7 +19,7 @@ Widget-проверки добавлены для всех пяти видов, 
 машине Flutter SDK недоступен: `flutter test --no-pub test\ui\app_test.dart` —
 BLOCKED, `flutter analyze --no-pub` не запускался. `git diff --check` — PASS.
 
-**Передача mobile-владельцу:** на финальном SHA feature-ветки запустить
+**Передача mobile-владельцу (`@bltangenss`):** на финальном SHA feature-ветки запустить
 `flutter test --no-pub test\ui\app_test.dart` и `flutter analyze --no-pub`
 со штатным Flutter 3.47.7 / Dart 3.13.5; внести фактический результат обеих
 команд сюда и в PR. До этого код и Android не считаются проверенными.
@@ -29,6 +29,131 @@ Runtime-изменение находится в `apps/mobile/lib/ui/app.dart`, 
 backend, база и реальные объявления не менялись. Несмотря на ошибочный
 исторический subject `b965d56` с текстом Safari, изменение касается только
 демонстрационных цен; Safari-поведение не затронуто.
+
+# 17 октября 2026 — Qadam 0.5.2+11, исправления review #68
+
+Продолжение [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
+ветка `feature/mobile-native-parity`. **Source APK: `79a29b9341b03e4ac3ffc58ebf6a06b00374d2f4`.**
+[Скачать новый APK0.5.2+11](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk).
+**28 667 431 bytes / 27.34 MiB**, versionCode11.
+SHA256: `3ff67b9b916c061ab2b8a0b110c29fd4ab15fdc95d36e1643beddc91d1a334d6`.
+[GitHub digest и полное повторное скачивание совпали](../../apps/mobile/docs/reports/mobile-052-release-verification.json).
+Подробный [release/матрица/P2/зависимости](../../apps/mobile/docs/RELEASE_052.md),
+[галерея до/после](../../apps/mobile/docs/reports/visual-052/README.md).
+
+В этот APK вошли: новая отрисовка легенды, зелёные продажи/янтарные поступления,
+порядок точек по manifest, единые учебные метки и read-error,
+рамка/фон локальной сцены и подпись условной схемы; интервалы/получатель/required
+в заявке, видимый failure с сохранением исходного ID/body; KZ-длинные слова при2×,
+lime-действия магазина. Главная / Площадки / Кабинет / Профиль, существующая CRM,
+Supabase session, деньги и pending сохранены. Мал базар открывается из площадок.
+API/WebView не заменяют нативные магазин/форму/кабинет.
+
+- Main `86ca9af15017b163a9e47335c68eee46ac2fafde` получен merge28c9b0a в feature.
+- API: `https://qadamx-taraz.onrender.com/api/v1`.
+- **Frontend: `https://qadamx-taraz.pages.dev`**, обновлён в сборке.
+- Прежние Supabase URL/publishable key; конфигурация только4публичных поля.
+- Flutter3.47.7 / Dart3.13.5; прежний package `kz.qadam.qadam_mobile`.
+- Прежняя внутренняя подпись:
+  `9bd5b1febe523295d33cfb13ce1233834c5b09ae79729668067af993b245160f`.
+- Опубликованный сайт просмотрен в браузере; зафиксированы JS/CSS и токены.
+  Runtime SHA сайта независимо не подтверждён, Preview не приравнивается к Production.
+
+**231 тест PASS / 1 opt-in skipped**, analyzer0, release build PASS254.1с.
+76сценариев галереи/82PNG с синтетическими данными (входят в231).
+ZIPCRC/v2/v3/zipalign16KiB/ELF>=16KiB/7asset hashes PASS;
+[статический аудит](../../apps/mobile/docs/reports/mobile-052-apk-audit.json).
+
+Android SDK эмулятор Android7/API24/x86_64: **обновление10→11 без удаления,
+запуск, публичная главная, перезапуск PASS**; [протокол и снимки](../../apps/mobile/docs/reports/android-052/README.md).
+Магазин/3D/форма в этом новом APK отдельно не повторены; старые доказательства
+0.5.1 не выдаются за0.5.2. Настоящие A/B, камера, микрофон, сохранение реальной
+сессии/pending при обновлении **не проверены**. Физического телефона в ADB нет.
+Пользовательская «ошибка пакета» остаётся открытой до модели/Android/кода отказа.
+[Физический чек-лист](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+Auth: Бекзату отправлен [запрос точного mobile callback/allowlist](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6235945369).
+Получен ответ владельца43 с точными URI, mobile их принял:
+[согласование и условия следующего этапа](../../apps/mobile/docs/AUTH_CALLBACK_HANDOFF.md).
+В APK0.5.2 native callback/signup/resend/reset ещё не включены; implementation,
+allowlist и реальное письмо остаются незавершёнными.
+[Повторное review Абзала запрошено](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60#issuecomment-6236426229),
+он назначен reviewer; одобрение не заявляется. Backend-зависимости и доказательства каждого
+P2 перечислены в RELEASE_052.md. PR сохраняется Draft до внешней приёмки.
+
+Команды из apps/mobile: `flutter analyze --no-pub`,
+`flutter test --no-pub --concurrency=1`,
+`./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+Backend/Render/Vercel/Supabase/main/memberships/БД не переключались.
+Платных AI, реальных денежных действий и отправки внешних заявок не было.
+Старый recording.webm не искали, его инцидент не закрыт.
+
+---
+
+# История предыдущих APK (не текущая приёмка)
+
+
+# 17 октября 2026 — Qadam 0.5.1+10, главная / площадки / кабинет / профиль
+
+[Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
+ветка `feature/mobile-native-parity`. **Source APK: `640d0ef7c936a403162a8c7185f2438ca6679bba`.**
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-0.5.1-640d0ef-internal.apk)
+— **28 649 937 bytes / 27.32 MiB**, versionName0.5.1, versionCode10.
+SHA256: `bce1d35b0b848124f8fb41becacdadf03faa29e88cd1a2565160fb875b9eb29f`.
+GitHub digest и полное повторное публичное скачивание совпали с локальным APK.
+
+Нижнее меню: **Главная / Площадки / Кабинет / Профиль**.
+**Мал базар — четвёртая площадка**, открывающая существующую нативную ленту.
+Добавлены главная в стиле сайта, полезный профиль (аккаунт/кабинет/свои объявления,
+язык, помощь, версия/лицензии), основное действие кабинета над сводкой.
+Исправлена коллизия сохранения раскрытого выбора точки и прокрутки.
+Существующие CRM, Auth, деньги, pending и livestock API сохранены.
+
+Просмотрены Vercel production и новый pages.dev с read-only демо-кабинетом.
+Предоставленный Vercel Preview закрыт страницей входа: визуально не принят;
+его ветка прочитана на8f1764d37db9464bcd760be8a29c3b4eb93b96c4.
+Runtime SHA новых aliases независимо не подтверждён. Новые ссылки — ориентиры
+оформления; конфигурация API/Auth не переключалась.
+
+- API: `https://qadamx-taraz.onrender.com/api/v1`.
+- Frontend origin: `https://qadamx-taraz.vercel.app`.
+- Прежние Supabase URL/publishable key; только4 публичных параметра сборки.
+- Flutter3.47.7 / Dart3.13.5; package `kz.qadam.qadam_mobile`, API24+, ARM32/ARM64/x86_64.
+- Прежняя внутренняя подпись SHA256
+  `9bd5b1febe523295d33cfb13ce1233834c5b09ae79729668067af993b245160f`.
+
+Analyzer0 issues; **227 tests PASS / 1 opt-in skipped**; release build PASS.
+ZIP CRC, v2/v3, zipalign16KiB, ELF LOAD>=16KiB и7/7 asset hashes PASS.
+Статический scan известных credential patterns без находок.
+
+На официальном Android SDK эмуляторе Android7/API24/x86_64 выполнено
+**обновление0.5.0+9→0.5.1+10 без удаления**, запуск и перезапуск.
+Пройдены главная, четыре площадки, Мал базар/Back, профиль/помощь/RU/KZ,
+Кайкармет→Продукты→магазин→каталог→форма без отправки; Back сохранил фильтр.
+3D не загрузилось; проверен fallback изображения/списка, причина рендера не установлена.
+
+- [Полный отчёт и актуальная матрица](../../apps/mobile/docs/RELEASE_051.md).
+- [Настоящие снимки Android](../../apps/mobile/docs/reports/android-051/README.md).
+- [Видео Android-эмулятора70с](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-051-native-emulator.mp4).
+- [82 Flutter-кадра с явно синтетическими данными](../../apps/mobile/docs/reports/visual-051/README.md).
+- [Аудит APK](../../apps/mobile/docs/reports/mobile-051-apk-audit.json) и [проверка публикации](../../apps/mobile/docs/reports/mobile-051-release-verification.json).
+- [Чек-лист физической передачи](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+**Физическая приёмка не выполнена; пользовательская «ошибка пакета» остаётся открытой.**
+Нет подтверждения A/B, камеры/микрофона, реальной сессии/pending при обновлении,
+всех9маркеров, публикации/статусов на устройстве или iPhone. Не удалять приложение/данные.
+Auth callback/confirmation/reset и отсутствующие API-поля/операции остаются
+зависимостями. Выбор языка пока сохраняется только в текущем процессе.
+
+Main/production/Render/Vercel/Supabase/БД/чужие web/3D не менялись.
+Платных AI, денежных операций и внешних заявок не было. recording.webm не искали.
+PR остаётся Draft. Следующий шаг — выделенный Android по опубликованному чек-листу.
+
+Сборка из apps/mobile: `flutter pub get`, `flutter analyze --no-pub`,
+`flutter test --no-pub --concurrency=1`,
+`./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+
+---
 
 # 17 октября 2026 — Qadam 0.5.0+9, визуальная передача
 

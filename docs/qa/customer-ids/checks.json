@@ -1,0 +1,29 @@
+{
+  "base_sha": "1a541efb97ca402fb8165b5841bbbeff03afd4b1",
+  "contract_sha": "c5638f22d2ebe68d39171b2b7b7cb21de49394b5",
+  "backend": {
+    "ruff-format": 0,
+    "ruff-check": 0,
+    "export": 0,
+    "pytest": 0,
+    "export-check": 0
+  },
+  "backend_tests_passed": 335,
+  "new_ids_cases": 19,
+  "frontend": {
+    "generate-api": 0,
+    "typecheck": 0,
+    "check-api": 0
+  },
+  "database": {
+    "host": "127.0.0.1",
+    "port": 55432,
+    "database": "qadam_customer_ids_c302bc5fd0_test",
+    "created_new": true,
+    "shared_supabase_used": false
+  },
+  "shared_database_used": false,
+  "live_hosted_acceptance": false,
+  "ai_paid_requests": 0,
+  "deployed": false
+}

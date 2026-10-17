@@ -20,8 +20,13 @@ def main():
     parser.add_argument("--renders", type=Path, default=ROOT / "tmp/asset-renders")
     parser.add_argument("--output", type=Path, help="User-facing output directory; omitted: only WebP conversion")
     parser.add_argument("--font", type=Path, help="Optional TrueType font supporting Cyrillic")
+    parser.add_argument("--venue", help="Convert only this slug's render, e.g. mal-bazar (no packaging)")
     args = parser.parse_args()
+    if args.venue and args.output:
+        parser.error("--venue converts one preview; package the full set without it")
     venues = json.loads((PUBLIC / "venue-assets.json").read_text(encoding="utf-8"))["venues"]
+    if args.venue:
+        venues = [{"slug": args.venue}]
     for venue in venues:
         slug = venue["slug"]
         source = args.renders / f"{slug}.png"

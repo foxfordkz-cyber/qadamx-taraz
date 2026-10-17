@@ -42,7 +42,7 @@ window.setVenue = (asset, businesses, kk) => {
   try {
     const encoded = window.qadamChunks.join(''); window.qadamChunks = [];
     const bytes = Uint8Array.from(atob(encoded), c => c.charCodeAt(0));
-    scene = new THREE.Scene(); scene.background = new THREE.Color('#f5f3eb');
+    scene = new THREE.Scene(); scene.background = new THREE.Color('#dfeceb');
     const dimensions = new THREE.Vector3().fromArray(asset.bounds_max).sub(new THREE.Vector3().fromArray(asset.bounds_min));
     const extent = dimensions.length();
     camera = new THREE.PerspectiveCamera(asset.camera_fov_degrees || 45, innerWidth/innerHeight, 0.1, extent * 20);

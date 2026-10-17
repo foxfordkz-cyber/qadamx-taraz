@@ -97,6 +97,7 @@ export default function VenueScene({
   hoverId,
   onSelect,
   onHover,
+  hint = true,
 }: {
   asset?: VenueAsset;
   businesses: Business[];
@@ -105,6 +106,8 @@ export default function VenueScene({
   onSelect: (slug: string) => void;
   /** Marker hover/focus mirrors the list highlight; cards drive hoverId back. */
   onHover?: (slug: string | null) => void;
+  /** The point hint only makes sense when the scene shows point markers. */
+  hint?: boolean;
 }) {
   const { t } = useT(),
     [lost, setLost] = useState(false),
@@ -235,7 +238,9 @@ export default function VenueScene({
       </Boundary>
       <div className="scene-meta">
         <span className="badge badge--warn">{t("conceptual")}</span>
-        {supported && !lost && <p className="scene-hint">{t("scene_hint")}</p>}
+        {hint && supported && !lost && (
+          <p className="scene-hint">{t("scene_hint")}</p>
+        )}
       </div>
     </>
   );

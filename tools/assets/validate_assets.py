@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the three venue assets using only the Python standard library.
+"""Validate the three venue assets and concept assets using only the Python standard library.
 
 Run from any directory: python tools/assets/validate_assets.py --report report.json
 This checks binary data and the delivery contract; it is not a renderer or a
@@ -22,6 +22,8 @@ EPSILON = 0.005  # Metres; accommodates exported float32 positions.
 IDENTITY = [1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0, 0, 0, 0, 0, 1.0]
 COMPONENTS = {5120: ("b", 1), 5121: ("B", 1), 5122: ("h", 2),
               5123: ("H", 2), 5125: ("I", 4), 5126: ("f", 4)}
+# Concept assets outside the venue manifest, each with its own descriptor.
+CONCEPT_DESCRIPTORS = ("mal-bazar-asset.json",)
 WIDTHS = {"SCALAR": 1, "VEC2": 2, "VEC3": 3, "VEC4": 4,
           "MAT2": 4, "MAT3": 9, "MAT4": 16}
 
@@ -378,6 +380,49 @@ def public_file(public_dir, url, suffix):
     return path
 
 
+def validate_concept(args, result, path):
+    """A concept asset: the same axes, origin and budgets as a venue, and no hotspots."""
+    item = {"descriptor": path.name, "errors": []}
+    result.setdefault("concepts", []).append(item)
+    try:
+        venue = read_json(path)
+        slug = venue["slug"]
+        item["slug"] = slug
+        require(venue["geometry_status"] == "conceptual" and venue["conceptual_scale"] is True,
+                "A concept asset must be conceptual with conceptual_scale=true")
+        require(venue["units"] == "meters" and venue["up_axis"] == "+Y" and venue["front_axis"] == "+Z",
+                "Expected units=meters, up_axis=+Y, front_axis=+Z")
+        for key in ("center", "bounds_min", "bounds_max", "camera_position", "camera_target"):
+            require(finite_vector(venue[key]), f"{key} must be a finite three-element vector")
+        require(all(abs(x) < EPSILON for x in venue["center"]), "Center/origin must be [0, 0, 0]")
+        require(venue["camera_position"][1] > 0, "Camera must be above ground")
+        require(venue["hotspots"] == [], "A concept asset has no business hotspots")
+        model = public_file(args.public_dir, venue["model_url"], ".glb")
+        poster = public_file(args.public_dir, venue["poster_url"], ".webp")
+        require(model.name == f"{slug}.glb" and poster.name == f"{slug}.webp", "Asset filenames must match slug")
+        metrics = Glb(model).inspect()
+        item.update(metrics)
+        require(metrics["bytes"] <= args.max_glb_bytes, "GLB exceeds file budget")
+        require(metrics["triangles"] <= args.max_triangles, "GLB exceeds triangle budget")
+        if metrics["degenerate_triangles"]:
+            result["warnings"].append(f"{slug}: {metrics['degenerate_triangles']} degenerate triangles")
+        for key in ("bounds_min", "bounds_max"):
+            require(all(abs(a-b) <= EPSILON for a, b in zip(venue[key], metrics[key])),
+                    f"Descriptor {key} differs from transformed GLB geometry")
+        low, high = metrics["bounds_min"], metrics["bounds_max"]
+        require(all(abs((low[i] + high[i]) / 2) <= EPSILON for i in (0, 2)),
+                "Ground origin must be at the horizontal bounding-box center")
+        poster_data = poster.read_bytes()
+        item["poster_bytes"] = len(poster_data)
+        require(poster_data[:4] == b"RIFF" and poster_data[8:12] == b"WEBP", "Poster is not WebP")
+        item["poster_dimensions"] = list(image_size(poster_data))
+        require(len(poster_data) <= args.max_poster_bytes, "Poster exceeds file budget")
+    except (OSError, ValueError, KeyError, IndexError, TypeError, AttributeError,
+            struct.error, OverflowError, RecursionError) as error:
+        item["errors"].append(str(error))
+        result["errors"].append(f"{path.name}: {error}")
+
+
 def validate(args):
     repo_root = Path(__file__).resolve().parents[2]
     public_path = args.public_dir.resolve()
@@ -466,6 +511,9 @@ def validate(args):
                 struct.error, OverflowError, RecursionError) as error:
             item["errors"].append(str(error))
             result["errors"].append(f"{slug}: {error}")
+    for name in CONCEPT_DESCRIPTORS:
+        if (args.public_dir / name).exists():
+            validate_concept(args, result, args.public_dir / name)
     result["ok"] = not result["errors"]
     return result
 

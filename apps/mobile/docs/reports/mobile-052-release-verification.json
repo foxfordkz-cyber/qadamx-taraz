@@ -1,0 +1,11 @@
+{
+  "checked_at_utc": "2026-10-17T16:20:26.365695+00:00",
+  "tag": "mobile-v0.5.2-review68.1",
+  "source_commit": "79a29b9341b03e4ac3ffc58ebf6a06b00374d2f4",
+  "asset": "qadam-0.5.2-79a29b9-internal.apk",
+  "bytes": 28667431,
+  "sha256": "3ff67b9b916c061ab2b8a0b110c29fd4ab15fdc95d36e1643beddc91d1a334d6",
+  "github_api_digest_matches": true,
+  "full_public_download": "PASS; all 28 ranged responses validated and reassembled, entire APK SHA256 matches",
+  "url": "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk"
+}

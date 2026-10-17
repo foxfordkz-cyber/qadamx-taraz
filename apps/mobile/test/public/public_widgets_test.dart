@@ -133,7 +133,7 @@ void main() {
         if (!kk) {
           await tester.tap(find.text('ҚАЗ'));
           await settle();
-          expect(find.text('Сізбен қалай байланысуға болады'), findsOneWidget);
+          expect(find.text('Байланыс дерегі *'), findsOneWidget);
           expect(
             tester.widget<TextFormField>(input).controller!.text,
             'Учебный вопрос',

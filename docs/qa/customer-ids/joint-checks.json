@@ -1,0 +1,44 @@
+{
+  "application_sha": "7107e446a700134b05d96c9638a477e72e5306e2",
+  "pr61_sha": "735145e15d13b7b7bc7022dc79dff2700fb65116",
+  "pr63_sha": "ae593c15408b05b2d32342900c3ed018739d1565",
+  "commands": {
+    "unit": "npm test -- --no-file-parallelism",
+    "typecheck": "npm run typecheck",
+    "lint": "npm run lint",
+    "build": "npm run build",
+    "check-api": "npm run check:api",
+    "history": "playwright test --config=e2e/ledger-reading.playwright.config.ts (channel=chrome; trace off)",
+    "recovery": "playwright test --config=e2e/customer-recovery.playwright.config.ts (channel=chrome; trace off)"
+  },
+  "exit_codes": {
+    "install": 0,
+    "unit": 0,
+    "typecheck": 0,
+    "lint": 0,
+    "build": 0,
+    "check-api": 0,
+    "history": 0,
+    "recovery": 0
+  },
+  "unit": {
+    "passed": 360,
+    "skipped": 3,
+    "files": 26,
+    "seconds": 75.81,
+    "skipped_reason": "customer names outside first page are not yet implemented"
+  },
+  "history_e2e": {
+    "passed": 3,
+    "seconds": 9.4
+  },
+  "recovery_e2e": {
+    "passed": 5,
+    "seconds": 7.9
+  },
+  "auth_api": "synthetic; localhost-only services; not live Supabase/Render",
+  "backend_tests": "335 passed in prior PR61 review; identical apps/api tree, not rerun or added to counts",
+  "production_changes": false,
+  "database_or_membership_writes": false,
+  "paid_ai_requests": 0
+}
