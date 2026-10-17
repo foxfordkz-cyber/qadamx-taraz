@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: qadam-api-demo
+    runtime: python
+    plan: free
+    region: singapore
+    branch: deploy/permanent-062
+    rootDir: apps/api
+    autoDeployTrigger: "off"
+    buildCommand: pip install uv==0.12.10 && uv sync --locked --no-dev
+    startCommand: uv run --no-sync python deploy_start.py
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.12
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: JWT_ISSUER
+        sync: false
+      - key: JWT_AUDIENCE
+        value: authenticated
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: STORAGE_SERVICE_KEY
+        sync: false
+      - key: STORAGE_BUCKET
+        value: livestock-photos
+      - key: LIVESTOCK_DEMO_MODE
+        value: "true"
+      - key: AI_PROVIDER
+        value: gemini
+      - key: AI_MODEL
+        value: gemini-3.6-flash
+      - key: AI_API_KEY
+        sync: false
+      - key: AI_FALLBACK_OPENAI
+        value: "false"

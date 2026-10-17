@@ -1,0 +1,6 @@
+{
+  "API_BASE_URL": "https://qadamx-taraz.onrender.com/api/v1",
+  "SUPABASE_URL": "https://pdjjdqgoitnkpgkbqjtp.supabase.co",
+  "SUPABASE_PUBLISHABLE_KEY": "",
+  "FRONTEND_BASE_URL": "https://qadamx-taraz.vercel.app"
+}

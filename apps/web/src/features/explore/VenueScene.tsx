@@ -1,15 +1,20 @@
 import { Canvas, useThree } from "@react-three/fiber";
-import { Html, OrbitControls, useGLTF } from "@react-three/drei";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import {
   Component,
   Suspense,
   useEffect,
+  useRef,
   useState,
+  type ComponentRef,
   type ReactNode,
+  type RefObject,
 } from "react";
 import { Vector3, PerspectiveCamera } from "three";
 import type { Business, VenueAsset } from "./types";
 import { useT } from "./i18n";
+import { readSceneColors } from "./sceneTokens";
+import { Projector, type ScreenPoints } from "./SceneAnchors";
 
 class Boundary extends Component<
   { children: ReactNode; fallback: ReactNode },
@@ -27,33 +32,62 @@ function Model({ asset }: { asset: VenueAsset }) {
   const { scene } = useGLTF(asset.model_url);
   return <primitive object={scene} />;
 }
-function Fit({ asset }: { asset: VenueAsset }) {
+// Fit sets the orbit target and size-based zoom limits through this ref.
+type Orbit = ComponentRef<typeof OrbitControls>;
+function Fit({
+  asset,
+  resetKey,
+  orbit,
+}: {
+  asset: VenueAsset;
+  resetKey: number;
+  orbit: RefObject<Orbit | null>;
+}) {
   const { camera, size, invalidate } = useThree();
   useEffect(() => {
     const c = camera as PerspectiveCamera,
       target = new Vector3(...asset.camera_target),
       min = new Vector3(...asset.bounds_min),
       max = new Vector3(...asset.bounds_max);
-    let radius = 0;
+    // Fit the eight bounds corners into both view axes along the manifest direction.
+    // A bounding sphere left wide, low venues at about a third of the frame.
+    const toCamera = new Vector3(...asset.camera_position)
+      .sub(target)
+      .normalize();
+    const right = new Vector3(0, 1, 0).cross(toCamera).normalize();
+    const up = toCamera.clone().cross(right).normalize();
+    const tanV = Math.tan((c.fov * Math.PI) / 360);
+    const tanH = (tanV * size.width) / Math.max(size.height, 1);
+    let distance = 0;
     for (const x of [min.x, max.x])
       for (const y of [min.y, max.y])
-        for (const z of [min.z, max.z])
-          radius = Math.max(radius, new Vector3(x, y, z).distanceTo(target));
-    const half = Math.min(
-      (c.fov * Math.PI) / 360,
-      Math.atan((Math.tan((c.fov * Math.PI) / 360) * size.width) / size.height),
-    );
+        for (const z of [min.z, max.z]) {
+          const v = new Vector3(x, y, z).sub(target);
+          const depthOffset = v.dot(toCamera);
+          distance = Math.max(
+            distance,
+            depthOffset + Math.abs(v.dot(right)) / tanH,
+            depthOffset + Math.abs(v.dot(up)) / tanV,
+          );
+        }
     c.position.copy(
-      new Vector3(...asset.camera_position)
-        .sub(target)
-        .normalize()
-        .multiplyScalar((radius / Math.sin(half)) * 1.08)
+      toCamera
+        .clone()
+        .multiplyScalar(distance * 1.12)
         .add(target),
     );
     c.lookAt(target);
     c.updateProjectionMatrix();
+    const controls = orbit.current;
+    if (controls) {
+      // Zoom limits follow the venue size instead of fixed metres.
+      controls.target.copy(target);
+      controls.minDistance = distance * 0.35;
+      controls.maxDistance = distance * 1.6;
+      controls.update();
+    }
     invalidate();
-  }, [asset, camera, size.width, size.height, invalidate]);
+  }, [asset, camera, orbit, resetKey, size.width, size.height, invalidate]);
   return null;
 }
 export default function VenueScene({
@@ -71,7 +105,11 @@ export default function VenueScene({
 }) {
   const { t } = useT(),
     [lost, setLost] = useState(false),
-    [enabled, setEnabled] = useState(false);
+    [enabled, setEnabled] = useState(false),
+    [resetKey, setResetKey] = useState(0),
+    [colors] = useState(readSceneColors),
+    orbit = useRef<Orbit>(null),
+    [screen, setScreen] = useState<ScreenPoints>({});
   const [supported] = useState(() => {
     try {
       const c = document.createElement("canvas"),
@@ -120,43 +158,66 @@ export default function VenueScene({
                 );
               }}
             >
-              <color attach="background" args={["#dfeceb"]} />
-              <ambientLight intensity={1.6} />
-              <directionalLight position={[30, 70, 50]} intensity={2.3} />
+              <color attach="background" args={[colors.sky]} />
+              <ambientLight intensity={0.7} />
+              <hemisphereLight args={[colors.paper, colors.bounce, 1.2]} />
+              <directionalLight position={[30, 70, 50]} intensity={2} />
               <Suspense fallback={null}>
                 <Model asset={asset} />
               </Suspense>
-              <Fit asset={asset} />
               <OrbitControls
+                ref={orbit}
                 target={asset.camera_target}
                 enabled={enabled}
                 enablePan={false}
-                minDistance={20}
-                maxDistance={400}
                 maxPolarAngle={Math.PI / 2 - 0.04}
               />
-              {markers.map((h) => (
-                <Html key={h.id} position={h.position} center>
-                  <button
-                    className="hotspot"
-                    aria-label={h.name}
-                    title={h.name}
-                    aria-pressed={
-                      selectedId === h.business_slug ||
-                      hoverId === h.business_slug
-                    }
-                    data-hotspot={h.business_slug}
-                    onClick={() => onSelect(h.business_slug)}
-                  >
-                    {asset.hotspots.findIndex((marker) => marker.id === h.id) +
-                      1}
-                  </button>
-                </Html>
-              ))}
+              <Fit asset={asset} resetKey={resetKey} orbit={orbit} />
+              <Projector
+                anchors={markers.map((h) => ({
+                  id: h.id,
+                  position: h.position,
+                }))}
+                onChange={setScreen}
+              />
             </Canvas>
+            <div className="scene-anchors">
+              {markers.map((h) => {
+                const point = screen[h.id];
+                if (!point?.visible) return null;
+                const active =
+                  selectedId === h.business_slug || hoverId === h.business_slug;
+                return (
+                  <span
+                    key={h.id}
+                    className="hotspot-wrap"
+                    style={{ left: point.x, top: point.y }}
+                  >
+                    <button
+                      className="hotspot"
+                      aria-label={h.name}
+                      title={h.name}
+                      aria-pressed={active}
+                      data-hotspot={h.business_slug}
+                      onClick={() => onSelect(h.business_slug)}
+                    >
+                      {asset.hotspots.findIndex((m) => m.id === h.id) + 1}
+                    </button>
+                    {active && (
+                      <span className="hotspot-label" aria-hidden="true">
+                        {h.name}
+                      </span>
+                    )}
+                  </span>
+                );
+              })}
+            </div>
             <div className="scene-bar">
               <button onClick={() => setEnabled((v) => !v)}>
                 {t(enabled ? "disable_3d" : "enable_3d")}
+              </button>
+              <button onClick={() => setResetKey((k) => k + 1)}>
+                {t("overview")}
               </button>
             </div>
           </div>

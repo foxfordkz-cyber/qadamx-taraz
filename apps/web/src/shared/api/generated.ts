@@ -61,8 +61,31 @@ export interface paths {
     /** Get Customers */
     get: operations["get_customers_api_v1_businesses__id__customers_get"];
     put?: never;
-    /** Create Customer */
+    /**
+     * Create Customer
+     * @description Optional Idempotency-Key scopes a durable creation to this user and business. Replay returns the original 201 snapshot; changed validated body returns 409. Without the key, each request creates a new customer (legacy behavior).
+     */
     post: operations["create_customer_api_v1_businesses__id__customers_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/customer-creation-result": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /**
+     * Get Customer Creation Result
+     * @description Recover this user's committed customer creation using Idempotency-Key. not_observed does not rule out an in-flight or delayed request. No automatic expiry.
+     */
+    get: operations["get_customer_creation_result_api_v1_businesses__id__customer_creation_result_get"];
+    put?: never;
+    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -540,6 +563,25 @@ export interface components {
       note: string;
       /** Contact */
       contact?: string | null;
+    };
+    /** CustomerCreationCompleted */
+    CustomerCreationCompleted: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      status: "completed";
+      customer: components["schemas"]["CustomerResponse"];
+    };
+    /** CustomerCreationNotObserved */
+    CustomerCreationNotObserved: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      status: "not_observed";
+      /** Customer */
+      customer: null;
     };
     /** CustomerResponse */
     CustomerResponse: {
@@ -1486,7 +1528,9 @@ export interface operations {
   create_customer_api_v1_businesses__id__customers_post: {
     parameters: {
       query?: never;
-      header?: never;
+      header?: {
+        "Idempotency-Key"?: string | null;
+      };
       path: {
         id: string;
       };
@@ -1505,6 +1549,77 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["CustomerResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_customer_creation_result_api_v1_businesses__id__customer_creation_result_get: {
+    parameters: {
+      query?: never;
+      header: {
+        "Idempotency-Key": string;
+      };
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json":
+            | components["schemas"]["CustomerCreationCompleted"]
+            | components["schemas"]["CustomerCreationNotObserved"];
         };
       };
       /** @description Unauthorized */

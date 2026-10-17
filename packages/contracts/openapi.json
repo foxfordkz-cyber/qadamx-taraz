@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.6.1"
+    "version": "0.6.2"
   },
   "paths": {
     "/api/v1/health": {
@@ -356,6 +356,7 @@
           "customers"
         ],
         "summary": "Create Customer",
+        "description": "Optional Idempotency-Key scopes a durable creation to this user and business. Replay returns the original 201 snapshot; changed validated body returns 409. Without the key, each request creates a new customer (legacy behavior).",
         "operationId": "create_customer_api_v1_businesses__id__customers_post",
         "security": [
           {
@@ -371,6 +372,25 @@
               "type": "string",
               "format": "uuid",
               "title": "Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "^[!-~]+$"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
             }
           }
         ],
@@ -391,6 +411,122 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CustomerResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/customer-creation-result": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Get Customer Creation Result",
+        "description": "Recover this user's committed customer creation using Idempotency-Key. not_observed does not rule out an in-flight or delayed request. No automatic expiry.",
+        "operationId": "get_customer_creation_result_api_v1_businesses__id__customer_creation_result_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "^[!-~]+$",
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/CustomerCreationCompleted"
+                    },
+                    {
+                      "$ref": "#/components/schemas/CustomerCreationNotObserved"
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "status",
+                    "mapping": {
+                      "completed": "#/components/schemas/CustomerCreationCompleted",
+                      "not_observed": "#/components/schemas/CustomerCreationNotObserved"
+                    }
+                  },
+                  "title": "Response Get Customer Creation Result Api V1 Businesses  Id  Customer Creation Result Get"
                 }
               }
             }
@@ -3402,6 +3538,45 @@
           "display_name"
         ],
         "title": "CustomerCreate"
+      },
+      "CustomerCreationCompleted": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "completed",
+            "title": "Status"
+          },
+          "customer": {
+            "$ref": "#/components/schemas/CustomerResponse"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "customer"
+        ],
+        "title": "CustomerCreationCompleted"
+      },
+      "CustomerCreationNotObserved": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "const": "not_observed",
+            "title": "Status"
+          },
+          "customer": {
+            "type": "null",
+            "title": "Customer"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "status",
+          "customer"
+        ],
+        "title": "CustomerCreationNotObserved"
       },
       "CustomerResponse": {
         "properties": {

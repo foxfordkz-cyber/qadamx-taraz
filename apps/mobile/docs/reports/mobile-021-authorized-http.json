@@ -1,0 +1,646 @@
+{
+  "execution": "Live HTTPS from Windows PC using requests; NOT Flutter SDK, APK, emulator or physical Android",
+  "app_source_commit": "4cc2f528f3e6cd45960b6c3be111a537c66d7e82",
+  "app_version": "0.2.1+4",
+  "backend_code_reported": "4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5",
+  "backend_commit_evidence": "Team/user confirmation and documentation 0737439; HTTP version does not prove process git hash",
+  "contract_commit": "0737439915c17e8d8f20cddcbe9e75bebede9b46",
+  "api_base_url": "https://thorough-readings-riverside-suggesting.trycloudflare.com/api/v1",
+  "started_at_utc": "2026-10-16T14:25:41.895456+00:00",
+  "checks": [
+    {
+      "check": "health_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "health_ok",
+      "passed": true
+    },
+    {
+      "check": "openapi_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "api_061_no_recovery",
+      "passed": true
+    },
+    {
+      "check": "pinned_contract_matches",
+      "passed": true
+    },
+    {
+      "check": "login_A",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "session_A",
+      "passed": true
+    },
+    {
+      "check": "me_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "me_A_contract",
+      "passed": true
+    },
+    {
+      "check": "me_subject_A",
+      "passed": true,
+      "business_count": 6
+    },
+    {
+      "check": "login_B",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "session_B",
+      "passed": true
+    },
+    {
+      "check": "me_B_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "me_B_contract",
+      "passed": true
+    },
+    {
+      "check": "me_subject_B",
+      "passed": true,
+      "business_count": 3
+    },
+    {
+      "check": "distinct_accounts",
+      "passed": true
+    },
+    {
+      "check": "membership_isolation",
+      "passed": true
+    },
+    {
+      "check": "auth_http_refresh_A_same_subject",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "me_after_http_refresh_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "me_after_http_refresh_A_contract",
+      "passed": true
+    },
+    {
+      "check": "refreshed_me_owner",
+      "passed": true
+    },
+    {
+      "check": "upload_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "upload_A_contract",
+      "passed": true
+    },
+    {
+      "check": "upload_A_replay_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "upload_A_replay_contract",
+      "passed": true
+    },
+    {
+      "check": "upload_replay_same_id",
+      "passed": true
+    },
+    {
+      "check": "unattached_photo_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "unattached_photo_A_jpeg_no_store",
+      "passed": true,
+      "bytes": 14668
+    },
+    {
+      "check": "unattached_photo_B_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "unattached_photo_anonymous_http",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "check": "publish_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "publish_A_contract",
+      "passed": true
+    },
+    {
+      "check": "created_demo_active_today",
+      "passed": true
+    },
+    {
+      "check": "integer_price_per_head",
+      "passed": true
+    },
+    {
+      "check": "publish_A_replay_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "publish_A_replay_contract",
+      "passed": true
+    },
+    {
+      "check": "publication_replay_same_id_snapshot",
+      "passed": true
+    },
+    {
+      "check": "mine_A_initial_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "mine_A_initial_contract",
+      "passed": true
+    },
+    {
+      "check": "mine_A_no_duplicate",
+      "passed": true
+    },
+    {
+      "check": "public_filter_initial_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "public_filter_initial_contract",
+      "passed": true
+    },
+    {
+      "check": "public_no_duplicate",
+      "passed": true
+    },
+    {
+      "check": "public_card_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "public_card_contract",
+      "passed": true
+    },
+    {
+      "check": "public_photo_url_contract",
+      "passed": true
+    },
+    {
+      "check": "public_photo_anonymous_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "public_photo_anonymous_jpeg_no_store",
+      "passed": true,
+      "bytes": 14668
+    },
+    {
+      "check": "public_photo_B_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "public_photo_B_jpeg_no_store",
+      "passed": true,
+      "bytes": 14668
+    },
+    {
+      "check": "public_private_photo_same_bytes",
+      "passed": true
+    },
+    {
+      "check": "mine_B_isolation_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "mine_B_isolation_contract",
+      "passed": true
+    },
+    {
+      "check": "mine_B_no_A_records",
+      "passed": true
+    },
+    {
+      "check": "foreign_edit_B_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "foreign_edit_B_error_code",
+      "passed": true,
+      "expected_code": "NOT_FOUND"
+    },
+    {
+      "check": "foreign_confirm_today_B_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "foreign_confirm_today_B_error_code",
+      "passed": true,
+      "expected_code": "NOT_FOUND"
+    },
+    {
+      "check": "foreign_sell_B_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "foreign_sell_B_error_code",
+      "passed": true,
+      "expected_code": "NOT_FOUND"
+    },
+    {
+      "check": "foreign_withdraw_B_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "foreign_withdraw_B_error_code",
+      "passed": true,
+      "expected_code": "NOT_FOUND"
+    },
+    {
+      "check": "after_B_attempts_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "after_B_attempts_contract",
+      "passed": true
+    },
+    {
+      "check": "B_cannot_change_A",
+      "passed": true
+    },
+    {
+      "check": "edit_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "edit_A_contract",
+      "passed": true
+    },
+    {
+      "check": "edit_same_id_and_price",
+      "passed": true
+    },
+    {
+      "check": "edit_A_replay_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "edit_A_replay_contract",
+      "passed": true
+    },
+    {
+      "check": "edit_replay_same_snapshot",
+      "passed": true
+    },
+    {
+      "check": "confirm_today_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "confirm_today_A_contract",
+      "passed": true
+    },
+    {
+      "check": "confirm_today_A_replay_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "confirm_today_A_replay_contract",
+      "passed": true
+    },
+    {
+      "check": "confirm_today_new_action_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "confirm_today_new_action_A_contract",
+      "passed": true
+    },
+    {
+      "check": "confirm_today_replay_and_new_action",
+      "passed": true
+    },
+    {
+      "check": "different_market_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "different_market_contract",
+      "passed": true
+    },
+    {
+      "check": "different_market_empty",
+      "passed": true
+    },
+    {
+      "check": "normalized_market_filter_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "normalized_market_filter_contract",
+      "passed": true
+    },
+    {
+      "check": "normalized_market_matches",
+      "passed": true
+    },
+    {
+      "check": "price_stats_demo_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "price_stats_demo_contract",
+      "passed": true
+    },
+    {
+      "check": "demo_excluded_minimum_null",
+      "passed": true
+    },
+    {
+      "check": "price_stats_period_unit",
+      "passed": true
+    },
+    {
+      "check": "sell_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "sell_A_contract",
+      "passed": true
+    },
+    {
+      "check": "sell_A_replay_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "sell_A_replay_contract",
+      "passed": true
+    },
+    {
+      "check": "sold_and_idempotent_replay",
+      "passed": true
+    },
+    {
+      "check": "sold_public_card_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "sold_public_photo_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "sold_public_feed_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "sold_public_feed_contract",
+      "passed": true
+    },
+    {
+      "check": "sold_absent_public",
+      "passed": true
+    },
+    {
+      "check": "sold_mine_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "sold_mine_A_contract",
+      "passed": true
+    },
+    {
+      "check": "sold_remains_with_A",
+      "passed": true
+    },
+    {
+      "check": "sold_private_photo_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "sold_private_photo_A_jpeg_no_store",
+      "passed": true,
+      "bytes": 14668
+    },
+    {
+      "check": "sold_private_photo_B_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "sold_confirm_today_A_http",
+      "passed": true,
+      "status": 409
+    },
+    {
+      "check": "sold_confirm_today_A_error_code",
+      "passed": true,
+      "expected_code": "INVALID_STATE"
+    },
+    {
+      "check": "sold_still_private_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "publish_for_withdraw_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "publish_for_withdraw_A_contract",
+      "passed": true
+    },
+    {
+      "check": "second_is_demo",
+      "passed": true
+    },
+    {
+      "check": "withdraw_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "withdraw_A_contract",
+      "passed": true
+    },
+    {
+      "check": "withdraw_A_replay_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "withdraw_A_replay_contract",
+      "passed": true
+    },
+    {
+      "check": "withdrawn_and_idempotent",
+      "passed": true
+    },
+    {
+      "check": "withdrawn_public_card_http",
+      "passed": true,
+      "status": 404
+    },
+    {
+      "check": "withdrawn_mine_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "withdrawn_mine_A_contract",
+      "passed": true
+    },
+    {
+      "check": "withdrawn_remains_with_A",
+      "passed": true
+    },
+    {
+      "check": "final_mine_A_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "final_mine_A_contract",
+      "passed": true
+    },
+    {
+      "check": "exactly_two_terminal_test_listings",
+      "passed": true
+    },
+    {
+      "check": "final_public_feed_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "final_public_feed_contract",
+      "passed": true
+    },
+    {
+      "check": "no_active_test_offers_left",
+      "passed": true
+    },
+    {
+      "check": "final_mine_B_http",
+      "passed": true,
+      "status": 200
+    },
+    {
+      "check": "final_mine_B_contract",
+      "passed": true
+    },
+    {
+      "check": "B_never_receives_A_test_records",
+      "passed": true
+    },
+    {
+      "check": "mine_anonymous_http",
+      "passed": true,
+      "status": 401
+    },
+    {
+      "check": "logout_local_A",
+      "passed": true,
+      "status": 204
+    },
+    {
+      "check": "logout_local_B",
+      "passed": true,
+      "status": 204
+    }
+  ],
+  "test_records": [
+    {
+      "id": "673d28d5-78ba-469e-8d40-79de3a3db786",
+      "purpose": "publication_photo_edit_confirm_sell",
+      "photo_id": "eccf8158-8b0d-5e03-a791-128732e36cde",
+      "final_status": "sold"
+    },
+    {
+      "id": "9cfb0665-8ab2-4c27-88c2-7ff3a39ddead",
+      "purpose": "withdrawal",
+      "final_status": "withdrawn"
+    }
+  ],
+  "limitations": [
+    "No Android device; no app login, SDK session restoration/refresh, camera/gallery, permissions, keyboard or video tested.",
+    "Explicit identical HTTP replay is tested; actual network interruption/lost response is not injected.",
+    "Positive market minimum/median not tested: synthetic demo records are deliberately excluded from statistics.",
+    "Real midnight rollover not tested; database clock unchanged.",
+    "No financial ledger mutation or recovery/0006 endpoint is called; ledger no-sale side effect is not independently audited.",
+    "Native iOS build and iPhone execution not tested; no Mac/Xcode available."
+  ],
+  "server_confirmed_on": "2026-10-16",
+  "price_stats": {
+    "sample_count": 0,
+    "min_price_per_head_minor": null,
+    "median_price_per_head_minor": null,
+    "status": "insufficient_data",
+    "period_from": "2026-10-16",
+    "period_to": "2026-10-16",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "unit": "head",
+    "source": "asking_prices"
+  },
+  "result": "pass",
+  "completed_at_utc": "2026-10-16T14:28:00.338854+00:00",
+  "resolved_intents": 13,
+  "pending_intents": 0,
+  "all_mutations_account_bound_and_persisted_before_send": true,
+  "runner_sha256": "91a26176de777547d977c15324bb9ba244c8706cb3bd1aaffdc83645c54d08b1",
+  "temporary_credential_file_deleted": true,
+  "provided_password_bytes_absent_from_tracked_files_report_and_apk": true,
+  "tracked_files_scanned": 319,
+  "maintenance_pause": "All mobile live tests stopped after completion; await user signal after backend update. No API requests during pause."
+}

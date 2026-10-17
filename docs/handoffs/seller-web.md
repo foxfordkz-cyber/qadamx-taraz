@@ -1,3 +1,136 @@
+# Seller web — main synchronization, 2026-10-17
+
+Branch feature/seller-registration-onboarding receives origin/main
+07197bec0a8ac331714eea3036f3af6eac939e7e through an explicitly authorized merge.
+Only docs/DECISIONS.md conflicted; both sides' decisions were retained.
+Production Backend, OpenAPI/generated, public/Voice/financial modules match main.
+Registration remains separate Draft PR #31 (existing base integration/voice-preview-061,
+not silently retargeted). Callback and live email acceptance remain Blocked.
+Customer Recovery is a separate follow-up branch from main, not part of this PR.
+
+Own post-merge checks from apps/web: npm ci; check:api; typecheck; lint;
+npm test -- --no-file-parallelism: **288/288**, 19 files; build; format:check;
+git diff --check. Chromium Auth/Registration **17/17**, money/Analytics **1/1**,
+Seller/Analytics/public **24 cases passed** (23 initial + isolated repeat),
+fake-device microphone **18 cases passed** (17 initial + isolated repeat).
+Parallel unit run initially had 27 timeouts; serial run passed all unchanged
+assertions. Public fallback and microphone1440 also passed isolated repeats.
+Screenshots stayed in ignored test-results/main-sync-screenshots.
+Three inherited dev dependency audit findings and large 3D chunk warning remain.
+All Auth/API/audio are synthetic; no live email, financial writes, paid AI or
+physical Android acceptance. No deployment/migration or service interruption.
+
+Previous Registration HEAD: 10d9bbad02df72ccbc8cfc33725327a72c86783a.
+Exact merge/publication HEAD: git log -1 --format=%H; publication follows checks.
+Historical checkpoints below are preserved.
+
+# Seller web — Approved Registration MVP
+
+2026-10-16. Continue `feature/seller-registration-onboarding`, Draft PR #31,
+approved base `integration/voice-preview-061:0737439915c17e8d8f20cddcbe9e75bebede9b46`.
+Stage starts at `c2a94026cd121e9dc89c2b347029b56adc4c957f`; safe fetch/pull succeeded.
+
+MVP implemented: `/register`, Login links, email/password/confirmation/show-hide,
+validation, RU/KZ and keyboard focus, double-submit guards, neutral confirmation
+waiting state, explicit SDK resend and safe localized errors. Single existing
+AuthProvider/client; user without memberships still goes through GET /me, with
+new approved RU/KZ titles and explicit refresh/logout. No automatic Demo,
+business or role assignment. Passwords cleared after accepted signup; reload
+retains only an anonymous pending marker, and asks for email again for resend.
+
+**Callback and real email acceptance remain Blocked**, explicitly confirmed by
+the user. No callback URL/path, wildcard, allowlist update or token exchange was
+invented. `detectSessionInUrl: false` retained. Independent invalid/expired notices
+are component-tested only. Captain must provide exact URL/origin/allowlist,
+mechanism, destination and approved training email/live-test permission.
+
+Files, architecture, SDK version and details:
+[Registration audit](../SELLER_REGISTRATION_AUDIT.md).
+Commands from `apps/web`: npm ci; check:api; typecheck; lint; npm test --
+--no-file-parallelism; build; format:check; strict vitest.microphone config;
+Playwright configs auth-onboarding, microphone, analytics, qa (trace off),
+voice-integration. Set QADAM_SCREENSHOT_ROOT to an ignored test-results directory
+for the analytics suite. Do not overwrite tracked design PNGs.
+
+Own current-stage verification: **277/277 unit/component**, strict microphone
+**35/35**, Auth/Registration browser **17/17**, microphone **18/18**,
+Seller/Analytics/public **24/24**, existing QA **21/21**, synthetic money/Analytics
+journey **1/1**. Suites overlap as documented in the audit. npm ci, check:api,
+typecheck, lint, build, format:check and diff --check passed. All Auth/API/audio
+tests are synthetic; no real email, account or monetary write. Initial length
+validation and SDK fixture-header issues were corrected without disabling tests.
+
+Implementation commit **`b156bc3f96fb514b4e31c95a4e23294c6114afb3`**,
+push successful; fetch/pull --ff-only reported already up to date and remote
+HEAD matched. Existing **[Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)**
+continues with head `feature/seller-registration-onboarding`, base
+`integration/voice-preview-061` at the approved `07374399`.
+This documentation-only publication checkpoint follows the verified code;
+latest exact HEAD: `git log -1 --format=%H`. No merge/force push/deployment.
+
+Existing Voice/financial/Analytics/public implementations, Backend/OpenAPI/generated and
+global styles/shared UI are unchanged. Physical Android and live AI remain
+separate; this task changes neither preview nor services.
+
+The following sections are historical checkpoints; their earlier registration
+approval block is superseded by the approved implementation above.
+
+# Seller web — Registration readiness / Android preparation
+
+2026-10-16. Branch `feature/seller-registration-onboarding`, separate worktree
+`work/qadam-seller-registration`. User/captain approved base
+`origin/integration/voice-preview-061:0737439915c17e8d8f20cddcbe9e75bebede9b46`.
+No merge of PR #14/#23/#28; Backend, API 0.6.1/OpenAPI/generated, financial logic,
+Voice implementation, public storefront and shared styles/components unchanged.
+
+**Registration remains Blocked on onboarding approval.** Base approval is not
+approval of signup/provisioning/callback policy. Existing Login is functional;
+fixed synchronous double submit, disabled Demo while login is pending, corrected
+exact RU/KZ Demo labels. Zero-membership UI now explains unavailable creation /
+invitations and offers explicit GET /me refresh. No automatic access or Demo.
+
+Source files: `apps/web/src/app/{App,pages}.tsx`, `shared/i18n/{ru,kk}.ts`.
+New tests: `src/test/auth-onboarding-readiness.test.tsx`,
+`e2e/auth-onboarding.{acceptance,playwright.config}.ts`; selected existing money
+journey tests from own QA c1ea88a in `e2e/voice-integration.*`. Three existing
+screenshot tests accept an optional output root, preserving tracked design PNGs.
+
+[Audit, contract, captain questions, commands and limits](../SELLER_REGISTRATION_AUDIT.md).
+[Physical Android checklist](../qa/ANDROID_VOICE_ACCEPTANCE.md).
+Public Supabase settings confirm email signup enabled, confirmation required;
+no signup/email was sent. HTTPS frontend/API health/CORS passed read-only probes.
+Physical Android **Blocked** (no device), live Gemini **Not run / Blocked**.
+Existing preview and shared services untouched.
+
+Own final checks: npm ci, check:api, typecheck, lint, build, format:check and
+diff --check passed. **254/254 unit/component**, strict microphone **35/35**,
+Auth onboarding browser **7/7**, microphone browser **18/18**, standard
+Seller/Analytics/public **24/24**, existing Auth/Customers QA **21/21**, full
+synthetic money/Analytics journey **1/1**. Counts overlap across suites as noted
+in the audit. These are not live Auth/DB/Gemini or physical Android results.
+New mobile/desktop empty-state PNGs inspected locally; existing tracked design
+screenshots unchanged. Current exact commit: `git log -1 --format=%H`.
+
+Published verified implementation:
+`54a78322495ebdf13fd339dbdbecde61bcda7f88`.
+**[Open Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)**,
+base `integration/voice-preview-061`, head
+`feature/seller-registration-onboarding`. Push successful and local/remote
+HEAD verified equal; GitHub reports mergeable=true, merged=false. This final
+documentation-only checkpoint records publication; use `git log -1 --format=%H`
+for its own exact hash. Do not merge or deploy without the next task.
+
+Captain/backend questions:
+[PR #18 comment](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6217630633).
+No onboarding answer received at publication. Physical Android checklist is
+ready for a human operator; signup/callback/resend are intentionally unimplemented.
+
+Next: captain answers onboarding questions, approves callback URLs/provisioning,
+then implement signup/confirmation/resend through the same AuthProvider.
+Do not invent membership APIs or rebase/merge other branches automatically.
+
+The sections below describe historical Analytics/design snapshots.
+
 # Seller web — текущая передача Analytics
 
 2026-10-16. Новая ветка `feature/seller-analytics` от согласованной капитаном `origin/integration/local-combined-check`, актуальная база **58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76**, отдельный worktree `work/qadam-seller-analytics`. После начального2089e44 капитан опубликовал Analytics0.6/cd655e9; свои изменения сохранены, неопубликованная ветка обновлена fast-forward rebase без merge PR14. Маршрут `/seller/analytics` в том же приложении и SellerLayout. Дизайн/финансовые/public-модули сохранены.

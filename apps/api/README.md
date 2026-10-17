@@ -1,12 +1,30 @@
 # Qadam API — журнал, AI-черновики и «Мал базар»
 
+**Актуальный runtime:** общая Supabase0006, API0.6.2, код4e983b4; rollout выполнен после проверенного fresh restore и разрешённого окна. [Адреса, приёмка и guard-откат](../../docs/CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md), [актуальный запуск](../../docs/FLUTTER_CONNECTION.md). Повторная миграция/перезапуск не нужны. Gemini сохранён, OpenAI/fallback не включены. Следующие блоки подготовки описывают состояние до rollout.
+
+## История подготовки сборки
+
+**Подготовка rollout0006:** [review, проверенный backup/restore, согласование frontend и откат](../../docs/CUSTOMER_RECOVERY_ROLLOUT.md). Разрешение капитана на0006 уже есть, но применение ждёт отдельного сообщения «окно открыто» и свежего backup/restore; общий сервер не переключается. Raw API0.6.1 игнорирует новый Idempotency-Key, поэтому после включения recovery откат допустим только с временным guard customer writes, без downgrade/удаления receipts.
+
+**Эта ветка — API 0.6.2, customer POST recovery.** [Контракт](../../packages/contracts/CUSTOMER_RECOVERY_API.md), [примеры](../../packages/contracts/customer-recovery-examples.json), [OpenAPI](../../packages/contracts/openapi.json). Optional `Idempotency-Key` у POST customers сохраняет исходный ответ атомарно с клиентом. GET customer-creation-result восстанавливает его по ключу в scope пользователя/точки; `not_observed` не доказывает отсутствие незавершённого POST. Старые POST без ключа совместимы. Денежные правила не менялись.
+
+Для **изолированного локального** запуска этой ветки сначала укажите собственную demo DATABASE_URL, примените `uv run alembic upgrade 0006_customer_requests`, проверьте `uv run alembic check`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8020`. Не запускайте0.6.2 против0005. Работающий общий API8018/HTTPS остаётся0.6.1, общая Supabase0005: новая миграция там **не применялась**. Rollout — отдельное согласованное действие с backup/проверкой восстановления; старый сервер совместим с добавочной таблицей. Не удаляйте receipts при откате приложения.
+
+**Продолжение OpenAI и совместимость с recovery:** [актуальный отчёт и конкретный режим защиты](../../docs/OPENAI_DEFENSE_READINESS.md). Отдельная проверочная сборка API0.6.2 включает PR22/30/33; общий сервер остаётся0.6.1/0005 до окна. RU timeout не воспроизвёлся на новой той же STT-транскрипции, deadline25с не менялся; новый полный аудиопрогон2/3 из-за ошибочной оплаты mixed. Рекомендуется текстовый OpenAI с ручной проверкой полей; голос требует сверки каждой суммы, fallback off. Указанные ниже предыдущие результаты не заменяют этот отчёт.
+
+**OpenAI, отдельная проверочная ветка:** [модели, серверный env, стоимость и фактические ограничения RU/KZ/mixed](../../docs/OPENAI_DRAFT_EVALUATION.md). `AI_PROVIDER=gemini` остаётся default; явный `openai` использует `OPENAI_API_KEY`, `OPENAI_MODEL=gpt-6-luna`, `OPENAI_TRANSCRIPTION_MODEL=gpt-transcribe`. Ключ только в игнорируемом серверном env. Общий сервер не переключён. Текстовые пробы 6/6; голосовой путь не полностью принят: два RU extraction timeout. `AI_FALLBACK_OPENAI=false`; не включать автоматические расходы в общей среде без отдельного решения.
+
+Один общий deadline 25 с для STT/извлечения/fallback. На наблюдаемый disconnect задача отменяется и поздний ответ не сохраняется; disconnect во время уже начатого COMMIT может оставить неиспользованный TTL-черновик, но не денежную операцию. POST разных черновиков не стал идемпотентным. Контракт API и явное подтверждение через журнал прежние. Логи содержат только безопасные метаданные/оценку расхода, не текст/аудио/provider body.
+
+**Диагностика живого Gemini:** [результаты текста/WebM, безопасные логи, ограничения](../../docs/GEMINI_RUNTIME_DIAGNOSIS.md). Воспроизведён provider HTTP503; исходный request_id без логов нельзя ретроспективно объяснить. Патч логирования подготовлен отдельно, работающий сервер не перезапускался. Ни ключи/текст/аудио, ни полные provider errors в логи не включать.
+
 **Текущая версия 0.6.1:** market/минимальная цена, общая БД уже0005 после разрешения капитана и проверки восстановления backup. [Точный commit и HTTPS](../../docs/FLUTTER_CONNECTION.md). При новой установке миграция0005 обязательна до запуска; повторять её на готовой общей БД не нужно. Ниже сохранены сведения предыдущих этапов API.
 
 Версия **0.6.0** добавляет [аналитику точки](../../packages/contracts/ANALYTICS_API.md) на существующем журнале, без новой миграции и изменения `/summary`. Контракт «Мал базара» 0.5.0 сохраняется. Общая qadam-demo уже на **0004_livestock**, private Storage подключён; настоящий HTTP проверен. [Flutter: запуск, публичный конфиг и удалённый HTTPS](../../docs/FLUTTER_CONNECTION.md). Не повторять setup/seed/очищающие тесты на общей БД. Исторические результаты ниже относятся к указанным этапам.
 
 Новые объявления принадлежат проверенному Supabase subject, без membership магазина. Учёт денег не меняется. `LIVESTOCK_DEMO_MODE=true` по умолчанию помечает новые объявления учебными и исключает их из статистики. Фото опциональны: без настроек Storage публикация без них работает. Для upload нужен private bucket и `STORAGE_SERVICE_KEY` только в серверном `.env`; детали policies и ограничения уборки объектов — в контракте Flutter.
 
-Только на собственной **локальной demo** PostgreSQL: `uv sync --locked`, `uv run alembic upgrade 0004_livestock`, `uv run alembic check`, затем `uv run uvicorn app.main:app --host 0.0.0.0 --port 8000`. Для этого запуска настройте DATABASE_URL на локальную demo БД и Supabase Auth env; seed для livestock не нужен. Для очищающего pytest ниже используйте другую, пустую `*_test` БД. Не подставляйте общую Supabase ни в TEST_DATABASE_URL, ни в команду upgrade.
+Только на собственной **локальной demo** PostgreSQL: `uv sync --locked`, `uv run alembic upgrade 0006_customer_requests`, `uv run alembic check`, затем `uv run uvicorn app.main:app --host 127.0.0.1 --port 8020`. Для этого запуска настройте DATABASE_URL на локальную demo БД и Supabase Auth env; seed для livestock не нужен. Для очищающего pytest ниже используйте другую, пустую `*_test` БД. Не подставляйте общую Supabase ни в TEST_DATABASE_URL, ни в команду upgrade.
 
 [Передача AI-интеграции frontend](../../packages/contracts/AI_INTEGRATION.md): точный commit и примеры multipart/уточнения/подтверждения для PR #5.
 

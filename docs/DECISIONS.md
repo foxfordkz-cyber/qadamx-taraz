@@ -1,5 +1,25 @@
 # Общие решения команды
 
+## 2026-10-17 — единая база main и deploy по поручению капитана
+
+Принятая web/API production-версия объединяется с исходниками Flutter PR25. После проверок main и обе deploy-ветки продвигаются обычным fast-forward; ветки участников сохраняются. Это не массовое слияние всех PR: дефектный recovery UI и незавершённый signup остаются отдельно. Render не перезапускается при идентичном apps/api; Vercel сборка подтверждается отдельно. Flutter SDK/Android-приёмка и новый APK остаются ответственностью mobile. [Состав и проверки](MAIN_RELEASE_20261017.md).
+
+**Перенос после приёмки:** `deploy-062` запускает production Vercel. Изменения сначала проверяются в отдельной общей ветке с сохранением всего актуального deploy-кода, включая вручную работающий Render e699158. Push/PR не означает deployment; в отчётах отдельно указываются GitHub, Vercel, Render и конкретный APK. Проверочная интеграция новых GLB описана в [MODELS_DEPLOY_REVIEW](MODELS_DEPLOY_REVIEW.md); production refs пока не меняются.
+
+## 2026-10-16 — разрешённый OpenAI-адаптер, отдельно от rollout
+
+Капитан разрешил OpenAI для AI-черновиков и небольшие платные проверки до $2. Серверный явный `AI_PROVIDER` сохраняет единый draft/clarification/confirmation контракт; default Gemini, автоматический fallback выключен. Ключ `OPENAI_API_KEY` только в игнорируемом серверном env. После проверки документации, проектного списка моделей и живых запросов кандидат: `gpt-6-luna` + транскрипция `gpt-transcribe`. Mini STT не подходит наблюдавшимся KZ/mixed; новая комбинация ещё не прошла RU из-за двух extraction timeout. [Результаты и расходы](OPENAI_DRAFT_EVALUATION.md).
+
+Никаких автоматических денежных действий/клиентов, новой схемы или frontend-каркаса. Общий сервер не переключать до отдельного согласованного окна; дальнейшие общесерверные расходы согласовать. Fallback разрешён кодом только после Gemini503/timeout, один OpenAI pipeline под прежним общим deadline; ошибки доступа/валидации/авторизации и отмена его не запускают. Не объявлять старый Gemini incident исправленным. Customer recovery PR #22/0006/0.6.2 — отдельный rollout после сообщения «окно открыто» и свежего backup/restore.
+
+## 2026-10-16: единое оформление и продолжение функциональных веток
+
+По новому поручению капитана шестой участник отвечает за общие стили и 3D. Айдана и seller-фронтендер продолжают функциональность; изменения общих компонентов и оформления согласуют через владельца единого визуального слоя, чтобы не создавать разные оформления. Текущая серия визуальных изменений — PR #24–#27, автор `ab0ka`. Это уточняет распределение визуальной работы относительно прежних записей ниже; нового переноса Flutter или изменения API оно не задаёт.
+
+Общая база — `main` **13248851fd2b2a502aff211a506f71e85c2b0ab1**, API **0.6.1**. Текущую работу сохраняем в собственных ветках и получаем main обычным merge, без reset --hard и force push. Новые задачи начинаем от актуального main. Flutter, новая voice-адаптация и customer recovery остаются отдельными этапами; это поручение не означает их слияния в main.
+
+Поручение передано [Айдане в PR #23](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/23#issuecomment-6217223383) и [seller-фронтендеру в PR #16](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/16#issuecomment-6217224239). Отправка уведомлений не означает подтверждения получения участниками.
+
 ## 2026-10-16: реализация «Мал базара»
 
 Шестой участник ведёт `apps/mobile`, единственный backend — `apps/api`. Контракт: [LIVESTOCK_API](../packages/contracts/LIVESTOCK_API.md). В `backend/livestock` ключ идемпотентности UUID в области пользователя общий для livestock actions/upload. PostgreSQL advisory transaction lock по subject сериализует конкурентные записи; изменение и JSON-снимок ответа сохраняются атомарно. Коллизия хэша lock лишь сериализует двух пользователей, проверка владельца всегда сравнивает полный UUID. Membership/locks/формулы журнала не меняются.
@@ -108,3 +128,34 @@ apps/mobile belongs to the Flutter participant. Sole backend remains apps/api, w
 ## 2026-10-16 — восстановленная среда остаётся на API0.6.1
 
 После остановки процессов восстановлен подтверждённый FastAPI4f67e2c изca51bbf. Read-only ревизия0005 и отсутствие customer recovery таблицы запрещают считать0006 развёрнутой; PR22 остаётся отдельно. Для voice выбран точныйPR23/a1e5252 поверх актуальногоmain1324885, merge7f511dd в отдельнойпроверочнойветке. После последнихправок выполнены полныеfrontend и microphoneпроверки. НовыеHTTPSадреса иточныйCORS опубликованы вVOICE_HTTPS_RESTORED; микрофонпроверен толькоfakedevice, физическаяприёмка остаётсякоманде. Ни main, ни денежныеправила, ни общаясхемаБД не изменены.
+
+## 2026-10-16 — Approved Seller Registration MVP (PR #31)
+
+Captain/user authorized signup, email confirmation and explicit resend through the existing Supabase AuthProvider. A new authenticated account receives only memberships returned by /me. Captain assigns teaching memberships with the existing verified procedure; self-service business creation and staff invitations are outside this MVP. No automatic Demo/role assignment.
+
+Registration UI and local synthetic tests may proceed. The user separately confirmed callback URL, exact redirect allowlist/origins and mechanism are still undecided: callback wiring and live email acceptance remain Blocked. Do not invent a callback URL, add wildcards or modify shared Supabase/preview. Implementation details and remaining decisions: [Registration audit](SELLER_REGISTRATION_AUDIT.md).
+## 2026-10-16 — customer POST recovery по решению PR19
+
+Выбран backend-first вариант PR19/99ed2c0. Контракт и синтетические JSON опубликованы отдельно737a559 до реализации. API0.6.2 добавляет необязательный Idempotency-Key у customerPOST и GET customer-creation-result, scope action/business/verified subject/key. Ответ201 и legacy без ключа сохранены. Клиент и исходный response snapshot записываются одной транзакцией, same-key запросы сериализует PostgreSQL advisory lock; membership проверяется до replay/lookup и удерживается FOR SHARE. Другой body —409, отсутствующий видимый receipt —not_observed, что не доказывает отсутствие позднего worker. Нет TTL/переназначения ключей/автоматической очистки. [Точный контракт и ограничения frontend](../packages/contracts/CUSTOMER_RECOVERY_API.md).
+
+Новая0006_customer_requests проверяется только на отдельной testPostgreSQL. Общая Supabase0005 и API0.6.1 остаются работать, новая версия не переключалась. Старый API совместим с добавочной таблицей; downgrade с удалением receipts не является безопасным откатом приложения. Денежные правила, Auth, Analytics и Мал базар не меняются. Seller-участник реализует coordinator/unknown UX после review контракта, включение требует отдельно согласованного rollout.
+
+## 2026-10-16 — безопасный откат customer recovery
+
+Review выявил границу совместимости: прежний API0.6.1 читает схему0006, но игнорирует Idempotency-Key customer POST. После включения recovery простой возврат к старому процессу допускает дубль при позднем повторе. Подготовлен отдельный rollback entrypoint legacy_customer_guard.py: сохранить0006/receipts, временно закрыть все customer POST и recovery lookup ответом503 CUSTOMER_RECOVERY_PAUSED; прочие маршруты передать прежнему API. Frontend сохраняет unknown и исходный ключ, не делает fallback на keyless POST. Обычный API0.6.2 сохраняет legacy POST без ключа. Ни downgrade, ни restore старого backup поверх новых записей не являются штатным откатом. [Проверенный план и ограничения backup](CUSTOMER_RECOVERY_ROLLOUT.md). Применение общей0006 и перезапуск ждут отдельного разрешения/окна; работающая voice-среда не меняется.
+
+
+## 2026-10-16 — разрешённый rollout customer recovery выполнен
+
+Капитан открыл окно. После нового backup/restore применена0006 и запущен ровно4e983b4/API0.6.2. Frontend и оба туннеля сохранены. Gemini остаётся текущим провайдером, fallback false; наличие OpenAI-кода не включает платные расходы. Внешняя HTTP/браузерная приёмка PASS; frontend recovery подключает Бекзат. [Отчёт](CUSTOMER_RECOVERY_LIVE_ACCEPTANCE.md). Откат только с сохранением0006/receipts и guard customer writes; raw0.6.1/downgrade/старый restore поверх новых записей запрещены. Main/ветки команды/постоянный deploy не менялись.
+
+## 2026-10-16 — проверочная общая web-сборка, без переключения среды
+
+Основа integration/unified-web-062 — работающий4e983b4, а не прежний main. Дизайн24→26→27→29 объединён по ancestry один раз, Auth c2a9402 и PR32 проверены вместе с recovery/диагностикой/OpenAI0.6.2. Новая схема не нужна. По условию капитана fd21874 исключён целиком после воспроизведения нового customer key между picker и страницей при unknown; coordinator исправляет существующий frontend-владелец. Поздний PR31 10d9bba с незавершённым callback/email также не подключён вслепую. [Review и точный состав](UNIFIED_WEB_062_REVIEW.md). Backend/preview/туннели сохранены; публикация Draft PR не является разрешением на merge или переключение. Приёмка с AI-заглушкой не заменяет живой Gemini, вернувший503.
+
+## 2026-10-16 — OpenAI на Render, без новых денежных правил
+
+Капитан разрешил OpenAI-primary и вручную применил Environment. План конфигурации из проверенного адаптера: openai / gpt-6-luna / gpt-transcribe, fallback false, одна попытка, общий25с. Лог STT200 подтверждает OpenAI, не полную приёмку голоса. Gemini request0d2772f8 получил429; OpenAI d53a7f33 остановился после успешногоSTT до наблюдаемого extraction-вызова. Не считать эти инциденты одной причиной. В отдельной ветке добавлена безопасная диагностика transcript validation; никакой попытки принимать пустой текст/придумывать оплату, никаких автоматических денег. Шесть новых hosted probes/черновиков,0денежныхPOST; резерв$1.80/$2, расходы безusage не обнулены. [Доказательства и ограничения](HOSTING_AI_ACCEPTANCE.md). Настройки Auth/Storage/БД не менялись, registration/recovery остаются у текущих владельцев; сообщения участникам только подготовлены капитану.
+## 2026-10-16 — пересборка моделей площадок участником №6
+
+По решению капитана три GLB пересобирает роль единого визуального стиля и 3D; автор моделей сохраняет свои исходники и на время пересборки не правит те же файлы, его ветка `assets/venue-models` не меняется. Исходная точка — последняя опубликованная версия `11c4e45`. Правки узнаваемости делаются только по уже задокументированным референсам; `geometry_status`, тексты `reconstruction`, hotspot (id, business_id, business_slug, position) и структура manifest сохраняются, обновляются только измеренные bounds и камера. Перекрывающиеся детали одного материала разносятся по глубине, чтобы не было совпадающих граней. [Отчёт](VISUAL_MODELS.md).

@@ -1,3 +1,4 @@
+from typing import Literal
 from urllib.parse import urlsplit
 
 from pydantic import Field, SecretStr, field_validator
@@ -17,6 +18,12 @@ class Settings(BaseSettings):
     demo_owner_a_token: SecretStr | None = None
     demo_owner_b_token: SecretStr | None = None
     ai_api_key: SecretStr | None = None
+    ai_provider: Literal["gemini", "openai"] = "gemini"
+    openai_api_key: SecretStr | None = None
+    openai_model: str = Field(default="", pattern=r"^(?:gpt-[a-zA-Z0-9._-]+)?$")
+    openai_transcription_model: str = Field(default="", pattern=r"^(?:gpt-[a-zA-Z0-9._-]+)?$")
+    ai_fallback_openai: bool = False
+    ai_primary_timeout_seconds: float = Field(default=8, gt=0, le=15)
     storage_service_key: SecretStr | None = None
     livestock_demo_mode: bool = True
     storage_bucket: str = Field(default="", pattern=r"^(?:[a-z0-9][a-z0-9-]{0,62})?$")
@@ -27,6 +34,7 @@ class Settings(BaseSettings):
         "demo_owner_a_token",
         "demo_owner_b_token",
         "ai_api_key",
+        "openai_api_key",
         "storage_service_key",
         mode="before",
     )

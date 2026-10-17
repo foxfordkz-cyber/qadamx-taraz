@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "./auth";
+import { RegistrationPage } from "./registration";
 import { BusinessProvider, RuntimeProvider, useMemberships } from "./runtime";
 import { SellerLayout } from "./layout";
 import {
@@ -41,7 +42,19 @@ function ProtectedSeller() {
     return (
       <div className="standalone-state">
         <LanguageHeader />
-        <EmptyState title={t("noBusiness")} description={t("noBusinessHint")} />
+        <EmptyState
+          title={t("noBusiness")}
+          description={t("noBusinessHint")}
+          action={
+            <Button
+              variant="secondary"
+              disabled={me.isFetching}
+              onClick={() => void me.refetch({ cancelRefetch: false })}
+            >
+              {t(me.isFetching ? "loading" : "refresh")}
+            </Button>
+          }
+        />
       </div>
     );
   return (
@@ -95,6 +108,7 @@ export function App({
       <RouteEffects />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
         <Route
           path="/"
           element={integrations.public.home ?? <PublicPending />}
