@@ -5,8 +5,9 @@ import '../data/api_failure.dart';
 
 class VenueAsset {
   VenueAsset(this.data) {
-    if (!const ['mart', 'kaikarmet', 'auyl-bereke'].contains(data['slug']))
+    if (!const ['mart', 'kaikarmet', 'auyl-bereke'].contains(data['slug'])) {
       throw const ApiFailure('INVALID_RESPONSE');
+    }
     for (final name in [
       'camera_position',
       'camera_target',
@@ -25,11 +26,15 @@ class VenueAsset {
     for (final h in hotspots) {
       crmId(h, 'business_id');
       crmString(h, 'business_slug');
-      if (!ids.add(crmString(h, 'id')))
+      if (!ids.add(crmString(h, 'id'))) {
         throw const ApiFailure('INVALID_RESPONSE');
+      }
       final p = h['position'];
-      if (p is! List || p.length != 3 || p.any((n) => n is! num || !n.isFinite))
+      if (p is! List ||
+          p.length != 3 ||
+          p.any((n) => n is! num || !n.isFinite)) {
         throw const ApiFailure('INVALID_RESPONSE');
+      }
     }
   }
   final CrmJson data;
@@ -48,8 +53,9 @@ class VenueAsset {
       for (final b in businesses) {
         if (b['venue_id'] == venueId &&
             b['id'] == h['business_id'] &&
-            b['slug'] == h['business_slug'])
+            b['slug'] == h['business_slug']) {
           return b;
+        }
       }
     }
     return null;
@@ -61,8 +67,9 @@ class VenueAsset {
         await rootBundle.loadString('assets/venues/venue-assets.json'),
       ),
     );
-    if (manifest['schema_version'] != 1 || manifest['venues'] is! List)
+    if (manifest['schema_version'] != 1 || manifest['venues'] is! List) {
       throw const ApiFailure('INVALID_RESPONSE');
+    }
     final items = (manifest['venues'] as List).map(
       (v) => VenueAsset(crmObject(v)),
     );

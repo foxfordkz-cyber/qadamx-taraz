@@ -38,8 +38,9 @@ void validateInquiryReceipt(CrmJson value) {
         r'^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:\d\d)$',
         caseSensitive: false,
       ).hasMatch(date) ||
-      DateTime.tryParse(date) == null)
+      DateTime.tryParse(date) == null) {
     throw const ApiFailure('INVALID_RESPONSE', uncertain: true);
+  }
 }
 
 /// Encrypted, origin/account(or guest)/recipient scoped. No public lookup exists:
@@ -51,8 +52,9 @@ class InquiryService {
   final bool Function(CrmScope) isCurrent;
   static final Map<String, Future<void>> _locks = {};
   void check(CrmScope scope) {
-    if (!isCurrent(scope) || scope.api != api.baseUrl.toString())
+    if (!isCurrent(scope) || scope.api != api.baseUrl.toString()) {
       throw const ApiFailure('ACCOUNT_CHANGED');
+    }
   }
 
   Future<CrmIntent?> load(CrmScope scope) async {
@@ -84,7 +86,7 @@ class InquiryService {
         intent = await pending.begin(scope, inquiryAction, newBody);
       }
       check(scope);
-      final saved = intent!;
+      final saved = intent;
       try {
         final receipt = await api.request(
           'businesses/${scope.business}/inquiries',

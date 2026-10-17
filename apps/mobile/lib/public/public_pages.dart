@@ -8,6 +8,7 @@ import '../runtime.dart';
 import '../ui/common.dart' show tr;
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
+import 'venue_viewer.dart';
 
 String publicError(bool kk) => tr(
   kk,
@@ -92,11 +93,12 @@ class _PublicHomeState extends State<PublicHome> {
       final models = await VenueAsset.load().catchError(
         (_) => <String, VenueAsset>{},
       );
-      if (mounted && run == generation)
+      if (mounted && run == generation) {
         setState(() {
           venues = result;
           assets = models;
         });
+      }
     } catch (e) {
       if (mounted && run == generation) setState(() => error = e);
     } finally {
@@ -235,15 +237,17 @@ class _VenuePageState extends State<VenuePage> {
           cursor: c,
         ),
       );
-      if (mounted && run == generation)
+      if (mounted && run == generation) {
         setState(() {
           shops = result;
-          if (initial)
+          if (initial) {
             categories = result
                 .map((b) => b['category'] as String)
                 .where((c) => c.isNotEmpty)
                 .toSet();
+          }
         });
+      }
     } catch (e) {
       if (mounted && run == generation) setState(() => error = e);
     } finally {
@@ -270,6 +274,15 @@ class _VenuePageState extends State<VenuePage> {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
+          if (widget.asset != null && !busy && error == null)
+            VenueViewer(
+              key: ValueKey('$generation:$category'),
+              asset: widget.asset!,
+              venueId: widget.venue['id'] as String,
+              businesses: shops,
+              kk: kk,
+              onSelect: open,
+            ),
           poster(widget.asset, kk),
           Text(
             tr(
@@ -291,6 +304,7 @@ class _VenuePageState extends State<VenuePage> {
             ),
           ),
           DropdownButtonFormField<String>(
+            key: ValueKey(category),
             initialValue: category,
             isExpanded: true,
             decoration: InputDecoration(
@@ -396,8 +410,9 @@ class _PublicShopPageState extends State<PublicShopPage> {
         widget.slug,
         expectedId: widget.expectedId,
       );
-      if (widget.venue != null && result['venue_id'] != widget.venue!['id'])
+      if (widget.venue != null && result['venue_id'] != widget.venue!['id']) {
         throw const ApiFailure('INVALID_RESPONSE');
+      }
       if (mounted) setState(() => shop = result);
     } catch (e) {
       if (mounted) setState(() => error = e);
@@ -536,7 +551,7 @@ class _InquiryFormState extends State<InquiryForm> {
   Future<void> restore() async {
     try {
       final result = await service.load(scope);
-      if (active)
+      if (active) {
         setState(() {
           saved = result;
           if (result != null) {
@@ -545,6 +560,7 @@ class _InquiryFormState extends State<InquiryForm> {
             message.text = result.body['message'] as String;
           }
         });
+      }
     } catch (e) {
       if (active) setState(() => error = e);
     } finally {
@@ -553,8 +569,9 @@ class _InquiryFormState extends State<InquiryForm> {
   }
 
   Future<void> send() async {
-    if (busy || !active || (saved == null && !form.currentState!.validate()))
+    if (busy || !active || (saved == null && !form.currentState!.validate())) {
       return;
+    }
     setState(() {
       busy = true;
       error = null;
@@ -583,7 +600,7 @@ class _InquiryFormState extends State<InquiryForm> {
     try {
       final cleared = await service.pending.acknowledge(saved!);
       if (!cleared) throw const ApiFailure('PENDING_CHANGED');
-      if (active)
+      if (active) {
         setState(() {
           saved = null;
           error = null;
@@ -591,6 +608,7 @@ class _InquiryFormState extends State<InquiryForm> {
           contact.clear();
           message.clear();
         });
+      }
     } catch (e) {
       if (active) setState(() => error = e);
     } finally {
@@ -621,14 +639,15 @@ class _InquiryFormState extends State<InquiryForm> {
     validator: (value) {
       final text = (value ?? '').trim();
       if (text.isEmpty) return tr(kk, 'Обязательное поле', 'Міндетті өріс');
-      if (text.runes.length > limit)
+      if (text.runes.length > limit) {
         return tr(kk, 'Не более $limit символов', '$limit таңбадан аспасын');
+      }
       return null;
     },
   );
   @override
   Widget build(BuildContext context) {
-    if (!active)
+    if (!active) {
       return Text(
         tr(
           kk,
@@ -636,7 +655,8 @@ class _InquiryFormState extends State<InquiryForm> {
           'Аккаунт өзгерді. Дүкенді қайта ашыңыз.',
         ),
       );
-    if (saved?.receipt != null)
+    }
+    if (saved?.receipt != null) {
       return crmCard([
         Text(
           tr(kk, 'Заявка отправлена', 'Өтінім жіберілді'),
@@ -655,6 +675,7 @@ class _InquiryFormState extends State<InquiryForm> {
           child: Text(tr(kk, 'Отправить ещё одну', 'Тағы бір өтінім жіберу')),
         ),
       ]);
+    }
     return crmCard([
       Text(
         tr(kk, 'Оставить заявку', 'Өтінім қалдыру'),

@@ -81,15 +81,17 @@ class PublicApi {
       ),
       (b) {
         validatePublicBusiness(b);
-        if (venue != null && b['venue_id'] != venue)
+        if (venue != null && b['venue_id'] != venue) {
           throw const ApiFailure('INVALID_RESPONSE');
+        }
       },
     );
   }
 
   Future<CrmJson> shop(String slug, {String? expectedId}) async {
-    if (!RegExp(r'^[a-zA-Z0-9][a-zA-Z0-9_-]*$').hasMatch(slug))
+    if (!RegExp(r'^[a-zA-Z0-9][a-zA-Z0-9_-]*$').hasMatch(slug)) {
       throw const ApiFailure('VALIDATION_ERROR');
+    }
     final b = await request('businesses/${Uri.encodeComponent(slug)}');
     validatePublicBusiness(b);
     if (b['slug'] != slug ||
@@ -102,8 +104,9 @@ class PublicApi {
       crmId(item, 'id');
       crmBusiness(item, b['id'] as String);
       publicName(item, 'name');
-      if (item['available'] is! bool || item['is_demo'] is! bool)
+      if (item['available'] is! bool || item['is_demo'] is! bool) {
         throw const ApiFailure('INVALID_RESPONSE');
+      }
       if (item['price_minor'] != null &&
           crmInt(item, 'price_minor', nonnegative: true) > 10000000000) {
         throw const ApiFailure('INVALID_RESPONSE');
@@ -117,8 +120,9 @@ class PublicApi {
 
 String publicName(CrmJson object, String key) {
   final value = crmString(object, key).trim();
-  if (value.isEmpty || crmUuid.hasMatch(value))
+  if (value.isEmpty || crmUuid.hasMatch(value)) {
     throw const ApiFailure('INVALID_RESPONSE');
+  }
   return value;
 }
 
