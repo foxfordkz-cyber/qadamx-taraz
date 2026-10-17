@@ -307,6 +307,15 @@ class CrmApi {
     return intent;
   }
 
+  void validateSaved(CrmScope scope, String action, CrmIntent intent) {
+    check(scope);
+    if (intent.slot != scope.slot(action))
+      throw const ApiFailure('ACCOUNT_CHANGED');
+    validateBody(action, intent.body);
+    if (intent.receipt != null)
+      _validateReceipt(scope, action, intent.receipt!, intent.body);
+  }
+
   Future<CrmIntent> send(
     CrmScope scope,
     String action,

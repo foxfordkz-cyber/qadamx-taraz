@@ -103,6 +103,7 @@ void main() {
         throwsA(failure('INVALID_RESPONSE')),
       );
       expect((await pending.load(scope, operationAction))!.receipt, isNull);
+      pending = CrmPending(MemoryCrmVault());
       final other = api((r) async {
         final response = receipt();
         response['operation']['kind'] = 'repayment';
@@ -112,15 +113,16 @@ void main() {
         response['customer_balance_minor'] = 0;
         return jsonResponse(response);
       });
-      final anotherScope = other.scope(customerId);
-      // Validate repayment request independently; response business scope stays enforced.
-      other.validateBody(operationAction, {
+      final anotherScope = other.scope(business);
+      final repayment = await other.begin(anotherScope, operationAction, {
         'kind': 'repayment',
         'sale_id': saleId,
         'amount_minor': 5000,
         'description': 'Fixture',
       });
-      expect(anotherScope.business, customerId);
+      final paid = await other.send(anotherScope, operationAction, repayment);
+      expect(paid.receipt!['operation']['sales_delta_minor'], 0);
+      expect(paid.receipt!['sale_balance_minor'], 0);
       client.close();
       other.close();
     },
