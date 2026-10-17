@@ -38,6 +38,8 @@ def test_public_projection_filters_and_catalog(ledger_api):
         "description",
         "is_demo",
         "catalog",
+        "name_i18n",
+        "description_i18n",
     }
     assert len(shop["catalog"]) == 1
     assert "price_minor" in shop["catalog"][0]

@@ -875,5 +875,53 @@
   "CustomerCreationNotObserved": {
     "status": "not_observed",
     "customer": null
+  },
+  "LocalizedShopKK": {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "venue_id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart-demo-clothes",
+    "name": "Демо MART — Киім",
+    "category": "clothes",
+    "description": "Synthetic demo",
+    "is_demo": true,
+    "catalog": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "business_id": "20000000-0000-4000-8000-000000000001",
+        "name": "Demo item",
+        "price_minor": 300000,
+        "available": true,
+        "is_demo": true
+      }
+    ],
+    "name_i18n": {
+      "ru": "Демо MART — Одежда",
+      "kk": "Демо MART — Киім"
+    },
+    "description_i18n": null
+  },
+  "LocalizedShopRU": {
+    "id": "20000000-0000-4000-8000-000000000001",
+    "venue_id": "10000000-0000-4000-8000-000000000001",
+    "slug": "mart-demo-clothes",
+    "name": "Демо MART — Одежда",
+    "category": "clothes",
+    "description": "Synthetic demo",
+    "is_demo": true,
+    "catalog": [
+      {
+        "id": "30000000-0000-4000-8000-000000000001",
+        "business_id": "20000000-0000-4000-8000-000000000001",
+        "name": "Demo item",
+        "price_minor": 300000,
+        "available": true,
+        "is_demo": true
+      }
+    ],
+    "name_i18n": {
+      "ru": "Демо MART — Одежда",
+      "kk": "Демо MART — Киім"
+    },
+    "description_i18n": null
   }
 }
