@@ -66,6 +66,8 @@
 
 Review Flutter 0.5.0 (`review/flutter-050-visual` от `main` = `deploy-062` @ `8f1764d`, по поручению интегратора): `mobile-v0.5.0-visual.1` @ `7b3a8ba`, APK `14f3f145…3eccf`. Доказательства разделены: APK на эмуляторе Pixel 6, рендеры автора, чтение кода, не проверено. P1 не найдено в пределах проверенных экранов; P2 сведены в пять групп для mobile (графики, форма и ошибки, порядок карточек, маркировка учебного и схемы, переносы KZ) и вопрос о форме кнопок; P3 отдельно. `apps/mobile` не менялся — [FLUTTER_050_VISUAL_REVIEW](../FLUTTER_050_VISUAL_REVIEW.md), галерея [flutter-050-review](../screenshots/flutter-050-review/README.md). Seed RU-only — замечание backend; ссылка APK 0.3.0 на сайте — после физической проверки 0.5.0.
 
+Приёмка Cloudflare (`review/cloudflare-acceptance` от `main` @ `86ca9af`, 2026-10-17): https://qadamx-taraz.pages.dev, только чтение, headless Chrome + SwiftShader на 1440/390/KZ 360. Главная и переключение площадок, 9/9 маркеров → магазины (мышь и касание), Мал базар, RU/KZ, список без 3D с клавиатуры, крупный текст, sidebar демо — PASS. Дефект D1 (P3): при корневом шрифте 200 % на 390 px переключатель языка в шапке главной выходит за край на 9 px. Подробности — [cloudflare-acceptance](../screenshots/cloudflare-acceptance/README.md).
+
 ## Проверки
 
 Этап E: typecheck, lint, format, build, `check:api` — passed; unit/component 273 passed (265 прежних + 8 новых в `sale-debts-polish.test.tsx`); E2E в установленном Chrome — общий 24/24, QA 21/21, Analytics 24/24, microphone 18/18, voice-integration 1/1; `validate_assets.py` — ok. Тексты обновлены в тестах только там, где проверялись старые подписи. Перезаписанные E2E снимки возвращены и в изменения не входят. Физический телефон не проверялся.
