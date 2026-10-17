@@ -34,6 +34,11 @@ const ru = {
   no_shops: "Ничего не найдено. Измените запрос или категорию.",
   catalog: "Каталог",
   price_ask: "Уточнить",
+  demo_shop: "Учебная точка",
+  point_on_scheme: "точка {n} на схеме",
+  write_seller: "Оставить заявку",
+  in_stock: "В наличии",
+  out_of_stock: "Нет в наличии",
   back: "Назад",
   overview: "Общий вид",
   scene_hint:
@@ -119,6 +124,11 @@ const kk: Record<keyof typeof ru, string> = {
   no_shops: "Ештеңе табылмады. Сұранысты немесе санатты өзгертіңіз.",
   catalog: "Каталог",
   price_ask: "Нақтылау",
+  demo_shop: "Оқу нүктесі",
+  point_on_scheme: "сызбадағы {n}-нүкте",
+  write_seller: "Өтінім қалдыру",
+  in_stock: "Бар",
+  out_of_stock: "Жоқ",
   back: "Артқа",
   overview: "Жалпы көрініс",
   scene_hint:

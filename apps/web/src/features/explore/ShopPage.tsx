@@ -1,61 +1,73 @@
 import { Link, useParams } from "react-router-dom";
-import { getBusiness } from "./api";
+import { formatKZT } from "../../shared/format";
+import { getBusiness, getVenues } from "./api";
 import { useFetch } from "./hooks";
 import { useT } from "./i18n";
 import { LangSwitch, State } from "./ui";
 import InquiryForm from "../inquiry/InquiryForm";
 import "./explore.css";
 
-const fmt = (n: number) =>
-  new Intl.NumberFormat("ru-RU").format(n / 100) + " ₸";
-
+// Shows only what the public API returns: name, category, demo flag,
+// description, venue, point on the scheme and catalog. No invented address,
+// hours, photos or contacts.
 export default function ShopPage() {
   const { slug = "" } = useParams();
-  const { t, categoryName } = useT();
+  const { t, name, categoryName, lang } = useT();
   const {
     data: b,
     loading,
     error,
     reload,
   } = useFetch(() => getBusiness(slug), [slug]);
+  const venues = useFetch(getVenues, []);
+  const venue = venues.data?.find((v) => v.id === b?.venue_id);
+  const point =
+    venue?.asset?.hotspots.findIndex(
+      (h) => h.business_id === b?.id && h.business_slug === b?.slug,
+    ) ?? -1;
+  const category = b ? categoryName(b.category) : "";
 
   return (
     <main className="ex">
       <header className="ex-top">
-        {b?.venue_slug ? (
-          <Link className="back-link" to={`/venues/${b.venue_slug}`}>
-            <span aria-hidden="true">←</span> {t("back")}
-          </Link>
-        ) : (
-          <Link className="back-link" to="/">
-            <span aria-hidden="true">←</span> {t("back")}
-          </Link>
-        )}
+        <Link
+          className="back-link"
+          to={b?.venue_slug ? `/venues/${b.venue_slug}` : "/"}
+        >
+          <span aria-hidden="true">←</span> {t("back")}
+        </Link>
         <LangSwitch />
       </header>
 
       <State loading={loading} error={error} onRetry={reload}>
         {b && (
           <>
-            <section className="shop-hero">
-              <div className="shop-hero-copy">
-                <span className="eyebrow eyebrow--dark">
-                  {t("shop_eyebrow")}
-                </span>
-                <span className="category-pill">
-                  <span className="category-dot" />
-                  {categoryName(b.category)}
-                </span>
-                <h1>{b.name}</h1>
-                <p>{b.description}</p>
+            <section className="shop-head" aria-labelledby="shop-h">
+              <div className="shop-cover" aria-hidden="true">
+                {category.slice(0, 1)}
               </div>
-              <div className="shop-art" aria-hidden="true">
-                <span className="shop-art-orbit shop-art-orbit--one" />
-                <span className="shop-art-orbit shop-art-orbit--two" />
-                <span className="shop-art-step shop-art-step--one" />
-                <span className="shop-art-step shop-art-step--two" />
-                <span className="shop-art-step shop-art-step--three" />
-                <span className="shop-art-spark">✳</span>
+              <div className="shop-head-copy">
+                <div className="shop-tags">
+                  <span className="category-pill">
+                    <span className="category-dot" />
+                    {category}
+                  </span>
+                  {b.is_demo && (
+                    <span className="badge badge--warn">{t("demo_shop")}</span>
+                  )}
+                </div>
+                <h1 id="shop-h">{b.name}</h1>
+                {venue && (
+                  <p className="shop-place">
+                    <Link to={`/venues/${venue.slug}`}>{name(venue)}</Link>
+                    {point >= 0 &&
+                      ` · ${t("point_on_scheme").replace("{n}", String(point + 1))}`}
+                  </p>
+                )}
+                {b.description && <p className="muted">{b.description}</p>}
+                <a className="btn btn--primary" href="#inquiry">
+                  {t("write_seller")}
+                </a>
               </div>
             </section>
 
@@ -67,20 +79,24 @@ export default function ShopPage() {
                   </span>
                   <h2 id="cat-h">{t("catalog")}</h2>
                 </div>
-                <span className="badge badge--warn">{t("demo_data")}</span>
+                {b.catalog?.some((i) => i.is_demo) && (
+                  <span className="badge badge--warn">{t("demo_data")}</span>
+                )}
               </div>
               {b.catalog?.length ? (
                 <ul className="catalog">
-                  {b.catalog.map((i, index) => (
+                  {b.catalog.map((i) => (
                     <li className="catalog-item" key={i.id}>
-                      <span className="catalog-index" aria-hidden="true">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
                       <span className="catalog-title">{i.name}</span>
+                      <span
+                        className={`catalog-stock${i.available ? " is-available" : ""}`}
+                      >
+                        {t(i.available ? "in_stock" : "out_of_stock")}
+                      </span>
                       <strong className="catalog-price">
                         {i.price_minor == null
                           ? t("price_ask")
-                          : fmt(i.price_minor)}
+                          : formatKZT(i.price_minor, lang)}
                       </strong>
                     </li>
                   ))}
@@ -90,7 +106,10 @@ export default function ShopPage() {
               )}
             </section>
 
-            <InquiryForm key={b.id} businessId={b.id} businessName={b.name} />
+            <div id="inquiry" className="inquiry-anchor">
+              {/* Form by its own owner (features/inquiry); the page passes the shop. */}
+              <InquiryForm key={b.id} businessId={b.id} businessName={b.name} />
+            </div>
           </>
         )}
       </State>
