@@ -69,7 +69,13 @@ remains separate at **6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, base
 `integration/voice-preview-061`, unchanged by this resumed task. Its callback URL,
 Supabase allowlist, confirmation mechanism and live email acceptance remain blocked.
 No main/deploy/other branch, backend configuration, migration or working service
-was modified. Recovery Draft publication follows the final browser results.
+was modified. Recovery is published as [Draft PR #42](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/42),
+base `main`, head `fix/seller-customer-recovery-safe`. Verification report commit
+**14f5ad8129605f47f65967603401c5c3cd17851f** was pushed successfully; local and
+remote HEAD matched. This following documentation-only commit records the PR link;
+the PR head and `git log -1 --format=%H` identify its current revision.
+Next: captain review, integration/deployment in a separate authorized task, then
+the gated live rehearsal. Do not merge old PRs again or clear pending markers.
 
 The Registration/design/Analytics sections below are historical snapshots.
 

@@ -17,6 +17,18 @@ Auth onboarding 7/7, microphone 18/18 and Analytics/Seller/public 24/24.
 Review and publication status are maintained in
 [seller handoff](handoffs/seller-web.md), with the [technical report](SELLER_CUSTOMER_RECOVERY_SAFE.md).
 
+Published [Draft PR #42](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/42)
+from `fix/seller-customer-recovery-safe` to `main`. Verification report commit
+`14f5ad8129605f47f65967603401c5c3cd17851f` was pushed and matched remote HEAD.
+The following docs-only commit records this publication; get the exact current
+revision with `git log -1 --format=%H`. No merge into main or deployment occurred.
+
+To continue in the existing worktree, inspect `git status --short`, run
+`git fetch origin --prune`, compare main/related PRs and use
+`git pull --ff-only origin fix/seller-customer-recovery-safe`. Stop on divergence;
+do not reset, rebase or merge other branches automatically. All required local
+verification is complete; live acceptance remains gated as documented.
+
 The checkpoint below is historical: its pause and missing final checks describe
 the earlier session, not a new instruction to stop. Resume from the current
 branch HEAD, not by resetting to this historical snapshot.
