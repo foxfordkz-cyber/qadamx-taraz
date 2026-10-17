@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-label="Qadam Business: дауыспен сату, қарыздар бақылауда">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1B5240"/>
+      <stop offset="1" stop-color="#103A2D"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="360" rx="28" fill="url(#g)"/>
+  <circle cx="985" cy="180" r="150" fill="#D7F36A" fill-opacity=".06"/>
+  <circle cx="985" cy="180" r="118" fill="none" stroke="#D7F36A" stroke-opacity=".22"/>
+  <circle cx="985" cy="180" r="86" fill="none" stroke="#D7F36A" stroke-opacity=".12"/>
+  <g transform="translate(905 100) scale(4)">
+    <rect width="40" height="40" rx="10" fill="#D7F36A"/>
+    <path d="M8 30h8v-8h8v-8h8" fill="none" stroke="#123F31" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="32" cy="14" r="2.6" fill="#123F31"/>
+  </g>
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <text x="64" y="84" fill="#D7F36A" font-size="16" font-weight="700" letter-spacing="3">ТАРАЗ · БАЗАР САТУШЫЛАРЫНА</text>
+    <text x="62" y="156" fill="#FFFFFF" font-size="64" font-weight="700" letter-spacing="-1.5">Qadam Business</text>
+    <text x="64" y="208" fill="#FFFFFF" font-size="30" font-weight="600">Дауыспен сату. Қарыздар бақылауда.</text>
+    <text x="64" y="248" fill="#C9DCD3" font-size="20">Сөйлеңіз, AI жобасын тексеріп, жазыңыз. Сомаларды сервер есептейді.</text>
+    <rect x="64" y="276" width="99" height="36" rx="18" fill="#FFFFFF" fill-opacity=".08" stroke="#D7F36A" stroke-opacity=".35"/>
+    <text x="80" y="300" fill="#E8F5C8" font-size="16" font-weight="600">KZ · RU</text>
+    <rect x="175" y="276" width="118" height="36" rx="18" fill="#FFFFFF" fill-opacity=".08" stroke="#D7F36A" stroke-opacity=".35"/>
+    <text x="191" y="300" fill="#E8F5C8" font-size="16" font-weight="600">AI жобасы</text>
+    <rect x="305" y="276" width="176" height="36" rx="18" fill="#FFFFFF" fill-opacity=".08" stroke="#D7F36A" stroke-opacity=".35"/>
+    <text x="321" y="300" fill="#E8F5C8" font-size="16" font-weight="600">Қарыз бен төлем</text>
+    <rect x="493" y="276" width="128" height="36" rx="18" fill="#FFFFFF" fill-opacity=".08" stroke="#D7F36A" stroke-opacity=".35"/>
+    <text x="509" y="300" fill="#E8F5C8" font-size="16" font-weight="600">3D-витрина</text>
+  </g>
+</svg>
