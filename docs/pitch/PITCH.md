@@ -1,6 +1,6 @@
 # Qadam Business: презентация и защита
 
-Хакатон Zhambyl Hub, трек AI, кейс «AI for SME & Local Business». Материал собран 17 октября 2026 г. по репозиторию, отчётам команды и живым адресам. Файлы рядом: [qadam-pitch.pptx](qadam-pitch.pptx), [qadam-pitch.pdf](qadam-pitch.pdf).
+Хакатон Zhambyl Hub, трек AI, кейс «AI for SME & Local Business». Материал собран 17 октября 2026 г. по репозиторию, отчётам команды и живым адресам. Сами слайды хранятся вне репозитория.
 
 ## 0. Что считаем фактом
 
