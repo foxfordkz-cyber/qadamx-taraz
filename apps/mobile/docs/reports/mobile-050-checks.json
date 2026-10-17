@@ -1,0 +1,28 @@
+{
+  "source_commit": "7b3a8bad757b13e0dc37d35d703e6a53cd4d9940",
+  "analyzer": {
+    "issues": 0,
+    "seconds": 32.1
+  },
+  "flutter_test": {
+    "passed": 209,
+    "skipped": 1,
+    "seconds": 74,
+    "skip": "opt-in walkthrough"
+  },
+  "walkthrough": {
+    "passed": 1,
+    "synthetic": true,
+    "android": false
+  },
+  "gallery": {
+    "cases_in_full_suite": 62,
+    "after_png": 68,
+    "before_png": 18
+  },
+  "physical_android": "NOT_PERFORMED_NO_DEVICE",
+  "new_apk_emulator": "NOT_PERFORMED",
+  "live_financial_writes": 0,
+  "live_external_inquiry_writes": 0,
+  "paid_ai_requests": 0
+}

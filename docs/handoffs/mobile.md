@@ -1,3 +1,56 @@
+# 17 октября 2026 — Qadam 0.5.0+9, визуальная передача
+
+[Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60), ветка `feature/mobile-native-parity`.
+**Source APK: `7b3a8bad757b13e0dc37d35d703e6a53cd4d9940`.**
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.0-visual.1/qadam-0.5.0-7b3a8ba-internal.apk) — **28335925 bytes (27.02 MiB)**, versionCode9.
+SHA256: `14f3f145ba68202611b7d0745bef8297a023fe7d23ec8bd5697688f3d9e3eccf`.
+Package `kz.qadam.qadam_mobile`, Android24+, прежняя внутренняя подпись.
+Flutter3.47.7 / Dart3.13.5.
+
+API: `https://qadamx-taraz.onrender.com/api/v1`.
+Frontend: `https://qadamx-taraz.vercel.app`.
+Прежний Supabase URL/publishable key; паролей и серверных ключей в сборке нет.
+
+Продолжены существующие CRM/публичные экраны: web-токены, локальные RU/KZ шрифты,
+компактные площадки/магазин/заявка, один блок3D/poster, маркеры26px в зоне48px,
+KPI главной и графики аналитики. Данные/деньги/pending и Мал базар сохранены.
+Пакетный lookup имён включён для постоянного Render после подтверждённого rollout;
+прочие API остаются выключены. Все9 соответствий и принятые модели сохранены.
+
+- [Полный отчёт и матрица code/APK/emulator/phone](../../apps/mobile/docs/VISUAL_050_REVIEW.md).
+- [68 кадров после](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/7b3a8bad757b13e0dc37d35d703e6a53cd4d9940/apps/mobile/docs/reports/visual-050/README.md) · [18 кадров до](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/7b3a8bad757b13e0dc37d35d703e6a53cd4d9940/apps/mobile/docs/reports/visual-040-before/README.md).
+- [Короткое видео](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.0-visual.1/qadam-050-flutter-synthetic-walkthrough.mp4) — монтаж настоящих Flutter-виджетов с синтетическим API,
+  **не запись Android**. UI source указан отдельно от APK source.
+- [Аудит APK](../../apps/mobile/docs/reports/mobile-050-apk-audit.json).
+- [Происхождение ids rollout](../../apps/mobile/docs/reports/mobile-050-customer-ids-rollout.json).
+- [Физический чек-лист](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+Analyzer0 issues; полный suite **209 PASS / 1 opt-in skipped**, walkthrough отдельно1/1.
+ZIP CRC, подписьv2/v3, zipalign16KiB, ELF LOAD>=16KiB,7/7 asset hashes PASS.
+Статический credential scan без находок. Public GET: health200/API0.6.2,
+фильтры3/3 и mapping9/9. Live ids OpenAPI подтверждён13:45:30UTC; A/B результат
+получен из опубликованного backend-отчёта, не повторён нами и не проверяет APK.
+
+**Телефона нет; физическое обновление и приёмка не выполнены.** Новый APK на эмуляторе
+также не запускался. Прогон капитана относится к0.4.0. Не проверены физические A/B,
+камера, микрофон, все9 тапов, перезапуск/смена суток. Обновлять поверх0.4.0,
+не удалять данные. Модель телефона/Android не установлены.
+
+Auth callback/allowlist остаётся у владельца#43; отсутствующие API-поля/операции
+не имитируются. Абзал получил первые три экрана, ответа пока нет. SHA текущего
+Vercel alias независимо не подтверждён; опубликованные бандлы/токены зафиксированы.
+Остаточные переносы при320dp/200% перечислены в отчёте. Полное соответствие не заявляется.
+
+Main/production/БД/Supabase не менялись. Платных AI, новых денежных операций и внешних
+заявок не было. recording.webm не искали, инцидент открыт. PR остаётся Draft.
+Следующий шаг — физический чек-лист на выделенном Android.
+
+Сборка из apps/mobile: `flutter pub get`, `flutter analyze`,
+`flutter test --concurrency=1`, `./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+Только4 публичных поля из README; тестовые пароли в конфигурацию не добавлять.
+
+---
+
 # 17 октября 2026 — Qadam 0.4.0, нативные публичные сценарии и расширение CRM
 
 Отдельный [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
