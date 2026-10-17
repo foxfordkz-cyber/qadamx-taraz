@@ -1,3 +1,68 @@
+# 17 октября 2026 — Qadam 0.4.0, нативные публичные сценарии и расширение CRM
+
+Отдельный [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
+ветка `feature/mobile-native-parity`. Сохранена предыдущая CRM8e7e475 и merge
+origin/main1a541efb97ca402fb8165b5841bbbeff03afd4b1; повторный fetch перед передачей
+подтвердил тот же main. Production, backend, БД, Supabase settings не изменялись.
+
+**Source приложения: `62cc9a552ee468ab6c3c29b1e3dafbf72e85ebcb`.**
+Flutter3.47.7 / Dart3.13.5, JDK21, AndroidSDK36. Версия **0.4.0+8**.
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.4.0-native.1/qadam-0.4.0-62cc9a5-internal.apk)
+— **27731371 bytes** (26,45 MiB). SHA256:
+`7aa48df10815168aaaf9ba1a208423c17b5782b77e9924cc42a07388719e15db`.
+Package `kz.qadam.qadam_mobile`, minSdk24, targetSdk36, ARM32/ARM64/x86_64.
+Внутренняя debug-подпись, тот же сертификат0.1.1/0.2.2/0.3.0/0.3.1.
+Версия8 больше прежней7. Физическое обновление и сохранение данных **не проверены**.
+
+Постоянные адреса в APK:
+- API `https://qadamx-taraz.onrender.com/api/v1` (read-only OpenAPI0.6.2).
+- Frontend `https://qadamx-taraz.vercel.app` — только публичная конфигурация;
+  кабинет, магазины и формы работают во Flutter.
+- Прежний SupabaseURL/publishable key; APK содержит только разрешённые публичные
+  параметры. Пароли/серверные ключи в сборку не добавлялись и не приводятся здесь.
+
+Сделано: нативные площадки/поиск/категории/магазины/каталог/заявки; encrypted inquiry
+replay с прежним ID/body; неизменённые GLB/manifest с проверкой9hotspot→магазин,
+локальным WebGL внутри ограниченного WebView и независимым poster/list. Продолжена
+имеющаяся CRM: reverse с подтверждением и отдельным pending исходной операции,
+итог серверного дня/дата, импорт аудио, пауза/resume/прерывание. Мал базар сохранён.
+
+[Полная таблица сайт → экран → статус, включая точный состав0.3.1](../../apps/mobile/docs/SITE_PARITY.md).
+[Граница3D/WebView](../../apps/mobile/docs/VENUE_VIEWER.md).
+[Статический аудит APK](../../apps/mobile/docs/reports/mobile-040-apk-audit.json).
+[Живые публичные GET](../../apps/mobile/docs/reports/mobile-040-public-readonly.json).
+[Физический чек-лист команды](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+Проверки: analyze0issues;111unit/widget PASS; после последнего уточнения аудио ещё
+13CRM/audio/widget PASS. Build release PASS(620,8с). ZIP CRC, apksigner v2/v3,
+zipalign16k, ELF LOAD>=16KiB PASS;7asset hashes внутри APK совпадают. Сканирование
+не обнаружило private config/credential patterns/старые trycloudflareURL. Это
+статическая проверка, не доказательство live Auth или работы на конкретном Android.
+Read-only HTTP: health200/OpenAPI0.6.2, фильтры3/3, соответствия9/9. Desktop renderer
+3/3,320×340, выбор маркера; widget RU/KZ320px/textScale2/клавиатура/Back PASS.
+
+**Ограничения:** ADB0устройств; физическая установка/обновление, камера/микрофон/
+кодеки/AndroidWebView, A/B этого APK, перезапуск на телефоне и смена суток не выполнены.
+Видео физической приёмки нет. Скриншот0.3.0 остаётся FAIL, причина неизвестна;
+не удалять приложение/данные как первый способ исправления. Callback/allowlist/reset
+ожидают [владельца Auth](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6233319221),
+регистрация/confirmation/resend/reset не включены, реального письма/возврата не было.
+Текущий API не предоставляет фото/контакты магазина, фото/CRUD товара и изменения
+клиентов; они не имитируются. Mac/Xcode нет, iOS binary не собран.
+
+Живые финансовые операции и платные AI-пробы не запускались. Старый recording.webm
+не искали, инцидент остаётся открытым. PR60 и прежние PR не сливались, приложение
+не опубликовано в магазинах. Следующий шаг — выполнить физический чек-лист на
+выделенном Android, затем решить перечисленные Auth/API-зависимости.
+
+Воспроизведение из apps/mobile: `flutter pub get`, `flutter analyze --no-pub`,
+`flutter test --no-pub`, `./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+Конфигурация — только4публичных поля из README, файл ignored. Для3D: в
+`tool/venue_viewer` выполнить `npm ci --ignore-scripts`, `npm run build`.
+Для публичной read-only проверки: `python tool/verify_public_readonly.py`.
+
+---
+
 # 17 октября 2026 — APK 0.3.1, расследование отказа установки 0.3.0
 
 Пользователь прислал скриншот Android: установка `qadam-0.3.0-434f791-internal.apk`
