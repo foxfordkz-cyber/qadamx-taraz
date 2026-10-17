@@ -923,3 +923,11 @@ Vercel GLB по SHA-256 всё ещё совпадают со старым 0f97c
 Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event **Dqtc8FnqY4QGcfM3WKxWDQxuvmpV** success и все3 production GLB SHA256 совпадают. Отчётный commit отдельной review-ветки не означает ещё один production deploy. Recovery9a3c870 исключён из-за подтверждённого late-response удаления нового pending intent. Диагностический e699158 сохранён, Render не переключался; process SHA остаётся подтверждением капитана, публичный API0.6.2 повторно проверен.
 
 Новый настоящий Vercel→Render browser loginA6→точка→клиенты/history/summary HTTP200→Analytics7/30/reload→logoutB3→foreign404→logout PASS. Production3D360/390/1440,RU/KZ,27hotspots/6введённыхfallbacks PASS; физический телефон не заявляем. Read-onlyHTTP health/OpenAPI/Auth/CORS/изоляция/21JSONprivacy PASS. Ни новых клиентов, ни денег, ни AI-запросов, ни миграций. [Полный отчёт и следующий шаг по владельцам](../MODELS_PRODUCTION_ACCEPTANCE.md). APK не обновлялся. Исходный recording.webm отсутствует, инцидент открыт; новая запись будет отдельным сценарием после разрешения расходов.
+
+### 2026-10-17 — мелкие исправления: title страниц и stage в health
+
+Ветка `fix/titles-health-stage` от main `8fa0029`.
+
+- `GET /health` и `/api/v1/health` возвращают `stage: "mvp"`. Значение `manual-ledger` устарело: в API уже есть AI-черновики, каталог, заявки, аналитика и Мал базар. Это изменение константы контракта. Обновлены `openapi.json`, `generated.ts` и тест. Версия API осталась 0.6.2, клиенты значение `stage` не читают. Чтобы новое значение появилось в публичном API, нужен отдельный Manual Deploy Render.
+- Web: на публичных страницах (`/`, `/venues/*`, `/shops/*`) вкладка называлась «Кабинет продавца». Теперь там «Магазины рынков Тараза · Qadam Business» (KZ: «Тараз базарларының дүкендері»). На `/login` и `/seller/*` заголовок остался прежним. Это небольшое исправление в зоне seller-web (`app/App.tsx`, `shared/i18n`), согласовать в PR.
+- Проверки: API — ruff, format, `export_contracts --check`, pytest: 204 прошли, 153 пропущены без отдельной PostgreSQL. Web — check:api, typecheck, lint, Vitest 396/396, build: всё прошло. Браузерные E2E не запускались. Не трогали Render, БД, миграции и AI.

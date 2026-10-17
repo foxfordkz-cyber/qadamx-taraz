@@ -17,7 +17,7 @@ def test_health_without_database_or_keys():
             assert response.json() == {
                 "status": "ok",
                 "service": "qadam-api",
-                "stage": "manual-ledger",
+                "stage": "mvp",
             }
             UUID(response.headers["x-request-id"])
         assert client.get("/docs").status_code == 200
