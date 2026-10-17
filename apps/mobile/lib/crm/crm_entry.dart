@@ -129,10 +129,13 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
     if (!active || selecting || preparing || voice.recording || voice.busy) {
       return;
     }
-    await resetAudio();
-    if (!active) return;
-    final revision = sourceRevision;
     setState(() => selecting = true);
+    await resetAudio();
+    if (!active) {
+      if (mounted) setState(() => selecting = false);
+      return;
+    }
+    final revision = sourceRevision;
     String? cache;
     StreamSubscription<Duration>? durationEvents;
     try {
@@ -228,7 +231,11 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
     if (!active) return;
     sourceChanged();
     await stopPlayback();
-    if (voice.recording) await voice.stop();
+    if (voice.busy) {
+      await voice.cancel();
+    } else if (voice.recording) {
+      await voice.stop();
+    }
     if (!mounted || !active) return;
     final result = await Navigator.push(
       context,

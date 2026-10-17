@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -186,7 +187,15 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
           height: 340,
           child: Stack(
             children: [
-              if (controller != null) WebViewWidget(controller: controller!),
+              if (controller != null)
+                WebViewWidget(
+                  controller: controller!,
+                  gestureRecognizers: {
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  },
+                ),
               if (!loaded) const Center(child: CircularProgressIndicator()),
             ],
           ),

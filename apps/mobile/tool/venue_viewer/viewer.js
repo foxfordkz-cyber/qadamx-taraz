@@ -5,21 +5,24 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 // This renderer has no auth, HTTP, links or form. Flutter supplies only the
 // accepted embedded GLB and API-matched public markers, never tokens or PII.
 const send = (value) => window.QadamVenue?.postMessage(JSON.stringify(value));
-let renderer, scene, camera, controls, model, frame, alive = true, markers = [];
+let renderer, scene, camera, controls, model, frame, alive = true, disposed = false, markers = [];
 window.qadamChunks = [];
 function fail() { send({type:'error'}); window.disposeVenue(); }
-window.disposeVenue = () => {
-  alive = false; cancelAnimationFrame(frame); controls?.dispose();
-  model?.traverse((o) => { o.geometry?.dispose();
+const disposeModel = (root) => {
+  root?.traverse((o) => { o.geometry?.dispose();
     for (const m of (Array.isArray(o.material) ? o.material : o.material ? [o.material] : [])) {
       for (const v of Object.values(m)) if (v?.isTexture) v.dispose(); m.dispose();
     }
-  }); renderer?.dispose(); markers.forEach(m => m.button.remove()); markers = [];
+  });
+};
+window.disposeVenue = () => {
+  disposed = true; alive = false; cancelAnimationFrame(frame); controls?.dispose();
+  disposeModel(model); renderer?.dispose(); markers.forEach(m => m.button.remove()); markers = [];
   window.qadamChunks = [];
 };
 window.resetVenue = () => { controls?.reset(); };
 window.pauseVenue = () => { alive = false; cancelAnimationFrame(frame); };
-window.resumeVenue = () => { if (renderer && !alive) { alive = true; draw(); } };
+window.resumeVenue = () => { if (!disposed && !alive) { alive = true; if (model) draw(); } };
 function draw() {
   if (!alive) return;
   const width = innerWidth, height = innerHeight;
@@ -61,7 +64,7 @@ window.setVenue = (asset, businesses, kk) => {
     scene.add(new THREE.HemisphereLight(0xffffff, 0x64705c, 2.7));
     const sun = new THREE.DirectionalLight(0xffffff, 2.3); sun.position.set(60,120,100); scene.add(sun);
     new GLTFLoader().parse(bytes.buffer, '', (gltf) => {
-      if (!alive) return;
+      if (disposed) { disposeModel(gltf.scene); return; }
       model = gltf.scene; scene.add(model);
       asset.hotspots.forEach((h, index) => {
         const b = businesses.find(b => b.id === h.business_id && b.slug === h.business_slug);

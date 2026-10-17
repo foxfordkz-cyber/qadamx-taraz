@@ -9,6 +9,7 @@ import 'package:qadam_mobile/config.dart';
 import 'package:qadam_mobile/data/account_api.dart';
 import 'package:qadam_mobile/data/livestock_api.dart';
 import 'package:qadam_mobile/runtime.dart';
+import 'package:qadam_mobile/public/public_api.dart';
 
 // Synthetic fixtures; no real accounts, tokens or business data.
 const pointA = '11111111-1111-4111-8111-111111111111';
@@ -71,6 +72,7 @@ class ShellFixture {
     String? owner = 'a',
     String frontend = 'https://web.example.test',
     required Future<http.Response> Function(http.Request) me,
+    Future<http.Response> Function(http.Request)? public,
   }) {
     auth = ShellAuth(owner);
     accountApi = AccountApi(
@@ -95,6 +97,13 @@ class ShellFixture {
       auth: auth,
       api: livestock,
       accountApi: accountApi,
+      publicApi: PublicApi(
+        Uri.parse('https://api.example.test/api/v1'),
+        client: MockClient(
+          public ??
+              (_) async => jsonResponse({'items': [], 'next_cursor': null}),
+        ),
+      ),
     );
   }
   late final ShellAuth auth;

@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:qadam_mobile/frontend_links.dart';
 import 'package:qadam_mobile/ui/app.dart';
+import 'package:qadam_mobile/public/venue_assets.dart';
 
 import '../support/shell_fixture.dart';
 
+Future<void> settle(WidgetTester tester) async {
+  await tester.pump();
+  await tester.runAsync(() => VenueAsset.load());
+  await tester.pumpAndSettle();
+}
+
 void main() {
-  setUp(() => FlutterSecureStorage.setMockInitialValues({}));
+  setUp(() {
+    FlutterSecureStorage.setMockInitialValues({});
+    rootBundle.evict('assets/venues/venue-assets.json');
+  });
   Future<void> finish(WidgetTester tester, ShellFixture f) async {
     await tester.pumpWidget(const SizedBox.shrink());
     f.dispose();
   }
 
   testWidgets(
-    'no membership still permits native livestock and a separate browser cabinet',
+    'no membership shows waiting state and permits native public pages and livestock',
     (tester) async {
       final opened = <Uri>[];
       final f = ShellFixture(
@@ -29,23 +40,23 @@ void main() {
           },
         ),
       );
-      await tester.pumpAndSettle();
-      expect(find.text('Сегодня'), findsOneWidget);
+      await settle(tester);
+      expect(find.text('Найдите магазин и оставьте заявку'), findsOneWidget);
       await tester.tap(find.byKey(const Key('nav-business')));
-      await tester.pumpAndSettle();
-      expect(find.text('Нет подключённых торговых точек'), findsOneWidget);
-      final seller = find.byKey(const Key('open-seller'));
-      await tester.ensureVisible(seller);
-      await tester.tap(seller);
-      await tester.pumpAndSettle();
-      expect(opened.single.toString(), 'https://web.example.test/seller');
-      expect(opened.single.hasQuery, false);
-      expect(opened.single.hasFragment, false);
+      await settle(tester);
+      expect(find.text('Ожидается подключение торговой точки'), findsOneWidget);
+      expect(find.text('Выйти'), findsOneWidget);
+      final showcase = find.byKey(const Key('open-showcase'));
+      await tester.ensureVisible(showcase);
+      await tester.tap(showcase);
+      await settle(tester);
+      expect(opened, isEmpty);
+      expect(find.text('Найдите магазин и оставьте заявку'), findsOneWidget);
       await tester.tap(find.byKey(const Key('nav-market')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(find.text('Подать объявление'), findsOneWidget);
       await tester.tap(find.text('Мои'));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(
         f.livestockRequests.any(
           (r) => r.url.path.endsWith('/livestock/me/listings'),
@@ -69,22 +80,22 @@ void main() {
         }),
       );
       await tester.pumpWidget(MobileApp(runtime: f.runtime));
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.byKey(const Key('nav-business')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.byKey(const ValueKey('business-$pointB')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(find.text('Активная точка: Учебная B'), findsOneWidget);
       await tester.tap(find.byKey(const Key('nav-profile')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.text('Выйти из приложения'));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(find.text('Вы не вошли в аккаунт'), findsOneWidget);
       f.auth.change('b');
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.byKey(const Key('nav-business')));
-      await tester.pumpAndSettle();
-      expect(find.text('Нет подключённых торговых точек'), findsOneWidget);
+      await settle(tester);
+      expect(find.text('Ожидается подключение торговой точки'), findsOneWidget);
       expect(find.textContaining('Учебная'), findsNothing);
       await finish(tester, f);
     },
@@ -97,28 +108,23 @@ void main() {
         me: (_) async => jsonResponse({}, 503),
       );
       await tester.pumpWidget(MobileApp(runtime: f.runtime));
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.byKey(const Key('nav-business')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(
         find.textContaining('Не удалось загрузить торговые точки'),
         findsOneWidget,
       );
-      expect(find.text('Нет подключённых торговых точек'), findsNothing);
-      expect(
-        tester
-            .widget<FilledButton>(find.byKey(const Key('open-seller')))
-            .onPressed,
-        isNull,
-      );
+      expect(find.text('Ожидается подключение торговой точки'), findsNothing);
+      expect(find.byKey(const Key('open-seller')), findsNothing);
       await tester.tap(find.byKey(const Key('nav-market')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(find.text('Подать объявление'), findsOneWidget);
       await finish(tester, f);
     },
   );
   testWidgets(
-    'small screen RU/KZ, browser launch failure and public showcase',
+    'small screen RU/KZ opens native public showcase with no browser',
     (tester) async {
       tester.view.physicalSize = const Size(320, 568);
       tester.view.devicePixelRatio = 1;
@@ -140,11 +146,11 @@ void main() {
           },
         ),
       );
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.byKey(const Key('nav-business')));
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(find.text('ҚАЗ'));
-      await tester.pumpAndSettle();
+      await settle(tester);
       expect(find.text('Сіздің сауда нүктелеріңіз'), findsOneWidget);
       final showcase = find.byKey(const Key('open-showcase'));
       await tester.scrollUntilVisible(
@@ -157,11 +163,11 @@ void main() {
             )
             .first,
       );
-      await tester.pumpAndSettle();
+      await settle(tester);
       await tester.tap(showcase);
-      await tester.pumpAndSettle();
-      expect(opened.single.toString(), 'https://web.example.test/');
-      expect(find.text('Браузер ашылмады. Қайта көріңіз.'), findsOneWidget);
+      await settle(tester);
+      expect(opened, isEmpty);
+      expect(find.text('Дүкенді тауып, өтінім қалдырыңыз'), findsOneWidget);
       expect(tester.takeException(), isNull);
       await finish(tester, f);
     },
