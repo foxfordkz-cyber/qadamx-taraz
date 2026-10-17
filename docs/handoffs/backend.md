@@ -1,5 +1,16 @@
 # Передача работы backend
 
+## 2026-10-17 — сообщён Live, но HTTPS ещё без ids
+
+Капитан подтвердил прежний Live SHAe699158; новый SHA/обаdeploymentID уточняются.
+После сообщения Live повторно проверен публичный OpenAPI:200/API0.6.2, только
+q/limit/cursor. Уникальный cache-busting query + no-cache подтверждает старую схему,
+не schemaf6b3a9a; cf-cache-statusDYNAMIC. Health200 и все три CORS GET/POST200 сохранены.
+**Rollout PR61 не принят**, frontend ids не выпускать. Требуется checkoutSHA нового
+Live; после появления ids выполнить готовый GET-only контрактный gate.
+[Актуальный отчёт](../CUSTOMER_IDS_RENDER_WINDOW.md). Работающий сервер, данные,
+memberships/финансы и Vercel агентом не менялись; paidAI0.
+
 ## 2026-10-17 — окно PR61 разрешено; ручной Render deploy и отдельный PR67
 
 [Точные ручные действия, фиксация Live SHA/ID, HTTPS gate и уточнённый откат](../CUSTOMER_IDS_RENDER_WINDOW.md).
