@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     livestock_demo_mode: bool = True
     storage_bucket: str = Field(default="", pattern=r"^(?:[a-z0-9][a-z0-9-]{0,62})?$")
     ai_model: str = Field(default="", pattern=r"^(?:gemini-[a-zA-Z0-9._-]+)?$")
+    assistant_enabled: bool = False
+    assistant_daily_limit: int = Field(default=20, ge=1, le=200)
 
     @field_validator(
         "database_url",

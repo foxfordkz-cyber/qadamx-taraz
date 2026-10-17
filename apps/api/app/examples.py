@@ -4,6 +4,7 @@ from datetime import date, timedelta
 
 from app import livestock_schemas, schemas
 from app.analytics_schemas import AnalyticsResponse
+from app.assistant_schemas import AssistantRequest, AssistantResponse
 from app.seed import demo_id
 
 BUSINESS = str(demo_id("mart-demo-clothes"))
@@ -279,6 +280,12 @@ def model_for_example(name):
         return schemas.ShopResponse
     if name.startswith("Analytics"):
         return AnalyticsResponse
+    if name == "AssistantDisabledErrorResponse":
+        return schemas.ErrorResponse
+    if name == "AssistantRequest":
+        return AssistantRequest
+    if name.startswith("Assistant"):
+        return AssistantResponse
     if name in {"CustomerPage", "CustomerIdsPage", "CustomerIdsEmptyPage"}:
         return schemas.Page[schemas.CustomerResponse]
     if hasattr(livestock_schemas, name):
@@ -369,4 +376,54 @@ EXAMPLES["CanonicalMarketPriceStats"] = {
     "min_price_per_head_minor": None,
     "median_price_per_head_minor": None,
     "status": "insufficient_data",
+}
+
+
+ASSISTANT_FACTS = [
+    {"key": "sales", "label": "Продажи за период", "value_minor": 300000},
+    {"key": "sales_previous", "label": "Продажи за прошлый период", "value_minor": 0},
+    {"key": "sales_change", "label": "Изменение продаж к прошлому периоду", "value_minor": 300000},
+    {"key": "receipts", "label": "Поступления за период", "value_minor": 150000},
+    {"key": "outstanding", "label": "Общий долг клиентов сейчас", "value_minor": 150000},
+    {"key": "debtors", "label": "Клиентов с долгом", "count": 1},
+    {"key": "sales_count", "label": "Количество продаж за период", "count": 1},
+    {"key": "average_ticket", "label": "Средний чек", "value_minor": 300000},
+    {"key": "today_sales", "label": "Продажи сегодня", "value_minor": 0},
+    {"key": "today_receipts", "label": "Поступления сегодня", "value_minor": 50000},
+    {"key": "debtor", "label": "Демо Асқар", "value_minor": 150000, "customer_id": CUSTOMER},
+]
+EXAMPLES["AssistantRequest"] = {
+    "question": "Кто мне должен больше всего?",
+    "locale": "ru",
+    "days": 7,
+}
+EXAMPLES["AssistantResponse"] = {
+    "business_id": BUSINESS,
+    "days": 7,
+    "locale": "ru",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "as_of": TIME,
+    "answer": "Больше всего должен Демо Асқар — 1 500 ₸. Всего клиенты должны 1 500 ₸.",
+    "facts": ASSISTANT_FACTS,
+    "actions": [
+        {
+            "kind": "reminder_draft",
+            "customer_id": CUSTOMER,
+            "text": "Здравствуйте, Демо Асқар! Напоминаем о долге 1 500 ₸. Спасибо!",
+        },
+        {"kind": "open_debts", "customer_id": None, "text": None},
+    ],
+    "source": "ai",
+}
+EXAMPLES["AssistantFallbackResponse"] = {
+    **EXAMPLES["AssistantResponse"],
+    "answer": "За последние 7 дней продажи 3 000 ₸, поступления 1 500 ₸. "
+    "Сейчас клиенты должны 1 500 ₸, должников: 1. Больше всего должен Демо Асқар: 1 500 ₸.",
+    "actions": [{"kind": "open_debts", "customer_id": None, "text": None}],
+    "source": "fallback",
+}
+EXAMPLES["AssistantDisabledErrorResponse"] = {
+    "error": {"code": "ASSISTANT_DISABLED", "message": "Assistant is not enabled", "fields": {}},
+    "request_id": "00000000-0000-4000-8000-000000000001",
 }

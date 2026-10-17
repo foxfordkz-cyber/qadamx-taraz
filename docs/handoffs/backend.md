@@ -1027,3 +1027,11 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 ### 2026-10-17 — README: запуск и деплой, ссылка на APK 0.5.2
 
 Ветка `docs/readme-run-deploy` от main `34250ed`. README RU/KZ: подробный локальный запуск (требования, БД, API, сайт, Flutter, переменные) и раздел о деплое (Pages Direct Upload, Render по `render.yaml`, Supabase, OpenAI, Releases). Статус Safari записан со слов команды: основные функции сайта проверены вручную; Flutter на физических телефонах остаётся открытым. Ссылка «Открыть приложение для Android» на сайте ведёт теперь на релиз 0.5.2 вместо 0.3.0, текст RU/KZ обновлён. Проверки: mal-bazar и venue-showcase 7/7, typecheck и lint прошли, ссылки README целы. На сайте изменение появится только после новой публикации Pages, Render не затронут.
+
+### 2026-10-18 — «Спросите Qadam»: AI-помощник продавца, API 0.7.0
+
+Ветка `feature/ai-assistant-api` от main `45b0384`. Новый `POST /api/v1/businesses/{id}/assistant`: сервер собирает факты точки (аналитика за 7/30 дней и прошлый период, итог дня, до 5 должников), модель через существующий серверный адаптер OpenAI/Gemini только формулирует ответ и действия. Каждое число и `customer_id` проверяются по фактам; при любой ошибке AI или проверке — 200 с `source=fallback` из серверного шаблона RU/KZ. Записей в журнал нет, напоминание — текст для копирования. Флаг `ASSISTANT_ENABLED` (по умолчанию выключен → 404 `ASSISTANT_DISABLED`), лимит `ASSISTANT_DAILY_LIMIT`=20 на пользователя в сутки в памяти процесса (429 `ASSISTANT_LIMIT`). Без миграций.
+
+Контракт: [ASSISTANT_API.md](../../packages/contracts/ASSISTANT_API.md), `openapi.json`, `examples.json`, `generated.ts`. Проверки: ruff, format, `export_contracts --check`, web `check:api` и typecheck прошли; pytest на локальной PostgreSQL `qadam_test` — 383/383, из них 22 новых (проверка чисел, отказ при выдуманной сумме или чужом клиенте, fallback при сбоях, изоляция точек, 401, 422, лимит, KZ, отсутствие записей). Модель в тестах — заглушка, платных вызовов не было.
+
+Выпуск: Render вручную после review, в Environment добавить `ASSISTANT_ENABLED=true` (провайдер и ключ — существующие `AI_PROVIDER`/`OPENAI_*`). Один контрольный платный вопрос — после резерва $0.05 в журнале бюджета. Если что-то не так — `ASSISTANT_ENABLED=false` выключает метод без отката кода.

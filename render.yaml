@@ -39,3 +39,7 @@ services:
         sync: false
       - key: AI_FALLBACK_OPENAI
         value: "false"
+      - key: ASSISTANT_ENABLED
+        value: "false"
+      - key: ASSISTANT_DAILY_LIMIT
+        value: "20"

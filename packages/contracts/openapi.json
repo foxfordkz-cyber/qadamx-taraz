@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.6.3"
+    "version": "0.7.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -1419,6 +1419,115 @@
                 ]
               }
             }
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/assistant": {
+      "post": {
+        "tags": [
+          "assistant"
+        ],
+        "summary": "Ask Assistant",
+        "description": "Seller question → short answer from server-calculated facts of this business. The model only words the answer; every amount, count and customer is checked against facts, otherwise source=fallback with a server template. No ledger writes, nothing is sent: reminder_draft is text to copy. Disabled deployments return 404 ASSISTANT_DISABLED; a per-user daily limit returns 429 ASSISTANT_LIMIT.",
+        "operationId": "ask_assistant_api_v1_businesses__id__assistant_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssistantRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssistantResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Too Many Requests"
           }
         }
       }
@@ -3787,6 +3896,239 @@
           "hourly"
         ],
         "title": "AnalyticsResponse"
+      },
+      "AssistantAction": {
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "open_debts",
+              "new_sale",
+              "open_history",
+              "open_analytics",
+              "reminder_draft"
+            ],
+            "title": "Kind"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 600
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Text"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "kind"
+        ],
+        "title": "AssistantAction"
+      },
+      "AssistantFact": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "sales",
+              "sales_previous",
+              "sales_change",
+              "receipts",
+              "outstanding",
+              "debtors",
+              "sales_count",
+              "average_ticket",
+              "today_sales",
+              "today_receipts",
+              "debtor"
+            ],
+            "title": "Key"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 200,
+            "title": "Label"
+          },
+          "value_minor": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value Minor"
+          },
+          "count": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Count"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "label"
+        ],
+        "title": "AssistantFact",
+        "description": "A server-calculated value. The model may cite it but never produces it."
+      },
+      "AssistantRequest": {
+        "properties": {
+          "question": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Question"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Locale",
+            "default": "ru"
+          },
+          "days": {
+            "type": "integer",
+            "enum": [
+              7,
+              30
+            ],
+            "title": "Days",
+            "default": 7
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "question"
+        ],
+        "title": "AssistantRequest"
+      },
+      "AssistantResponse": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "days": {
+            "type": "integer",
+            "enum": [
+              7,
+              30
+            ],
+            "title": "Days"
+          },
+          "locale": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Locale"
+          },
+          "timezone": {
+            "type": "string",
+            "const": "Asia/Almaty",
+            "title": "Timezone",
+            "default": "Asia/Almaty"
+          },
+          "currency": {
+            "type": "string",
+            "const": "KZT",
+            "title": "Currency",
+            "default": "KZT"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "title": "As Of"
+          },
+          "answer": {
+            "type": "string",
+            "maxLength": 1500,
+            "minLength": 1,
+            "title": "Answer"
+          },
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/AssistantFact"
+            },
+            "type": "array",
+            "maxItems": 20,
+            "title": "Facts"
+          },
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/AssistantAction"
+            },
+            "type": "array",
+            "maxItems": 3,
+            "title": "Actions"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "ai",
+              "fallback"
+            ],
+            "title": "Source"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "days",
+          "locale",
+          "as_of",
+          "answer",
+          "facts",
+          "actions",
+          "source"
+        ],
+        "title": "AssistantResponse"
       },
       "Body_upload_api_v1_livestock_photos_post": {
         "properties": {

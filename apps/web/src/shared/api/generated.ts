@@ -184,6 +184,26 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/businesses/{id}/assistant": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    /**
+     * Ask Assistant
+     * @description Seller question → short answer from server-calculated facts of this business. The model only words the answer; every amount, count and customer is checked against facts, otherwise source=fallback with a server template. No ledger writes, nothing is sent: reminder_draft is text to copy. Disabled deployments return 404 ASSISTANT_DISABLED; a per-user daily limit returns 429 ASSISTANT_LIMIT.
+     */
+    post: operations["ask_assistant_api_v1_businesses__id__assistant_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/venues": {
     parameters: {
       query?: never;
@@ -534,6 +554,116 @@ export interface components {
       daily: components["schemas"]["AnalyticsDay"][];
       /** Hourly */
       hourly: components["schemas"]["AnalyticsHour"][];
+    };
+    /** AssistantAction */
+    AssistantAction: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind:
+        | "open_debts"
+        | "new_sale"
+        | "open_history"
+        | "open_analytics"
+        | "reminder_draft";
+      /** Customer Id */
+      customer_id?: string | null;
+      /** Text */
+      text?: string | null;
+    };
+    /**
+     * AssistantFact
+     * @description A server-calculated value. The model may cite it but never produces it.
+     */
+    AssistantFact: {
+      /**
+       * Key
+       * @enum {string}
+       */
+      key:
+        | "sales"
+        | "sales_previous"
+        | "sales_change"
+        | "receipts"
+        | "outstanding"
+        | "debtors"
+        | "sales_count"
+        | "average_ticket"
+        | "today_sales"
+        | "today_receipts"
+        | "debtor";
+      /** Label */
+      label: string;
+      /** Value Minor */
+      value_minor?: number | null;
+      /** Count */
+      count?: number | null;
+      /** Customer Id */
+      customer_id?: string | null;
+    };
+    /** AssistantRequest */
+    AssistantRequest: {
+      /** Question */
+      question: string;
+      /**
+       * Locale
+       * @default ru
+       * @enum {string}
+       */
+      locale: "ru" | "kk";
+      /**
+       * Days
+       * @default 7
+       * @enum {integer}
+       */
+      days: 7 | 30;
+    };
+    /** AssistantResponse */
+    AssistantResponse: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /**
+       * Days
+       * @enum {integer}
+       */
+      days: 7 | 30;
+      /**
+       * Locale
+       * @enum {string}
+       */
+      locale: "ru" | "kk";
+      /**
+       * Timezone
+       * @default Asia/Almaty
+       * @constant
+       */
+      timezone: "Asia/Almaty";
+      /**
+       * Currency
+       * @default KZT
+       * @constant
+       */
+      currency: "KZT";
+      /**
+       * As Of
+       * Format: date-time
+       */
+      as_of: string;
+      /** Answer */
+      answer: string;
+      /** Facts */
+      facts: components["schemas"]["AssistantFact"][];
+      /** Actions */
+      actions: components["schemas"]["AssistantAction"][];
+      /**
+       * Source
+       * @enum {string}
+       */
+      source: "ai" | "fallback";
     };
     /** Body_upload_api_v1_livestock_photos_post */
     Body_upload_api_v1_livestock_photos_post: {
@@ -2230,6 +2360,86 @@ export interface operations {
       };
       /** @description Gateway Timeout */
       504: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  ask_assistant_api_v1_businesses__id__assistant_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AssistantRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["AssistantResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Too Many Requests */
+      429: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
         headers: {
           [name: string]: unknown;
         };

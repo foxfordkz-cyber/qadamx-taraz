@@ -11,6 +11,7 @@ from sqlalchemy.exc import DBAPIError
 from starlette.exceptions import HTTPException
 
 from app import schemas
+from app.assistant_routes import router as assistant_router
 from app.auth import TokenVerifier
 from app.config import Settings
 from app.db import make_engine
@@ -20,6 +21,7 @@ from app.livestock_routes import router as livestock_router
 from app.public_routes import router as public_router
 from app.routers import router
 from app.services.ai_provider import ProviderPlan
+from app.services.assistant import Assistant
 from app.services.photos import PhotoBodyLimit, SupabasePhotoStore
 
 
@@ -57,7 +59,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.6.3",
+        version="0.7.0",
         lifespan=lifespan,
         description="Authenticated manual ledger and optional Gemini drafts. "
         "AI never writes money. Public catalog and private seller inquiries.",
@@ -67,6 +69,7 @@ def create_app(settings: Settings | None = None):
     )
     app.state.engine = make_engine(settings) if settings.database_url else None
     app.state.ai = ProviderPlan(settings)
+    app.state.assistant = Assistant(settings)
     app.state.photos = SupabasePhotoStore(settings)
     app.state.livestock_demo_mode = settings.livestock_demo_mode
     app.state.verifier = (
@@ -145,6 +148,7 @@ def create_app(settings: Settings | None = None):
 
     app.include_router(router)
     app.include_router(draft_router)
+    app.include_router(assistant_router)
     app.include_router(public_router)
     app.include_router(livestock_router)
 
