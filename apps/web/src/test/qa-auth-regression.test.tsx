@@ -276,7 +276,9 @@ describe("QA auth and isolation — mock transport through production App", () =
 
 describe("document title", () => {
   it("names the cabinet only on login and seller routes", async () => {
-    const fetcher = vi.fn<typeof fetch>(async () => json({ items: [], next_cursor: null }));
+    const fetcher = vi.fn<typeof fetch>(async () =>
+      json({ items: [], next_cursor: null }),
+    );
     const publicView = renderQa({ initial: null, route: "/", fetcher });
     await waitFor(() =>
       expect(document.title).toBe("Магазины рынков Тараза · Qadam Business"),

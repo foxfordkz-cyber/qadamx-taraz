@@ -11,7 +11,10 @@
 - Обычный merge: **4ed9fd4835900576d72e2870393a9820802f65ab**.
 - Во время работы main обновился до **8fa0029a847895a2b968592fb6ab5b8cc39ee0a1**.
   Второй обычный merge: **6529e71f1110a94fe6a5faa3b7bd9207c9a23966**.
-- Итоговый source/build: **6529e71f1110a94fe6a5faa3b7bd9207c9a23966**.
+- Перед передачей пакета повторный fetch получил main
+  **f023aae85d0c817dece9a0dbc542e55049254e33**.
+  Третий обычный merge и итоговый source/build:
+  **ff896931042eac106bb9cba0f1d5a4d7467d295f**.
 - Следующий commit изменяет документацию и формат импортированного теста, без
   изменений runtime-кода или assertions. Полный
   текущий PR HEAD проверять через GitHub; source SHA внутри архива фиксирован.
@@ -24,7 +27,11 @@ Hosted build сохраняет `VITE_CUSTOMER_IDS_ENABLED=true`, как в пр
 Из нового main сохранены исходники API 0.6.3 и миграции 0007/0008, но они здесь
 не запускаются и backend не развёртывается. Этот web-кандидат использует текущий
 Render API 0.6.2; deployment нового backend требует отдельного rollout капитана.
-Старый локальный ZIP `67eb828` сохранён только как предшествующий кандидат.
+Новая InquiryForm #71, все `features`, API/Flutter и актуальные OpenAPI/examples/
+generated.ts совпадают с main `f023aae`. Заголовки страниц и новый health stage
+из #78/#79 также сохранены; контракт health не означает deployment backend.
+**Старые ZIP `67eb828` и `6529e71` не публиковать поверх текущего сайта.**
+Они сохранены только как исторические кандидаты; актуален исключительно `ff89693`.
 
 Partial clone зависал на загрузке исторических мобильных/QA-артефактов.
 Локально включён sparse checkout web/контрактов/документов, что не удаляет
@@ -61,12 +68,12 @@ GET `/me`; серверные ошибки не превращаются в пу
 
 ## Артефакт для интегратора
 
-`registration43-integration/qadam-pr43-cloudflare-6529e71.zip` — **1 451 660 bytes**,
+`registration43-integration/qadam-pr43-cloudflare-ff89693.zip` — **1 451 897 bytes**,
 25 файлов, все 19 отслеживаемых public assets включены. Корень ZIP — содержимое
 `dist`, без env, исходных секретов и вложенной оболочки. В browser bundle находится
 только штатный publishable key; серверные ключи не использовались.
 
-SHA256: `3362f28f50134a000184f2bafeed70b4e5ebe778488886ca08a761828244a7e2`.
+SHA256: `0d39f692b3614bbf9bfbc37b7a7fe185ce01acfadfe7422570a8a06d298296dd`.
 `registration-build.json` внутри содержит source SHA, точные публичные адреса,
 ids=true и честный `live_email_acceptance: NOT_RUN`. Сборка Node **22.19.0**,
 TypeScript/Vite PASS; прежнее предупреждение о крупных JS chunks остаётся.
@@ -88,7 +95,9 @@ TypeScript/Vite PASS; прежнее предупреждение о крупн�
    на основном origin в согласованном окне. Архив — кандидат для проверки,
    не доказательство уже выполненного deployment. Preview/hash alias не годится
    для начала регистрации с production callback из-за другого browser storage.
-4. Проверить `/registration-build.json` и asset hashes архива, deep routes,
+4. Проверить `/registration-build.json`: source_sha должен быть
+   `ff896931042eac106bb9cba0f1d5a4d7467d295f`, base_sha —
+   `f023aae85d0c817dece9a0dbc542e55049254e33`. Проверить asset hashes, deep routes,
    отсутствие hosting access gate, CORS. Затем выполнить сценарий ниже.
 
 [Supabase redirect documentation](https://supabase.com/docs/guides/auth/redirect-urls)
@@ -101,7 +110,7 @@ TypeScript/Vite PASS; прежнее предупреждение о крупн�
 | Проверка | Результат |
 |---|---|
 | TypeScript, lint, check:api, format:check, diff --check | PASS |
-| Полный serial Vitest после второго merge | **482/482**, 35 файлов |
+| Полный serial Vitest после третьего merge | **483/483**, 35 файлов |
 | Затронутые registration/onboarding/config unit | **55/55** |
 | Production Cloudflare bundle, HTTPS origin, SDK/HTTP synthetic | **6/6** |
 | Auth/Registration/Callback Chromium | **25/25** |
@@ -111,7 +120,8 @@ TypeScript/Vite PASS; прежнее предупреждение о крупн�
 
 Синтетические наборы пересекаются; не суммировать как уникальные сценарии.
 После второго merge исправлен только Prettier layout импортированного
-`mal-bazar.test.tsx`; логика теста и новый проверенный Three.js mock из main сохранены.
+`mal-bazar.test.tsx`; после третьего — перенос строки в новом тесте заголовка
+`qa-auth-regression.test.tsx`. Логика и assertions тестов, Three.js mock сохранены.
 Исходный полный прогон: 476/477, устаревший текст блокировки Vercel в тесте.
 Дополнительная проверка email выявила fixture без email; добавлен явный
 синтетический email локально в этом тесте. Проверки запрета signup/resend,
