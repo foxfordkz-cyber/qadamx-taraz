@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useId, useState } from "react";
+import { Link } from "react-router-dom";
 import { useBusiness } from "../../../app/runtime";
 import { formatKZT } from "../../../shared/format";
 import { useI18n } from "../../../shared/i18n";
@@ -13,11 +14,51 @@ import {
   Select,
   Spinner,
 } from "../../../shared/ui";
-import { Icon } from "../../../shared/ui/Icon";
+import { Icon, type IconName } from "../../../shared/ui/Icon";
 import { DailyChart, HourlyChart, analyticsDate } from "./Charts";
 import type { AnalyticsDays, DemoScenario } from "./model";
 import { useAnalytics } from "./queries";
 import "./analytics.css";
+
+function Metric({
+  title,
+  value,
+  scope,
+  hint,
+  icon,
+  primary = false,
+  textValue = false,
+}: {
+  title: string;
+  value: string;
+  scope: string;
+  hint: string;
+  icon: IconName;
+  primary?: boolean;
+  textValue?: boolean;
+}) {
+  const headingId = useId();
+  return (
+    <Card
+      className={`analytics-kpi ${primary ? "analytics-kpi-primary" : ""}`}
+      aria-labelledby={headingId}
+    >
+      <div className="analytics-kpi-top">
+        <span className="analytics-kpi-icon" aria-hidden="true">
+          <Icon name={icon} />
+        </span>
+        <span className="analytics-kpi-scope">{scope}</span>
+      </div>
+      <h2 id={headingId}>{title}</h2>
+      <strong
+        className={`analytics-kpi-value ${textValue ? "analytics-kpi-text" : ""}`}
+      >
+        {value}
+      </strong>
+      <p>{hint}</p>
+    </Card>
+  );
+}
 
 export function AnalyticsPage() {
   const { business } = useBusiness();
@@ -26,11 +67,17 @@ export function AnalyticsPage() {
   const [scenario, setScenario] = useState<DemoScenario>("activity");
   const query = useAnalytics(days, scenario);
   const snapshot = query.mode === "waiting" ? undefined : query.data;
+  const periodScope = t("analyticsPeriodScope");
+  const currentScope = t("analyticsCurrentScope");
+  const summaryId = useId();
   const asOf = snapshot
-    ? new Intl.DateTimeFormat(locale === "kk" ? "kk-KZ" : "ru-KZ", {
+    ? new Intl.DateTimeFormat("ru-KZ", {
         timeZone: snapshot.timezone,
-        dateStyle: "medium",
-        timeStyle: "short",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
       }).format(new Date(snapshot.as_of))
     : null;
   return (
@@ -167,64 +214,110 @@ export function AnalyticsPage() {
               </Alert>
             )}
             <div className="analytics-kpis">
-              <Card className="analytics-kpi analytics-kpi-primary">
-                <span className="analytics-kpi-icon" aria-hidden="true">
-                  <Icon name="summary" />
-                </span>
-                <h2>{t("analyticsPeriodSales")}</h2>
-                <strong className="analytics-kpi-value">
-                  {formatKZT(snapshot.cards.sales_minor, locale)}
-                </strong>
-                <p>{t("analyticsSales")}</p>
-                <small>
-                  {t("analyticsSaleCount")}: {snapshot.cards.sales_count}
-                </small>
-              </Card>
-              <Card className="analytics-kpi">
-                <span className="analytics-kpi-icon" aria-hidden="true">
-                  <Icon name="history" />
-                </span>
-                <h2>{t("analyticsPeriodReceipts")}</h2>
-                <strong className="analytics-kpi-value">
-                  {formatKZT(snapshot.cards.receipts_minor, locale)}
-                </strong>
-                <p>{t("analyticsReceiptsHint")}</p>
-              </Card>
-              <Card className="analytics-kpi">
-                <span className="analytics-kpi-icon" aria-hidden="true">
-                  <Icon name="sale" />
-                </span>
-                <h2>{t("analyticsAverage")}</h2>
-                <strong className="analytics-kpi-value">
-                  {snapshot.cards.average_ticket_minor === null
+              <Metric
+                title={t("analyticsPeriodSales")}
+                value={formatKZT(snapshot.cards.sales_minor, locale)}
+                scope={periodScope}
+                hint={t("analyticsSales")}
+                icon="summary"
+                primary
+              />
+              <Metric
+                title={t("analyticsPeriodReceipts")}
+                value={formatKZT(snapshot.cards.receipts_minor, locale)}
+                scope={periodScope}
+                hint={t("analyticsReceiptsHint")}
+                icon="history"
+              />
+              <Metric
+                title={t("analyticsCount")}
+                value={String(snapshot.cards.sales_count)}
+                scope={periodScope}
+                hint={t("analyticsActiveCountHint")}
+                icon="sale"
+              />
+              <Metric
+                title={t("analyticsAverage")}
+                textValue={snapshot.cards.average_ticket_minor === null}
+                value={
+                  snapshot.cards.average_ticket_minor === null
                     ? t("analyticsNoSales")
-                    : formatKZT(snapshot.cards.average_ticket_minor, locale)}
-                </strong>
-                <p>{t("analyticsAverageHint")}</p>
-              </Card>
-              <Card className="analytics-kpi">
-                <span className="analytics-kpi-icon" aria-hidden="true">
-                  <Icon name="debts" />
-                </span>
-                <h2>{t("analyticsCurrentDebt")}</h2>
-                <strong className="analytics-kpi-value">
-                  {formatKZT(snapshot.cards.outstanding_minor, locale)}
-                </strong>
-                <p>{t("analyticsDebtHint")}</p>
-                <small>
-                  {t("analyticsDebtors")}: {snapshot.cards.debtors_count}
-                </small>
-              </Card>
+                    : formatKZT(snapshot.cards.average_ticket_minor, locale)
+                }
+                scope={periodScope}
+                hint={t("analyticsAverageHint")}
+                icon="catalog"
+              />
+              <Metric
+                title={t("analyticsCurrentDebt")}
+                value={formatKZT(snapshot.cards.outstanding_minor, locale)}
+                scope={currentScope}
+                hint={t("analyticsDebtHint")}
+                icon="debts"
+              />
+              <Metric
+                title={t("analyticsDebtorsCount")}
+                value={String(snapshot.cards.debtors_count)}
+                scope={currentScope}
+                hint={t("analyticsDebtorsHint")}
+                icon="customers"
+              />
             </div>
-            <p className="analytics-financial-note">
-              {t("analyticsNotProfit")}
-            </p>
+            <Card className="analytics-summary" aria-labelledby={summaryId}>
+              <h2 id={summaryId}>{t("analyticsSummaryTitle")}</h2>
+              <p>
+                <strong>{periodScope}. </strong>
+                {t("analyticsSummaryPeriod")
+                  .replace("{count}", String(snapshot.cards.sales_count))
+                  .replace(
+                    "{sales}",
+                    formatKZT(snapshot.cards.sales_minor, locale),
+                  )
+                  .replace(
+                    "{receipts}",
+                    formatKZT(snapshot.cards.receipts_minor, locale),
+                  )}
+              </p>
+              <p>
+                <strong>{currentScope}. </strong>
+                {t("analyticsSummaryDebt")
+                  .replace(
+                    "{debt}",
+                    formatKZT(snapshot.cards.outstanding_minor, locale),
+                  )
+                  .replace("{debtors}", String(snapshot.cards.debtors_count))}
+              </p>
+              {snapshot.cards.receipts_minor < 0 && (
+                <p className="analytics-signed-note">
+                  {t("analyticsNegativeReceiptsSummary")}
+                </p>
+              )}
+              <nav
+                className="analytics-report-links"
+                aria-label={t("analyticsReportLinks")}
+              >
+                <Link className="button button-secondary" to="/seller/history">
+                  <Icon name="history" />
+                  {t("analyticsOpenHistory")}
+                </Link>
+                <Link className="button button-secondary" to="/seller/debts">
+                  <Icon name="debts" />
+                  {t("analyticsOpenDebts")}
+                </Link>
+              </nav>
+            </Card>
             {snapshot.cards.sales_count === 0 &&
               snapshot.cards.receipts_minor === 0 && (
                 <Card className="analytics-empty">
                   <EmptyState
                     title={t("analyticsNoActivity")}
                     description={t("analyticsNoActivityHint")}
+                    action={
+                      <Link className="button button-primary" to="/seller/sale">
+                        <Icon name="sale" />
+                        {t("analyticsNewSale")}
+                      </Link>
+                    }
                   />
                 </Card>
               )}
