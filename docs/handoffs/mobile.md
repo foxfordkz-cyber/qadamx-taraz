@@ -1,5 +1,41 @@
 # Mobile · единое приложение Qadam · API 0.6.2
 
+## 2026-10-17 — APK 0.2.2+5 готов к передаче на Android
+
+[Прямая загрузка APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.2.2-hosted.1/qadam-0.2.2-96ef1c4-debug.apk),
+[шесть шагов и протокол участника](../../apps/mobile/docs/ANDROID_TEAM_HANDOFF.md).
+Файл **qadam-0.2.2-96ef1c4-debug.apk**, **167895465 bytes**, версия **0.2.2+5**,
+source commit **96ef1c42ba341dc9fcdc6539d9ee499ab797c178**.
+SHA-256: **6b34d1f7abd01bea036fb02a2d1898f8905dd18b9e0d6d9577a88138b79bcf8f**.
+Это внутренняя debug-сборка, package `kz.qadam.qadam_mobile`, Android 7.0+,
+arm64-v8a / armeabi-v7a / x86_64; не публикация в магазине.
+
+**Проверено в самом APK:** API `https://qadamx-taraz.onrender.com/api/v1`,
+frontend origin `https://qadamx-taraz.vercel.app`, прежние Supabase URL/publishable key.
+Все четыре публичных параметра обнаружены в скомпилированном артефакте;
+`trycloudflare.com` отсутствует. Только публичный конфиг разрешён build-скриптом.
+Приватных конфигурационных файлов, session/service_role JWT, server/OpenAI/Gemini
+ключей и DB credential URLs по статическому сканированию не обнаружено.
+Первичный поиск подстрок дал два совпадения внутри неизменной Vulkan-библиотеки SDK;
+их байты совпадают с предыдущим APK, отдельными ключами они не являются.
+[Машиночитаемый аудит](../../apps/mobile/docs/reports/mobile-022-apk-audit.json).
+
+**Локально:** Flutter 3.47.7 / Dart 3.13.5; существующий pubspec.lock сохранён.
+7 config/iOS-config tests PASS; `tool/build_android.ps1` завершился успешно,
+assembleDebug 115.4 s. `aapt` подтвердил versionName 0.2.2, versionCode 5,
+minSdk24/targetSdk36; `apksigner verify --verbose` PASS (v2, один подписант).
+Новые HTTP-прогоны/логины/публикации и платные AI-пробы не выполнялись.
+Render/backend/БД/миграции/production не менялись. PR #25 остаётся Draft.
+
+**Физическая приёмка НЕ ВЫПОЛНЕНА:** `adb devices -l` не обнаружил устройств
+(ready/unauthorized/offline — 0). Модель и версия Android не предоставлены.
+Установка/вход A/B/logout, выбор точки/браузерный кабинет, камера/галерея,
+публикация/Сегодня/Продано/Снять, сеть/перезапуск и смена суток не проверены.
+Нативны текущие выбор точки, Supabase-профиль и Мал базар; CRM пока открывается
+в системном браузере, его сессия отдельная. Это не нативная CRM и не проверка Android.
+Команда получает APK и чек-лист; старый recording.webm больше не ищем.
+
+
 ## 2026-10-17 — подготовка APK 0.2.2 с постоянными адресами
 
 У APK 0.2.1+4 и его локального build-конфига оставались прежние временные туннели.
