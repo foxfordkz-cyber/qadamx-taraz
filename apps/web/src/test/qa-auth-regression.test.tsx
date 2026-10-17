@@ -273,3 +273,17 @@ describe("QA auth and isolation — mock transport through production App", () =
     expect(screen.getByRole("status")).toHaveTextContent(ids.shopA);
   });
 });
+
+describe("document title", () => {
+  it("names the cabinet only on login and seller routes", async () => {
+    const fetcher = vi.fn<typeof fetch>(async () => json({ items: [], next_cursor: null }));
+    const publicView = renderQa({ initial: null, route: "/", fetcher });
+    await waitFor(() =>
+      expect(document.title).toBe("Магазины рынков Тараза · Qadam Business"),
+    );
+    publicView.unmount();
+    renderQa({ initial: null, route: "/login" });
+    await screen.findByRole("button", { name: "Войти" });
+    expect(document.title).toBe("Кабинет продавца · Qadam Business");
+  });
+});

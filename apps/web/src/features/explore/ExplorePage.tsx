@@ -35,6 +35,7 @@ export default function ExplorePage() {
           </span>
           <h1>{t("hero_title")}</h1>
           <p>{t("hero_text")}</p>
+          <p>{t("hero_seller")}</p>
           <div className="actions">
             <a className="btn btn--primary" href="#venues">
               {t("find_shop")} <span aria-hidden="true">↗</span>

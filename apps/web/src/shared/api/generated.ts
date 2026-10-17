@@ -720,10 +720,10 @@ export interface components {
       service: "qadam-api";
       /**
        * Stage
-       * @default manual-ledger
+       * @default mvp
        * @constant
        */
-      stage: "manual-ledger";
+      stage: "mvp";
     };
     /** InquiryCreate */
     InquiryCreate: {
