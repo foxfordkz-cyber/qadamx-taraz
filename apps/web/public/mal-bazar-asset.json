@@ -1,0 +1,56 @@
+{
+  "slug": "mal-bazar",
+  "name": "Мал базар",
+  "label_ru": "Концепт-модель скотного рынка · не план реального места",
+  "label_kk": "Мал базарының тұжырымдамалық моделі · нақты орынның жоспары емес",
+  "model_url": "/models/mal-bazar.glb",
+  "poster_url": "/previews/mal-bazar.webp",
+  "geometry_status": "conceptual",
+  "conceptual_scale": true,
+  "units": "meters",
+  "up_axis": "+Y",
+  "front_axis": "+Z",
+  "center": [
+    0,
+    0,
+    0
+  ],
+  "bounds_min": [
+    -33.0,
+    0.0,
+    -23.0
+  ],
+  "bounds_max": [
+    33.0,
+    7.425,
+    23.0
+  ],
+  "camera_position": [
+    9,
+    51,
+    62
+  ],
+  "camera_target": [
+    0,
+    1.5,
+    0
+  ],
+  "camera_fov_degrees": 45,
+  "hotspots": [],
+  "reconstruction": {
+    "coverage": "concept_layout; no confirmed location",
+    "confirmed": [
+      "Типичные для скотных рынков у Тараза открытый грунтовый двор, коновязи из стальных труб, сетчатые загоны, длинные навесы с металлической кровлей, белая ограда и разгрузка скотовозов — по датированным фото 2024–2025 годов"
+    ],
+    "estimated": [
+      "Планировка, размеры, число загонов и положение входа — концепция",
+      "Ворота и щит «МАЛ БАЗАР» — обобщённые, без названия и вывески конкретного рынка",
+      "Фигуры животных декоративные и не показывают наличие скота"
+    ],
+    "source_urls": [
+      "https://www.youtube.com/watch?v=dR5Ymr1HmIo",
+      "https://www.youtube.com/watch?v=SvmbOMn_hRM",
+      "https://www.muftyat.kz/kk/news/qmdb/2025-05-29/46593-qurban2025-rban-shalua-arnalan-oryindar-belglend/"
+    ]
+  }
+}

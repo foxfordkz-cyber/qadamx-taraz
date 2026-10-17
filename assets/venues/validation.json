@@ -97,5 +97,35 @@
     "Camera framing, lighting and hotspot clickability in the real app",
     "Mobile loading and image fallback; image pixels are not decoded here",
     "References, authorship and usage rights in asset-sources.md"
+  ],
+  "concepts": [
+    {
+      "descriptor": "mal-bazar-asset.json",
+      "errors": [],
+      "slug": "mal-bazar",
+      "bytes": 713316,
+      "triangles": 13354,
+      "stored_triangles": 13354,
+      "vertices": 25796,
+      "meshes": 16,
+      "primitives": 16,
+      "bounds_min": [
+        -33.0,
+        0.0,
+        -23.0
+      ],
+      "bounds_max": [
+        33.0,
+        7.425000190734863,
+        23.0
+      ],
+      "textures": [],
+      "degenerate_triangles": 0,
+      "poster_bytes": 41196,
+      "poster_dimensions": [
+        1024,
+        640
+      ]
+    }
   ]
 }

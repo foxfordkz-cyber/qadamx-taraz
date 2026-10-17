@@ -1,0 +1,100 @@
+{
+  "venue": "Мал базар, Тараз (скотный рынок)",
+  "researched_on": "2026-10-17",
+  "method": "Web search in Russian, Kazakh and English (\"мал базар Тараз\", \"рынок скота Тараз\", \"скотный рынок Тараз\", \"Тараз мал базары\", \"Жамбыл Ас-Ер мал базар\", \"Байданов/Рамазан мал базары\", \"Taraz livestock market\"); reading of directory cards, a company registry card and the muftyat.kz list; visual inspection of eight dated YouTube video thumbnails. No photograph is redistributed with the model; thumbnails were used only as a modelling reference.",
+  "model_status": "Concept model. No candidate has a confirmed official address, so the model is not a reconstruction of a particular market and carries no location.",
+  "selection_rule": "A livestock market (live animals in pens and at tethering rails) is not the same as a general bazaar, a single sales point or one animal listing. A similar name alone is not a match.",
+  "candidates": [
+    {
+      "id": "as-er",
+      "names": ["Ас-Ер мал базары", "Жамбыл Ас-Ер мал базары", "Тараз Ас-Ер мал базар", "Jambyl As-Er Mal Bazary"],
+      "kind": "Large livestock market: cattle, horses, sheep and goats",
+      "address": null,
+      "coordinates": null,
+      "sources": [
+        {"url": "https://www.youtube.com/watch?v=dR5Ymr1HmIo", "type": "Video, channel TARAZ_MAL_BAZARKZ", "title": "ІРІ ҚАРА БАҒАСЫ / ЖАМБЫЛ АС-ЕР МАЛ БАЗАР", "checked": "2026-10-17"},
+        {"url": "https://www.youtube.com/watch?v=SvmbOMn_hRM", "type": "Video", "title": "ЖЫЛҚЫ БАҒАСЫ / ТАРАЗ АС-ЕР МАЛ БАЗАР", "checked": "2026-10-17"},
+        {"url": "https://m.youtube.com/watch?v=ep0Ss9-j-J8", "type": "Video", "title": "MAL BAZAR 02.06.2024 / ІРІ ҚАРА БАҒАСЫ", "checked": "2026-10-17"},
+        {"url": "https://www.youtube.com/watch?v=WoWVUVmw1iE", "type": "Video", "title": "Мал базар Тараз / Ірі кара багасы 30.06.2024", "checked": "2026-10-17"},
+        {"url": "https://www.youtube.com/watch?v=uJAJYZoLvdk", "type": "Video", "title": "Мал базар Тараз / Қой Ешкі бағасы 22.09.2024", "checked": "2026-10-17"},
+        {"url": "https://www.youtube.com/channel/UCg0fYaQG9KgL_XEi-csaeuw/videos", "type": "Video channel TARAZ_MAL_BAZARKZ (Instagram @taraz_mal_bazarkz describes itself as an advertising service)", "checked": "2026-10-17"},
+        {"url": "https://ba.prg.kz/311010000-taraz/140840021643-too-as-er-sauda-servis/", "type": "Company registry card", "facts": "ТОО «АС-ЕР САУДА СЕРВИС», БИН 140840021643, registered 27.08.2014, main activity ОКЭД 68203 «Аренда и эксплуатация торгового рынка», legal address in Shokai village, Akbastau rural district, Zhambyl district. The card itself notes that sources differ.", "checked": "2026-10-17"}
+      ],
+      "visually_confirmed": [
+        "Open unpaved earth yard with crowds of buyers (thumbnails dated 17.03.2024, 02.06.2024, 18.05.2025, 25.05.2025, 01.06.2025).",
+        "Cattle tied in rows to horizontal steel pipe rails on short posts.",
+        "Sheep and goats behind wire-mesh pen fences.",
+        "A long low shed with white walls and a pitched metal roof at the back of the yard.",
+        "A long white perimeter wall or fence.",
+        "Livestock trucks with blue or timber slat bodies parked in the yard for unloading; horses led and ridden in an open area."
+      ],
+      "not_seen": ["Entrance gate and sign", "Overall plan, size and orientation"],
+      "confirmed": "A livestock market with this name operated near Taraz in 2024 and 2025 (several dated videos by one channel).",
+      "disputed": "Exact location and address; whether ТОО «АС-ЕР САУДА СЕРВИС» operates it (the name match is not proof); official status; whether it is the same place as «Байданов» or «Рамазан»."
+    },
+    {
+      "id": "baidanov-ramazan",
+      "names": ["«Байданов» мал базары", "«Рамазан» мал базары"],
+      "kind": "Livestock markets named as Qurban Ait sacrifice places",
+      "address": null,
+      "coordinates": null,
+      "sources": [
+        {"url": "https://www.muftyat.kz/kk/news/qmdb/2025-05-29/46593-qurban2025-rban-shalua-arnalan-oryindar-belglend/", "type": "Official site of the Spiritual Administration of Muslims of Kazakhstan, 29.05.2025", "quote": "Жамбыл облысы, Тараз қаласында – «Байданов» және «Рамазан» мал базарлары.", "checked": "2026-10-17"},
+        {"url": "https://azattyq-ruhy.kz/news/90487-elimizde-ku-rbandyk-shaluga-arnalgan-oryndar-anyktaldy", "type": "News reprint, 01.06.2025", "checked": "2026-10-17"}
+      ],
+      "visually_confirmed": [],
+      "confirmed": "Two livestock markets in Taraz carried these names in an official religious organisation's list for 2025.",
+      "disputed": "Addresses, current operation in 2026, photographs; relation to the «Ас-Ер» name."
+    },
+    {
+      "id": "mal-bazar-taraz-company",
+      "names": ["Mal Bazar Taraz", "МАЛ БАЗАР | ТАРАЗ"],
+      "kind": "Trading company in the livestock rubric: live animals, halal slaughter service and certificates (Instagram highlights). Not evidence of a market yard.",
+      "address": "Тараз, улица Сыпатай батыра, 19 (2GIS and Instagram)",
+      "coordinates": {"lat": 42.910485, "lon": 71.403737, "source": "2GIS route link, approximate"},
+      "sources": [
+        {"url": "https://2gis.kz/taraz/firm/70000001054847064", "type": "2GIS card: rubric «Животноводство», «Торговая компания», daily 09:00–18:00", "checked": "2026-10-17"},
+        {"url": "https://www.instagram.com/mal_bazar_taraz08/", "type": "Instagram profile: halal, hours 8:30–17:30, Monday to 13:00", "checked": "2026-10-17"},
+        {"url": "https://yandex.kz/maps/ru/org/mal_bazar_taraz/231356572965/", "type": "Yandex Maps card (search snippet only)", "checked": "2026-10-17"}
+      ],
+      "confirmed": "A business named «Mal Bazar Taraz» at Sypatai Batyr 19.",
+      "disputed": "That it is the city livestock market; the brand name only matches the generic words."
+    },
+    {
+      "id": "directory-entries",
+      "names": ["скотный рынок. мал базар", "Мал базар"],
+      "kind": "Unverified directory entries",
+      "address": "«2-й Мамбет батыра» (one directory) and «ул. Мамбет Батыра, 8Б» (another); spravker.ru gives only «Тараз»",
+      "coordinates": [
+        {"lat": 42.936505, "lon": 71.410442, "source": "directory text, listing added 11.04.2019"},
+        {"lat": 42.902195, "lon": 71.41169, "source": "spravbiz.ru map pin"}
+      ],
+      "sources": [
+        {"url": "https://taraz.spravker.ru/rynki/skotnyi-rynok-mal-bazar.htm", "type": "Directory card without street, phone or hours", "checked": "2026-10-17"},
+        {"url": "https://kz.spravbiz.ru/taraz/company-mal-bazar/", "type": "Directory card, category «Фермерские рынки»", "checked": "2026-10-17"}
+      ],
+      "confirmed": "Nothing beyond the listing itself.",
+      "disputed": "Both coordinate pairs (about 3.8 km apart), current operation, phone and hours."
+    }
+  ],
+  "excluded": [
+    {"name": "«Точка продажи скота», рынок «Жибек Жолы», Санырак батыра 29в", "url": "https://2gis.kz/taraz/firm/70000001057207044", "reason": "One sales point inside a general market, not a livestock market yard."},
+    {"name": "OLX, Flagma, Zoomir animal listings for Taraz", "reason": "Single animal listings, not a market."},
+    {"name": "Mal bazaar in Bishkek and Karakol (Kyrgyzstan)", "reason": "Same generic name, different country."},
+    {"name": "Taraz central bazaar relocation news", "reason": "General bazaar, not livestock."}
+  ],
+  "context": [
+    {"url": "https://24.kz/ru/news/incidents/784787-vydal-za-svoikh-i-otpravil-na-prodazhu-pastukh-pokhitil-165-ovets", "fact": "News of 10.08.2026 mentions an unnamed «скотный рынок в Таразе»; it confirms that livestock trading continues, not a location.", "checked": "2026-10-17"},
+    {"url": "https://krisha.kz/a/show/761823572", "fact": "Land listing «у скотного рынка — Мал базар», suburb along a highway (search snippet only; the page refused automated access).", "checked": "2026-10-17"}
+  ],
+  "comparison": "«Ас-Ер» is the only candidate with dated photographs of a working livestock yard, but its address and operator are unconfirmed. «Байданов» and «Рамазан» have the most official mention but no address or images. «Mal Bazar Taraz» has an address but is a company, not a market. The directory entries contradict each other.",
+  "recommendation": "Do not name or locate a real market in the product until one is confirmed by a visit with the owner's permission or by the city akimat/veterinary department. Build an explicitly labelled concept model from features common to the dated «Ас-Ер» photographs: open yard, steel tethering rails, mesh pens, long metal-roof sheds, perimeter fence, truck unloading area, plus a generic gate. Use no market name, brand or sign text from the references.",
+  "image_rights": "Videos, thumbnails and Instagram photographs belong to their authors. They are modelling references only; nothing is copied into the repository, the GLB or the preview, and publication of any photograph needs the author's permission.",
+  "modelling_brief": {
+    "priority": "Gate with a generic «МАЛ БАЗАР» board, perimeter fence, long pitched metal-roof canopy over a central aisle, pens on both sides, rows of steel tethering rails, an unloading area with a ramp. A few decorative animal silhouettes, clearly not a stock count.",
+    "footprint": "Rectangular yard about 64 × 44 m (estimate). Gate on the +Z front, centred.",
+    "materials": "Earth yard (sand), white wall panels (porcelain), galvanised and painted steel (metal, ink), metal roof (stone/edge), small lime accent only on the board as a Qadam marker.",
+    "scale_convention": "Metres, conceptual_scale=true; no claim of a 1:1 survey.",
+    "budget": "Below 30,000 triangles and 1.5 MB, no textures, no Draco/Meshopt."
+  }
+}

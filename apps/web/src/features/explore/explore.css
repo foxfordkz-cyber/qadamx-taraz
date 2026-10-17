@@ -1364,7 +1364,7 @@
   pointer-events: auto;
 }
 
-/* Мал базар — demonstration scheme (no listings until the web API integration exists). */
+/* Мал базар — concept model; no listings until the market has a confirmed key. */
 .ex .mal {
   margin-top: 64px;
 }
@@ -1399,50 +1399,57 @@
 .ex .mal-visual .scene {
   margin: 0;
 }
-.ex .mal-plan {
+.ex .mal-poster {
   display: block;
   width: 100%;
-  height: auto;
-  max-width: 100%;
-  border: 1px solid var(--qadam-line-strong);
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: 1px solid var(--line);
   border-radius: var(--qadam-radius-card);
-  background: var(--qadam-white);
+  background: var(--qadam-surface-subtle);
 }
-.ex .mal-plan-yard {
-  fill: var(--qadam-surface-subtle);
-  stroke: var(--qadam-line-strong);
+/* Mal bazar page: what works now, as three plain cards. */
+.ex .mal-facts {
+  margin-top: 36px;
 }
-.ex .mal-plan-aisle {
-  fill: var(--qadam-soft);
-  stroke: var(--qadam-green);
-  stroke-dasharray: 6 5;
+.ex .mal-facts ul {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.ex .mal-plan-pen {
-  fill: var(--qadam-white);
-  stroke: var(--qadam-muted-light);
-  stroke-width: 2;
+.ex .mal-facts li {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
 }
-.ex .mal-plan-gate {
-  fill: none;
-  stroke: var(--qadam-green);
-  stroke-width: 6;
-  stroke-linecap: round;
+.ex .mal-facts h3 {
+  margin: 0;
+  font-size: 1.1rem;
 }
-.ex .mal-plan-arrow {
-  fill: none;
-  stroke: var(--qadam-orange-deep);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+.ex .mal-facts p {
+  margin: 0;
 }
-.ex .mal-plan-text {
-  fill: var(--qadam-ink);
-  font: 700 13px var(--qadam-font);
+.ex .mal-facts .btn {
+  justify-self: start;
 }
 @media (max-width: 760px) {
   .ex .mal-body {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+  .ex .mal-facts ul {
+    grid-template-columns: 1fr;
+  }
+  .ex .mal-copy .btn,
+  .ex .mal-facts .btn {
+    justify-self: stretch;
   }
 }
 
