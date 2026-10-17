@@ -1,5 +1,24 @@
 # Передача работы backend
 
+## 2026-10-17 — финальная подготовка: фактическая production-база
+
+Работа начата от main f023aae в отдельной integration/final-defense-20261017.
+Отчёт80a3242 и его HTTP/manifest evidence перенесены выборочно, новые записи handoff
+сохранены. [Production rollout](../PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md):
+Render8fa0029/API0.6.3, общая Supabase0008 после проверенного backup/restore;
+Pages source8fa0029 на старте задачи. README RU/KZ исправлены точечно.
+Позднее изменение health.stage в main — только косметика, не свидетельство сбоя AI.
+Render, Environment, AI-бюджет, БД и memberships в этом окне не меняются.
+Регистрация43, неподтверждённые demo/внешние цены и новые APK не включаются автоматически.
+
+Проверено: 75 unit/component, 6 последовательных web E2E, отдельно 1 voice-integration,
+typecheck/lint/check:api/hosted build. E2E используют заглушки; первый параллельный прогон
+был остановлен после timeout, повтор завершён успешно без изменения приложения.
+Cloudflare CLI не имеет доступа к нужному аккаунту (403): подготовлен ручной путь
+ZIP → Production upload → 22 хеша → живая read-only приёмка. Наличие архива не deployment.
+[Финальный отчёт](../FINAL_DEFENSE_RELEASE_20261017.md),
+[материалы сдачи](../submission/DEFENSE_CHECKLIST.md).
+
 ## 2026-10-17 — PR B #72: канонические рынки, кандидат API 0.6.3
 
 Ветка backend/canonical-markets, Draft PR #72 поверх backend/public-localization

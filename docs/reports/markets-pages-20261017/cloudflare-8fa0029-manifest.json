@@ -1,0 +1,96 @@
+{
+  "source_sha": "8fa0029a847895a2b968592fb6ab5b8cc39ee0a1",
+  "ids_enabled": true,
+  "api": "https://qadamx-taraz.onrender.com/api/v1",
+  "files": {
+    "asset-sources.md": {
+      "bytes": 22330,
+      "sha256": "5dbc3c6ae604050290bfbf1dbb7902ed932df09746af83f1c1a3d3b7413b1a5b"
+    },
+    "assets/auth-CB7MGzWB.js": {
+      "bytes": 223730,
+      "sha256": "b08ef7d102649174a68d175e0ce67571100cd15b84444698cab938dea6e3d891"
+    },
+    "assets/index-B-BytHDI.css": {
+      "bytes": 90622,
+      "sha256": "6ec1e61d3fa77e8c9a1005e7ca5c0dae638c42b15937081bb9f2377e7e02b7ab"
+    },
+    "assets/index-BJkMxsgm.js": {
+      "bytes": 502394,
+      "sha256": "776250e258f235038c676325be1bf29b417b583c2da7cd31796077f0155abaa2"
+    },
+    "assets/VenueScene-CJU2Iraw.js": {
+      "bytes": 1018675,
+      "sha256": "aa5c9101ba98ffe5dcde70892bf4c7855de7a8832cf9d80dfe9b7ec12e8ec224"
+    },
+    "fonts/Manrope-OFL.txt": {
+      "bytes": 4479,
+      "sha256": "2e9a4958fb8e5be69eca9abc48544e1ca1898ca71edc54ac3da25cd93101881e"
+    },
+    "fonts/Manrope-Variable.ttf": {
+      "bytes": 164700,
+      "sha256": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6"
+    },
+    "fonts/NotoSans-Cyrillic.woff2": {
+      "bytes": 20080,
+      "sha256": "6ab64433de6077ca5ad31b05420450ce986a616a4ea47b6ad16f3217055dafc3"
+    },
+    "fonts/NotoSans-CyrillicExt.woff2": {
+      "bytes": 70680,
+      "sha256": "82ff72b28e6610f2c62de49d0f295c160a157b2718fa814bb6c512ebfdebb31d"
+    },
+    "fonts/NotoSans-OFL.txt": {
+      "bytes": 4488,
+      "sha256": "303aa29b5fe1a05733ddfa4c68971e417df7fa05c4ea5ebc3bb897a261595700"
+    },
+    "fonts/README.md": {
+      "bytes": 1809,
+      "sha256": "747b62a5e964ea5392804e0a65fc4ed355af72a392cc4e3df6a06fa6dfc5c2f9"
+    },
+    "index.html": {
+      "bytes": 617,
+      "sha256": "45cd8c18a8bf583765048427fe8138f0072e173eaf62ca40691453dad3e43df8"
+    },
+    "mal-bazar-asset.json": {
+      "bytes": 2005,
+      "sha256": "d8c44307ba0376ea3c44723e8d4a8a797a4ef1f25a8d634f71e79125b15c2f40"
+    },
+    "models/auyl-bereke.glb": {
+      "bytes": 746584,
+      "sha256": "d1c397dc38ade6d0470c39e291976bf21f8675f51b6b0538c58e4988bffdf0a5"
+    },
+    "models/kaikarmet.glb": {
+      "bytes": 717596,
+      "sha256": "b119bfb35e4d81e68ce9633b5c94fb9f4364efe69d1987a6c073576476a5d2a1"
+    },
+    "models/mal-bazar.glb": {
+      "bytes": 713316,
+      "sha256": "eb744d6796a847f8e658b3f2eda3949cf41901b13d2f898287a0004bbfb4f1b6"
+    },
+    "models/mart.glb": {
+      "bytes": 1441176,
+      "sha256": "d9adafa2a1363026ac3f6859bbea4f5757876392200d590422fd9bd9492a45ee"
+    },
+    "previews/auyl-bereke.webp": {
+      "bytes": 31078,
+      "sha256": "0ddef0dd1427b24998e738c31ca559504ee91264b1e5e31baa180ba90a90a440"
+    },
+    "previews/kaikarmet.webp": {
+      "bytes": 29048,
+      "sha256": "aac2db66391b0816f2461211aff3f91a670d8235fca05115c669b1761e1f92d4"
+    },
+    "previews/mal-bazar.webp": {
+      "bytes": 41196,
+      "sha256": "7204845171a7027d53e717fa10ab8b05400ae30a2c1053d7c0db23a93c516bb2"
+    },
+    "previews/mart.webp": {
+      "bytes": 32706,
+      "sha256": "65c09f2a044a62f22d384f645b91d0dc79ba557822a913e161c4202263b3ce39"
+    },
+    "venue-assets.json": {
+      "bytes": 12235,
+      "sha256": "d1a6f12c43d4d8f9facf8c8819c2277e9fa77922af2beb73ca81f3f707d202c8"
+    }
+  },
+  "archive_sha256": "d95ec262894d8119000dab626993ca3218ff85f89fa39249c7e352f474aca222"
+}
