@@ -76,6 +76,26 @@ Finder pageScroll() => find
     )
     .first;
 
+Future<void> openMarket(WidgetTester tester) async {
+  await tester.tap(find.byKey(const Key('nav-public')));
+  await tester.pumpAndSettle();
+  final title = find.text('Мал базар');
+  await tester.scrollUntilVisible(
+    title,
+    120,
+    scrollable: find
+        .descendant(
+          of: find.byType(ListView).first,
+          matching: find.byType(Scrollable),
+        )
+        .first,
+  );
+  await tester.ensureVisible(title);
+  await tester.pumpAndSettle();
+  await tester.tap(title);
+  await tester.pumpAndSettle();
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   setUp(() => FlutterSecureStorage.setMockInitialValues({}));
@@ -173,7 +193,7 @@ void main() {
     final runtime = MobileRuntime();
     await tester.pumpWidget(MobileApp(runtime: runtime));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('nav-market')));
+    await openMarket(tester);
     await tester.pumpAndSettle();
     expect(
       find.textContaining('Подключение к серверу пока не настроено'),
@@ -214,7 +234,7 @@ void main() {
       final runtime = MobileRuntime(api: api);
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       expect(find.textContaining('Проверьте соединение'), findsOneWidget);
       expect(find.textContaining('private transport detail'), findsNothing);
@@ -274,7 +294,7 @@ void main() {
       final runtime = MobileRuntime(api: api);
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       await tester.scrollUntilVisible(
         find.text('100 000 000 ₸'),
@@ -345,7 +365,7 @@ void main() {
       final runtime = MobileRuntime(auth: auth, api: api);
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Подать объявление'));
       await tester.pumpAndSettle();
@@ -460,7 +480,7 @@ void main() {
       );
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Подать объявление'));
       await tester.pumpAndSettle();
@@ -641,7 +661,7 @@ void main() {
     );
     await tester.pumpWidget(MobileApp(runtime: runtime));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('nav-market')));
+    await openMarket(tester);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Мои'));
     await tester.pumpAndSettle();
@@ -719,7 +739,7 @@ void main() {
       final runtime = MobileRuntime(auth: auth, api: api);
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       await tester.tap(find.text('ҚАЗ'));
       await tester.pumpAndSettle();
@@ -790,7 +810,7 @@ void main() {
       final runtime = MobileRuntime(api: api);
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       await tester.tap(find.text('Цены'));
       await tester.pumpAndSettle();
@@ -882,7 +902,7 @@ void main() {
       final runtime = MobileRuntime(auth: auth, api: api);
       await tester.pumpWidget(MobileApp(runtime: runtime));
       await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await tester.pumpAndSettle();
       if (owned) {
         await tester.tap(find.text('Мои'));

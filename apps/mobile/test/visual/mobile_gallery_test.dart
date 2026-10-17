@@ -26,6 +26,7 @@ const galleryDirectory = String.fromEnvironment(
 );
 
 enum _Screen {
+  home,
   venues,
   venue,
   shop,
@@ -41,10 +42,20 @@ enum _Screen {
 }
 
 Widget _screen(_Screen screen, VisualFixture f) => switch (screen) {
+  _Screen.home => QadamShell(
+    runtime: f.runtime,
+    kk: f.kk,
+    section: 4,
+    onSection: (_) {},
+    toggleLanguage: () {},
+    login: (_) async {},
+    market: const SizedBox.shrink(),
+  ),
   _Screen.venues => PublicHome(
     runtime: f.runtime,
     kk: f.kk,
     toggleLanguage: () {},
+    onMarket: () {},
   ),
   _Screen.venue => VenuePage(
     runtime: f.runtime,
@@ -202,7 +213,21 @@ void main() {
         await tester.tap(find.text('ҚАЗ').hitTestable().first);
         await settle(tester, f);
       }
-      await tester.tap(find.text('Мал базар').hitTestable().last);
+      await tester.tap(find.byKey(const Key('nav-public')));
+      await settle(tester, f);
+      await tester.scrollUntilVisible(
+        find.text('Мал базар'),
+        140,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).first,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
+      await tester.ensureVisible(find.text('Мал базар'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Мал базар'));
       await settle(tester, f);
     }
     if (screen == _Screen.shop) {
@@ -246,7 +271,12 @@ void main() {
   }
 
   // First three approval screens: every specified width and text scale.
-  for (final screen in [_Screen.venues, _Screen.shop, _Screen.dashboard]) {
+  for (final screen in [
+    _Screen.home,
+    _Screen.venues,
+    _Screen.shop,
+    _Screen.dashboard,
+  ]) {
     for (final width in [320.0, 360.0, 390.0, 412.0]) {
       for (final scale in [1.0, 1.3, 2.0]) {
         testWidgets(

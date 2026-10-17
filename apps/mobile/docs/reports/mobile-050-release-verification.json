@@ -12,5 +12,13 @@
     "timeout_seconds": 180,
     "full_redownload_verified": false
   },
-  "physical_install": "NOT_PERFORMED"
+  "public_range_redownload": {
+    "checked_at_utc": "2026-10-17T14:41:36Z",
+    "bytes_received": 28335925,
+    "sha256": "14f3f145ba68202611b7d0745bef8297a023fe7d23ec8bd5697688f3d9e3eccf",
+    "full_redownload_verified": true
+  },
+  "physical_install": "USER_REPORTED_PACKAGE_ERROR_UNRESOLVED",
+  "physical_independent_check": "NOT_PERFORMED",
+  "emulator_install_report": "mobile-050-emulator-install.json"
 }

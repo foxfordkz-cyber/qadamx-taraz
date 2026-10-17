@@ -14,6 +14,26 @@ Future<void> settle(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+Future<void> openMarket(WidgetTester tester) async {
+  await tester.tap(find.byKey(const Key('nav-public')));
+  await tester.pumpAndSettle();
+  final title = find.text('Мал базар');
+  await tester.scrollUntilVisible(
+    title,
+    120,
+    scrollable: find
+        .descendant(
+          of: find.byType(ListView).first,
+          matching: find.byType(Scrollable),
+        )
+        .first,
+  );
+  await tester.ensureVisible(title);
+  await tester.pumpAndSettle();
+  await tester.tap(title);
+  await tester.pumpAndSettle();
+}
+
 void main() {
   setUp(() {
     FlutterSecureStorage.setMockInitialValues({});
@@ -52,7 +72,7 @@ void main() {
       await settle(tester);
       expect(opened, isEmpty);
       expect(find.text('Площадки Тараза'), findsOneWidget);
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await settle(tester);
       expect(find.text('Подать объявление'), findsOneWidget);
       await tester.tap(find.text('Мои'));
@@ -92,6 +112,17 @@ void main() {
       );
       await tester.tap(find.byKey(const Key('nav-profile')));
       await settle(tester);
+      await tester.scrollUntilVisible(
+        find.text('Выйти из приложения'),
+        180,
+        scrollable: find
+            .descendant(
+              of: find.byType(ListView).first,
+              matching: find.byType(Scrollable),
+            )
+            .first,
+      );
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Выйти из приложения'));
       await settle(tester);
       expect(find.text('Вы не вошли в аккаунт'), findsOneWidget);
@@ -121,7 +152,7 @@ void main() {
       );
       expect(find.text('Ожидается подключение торговой точки'), findsNothing);
       expect(find.byKey(const Key('open-seller')), findsNothing);
-      await tester.tap(find.byKey(const Key('nav-market')));
+      await openMarket(tester);
       await settle(tester);
       expect(find.text('Подать объявление'), findsOneWidget);
       await finish(tester, f);

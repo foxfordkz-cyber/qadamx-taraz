@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import '../ui/qadam_theme.dart';
 
 import '../ui/common.dart' show tr;
 import 'crm_models.dart';
@@ -67,7 +68,7 @@ class _CrmDailyChartState extends State<CrmDailyChart> {
             ),
             _Legend(
               label: tr(kk, 'Поступления', 'Түсімдер'),
-              color: theme.colorScheme.tertiary,
+              color: QadamTheme.chartAmber,
               dotted: true,
             ),
           ],
@@ -277,12 +278,11 @@ class _Legend extends StatelessWidget {
   Widget build(BuildContext context) => Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      Text(
-        dotted ? '┄' : '━',
-        style: TextStyle(
-          color: color,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
+      ExcludeSemantics(
+        child: CustomPaint(
+          key: Key(dotted ? 'legend-receipts' : 'legend-sales'),
+          size: const Size(24, 12),
+          painter: _LegendSample(color, dotted),
         ),
       ),
       const SizedBox(width: 6),
@@ -291,6 +291,39 @@ class _Legend extends StatelessWidget {
       ),
     ],
   );
+}
+
+/// Painted samples remain distinguishable without relying on font glyphs.
+class _LegendSample extends CustomPainter {
+  const _LegendSample(this.color, this.dotted);
+  final Color color;
+  final bool dotted;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 3;
+    if (dotted) {
+      for (var x = 0.0; x < size.width; x += 9) {
+        canvas.drawLine(
+          Offset(x, size.height / 2),
+          Offset(math.min(x + 5, size.width), size.height / 2),
+          paint,
+        );
+      }
+    } else {
+      canvas.drawLine(
+        Offset(0, size.height / 2),
+        Offset(size.width, size.height / 2),
+        paint,
+      );
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant _LegendSample oldDelegate) =>
+      color != oldDelegate.color || dotted != oldDelegate.dotted;
 }
 
 class _SelectionControls extends StatelessWidget {
@@ -375,7 +408,7 @@ class _Plot extends StatelessWidget {
               bars: bars,
               left: left,
               primary: theme.colorScheme.primary,
-              secondary: theme.colorScheme.tertiary,
+              secondary: QadamTheme.chartAmber,
               grid: theme.colorScheme.outlineVariant,
               text: theme.textTheme.bodySmall!.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
