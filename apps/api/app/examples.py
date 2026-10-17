@@ -265,12 +265,17 @@ EXAMPLES["CustomerPage"] = {
     "items": [EXAMPLES["CustomerResponse"]],
     "next_cursor": CUSTOMER,
 }
+EXAMPLES["CustomerIdsPage"] = {
+    "items": [EXAMPLES["CustomerResponse"]],
+    "next_cursor": None,
+}
+EXAMPLES["CustomerIdsEmptyPage"] = {"items": [], "next_cursor": None}
 
 
 def model_for_example(name):
     if name.startswith("Analytics"):
         return AnalyticsResponse
-    if name == "CustomerPage":
+    if name in {"CustomerPage", "CustomerIdsPage", "CustomerIdsEmptyPage"}:
         return schemas.Page[schemas.CustomerResponse]
     if hasattr(livestock_schemas, name):
         return getattr(livestock_schemas, name)

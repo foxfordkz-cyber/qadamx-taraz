@@ -1,5 +1,50 @@
 # Передача работы backend
 
+## 2026-10-17 — клиенты по ids, отдельный PR61
+
+От актуального main **1a541ef** создана `backend/customer-ids`. Контракт опубликован
+**до реализации** в commit **c5638f22d2ebe68d39171b2b7b7cb21de49394b5**:
+[CUSTOMER_IDS_API](../../packages/contracts/CUSTOMER_IDS_API.md), [PR61](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/61).
+
+- GET `/businesses/{id}/customers?ids=UUID&ids=UUID`: 1–100 исходных значений,
+  дедупликация с сохранением первого порядка; полный Page с `next_cursor=null`.
+- В режиме ids запрещены явно переданные q/cursor/limit. Пустые/невалидные значения
+  и >100 возвращают422. Чужие и отсутствующие UUID одинаково пропускаются; без
+  membership точки404, без JWT401. Ни одной строки другой точки, включая другую
+  точку того же владельца. Без ids старые поиск, limit и cursor не меняются.
+- Балансы — прежняя SQL-сумма журнала в тиынах, включая погашения/отмены; ограничены
+  выбранной точкой/клиентами. Прежний CustomerResponse, без дополнительных полей.
+  Ledger writes, Auth, customer POST/recovery, AI и миграции не менялись.
+- Код: `apps/api/app/routers.py`, `services/ledger.py`, `app/examples.py`;
+  `tests/test_customer_ids.py`; экспорт `openapi.json`, `examples.json`, generated.ts.
+
+Проверки: **335 backend tests PASS**, из них **19 новых cases ids** (входят в335).
+Команда `python -m pytest -q --tb=short`, локальная PostgreSQL127.0.0.1:55432,
+отдельная новая пустая база `qadam_customer_ids_*_test`. Общая Supabase не использовалась.
+Проверены смешанные UUID,100 результатов за пределами первой страницы,101 до
+дедупликации, порядок/повторы, пустой/невалидный ввод, q/cursor/limit,401/404 и отзыв
+membership, серверный долг200000→150000→200000→0, совместимость прежнего поиска/cursor.
+Реальная PostgreSQL + HTTP TestClient + тестовые подписанные JWT/JWKS; **не живая
+приёмка Render/Supabase**, платные AI не вызывались. Starlette выдаёт одно существующее
+deprecation warning по httpx TestClient, тесты не пропущены.
+
+`ruff check .`, форматирование изменённых Python, `app.export_contracts --check` — PASS.
+Web: `npm ci --no-audit --no-fund`, `npm run generate:api`, `npm run typecheck`,
+`npm run check:api` — PASS. Runtime frontend не менялся, поэтому browser/unit web
+набор заново не заявляется. Первый инфраструктурный запуск остановлен из-за зависшего
+помощника запуска PostgreSQL; завершённый прогон использовал уже доступный loopback
+сервер и отдельную новую БД. Остановлен только собственный Python launcher, не API.
+
+**Статус:** код/контракт опубликованы в отдельном Draft PR; main, deploy-ветки и Render
+не переключались. API версия0.6.2 остаётся; наличие ids проверять по OpenAPI и согласованному
+deployed SHA, старый сервер игнорирует неизвестный query. Миграций не требуется.
+
+Следующий шаг Бекзату: запросить ID из строк долгов повторяющимся ключом, группами≤100,
+не добавлять q/cursor/limit, пустой набор не отправлять; map по UUID, кэш/AbortSignal по
+user+business. Нет найденной строки — нейтральное имя, а не чужие данные. Включать только
+после отдельного согласованного backend rollout. Регистрацию/назначение membership
+своему аккаунту эта задача не выполняет. Секреты/личные учётные записи в PR не добавлялись.
+
 ## 2026-10-17 — интеграция следующего видимого выпуска
 
 По поручению капитана подготовлен [общий кандидат](../LATEST_VISIBLE_RELEASE.md):

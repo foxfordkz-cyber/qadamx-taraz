@@ -213,27 +213,33 @@ def write_operation(
     return result
 
 
-def customers(session, business_id, q, limit, cursor):
-    balances = (
-        select(
-            Operation.customer_id,
-            func.sum(Operation.sales_delta_minor - Operation.receipts_delta_minor).label("balance"),
-        )
-        .where(Operation.business_id == business_id)
-        .group_by(Operation.customer_id)
-        .subquery()
-    )
+def customers(session, business_id, q, limit, cursor, *, ids: list[UUID] | None = None):
+    balances = select(
+        Operation.customer_id,
+        func.sum(Operation.sales_delta_minor - Operation.receipts_delta_minor).label("balance"),
+    ).where(Operation.business_id == business_id)
+    if ids is not None:
+        # Restrict both customer rows and aggregates to the selected tenant and IDs.
+        balances = balances.where(Operation.customer_id.in_(ids))
+    balances = balances.group_by(Operation.customer_id).subquery()
     query = (
         select(Customer, func.coalesce(balances.c.balance, 0))
         .outerjoin(balances, balances.c.customer_id == Customer.id)
         .where(Customer.business_id == business_id)
     )
-    if q:
-        query = query.where(Customer.display_name.icontains(q, autoescape=True))
-    if cursor:
-        get_customer(session, business_id, cursor)
-        query = query.where(Customer.id > cursor)
-    rows = session.execute(query.order_by(Customer.id).limit(limit + 1)).all()
+    if ids is not None:
+        positions = {value: index for index, value in enumerate(dict.fromkeys(ids))}
+        rows = session.execute(query.where(Customer.id.in_(positions))).all()
+        rows.sort(key=lambda entry: positions[entry[0].id])
+        selected_rows = rows
+    else:
+        if q:
+            query = query.where(Customer.display_name.icontains(q, autoescape=True))
+        if cursor:
+            get_customer(session, business_id, cursor)
+            query = query.where(Customer.id > cursor)
+        rows = session.execute(query.order_by(Customer.id).limit(limit + 1)).all()
+        selected_rows = rows[:limit]
     items = [
         schemas.CustomerResponse(
             id=row.id,
@@ -243,10 +249,10 @@ def customers(session, business_id, q, limit, cursor):
             contact=row.contact,
             balance_minor=int(amount),
         )
-        for row, amount in rows[:limit]
+        for row, amount in selected_rows
     ]
     return schemas.Page[schemas.CustomerResponse](
-        items=items, next_cursor=str(items[-1].id) if len(rows) > limit else None
+        items=items, next_cursor=str(items[-1].id) if ids is None and len(rows) > limit else None
     )
 
 
