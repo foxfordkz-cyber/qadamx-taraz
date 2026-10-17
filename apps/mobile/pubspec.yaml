@@ -17,6 +17,9 @@ dependencies:
   image_picker: ^1.2.4
   cryptography: ^2.9.0
   url_launcher: ^6.3.3
+  record: 7.1.2
+  audioplayers: 6.8.1
+  http_parser: 4.1.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
