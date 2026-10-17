@@ -1,6 +1,6 @@
 # Регистрация и подтверждение email: контракт общего окружения
 
-Согласование backend/integration для владельца PR #43, 2026-10-17. **Контракт следующего этапа, не включённая регистрация.** PR #43 `eba0f911682e03ce2207c9d71eb4939b236a5ea9` остаётся отдельно от recovery/polish; callback и полный живой email-сценарий пока не приняты. Ни настроек Supabase, ни рассылки писем этот документ не применяет.
+Обновление по прямому поручению капитана, 2026-10-17: production web переехал на Cloudflare Pages. Существующий Auth PR #43 синхронизирован обычным merge с main `86ca9af`; код callback и конфигурация готовы, но настоящий email-сценарий ещё не принят. [Точный source SHA, сборка, проверки и действия интегратора](../../docs/REGISTRATION_CLOUDFLARE_HANDOFF.md). Ни настроек Supabase, ни рассылки писем этот документ не применяет.
 
 ## Один проект и постоянные адреса
 
@@ -12,8 +12,8 @@
 | Backend `SUPABASE_URL` | Тот же Project URL |
 | Backend JWT issuer | `https://pdjjdqgoitnkpgkbqjtp.supabase.co/auth/v1` |
 | API / версия | `https://qadamx-taraz.onrender.com/api/v1`, **0.6.2** |
-| Site URL | `https://qadamx-taraz.vercel.app` |
-| Единственный production callback | `https://qadamx-taraz.vercel.app/auth/callback` |
+| Site URL | `https://qadamx-taraz.pages.dev` |
+| Единственный production callback | `https://qadamx-taraz.pages.dev/auth/callback` |
 | Успешное назначение | `/seller`; дальше существующая проверка `/me` и memberships |
 
 Backend сохраняет текущую проверку JWT/JWKS/audience и memberships. JWT проекта другого участника не принимается. Создание точки, invitation, автоматический seed и demo-memberships сюда не входят.
@@ -31,7 +31,7 @@ Backend сохраняет текущую проверку JWT/JWKS/audience и 
 
 ## Site URL и redirect allowlist
 
-Перед настройкой капитан сохраняет текущие Site URL, allowlist и шаблон без токенов/ключей. **Добавить точный** `https://qadamx-taraz.vercel.app/auth/callback`, сохранив уже согласованные callback мобильного клиента и другие действующие URLs. Site URL сверить со значением выше; изменения только после отдельного согласования владельца общего Auth.
+Перед настройкой капитан сохраняет текущие Site URL, allowlist и шаблон без токенов/ключей. **Добавить точный** `https://qadamx-taraz.pages.dev/auth/callback`, сохранив ВСЕ действующие Vercel/mobile callback-адреса и другие URLs. Site URL сверить со значением выше. Точный адрес передан капитану в [согласовании #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6236287234); применение административной настройки ещё не подтверждено.
 
 Не добавлять `https://*.vercel.app/**`, произвольные туннели или localhost в production allowlist. Для отдельного тестового preview согласовать его точный HTTPS callback и окружение заранее; порт localhost сам по себе не доступен на другом ПК. Redirect URL и `emailRedirectTo` должны совпадать с выбранным окружением. [Официальные redirect URLs](https://supabase.com/docs/guides/auth/redirect-urls).
 
@@ -41,7 +41,7 @@ Backend сохраняет текущую проверку JWT/JWKS/audience и 
 |---|---|
 | SignUp требует подтверждения | Нейтральное «Проверьте почту», явный resend с обработкой server rate limit; не раскрывать наличие аккаунта |
 | Успешный callback + валидный `/me` | Существующий кабинет; только свои точки |
-| Валидный `/me` с `businesses: []` | «Ожидается подключение торговой точки», Refresh и Logout; не Demo, не error, не автоматически первая чужая точка |
+| Валидный `/me` с `businesses: []` | Email текущей SDK-сессии, объяснение ожидания доступа, «Обновить доступ» и Logout; не Demo, не error, не автоматически первая чужая точка |
 | `/me` 401 | Вход/истёкшая сессия; не маскировать под отсутствие точек |
 | `/me` сеть/403/404/500/невалидный200 | Явная ошибка и безопасный GET retry; не пустые данные и не создание memberships |
 | `otp_expired`, использованная/недействительная ссылка | Нейтральное «Ссылка недействительна или уже использована»; кнопки входа и явного resend. Не утверждать точную причину только по общему коду |

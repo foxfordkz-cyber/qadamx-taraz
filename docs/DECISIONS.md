@@ -213,3 +213,15 @@ Review выявил границу совместимости: прежний AP
 Ветка `fix/seller-customer-recovery-safe` переносит только необходимый frontend recovery из 9a3c868 на main07197be/API0.6.2. Общий coordinator обслуживает CustomerPicker и Customers; каждая форма владеет своим lifecycle. Очистка durable intent выполняется под Web Lock только при совпадении key и body hash и актуальном session epoch/user/business/API scope. Старый K1 не удаляет K2. Между вкладками Web Locks сериализуют короткие операции с маркером; сеть не удерживает lock. При отсутствии Web Locks или недоступном storage создание блокируется, небезопасного fallback нет.
 
 В storage только key/hash, без клиентских полей/JWT. Unknown/not_observed/503/409 сохраняют ключ; повтор POST только явный и с исходным телом/ключом, reload выполняет только GET. Отказ одного повторного POST не доказывает, что более ранняя попытка не сохранилась, поэтому 4xx не удаляет intent. Legacy-маркер без API origin не мигрируется и блокирует новые записи до отдельной сверки. Backend/контракт/финансовые правила не меняются; отдельный Draft PR не выполняет rollout. [Разбор дефекта, проверки и ограничения](SELLER_CUSTOMER_RECOVERY_SAFE.md).
+
+## 2026-10-17 — регистрация #43 на Cloudflare Pages
+
+По прямому поручению капитана основной web origin — `https://qadamx-taraz.pages.dev`.
+Единственный callback signup/resend проверочной сборки —
+`https://qadamx-taraz.pages.dev/auth/callback`; произвольные env/preview/query
+redirects запрещены. Регистрация и переход по письму происходят в одном origin
+и браузерном профиле. Существующий Supabase PKCE/AuthProvider и `/me` сохранены.
+В Supabase нужно добавить точный URL, сохранив все прежние Vercel/mobile callbacks;
+административное применение и настоящая email-приёмка ещё не подтверждены.
+Flutter требует отдельного native callback и согласования с mobile-владельцем.
+[Проверки, артефакт, границы готовности](REGISTRATION_CLOUDFLARE_HANDOFF.md).

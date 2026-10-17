@@ -1,4 +1,32 @@
-# Seller web — PR43 callback implementation, 2026-10-17
+# Seller web — PR43 Cloudflare callback, 2026-10-17
+
+Продолжена существующая ветка #43. Исходный handoff сохранён `ad30329`, затем
+обычный merge `origin/main` **86ca9af15017b163a9e47335c68eee46ac2fafde**:
+**4ed9fd4835900576d72e2870393a9820802f65ab**. Проверенный код/архив:
+**67eb828c132d1b3e28752a9624e2c69a9a530f9c**. Без force push и второго Auth.
+
+Один фиксированный callback `https://qadamx-taraz.pages.dev/auth/callback`,
+строгий origin guard, hosted build с сохранённым ids=true, SPA callback rules.
+Валидный `/me` без точек показывает email, объяснение и RU/KZ обновление доступа;
+никаких owner/demo memberships. Recovery/история/финансы/дизайн сохранены.
+
+[Полный пакет интегратора: конфигурация, SHA256, проверки, реальные ограничения
+и протокол email-приёмки](../REGISTRATION_CLOUDFLARE_HANDOFF.md).
+Browser synthetic: Cloudflare **6/6**, Auth **25/25**, Recovery **5/5**,
+history/ids **6/6**, Seller/Auth QA **21/21**. Полный Vitest **477/477**, 34 файла.
+TypeScript/lint/check:api/format/build PASS.
+Настоящие публичные endpoints/CORS/email settings проверены read-only;
+Redirect URLs не раскрываются этим API. Капитану передан точный URL с требованием
+сохранить прежние адреса; mobile proposal отправлен `@bltangenss`, ответа пока нет.
+
+**Живое письмо → callback → session → /me ещё NOT RUN.** Пользователь готов
+проверить после публикации ZIP и подтверждения Supabase allowlist. Архив готов,
+но deploy/admin-доступа в этой сессии нет. PR остаётся Draft. Отдельный password
+login после письма не засчитывается. Следующие записи — сохранённая история.
+
+---
+
+# Historical Seller web — PR43 callback implementation, 2026-10-17
 
 ## Joint frontend release checkpoint — 2026-10-17
 
