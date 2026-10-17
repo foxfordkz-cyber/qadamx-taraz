@@ -51,7 +51,7 @@ for (const width of [360, 390, 768, 1440]) {
     const { service, mail } = await prepare(page);
     await signup(page);
     expect(mail[0].redirect).toBe(
-      "https://qadamx-taraz.vercel.app/auth/callback",
+      "https://qadamx-taraz.pages.dev/auth/callback",
     );
     expect(mail[0].body.code_challenge_method).toBe("s256");
     expect(mail[0].body.code_challenge).toEqual(expect.any(String));
@@ -145,9 +145,7 @@ test("other browser without verifier and provider error show safe RU/KZ recovery
   await page.getByRole("button", { name: "Отправить письмо повторно" }).click();
   await expect(page.getByRole("status")).toContainText("Запрос принят");
   expect(mail).toHaveLength(1);
-  expect(mail[0].redirect).toBe(
-    "https://qadamx-taraz.vercel.app/auth/callback",
-  );
+  expect(mail[0].redirect).toBe("https://qadamx-taraz.pages.dev/auth/callback");
   expect(mail[0].body.code_challenge_method).toBe("s256");
   expect(service.unexpected).toEqual([]);
 });

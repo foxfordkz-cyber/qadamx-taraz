@@ -85,7 +85,7 @@ for (const width of [360, 390, 768, 1440]) {
       password: "synthetic-password",
     });
     expect(new URLSearchParams(calls[0].query).get("redirect_to")).toBe(
-      "https://qadamx-taraz.vercel.app/auth/callback",
+      "https://qadamx-taraz.pages.dev/auth/callback",
     );
     expect(calls[0].body.code_challenge_method).toBe("s256");
     expect(calls[0].body.code_challenge).toEqual(expect.any(String));

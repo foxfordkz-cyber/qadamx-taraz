@@ -1,7 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-// Vite selects the approved URL using the deployment environment and exact
-// branch. Production retains its original callback; only PR43 Preview differs.
+// Vite pins the shared Cloudflare URL, independently of hosting metadata/env.
 export const EMAIL_CALLBACK_URL: string = import.meta.env
   .VITE_AUTH_EMAIL_CALLBACK_URL;
 export type CallbackIssue =

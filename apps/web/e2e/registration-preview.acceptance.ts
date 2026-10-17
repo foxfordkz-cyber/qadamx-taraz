@@ -1,9 +1,9 @@
 import { expect, test, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
-import { PR43_EMAIL_CALLBACK_URL } from "../src/app/auth-callback-config";
+import { PRODUCTION_EMAIL_CALLBACK_URL } from "../src/app/auth-callback-config";
 import { mockServices, qaIds } from "./qa-fixtures";
 
-const origin = new URL(PR43_EMAIL_CALLBACK_URL).origin;
+const origin = new URL(PRODUCTION_EMAIL_CALLBACK_URL).origin;
 const local = "http://127.0.0.1:4209";
 async function prepare(page: Page) {
   const service = await mockServices(page, origin);
@@ -60,7 +60,7 @@ async function prepare(page: Page) {
 }
 
 for (const width of [360, 1440]) {
-  test(`Preview signup/resend → same-origin callback → session → empty /me at ${width}`, async ({
+  test(`Cloudflare signup/resend → same-origin callback → session → empty /me at ${width}`, async ({
     page,
   }, info) => {
     await page.setViewportSize({ width, height: 900 });
@@ -84,14 +84,10 @@ for (const width of [360, 1440]) {
     await expect(
       page.getByText(/Откройте последнюю ссылку из письма/),
     ).toBeVisible();
-    await expect(
-      page.getByText(/Тестовая версия защищена Vercel/),
-    ).toBeVisible();
+    await expect(page.getByText(/Vercel/)).toHaveCount(0);
     await page.getByRole("button", { name: "KZ", exact: true }).click();
     await expect(page.getByText(/Соңғы хаттағы сілтемені/)).toBeVisible();
-    await expect(
-      page.getByText(/Сынақ нұсқасы Vercel арқылы қорғалған/),
-    ).toBeVisible();
+    await expect(page.getByText(/Vercel/)).toHaveCount(0);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -105,7 +101,7 @@ for (const width of [360, 1440]) {
     expect(qa.mail).toHaveLength(1);
     expect(qa.mail[0]).toMatchObject({
       kind: "signup",
-      redirect: PR43_EMAIL_CALLBACK_URL,
+      redirect: PRODUCTION_EMAIL_CALLBACK_URL,
       pkce: expect.any(String),
     });
     expect(qa.meCalls()).toBe(0);
@@ -116,7 +112,7 @@ for (const width of [360, 1440]) {
     expect(qa.mail).toHaveLength(2);
     expect(qa.mail[1]).toMatchObject({
       kind: "resend",
-      redirect: PR43_EMAIL_CALLBACK_URL,
+      redirect: PRODUCTION_EMAIL_CALLBACK_URL,
     });
     // Synthetic email click. This verifies browser/SDK behavior, not mail delivery.
     await page.goto(`${qa.mail[1].redirect}?code=SYNTHETIC_PREVIEW_CODE`);
@@ -124,6 +120,17 @@ for (const width of [360, 1440]) {
     await expect(
       page.getByRole("heading", { name: "У вас пока нет торговых точек" }),
     ).toBeVisible();
+    await expect(
+      page.getByText("a@example.test", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Доступ к торговой точке ещё не назначен/),
+    ).toBeVisible();
+    const beforeRefresh = qa.meCalls();
+    await page
+      .getByRole("button", { name: "Обновить доступ", exact: true })
+      .click();
+    await expect.poll(qa.meCalls).toBeGreaterThan(beforeRefresh);
     expect(qa.meCalls()).toBeGreaterThan(0);
     const exchanges = qa.service.calls.filter(
       (call) => call.query === "?grant_type=pkce",
@@ -150,6 +157,15 @@ for (const width of [360, 1440]) {
       path: info.outputPath(`preview-empty-kk-${width}.png`),
       fullPage: true,
     });
+    await expect(
+      page.getByText("a@example.test", { exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", {
+        name: "Қолжетімділікті жаңарту",
+        exact: true,
+      }),
+    ).toBeVisible();
     await page.getByRole("button", { name: "Шығу", exact: true }).click();
     await expect(page).toHaveURL(`${origin}/login`);
     expect(
@@ -161,13 +177,13 @@ for (const width of [360, 1440]) {
   });
 }
 
-test("another origin cannot start signup/resend and links to the approved Preview in RU/KZ", async ({
+test("another origin cannot start signup/resend and links to the approved Cloudflare origin in RU/KZ", async ({
   page,
 }) => {
   const qa = await prepare(page);
   await page.goto(`${local}/register`);
   await expect(
-    page.getByRole("link", { name: "Открыть тестовую регистрацию" }),
+    page.getByRole("link", { name: "Открыть регистрацию Qadam" }),
   ).toHaveAttribute("href", `${origin}/register`);
   await expect(page.getByLabel("Пароль", { exact: true })).toHaveCount(0);
   await page.evaluate(() =>
@@ -176,7 +192,7 @@ test("another origin cannot start signup/resend and links to the approved Previe
   await page.reload();
   await page.getByRole("button", { name: "KZ", exact: true }).click();
   await expect(
-    page.getByRole("link", { name: "Сынақ тіркелуін ашу" }),
+    page.getByRole("link", { name: "Qadam тіркелуін ашу" }),
   ).toHaveAttribute("href", `${origin}/register`);
   await expect(page.locator("form")).toHaveCount(0);
   expect(qa.mail).toEqual([]);
@@ -226,7 +242,7 @@ for (const keepsCode of [true, false]) {
     await page.route(gate, (route) =>
       route.fulfill({
         contentType: "text/html",
-        body: `<main><h1>Synthetic access gate</h1><a href="${keepsCode ? callback : PR43_EMAIL_CALLBACK_URL}">Continue synthetic access</a></main>`,
+        body: `<main><h1>Synthetic access gate</h1><a href="${keepsCode ? callback : PRODUCTION_EMAIL_CALLBACK_URL}">Continue synthetic access</a></main>`,
       }),
     );
     await page.goto(callback);

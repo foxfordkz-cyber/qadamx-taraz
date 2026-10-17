@@ -1,33 +1,26 @@
-// Exact URLs approved by the captain. No callback is derived from query strings,
-// deployment aliases, forwarded headers or an arbitrary VITE_ environment value.
+// One exact callback for the shared Cloudflare build. No callback is derived
+// from query strings, hosting metadata, forwarded headers or a VITE_ value.
 export const PRODUCTION_EMAIL_CALLBACK_URL =
-  "https://qadamx-taraz.vercel.app/auth/callback";
-export const PR43_EMAIL_CALLBACK_URL =
-  "https://qadamx-taraz-git-integration-seller-registrat-7d21c0-p-it-chers.vercel.app/auth/callback";
-export const PR43_BRANCH = "integration/seller-registration-deploy-review";
-
-export function emailCallbackForBuild(
-  environment: string | undefined,
-  branch: string | undefined,
-) {
-  return environment === "preview" && branch === PR43_BRANCH
-    ? PR43_EMAIL_CALLBACK_URL
-    : PRODUCTION_EMAIL_CALLBACK_URL;
-}
+  "https://qadamx-taraz.pages.dev/auth/callback";
 
 export function registrationOriginAllowed(
   callback: string,
   origin: string,
   productionBuild = false,
 ) {
-  // A deployment-specific Vercel URL has different browser storage from the
-  // approved branch URL. Start there, too, so the callback can find its verifier.
-  if (
-    callback !== PR43_EMAIL_CALLBACK_URL &&
-    callback !== PRODUCTION_EMAIL_CALLBACK_URL
-  )
+  if (callback !== PRODUCTION_EMAIL_CALLBACK_URL) return false;
+  if (origin === new URL(callback).origin) return true;
+  // Only isolated loopback development/tests bypass the deployed-origin check.
+  // A production bundle never permits localhost or another deployment alias.
+  if (productionBuild) return false;
+  try {
+    const url = new URL(origin);
+    return (
+      url.origin === origin &&
+      url.protocol === "http:" &&
+      ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
+    );
+  } catch {
     return false;
-  if (!productionBuild && callback === PRODUCTION_EMAIL_CALLBACK_URL)
-    return true;
-  return origin === new URL(callback).origin;
+  }
 }

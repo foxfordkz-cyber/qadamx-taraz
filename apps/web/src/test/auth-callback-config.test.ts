@@ -1,73 +1,61 @@
 import { describe, expect, it } from "vitest";
 import {
-  emailCallbackForBuild,
-  PR43_BRANCH,
-  PR43_EMAIL_CALLBACK_URL,
   PRODUCTION_EMAIL_CALLBACK_URL,
   registrationOriginAllowed,
 } from "../app/auth-callback-config";
 
-describe("approved PR43 Preview scope", () => {
-  it("fails closed on another deployed origin if Preview build metadata is missing", () => {
-    const callback = emailCallbackForBuild(undefined, undefined);
+const origin = "https://qadamx-taraz.pages.dev";
+describe("exact Cloudflare callback scope", () => {
+  it("accepts only the agreed HTTPS origin in a production bundle", () => {
+    expect(PRODUCTION_EMAIL_CALLBACK_URL).toBe(`${origin}/auth/callback`);
     expect(
-      registrationOriginAllowed(
-        callback,
-        new URL(PR43_EMAIL_CALLBACK_URL).origin,
-        true,
-      ),
-    ).toBe(false);
-    expect(
-      registrationOriginAllowed(
-        callback,
-        "https://qadamx-taraz.vercel.app",
-        true,
-      ),
+      registrationOriginAllowed(PRODUCTION_EMAIL_CALLBACK_URL, origin, true),
     ).toBe(true);
-    expect(
-      registrationOriginAllowed(
-        "https://unapproved.invalid/auth/callback",
-        "https://unapproved.invalid",
-        true,
-      ),
-    ).toBe(false);
-  });
-  it("uses the exact approved callback for the PR43 preview build", () => {
-    expect(emailCallbackForBuild("preview", PR43_BRANCH)).toBe(
-      PR43_EMAIL_CALLBACK_URL,
-    );
   });
   it.each([
-    ["production", PR43_BRANCH],
-    ["production", "main"],
-    ["production", "deploy-062"],
-    ["preview", "main"],
-    ["preview", "another-feature"],
-    ["preview", undefined],
-    ["development", PR43_BRANCH],
-    [undefined, PR43_BRANCH],
-    [undefined, undefined],
-  ])("preserves the production callback for %s / %s", (env, branch) => {
-    expect(emailCallbackForBuild(env, branch)).toBe(
-      PRODUCTION_EMAIL_CALLBACK_URL,
-    );
-  });
-  it("allows signup only on the agreed Preview origin when that build is active", () => {
-    const origin = new URL(PR43_EMAIL_CALLBACK_URL).origin;
-    expect(registrationOriginAllowed(PR43_EMAIL_CALLBACK_URL, origin)).toBe(
-      true,
-    );
-    for (const other of [
-      "https://qadamx-taraz.vercel.app",
-      "https://unapproved-deployment.vercel.app",
-      `${origin}.evil.invalid`,
-      `${origin}:444`,
-      origin.replace("https:", "http:"),
-      "http://localhost:5173",
-    ]) {
-      expect(registrationOriginAllowed(PR43_EMAIL_CALLBACK_URL, other)).toBe(
-        false,
-      );
+    "https://qadamx-taraz.vercel.app",
+    "https://pr43.qadamx-taraz.pages.dev",
+    "https://hash.qadamx-taraz.pages.dev",
+    "https://qadamx-taraz.pages.dev.evil.invalid",
+    "https://qadamx-taraz.pages.dev:444",
+    "http://qadamx-taraz.pages.dev",
+    "https://attacker.invalid",
+    "https://attacker.invalid@qadamx-taraz.pages.dev",
+    "null",
+    "not-a-url",
+  ])("rejects %s even in development", (unapproved) => {
+    for (const production of [true, false]) {
+      expect(
+        registrationOriginAllowed(
+          PRODUCTION_EMAIL_CALLBACK_URL,
+          unapproved,
+          production,
+        ),
+      ).toBe(false);
     }
+  });
+  it.each([
+    "http://localhost:5173",
+    "http://127.0.0.1:4203",
+    "http://[::1]:5173",
+  ])("permits loopback %s only for isolated development", (local) => {
+    expect(
+      registrationOriginAllowed(PRODUCTION_EMAIL_CALLBACK_URL, local),
+    ).toBe(true);
+    expect(
+      registrationOriginAllowed(PRODUCTION_EMAIL_CALLBACK_URL, local, true),
+    ).toBe(false);
+  });
+  it.each([
+    "https://unapproved.invalid/auth/callback",
+    `${origin}/auth/callback?next=https://unapproved.invalid`,
+    `${origin}/auth/callback/`,
+    `${origin}/seller`,
+    "https://qadamx-taraz.vercel.app/auth/callback",
+  ])("rejects substituted callback %s", (callback) => {
+    expect(registrationOriginAllowed(callback, origin, true)).toBe(false);
+    expect(registrationOriginAllowed(callback, "http://localhost:5173")).toBe(
+      false,
+    );
   });
 });

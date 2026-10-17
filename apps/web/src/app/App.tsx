@@ -43,6 +43,11 @@ function ProtectedSeller() {
     return (
       <div className="standalone-state">
         <LanguageHeader />
+        {auth.session?.user.email && (
+          <p style={{ overflowWrap: "anywhere" }}>
+            {t("email")}: <strong>{auth.session.user.email}</strong>
+          </p>
+        )}
         <EmptyState
           title={t("noBusiness")}
           description={t("noBusinessHint")}
@@ -52,7 +57,7 @@ function ProtectedSeller() {
               disabled={me.isFetching}
               onClick={() => void me.refetch({ cancelRefetch: false })}
             >
-              {t(me.isFetching ? "loading" : "refresh")}
+              {t(me.isFetching ? "loading" : "refreshAccess")}
             </Button>
           }
         />

@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./auth";
 import { EMAIL_CALLBACK_URL } from "./auth-callback-model";
 import {
-  PR43_EMAIL_CALLBACK_URL,
+  PRODUCTION_EMAIL_CALLBACK_URL,
   registrationOriginAllowed,
 } from "./auth-callback-config";
 import {
@@ -26,9 +26,6 @@ export function ConfirmationNotice({
     <>
       <p>{t("confirmationInstructions")}</p>
       <p>{t("confirmationBrowserHint")}</p>
-      {EMAIL_CALLBACK_URL === PR43_EMAIL_CALLBACK_URL && (
-        <p className="muted">{t("confirmationPreviewHint")}</p>
-      )}
       {status !== "waiting" && (
         <Alert tone="error">
           {t(
@@ -151,14 +148,16 @@ export function RegistrationPage() {
           {waiting && <p className="muted">{t("confirmationReloadHint")}</p>}
           {!originAllowed && (
             <Alert>
-              {EMAIL_CALLBACK_URL === PR43_EMAIL_CALLBACK_URL ? (
+              {EMAIL_CALLBACK_URL === PRODUCTION_EMAIL_CALLBACK_URL ? (
                 <>
-                  <p>{t("registrationPreviewOnly")}</p>
+                  <p>{t("registrationApprovedOriginOnly")}</p>
                   <a
                     className="button button-secondary"
-                    href={new URL("/register", PR43_EMAIL_CALLBACK_URL).href}
+                    href={
+                      new URL("/register", PRODUCTION_EMAIL_CALLBACK_URL).href
+                    }
                   >
-                    {t("registrationOpenPreview")}
+                    {t("registrationOpenApprovedOrigin")}
                   </a>
                 </>
               ) : (

@@ -32,12 +32,19 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
       );
       const qa = renderQa({
         route: `/seller${route}?business_id=${ids.shopB}`,
+        initial: {
+          ...session(),
+          user: { ...session().user, email: "new-account@example.test" },
+        },
         fetcher,
       });
       await screen.findByRole("heading", {
         name: "У вас пока нет торговых точек",
       });
       expect(qa.auth().session?.user.id).toBe(ids.a);
+      expect(
+        screen.getByText("new-account@example.test", { exact: true }),
+      ).toBeVisible();
       expect(qa.auth().demo).toBe(false);
       expect(screen.queryByLabelText("Торговая точка")).not.toBeInTheDocument();
       expect(
@@ -55,6 +62,12 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
       await screen.findByRole("heading", {
         name: "Сізде әзірге сауда нүктелері жоқ",
       });
+      expect(
+        screen.getByText("new-account@example.test", { exact: true }),
+      ).toBeVisible();
+      expect(
+        screen.getByRole("button", { name: "Қолжетімділікті жаңарту" }),
+      ).toBeVisible();
       expect(fetcher).toHaveBeenCalledTimes(1);
     },
   );
@@ -75,7 +88,9 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
         /Создание точки и приглашения в кабинете пока недоступны/,
       ),
     ).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "Обновить" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Обновить доступ" }),
+    );
     await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
     expect(
       screen.getByRole("heading", { name: "У вас пока нет торговых точек" }),
@@ -84,7 +99,9 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
       fetcher.mock.calls.every(([url]) => String(url).endsWith("/me")),
     ).toBe(true);
     assigned = true;
-    await userEvent.click(screen.getByRole("button", { name: "Обновить" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Обновить доступ" }),
+    );
     await screen.findByRole("heading", { name: "QA Клиент A" });
     expect(screen.getByLabelText("Торговая точка")).toHaveValue(ids.shopA);
     expect(

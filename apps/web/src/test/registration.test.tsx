@@ -68,17 +68,17 @@ afterEach(() => {
 });
 
 describe("approved registration MVP through the existing AuthProvider (synthetic SDK)", () => {
-  it("blocks signup and resend at the provider boundary on a wrong Preview origin", async () => {
+  it("blocks signup and resend at the provider boundary on an unapproved origin", async () => {
     vi.spyOn(callbackConfig, "registrationOriginAllowed").mockReturnValue(
       false,
     );
     const qa = setup();
     await screen.findByText(
-      "Регистрация по этому адресу ещё не настроена. Обратитесь к администратору Qadam.",
+      "Для регистрации откройте основной сайт Qadam. Начните регистрацию и откройте письмо в одном браузере.",
     );
     expect(
-      screen.queryByRole("link", { name: "Открыть тестовую регистрацию" }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("link", { name: "Открыть регистрацию Qadam" }),
+    ).toHaveAttribute("href", "https://qadamx-taraz.pages.dev/register");
     expect(screen.queryByLabelText("Пароль")).not.toBeInTheDocument();
     await expect(
       qa.auth().signUp("qa@example.test", "synthetic-password"),

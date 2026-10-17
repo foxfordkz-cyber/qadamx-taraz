@@ -17,9 +17,10 @@ export const kk: Record<keyof typeof ru, string> = {
   registrationTitle: "Тіркелу",
   registrationSubmit: "Тіркелу",
   registrationLogin: "Кіруге оралу",
-  registrationPreviewOnly:
-    "Тіркелуді тексеру үшін келісілген сынақ нұсқасын ашыңыз. Тіркелуді бастап, хатты сол браузерде ашыңыз.",
-  registrationOpenPreview: "Сынақ тіркелуін ашу",
+  registrationApprovedOriginOnly:
+    "Тіркелу үшін Qadam негізгі сайтын ашыңыз. Тіркелуді бастап, хатты сол браузерде ашыңыз.",
+  registrationOpenApprovedOrigin: "Qadam тіркелуін ашу",
+  refreshAccess: "Қолжетімділікті жаңарту",
   registrationEnvironmentUnavailable:
     "Бұл мекенжайда тіркелу әлі бапталмаған. Qadam әкімшісіне хабарласыңыз.",
   registrationAnother: "Басқа мекенжайды көрсету",
@@ -41,8 +42,6 @@ export const kk: Record<keyof typeof ru, string> = {
   confirmationTitle: "Электрондық поштаңызды растаңыз",
   confirmationBrowserHint:
     "Соңғы хаттағы сілтемені тіркелуді бастаған браузерде және сол құрылғыда ашыңыз.",
-  confirmationPreviewHint:
-    "Сынақ нұсқасы Vercel арқылы қорғалған. Хатты Vercel-ге кіріп, осы нұсқаны ашқан браузерде ашыңыз.",
   confirmationInstructions:
     "Бұл мекенжайды растау қажет болса, хатты ашып, сілтемеге өтіңіз. «Спам» қалтасын тексеріңіз. Аккаунт расталған болса, кіру бетіне өтіңіз.",
   confirmationReloadHint:

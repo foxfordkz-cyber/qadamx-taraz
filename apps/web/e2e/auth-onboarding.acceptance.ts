@@ -47,7 +47,7 @@ for (const width of [360, 390, 768, 1440]) {
     ).toHaveCount(0);
     await expect(page.locator(".demo-banner")).toHaveCount(0);
     expect(meCalls).toBe(1);
-    await page.getByRole("button", { name: "Обновить" }).click();
+    await page.getByRole("button", { name: "Обновить доступ" }).click();
     await expect.poll(() => meCalls).toBe(2);
     await page.reload();
     await expect(
