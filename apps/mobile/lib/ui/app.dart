@@ -5,11 +5,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../data/livestock_api.dart';
 import '../runtime.dart';
+import '../frontend_links.dart';
+import 'qadam_shell.dart';
+import 'qadam_theme.dart';
 import 'common.dart';
 import 'listing_form.dart';
 
 class MobileApp extends StatefulWidget {
-  const MobileApp({super.key, required this.runtime});
+  const MobileApp({
+    super.key,
+    required this.runtime,
+    this.browserLauncher = openSystemBrowser,
+  });
+  final BrowserLauncher browserLauncher;
   final MobileRuntime runtime;
   @override
   State<MobileApp> createState() => _MobileAppState();
@@ -17,6 +25,7 @@ class MobileApp extends StatefulWidget {
 
 class _MobileAppState extends State<MobileApp> {
   bool _kk = false;
+  int _section = 1; // Preserve the public livestock entry point.
   String? _account;
   @override
   void initState() {
@@ -44,80 +53,25 @@ class _MobileAppState extends State<MobileApp> {
   @override
   Widget build(BuildContext context) => MaterialApp(
     key: ValueKey(widget.runtime.epoch),
-    title: 'Мал базар',
+    title: 'Qadam',
     debugShowCheckedModeBanner: false,
     locale: Locale(_kk ? 'kk' : 'ru'),
     supportedLocales: const [Locale('ru'), Locale('kk')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
-    theme: ThemeData(
-      useMaterial3: true,
-      brightness: Brightness.light,
-      scaffoldBackgroundColor: const Color(0xfff7f7ef),
-      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff68871e))
-          .copyWith(
-            primary: const Color(0xff26371a),
-            onPrimary: Colors.white,
-            primaryContainer: const Color(0xffd5f577),
-            onPrimaryContainer: const Color(0xff172112),
-            surface: const Color(0xfffffff9),
-            onSurface: const Color(0xff20271d),
-          ),
-      appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xfff7f7ef),
-        surfaceTintColor: Colors.transparent,
-      ),
-      cardTheme: const CardThemeData(
-        elevation: 0,
-        color: Color(0xfffffff9),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(24)),
-        ),
-      ),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 17,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xffdce0d2)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xffdce0d2)),
-        ),
-      ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: FilledButton.styleFrom(
-          minimumSize: const Size(48, 52),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          minimumSize: const Size(48, 50),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
-      ),
-      navigationBarTheme: const NavigationBarThemeData(
-        backgroundColor: Color(0xfffffff9),
-        indicatorColor: Color(0xffd5f577),
-        height: 76,
-      ),
-    ),
-    home: _Home(
+    theme: QadamTheme.light,
+    home: QadamShell(
       runtime: widget.runtime,
       kk: _kk,
+      section: _section,
+      onSection: (value) => setState(() => _section = value),
       toggleLanguage: () => setState(() => _kk = !_kk),
+      login: (context) => showLogin(context, widget.runtime, _kk),
+      browserLauncher: widget.browserLauncher,
+      market: _Home(
+        runtime: widget.runtime,
+        kk: _kk,
+        toggleLanguage: () => setState(() => _kk = !_kk),
+      ),
     ),
   );
 }
@@ -310,10 +264,7 @@ class _HomeState extends State<_Home> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
-      title: const Text(
-        'Мал базар',
-        style: TextStyle(fontWeight: FontWeight.w800),
-      ),
+      title: const Text('Мал базар', style: QadamTheme.appTitle),
       actions: [
         TextButton(
           onPressed: widget.toggleLanguage,
@@ -352,6 +303,32 @@ class _HomeState extends State<_Home> with WidgetsBindingObserver {
       child: LayoutBuilder(
         builder: (context, constraints) => Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+              child: SizedBox(
+                width: double.infinity,
+                child: SegmentedButton<int>(
+                  selected: {_tab},
+                  onSelectionChanged: (values) =>
+                      setState(() => _tab = values.single),
+                  showSelectedIcon: false,
+                  segments: [
+                    ButtonSegment(
+                      value: 0,
+                      label: Text(tr(kk, 'Сегодня', 'Бүгін')),
+                    ),
+                    ButtonSegment(
+                      value: 1,
+                      label: Text(tr(kk, 'Цены', 'Бағалар')),
+                    ),
+                    ButtonSegment(
+                      value: 2,
+                      label: Text(tr(kk, 'Мои', 'Менің')),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             if (_pending != null || _pendingError != null)
               ConstrainedBox(
                 constraints: BoxConstraints(
@@ -438,26 +415,6 @@ class _HomeState extends State<_Home> with WidgetsBindingObserver {
             label: Text(tr(kk, 'Подать объявление', 'Хабарландыру беру')),
           )
         : null,
-    bottomNavigationBar: NavigationBar(
-      selectedIndex: _tab,
-      onDestinationSelected: (value) => setState(() => _tab = value),
-      destinations: [
-        NavigationDestination(
-          icon: const Icon(Icons.storefront_outlined),
-          selectedIcon: const Icon(Icons.storefront),
-          label: tr(kk, 'Сегодня', 'Бүгін'),
-        ),
-        NavigationDestination(
-          icon: const Icon(Icons.bar_chart_outlined),
-          label: tr(kk, 'Цены', 'Бағалар'),
-        ),
-        NavigationDestination(
-          icon: const Icon(Icons.person_outline),
-          selectedIcon: const Icon(Icons.person),
-          label: tr(kk, 'Мои', 'Менің'),
-        ),
-      ],
-    ),
   );
 }
 
@@ -663,7 +620,7 @@ class _ListingsState extends State<_Listings> {
           widget.owned
               ? tr(kk, 'Мои объявления', 'Менің хабарландыруларым')
               : tr(kk, 'Есть сегодня', 'Бүгін бар'),
-          style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w800),
+          style: QadamTheme.pageTitle,
         ),
         const SizedBox(height: 8),
         Text(

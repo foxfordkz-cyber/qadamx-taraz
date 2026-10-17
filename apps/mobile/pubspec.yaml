@@ -1,7 +1,7 @@
 name: qadam_mobile
-description: Qadam Мал базар — общий FastAPI и Supabase Auth.
+description: Qadam — мой бизнес, Мал базар и общий Supabase Auth.
 publish_to: none
-version: 0.1.1+2
+version: 0.2.2+5
 environment:
   sdk: '>=3.11.0 <4.0.0'
 dependencies:
@@ -16,6 +16,7 @@ dependencies:
   supabase_flutter: ^2.18.3
   image_picker: ^1.2.4
   cryptography: ^2.9.0
+  url_launcher: ^6.3.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

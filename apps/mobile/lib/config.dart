@@ -2,12 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-/// Only these three public values belong in an APK. No credentials or server keys.
+/// Public connection settings only. No credentials or server keys.
 class AppConfig {
   const AppConfig({
     this.apiBaseUrl = '',
     this.supabaseUrl = sharedSupabaseUrl,
     this.supabasePublishableKey = '',
+    this.frontendBaseUrl = '',
     this.release = kReleaseMode,
   });
 
@@ -18,12 +19,14 @@ class AppConfig {
       defaultValue: sharedSupabaseUrl,
     ),
     supabasePublishableKey: String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY'),
+    frontendBaseUrl: String.fromEnvironment('FRONTEND_BASE_URL'),
   );
 
   static const sharedSupabaseUrl = 'https://pdjjdqgoitnkpgkbqjtp.supabase.co';
   final String apiBaseUrl;
   final String supabaseUrl;
   final String supabasePublishableKey;
+  final String frontendBaseUrl;
   final bool release;
 
   Uri? get apiUri {
