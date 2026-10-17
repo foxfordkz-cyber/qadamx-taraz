@@ -1,12 +1,12 @@
 # Qadam Business — Flutter
 
 Единое приложение «Мой бизнес / Мал базар / Площадки / Профиль», RU/KZ, общая тема Qadam
-и существующий Supabase Auth. Текущий APK **0.5.0+9** предназначен для внутренней
+и существующий Supabase Auth. Кандидат APK **0.5.2+11** предназначен для внутренней
 приёмки. [APK, source SHA, checksum и фактические проверки](../../docs/handoffs/mobile.md).
 [Короткий Android-чек-лист](docs/PARITY_ANDROID_ACCEPTANCE.md).
 
 Установка 0.3.0 на телефоне пользователя **не прошла**: «package appears to be invalid».
-0.5.0 сохраняет прежнюю упаковку и подпись; физическое обновление **не проверено**.
+0.5.2 сохраняет прежнюю упаковку и подпись; физическое обновление **не проверено**.
 Прогон0.4.0 капитана выполнен на отдельном эмуляторе. [Матрица и галерея0.5.0](docs/VISUAL_050_REVIEW.md).
 Не удаляйте установленное приложение/данные для обхода ошибки. Все PR остаются Draft.
 Моки в unit/widget-тестах не являются живым AI, микрофоном или проверкой телефона.
@@ -48,7 +48,7 @@
 2. Заполните только `API_BASE_URL`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`,
    `FRONTEND_BASE_URL`. Используйте согласованный publishable key, не серверный ключ.
    Постоянные адреса: API `https://qadamx-taraz.onrender.com/api/v1`,
-   кабинет `https://qadamx-taraz.vercel.app`, Supabase `https://pdjjdqgoitnkpgkbqjtp.supabase.co`.
+   кабинет `https://qadamx-taraz.pages.dev`, Supabase `https://pdjjdqgoitnkpgkbqjtp.supabase.co`.
    API содержит `/api/v1`; frontend — только HTTPS origin без query/credentials.
 3. Из `apps/mobile`:
 
