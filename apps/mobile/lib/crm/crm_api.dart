@@ -9,6 +9,7 @@ import 'crm_pending.dart';
 
 const customerAction = 'customer.create.v1';
 const operationAction = 'operation.create.v1';
+const reversalAction = 'operation.reverse.v1';
 
 class CrmApi {
   CrmApi({
@@ -100,6 +101,8 @@ class CrmApi {
                 'DRAFT_EXPIRED',
                 'AUTH_REQUIRED',
                 'CUSTOMER_RECOVERY_PAUSED',
+                'ALREADY_REVERSED',
+                'DEPENDENT_PAYMENTS',
               }.contains(error['code'])) {
             code = error['code'] as String;
           }
@@ -121,9 +124,17 @@ class CrmApi {
     }
   }
 
-  Future<CrmJson> summary(CrmScope scope) async {
-    final value = await request(scope, 'GET', 'summary');
+  Future<CrmJson> summary(CrmScope scope, {String? date}) async {
+    final value = await request(
+      scope,
+      'GET',
+      'summary',
+      query: {'date': ?date},
+    );
     validateSummary(value);
+    if (date != null && value['date'] != date) {
+      throw const ApiFailure('INVALID_RESPONSE');
+    }
     return value;
   }
 
@@ -145,6 +156,7 @@ class CrmApi {
     bool debts = false,
     String? customer,
     String? cursor,
+    String? date,
   }) async => CrmPage.parse(
     await request(
       scope,
@@ -155,6 +167,7 @@ class CrmApi {
         'limit': '50',
         'customer_id': ?customer,
         'cursor': ?cursor,
+        'date': ?date,
       },
     ),
     (item) => debts
@@ -261,6 +274,32 @@ class CrmApi {
           (body['contact'] != null && !text('contact', 200))) {
         throw const ApiFailure('VALIDATION_ERROR');
       }
+    } else if (action == reversalAction) {
+      keys({
+        'operation_id',
+        'sale_id',
+        'customer_id',
+        'sales_delta_minor',
+        'receipts_delta_minor',
+        'description',
+      });
+      final sales = body['sales_delta_minor'];
+      final receipts = body['receipts_delta_minor'];
+      if (body['operation_id'] is! String ||
+          !crmUuid.hasMatch(body['operation_id'] as String) ||
+          body['sale_id'] is! String ||
+          !crmUuid.hasMatch(body['sale_id'] as String) ||
+          !id('customer_id') ||
+          !text('description', 1000, empty: false) ||
+          sales is! int ||
+          receipts is! int ||
+          sales < 0 ||
+          receipts < 0 ||
+          sales > 10000000000 ||
+          receipts > 10000000000 ||
+          (sales == 0 && receipts == 0)) {
+        throw const ApiFailure('VALIDATION_ERROR');
+      }
     } else if (action == operationAction) {
       if (!id('draft_id')) throw const ApiFailure('VALIDATION_ERROR');
       if (!text('description', 1000)) {
@@ -346,8 +385,14 @@ class CrmApi {
     final value = await request(
       scope,
       'POST',
-      action == customerAction ? 'customers' : 'operations',
-      body: intent.body,
+      action == customerAction
+          ? 'customers'
+          : action == reversalAction
+          ? 'operations/${intent.body['operation_id']}/reverse'
+          : 'operations',
+      body: action == reversalAction
+          ? {'description': intent.body['description']}
+          : intent.body,
       key: intent.key,
     );
     _validateReceipt(scope, action, value, intent.body);
@@ -367,6 +412,20 @@ class CrmApi {
     }
     validateOperationReceipt(response, scope.business);
     final operation = crmObject(response['operation']);
+    if (action == reversalAction) {
+      if (operation['kind'] != 'reversal' ||
+          operation['reversal_of'] != body['operation_id'] ||
+          operation['sale_id'] != body['sale_id'] ||
+          operation['customer_id'] != body['customer_id'] ||
+          operation['description'] != body['description'] ||
+          operation['sales_delta_minor'] !=
+              -(body['sales_delta_minor'] as int) ||
+          operation['receipts_delta_minor'] !=
+              -(body['receipts_delta_minor'] as int)) {
+        throw const ApiFailure('INVALID_RESPONSE');
+      }
+      return;
+    }
     if (operation['kind'] != body['kind'] ||
         operation['description'] != body['description']) {
       throw const ApiFailure('INVALID_RESPONSE');

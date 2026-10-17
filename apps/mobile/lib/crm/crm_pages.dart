@@ -7,6 +7,7 @@ import '../ui/common.dart';
 import 'crm_api.dart';
 import 'crm_models.dart';
 import 'crm_ui.dart';
+import 'crm_daily.dart';
 
 class CustomersPage extends CrmScreen {
   const CustomersPage({
@@ -682,6 +683,24 @@ class _LedgerPageState extends CrmScreenState<LedgerPage> {
                 ),
               ),
             ] else ...[
+              if (item['kind'] != 'reversal')
+                OutlinedButton(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ReverseOperationPage(
+                          runtime: widget.runtime,
+                          business: widget.business,
+                          kk: kk,
+                          operation: item,
+                        ),
+                      ),
+                    );
+                    if (active) await load();
+                  },
+                  child: Text(tr(kk, 'Отменить операцию', 'Операцияны жою')),
+                ),
               Text(switch (item['kind']) {
                 'sale' => tr(kk, 'Продажа', 'Сатылым'),
                 'repayment' => tr(kk, 'Доплата', 'Қосымша төлем'),

@@ -31,6 +31,16 @@ String crmError(Object error, bool kk) {
       'Остаток изменился. Проверьте историю и текущий долг в кабинете.',
       'Қалдық өзгерді. Кабинеттен тарих пен ағымдағы қарызды тексеріңіз.',
     ),
+    'ALREADY_REVERSED' => tr(
+      kk,
+      'Операция уже отменена. Проверьте историю; новый запрос не создавайте.',
+      'Операция жойылған. Тарихты тексеріңіз; жаңа сұрау жасамаңыз.',
+    ),
+    'DEPENDENT_PAYMENTS' => tr(
+      kk,
+      'Сначала отмените связанные доплаты. Сохранённый запрос можно повторить после проверки истории.',
+      'Алдымен байланысты қосымша төлемдерді жойыңыз. Тарихты тексерген соң сақталған сұрауды қайталауға болады.',
+    ),
     'DRAFT_EXPIRED' || 'DRAFT_USED' => tr(
       kk,
       'Черновик истёк или уже использован. Проверьте историю в кабинете.',
@@ -258,6 +268,9 @@ class _CrmWritePanelState extends State<CrmWritePanel> {
   }
 
   String _description(CrmJson body) {
+    if (widget.action == reversalAction) {
+      return '${tr(kk, 'Отмена выбранной операции', 'Таңдалған операцияны жою')}\n${tr(kk, 'Изменение продаж', 'Сатылым өзгерісі')}: ${crmMoney(-(body['sales_delta_minor'] as int), kk)}\n${tr(kk, 'Изменение поступлений', 'Түсім өзгерісі')}: ${crmMoney(-(body['receipts_delta_minor'] as int), kk)}\n${body['description']}';
+    }
     if (widget.action == customerAction) {
       return '${body['display_name']}\n${body['contact'] ?? ''}\n${body['note'] ?? ''}';
     }

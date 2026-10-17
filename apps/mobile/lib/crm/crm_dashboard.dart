@@ -7,6 +7,7 @@ import 'crm_ui.dart';
 import 'crm_entry.dart';
 import 'crm_analytics.dart';
 import 'crm_catalog.dart';
+import 'crm_daily.dart';
 
 class CrmDashboard extends CrmScreen {
   const CrmDashboard({
@@ -170,6 +171,16 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
               slug: widget.slug,
             ),
           ),
+        action(
+          'Итог дня',
+          'Күн қорытындысы',
+          Icons.today_outlined,
+          DailySummaryPage(
+            runtime: widget.runtime,
+            business: widget.business,
+            kk: kk,
+          ),
+        ),
         crmGap,
       ],
     ),

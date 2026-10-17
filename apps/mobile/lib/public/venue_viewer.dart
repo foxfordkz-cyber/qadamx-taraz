@@ -163,7 +163,7 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    if (failed)
+    if (failed) {
       return Text(
         tr(
           widget.kk,
@@ -171,6 +171,7 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
           '3D қолжетімсіз. Сурет пен дүкендер тізімі төменде бар.',
         ),
       );
+    }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
