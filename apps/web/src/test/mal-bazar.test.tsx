@@ -78,11 +78,17 @@ describe("Мал базар", () => {
       screen.getByText(/Животные на модели декоративные/),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: "Открыть приложение для Android" }),
+      screen.getByRole("link", {
+        name: "Открыть тестовую Android-сборку 0.5.0",
+      }),
     ).toHaveAttribute(
       "href",
-      "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.3.0-native.1",
+      "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.5.0-visual.1",
     );
+    // The test-build mark and the version stay visible next to the link.
+    expect(
+      screen.getByText(/Тестовая Android-сборка 0\.5\.0/),
+    ).toBeInTheDocument();
     expect(document.body.textContent).not.toMatch(/₸|Есть сегодня:|\d+ гол/);
   });
 
@@ -105,7 +111,9 @@ describe("Мал базар", () => {
       screen.getByRole("link", { name: /Открыть страницу Мал базара/ }),
     ).toHaveAttribute("href", "/venues/mal-bazar");
     expect(
-      screen.getByRole("link", { name: "Открыть приложение для Android" }),
+      screen.getByRole("link", {
+        name: "Открыть тестовую Android-сборку 0.5.0",
+      }),
     ).toHaveAttribute("target", "_blank");
   });
 });
