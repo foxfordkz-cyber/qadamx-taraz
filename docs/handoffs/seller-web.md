@@ -1,5 +1,53 @@
 # Seller web — PR43 callback implementation, 2026-10-17
 
+## Registration audit after the captain's real-email attempt
+
+The captain received the confirmation email, encountered Vercel Authentication
+after following its link, signed into Vercel through Google, and subsequently
+logged into Qadam separately with email/password. The supplied Preview screenshot
+shows the expected empty-business cabinet. **This is not a passed email callback.**
+No screenshot, email address, password, code or token is published in this change.
+
+Read-only checks: the exact Preview `/register` and `/auth/callback` both return
+302 to `vercel.com/sso-api` without an access cookie. Preview CORS was separately
+rechecked after the captain's configuration update: OPTIONS `/me` is 200 with
+the exact Preview Allow-Origin; anonymous GET `/me` is 401 with that Allow-Origin.
+The older CORS 400 reports below are historical.
+
+Updated the waiting-for-email instructions in RU/KZ: open the latest email in the
+original browser/device. Only the approved PR43 Preview build also explains that
+the browser must already have Vercel access. Production does not show that notice.
+No changes to callback exchange, Auth/session guards, memberships, recovery or money.
+
+The Preview acceptance suite now validates the actual SDK verifier against the
+signup/resend SHA-256 challenge and covers a synthetic access interstitial returning
+with/without the callback code plus a fresh browser without the verifier. With the
+code and original browser state, callback → session → `/me: businesses=[]` succeeds;
+without either, it offers recovery and does not claim successful authentication.
+The interstitial is an isolated model, **not** a test of Vercel's own SSO service.
+The first interstitial fixture used HTTP302, whose redirect hop bypassed the
+per-page mock and failed on an unresolvable `.example.test` host; it was replaced
+with intercepted browser navigation. The test browser additionally blocks external
+DNS resolution so an unhandled hop cannot reach a public service.
+
+Validation of this continuation: **413/413 Vitest**, **25/25 existing Auth E2E**
+and **6/6 Preview E2E** passed. Exact SHA is recorded in the PR. TypeScript, lint,
+contract, format and local production/Preview builds passed. There are still inherited
+3D bundle size warnings. No real emails/accounts were created by the agent.
+
+Synthetic Preview screenshots: [KZ at 360 px](../qa/registration-preview/confirmation-kk-360.png),
+[KZ at 1440 px](../qa/registration-preview/confirmation-kk-1440.png).
+
+Next live attempt: finish Vercel access at the exact approved branch origin first,
+then use a separately agreed fresh test address and open its email in that same
+browser/device. The already confirmed account is not registered again. Record
+direct return, actual session and `/me`, reload/logout separately from manual login.
+Do not disable deployment protection, change Site URL, or grant demo membership.
+
+---
+
+Previous implementation snapshot (`70a088c`):
+
 Latest continuation: captain approved the exact PR43 Preview callback. Vite scopes
 it to `VERCEL_ENV=preview` plus this exact registration branch; production keeps
 its callback. Signup/resend are blocked on another deployed origin, including at

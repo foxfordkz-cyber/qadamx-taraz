@@ -25,6 +25,10 @@ export function ConfirmationNotice({
   return (
     <>
       <p>{t("confirmationInstructions")}</p>
+      <p>{t("confirmationBrowserHint")}</p>
+      {EMAIL_CALLBACK_URL === PR43_EMAIL_CALLBACK_URL && (
+        <p className="muted">{t("confirmationPreviewHint")}</p>
+      )}
       {status !== "waiting" && (
         <Alert tone="error">
           {t(

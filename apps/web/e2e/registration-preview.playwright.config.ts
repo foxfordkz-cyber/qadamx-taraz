@@ -15,6 +15,13 @@ export default defineConfig({
   use: {
     ...base.use,
     baseURL: origin,
+    // No unhandled browser request may resolve a public host. The static-file
+    // proxy uses a separate Node APIRequestContext and loopback only.
+    launchOptions: {
+      args: [
+        "--host-resolver-rules=MAP * ~NOTFOUND, EXCLUDE 127.0.0.1, EXCLUDE localhost",
+      ],
+    },
     serviceWorkers: "block",
     trace: "off",
     screenshot: "off",

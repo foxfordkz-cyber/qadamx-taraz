@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { createHash } from "node:crypto";
 import { PR43_EMAIL_CALLBACK_URL } from "../src/app/auth-callback-config";
 import { mockServices, qaIds } from "./qa-fixtures";
 
@@ -45,6 +46,16 @@ async function prepare(page: Page) {
     meCalls++;
     await route.fulfill({ json: { id: qaIds.a, businesses: [] } });
   });
+  await page.route("**/auth/v1/token?grant_type=pkce", async (route) => {
+    // The synthetic Auth boundary must check the real SDK verifier, rather
+    // than returning a successful session for any supplied value.
+    const body = route.request().postDataJSON();
+    expect(body.code_verifier).toEqual(expect.any(String));
+    expect(
+      createHash("sha256").update(body.code_verifier).digest("base64url"),
+    ).toBe(mail.at(-1)?.pkce);
+    await route.fallback();
+  });
   return { service, mail, meCalls: () => meCalls };
 }
 
@@ -70,6 +81,27 @@ for (const width of [360, 1440]) {
         name: "Подтвердите адрес электронной почты",
       }),
     ).toBeVisible();
+    await expect(
+      page.getByText(/Откройте последнюю ссылку из письма/),
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Тестовая версия защищена Vercel/),
+    ).toBeVisible();
+    await page.getByRole("button", { name: "KZ", exact: true }).click();
+    await expect(page.getByText(/Соңғы хаттағы сілтемені/)).toBeVisible();
+    await expect(
+      page.getByText(/Сынақ нұсқасы Vercel арқылы қорғалған/),
+    ).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: info.outputPath(`preview-confirmation-kk-${width}.png`),
+      fullPage: true,
+    });
+    await page.getByRole("button", { name: "RU", exact: true }).click();
     expect(qa.mail).toHaveLength(1);
     expect(qa.mail[0]).toMatchObject({
       kind: "signup",
@@ -151,4 +183,130 @@ test("another origin cannot start signup/resend and links to the approved Previe
   expect(qa.meCalls()).toBe(0);
   expect(qa.service.calls).toEqual([]);
   expect(qa.service.unexpected).toEqual([]);
+});
+
+async function startSignup(page: Page) {
+  await page.goto(`${origin}/register`);
+  await page
+    .getByLabel("Электронная почта", { exact: true })
+    .fill("gate@example.test");
+  await page.getByLabel("Пароль", { exact: true }).fill("synthetic-password");
+  await page
+    .getByLabel("Подтвердите пароль", { exact: true })
+    .fill("synthetic-password");
+  await page
+    .getByRole("button", { name: "Зарегистрироваться", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Подтвердите адрес электронной почты" }),
+  ).toBeVisible();
+}
+
+for (const keepsCode of [true, false]) {
+  test(`synthetic access gate returns with callback code ${keepsCode ? "preserved" : "missing"}`, async ({
+    page,
+  }) => {
+    const qa = await prepare(page);
+    await startSignup(page);
+    const callback = `${origin}/auth/callback?code=SYNTHETIC_GATE_CODE`;
+    const gate = "https://vercel-auth.example.test/login";
+    let intercepted = false;
+    await page.route(callback, async (route) => {
+      if (intercepted) return route.fallback();
+      intercepted = true;
+      // Start a separate browser navigation so every hop is intercepted.
+      // A fulfilled HTTP 302 can bypass Playwright's per-page redirect routing.
+      await route.fulfill({
+        contentType: "text/html",
+        body: `<script>location.replace(${JSON.stringify(gate)})</script>`,
+      });
+    });
+    // This models a platform access redirect, not the real Vercel login service.
+    // No request is sent to Vercel and no access setting is changed.
+    await page.route(gate, (route) =>
+      route.fulfill({
+        contentType: "text/html",
+        body: `<main><h1>Synthetic access gate</h1><a href="${keepsCode ? callback : PR43_EMAIL_CALLBACK_URL}">Continue synthetic access</a></main>`,
+      }),
+    );
+    await page.goto(callback);
+    await expect(
+      page.getByRole("heading", { name: "Synthetic access gate" }),
+    ).toBeVisible();
+    expect(qa.meCalls()).toBe(0);
+    await page.getByRole("link", { name: "Continue synthetic access" }).click();
+    if (keepsCode) {
+      await expect(page).toHaveURL(`${origin}/seller`);
+      await expect(
+        page.getByText("У вас пока нет торговых точек"),
+      ).toBeVisible();
+      expect(
+        qa.service.calls.filter((call) => call.query === "?grant_type=pkce"),
+      ).toHaveLength(1);
+    } else {
+      await expect(page.getByRole("alert")).toContainText(
+        "Ссылка недействительна или уже использована",
+      );
+      await expect(
+        page.getByRole("link", { name: "Вернуться ко входу" }),
+      ).toBeVisible();
+      await expect(page.getByText("У вас пока нет торговых точек")).toHaveCount(
+        0,
+      );
+      expect(qa.meCalls()).toBe(0);
+      expect(
+        qa.service.calls.filter((call) => call.query === "?grant_type=pkce"),
+      ).toEqual([]);
+    }
+    expect(qa.service.unexpected).toEqual([]);
+  });
+}
+
+test("email opened in a different browser has no verifier and offers password login without claiming callback success", async ({
+  page,
+  browser,
+}) => {
+  const original = await prepare(page);
+  await startSignup(page);
+  expect(original.mail).toHaveLength(1);
+  const other = await browser.newContext({
+    baseURL: origin,
+    serviceWorkers: "block",
+    viewport: { width: 360, height: 800 },
+  });
+  try {
+    const otherPage = await other.newPage();
+    const qa = await prepare(otherPage);
+    await otherPage.goto(
+      `${origin}/auth/callback?code=SYNTHETIC_OTHER_BROWSER`,
+    );
+    await expect(otherPage.getByRole("alert")).toContainText(
+      "Откройте письмо в том же браузере",
+    );
+    expect(qa.meCalls()).toBe(0);
+    expect(qa.service.calls).toEqual([]);
+    await otherPage.getByRole("button", { name: "KZ", exact: true }).click();
+    await expect(otherPage.getByRole("alert")).toContainText(
+      "Хатты тіркелуді бастаған браузерде",
+    );
+    await otherPage.getByRole("button", { name: "RU", exact: true }).click();
+    await otherPage.getByRole("link", { name: "Вернуться ко входу" }).click();
+    await otherPage
+      .getByLabel("Электронная почта", { exact: true })
+      .fill("a@example.test");
+    await otherPage
+      .getByLabel("Пароль", { exact: true })
+      .fill("synthetic-password");
+    await otherPage.getByRole("button", { name: "Войти", exact: true }).click();
+    await expect(otherPage).toHaveURL(`${origin}/seller`);
+    await expect(
+      otherPage.getByText("У вас пока нет торговых точек"),
+    ).toBeVisible();
+    expect(
+      qa.service.calls.filter((call) => call.query === "?grant_type=pkce"),
+    ).toEqual([]);
+    expect(qa.service.unexpected).toEqual([]);
+  } finally {
+    await other.close();
+  }
 });
