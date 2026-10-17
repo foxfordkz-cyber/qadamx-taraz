@@ -57,12 +57,15 @@ for (const native of [true, false]) {
       });
     const services = await servicesFor(page);
     await login(page);
+    await expect(page).toHaveURL(/\/seller$/);
     await page.goto("/seller/sale");
     const text = page.getByLabel("Текст для AI", { exact: true });
     await text.fill("Учебный текст без отправки");
     const menu = page.getByRole("button", { name: "Все разделы", exact: true });
+    // Establish keyboard focus explicitly; WebKit pointer clicks do not focus buttons.
     await uncovered(menu);
-    await menu.click();
+    await menu.focus();
+    await menu.press("Enter");
     const dialog = page.getByRole("dialog", { name: "Все разделы" });
     await expect(dialog).toBeVisible();
     await page.screenshot({
@@ -125,6 +128,7 @@ test("unavailable microphone leaves text and manual controls usable", async ({
   );
   const services = await servicesFor(page);
   await login(page);
+  await expect(page).toHaveURL(/\/seller$/);
   await page.goto("/seller/sale");
   const text = page.getByLabel("Текст для AI", { exact: true });
   await text.fill("Текст остаётся");
@@ -145,4 +149,74 @@ test("unavailable microphone leaves text and manual controls usable", async ({
         /\/(drafts|operations)$/.test(call.path) && call.method === "POST",
     ),
   ).toBe(false);
+});
+
+test.describe("touch controls with synthetic services, not a physical iPhone", () => {
+  test.use({ hasTouch: true });
+  test("recording denial and manual fields remain usable with touch", async ({
+    page,
+  }) => {
+    const services = await servicesFor(page);
+    await page.addInitScript(() => {
+      // Windows desktop WebKit may lack capture. This case isolates denied
+      // permission; it is not a claim of actual recording capability.
+      Object.defineProperty(window, "MediaRecorder", {
+        configurable: true,
+        value: class {},
+      });
+      Object.defineProperty(navigator, "mediaDevices", {
+        configurable: true,
+        value: {
+          getUserMedia: () =>
+            Promise.reject(new DOMException("Denied", "NotAllowedError")),
+        },
+      });
+    });
+    await login(page);
+    await expect(page).toHaveURL(/\/seller$/);
+    await page.goto("/seller/sale");
+    const record = page.getByRole("button", {
+      name: "Записать голос",
+      exact: true,
+    });
+    await uncovered(record);
+    await expect(record).toBeEnabled();
+    await record.tap();
+    await expect(page.getByRole("alert")).toContainText(
+      "Доступ к микрофону не разрешён",
+    );
+    await page
+      .getByRole("button", { name: "Заполнить вручную", exact: true })
+      .tap();
+    await page
+      .getByLabel("Описание", { exact: true })
+      .fill("Учебная запись без подтверждения");
+    await expect(page.getByLabel("Описание", { exact: true })).toHaveValue(
+      "Учебная запись без подтверждения",
+    );
+    expect(services.unexpected).toEqual([]);
+  });
+  test("Demo intentionally disables recording while bottom navigation works", async ({
+    page,
+  }) => {
+    const services = await servicesFor(page);
+    await page.goto("/login");
+    await page
+      .getByRole("button", { name: "Посмотреть демо", exact: true })
+      .tap();
+    await expect(page).toHaveURL(/\/seller$/);
+    await page.getByRole("link", { name: "Продажа", exact: true }).last().tap();
+    await expect(
+      page.getByRole("button", { name: "Записать голос", exact: true }),
+    ).toBeDisabled();
+    const menu = page.getByRole("button", { name: "Все разделы", exact: true });
+    await menu.tap();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    await page
+      .getByRole("dialog")
+      .getByRole("button", { name: "Закрыть", exact: true })
+      .tap();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    expect(services.calls.filter((call) => call.method === "POST")).toEqual([]);
+  });
 });
