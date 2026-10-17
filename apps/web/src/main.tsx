@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { App } from "./app/App";
 import { AuthProvider } from "./app/auth";
+import { captureAuthCallback } from "./app/auth-callback-model";
 import { makeQueryClient } from "./app/query";
 import { I18nProvider, useI18n } from "./shared/i18n";
 import { Button, ErrorState } from "./shared/ui";
@@ -32,6 +33,7 @@ class ErrorBoundary extends Component<
   }
 }
 const queryClient = makeQueryClient();
+captureAuthCallback();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <I18nProvider>

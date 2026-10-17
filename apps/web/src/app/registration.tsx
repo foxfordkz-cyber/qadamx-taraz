@@ -10,8 +10,7 @@ import { LanguageSwitch, useI18n, type TranslationKey } from "../shared/i18n";
 import { Alert, Button, Card, Input, Spinner } from "../shared/ui";
 import { Brand } from "../shared/ui/Brand";
 
-// Prepared independently of the unapproved callback route/URL mechanism.
-// The callback adapter must map only known outcomes, never render URL error text.
+// Only known outcomes are displayed; provider descriptions never reach the UI.
 export function ConfirmationNotice({
   status = "waiting",
 }: {

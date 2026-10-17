@@ -8,6 +8,7 @@ import {
 import userEvent from "@testing-library/user-event";
 import { AuthApiError, type SupabaseClient } from "@supabase/supabase-js";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { EMAIL_CALLBACK_URL } from "../app/auth-callback-model";
 import { ConfirmationNotice } from "../app/registration";
 import {
   hasPendingConfirmation,
@@ -77,6 +78,7 @@ describe("approved registration MVP through the existing AuthProvider (synthetic
     expect(qa.sdk.signUp).toHaveBeenCalledExactlyOnceWith({
       email: "qa@example.test",
       password: "synthetic-password",
+      options: { emailRedirectTo: EMAIL_CALLBACK_URL },
     });
     expect(qa.auth().session).toBeNull();
     expect(qa.auth().demo).toBe(false);
@@ -90,6 +92,7 @@ describe("approved registration MVP through the existing AuthProvider (synthetic
     expect(qa.sdk.resend).toHaveBeenCalledExactlyOnceWith({
       type: "signup",
       email: "qa@example.test",
+      options: { emailRedirectTo: EMAIL_CALLBACK_URL },
     });
     await screen.findByText(/Запрос принят/);
     await userEvent.click(

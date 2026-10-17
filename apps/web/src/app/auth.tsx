@@ -15,6 +15,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { clearPrivateCache } from "./query";
 import { isExistingEmail, rememberConfirmation } from "./registration-model";
 import { supabaseProjectUrlIssue } from "./auth-config";
+import {
+  callbackAwareFetch,
+  completeAuthCallback,
+  EMAIL_CALLBACK_URL,
+  type CallbackAttempt,
+  type CallbackResult,
+} from "./auth-callback-model";
 
 function makeSupabase(): SupabaseClient | null {
   const url = import.meta.env.VITE_SUPABASE_URL;
@@ -28,13 +35,16 @@ function makeSupabase(): SupabaseClient | null {
       );
       if (payload.role !== "anon") return null;
     }
-    return createClient(url, key, {
+    const client: SupabaseClient = createClient(url, key, {
+      global: { fetch: callbackAwareFetch(() => client) },
       auth: {
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: false,
+        flowType: "pkce",
       },
     });
+    return client;
   } catch {
     return null;
   }
@@ -54,6 +64,7 @@ type AuthContextValue = {
     password: string,
   ) => Promise<"confirmation" | "session">;
   resendConfirmation: (email: string) => Promise<void>;
+  confirmEmail: (attempt: CallbackAttempt) => Promise<CallbackResult>;
   signOut: () => Promise<void>;
   enterDemo: () => void;
   getToken: () => Promise<string | null>;
@@ -122,9 +133,12 @@ export function AuthProvider({
   }
   async function signUp(email: string, password: string) {
     return registrationRequest(async () => {
-      // Redirect URL/flow awaits captain approval. Keep the existing SDK defaults.
       // SDK auth events alone establish a session; a returned user is not login.
-      const result = await client!.auth.signUp({ email, password });
+      const result = await client!.auth.signUp({
+        email,
+        password,
+        options: { emailRedirectTo: EMAIL_CALLBACK_URL },
+      });
       if (!result) throw new Error("Unexpected registration response");
       if (isExistingEmail(result.error)) return "confirmation" as const;
       if (result.error) throw result.error;
@@ -140,12 +154,35 @@ export function AuthProvider({
   }
   async function resendConfirmation(email: string) {
     await registrationRequest(async () => {
-      const result = await client!.auth.resend({ type: "signup", email });
+      const result = await client!.auth.resend({
+        type: "signup",
+        email,
+        options: { emailRedirectTo: EMAIL_CALLBACK_URL },
+      });
       if (!result) throw new Error("Unexpected resend response");
       if (isExistingEmail(result.error)) return;
       if (result.error) throw result.error;
       if (!result.data || typeof result.data !== "object")
         throw new Error("Unexpected resend response");
+    });
+  }
+  function confirmEmail(attempt: CallbackAttempt): Promise<CallbackResult> {
+    if (!client || demoRef.current)
+      return Promise.resolve({ issue: "changed" });
+    const start = generationRef.current;
+    const initialId = identity.current;
+    return completeAuthCallback(client, attempt, {
+      current: () => generationRef.current === start && !demoRef.current,
+      accept: (userId, exchanged) => {
+        const expectedGeneration = start + (exchanged && !initialId ? 1 : 0);
+        if (
+          demoRef.current ||
+          identity.current !== userId ||
+          generationRef.current !== expectedGeneration
+        )
+          return null;
+        return `${userId}:${generationRef.current}`;
+      },
     });
   }
   async function signOut() {
@@ -200,6 +237,7 @@ export function AuthProvider({
         signIn,
         signUp,
         resendConfirmation,
+        confirmEmail,
         signOut,
         enterDemo,
         getToken,

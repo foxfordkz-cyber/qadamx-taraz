@@ -1,4 +1,34 @@
-# Seller web — Registration on deploy-062, 2026-10-17
+# Seller web — PR43 callback implementation, 2026-10-17
+
+Continued the existing `integration/seller-registration-deploy-review` / Draft
+[PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43), with no duplicate
+branch or PR. Merged current main `ad63a00` into this branch only: merge
+`36b9c72b123dec0ca6969bbfd71ea42b5a1818e3`. Both historical documentation sections
+were preserved. Customers/recovery and Abzal's presentation match that main exactly.
+
+Implemented the agreed PKCE callback in the existing AuthProvider/router: fixed
+email redirect, URL cleanup, one exchange across remounts, session/generation
+guards, validated `/me`, RU/KZ errors and explicit resend. A late exchange HTTP
+response is rejected before the SDK saves it if a newer login/logout superseded
+the attempt. No second client, membership provisioning or automatic Demo.
+
+[Current implementation, verification and outstanding live acceptance](../REGISTRATION_CALLBACK_REVIEW.md).
+Final isolated checks: **400/400** unit/component (26 files), **25/25** Auth/
+Registration/Callback browser, **5/5** Recovery browser, **21/21** Seller/Auth QA. TypeScript, lint,
+check:api, configured production build, formatting and diff checks PASS.
+Earlier reports below describe their historical revisions, not this callback.
+The agreed callback is **not** evidence that the Supabase allowlist was changed.
+Captain approved training point `2c234f1c-2c79-5e3a-ab77-042e3da4dafa`; before
+any future write it must still be present in A's actual `/me`. No live accounts,
+customers, emails or financial records were created in this continuation.
+
+Main, deployment branches, running services and Supabase settings were not changed.
+Fresh authenticated acceptance is pending usable A/B browser access; the new email
+flow also needs the captain's test mailbox and applied allowlist confirmation.
+
+---
+
+# Historical Seller web — Registration on deploy-062, 2026-10-17
 
 Worktree `work/qadam-registration-deploy-review`, branch
 `integration/seller-registration-deploy-review`, base deploy-062
@@ -60,7 +90,6 @@ Current exact SHA: `git log -1 --format=%H`; do not merge/deploy from these inst
 
 ---
 
-# Historical Seller web — Registration readiness / Android preparation
 # Seller web — Customer Recovery verification, 2026-10-17
 
 Branch **fix/seller-customer-recovery-safe**, existing separate worktree

@@ -84,7 +84,11 @@ for (const width of [360, 390, 768, 1440]) {
       email: "registration@example.test",
       password: "synthetic-password",
     });
-    expect(calls[0].query).toBe(""); // no invented redirect URL
+    expect(new URLSearchParams(calls[0].query).get("redirect_to")).toBe(
+      "https://qadamx-taraz.vercel.app/auth/callback",
+    );
+    expect(calls[0].body.code_challenge_method).toBe("s256");
+    expect(calls[0].body.code_challenge).toEqual(expect.any(String));
     await expect(
       page.locator('input[autocomplete="new-password"]'),
     ).toHaveCount(0);
