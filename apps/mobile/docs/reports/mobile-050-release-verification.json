@@ -1,0 +1,16 @@
+{
+  "tag": "mobile-v0.5.0-visual.1",
+  "apk": "qadam-0.5.0-7b3a8ba-internal.apk",
+  "source_commit": "7b3a8bad757b13e0dc37d35d703e6a53cd4d9940",
+  "github_asset_state": "uploaded",
+  "github_asset_bytes": 28335925,
+  "github_asset_sha256": "14f3f145ba68202611b7d0745bef8297a023fe7d23ec8bd5697688f3d9e3eccf",
+  "matches_local_apk": true,
+  "public_get": {
+    "bytes_received": 3718270,
+    "expected_bytes": 28335925,
+    "timeout_seconds": 180,
+    "full_redownload_verified": false
+  },
+  "physical_install": "NOT_PERFORMED"
+}

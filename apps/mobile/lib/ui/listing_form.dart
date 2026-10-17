@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'language.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -109,7 +110,7 @@ class _ListingFormState extends State<ListingForm> {
   PendingIntent? _pending;
   Timer? _saveTimer;
   Future<void> _saveQueue = Future<void>.value();
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   bool get _current =>
       mounted &&
       widget.runtime.epoch == _epoch &&
@@ -590,6 +591,7 @@ class _ListingFormState extends State<ListingForm> {
     canPop: !_busy,
     child: Scaffold(
       appBar: AppBar(
+        actions: const [LanguageAction()],
         title: Text(
           _completed
               ? tr(kk, 'Готово', 'Дайын')

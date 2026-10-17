@@ -1,0 +1,19 @@
+00:00 +0: baseline venues RU 390 text 1.0
+00:01 +1: baseline venue RU 390 text 1.0
+00:01 +2: baseline shop RU 390 text 1.0
+00:01 +3: baseline inquiry RU 390 text 1.0
+00:01 +4: baseline dashboard RU 390 text 1.0
+00:02 +5: baseline sale RU 390 text 1.0
+00:02 +6: baseline debts RU 390 text 1.0
+00:02 +7: baseline history RU 390 text 1.0
+00:02 +8: baseline analytics RU 390 text 1.0
+00:02 +9: baseline daily RU 390 text 1.0
+00:02 +10: baseline market RU 390 text 1.0
+00:03 +11: baseline profile RU 390 text 1.0
+00:03 +12: baseline venues RU 320 text 2.0
+00:03 +13: baseline venues KZ 320 text 2.0 long
+00:03 +14: baseline shop RU 320 text 2.0
+00:03 +15: baseline shop KZ 320 text 2.0 long
+00:03 +16: baseline dashboard RU 320 text 2.0
+00:03 +17: baseline dashboard KZ 320 text 2.0 long
+00:04 +18: All tests passed!

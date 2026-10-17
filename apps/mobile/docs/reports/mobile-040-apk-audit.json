@@ -1,0 +1,48 @@
+{
+  "file": "qadam-0.4.0-62cc9a5-internal.apk",
+  "bytes": 27731371,
+  "sha256": "7aa48df10815168aaaf9ba1a208423c17b5782b77e9924cc42a07388719e15db",
+  "source_commit": "62cc9a552ee468ab6c3c29b1e3dafbf72e85ebcb",
+  "version": "0.4.0+8",
+  "api_base_url": "https://qadamx-taraz.onrender.com/api/v1",
+  "frontend_base_url": "https://qadamx-taraz.vercel.app",
+  "embedded_public_config_matches": {
+    "API_BASE_URL": true,
+    "SUPABASE_URL": true,
+    "SUPABASE_PUBLISHABLE_KEY": true,
+    "FRONTEND_BASE_URL": true
+  },
+  "legacy_tunnel_entries": 0,
+  "private_configuration_files": 0,
+  "credential_pattern_counts": {
+    "server_key": 0,
+    "openai_key": 0,
+    "google_key": 0,
+    "database_credential_url": 0,
+    "private_key": 0,
+    "private_session_or_service_role_jwt": 0
+  },
+  "abis": [
+    "arm64-v8a",
+    "armeabi-v7a",
+    "x86_64"
+  ],
+  "physical_android_acceptance": "NOT_PERFORMED_NO_DEVICE",
+  "scope": "Static artifact/config inspection, not proof of runtime login or physical device behavior.",
+  "zip_crc": "PASS",
+  "embedded_accepted_assets_sha256": "7/7 PASS",
+  "native_library_packaging": "compressed/extractNativeLibs=true",
+  "minimum_elf_load_alignment": 16384,
+  "build_seconds": 620.8,
+  "flutter": "3.47.7",
+  "dart": "3.13.5",
+  "package": "kz.qadam.qadam_mobile",
+  "version_code": 8,
+  "min_sdk": 24,
+  "target_sdk": 36,
+  "signature_v2": "PASS",
+  "signature_v3": "PASS",
+  "zipalign_16k": "PASS",
+  "certificate_sha256": "9bd5b1febe523295d33cfb13ce1233834c5b09ae79729668067af993b245160f",
+  "certificate_matches_previous_internal_apks": true
+}

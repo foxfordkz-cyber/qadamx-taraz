@@ -1,0 +1,127 @@
+{
+  "source_sha": "62cc9a552ee468ab6c3c29b1e3dafbf72e85ebcb",
+  "source_kind": "git archive tracked apps/mobile; CRLF export conversions restored to exact Git blobs before test-only harness",
+  "verified_blob_count": 166,
+  "restored_export_line_endings": 106,
+  "archive_sha256": "e91064ec55790036f34d865e08ff953e271b03ff8ba4a2f81d3c4b499dca2605",
+  "modified_production_files": [],
+  "added_test_files": [
+    "apps/mobile/test/visual/mobile_gallery_test.dart",
+    "apps/mobile/test/visual/visual_fixture.dart"
+  ],
+  "font_loader": "Roboto normal weights100/300/400/500/700/900 from Flutter SDK material_fonts; test-only BaselineSystemSymbols fallback emulates missing Android system glyph fallback using project NotoSans-LatinExt.ttf; no Manrope or Ahem",
+  "synthetic_data": true,
+  "live_network": false,
+  "physical_android": false,
+  "status": "18 widget-render tests PASS",
+  "post_run_source_verification": "all 166 original tracked blobs still match62cc exactly after final render",
+  "flutter_version": "3.47.7",
+  "dart_version": "3.13.5",
+  "logical_sizes": "12screens390x740/text1.0; first3screens320x740/text2.0 RU andKZlong",
+  "screenshots": [
+    {
+      "file": "analytics-ru-390-x1.0.png",
+      "bytes": 40234,
+      "sha256": "d4b912414500fb534957774abb676ac0bc63789fc9d084706681590d1fb5a875"
+    },
+    {
+      "file": "daily-ru-390-x1.0.png",
+      "bytes": 25962,
+      "sha256": "12cf0b7523bbb3911f9120fdd7b2529a21ee491aeaae0a68b9258f8d7b8197f3"
+    },
+    {
+      "file": "dashboard-kk-320-x2.0-long.png",
+      "bytes": 38741,
+      "sha256": "07e0105591d1a3b5611cefa71df3abe5f051588610bde98eb933ba528cde9708"
+    },
+    {
+      "file": "dashboard-ru-320-x2.0.png",
+      "bytes": 38641,
+      "sha256": "b0c82c232b3c7ff089ded5e80fa3d78f2949c447512298ec4b10c7fda75f68d7"
+    },
+    {
+      "file": "dashboard-ru-390-x1.0.png",
+      "bytes": 43153,
+      "sha256": "7ea854cfa9a6344be08512325594f88cd494fc8a9aaf7d4c9bcf9a5305778b30"
+    },
+    {
+      "file": "debts-ru-390-x1.0.png",
+      "bytes": 24864,
+      "sha256": "7c41db86dd9ee9b7c6eed73b95fae847756a1121a226e22a990ceedd01b1fc02"
+    },
+    {
+      "file": "history-ru-390-x1.0.png",
+      "bytes": 22580,
+      "sha256": "161b8562728386e61d1e6b9404bf38368b13bd99900afeffb61fe7afd0638d36"
+    },
+    {
+      "file": "inquiry-ru-390-x1.0.png",
+      "bytes": 27883,
+      "sha256": "8d4b5f04bb7775d23a3b0d8af5b69890d405b17c5009d32595ec1bfa7a15872c"
+    },
+    {
+      "file": "market-ru-390-x1.0.png",
+      "bytes": 38152,
+      "sha256": "7bff78c99de1e3e64be8f07e7a49985dfd23db351b36dd75991cca3c76525df5"
+    },
+    {
+      "file": "profile-ru-390-x1.0.png",
+      "bytes": 30949,
+      "sha256": "9c11dabb19a151a1a16ade61b115544af91c870e367f279577eb7a910a2c3ebd"
+    },
+    {
+      "file": "sale-ru-390-x1.0.png",
+      "bytes": 23278,
+      "sha256": "d76e87ab52a813d42ed9e0db10d01d4b5b133e2021c1517e41915d52784f2251"
+    },
+    {
+      "file": "shop-kk-320-x2.0-long.png",
+      "bytes": 36216,
+      "sha256": "cbc84ed5e0d97cb43a42d1dd7f52b6863a7e7f96d116866ebc6aa15d0534d941"
+    },
+    {
+      "file": "shop-ru-320-x2.0.png",
+      "bytes": 40971,
+      "sha256": "e130c1dc2fd21b6406903a6e9e438e8e010634046728f8252d6c902d47985650"
+    },
+    {
+      "file": "shop-ru-390-x1.0.png",
+      "bytes": 46451,
+      "sha256": "2ab47bb5babcc31c8b6b83345f483163174646ff7b48cde733cd1aa51df12a9e"
+    },
+    {
+      "file": "venue-ru-390-x1.0.png",
+      "bytes": 71109,
+      "sha256": "9e4925607437854edd631aa93e5fafdf0b406b05e8280918fa6f7fbeb4f4f4b4"
+    },
+    {
+      "file": "venues-kk-320-x2.0-long.png",
+      "bytes": 65876,
+      "sha256": "13a35c4d811b1d7d1b117591ffd461564ae50f62ab26a8d3e8af65a5aa1cc288"
+    },
+    {
+      "file": "venues-ru-320-x2.0.png",
+      "bytes": 67190,
+      "sha256": "969816e35e495dfaa98c27f03612262f5b83f12c614c7723c957f853f383ae37"
+    },
+    {
+      "file": "venues-ru-390-x1.0.png",
+      "bytes": 121552,
+      "sha256": "a1bf6e7d695920ec687e6df098d0ff0d94e78c4c5abc26461b6306f9ed43ec9e"
+    }
+  ],
+  "limitations": [
+    "Not the captain Android screenshots; reproducible synthetic host rendering of exact0.4.0 source",
+    "3D uses actual unsupported-platform fallback; no live WebView emulation",
+    "No authenticated live account, financial write, inquiry submission, microphone, camera, APK update or physical Android test",
+    "Android symbol fallback is emulated only in the test host; actual device font rasterization can differ"
+  ],
+  "harness_sha256": {
+    "mobile_gallery_test.dart.txt": "5b60a51bf97ac687a9930c7a531313c709129c7d0820414bb303a7559c0b0bb2",
+    "visual_fixture.dart.txt": "be3b77fbb4f89cc10ca679e9ec3eac11e14649746e1695678e0ad4bf4b3ef41d"
+  },
+  "host_theme_adjustment": "Only test-host textTheme font family/fallback set to Roboto + BaselineSystemSymbols; all original theme colors, typography sizes, weights and production sources unchanged",
+  "symbol_font_sha256": "eeaf5f9c8c16e584de34a89ee4469ff3e6c38dfa6dc62c8d72285e50f126245c",
+  "symbol_font_license": "SIL OFL, existing apps/mobile/assets/fonts/NotoSans-OFL.txt",
+  "harness_hash_normalization": "LF text, matching Git canonical blob content; remove final .txt extension when restoring test files"
+}

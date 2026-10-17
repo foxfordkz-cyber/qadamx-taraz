@@ -8,6 +8,11 @@ import 'auth.dart';
 import 'config.dart';
 import 'data/livestock_api.dart';
 import 'data/account_api.dart';
+import 'crm/crm_api.dart';
+import 'crm/crm_pending.dart';
+import 'public/public_api.dart';
+import 'public/inquiry_service.dart';
+import 'crm/crm_models.dart';
 
 class SessionFailure implements Exception {
   const SessionFailure(this.code);
@@ -22,13 +27,28 @@ class MobileRuntime extends ChangeNotifier {
     AuthGateway? auth,
     LivestockApi? api,
     AccountApi? accountApi,
+    CrmApi? crmApi,
+    PublicApi? publicApi,
     String? initializationError,
   }) : _config = config,
        _auth = auth,
        _api = api,
        _accountApi = accountApi,
+       _crmApi = crmApi,
+       _publicApi = publicApi,
        _initializationError = initializationError,
        _accountId = auth?.accountId {
+    if (_publicApi == null && config.apiUri != null) {
+      _publicApi = PublicApi(config.apiUri!);
+    }
+    if (_publicApi != null) {
+      inquiries = InquiryService(
+        _publicApi!,
+        CrmPending(SecureCrmVault()),
+        (scope) =>
+            scope.account == (accountId ?? 'guest') && scope.epoch == epoch,
+      );
+    }
     if (_api == null && config.apiUri != null) {
       _api = LivestockApi(
         baseUrl: config.apiUri!,
@@ -50,6 +70,21 @@ class MobileRuntime extends ChangeNotifier {
       // A temporary refresh outage must not log a token or destroy the draft.
       onError: (Object _) {},
     );
+    if (_crmApi == null && config.apiUri != null) {
+      _crmApi = CrmApi(
+        baseUrl: config.apiUri!,
+        accountId: () => accountId,
+        epoch: () => epoch,
+        accessToken: () async => _auth?.accessToken(),
+        pending: CrmPending(SecureCrmVault()),
+        // PR61 f6b3a9a rollout: captain's Live panel + published A/B evidence;
+        // public OpenAPI independently rechecked 2026-10-17 13:45 UTC.
+        // Other configured APIs remain disabled: API version alone is unsafe.
+        customerIdsEnabled:
+            config.apiUri!.toString() ==
+            'https://qadamx-taraz.onrender.com/api/v1',
+      );
+    }
   }
 
   static Future<MobileRuntime> create(AppConfig config) async {
@@ -82,6 +117,9 @@ class MobileRuntime extends ChangeNotifier {
   final String? _initializationError;
   LivestockApi? _api;
   AccountApi? _accountApi;
+  CrmApi? _crmApi;
+  PublicApi? _publicApi;
+  InquiryService? inquiries;
   StreamSubscription<String?>? _subscription;
   String? _accountId;
   int _epoch = 0;
@@ -90,6 +128,17 @@ class MobileRuntime extends ChangeNotifier {
 
   LivestockApi? get api => _api;
   AccountApi? get accountApi => _accountApi;
+  CrmApi? get crmApi => _crmApi;
+  PublicApi? get publicApi => _publicApi;
+  CrmScope publicScope(String business) => CrmScope(
+    _publicApi!.baseUrl.toString(),
+    accountId ?? 'guest',
+    business,
+    epoch,
+  );
+  String? get accountEmail => _auth is SupabaseAuthGateway
+      ? _auth.client.auth.currentUser?.email
+      : null;
   String get frontendBaseUrl => _config.frontendBaseUrl;
   bool get configured => _api != null;
   bool get authConfigured => _auth != null;
@@ -152,6 +201,8 @@ class MobileRuntime extends ChangeNotifier {
     unawaited(_subscription?.cancel());
     _api?.close();
     _accountApi?.close();
+    _crmApi?.close();
+    _publicApi?.close();
     if (_auth is SupabaseAuthGateway) _auth.close();
     super.dispose();
   }
