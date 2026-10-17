@@ -24,7 +24,7 @@ async function openReport(page: Page) {
 async function wholeLabels(page: Page) {
   await expect
     .poll(() =>
-      page.locator(".analytics-chart-scroll").evaluateAll((charts) =>
+      page.locator(".analytics-chart-scroll:visible").evaluateAll((charts) =>
         charts.every((chart) => {
           const outer = chart.getBoundingClientRect();
           const selected = chart
@@ -70,6 +70,7 @@ test("whole edge labels, grouped mobile scopes and keyboard survive RU/KZ, 7/30 
       await expect(page.locator(".analytics-daily-bars button")).toHaveCount(
         days,
       );
+      await page.locator(".analytics-details > summary").click();
       for (const width of [1440, 768, 700, 390, 360]) {
         await page.setViewportSize({ width, height: 900 });
         await wholeLabels(page);
@@ -77,10 +78,10 @@ test("whole edge labels, grouped mobile scopes and keyboard survive RU/KZ, 7/30 
           .poll(() => page.evaluate(() => document.documentElement.scrollWidth))
           .toBe(width);
         await expect(
-          page.locator(".analytics-kpi-group-title:visible"),
-        ).toHaveCount(width <= 700 ? 2 : 0);
+          page.locator(".analytics-main-kpis .analytics-kpi:visible"),
+        ).toHaveCount(3);
         await expect(page.locator(".analytics-kpi-top:visible")).toHaveCount(
-          width <= 700 ? 0 : 6,
+          width <= 700 ? 3 : 6,
         );
         for (const bars of [
           ".analytics-daily-bars",
@@ -107,10 +108,10 @@ test("empty charts expand by keyboard and reset for another period or point", as
   await page.setViewportSize({ width: 390, height: 844 });
   await openReport(page);
   await page.locator(".analytics-demo-panel select").selectOption("empty");
-  const disclosure = page.locator(".analytics-empty-charts");
+  const disclosure = page.locator(".analytics-details");
   await expect(disclosure).toBeVisible();
   await expect(
-    page.locator(".analytics-chart-scroll").first(),
+    page.locator(".analytics-chart-scroll").last(),
   ).not.toBeVisible();
   await expect(
     page.getByRole("link", { name: "Новая продажа", exact: true }),
@@ -119,11 +120,11 @@ test("empty charts expand by keyboard and reset for another period or point", as
   expect((await toggle.boundingBox())!.height).toBeGreaterThanOrEqual(44);
   await toggle.focus();
   await toggle.press("Enter");
-  await expect(page.locator(".analytics-chart-scroll").first()).toBeVisible();
+  await expect(page.locator(".analytics-chart-scroll").last()).toBeVisible();
   await wholeLabels(page);
   await toggle.press("Space");
   await expect(
-    page.locator(".analytics-chart-scroll").first(),
+    page.locator(".analytics-chart-scroll").last(),
   ).not.toBeVisible();
   await toggle.press("Enter");
   await page.getByRole("button", { name: "30 дней", exact: true }).click();
@@ -135,12 +136,12 @@ test("empty charts expand by keyboard and reset for another period or point", as
     .selectOption("22222222-2222-4222-8222-222222222222");
   await expect(disclosure).not.toHaveAttribute("open", "");
   await page.getByRole("button", { name: "KZ", exact: true }).click();
-  await expect(toggle).toHaveText("Күндер мен сағаттар бойынша көрсету");
+  await expect(toggle).toHaveText("Толығырақ");
   await page.locator(".analytics-demo-panel select").selectOption("error");
   await expect(page.locator(".analytics-error")).toBeVisible();
-  await expect(
-    page.locator(".analytics-kpi, .analytics-empty-charts"),
-  ).toHaveCount(0);
+  await expect(page.locator(".analytics-kpi, .analytics-details")).toHaveCount(
+    0,
+  );
 });
 
 test("capture compact analytics before/after on matching viewports", async ({
