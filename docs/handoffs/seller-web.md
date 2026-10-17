@@ -1,5 +1,26 @@
 # Seller web — PR43 callback implementation, 2026-10-17
 
+Latest continuation: captain approved the exact PR43 Preview callback. Vite scopes
+it to `VERCEL_ENV=preview` plus this exact registration branch; production keeps
+its callback. Signup/resend are blocked on another deployed origin, including at
+the provider boundary. RU/KZ guidance points to the agreed branch Preview.
+No new Auth client, endpoints or membership provisioning.
+
+Validation: 413 unit/component, 25 existing Auth E2E, 3 isolated Preview E2E,
+typecheck/lint/contract/format/build. Preview tests cover the compiled bundle,
+same-origin synthetic confirmation, SDK session, empty `/me`, reload/logout and
+360/1440 layouts. They do not prove real email delivery.
+
+Captain confirmed saved production URLs, but explicitly says Preview allowlist,
+Vercel access and backend CORS are still being prepared. Our Preview OPTIONS
+received 400, while production received 200. No live signup or mail was sent.
+Exact setup and acceptance steps: [updated review](../REGISTRATION_CALLBACK_REVIEW.md).
+Continue this same Draft PR43; main/deploy/production and Auth settings unchanged.
+
+---
+
+Previous implementation snapshot (`9227f6f`):
+
 Continued the existing `integration/seller-registration-deploy-review` / Draft
 [PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43), with no duplicate
 branch or PR. Merged current main `ad63a00` into this branch only: merge

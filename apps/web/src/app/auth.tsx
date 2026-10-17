@@ -15,6 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { clearPrivateCache } from "./query";
 import { isExistingEmail, rememberConfirmation } from "./registration-model";
 import { supabaseProjectUrlIssue } from "./auth-config";
+import { registrationOriginAllowed } from "./auth-callback-config";
 import {
   callbackAwareFetch,
   completeAuthCallback,
@@ -118,6 +119,11 @@ export function AuthProvider({
   async function registrationRequest<T>(operation: () => Promise<T>) {
     if (
       !client ||
+      !registrationOriginAllowed(
+        EMAIL_CALLBACK_URL,
+        window.location.origin,
+        import.meta.env.PROD,
+      ) ||
       identity.current ||
       demoRef.current ||
       generationRef.current !== generation ||

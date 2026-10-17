@@ -1,8 +1,9 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-// Agreed in REGISTRATION_CALLBACK.md. Never derive this from query/preview URLs.
-export const EMAIL_CALLBACK_URL =
-  "https://qadamx-taraz.vercel.app/auth/callback";
+// Vite selects the approved URL using the deployment environment and exact
+// branch. Production retains its original callback; only PR43 Preview differs.
+export const EMAIL_CALLBACK_URL: string = import.meta.env
+  .VITE_AUTH_EMAIL_CALLBACK_URL;
 export type CallbackIssue =
   | "invalid"
   | "missing"

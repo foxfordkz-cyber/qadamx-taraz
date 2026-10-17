@@ -17,6 +17,11 @@ export const kk: Record<keyof typeof ru, string> = {
   registrationTitle: "Тіркелу",
   registrationSubmit: "Тіркелу",
   registrationLogin: "Кіруге оралу",
+  registrationPreviewOnly:
+    "Тіркелуді тексеру үшін келісілген сынақ нұсқасын ашыңыз. Тіркелуді бастап, хатты сол браузерде ашыңыз.",
+  registrationOpenPreview: "Сынақ тіркелуін ашу",
+  registrationEnvironmentUnavailable:
+    "Бұл мекенжайда тіркелу әлі бапталмаған. Qadam әкімшісіне хабарласыңыз.",
   registrationAnother: "Басқа мекенжайды көрсету",
   registrationHint:
     "Аккаунт құрып, email мекенжайын растаңыз. Сауда нүктесіне кіру құқығын капитан береді.",

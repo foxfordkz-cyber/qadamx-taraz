@@ -9,6 +9,7 @@ import userEvent from "@testing-library/user-event";
 import { AuthApiError, type SupabaseClient } from "@supabase/supabase-js";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EMAIL_CALLBACK_URL } from "../app/auth-callback-model";
+import * as callbackConfig from "../app/auth-callback-config";
 import { ConfirmationNotice } from "../app/registration";
 import {
   hasPendingConfirmation,
@@ -67,6 +68,28 @@ afterEach(() => {
 });
 
 describe("approved registration MVP through the existing AuthProvider (synthetic SDK)", () => {
+  it("blocks signup and resend at the provider boundary on a wrong Preview origin", async () => {
+    vi.spyOn(callbackConfig, "registrationOriginAllowed").mockReturnValue(
+      false,
+    );
+    const qa = setup();
+    await screen.findByText(
+      "Регистрация по этому адресу ещё не настроена. Обратитесь к администратору Qadam.",
+    );
+    expect(
+      screen.queryByRole("link", { name: "Открыть тестовую регистрацию" }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Пароль")).not.toBeInTheDocument();
+    await expect(
+      qa.auth().signUp("qa@example.test", "synthetic-password"),
+    ).rejects.toThrow();
+    await expect(
+      qa.auth().resendConfirmation("qa@example.test"),
+    ).rejects.toThrow();
+    expect(qa.sdk.signUp).not.toHaveBeenCalled();
+    expect(qa.sdk.resend).not.toHaveBeenCalled();
+    expect(qa.fetcher).not.toHaveBeenCalled();
+  });
   it("keeps null-session signup anonymous, forgets passwords, supports RU/KZ and only explicit resend", async () => {
     const qa = setup();
     await fill();

@@ -1,5 +1,74 @@
 # PR43: callback и подготовка совместной приёмки
 
+## Продолжение 2026-10-17: отдельный callback согласованного Preview
+
+Капитан разрешил проверку только существующего PR43 в Preview. Production Site URL
+и callback сохранены. Капитан подтвердил, что production Site URL и web callback
+сохранены в Supabase; это его подтверждение, не наша инспекция Dashboard.
+
+Согласованный Preview callback:
+`https://qadamx-taraz-git-integration-seller-registrat-7d21c0-p-it-chers.vercel.app/auth/callback`.
+
+Vite выбирает этот фиксированный адрес **только одновременно** при
+`VERCEL_ENV=preview` и
+`VERCEL_GIT_COMMIT_REF=integration/seller-registration-deploy-review`.
+Production, другие ветки и обычная локальная сборка сохраняют
+`https://qadamx-taraz.vercel.app/auth/callback`. URL не строится из query,
+`next`, произвольного alias или `VITE_` значения. В Vercel должны быть доступны
+System Environment Variables; вручную менять Site URL или production env не нужно.
+[Описание системных переменных Vercel](https://vercel.com/docs/environment-variables/system-environment-variables).
+
+Signup и resend используют один выбранный адрес. На другом origin собранное
+приложение не отправляет эти запросы: без verifier исходного origin PKCE не завершится.
+Для настроенного Preview показана RU/KZ-ссылка на согласованный `/register`.
+Если метаданные сборки отсутствуют и выбран production callback на другом origin,
+форма сообщает о ненастроенной регистрации и не направляет пользователя на
+несуществующую production-регистрацию. Provider также блокирует отправку в обход UI.
+Обмен кода, identity guards, проверенный `/me` и пустой кабинет сохранены;
+создания membership и перехода в Demo нет.
+
+Изолированные проверки продолжения: полный Vitest **413/413**, обычные Auth E2E
+**25/25**, новые Preview E2E **3/3**; TypeScript, lint, check:api, format:check,
+локальные production/Preview сборки и diff check. Preview E2E используют настоящую
+собранную страницу и SDK на точном HTTPS origin в Chromium, но **все** запросы
+перехватываются и обслуживаются локально. Signup/resend → синтетическое открытие
+письма → тот же Preview → session → `/me: businesses=[]` → reload/logout,
+RU/KZ на 360/1440 px и блокировка другого origin проверены. Это не доставка email.
+Логи и PNG — в игнорируемом `apps/web/test-results/`.
+
+Первый локальный Preview запуск не прошёл: сервер слушал localhost/IPv6, а проверка
+доступности использовала 127.0.0.1. Исправлен host изолированного сервера.
+
+### Что ещё необходимо для настоящего письма
+
+Последний ответ капитана: настройка **ещё выполняется**. Не считаем следующие
+настройки применёнными по одному согласованию URL:
+
+1. Supabase allowlist содержит точный Preview callback выше; остальные URLs и Site URL
+   сохранены. Шаблон письма использует Supabase ConfirmationURL и согласованный redirect.
+2. Backend разрешил **точный origin без `/auth/callback`** в CORS. Наш read-only OPTIONS
+   к `/api/v1/me`: production origin → 200 с Allow-Origin; Preview origin → 400 без
+   Allow-Origin. Это конфигурационная зависимость backend, не новый API/контракт.
+3. Капитан вошёл в Vercel и открывает **веточную Preview-ссылку**, не уникальный alias
+   deployment: анонимный GET Preview направляет на Vercel login. Защиту не отключаем.
+4. После публикации проверить нужный SHA/выбранный callback именно в Preview,
+   затем выполнить одно signup на предоставленный капитаном тестовый ящик.
+   Пароль и подтверждение письма капитан вводит/открывает лично в том же браузере.
+   Email, пароль, JWT и URL с кодом не записываются в Git, скриншоты или отчёт.
+5. Только после настоящего confirmation проверить SDK session и авторизованный `/me`,
+   нулевые memberships, reload/logout; ошибки API не считать пустым кабинетом.
+
+Наша read-only проверка production получила SPA shell 200, но в опубликованном
+`/assets/index-BMQXppQw.js` нет `/register` и `/auth/callback`. Поэтому письмо с
+production redirect не подтверждало бы сценарий этой Preview-версии.
+
+**Настоящая email-приёмка пока не выполнена. Новых аккаунтов, писем, memberships,
+клиентов и денежных операций этого продолжения: 0.** Main, deploy-ветки, production,
+Supabase и Render-настройки самостоятельно не менялись. PR43 остаётся Draft.
+
+Ниже сохранён отчёт предыдущего SHA `9227f6f`; его пункты о недоступном ящике и
+неподтверждённом production allowlist — историческое состояние.
+
 Продолжена существующая ветка `integration/seller-registration-deploy-review`,
 [Draft PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43).
 Новой ветки регистрации или дублирующего PR нет. База обновлена до принятого

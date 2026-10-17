@@ -16,6 +16,11 @@ export const ru = {
   registrationTitle: "Регистрация",
   registrationSubmit: "Зарегистрироваться",
   registrationLogin: "Вернуться ко входу",
+  registrationPreviewOnly:
+    "Для проверки регистрации откройте согласованную тестовую версию. Начните регистрацию и откройте письмо в одном браузере.",
+  registrationOpenPreview: "Открыть тестовую регистрацию",
+  registrationEnvironmentUnavailable:
+    "Регистрация по этому адресу ещё не настроена. Обратитесь к администратору Qadam.",
   registrationAnother: "Указать другой адрес",
   registrationHint:
     "Создайте аккаунт и подтвердите email. Доступ к торговой точке назначает капитан.",

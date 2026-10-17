@@ -59,7 +59,7 @@ function authSession(account: "a" | "b") {
     token_type: "bearer",
   };
 }
-export async function mockServices(page: Page) {
+export async function mockServices(page: Page, syntheticWebOrigin?: string) {
   const sessions = { a: authSession("a"), b: authSession("b") };
   const state = {
     meStatus: 200,
@@ -82,7 +82,10 @@ export async function mockServices(page: Page) {
   await page.route("**/*", async (route) => {
     const request = route.request();
     const url = new URL(request.url());
-    if (!["127.0.0.1", "localhost"].includes(url.hostname)) {
+    if (
+      !["127.0.0.1", "localhost"].includes(url.hostname) &&
+      url.origin !== syntheticWebOrigin
+    ) {
       state.unexpected.push(url.origin);
       return route.abort("blockedbyclient");
     }
