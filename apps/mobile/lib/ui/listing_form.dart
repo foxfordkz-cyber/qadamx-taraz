@@ -591,6 +591,7 @@ class _ListingFormState extends State<ListingForm> {
     canPop: !_busy,
     child: Scaffold(
       appBar: AppBar(
+        actions: const [LanguageAction()],
         title: Text(
           _completed
               ? tr(kk, 'Готово', 'Дайын')

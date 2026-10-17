@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import '../crm/crm_models.dart';
 import '../ui/common.dart' show tr;
+import '../ui/language.dart';
 import 'venue_assets.dart';
 
 /// Local 3D surface only. All navigation, data requests and business forms stay
@@ -31,7 +32,7 @@ class VenueViewer extends StatefulWidget {
 
 class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
   WebViewController? controller;
-  bool failed = false, loaded = false, feeding = false;
+  bool failed = false, loaded = false, feeding = false, interacting = false;
   Timer? timer;
   @override
   void initState() {
@@ -100,7 +101,7 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
       await c.loadHtmlString(
         '''<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; connect-src 'none'; worker-src 'none';">
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f5f3eb}canvas{display:block;touch-action:none}.marker{position:fixed;transform:translate(-50%,-50%);width:48px;height:48px;border:2px solid #164c3e;border-radius:50%;background:#d7f36a;color:#164c3e;font:bold 18px sans-serif;z-index:2}</style></head><body><script>${js.replaceAll('</script', '<\\/script')}</script></body></html>''',
+<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#f5f3eb}canvas{display:block;touch-action:none}.marker{position:fixed;transform:translate(-50%,-50%);width:48px;height:48px;border:0;padding:0;background:transparent;color:#164c3e;font:bold 14px sans-serif;z-index:2;isolation:isolate}.marker:before{content:"";position:absolute;inset:11px;border:2px solid #164c3e;border-radius:50%;background:#d7f36a;z-index:-1}.marker.selected:before{background:#164c3e;border-color:#fffefa}.marker.selected{color:#fffefa}</style></head><body><script>${js.replaceAll('</script', '<\\/script')}</script></body></html>''',
       );
       if (mounted) setState(() {});
     } catch (_) {
@@ -164,48 +165,96 @@ class _VenueViewerState extends State<VenueViewer> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    if (failed) {
-      return Text(
-        tr(
-          widget.kk,
-          '3D недоступно. Изображение и список магазинов остаются ниже.',
-          '3D қолжетімсіз. Сурет пен дүкендер тізімі төменде бар.',
-        ),
-      );
-    }
+    final kk = qadamKk(context);
+    final height = (MediaQuery.sizeOf(context).width * .72).clamp(210.0, 320.0);
+    Widget image() => Image.asset(
+      widget.asset.poster,
+      fit: BoxFit.contain,
+      semanticLabel: tr(kk, 'Изображение площадки', 'Алаң суреті'),
+      errorBuilder: (_, _, _) => const Icon(Icons.storefront, size: 48),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          tr(
-            widget.kk,
-            'Поверните одним пальцем, измените масштаб двумя. Нажмите номер магазина.',
-            'Бір саусақпен бұрыңыз, екі саусақпен масштабтаңыз. Дүкен нөмірін басыңыз.',
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: SizedBox(
+            height: height,
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                if (!failed && controller != null)
+                  IgnorePointer(
+                    ignoring: !interacting,
+                    child: WebViewWidget(
+                      controller: controller!,
+                      gestureRecognizers: {
+                        if (interacting)
+                          Factory<OneSequenceGestureRecognizer>(
+                            () => EagerGestureRecognizer(),
+                          ),
+                      },
+                    ),
+                  ),
+                if (!loaded || failed)
+                  ColoredBox(
+                    color: Theme.of(context).scaffoldBackgroundColor,
+                    child: image(),
+                  ),
+                if (!loaded && !failed)
+                  const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: LinearProgressIndicator(),
+                  ),
+              ],
+            ),
           ),
         ),
-        SizedBox(
-          height: 340,
-          child: Stack(
+        const SizedBox(height: 8),
+        if (failed)
+          Text(
+            tr(
+              kk,
+              'Показано изображение. Выберите магазин в списке ниже.',
+              'Сурет көрсетілді. Төмендегі тізімнен дүкен таңдаңыз.',
+            ),
+            style: Theme.of(context).textTheme.bodySmall,
+          )
+        else
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
             children: [
-              if (controller != null)
-                WebViewWidget(
-                  controller: controller!,
-                  gestureRecognizers: {
-                    Factory<OneSequenceGestureRecognizer>(
-                      () => EagerGestureRecognizer(),
-                    ),
-                  },
+              OutlinedButton.icon(
+                onPressed: loaded
+                    ? () => setState(() => interacting = !interacting)
+                    : null,
+                icon: Icon(
+                  interacting ? Icons.check : Icons.touch_app_outlined,
                 ),
-              if (!loaded) const Center(child: CircularProgressIndicator()),
+                label: Text(
+                  interacting
+                      ? tr(kk, 'Готово', 'Дайын')
+                      : tr(kk, 'Управлять 3D', '3D басқару'),
+                ),
+              ),
+              TextButton(
+                onPressed: loaded
+                    ? () => controller?.runJavaScript('window.resetVenue?.();')
+                    : null,
+                child: Text(tr(kk, 'Общий вид', 'Жалпы көрініс')),
+              ),
             ],
           ),
-        ),
-        OutlinedButton(
-          onPressed: loaded
-              ? () => controller?.runJavaScript('window.resetVenue?.();')
-              : null,
-          child: Text(tr(widget.kk, 'Вернуть камеру', 'Камераны қайтару')),
-        ),
+        if (interacting && !failed)
+          Text(
+            tr(
+              kk,
+              'Вращайте одним пальцем, масштабируйте двумя. Номер открывает магазин. Для прокрутки нажмите «Готово».',
+              'Бір саусақпен бұрыңыз, екі саусақпен масштабтаңыз. Нөмір дүкенді ашады. Айналдыру үшін «Дайын» басыңыз.',
+            ),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
       ],
     );
   }

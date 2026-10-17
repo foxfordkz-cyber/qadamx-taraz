@@ -72,7 +72,7 @@ window.setVenue = (asset, businesses, kk) => {
         const button = document.createElement('button'); button.className = 'marker';
         button.textContent = String(index + 1); button.setAttribute('aria-label', `${index+1}. ${b.name}`);
         button.title = b.name;
-        button.onclick = () => send({type:'select', id:h.id});
+        button.onclick = () => { markers.forEach(m => m.button.classList.remove('selected')); button.classList.add('selected'); send({type:'select', id:h.id}); };
         document.body.append(button); markers.push({button, position: new THREE.Vector3().fromArray(h.position)});
       });
       send({type:'loaded'}); draw();

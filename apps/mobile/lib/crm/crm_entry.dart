@@ -457,7 +457,7 @@ class _CrmEntryPageState extends CrmScreenState<CrmEntryPage>
               'Аудионы оқу мүмкін болмады. Пішімін, 30 секундқа дейінгі ұзақтығын және 8 MiB дейінгі өлшемін тексеріңіз. Қайта жазыңыз немесе мәтін енгізіңіз.',
             ),
           ),
-        if (drafts.error != null || localError != null)
+        if (drafts.error != null || (localError != null && !(localError is ApiFailure && (localError as ApiFailure).code == 'AUDIO_INVALID')))
           Text(
             tr(
               kk,

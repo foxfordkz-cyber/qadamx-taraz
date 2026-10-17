@@ -89,7 +89,7 @@ void main() {
             200,
             scrollable: find
                 .descendant(
-                  of: find.byType(ListView).last,
+                  of: find.byType(Scaffold).last,
                   matching: find.byType(Scrollable),
                 )
                 .first,
@@ -112,14 +112,12 @@ void main() {
           await tester.tap(find.text('ҚАЗ'));
           await settle();
         }
-        final venueButton = find.text(
-          kk ? 'Алаң дүкендері' : 'Магазины площадки',
-        );
+        final venueButton = find.text('Учебная площадка');
         await reveal(venueButton);
         await tester.tap(venueButton);
         await settle();
         expect(find.byType(VenuePage), findsOneWidget);
-        final shopButton = find.text(kk ? 'Дүкенді ашу' : 'Открыть магазин');
+        final shopButton = find.text('Учебный магазин');
         await reveal(shopButton);
         await tester.tap(shopButton);
         await settle();
@@ -129,10 +127,7 @@ void main() {
         );
         await reveal(price);
         expect(price, findsOneWidget);
-        final input = find.widgetWithText(
-          TextFormField,
-          kk ? 'Не іздеп жүрсіз?' : 'Что вы ищете?',
-        );
+        final input = find.byKey(const Key('inquiry-message'));
         await reveal(input);
         await tester.enterText(input, 'Учебный вопрос');
         tester.view.viewInsets = const FakeViewPadding(bottom: 250);
@@ -146,6 +141,14 @@ void main() {
         tester.view.resetViewInsets();
         await tester.pump();
         await tester.tap(find.byType(BackButton));
+        await settle();
+        expect(find.text(kk ? 'Пішіннен шығасыз ба?' : 'Выйти из формы?'), findsOneWidget);
+        await tester.tap(find.text(kk ? 'Жалғастыру' : 'Продолжить'));
+        await settle();
+        expect((tester.widget<TextFormField>(input).controller!).text, 'Учебный вопрос');
+        await tester.tap(find.byType(BackButton));
+        await settle();
+        await tester.tap(find.text(kk ? 'Шығу' : 'Выйти'));
         await settle();
         expect(find.byType(VenuePage), findsOneWidget);
         await tester.pumpWidget(const SizedBox());

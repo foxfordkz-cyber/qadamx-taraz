@@ -6,6 +6,7 @@ import '../crm/crm_ui.dart' show crmCard, crmGap;
 import '../data/api_failure.dart';
 import '../runtime.dart';
 import '../ui/common.dart' show tr;
+import '../ui/language.dart';
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
 import 'venue_viewer.dart';
@@ -22,20 +23,45 @@ String categoryName(String code, bool kk) => switch (code) {
   'services' => tr(kk, 'Услуги', 'Қызметтер'),
   _ => code,
 };
-Widget demoLabel(bool kk) => Text(
-  tr(kk, 'Учебные данные', 'Оқу деректері'),
-  style: const TextStyle(fontWeight: FontWeight.w600),
+Widget demoLabel(bool kk) => QadamBadge(tr(kk, 'Учебная точка', 'Оқу нүктесі'));
+
+class QadamBadge extends StatelessWidget {
+  const QadamBadge(this.label, {super.key});
+  final String label;
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    decoration: BoxDecoration(
+      color: Theme.of(context).colorScheme.secondaryContainer,
+      borderRadius: BorderRadius.circular(8),
+    ),
+    child: Text(label, style: Theme.of(context).textTheme.labelSmall),
+  );
+}
+
+Widget poster(VenueAsset? asset, bool kk) => AspectRatio(
+  aspectRatio: 2.1,
+  child: asset == null
+      ? const Icon(Icons.storefront, size: 48)
+      : Image.asset(
+          asset.poster,
+          fit: BoxFit.contain,
+          semanticLabel: tr(kk, 'Изображение площадки', 'Алаң суреті'),
+          errorBuilder: (_, _, _) => const Icon(Icons.storefront, size: 48),
+        ),
 );
-Widget poster(VenueAsset? asset, bool kk) => asset == null
-    ? const SizedBox(height: 70, child: Icon(Icons.storefront, size: 48))
-    : Image.asset(
-        asset.poster,
-        height: 170,
-        fit: BoxFit.contain,
-        semanticLabel: tr(kk, 'Изображение площадки', 'Алаң суреті'),
-        errorBuilder: (_, _, _) =>
-            const SizedBox(height: 70, child: Icon(Icons.storefront, size: 48)),
-      );
+int? pointNumber(VenueAsset? asset, CrmJson business, String venueId) {
+  if (asset == null) return null;
+  for (var i = 0; i < asset.hotspots.length; i++) {
+    if (asset.businessFor(asset.hotspots[i]['id'] as String, venueId, [
+          business,
+        ]) !=
+        null) {
+      return i + 1;
+    }
+  }
+  return null;
+}
 
 Future<List<CrmJson>> allPublicPages(
   Future<CrmPage> Function(String?) fetch,
@@ -108,10 +134,10 @@ class _PublicHomeState extends State<PublicHome> {
 
   @override
   Widget build(BuildContext context) {
-    final kk = widget.kk;
+    final kk = qadamKk(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(tr(kk, 'Площадки', 'Алаңдар')),
+        title: const Text('Qadam'),
         actions: [
           TextButton(
             onPressed: widget.toggleLanguage,
@@ -123,18 +149,23 @@ class _PublicHomeState extends State<PublicHome> {
         child: RefreshIndicator(
           onRefresh: load,
           child: ListView(
+            key: const PageStorageKey('public-venues'),
             padding: const EdgeInsets.all(16),
             physics: const AlwaysScrollableScrollPhysics(),
             children: [
               Text(
+                tr(kk, 'Площадки Тараза', 'Тараз алаңдары'),
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+              const SizedBox(height: 8),
+              Text(
                 tr(
                   kk,
-                  'Найдите магазин и оставьте заявку',
-                  'Дүкенді тауып, өтінім қалдырыңыз',
+                  'Выберите площадку, найдите магазин и оставьте заявку.',
+                  'Алаңды таңдап, дүкен тауып, өтінім қалдырыңыз.',
                 ),
-                style: Theme.of(context).textTheme.titleLarge,
               ),
-              crmGap,
+              const SizedBox(height: 16),
               if (busy) const LinearProgressIndicator(),
               if (error != null) ...[
                 Text(publicError(kk)),
@@ -147,17 +178,10 @@ class _PublicHomeState extends State<PublicHome> {
                 Text(tr(kk, 'Площадок пока нет.', 'Әзірге алаңдар жоқ.')),
               if (error == null)
                 for (final v in venues)
-                  crmCard([
-                    poster(assets[v['slug']], kk),
-                    Text(
-                      v['name'] as String,
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    if (v['is_demo'] == true) demoLabel(kk),
-                    Text(v['address_label'] as String),
-                    crmGap,
-                    FilledButton(
-                      onPressed: () => Navigator.push(
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (_) => VenuePage(
@@ -168,11 +192,65 @@ class _PublicHomeState extends State<PublicHome> {
                           ),
                         ),
                       ),
-                      child: Text(
-                        tr(kk, 'Магазины площадки', 'Алаң дүкендері'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            poster(assets[v['slug']], kk),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    v['name'] as String,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                const Icon(Icons.arrow_forward),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              v['address_label'] as String,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            if (v['is_demo'] == true) ...[
+                              const SizedBox(height: 8),
+                              QadamBadge(
+                                tr(kk, 'Учебная витрина', 'Оқу сөресі'),
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
                     ),
-                  ]),
+                  ),
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                title: Text(
+                  tr(
+                    kk,
+                    'О площадках и учебных данных',
+                    'Алаңдар мен оқу деректері туралы',
+                  ),
+                ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      tr(
+                        kk,
+                        'Модели по референсам, размеры оценочные. Учебные точки не задают точный маршрут к реальному продавцу.',
+                        'Үлгілер дереккөздер бойынша, өлшемдері болжамды. Оқу нүктелері нақты сатушыға жол көрсетпейді.',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -205,7 +283,7 @@ class _VenuePageState extends State<VenuePage> {
   bool busy = true;
   Object? error;
   int generation = 0;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   @override
   void initState() {
     super.initState();
@@ -263,17 +341,37 @@ class _VenuePageState extends State<VenuePage> {
         slug: b['slug'] as String,
         expectedId: b['id'] as String,
         venue: widget.venue,
+        asset: widget.asset,
         kk: kk,
       ),
     ),
   );
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(widget.venue['name'] as String)),
+    appBar: AppBar(
+      title: Text(widget.venue['name'] as String),
+      actions: const [LanguageAction()],
+    ),
     body: SafeArea(
       child: ListView(
+        key: PageStorageKey('venue-${widget.venue['id']}'),
         padding: const EdgeInsets.all(16),
         children: [
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              if (widget.venue['is_demo'] == true)
+                QadamBadge(tr(kk, 'Учебная витрина', 'Оқу сөресі')),
+              QadamBadge(tr(kk, 'Схема площадки', 'Алаң сызбасы')),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Text(
+            widget.venue['address_label'] as String,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          const SizedBox(height: 12),
           if (widget.asset != null && !busy && error == null)
             VenueViewer(
               key: ValueKey('$generation:$category'),
@@ -282,17 +380,15 @@ class _VenuePageState extends State<VenuePage> {
               businesses: shops,
               kk: kk,
               onSelect: open,
-            ),
-          poster(widget.asset, kk),
+            )
+          else
+            poster(widget.asset, kk),
+          const SizedBox(height: 16),
           Text(
-            tr(
-              kk,
-              'Модель по референсам, размеры оценочные. Учебные точки не задают точный маршрут к продавцу.',
-              'Үлгі дереккөздер бойынша, өлшемдері болжамды. Оқу нүктелері сатушыға нақты жол көрсетпейді.',
-            ),
+            tr(kk, 'Магазины площадки', 'Алаң дүкендері'),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
-          if (widget.venue['is_demo'] == true) demoLabel(kk),
-          crmGap,
+          const SizedBox(height: 12),
           TextField(
             key: const Key('shop-search'),
             controller: query,
@@ -300,41 +396,49 @@ class _VenuePageState extends State<VenuePage> {
             textInputAction: TextInputAction.search,
             onSubmitted: (_) => load(),
             decoration: InputDecoration(
-              labelText: tr(kk, 'Поиск магазина', 'Дүкенді іздеу'),
-            ),
-          ),
-          DropdownButtonFormField<String>(
-            key: ValueKey(category),
-            initialValue: category,
-            isExpanded: true,
-            decoration: InputDecoration(
-              labelText: tr(kk, 'Категория', 'Санат'),
-            ),
-            items: [
-              DropdownMenuItem(
-                value: '',
-                child: Text(tr(kk, 'Все категории', 'Барлық санаттар')),
+              labelText: tr(kk, 'Поиск на площадке', 'Алаңнан іздеу'),
+              counterText: '',
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: IconButton(
+                tooltip: tr(kk, 'Найти', 'Іздеу'),
+                onPressed: busy ? null : () => load(),
+                icon: const Icon(Icons.arrow_forward),
               ),
-              for (final c in categories)
-                DropdownMenuItem(value: c, child: Text(categoryName(c, kk))),
+            ),
+          ),
+          const SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              for (final c in ['', ...categories])
+                ChoiceChip(
+                  label: Text(
+                    c.isEmpty ? tr(kk, 'Все', 'Барлығы') : categoryName(c, kk),
+                  ),
+                  selected: category == c,
+                  onSelected: busy
+                      ? null
+                      : (_) {
+                          category = c;
+                          load();
+                        },
+                ),
             ],
-            onChanged: (v) {
-              category = v ?? '';
-              load();
-            },
           ),
-          FilledButton(
-            onPressed: busy ? null : () => load(),
-            child: Text(tr(kk, 'Найти', 'Іздеу')),
-          ),
-          TextButton(
-            onPressed: () {
-              query.clear();
-              setState(() => category = '');
-              load(initial: true);
-            },
-            child: Text(tr(kk, 'Сбросить фильтры', 'Сүзгілерді тазарту')),
-          ),
+          if (query.text.isNotEmpty || category.isNotEmpty)
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton(
+                onPressed: () {
+                  query.clear();
+                  category = '';
+                  load(initial: true);
+                },
+                child: Text(tr(kk, 'Сбросить фильтры', 'Сүзгілерді тазарту')),
+              ),
+            ),
+          const SizedBox(height: 12),
           if (busy) const LinearProgressIndicator(),
           if (error != null) ...[
             Text(publicError(kk)),
@@ -352,19 +456,58 @@ class _VenuePageState extends State<VenuePage> {
               ),
             ),
           for (final b in shops)
-            crmCard([
-              Text(
-                b['name'] as String,
-                style: Theme.of(context).textTheme.titleLarge,
+            Card(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () => open(b),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          pointNumber(
+                                widget.asset,
+                                b,
+                                widget.venue['id'] as String,
+                              )?.toString() ??
+                              '•',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              b['name'] as String,
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(categoryName(b['category'] as String, kk)),
+                            if (b['is_demo'] == true) ...[
+                              const SizedBox(height: 8),
+                              demoLabel(kk),
+                            ],
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  ),
+                ),
               ),
-              Text(categoryName(b['category'] as String, kk)),
-              if (b['is_demo'] == true) demoLabel(kk),
-              Text(b['description'] as String),
-              FilledButton(
-                onPressed: () => open(b),
-                child: Text(tr(kk, 'Открыть магазин', 'Дүкенді ашу')),
-              ),
-            ]),
+            ),
         ],
       ),
     ),
@@ -379,17 +522,20 @@ class PublicShopPage extends StatefulWidget {
     required this.kk,
     this.expectedId,
     this.venue,
+    this.asset,
   });
   final MobileRuntime runtime;
   final String slug;
   final String? expectedId;
   final CrmJson? venue;
+  final VenueAsset? asset;
   final bool kk;
   @override
   State<PublicShopPage> createState() => _PublicShopPageState();
 }
 
 class _PublicShopPageState extends State<PublicShopPage> {
+  final inquiryAnchor = GlobalKey();
   CrmJson? shop;
   bool busy = true;
   Object? error;
@@ -423,84 +569,161 @@ class _PublicShopPageState extends State<PublicShopPage> {
 
   @override
   Widget build(BuildContext context) {
-    final kk = widget.kk;
+    final kk = qadamKk(context);
     final b = shop;
+    final point = b == null || widget.venue == null
+        ? null
+        : pointNumber(widget.asset, b, widget.venue!['id'] as String);
     return Scaffold(
       appBar: AppBar(
-        title: Text(b?['name'] as String? ?? tr(kk, 'Магазин', 'Дүкен')),
+        title: Text(tr(kk, 'Магазин', 'Дүкен')),
+        actions: const [LanguageAction()],
       ),
       body: SafeArea(
-        child: ListView(
+        child: SingleChildScrollView(
+          key: PageStorageKey('shop-${widget.slug}'),
           padding: const EdgeInsets.all(16),
-          children: [
-            if (busy) const LinearProgressIndicator(),
-            if (error != null) ...[
-              Text(publicError(kk)),
-              OutlinedButton(
-                onPressed: load,
-                child: Text(tr(kk, 'Повторить', 'Қайталау')),
-              ),
-            ],
-            if (b != null) ...[
-              Text(
-                b['name'] as String,
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              if (widget.venue != null) Text(widget.venue!['name'] as String),
-              Text(categoryName(b['category'] as String, kk)),
-              if (b['is_demo'] == true) demoLabel(kk),
-              Text(b['description'] as String),
-              crmGap,
-              Text(
-                tr(
-                  kk,
-                  'Контакты магазина не опубликованы. Вы можете оставить заявку.',
-                  'Дүкеннің байланыс деректері жарияланбаған. Өтінім қалдыра аласыз.',
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (busy) const LinearProgressIndicator(),
+              if (error != null) ...[
+                Text(publicError(kk)),
+                OutlinedButton(
+                  onPressed: load,
+                  child: Text(tr(kk, 'Повторить', 'Қайталау')),
                 ),
-              ),
-              crmGap,
-              Text(
-                tr(kk, 'Каталог', 'Каталог'),
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              if ((b['catalog'] as List).isEmpty)
-                Text(tr(kk, 'Товаров пока нет.', 'Әзірге тауарлар жоқ.')),
-              for (final raw in b['catalog'] as List)
-                Builder(
-                  builder: (context) {
-                    final item = crmObject(raw);
-                    return crmCard([
-                      // Current API has no product photo: do not invent a product image.
-                      Text(
-                        item['name'] as String,
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Text(
-                        item['available'] == true
-                            ? tr(kk, 'В наличии', 'Бар')
-                            : tr(kk, 'Нет в наличии', 'Қолда жоқ'),
-                      ),
-                      Text(
-                        item['price_minor'] == null
-                            ? tr(kk, 'Цена не указана', 'Бағасы көрсетілмеген')
-                            : crmMoney(item['price_minor'] as int, kk),
-                      ),
-                      if (item['is_demo'] == true) demoLabel(kk),
-                    ]);
-                  },
+              ],
+              if (b != null) ...[
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    QadamBadge(categoryName(b['category'] as String, kk)),
+                    if (b['is_demo'] == true) demoLabel(kk),
+                  ],
                 ),
-              if (widget.runtime.inquiries != null)
-                InquiryForm(
-                  key: ValueKey(
-                    '${b['id']}:${widget.runtime.accountId}:${widget.runtime.epoch}',
+                const SizedBox(height: 12),
+                Text(
+                  b['name'] as String,
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+                const SizedBox(height: 8),
+                if (widget.venue != null)
+                  Text(
+                    '${widget.venue!['name']}${point == null ? '' : tr(kk, ' · Точка $point на схеме', ' · Сызбадағы $point нүкте')}',
+                    style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  runtime: widget.runtime,
-                  business: b['id'] as String,
-                  name: b['name'] as String,
-                  kk: kk,
+                const SizedBox(height: 12),
+                Text(b['description'] as String),
+                const SizedBox(height: 16),
+                if (widget.runtime.inquiries != null)
+                  FilledButton.icon(
+                    key: const Key('shop-inquiry-action'),
+                    onPressed: () {
+                      final target = inquiryAnchor.currentContext;
+                      if (target != null) {
+                        Scrollable.ensureVisible(
+                          target,
+                          duration: const Duration(milliseconds: 300),
+                          alignment: 0,
+                        );
+                      }
+                    },
+                    icon: const Icon(Icons.edit_outlined),
+                    label: Text(tr(kk, 'Оставить заявку', 'Өтінім қалдыру')),
+                  ),
+                const SizedBox(height: 24),
+                Text(
+                  tr(kk, 'Каталог', 'Каталог'),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
+                const SizedBox(height: 12),
+                if ((b['catalog'] as List).isEmpty)
+                  Text(tr(kk, 'Товаров пока нет.', 'Әзірге тауарлар жоқ.')),
+                for (final raw in b['catalog'] as List)
+                  Builder(
+                    builder: (context) {
+                      final item = crmObject(raw);
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Icon(
+                                Icons.inventory_2_outlined,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
+                                size: 28,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item['name'] as String,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      item['available'] == true
+                                          ? tr(kk, 'В наличии', 'Бар')
+                                          : tr(
+                                              kk,
+                                              'Нет в наличии',
+                                              'Қолда жоқ',
+                                            ),
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodySmall,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      item['price_minor'] == null
+                                          ? tr(
+                                              kk,
+                                              'Цена не указана',
+                                              'Бағасы көрсетілмеген',
+                                            )
+                                          : crmMoney(
+                                              item['price_minor'] as int,
+                                              kk,
+                                            ),
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                if (widget.runtime.inquiries != null)
+                  Padding(
+                    key: inquiryAnchor,
+                    padding: const EdgeInsets.only(top: 12),
+                    child: InquiryForm(
+                      key: ValueKey(
+                        '${b['id']}:${widget.runtime.accountId}:${widget.runtime.epoch}',
+                      ),
+                      runtime: widget.runtime,
+                      business: b['id'] as String,
+                      name: b['name'] as String,
+                      kk: kk,
+                    ),
+                  ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -532,8 +755,9 @@ class _InquiryFormState extends State<InquiryForm> {
   late final InquiryService service;
   CrmIntent? saved;
   bool busy = true;
+  bool allowLeave = false;
   Object? error;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   bool get active => mounted && service.isCurrent(scope);
   @override
   void initState() {
@@ -631,19 +855,51 @@ class _InquiryFormState extends State<InquiryForm> {
     String kz,
     int limit, {
     int lines = 1,
-  }) => TextFormField(
-    controller: controller,
-    enabled: !busy && saved == null,
-    maxLines: lines,
-    decoration: InputDecoration(labelText: tr(kk, ru, kz)),
-    validator: (value) {
-      final text = (value ?? '').trim();
-      if (text.isEmpty) return tr(kk, 'Обязательное поле', 'Міндетті өріс');
-      if (text.runes.length > limit) {
-        return tr(kk, 'Не более $limit символов', '$limit таңбадан аспасын');
-      }
-      return null;
-    },
+  }) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      Text(tr(kk, ru, kz), style: Theme.of(context).textTheme.titleMedium),
+      const SizedBox(height: 8),
+      Semantics(
+        label: tr(kk, ru, kz),
+        child: TextFormField(
+          key: Key(
+            controller == contact
+                ? 'inquiry-contact'
+                : controller == name
+                ? 'inquiry-name'
+                : 'inquiry-message',
+          ),
+          onChanged: (_) => setState(() {}),
+          controller: controller,
+          enabled: !busy && saved == null,
+          maxLines: lines,
+          decoration: InputDecoration(
+            helperText: controller == contact
+                ? tr(
+                    kk,
+                    'Телефон, email или Telegram — любой удобный контакт.',
+                    'Телефон, email немесе Telegram — ыңғайлы байланыс.',
+                  )
+                : null,
+          ),
+          validator: (value) {
+            final text = (value ?? '').trim();
+            if (text.isEmpty) {
+              return tr(kk, 'Обязательное поле', 'Міндетті өріс');
+            }
+            if (text.runes.length > limit) {
+              return tr(
+                kk,
+                'Не более $limit символов',
+                '$limit таңбадан аспасын',
+              );
+            }
+            return null;
+          },
+        ),
+      ),
+    ],
   );
   @override
   Widget build(BuildContext context) {
@@ -676,65 +932,109 @@ class _InquiryFormState extends State<InquiryForm> {
         ),
       ]);
     }
-    return crmCard([
-      Text(
-        tr(kk, 'Оставить заявку', 'Өтінім қалдыру'),
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
-      Text(widget.name),
-      Text(
-        tr(
-          kk,
-          'Контакт увидит только магазин. Незавершённая заявка защищённо сохраняется на этом устройстве для повтора.',
-          'Байланысты тек дүкен көреді. Аяқталмаған өтінім қайталау үшін осы құрылғыда қорғалып сақталады.',
-        ),
-      ),
-      Form(
-        key: form,
-        child: Column(
-          children: [
-            field(name, 'Ваше имя', 'Атыңыз', 100),
-            crmGap,
-            field(
-              contact,
-              'Телефон, email или другой контакт',
-              'Телефон, email немесе басқа байланыс',
-              200,
+    return PopScope(
+      canPop:
+          allowLeave ||
+          saved != null ||
+          (name.text.isEmpty && contact.text.isEmpty && message.text.isEmpty),
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop || !mounted) return;
+        final leave = await showDialog<bool>(
+          context: context,
+          builder: (dialogContext) => AlertDialog(
+            title: Text(tr(kk, 'Выйти из формы?', 'Пішіннен шығасыз ба?')),
+            content: Text(
+              tr(
+                kk,
+                'Введённые данные ещё не отправлены.',
+                'Енгізілген деректер әлі жіберілмеді.',
+              ),
             ),
-            crmGap,
-            field(message, 'Что вы ищете?', 'Не іздеп жүрсіз?', 2000, lines: 4),
-          ],
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, false),
+                child: Text(tr(kk, 'Продолжить', 'Жалғастыру')),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(dialogContext, true),
+                child: Text(tr(kk, 'Выйти', 'Шығу')),
+              ),
+            ],
+          ),
+        );
+        if (leave == true && mounted) {
+          setState(() => allowLeave = true);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) Navigator.pop(context);
+          });
+        }
+      },
+      child: crmCard([
+        Text(
+          tr(kk, 'Оставить заявку', 'Өтінім қалдыру'),
+          style: Theme.of(context).textTheme.titleLarge,
         ),
-      ),
-      crmGap,
-      if (busy) const LinearProgressIndicator(),
-      if (saved != null)
+        Text(widget.name),
         Text(
           tr(
             kk,
-            'Результат ещё не подтверждён. Повтор отправит исходные данные без новой заявки.',
-            'Нәтиже әлі расталмады. Қайталау бастапқы деректерді жаңа өтінімсіз жібереді.',
+            'Контакт увидит только этот магазин. Отправка — только по вашей кнопке.',
+            'Байланысты тек осы дүкен көреді. Өтінім тек батырманы басқанда жіберіледі.',
           ),
         ),
-      if (error != null)
-        Text(
-          error is ApiFailure &&
-                  (error as ApiFailure).code == 'INQUIRY_REJECTED'
-              ? tr(
-                  kk,
-                  'Сервер не принял заявку. Проверьте поля.',
-                  'Сервер өтінімді қабылдамады. Өрістерді тексеріңіз.',
-                )
-              : publicError(kk),
+        Form(
+          key: form,
+          child: Column(
+            children: [
+              field(name, 'Ваше имя', 'Атыңыз', 100),
+              crmGap,
+              field(
+                contact,
+                'Как с вами связаться',
+                'Сізбен қалай байланысуға болады',
+                200,
+              ),
+              crmGap,
+              field(
+                message,
+                'Что вы ищете?',
+                'Не іздеп жүрсіз?',
+                2000,
+                lines: 4,
+              ),
+            ],
+          ),
         ),
-      FilledButton(
-        onPressed: busy ? null : send,
-        child: Text(
-          saved == null
-              ? tr(kk, 'Отправить заявку', 'Өтінім жіберу')
-              : tr(kk, 'Повторить отправку', 'Қайта жіберу'),
+        crmGap,
+        if (busy) const LinearProgressIndicator(),
+        if (saved != null)
+          Text(
+            tr(
+              kk,
+              'Результат ещё не подтверждён. Повтор отправит исходные данные без новой заявки.',
+              'Нәтиже әлі расталмады. Қайталау бастапқы деректерді жаңа өтінімсіз жібереді.',
+            ),
+          ),
+        if (error != null)
+          Text(
+            error is ApiFailure &&
+                    (error as ApiFailure).code == 'INQUIRY_REJECTED'
+                ? tr(
+                    kk,
+                    'Сервер не принял заявку. Проверьте поля.',
+                    'Сервер өтінімді қабылдамады. Өрістерді тексеріңіз.',
+                  )
+                : publicError(kk),
+          ),
+        FilledButton(
+          onPressed: busy ? null : send,
+          child: Text(
+            saved == null
+                ? tr(kk, 'Отправить заявку', 'Өтінім жіберу')
+                : tr(kk, 'Повторить отправку', 'Қайта жіберу'),
+          ),
         ),
-      ),
-    ]);
+      ]),
+    );
   }
 }
