@@ -24,6 +24,7 @@ class CrmApi {
     required this.pending,
     http.Client? client,
     this.timeout = const Duration(seconds: 35),
+    this.customerIdsEnabled = false,
   }) : client = client ?? http.Client();
   final Uri baseUrl;
   final String? Function() accountId;
@@ -32,6 +33,11 @@ class CrmApi {
   final CrmPending pending;
   final http.Client client;
   final Duration timeout;
+  // PR61 is not deployed yet. Enable only after the agreed API rollout and
+  // verification of its exact deployed SHA plus the ids OpenAPI parameter.
+  // This is deliberately not a public configuration or automatic version gate:
+  // both the older and candidate servers identify themselves as API 0.6.2.
+  final bool customerIdsEnabled;
   CrmScope scope(String business) {
     final owner = accountId();
     if (owner == null) throw const ApiFailure('AUTH_REQUIRED');
@@ -49,7 +55,7 @@ class CrmApi {
     }
   }
 
-  Uri url(CrmScope scope, String resource, [Map<String, String>? query]) =>
+  Uri url(CrmScope scope, String resource, [Map<String, Object>? query]) =>
       baseUrl.replace(
         path: '/api/v1/businesses/${scope.business}/$resource',
         queryParameters: query,
@@ -59,7 +65,7 @@ class CrmApi {
     CrmScope scope,
     String method,
     String resource, {
-    Map<String, String>? query,
+    Map<String, Object>? query,
     CrmJson? body,
     String? key,
   }) async {
@@ -155,6 +161,43 @@ class CrmApi {
     ),
     (item) => validateCustomer(item, scope.business),
   );
+
+  /// PR61's exact-id lookup. No q, cursor or limit belongs in this request.
+  /// Reject a legacy server's unfiltered page rather than assigning wrong names.
+  Future<CrmPage> customersByIds(CrmScope scope, List<String> ids) async {
+    check(scope);
+    if (ids.isEmpty) return const CrmPage([], null);
+    // The contract limits the original array, before deduplication.
+    if (ids.length > 100 || ids.any((id) => !crmUuid.hasMatch(id))) {
+      throw const ApiFailure('VALIDATION_ERROR');
+    }
+    if (!customerIdsEnabled) {
+      throw const ApiFailure('CUSTOMER_IDS_UNAVAILABLE');
+    }
+    final requested = ids.map((id) => id.toLowerCase()).toSet();
+    final result = await request(
+      scope,
+      'GET',
+      'customers',
+      query: {'ids': requested.toList(growable: false)},
+    );
+    if (!result.containsKey('next_cursor') || result['next_cursor'] != null) {
+      throw const ApiFailure('CUSTOMER_IDS_UNAVAILABLE');
+    }
+    final page = CrmPage.parse(
+      result,
+      (item) => validateCustomer(item, scope.business),
+    );
+    final seen = <String>{};
+    for (final item in page.items) {
+      final id = (item['id'] as String).toLowerCase();
+      if (!requested.contains(id) || !seen.add(id)) {
+        throw const ApiFailure('CUSTOMER_IDS_UNAVAILABLE');
+      }
+    }
+    return page;
+  }
+
   Future<CrmPage> operations(
     CrmScope scope, {
     bool debts = false,
