@@ -841,6 +841,21 @@ void main() {
         tester.widget<Text>(find.byKey(const ValueKey('minimum-price'))).data,
         expected,
       );
+      if (count >= 5) {
+        await tester.scrollUntilVisible(
+          find.text('25 000 ₸'),
+          160,
+          scrollable: pageScroll(),
+        );
+        await tester.pumpAndSettle();
+        expect(find.text('25 000 ₸'), findsOneWidget);
+        expect(find.text('Объявлений: 5'), findsOneWidget);
+        expect(find.text('Пока мало данных'), findsNothing);
+        expect(
+          find.byKey(const ValueKey('toggle-demo-price-example')),
+          findsNothing,
+        );
+      }
       expect(requests.single.url.queryParameters, {
         'species': 'cattle',
         'locality': 'Тараз',
@@ -861,6 +876,233 @@ void main() {
       api.close();
     });
   }
+
+  testWidgets('demo price example stays separate from live data and errors', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(320, 640);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    final fixture =
+        jsonDecode(
+              File('test/data/livestock_fixtures.json').readAsStringSync(),
+            )
+            as Map;
+    final requests = <http.Request>[];
+    var fullStats = false;
+    var failNextRequest = false;
+    final api = LivestockApi(
+      baseUrl: Uri.parse('https://api.example.test/api/v1'),
+      accountId: () => null,
+      accessToken: () async => null,
+      store: _MemoryStore(),
+      client: MockClient((request) async {
+        requests.add(request);
+        if (request.url.path.endsWith('/prices')) {
+          if (failNextRequest) {
+            throw http.ClientException('private transport detail');
+          }
+          return _jsonResponse(
+            jsonEncode({
+              ...Map<String, dynamic>.from(fixture['PriceStats'] as Map),
+              'sample_count': fullStats ? 5 : 0,
+              'min_price_per_head_minor': fullStats ? 2000000 : null,
+              'median_price_per_head_minor': fullStats ? 2500000 : null,
+              'status': fullStats ? 'available' : 'insufficient_data',
+            }),
+            200,
+          );
+        }
+        return _jsonResponse('{"items":[],"next_cursor":null}', 200);
+      }),
+    );
+    final runtime = MobileRuntime(api: api);
+    await tester.pumpWidget(MobileApp(runtime: runtime));
+    await tester.pumpAndSettle();
+    await openMarket(tester);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Цены'));
+    await tester.pumpAndSettle();
+
+    final locality = find.widgetWithText(TextField, 'Город или село');
+    await tester.scrollUntilVisible(locality, 160, scrollable: pageScroll());
+    await tester.pumpAndSettle();
+    await tester.enterText(locality, 'Тараз');
+    tester.testTextInput.hide();
+    var kk = false;
+    Finder demoToggle() =>
+        find.byKey(const ValueKey('toggle-demo-price-example'));
+
+    Future<void> loadPrices() async {
+      await tester.scrollUntilVisible(
+        find.text(kk ? 'Бағаларды көру' : 'Посмотреть цены'),
+        160,
+        scrollable: pageScroll(),
+      );
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(kk ? 'Бағаларды көру' : 'Посмотреть цены'));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> showDemoExample({
+      required String minimum,
+      required String median,
+    }) async {
+      final toggle = demoToggle();
+      await tester.scrollUntilVisible(toggle, 160, scrollable: pageScroll());
+      await tester.pumpAndSettle();
+      expect(find.text('Пока мало данных'), findsOneWidget);
+      expect(find.text('Нет данных'), findsOneWidget);
+      expect(toggle, findsOneWidget);
+      await tester.tap(toggle);
+      await tester.pumpAndSettle();
+      expect(find.text('Учебный пример · не рынок'), findsOneWidget);
+      expect(
+        find.text('5 вымышленных предложений для демонстрации'),
+        findsOneWidget,
+      );
+      expect(find.text(minimum), findsOneWidget);
+      expect(find.text(median), findsOneWidget);
+      expect(find.text('Пока мало данных'), findsOneWidget);
+    }
+
+    const examples = [
+      (
+        code: 'cattle',
+        label: 'Крупный рогатый скот',
+        min: '320 000 ₸',
+        median: '350 000 ₸',
+      ),
+      (code: 'sheep', label: 'Овцы', min: '40 000 ₸', median: '50 000 ₸'),
+      (code: 'goat', label: 'Козы', min: '35 000 ₸', median: '45 000 ₸'),
+      (code: 'horse', label: 'Лошади', min: '500 000 ₸', median: '650 000 ₸'),
+      (
+        code: 'camel',
+        label: 'Верблюды',
+        min: '800 000 ₸',
+        median: '950 000 ₸',
+      ),
+    ];
+    for (var index = 0; index < examples.length; index++) {
+      final example = examples[index];
+      if (index > 0) {
+        final species = find.byType(DropdownButtonFormField<String>);
+        await tester.scrollUntilVisible(
+          species,
+          -160,
+          scrollable: pageScroll(),
+        );
+        await tester.pumpAndSettle();
+        await tester.tap(species);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(example.label));
+        await tester.pumpAndSettle();
+        expect(
+          find.text('Учебный пример · не рынок'),
+          findsNothing,
+          reason: 'changing species must hide the previous demo example',
+        );
+        expect(
+          demoToggle(),
+          findsNothing,
+        );
+        await loadPrices();
+      } else {
+        await loadPrices();
+      }
+      await showDemoExample(minimum: example.min, median: example.median);
+      expect(
+        requests
+            .where((r) => r.url.path.endsWith('/prices'))
+            .last
+            .url
+            .queryParameters['species'],
+        example.code,
+      );
+    }
+
+    expect(
+      requests.where((r) => r.url.path.endsWith('/prices')).length,
+      examples.length,
+    );
+    expect(requests.every((r) => r.method == 'GET'), isTrue);
+
+    final localityFilter = find.widgetWithText(TextField, 'Город или село');
+    await tester.scrollUntilVisible(
+      localityFilter,
+      -160,
+      scrollable: pageScroll(),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(localityFilter, 'Шымкент');
+    tester.testTextInput.hide();
+    expect(find.text('Учебный пример · не рынок'), findsNothing);
+    expect(demoToggle(), findsNothing);
+
+    await loadPrices();
+    await showDemoExample(minimum: '800 000 ₸', median: '950 000 ₸');
+    final marketFilter = find.widgetWithText(
+      TextField,
+      'Рынок (все, если пусто)',
+    );
+    await tester.scrollUntilVisible(
+      marketFilter,
+      -160,
+      scrollable: pageScroll(),
+    );
+    await tester.pumpAndSettle();
+    await tester.enterText(marketFilter, 'Учебный базар');
+    tester.testTextInput.hide();
+    expect(find.text('Учебный пример · не рынок'), findsNothing);
+    expect(demoToggle(), findsNothing);
+
+    await loadPrices();
+    await showDemoExample(minimum: '800 000 ₸', median: '950 000 ₸');
+    fullStats = true;
+    await loadPrices();
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('minimum-price')),
+      160,
+      scrollable: pageScroll(),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('25 000 ₸'),
+      160,
+      scrollable: pageScroll(),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('20 000 ₸'), findsOneWidget);
+    expect(find.text('25 000 ₸'), findsOneWidget);
+    expect(find.text('Объявлений: 5'), findsOneWidget);
+    expect(find.text('Пока мало данных'), findsNothing);
+    expect(find.text('Учебный пример · не рынок'), findsNothing);
+    expect(demoToggle(), findsNothing);
+    final fullRequest = requests
+        .where((r) => r.url.path.endsWith('/prices'))
+        .last;
+    expect(fullRequest.url.queryParameters['locality'], 'Шымкент');
+    expect(fullRequest.url.queryParameters['market'], 'Учебный базар');
+    expect(requests.every((r) => r.method == 'GET'), isTrue);
+
+    await tester.tap(find.text('ҚАЗ'));
+    await tester.pumpAndSettle();
+    kk = true;
+    expect(find.text('25 000 ₸'), findsOneWidget);
+    expect(find.text('Деректер әлі аз'), findsNothing);
+
+    failNextRequest = true;
+    await loadPrices();
+    expect(find.text('Деректер әлі аз'), findsNothing);
+    expect(find.text('Оқу үлгісі · нарық дерегі емес'), findsNothing);
+    expect(demoToggle(), findsNothing);
+    expect(find.textContaining('Байланысты тексеріп'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+    await tester.pumpWidget(const SizedBox());
+    runtime.dispose();
+    api.close();
+  });
 
   for (final owned in [false, true]) {
     testWidgets('market filter owns cursor and resets pages owned=$owned', (
