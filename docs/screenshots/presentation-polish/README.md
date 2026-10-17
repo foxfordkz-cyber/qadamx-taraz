@@ -16,6 +16,7 @@
 | Мне должны | [лист](debts-1440.webp) | [лист](debts-390.webp) | [лист](debts-360-kk.webp) |
 | Клиенты | [лист](customers-1440.webp) | [лист](customers-390.webp) | |
 | История | [лист](history-1440.webp) | [лист](history-390.webp) | |
+| Каталог (встроенное демо; до — `main` @ `9845b91`) | [лист](catalog-1440.webp) | [лист](catalog-390.webp) | |
 | Витрина, карточки площадок | [лист](public-home-venues-1440.webp) | [лист](public-home-venues-390.webp) | |
 | Витрина, Мал базар | [лист](public-mal-1440.webp) | [лист](public-mal-390.webp) | |
 | Витрина, MART без WebGL | | [лист](public-fallback-mart-390.webp) | |
