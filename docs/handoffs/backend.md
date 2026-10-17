@@ -1,5 +1,26 @@
 # Передача работы backend
 
+## 2026-10-17 — окно PR61 разрешено; ручной Render deploy и отдельный PR67
+
+[Точные ручные действия, фиксация Live SHA/ID, HTTPS gate и уточнённый откат](../CUSTOMER_IDS_RENDER_WINDOW.md).
+Разрешён только backend **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**.
+Management key/доступной панели Render у агента нет; текущий health не раскрывает SHA.
+Предварительный реальный HTTPS: health/OpenAPI200 API0.6.2 **без ids**; A/B6/3,
+own200/foreign404,anon401. Все три CORS origins, включая Preview43, GET/POST OPTIONS200.
+Ожидаются прежний и новый Live deployment ID/SHA из панели и ручной exact-commit deploy.
+Проверяющий GET-only сценарий ids/балансов/валидации/A-B подготовлен; post-Live PASS
+и deployed SHA ещё не заявляются. Vercel, БД/memberships, финансы и paidAI не менялись.
+
+Уточнение прежнего плана: Render Rollback берёт env целевого старого deployment.
+Для сохранения текущего ключа/OpenAI/CORS использовать **новый specific-commit deploy
+прежнего Live SHA с нынешним Environment**, а не слепую кнопку Rollback.
+
+[PR67 review](../ANALYTICS_67_REVIEW.md): точный **8da93dc48ff998230212be4f31c32944a173f53b**;
+347unit,3responsive/keyboard E2E, typecheck/lint/build/check:api PASS. Только локальные
+fixtures/Demo; блокирующих дефектов не найдено. Backend и shared/format.ts не меняются;
+перенос дат ожидает согласования Бекзата. Код67 не включён в эту ветку/окно/deployment.
+Обнаружен PR65 **559b4d0** с зависимым ids frontend; не принимать автоматически.
+
 ## 2026-10-17 — совместная проверка PR61/63 без rollout
 
 [Точные SHA, review и последовательность приёмки](../CUSTOMER_IDS_HISTORY_JOINT_REVIEW.md).
