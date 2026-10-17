@@ -3,7 +3,7 @@
 2026-10-17. Recovery branch **fix/seller-customer-recovery-safe**, separate worktree
 `work/qadam-customer-recovery-safe`, base **main:07197bec0a8ac331714eea3036f3af6eac939e7e**.
 Selected source **9a3c8687e59d70fa5d4fdbb99695af538a068791**, without a branch merge.
-Current exact checkout hash: `git log -1 --format=%H`.
+Published WIP implementation: **1bf9fe417f35bbafd6a47d6a054914f7b621f9fd**; initial push successful and local/remote matched. Final fetch found main **9845b91b64d388c54312d2a8a75000218c7774af**, two non-overlapping documentation files only; no automatic merge. Current exact checkout hash (including checkpoint documentation): `git log -1 --format=%H`.
 
 Registration was synchronized first in its own worktree: authorized merge of
 main into `feature/seller-registration-onboarding`, commit

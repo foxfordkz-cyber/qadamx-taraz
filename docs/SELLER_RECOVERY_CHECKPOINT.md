@@ -9,6 +9,8 @@ session limit remains. Do not resume tests or new work until the next request.
 - Worktree: `work/qadam-customer-recovery-safe` (under this task workspace).
 - Branch: `fix/seller-customer-recovery-safe`.
 - Base checked at task start: `origin/main:07197bec0a8ac331714eea3036f3af6eac939e7e`.
+- Saved implementation WIP: `1bf9fe417f35bbafd6a47d6a054914f7b621f9fd`, pushed successfully; local/remote HEAD matched. The documentation-only follow-up records final Git freshness.
+- Final fetch found main advanced to `9845b91b64d388c54312d2a8a75000218c7774af`. Its two new commits only add `docs/DEMO_NAMES_RU_KZ.md` and update `docs/handoffs/backend.md`; no file overlap with this recovery diff. Nothing was merged. Recovery base remains07197be. Compare fresh main on resume and obtain approval before any base merge.
 - This checkpoint is a WIP commit, not final acceptance. Exact checkpoint hash:
   `git log -1 --format=%H` on this branch. Final response records the published hash.
 - No unresolved Git conflicts. No merge into main, force push, reset or deploy.
