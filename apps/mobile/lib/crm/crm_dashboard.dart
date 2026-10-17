@@ -94,7 +94,7 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
         FilledButton.icon(
           key: const Key('crm-new-entry'),
           onPressed: () => open(
-          CrmEntryPage(
+            CrmEntryPage(
               runtime: widget.runtime,
               business: widget.business,
               kk: kk,
@@ -136,10 +136,16 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
           ),
         ),
         action(
-        'Аналитика', 'Аналитика', Icons.bar_chart,
-        AnalyticsPage(runtime: widget.runtime, business: widget.business, kk: kk),
-      ),
-      action(
+          'Аналитика',
+          'Аналитика',
+          Icons.bar_chart,
+          AnalyticsPage(
+            runtime: widget.runtime,
+            business: widget.business,
+            kk: kk,
+          ),
+        ),
+        action(
           'Заявки',
           'Өтінімдер',
           Icons.mail_outline,
