@@ -1,5 +1,27 @@
 # Передача работы backend
 
+## 2026-10-17 — PR A: публичные RU/KK варианты, issue69
+
+Отдельная backend/public-localization от86ca9af. Контракт опубликован до кода,
+commit9d100d6: [PUBLIC_LOCALIZATION_API](../../packages/contracts/PUBLIC_LOCALIZATION_API.md).
+Nullable name/address_label/description_i18n, lang=ru|kk для public catalog и scoped/me;
+без lang исходные поля сохранены, fallback по полю к исходной строке. UUID/slug,
+Auth/ids/recovery/денежные правила не меняются. API-кандидат0.6.3, migration0007.
+
+344backend PASS на отдельной loopback PostgreSQL qadam_public_localization_test:
+upgrade/head/check/downgrade, сохранность данных, RU/KK/fallback/изоляция,
+ограничения JSONB, dry-run/repeat-safe demo patch. Auth локально подписан, сервисы
+AI/Storage в тестах заглушены; это не hosted-приёмка. Ruff/format/export PASS.
+Web46client/bindings/ids тестов PASS; typecheck/lint/check:api PASS.
+Flutter parsers проверены по коду (игнорируют дополнительные поля), SDK/device тесты
+не повторялись. Web/Flutter владельцы добавляют lang в запрос/cache после rollout;
+UI в этом PR не менялся. API0.6.2 без lang остаётся совместимым.
+
+Предложения переводов явно reviewed=false: сначала языковой review, затем отдельный
+план обновления известных неизменённых demo templates. Seed не меняется/не запускается.
+Shared Supabase/Render/Pages/Environment/memberships не трогали, платных AI0.
+PR B канонических рынков будет отдельным поверх A; его0008 зависит от0007.
+
 ## 2026-10-17 — зависимый frontend PR63/65 принят в отдельном кандидате
 
 Проверенный application/build SHA **53ea0b9eb9013fd7826d3ece927a1428c1bd03fa**:

@@ -508,6 +508,7 @@ export interface components {
     };
     /** BusinessMembership */
     BusinessMembership: {
+      name_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -526,6 +527,7 @@ export interface components {
     };
     /** CatalogResponse */
     CatalogResponse: {
+      name_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1075,6 +1077,8 @@ export interface components {
     };
     /** PublicBusiness */
     PublicBusiness: {
+      name_i18n?: components["schemas"]["Translations"] | null;
+      description_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1184,6 +1188,8 @@ export interface components {
     };
     /** ShopResponse */
     ShopResponse: {
+      name_i18n?: components["schemas"]["Translations"] | null;
+      description_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1235,8 +1241,17 @@ export interface components {
       /** New Inquiries Count */
       new_inquiries_count: number;
     };
+    /** Translations */
+    Translations: {
+      /** Ru */
+      ru?: string | null;
+      /** Kk */
+      kk?: string | null;
+    };
     /** VenueResponse */
     VenueResponse: {
+      name_i18n?: components["schemas"]["Translations"] | null;
+      address_label_i18n?: components["schemas"]["Translations"] | null;
       /**
        * Id
        * Format: uuid
@@ -1394,7 +1409,9 @@ export interface operations {
   };
   me_api_v1_me_get: {
     parameters: {
-      query?: never;
+      query?: {
+        lang?: ("ru" | "kk") | null;
+      };
       header?: never;
       path?: never;
       cookie?: never;
@@ -2151,6 +2168,7 @@ export interface operations {
       query?: {
         limit?: number;
         cursor?: string | null;
+        lang?: ("ru" | "kk") | null;
       };
       header?: never;
       path?: never;
@@ -2218,6 +2236,7 @@ export interface operations {
     parameters: {
       query?: {
         venue_id?: string | null;
+        lang?: ("ru" | "kk") | null;
         category?: string;
         q?: string;
         limit?: number;
@@ -2287,7 +2306,9 @@ export interface operations {
   };
   shop_api_v1_businesses__slug__get: {
     parameters: {
-      query?: never;
+      query?: {
+        lang?: ("ru" | "kk") | null;
+      };
       header?: never;
       path: {
         slug: string;

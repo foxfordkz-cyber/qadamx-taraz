@@ -35,6 +35,8 @@ def test_0006_failure_rolls_back_table_and_revision_without_losing_customers(
             assert db.scalar(text("SELECT to_regclass('qadam.customer_creation_requests')")) is None
             assert db.execute(text("SELECT * FROM qadam.customers ORDER BY id")).all() == before
         command.upgrade(config, "0006_customer_requests")
+        # Metadata tracks the current head; retain the explicit 0006 failure test above.
+        command.upgrade(config, "head")
         command.check(config)
         with engine.connect() as db:
             assert db.execute(text("SELECT * FROM qadam.customers ORDER BY id")).all() == before

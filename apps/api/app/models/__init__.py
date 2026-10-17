@@ -34,18 +34,28 @@ class Base(DeclarativeBase):
     )
 
 
+def i18n_constraint(field):
+    from app.localization import translation_check
+
+    return CheckConstraint(translation_check(field + "_i18n"), name=field + "_i18n")
+
+
 class Venue(Base):
     __tablename__ = "venues"
+    __table_args__ = tuple(i18n_constraint(field) for field in ("name", "address_label"))
     id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4)
     slug: Mapped[str] = mapped_column(String(100), unique=True)
     name: Mapped[str] = mapped_column(String(200))
     address_label: Mapped[str] = mapped_column(String(300))
     geometry_status: Mapped[str] = mapped_column(String(30))
     is_demo: Mapped[bool] = mapped_column(Boolean, default=False)
+    name_i18n: Mapped[dict | None] = mapped_column(JSONB)
+    address_label_i18n: Mapped[dict | None] = mapped_column(JSONB)
 
 
 class Business(Base):
     __tablename__ = "businesses"
+    __table_args__ = tuple(i18n_constraint(field) for field in ("name", "description"))
     id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4)
     venue_id: Mapped[UUID] = mapped_column(ForeignKey("qadam.venues.id"), index=True)
     slug: Mapped[str] = mapped_column(String(100), unique=True)
@@ -53,6 +63,8 @@ class Business(Base):
     category: Mapped[str] = mapped_column(String(100))
     description: Mapped[str] = mapped_column(Text)
     is_demo: Mapped[bool] = mapped_column(Boolean, default=False)
+    name_i18n: Mapped[dict | None] = mapped_column(JSONB)
+    description_i18n: Mapped[dict | None] = mapped_column(JSONB)
 
 
 class Membership(Base):
@@ -66,6 +78,7 @@ class Membership(Base):
 class CatalogItem(Base):
     __tablename__ = "catalog_items"
     __table_args__ = (
+        i18n_constraint("name"),
         CheckConstraint("price_minor >= 0 AND price_minor <= 10000000000", name="price_range"),
     )
     id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4)
@@ -74,6 +87,7 @@ class CatalogItem(Base):
     price_minor: Mapped[int | None] = mapped_column(BigInteger)
     available: Mapped[bool] = mapped_column(Boolean, default=True)
     is_demo: Mapped[bool] = mapped_column(Boolean, default=False)
+    name_i18n: Mapped[dict | None] = mapped_column(JSONB)
 
 
 class Customer(Base):

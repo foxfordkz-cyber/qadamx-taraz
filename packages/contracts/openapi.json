@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.6.2"
+    "version": "0.6.3"
   },
   "paths": {
     "/api/v1/health": {
@@ -155,6 +155,33 @@
         ],
         "summary": "Me",
         "operationId": "me_api_v1_me_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -167,61 +194,56 @@
             }
           },
           "401": {
-            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Unauthorized"
           },
           "404": {
-            "description": "Not Found",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Not Found"
           },
           "409": {
-            "description": "Conflict",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Conflict"
           },
           "422": {
-            "description": "Unprocessable Entity",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Unprocessable Entity"
           },
           "503": {
-            "description": "Service Unavailable",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
-            }
+            },
+            "description": "Service Unavailable"
           }
-        },
-        "security": [
-          {
-            "HTTPBearer": []
-          }
-        ]
+        }
       }
     },
     "/api/v1/businesses/{id}/customers": {
@@ -1437,6 +1459,26 @@
               ],
               "title": "Cursor"
             }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
+            }
           }
         ],
         "responses": {
@@ -1526,6 +1568,26 @@
                 }
               ],
               "title": "Venue Id"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
             }
           },
           {
@@ -1659,6 +1721,26 @@
             "schema": {
               "type": "string",
               "title": "Slug"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ru",
+                    "kk"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lang"
             }
           }
         ],
@@ -3431,6 +3513,16 @@
       },
       "BusinessMembership": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -3462,6 +3554,16 @@
       },
       "CatalogResponse": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -4871,6 +4973,26 @@
       },
       "PublicBusiness": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -5164,6 +5286,26 @@
       },
       "ShopResponse": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",
@@ -5265,8 +5407,61 @@
         ],
         "title": "SummaryResponse"
       },
+      "Translations": {
+        "properties": {
+          "ru": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ru"
+          },
+          "kk": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 2000,
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kk"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "Translations"
+      },
       "VenueResponse": {
         "properties": {
+          "name_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "address_label_i18n": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Translations"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "id": {
             "type": "string",
             "format": "uuid",

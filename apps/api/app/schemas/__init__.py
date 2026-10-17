@@ -145,7 +145,15 @@ class InquiryCreate(Contract):
     message: Annotated[str, Field(min_length=1, max_length=2000)]
 
 
+class Translations(Contract):
+    ru: Annotated[str, Field(min_length=1, max_length=2000)] | None = None
+    kk: Annotated[str, Field(min_length=1, max_length=2000)] | None = None
+
+
 class VenueResponse(Contract):
+    name_i18n: Translations | None = None
+    address_label_i18n: Translations | None = None
+
     id: UUID
     slug: str
     name: str
@@ -155,6 +163,9 @@ class VenueResponse(Contract):
 
 
 class PublicBusiness(Contract):
+    name_i18n: Translations | None = None
+    description_i18n: Translations | None = None
+
     id: UUID
     venue_id: UUID
     slug: str
@@ -165,6 +176,8 @@ class PublicBusiness(Contract):
 
 
 class CatalogResponse(Contract):
+    name_i18n: Translations | None = None
+
     id: UUID
     business_id: UUID
     name: str
@@ -195,6 +208,8 @@ class InquiryUpdate(Contract):
 
 
 class BusinessMembership(Contract):
+    name_i18n: Translations | None = None
+
     id: UUID
     slug: str
     name: str
