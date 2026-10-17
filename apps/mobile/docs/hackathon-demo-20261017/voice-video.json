@@ -1,0 +1,13 @@
+{
+  "file": "Qadam-Hackathon-Demo-RU-3min-voice.mp4",
+  "bytes": 6225227,
+  "sha256": "45ba712fa39a4d3f5942d38892588198085ccaf272e525ed5c8d402cd05a0df6",
+  "duration": "00:03:00.00",
+  "streams": [
+    "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080, 170 kb/s, 24 fps, 24 tbr, 12288 tbn (default)",
+    "Stream #0:1[0x2](und): Audio: aac (LC) (mp4a / 0x6134706D), 48000 Hz, mono, fltp, 100 kb/s (default)"
+  ],
+  "source": "User-supplied completed video",
+  "modified": false,
+  "byte_identical_to_supplied_file": true
+}

@@ -5,6 +5,8 @@
 [Сценарий, источники, ограничения и проверка файла](../../apps/mobile/docs/hackathon-demo-20261017/README.md).
 Это монтаж опубликованного сайта, подписанных учебных экранов и записи эмулятора.
 APK не менялся; платных AI-вызовов, денежных операций и новой физической приёмки не было.
+Также добавлена [присланная пользователем версия с озвучкой](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Hackathon-Demo-RU-3min-voice.mp4):
+исходный MP4 закоммичен без перекодирования, 6 225 227 bytes; метаданные и SHA256 — в описании ролика.
 
 Продолжение [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
 ветка `feature/mobile-native-parity`. **Source APK: `79a29b9341b03e4ac3ffc58ebf6a06b00374d2f4`.**
