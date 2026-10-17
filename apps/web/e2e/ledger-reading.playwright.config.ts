@@ -20,6 +20,7 @@ export default defineConfig({
     reuseExistingServer: false,
     env: {
       VITE_API_BASE_URL: "http://127.0.0.1:4211/api/v1",
+      VITE_CUSTOMER_IDS_ENABLED: "true",
       VITE_SUPABASE_URL: "http://127.0.0.1:4211/__qa_supabase",
       VITE_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_synthetic_ledger_only",
     },

@@ -42,13 +42,14 @@ export function useInquiryStatus() {
   });
 }
 /** Shared with ledger-web: query keys include both identity scope and business UUID. */
-export function useCustomers(search: string) {
+export function useCustomers(search: string, enabled = true) {
   const { gateway, scope } = useRuntime();
   const { business } = useBusiness();
   const normalized = search.trim().normalize("NFC");
   const settled = useDebouncedValue(normalized);
   const query = useInfiniteQuery({
     queryKey: [scope, business.id, "customers", settled],
+    enabled,
     initialPageParam: null as string | null,
     queryFn: ({ signal, pageParam }) =>
       gateway.customers(business, settled, pageParam, signal),
