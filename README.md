@@ -1,62 +1,109 @@
-# Qadam Business
+<p align="center">
+  <img src="docs/assets/readme/banner-ru.svg" alt="Qadam Business — продажи голосом, долги под контролем" width="100%">
+</p>
 
-Голосовой учёт продаж, оплат и долгов для продавцов рынков Тараза. Продавец говорит фразу на русском или казахском, AI готовит черновик, продавец проверяет его и записывает. Суммы и долги считает сервер. Покупатели находят точки через 3D-витрину площадок и оставляют заявки.
+<p align="center"><b>Русский</b> · <a href="README.kk.md">Қазақша</a></p>
 
-- **Сайт:** https://qadamx-taraz.vercel.app (копия на Cloudflare Pages: https://qadamx-taraz.pages.dev)
-- **API:** https://qadamx-taraz.onrender.com/api/v1, Swagger: `/docs`
-- **Кабинет продавца:** `/login`. Кнопка «Посмотреть демо» открывает кабинет только для чтения: деньги и AI в демо не записываются.
+<p align="center">
+  <a href="https://qadamx-taraz.vercel.app"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-%D0%BE%D1%82%D0%BA%D1%80%D1%8B%D1%82%D1%8C-1C4A3C?style=for-the-badge" alt="Сайт"></a>
+  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.2%20production-D7F36A?style=for-the-badge" alt="API"></a>
+  <a href="https://qadamx-taraz.onrender.com/docs"><img src="https://img.shields.io/badge/Swagger-docs-2F6F5A?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger"></a>
+</p>
 
-## Что работает
+<p align="center">
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL">
+  <img src="https://img.shields.io/badge/Supabase-3FCF8E?style=flat-square&logo=supabase&logoColor=white" alt="Supabase">
+  <img src="https://img.shields.io/badge/OpenAI-412991?style=flat-square&logo=openai&logoColor=white" alt="OpenAI">
+  <img src="https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=white" alt="React">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Three.js-000000?style=flat-square&logo=threedotjs&logoColor=white" alt="Three.js">
+  <img src="https://img.shields.io/badge/Flutter-02569B?style=flat-square&logo=flutter&logoColor=white" alt="Flutter">
+</p>
 
-| Сценарий | Как |
+**Qadam** — голосовой учёт продаж, оплат и долгов для продавцов рынков Тараза. Продавец говорит фразу на русском или казахском, AI готовит черновик, продавец проверяет его и записывает. Покупатели находят точку через 3D-витрину площадок и оставляют заявку.
+
+## Как это работает
+
+| | |
 |---|---|
-| Продажа голосом или текстом | Запись до 30 с, загрузка файла или текст на RU/KZ → черновик AI → проверка → запись |
-| Частичная оплата и долг | Продажа 3 000 ₸, получено 1 000 ₸ → долг 2 000 ₸. Доплата уменьшает долг и не увеличивает продажи |
-| Надёжность учёта | Деньги в целых тиынах. Запись атомарная и идемпотентная: повторное нажатие не создаёт дубль. Отмена сохраняет историю |
-| Клиенты, история, итог дня, аналитика | Поиск клиента, неоплаченные продажи, отмена ошибочной записи, итоги за день, 7 и 30 дней |
-| Витрина и заявки | Три площадки в 3D и обычным списком, карточка точки, заявка приходит нужному продавцу |
-| Ручной ввод | Работает, если AI недоступен |
-| Мал базар | Концепт и мобильное приложение Flutter (`apps/mobile`) для объявлений о скоте |
+| **1 · Скажите** | «Асқарға үш мың теңгеге тауар бердім, мыңын төледі» |
+| **2 · Проверьте** | AI заполнит черновик: клиент Асқар, 3 000 ₸, получено 1 000 ₸, долг 2 000 ₸ |
+| **3 · Запишите** | Сервер сохранит операцию один раз и пересчитает долг и итог дня |
 
-## Что учебное
+> [!IMPORTANT]
+> AI только предлагает черновик. Без подтверждения продавца в журнал ничего не попадает, а суммы и долги считает сервер.
 
-- Площадки, точки, товары и клиенты учебные и помечены «Демо». Партнёрств с MART, Кайкарметом и Ауыл Береке нет.
-- 3D-модели — условные схемы по внешним референсам, а не планы реальных рынков.
-- Физическая приёмка на iPhone и Android, регистрация продавцов (#43) и пользовательский тест пользы не завершены.
+## Как это выглядит
 
-## Стек
+<table>
+  <tr>
+    <td width="50%"><img src="docs/assets/readme/sale-draft.webp" alt="Голос или текст → черновик AI → проверка"><br><sub>Голос или текст → черновик AI → проверка</sub></td>
+    <td width="50%"><img src="docs/assets/readme/hero.webp" alt="Витрина площадок Тараза"><br><sub>Витрина площадок Тараза</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/assets/readme/venues-3d.webp" alt="Три площадки в 3D: Кайкармет, MART, Ауыл Береке"><br><sub>Три площадки в 3D: Кайкармет, MART, Ауыл Береке</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center"><img src="docs/assets/readme/debts.webp" alt="«Мне должны»: остатки считает сервер" width="70%"><br><sub>«Мне должны»: остатки считает сервер</sub></td>
+  </tr>
+</table>
 
-FastAPI, Pydantic, SQLAlchemy, Alembic, PostgreSQL (Supabase), Supabase Auth, OpenAI или Gemini через серверный адаптер · React, TypeScript, Vite, React Three Fiber · Flutter.
+## Возможности
 
-```
-apps/api        backend, миграции, AI-адаптеры, тесты
-apps/web        сайт: витрина, кабинет продавца, голосовой учёт
-apps/mobile     Flutter-приложение
+| | | |
+|---|---|---|
+| 🎙️ | **Продажа голосом или текстом** | Запись до 30 с, аудиофайл или текст. RU, KZ и смешанная речь |
+| 🧾 | **Частичная оплата и долг** | Продажа 3 000 ₸, получено 1 000 ₸ → долг 2 000 ₸. Доплата не увеличивает продажи |
+| 🔒 | **Надёжный учёт** | Деньги в целых тиынах. Запись атомарная и идемпотентная, повтор не создаёт дубль. Отмена сохраняет историю |
+| 👥 | **Клиенты и история** | Поиск клиента, неоплаченные продажи, отмена ошибочной записи |
+| 📊 | **Итог дня и аналитика** | Продажи, поступления, долг и заявки за день, 7 и 30 дней |
+| 🏬 | **3D-витрина и заявки** | Три площадки в 3D и обычным списком. Заявка приходит нужному продавцу |
+| ✍️ | **Ручной ввод** | Работает, если AI недоступен |
+| 🐑 | **Мал базар** | Концепт и Flutter-приложение для объявлений о скоте |
+
+> [!NOTE]
+> **Учебные данные.** Площадки, точки, товары и клиенты учебные и помечены «Демо». Партнёрств с MART, Кайкарметом и Ауыл Береке нет. 3D-модели — условные схемы, а не планы реальных рынков. Кнопка «Посмотреть демо» на `/login` открывает кабинет только для чтения.
+
+> [!CAUTION]
+> **Что ещё не завершено:**
+> - Физическая приёмка на iPhone и Android
+> - Регистрация продавцов (#43)
+> - Пользовательский тест пользы на реальных продавцах
+
+## Стек и структура
+
+```text
+apps/api            FastAPI, миграции, AI-адаптеры, тесты
+apps/web            витрина, кабинет продавца, голосовой учёт
+apps/mobile         Flutter-приложение
 packages/contracts  OpenAPI, примеры JSON, контракты
-docs            ТЗ, решения, передачи работы, отчёты приёмки
+docs                ТЗ, решения, передачи работы, отчёты
 ```
 
 ## Запуск локально
 
-API (нужен серверный `.env` по [apps/api/README.md](apps/api/README.md)):
+API (серверный `.env` по [apps/api/README.md](apps/api/README.md)):
 
 ```bash
 cd apps/api && uv sync --locked && uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-Web (публичный `.env.local` с `VITE_` переменными):
+Web (публичный `.env.local` с переменными `VITE_`):
 
 ```bash
 cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
 ```
 
-Проверки: API — `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (тесты с БД — только на отдельной PostgreSQL). Web — `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
+**Проверки.** API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv run pytest` (тесты с БД — только на отдельной PostgreSQL). Web: `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm test`, `npm run build`, `npm run test:e2e`.
 
-Секреты не коммитятся. Не запускайте seed, миграции и очищающие тесты на общей Supabase.
-
-> **Deployment.** Код API в `main` — 0.6.3, ему нужны миграции 0007/0008. На production Render работает 0.6.2. Не деплойте backend из `main`, пока не проведён rollout миграций по [TEAM_FINAL_INTEGRATION_20261017](docs/TEAM_FINAL_INTEGRATION_20261017.md).
+> [!WARNING]
+> Код API в `main` — 0.6.3, ему нужны миграции 0007/0008. На production Render работает 0.6.2. Не деплойте backend из `main` до rollout миграций по [TEAM_FINAL_INTEGRATION_20261017](docs/TEAM_FINAL_INTEGRATION_20261017.md). Секреты не коммитятся. Seed, миграции и очищающие тесты на общей Supabase не запускать.
 
 ## Команда и документы
+
+<details>
+<summary><b>Роли и передачи работы</b></summary>
 
 | Роль | Задание | Передача работы |
 |---|---|---|
@@ -67,6 +114,8 @@ cd apps/web && npm ci && npm run dev -- --port 5173 --strictPort
 | 3D | [Модели площадок](docs/team5/07_TEAM_3D.md) | [assets-3d](docs/handoffs/assets-3d.md) |
 | Mobile | [Flutter «Мал базар»](docs/team5/09_TEAM_MOBILE.md) | [mobile](docs/handoffs/mobile.md) |
 
-- [Продуктовое ТЗ](docs/team5/00_PRODUCT_TZ.md), [контракт API](docs/team5/02_ARCHITECTURE_API.md), [решения](docs/DECISIONS.md)
-- [Текущее состояние](docs/PROJECT_STATUS.md), [история выпусков](docs/RELEASE_HISTORY.md)
-- [Инструкции для AI](AGENTS.md), [правила работы с Git](CONTRIBUTING.md), [с чего начать](docs/START_HERE.md)
+</details>
+
+[Продуктовое ТЗ](docs/team5/00_PRODUCT_TZ.md) · [Контракт API](docs/team5/02_ARCHITECTURE_API.md) · [Решения](docs/DECISIONS.md) · [Текущее состояние](docs/PROJECT_STATUS.md) · [История выпусков](docs/RELEASE_HISTORY.md) · [Инструкции для AI](AGENTS.md) · [Правила Git](CONTRIBUTING.md)
+
+<p align="center"><sub>Сделано командой Qadam в Таразе · 2026</sub></p>
