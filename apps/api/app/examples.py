@@ -273,6 +273,8 @@ EXAMPLES["CustomerIdsEmptyPage"] = {"items": [], "next_cursor": None}
 
 
 def model_for_example(name):
+    if name.startswith("LocalizedShop"):
+        return schemas.ShopResponse
     if name.startswith("Analytics"):
         return AnalyticsResponse
     if name in {"CustomerPage", "CustomerIdsPage", "CustomerIdsEmptyPage"}:
@@ -334,3 +336,15 @@ EXAMPLES["CustomerCreationCompleted"] = {
     "customer": {**EXAMPLES["CustomerResponse"], "balance_minor": 0},
 }
 EXAMPLES["CustomerCreationNotObserved"] = {"status": "not_observed", "customer": None}
+
+
+EXAMPLES["LocalizedShopKK"] = {
+    **EXAMPLES["ShopResponse"],
+    "name": "Демо MART — Киім",
+    "name_i18n": {"ru": "Демо MART — Одежда", "kk": "Демо MART — Киім"},
+    "description_i18n": None,
+}
+EXAMPLES["LocalizedShopRU"] = {
+    **EXAMPLES["LocalizedShopKK"],
+    "name": "Демо MART — Одежда",
+}

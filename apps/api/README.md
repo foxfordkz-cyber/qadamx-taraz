@@ -1,5 +1,19 @@
 # Qadam API — журнал, AI-черновики и «Мал базар»
 
+## Кандидат API0.6.3: RU/KK публичные данные (не развёрнут)
+
+[Контракт и rollout](../../packages/contracts/PUBLIC_LOCALIZATION_API.md): сначала
+backup/restore и `alembic upgrade 0007_public_i18n`, затем API. Текущий production
+остаётся0.6.2/0006; новый ORM нельзя запускать против0006. Старые клиенты без lang
+сохраняют исходные строки; новые передают lang=ru/kk. OpenAPI/generated.ts обновлены.
+
+Переводы учебных шаблонов лежат в `packages/contracts/demo-translations-proposed.json`
+с reviewed=false. После проверки носителем языка отдельная команда (не seed):
+`python -m app.demo_translations ../../packages/contracts/demo-translations-proposed.json`
+— только dry-run; `--apply` выполняет согласованный data patch. В текущей подготовке
+на общей БД ни одна команда не запускалась. UUID/slug/исходные тексты сохраняются.
+Откат приложения допускает оставить0007; downgrade удаляет переводы и не нужен.
+
 **Кандидат PR61, ещё не Render:** [GET customers по ids](../../packages/contracts/CUSTOMER_IDS_API.md)
 возвращает полный Page для максимум100 UUID через повторяющийся query `ids`.
 Не совмещать с q/cursor/limit; пропущенные и чужие ID не различаются. Без ids

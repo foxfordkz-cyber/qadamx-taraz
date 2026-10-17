@@ -12,6 +12,7 @@ from app.analytics_schemas import AnalyticsResponse
 from app.auth import current_user
 from app.db import session_for_request
 from app.errors import APIError
+from app.localization import Language, localized
 from app.models import Business, Membership
 from app.services import analytics, customers, ledger
 
@@ -29,7 +30,7 @@ Limit = Annotated[int, Query(ge=1, le=100)]
 
 
 @router.get("/me", response_model=schemas.MeResponse, tags=["auth"])
-def me(db: DB, user: User):
+def me(db: DB, user: User, lang: Language | None = None):
     businesses = db.scalars(
         select(Business)
         .join(Membership, Membership.business_id == Business.id)
@@ -37,7 +38,7 @@ def me(db: DB, user: User):
         .order_by(Business.id)
     ).all()
     return schemas.MeResponse(
-        id=user, businesses=[schemas.BusinessMembership.model_validate(row) for row in businesses]
+        id=user, businesses=[localized(row, schemas.BusinessMembership, lang) for row in businesses]
     )
 
 
