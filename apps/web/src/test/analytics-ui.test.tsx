@@ -343,6 +343,10 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       "href",
       "/seller/sale",
     );
+    expect(
+      screen.getByText("Показать по дням и часам").parentElement,
+    ).not.toHaveAttribute("open");
+    await userEvent.click(screen.getByText("Показать по дням и часам"));
     const tables = await openTables();
     expect(within(tables.daily).getAllByRole("row")).toHaveLength(8);
     expect(within(tables.hourly).getAllByRole("row")).toHaveLength(25);
@@ -410,6 +414,33 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     const tables = await openTables();
     expect(
       within(tables.daily).getByRole("cell", { name: "-1 000 ₸" }),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps offsetting receipts visible even when the period net is zero", async () => {
+    const snapshot = makeDemoAnalyticsSnapshot(
+      DEMO_ANALYTICS_BUSINESS,
+      7,
+      "empty",
+    );
+    snapshot.daily[0].receipts_minor = 100_000;
+    snapshot.daily[1].receipts_minor = -100_000;
+    await openDemo(
+      createDemoAnalyticsAdapter({ delayMs: 0, resolve: () => snapshot }),
+    );
+    await reportReady();
+    expect(
+      screen.queryByText("Показать по дням и часам"),
+    ).not.toBeInTheDocument();
+    await userEvent.click(screen.getByRole("button", { name: "Поступления" }));
+    const chart = screen.getByRole("region", {
+      name: "Дневной график; горизонтальная прокрутка",
+    });
+    expect(
+      within(chart).getByRole("button", { name: /Поступления: -1 000 ₸/ }),
+    ).toBeInTheDocument();
+    expect(
+      within(chart).getByRole("button", { name: /Поступления: 1 000 ₸/ }),
     ).toBeInTheDocument();
   });
 
