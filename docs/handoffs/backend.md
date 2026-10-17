@@ -1,5 +1,14 @@
 # Передача работы backend
 
+## 2026-10-17 — PR41+42 опубликованы и приняты на production
+
+`main`, `deploy-062`, `deploy/permanent-062`: **8ee78ae58e529e3e32c11082a425576b558b0f9e**, обычный atomic FF с9845b91; PR44/41/42 merged. Vercel success для8ee78ae подтверждён совпадением production JS/CSS/GLB/preview с dist; https://qadamx-taraz.vercel.app уже обновлён. Render не перезапускался: API0.6.2, прежний e699158 по последнему подтверждению капитана; public process SHA недоступен, apps/api не менялся. APK не выпускался. Этот docs-only follow-up в интеграционной ветке не меняет production SHA.
+
+Настоящий production login A6/B3, /me, клиент/reload/recovery GET, foreign404, customers/history/summary/analytics7/30 PASS. RU/KZ на360/390/1440, все9hotspots на трёх ширинах и6fallback-проверок PASS; software WebGL, не телефон. HTTP health/OpenAPI0.6.2/CORS/privacy PASS. До выпуска319unit/component, recovery5, QA21, Voice1, microphone18, general24, Auth7 и typecheck/lint/build/check:api PASS (synthetic suites overlap). Живой drop-after-commit+samekey replay создаёт ровно1учебного клиента f02abd40-6356-47e3-9c31-7f8268b981f1, точка2c234f1c-2c79-5e3a-ab77-042e3da4dafa; после deploy только чтение, денег/AI/миграций/cleanup0.
+
+[Итог, артефакты, ограничения и откат](../RECOVERY_POLISH_RELEASE.md#фактический-выпуск-и-приёмка-production--2026-10-17). PR43 исключён до реального email confirmation; точный контракт уже передан документацией владельцу, без параллельного Auth. Flutter — постоянный Render API0.6.2, проверка физического устройства и фиксация конкретного APK следующим шагом. Старый audio incident остаётся открытым.
+
+
 ## 2026-10-17 — совместная приёмка PR42 recovery + PR41 polish
 
 От свежего main9845b91 в отдельной `integration/recovery-polish-062` объединены remote heads **2058b91** и **7d84cb6**, production-код merge **539bee6**. Пересечения Customers/test прочитаны: сохранены compare-and-clear, owner/session guards, Web Locks и полировка без UUID. Исправлен один тестовый селектор имени; приложение ради теста не менялось. API0.6.2/OpenAPI/generated/Auth/GLB/Flutter сохранены; apps/api равен e699158.

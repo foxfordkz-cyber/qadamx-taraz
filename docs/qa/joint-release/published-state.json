@@ -1,0 +1,49 @@
+{
+  "branches": {
+    "main": "8ee78ae58e529e3e32c11082a425576b558b0f9e",
+    "deploy-062": "8ee78ae58e529e3e32c11082a425576b558b0f9e",
+    "deploy/permanent-062": "8ee78ae58e529e3e32c11082a425576b558b0f9e"
+  },
+  "prs": [
+    {
+      "number": 41,
+      "state": "closed",
+      "merged": true,
+      "draft": true,
+      "head": "7d84cb6e63d02aa9ef4ad215d67284155bb0d012",
+      "base": "deploy-062"
+    },
+    {
+      "number": 42,
+      "state": "closed",
+      "merged": true,
+      "draft": true,
+      "head": "2058b914fc084ac1237ac805ce053d6ac9c8ddac",
+      "base": "main"
+    },
+    {
+      "number": 43,
+      "state": "open",
+      "merged": false,
+      "draft": true,
+      "head": "eba0f911682e03ce2207c9d71eb4939b236a5ea9",
+      "base": "deploy-062"
+    },
+    {
+      "number": 44,
+      "state": "closed",
+      "merged": true,
+      "draft": false,
+      "head": "8ee78ae58e529e3e32c11082a425576b558b0f9e",
+      "base": "main"
+    }
+  ],
+  "vercel": [
+    {
+      "context": "Vercel",
+      "state": "success",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/9YLJmpuVjZhHqCQnB8vXe9ap7FMU",
+      "updated_at": "2026-10-17T09:17:05Z"
+    }
+  ]
+}
