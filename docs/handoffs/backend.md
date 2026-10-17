@@ -1,5 +1,54 @@
 # Передача работы backend
 
+## 2026-10-17 — PR B #72: канонические рынки, кандидат API 0.6.3
+
+Ветка backend/canonical-markets, Draft PR #72 поверх backend/public-localization
+(PR #70, f2b662f964de133d20faf2d5d5afd8d797ac5ecf). Контракт опубликован до кода
+в b5fb813: [LIVESTOCK_MARKETS_API](../../packages/contracts/LIVESTOCK_MARKETS_API.md).
+Повторный fetch подтвердил main 86ca9af15017b163a9e47335c68eee46ac2fafde.
+Проверенный код реализации — 5ff4b99; последующий commit исправляет только документацию.
+
+Добавлены /livestock/markets, detail, optional market_id в listings/mine/prices
+и ListingWrite. ID выбирается явно из verified registry; свободный market/market_key
+сохраняется без сопоставления по имени. 0008 зависит от 0007: пустой registry
+с RLS/revoke, nullable FK/index. Старые объявления, UUID/slug, Auth, customer ids/recovery,
+AI и денежный журнал сохранены.
+
+Отзыв проверки рынка скрывает public listings/detail/photos и цены; автор продолжает
+видеть свои данные и приватные фото. Цены — целые тиыны за голову, без demo и неактивных
+или просроченных объявлений. Нет выборки — null. Концепт mal-bazar не связан с рынком.
+verification_note не выдаётся. Старый API игнорирует market_id: безопасный откат требует
+отключения зависимого UI и защитного отказа либо forward fix. Связи не удалять.
+
+Фактические проверки:
+- **357 backend tests PASS** на отдельной PostgreSQL qadam_canonical_markets_test,
+  loopback55432: полный набор, migrations/check/сохранность, fallback, registry constraints,
+  фильтры/пагинация, Almaty-полночь, minimum/median, автор/чужие фото, старые fingerprint,
+  конкурентное создание и конфликт другого market_id. JWT подписаны тестовым JWKS,
+  AI/Storage заглушены. Это не live Supabase. Одна существующая Starlette/httpx warning.
+- Ruff format/check и export PASS. OpenAPI, examples.json и generated.ts обновлены.
+- **46 web tests PASS**: client/bindings/customer-ids-contract. Typecheck/lint/check:api/build
+  PASS. Build предупреждает о большом 3D chunk и пустом auth chunk. Набор пересекается
+  с PR A: числа не складывать.
+- Flutter проверен по JSON parsers исходников. SDK, устройство и hosted-приёмка
+  не выполнялись; UI вместо участников не реализован.
+
+Команды: apps/api — uv run pytest -q с отдельной пустой TEST_DATABASE_URL,
+uv run ruff check app tests migrations, uv run python -m app.export_contracts --check.
+apps/web — npm run typecheck, npm run lint, npm run check:api, npm run build,
+npm test -- src/test/client.test.ts src/test/bindings.test.ts src/test/customer-ids-contract.test.ts.
+
+Передача web/Flutter — последний раздел контракта: lang=kk, market_id в query/body,
+cache key и сброс cursor; не дописывать поля в старые pending retries.
+Порядок: review A, затем B (после merge A перенаправить B в main), согласованный
+backup/restore → 0007/0008 → backend/HTTPS-проверка → клиенты.
+Переводы требуют языкового review и отдельного безопасного обновления учебных данных;
+реальные рынки — проверки места.
+
+**Опубликованный код, не deployment.** Render, Pages, shared Supabase0006, memberships,
+Environment и production-данные не изменялись. Seed на общей БД не запускался.
+Живых записей и платных AI-вызовов нет; main/deploy ветки не менялись.
+
 ## 2026-10-17 — PR A: публичные RU/KK варианты, issue69
 
 Отдельная backend/public-localization от86ca9af. Контракт опубликован до кода,

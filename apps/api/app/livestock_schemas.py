@@ -4,7 +4,7 @@ from uuid import UUID
 
 from pydantic import AwareDatetime, Field, StrictBool, field_validator
 
-from app.schemas import Contract, PositiveMoney
+from app.schemas import Contract, PositiveMoney, Translations
 
 Species = Literal["cattle", "sheep", "goat", "horse", "camel"]
 ListingStatus = Literal["active", "sold", "withdrawn"]
@@ -15,7 +15,22 @@ def normalize_locality(value: str) -> str:
     return " ".join(value.split())
 
 
+MarketStatus = Literal["unverified", "verified", "retired"]
+
+
+class MarketResponse(Contract):
+    id: UUID
+    key: str
+    name: str
+    name_i18n: Translations | None = None
+    locality: str
+    verification_status: MarketStatus
+    verified_at: AwareDatetime | None
+    accepts_listings: bool = False
+
+
 class ListingWrite(Contract):
+    market_id: UUID | None = None
     species: Species
     quantity: Annotated[int, Field(strict=True, ge=1, le=10000)]
     price_per_head_minor: PositiveMoney
@@ -57,6 +72,7 @@ class ListingPhoto(PhotoReceipt):
 
 
 class PublicListing(Contract):
+    market_id: UUID | None = None
     id: UUID
     species: Species
     quantity: int
@@ -85,6 +101,7 @@ class ListingAction(Contract):
 
 
 class PriceStats(Contract):
+    market_id: UUID | None = None
     species: Species
     locality: str
     market: str | None = None

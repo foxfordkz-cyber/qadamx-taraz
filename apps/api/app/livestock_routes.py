@@ -15,7 +15,9 @@ from sqlalchemy.orm import Session
 from app import livestock_schemas as s
 from app.db import public_session
 from app.errors import APIError
+from app.localization import Language, localized
 from app.models import LivestockListing as Listing
+from app.models import LivestockMarket as Market
 from app.models import LivestockPhoto as Photo
 from app.models import LivestockRequest as SavedRequest
 from app.routers import Limit, User
@@ -38,7 +40,12 @@ def today(db):
 
 
 def visible(day):
-    return (Listing.status == "active", Listing.confirmed_on == day)
+    return (
+        Listing.status == "active",
+        Listing.confirmed_on == day,
+        Listing.market_id.is_(None)
+        | Listing.market_id.in_(select(Market.id).where(Market.verification_status == "verified")),
+    )
 
 
 def projection(db, row, day, owner=False):
@@ -51,6 +58,7 @@ def projection(db, row, day, owner=False):
             "price_per_head_minor",
             "locality",
             "market",
+            "market_id",
             "age_months",
             "sex",
             "description",
@@ -68,7 +76,14 @@ def projection(db, row, day, owner=False):
         return s.OwnerListing(
             **fields,
             status=row.status,
-            available_today=row.status == "active" and row.confirmed_on == day,
+            available_today=(
+                row.status == "active"
+                and row.confirmed_on == day
+                and (
+                    row.market_id is None
+                    or db.get(Market, row.market_id).verification_status == "verified"
+                )
+            ),
             created_at=row.created_at,
             updated_at=row.updated_at,
         )
@@ -85,7 +100,9 @@ def listing_page(db, stmt, limit, cursor, day, owner=False):
     )
 
 
-def filtered(stmt, species, locality, market=None):
+def filtered(stmt, species, locality, market=None, market_id=None):
+    if market_id is not None:
+        stmt = stmt.where(Listing.market_id == market_id)
     if market:
         stmt = stmt.where(Listing.market_key == s.normalize_locality(market).casefold())
     if species:
@@ -143,17 +160,73 @@ def attach_photos(db, row, ids, user):
     db.flush()
 
 
+def market_record(db, id):
+    row = db.get(Market, id)
+    if row is None:
+        raise APIError(404, "NOT_FOUND", "Market not found")
+    return row
+
+
+def check_market_filter(db, market, market_id):
+    if market is not None and market_id is not None:
+        raise APIError(422, "VALIDATION_ERROR", "market and market_id cannot be combined")
+    if market_id is not None:
+        market_record(db, market_id)
+
+
+def validate_market_assignment(db, id):
+    if id is not None and market_record(db, id).verification_status != "verified":
+        raise APIError(422, "MARKET_NOT_VERIFIED", "Choose a verified market")
+
+
+def write_body(payload):
+    # Preserve hashes of historical payloads lacking additive optional fields.
+    omitted = {field for field in ("market", "market_id") if field not in payload.model_fields_set}
+    return payload.model_dump(mode="json", exclude=omitted)
+
+
+def market_projection(row, lang):
+    response = localized(row, s.MarketResponse, lang)
+    response.accepts_listings = row.verification_status == "verified"
+    return response
+
+
+@router.get("/markets", response_model=Page[s.MarketResponse])
+def markets(
+    db: DB,
+    status: s.MarketStatus = "verified",
+    lang: Language | None = None,
+    limit: Limit = 20,
+    cursor: UUID | None = None,
+):
+    stmt = select(Market).where(Market.verification_status == status)
+    if cursor:
+        stmt = stmt.where(Market.id > cursor)
+    rows = list(db.scalars(stmt.order_by(Market.id).limit(limit + 1)))
+    return dict(
+        items=[market_projection(row, lang) for row in rows[:limit]],
+        next_cursor=rows[limit - 1].id if len(rows) > limit else None,
+    )
+
+
+@router.get("/markets/{id}", response_model=s.MarketResponse)
+def market_detail(id: UUID, db: DB, lang: Language | None = None):
+    return market_projection(market_record(db, id), lang)
+
+
 @router.get("/listings", response_model=Page[s.PublicListing])
 def feed(
     db: DB,
     species: s.Species | None = None,
     locality: PlaceQuery | None = None,
     market: PlaceQuery | None = None,
+    market_id: UUID | None = None,
     limit: Limit = 20,
     cursor: UUID | None = None,
 ):
+    check_market_filter(db, market, market_id)
     day = today(db)
-    stmt = filtered(select(Listing).where(*visible(day)), species, locality, market)
+    stmt = filtered(select(Listing).where(*visible(day)), species, locality, market, market_id)
     return listing_page(db, stmt, limit, cursor, day)
 
 
@@ -165,10 +238,14 @@ def mine(
     species: s.Species | None = None,
     locality: PlaceQuery | None = None,
     market: PlaceQuery | None = None,
+    market_id: UUID | None = None,
     limit: Limit = 20,
     cursor: UUID | None = None,
 ):
-    stmt = filtered(select(Listing).where(Listing.owner_id == user), species, locality, market)
+    check_market_filter(db, market, market_id)
+    stmt = filtered(
+        select(Listing).where(Listing.owner_id == user), species, locality, market, market_id
+    )
     if status:
         stmt = stmt.where(Listing.status == status)
     return listing_page(db, stmt, limit, cursor, today(db), owner=True)
@@ -190,12 +267,11 @@ def publish(payload: s.ListingWrite, db: DB, user: User, key: Key, request: Requ
         user,
         key,
         "publish",
-        payload.model_dump(
-            mode="json", exclude={"market"} if "market" not in payload.model_fields_set else set()
-        ),
+        write_body(payload),
     )
     if replay:
         return replay
+    validate_market_assignment(db, payload.market_id)
     now = server_now(db)
     row = Listing(
         **payload.model_dump(exclude={"photo_ids"}),
@@ -220,16 +296,15 @@ def edit(id: UUID, payload: s.ListingWrite, db: DB, user: User, key: Key):
         user,
         key,
         f"edit/{id}",
-        payload.model_dump(
-            mode="json", exclude={"market"} if "market" not in payload.model_fields_set else set()
-        ),
+        write_body(payload),
     )
     row = owned(db, id, user)
     if replay:
         return replay
-    for field, value in payload.model_dump(
-        exclude={"photo_ids"} | ({"market"} if "market" not in payload.model_fields_set else set())
-    ).items():
+    if "market_id" in payload.model_fields_set:
+        validate_market_assignment(db, payload.market_id)
+    omitted = {field for field in ("market", "market_id") if field not in payload.model_fields_set}
+    for field, value in payload.model_dump(exclude={"photo_ids"} | omitted).items():
         setattr(row, field, value)
     row.locality_key = payload.locality.casefold()
     if "market" in payload.model_fields_set:
@@ -257,20 +332,28 @@ def action(id: UUID, payload: s.ListingAction, db: DB, user: User, key: Key):
 
 
 @router.get("/prices", response_model=s.PriceStats)
-def prices(db: DB, species: s.Species, locality: PlaceQuery, market: PlaceQuery | None = None):
+def prices(
+    db: DB,
+    species: s.Species,
+    locality: PlaceQuery,
+    market: PlaceQuery | None = None,
+    market_id: UUID | None = None,
+):
+    check_market_filter(db, market, market_id)
     day = today(db)
     stmt = select(
         func.count(Listing.id),
         func.min(Listing.price_per_head_minor),
         func.percentile_cont(0.5).within_group(Listing.price_per_head_minor),
     ).where(*visible(day), Listing.is_demo.is_(False))
-    count, minimum, median = db.execute(filtered(stmt, species, locality, market)).one()
+    count, minimum, median = db.execute(filtered(stmt, species, locality, market, market_id)).one()
     return s.PriceStats(
         species=species,
         locality=s.normalize_locality(locality),
         period_from=day,
         period_to=day,
         market=s.normalize_locality(market) if market else None,
+        market_id=market_id,
         sample_count=count,
         min_price_per_head_minor=minimum,
         median_price_per_head_minor=(
