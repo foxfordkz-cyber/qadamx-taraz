@@ -9,8 +9,11 @@
 - Сохранён исходный незакоммиченный handoff: `ad30329`.
 - Получен `origin/main` **86ca9af15017b163a9e47335c68eee46ac2fafde**.
 - Обычный merge: **4ed9fd4835900576d72e2870393a9820802f65ab**.
-- Проверенный source/build: **67eb828c132d1b3e28752a9624e2c69a9a530f9c**.
-- Следующий commit изменяет только документацию/синтетические снимки. Полный
+- Во время работы main обновился до **8fa0029a847895a2b968592fb6ab5b8cc39ee0a1**.
+  Второй обычный merge: **6529e71f1110a94fe6a5faa3b7bd9207c9a23966**.
+- Итоговый source/build: **6529e71f1110a94fe6a5faa3b7bd9207c9a23966**.
+- Следующий commit изменяет документацию и формат импортированного теста, без
+  изменений runtime-кода или assertions. Полный
   текущий PR HEAD проверять через GitHub; source SHA внутри архива фиксирован.
 
 Конфликты `.env.example`, RU/KZ и seller handoff разрешены с сохранением Auth,
@@ -18,6 +21,10 @@
 история, новый дизайн, backend и Flutter приняты через merge, не переписаны.
 Hosted build сохраняет `VITE_CUSTOMER_IDS_ENABLED=true`, как в принятом main.
 Никаких миграций, seed, новых memberships/owner или денежных операций.
+Из нового main сохранены исходники API 0.6.3 и миграции 0007/0008, но они здесь
+не запускаются и backend не развёртывается. Этот web-кандидат использует текущий
+Render API 0.6.2; deployment нового backend требует отдельного rollout капитана.
+Старый локальный ZIP `67eb828` сохранён только как предшествующий кандидат.
 
 Partial clone зависал на загрузке исторических мобильных/QA-артефактов.
 Локально включён sparse checkout web/контрактов/документов, что не удаляет
@@ -54,12 +61,12 @@ GET `/me`; серверные ошибки не превращаются в пу
 
 ## Артефакт для интегратора
 
-`registration43-integration/qadam-pr43-cloudflare-67eb828.zip` — **1 451 274 bytes**,
+`registration43-integration/qadam-pr43-cloudflare-6529e71.zip` — **1 451 660 bytes**,
 25 файлов, все 19 отслеживаемых public assets включены. Корень ZIP — содержимое
 `dist`, без env, исходных секретов и вложенной оболочки. В browser bundle находится
 только штатный publishable key; серверные ключи не использовались.
 
-SHA256: `3ffdd8f227144aff29651bb495ae95ad46e979a9d5bee96ad3299832419030ea`.
+SHA256: `3362f28f50134a000184f2bafeed70b4e5ebe778488886ca08a761828244a7e2`.
 `registration-build.json` внутри содержит source SHA, точные публичные адреса,
 ids=true и честный `live_email_acceptance: NOT_RUN`. Сборка Node **22.19.0**,
 TypeScript/Vite PASS; прежнее предупреждение о крупных JS chunks остаётся.
@@ -94,7 +101,7 @@ TypeScript/Vite PASS; прежнее предупреждение о крупн�
 | Проверка | Результат |
 |---|---|
 | TypeScript, lint, check:api, format:check, diff --check | PASS |
-| Полный serial Vitest после исправлений | **477/477**, 34 файла |
+| Полный serial Vitest после второго merge | **482/482**, 35 файлов |
 | Затронутые registration/onboarding/config unit | **55/55** |
 | Production Cloudflare bundle, HTTPS origin, SDK/HTTP synthetic | **6/6** |
 | Auth/Registration/Callback Chromium | **25/25** |
@@ -103,6 +110,8 @@ TypeScript/Vite PASS; прежнее предупреждение о крупн�
 | Seller/Auth/Customer Chromium | **21/21** |
 
 Синтетические наборы пересекаются; не суммировать как уникальные сценарии.
+После второго merge исправлен только Prettier layout импортированного
+`mal-bazar.test.tsx`; логика теста и новый проверенный Three.js mock из main сохранены.
 Исходный полный прогон: 476/477, устаревший текст блокировки Vercel в тесте.
 Дополнительная проверка email выявила fixture без email; добавлен явный
 синтетический email локально в этом тесте. Проверки запрета signup/resend,
@@ -142,11 +151,13 @@ JWT, пароль, email URL с query/hash, code/verifier или реальны�
 
 ## Отдельный Flutter callback
 
-Mobile автор `@bltangenss`, существующий PR #60, подтвердил зависимость в #43.
-Предложены **для согласования**, ещё не настроены:
+Mobile автор `@bltangenss`, существующий PR #60,
+[подтвердил отдельные URI и владельцев](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6236483616):
 `kz.qadam.mobile://auth/callback` для signup/resend и
 `kz.qadam.mobile://auth/recovery` для password recovery.
-Ответ владельца ещё не получен. Это не утверждённый production mobile контракт.
+Адреса согласованы и внесены в общий контракт; allowlist и реализация ещё не
+подтверждены. Android package остаётся `kz.qadam.qadam_mobile`. По ответу автора
+новый native handler ещё не включён в APK 0.5.2+11.
 Mobile владеет native SDK/PKCE storage, Android intent-filter, iOS URL Types,
 холодным/тёплым запуском и PASSWORD_RECOVERY UI; капитан — Supabase allowlist.
 Если выбран verified App Link, нужны package/bundle ID, signing fingerprint,

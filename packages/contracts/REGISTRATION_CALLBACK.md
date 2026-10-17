@@ -1,6 +1,6 @@
 # Регистрация и подтверждение email: контракт общего окружения
 
-Обновление по прямому поручению капитана, 2026-10-17: production web переехал на Cloudflare Pages. Существующий Auth PR #43 синхронизирован обычным merge с main `86ca9af`; код callback и конфигурация готовы, но настоящий email-сценарий ещё не принят. [Точный source SHA, сборка, проверки и действия интегратора](../../docs/REGISTRATION_CLOUDFLARE_HANDOFF.md). Ни настроек Supabase, ни рассылки писем этот документ не применяет.
+Обновление по прямому поручению капитана, 2026-10-17: production web переехал на Cloudflare Pages. Существующий Auth PR #43 синхронизирован обычным merge сначала с main `86ca9af`, затем с обновившимся `8fa0029`; код callback и конфигурация готовы, но настоящий email-сценарий ещё не принят. [Точный source SHA, сборка, проверки и действия интегратора](../../docs/REGISTRATION_CLOUDFLARE_HANDOFF.md). Ни настроек Supabase, ни рассылки писем этот документ не применяет.
 
 ## Один проект и постоянные адреса
 
@@ -50,6 +50,29 @@ Backend сохраняет текущую проверку JWT/JWKS/audience и 
 | Callback без code и без сессии | Понятное сообщение и вход; не цикл redirect и не автоматическая отправка писем |
 
 Состояние без точки — текущий серверный ответ, не новый endpoint. Пример тела `GET /me` брать из [OpenAPI](openapi.json), с пустым массивом `businesses`; другие обязательные поля сохраняются. Штатный password sign-in остаётся существующим механизмом. [Supabase Password Auth](https://supabase.com/docs/guides/auth/passwords).
+
+## Согласованный отдельный mobile callback
+
+Владелец Flutter `@bltangenss` [принял точные URI и распределение ответственности](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6236483616).
+
+| Назначение | Точное значение |
+|---|---|
+| Web signup/resend | `https://qadamx-taraz.pages.dev/auth/callback` |
+| Native signup/resend PKCE | `kz.qadam.mobile://auth/callback` |
+| Native password recovery | `kz.qadam.mobile://auth/recovery` |
+| Android package, без переименования | `kz.qadam.qadam_mobile` |
+
+Mobile владеет Android intent-filter/iOS URL Types, холодным/тёплым handler,
+native SDK verifier/session и защитами generation/single-flight. Капитан добавляет
+точные URI в Supabase Redirect URLs, сохраняя все прежние callbacks. Web URL
+не используется как мост: JWT, пароли и access/refresh tokens через него не передаются.
+После native callback нужна действительная SDK-сессия и настоящий `/me`; пустые
+memberships не дают Demo/owner. При неизвестном exchange нет автоматического retry.
+Событие PASSWORD_RECOVERY открывает форму нового пароля, не обычный кабинет.
+
+Это согласование адресов, **не подтверждение allowlist или готовой реализации**.
+По ответу автора в APK 0.5.2+11 новый handler ещё не включён. Реализация mobile
+и настоящее письмо/возврат на устройстве остаются у владельца #60.
 
 ## Gate включения PR #43
 

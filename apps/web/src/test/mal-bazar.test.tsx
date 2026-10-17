@@ -2,7 +2,15 @@
  * web, an explicit concept mark, the app link and a poster without WebGL. */
 import { cleanup, render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest";
 import { I18nProvider } from "../shared/i18n";
 
 const api = vi.hoisted(() => ({

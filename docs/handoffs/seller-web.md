@@ -2,8 +2,9 @@
 
 Продолжена существующая ветка #43. Исходный handoff сохранён `ad30329`, затем
 обычный merge `origin/main` **86ca9af15017b163a9e47335c68eee46ac2fafde**:
-**4ed9fd4835900576d72e2870393a9820802f65ab**. Проверенный код/архив:
-**67eb828c132d1b3e28752a9624e2c69a9a530f9c**. Без force push и второго Auth.
+**4ed9fd4835900576d72e2870393a9820802f65ab**. Затем main обновился до
+**8fa0029a847895a2b968592fb6ab5b8cc39ee0a1**, обычный merge и итоговый source:
+**6529e71f1110a94fe6a5faa3b7bd9207c9a23966**. Без force push и второго Auth.
 
 Один фиксированный callback `https://qadamx-taraz.pages.dev/auth/callback`,
 строгий origin guard, hosted build с сохранённым ids=true, SPA callback rules.
@@ -13,11 +14,14 @@
 [Полный пакет интегратора: конфигурация, SHA256, проверки, реальные ограничения
 и протокол email-приёмки](../REGISTRATION_CLOUDFLARE_HANDOFF.md).
 Browser synthetic: Cloudflare **6/6**, Auth **25/25**, Recovery **5/5**,
-history/ids **6/6**, Seller/Auth QA **21/21**. Полный Vitest **477/477**, 34 файла.
+history/ids **6/6**, Seller/Auth QA **21/21**. После последнего merge повторены все
+эти browser-наборы; полный Vitest **482/482**, 35 файлов.
 TypeScript/lint/check:api/format/build PASS.
 Настоящие публичные endpoints/CORS/email settings проверены read-only;
 Redirect URLs не раскрываются этим API. Капитану передан точный URL с требованием
-сохранить прежние адреса; mobile proposal отправлен `@bltangenss`, ответа пока нет.
+сохранить прежние адреса. Mobile `@bltangenss` принял оба native URI и владельцев:
+[ответ](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6236483616).
+Согласование внесено в общий контракт; native handler/allowlist ещё не приняты.
 
 **Живое письмо → callback → session → /me ещё NOT RUN.** Пользователь готов
 проверить после публикации ZIP и подтверждения Supabase allowlist. Архив готов,
