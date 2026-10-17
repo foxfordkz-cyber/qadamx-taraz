@@ -1,5 +1,13 @@
 # Передача работы backend
 
+## 2026-10-17 — интеграция следующего видимого выпуска
+
+По поручению капитана подготовлен [общий кандидат](../LATEST_VISIBLE_RELEASE.md):
+новая аналитика `3064294`, transport-защиты заявки и ссылка на тестовый APK0.3.0.
+346 unit/25 E2E и сборочные проверки PASS. Backend, БД, секреты и платные AI не
+затрагивались. Проверено 68 опубликованных веток; PR43/email и PR53/SDK+Android
+оставлены отдельными. Следующий шаг — подтверждение Vercel после продвижения refs.
+
 ## 2026-10-17 — интеграция PR47/49/52 без изменения backend
 
 От ad63a00 проверены точные heads d010f5e / 674e5d7 / 565e17d; отдельная ветка integration/abzal-public-catalog. InquiryForm (включая unknown→4xx/Unicode), customer recovery, Auth, API0.6.2/e699158 и GLB сохранены побайтово. [Полный отчёт и публикация](../ABZAL_PUBLIC_RELEASE.md). 336 unit/component; typecheck/lint/build/check:api; recovery5, QA21, voice1, microphone18, general24, Auth7 — PASS, наборы не суммировать. Настоящие Supabase/Render A/B, read-only recovery/inbox/каталог/аналитика и9hotspots на360/390/1440 прошли в кандидате; новая запись не создавалась. Использована заявка e77aa7d2-1799-4139-be37-728642d0925d. Backend/БД/миграции/Render не менялись. Следующий шаг — подтверждение production SHA/повтор read-only после Vercel, затем физическая приёмка команды; регистрация/mobile отдельно.

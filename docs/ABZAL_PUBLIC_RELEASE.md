@@ -1,5 +1,25 @@
 # Выпуск каталога и публичных страниц PR47 / PR49 / PR52
 
+## Фактический выпуск и приёмка production
+
+- **GitHub:** main = deploy-062 = deploy/permanent-062 = **`6e8bd1b8bbffd8437918dfa2b461d85f49f19b5a`**, обычный fast-forward, интеграционный [PR54](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/54) merged. PR47/49 отмечены GitHub merged. Код PR52 уже является предком выпуска; зависимый PR закрыт как включённый, ветка автора сохранена. Состояние самого PR — [запись](qa/abzal-public-release/pr52-status.json).
+- **Vercel:** [публичный сайт](https://qadamx-taraz.vercel.app) обслуживает сборку **`6e8bd1b8bbffd8437918dfa2b461d85f49f19b5a`**. Подтверждение: Vercel success для этого SHA плюс побайтовое совпадение production JS/CSS/GLB/превью с проверенной dist. [Статус](qa/abzal-public-release/production-status.json), [хеши](qa/abzal-public-release/production-assets.json), [события](qa/abzal-public-release/deployment-events.json). Сначала один preview уже сообщил success, пока production ещё отдавал старый entry; это не было принято как выпуск. Проверки продолжились только после смены production entry и совпадения байтов. Management API Vercel не использовался; событие GitHub само по себе не определяет назначенный alias.
+- **Render:** не перезапускался и не переключался. API0.6.2, health/OpenAPI200, CORS точного Vercel origin и A/B проверены после web-deploy. Последний runtime SHA по подтверждению капитана **`e699158b5238285fb02c85bc5d92c45a3cc4ca84`**; публичный health не раскрывает commit, поэтому независимое новое подтверждение SHA процесса недоступно. Код apps/api/render.yaml в выпуске совпадает с e699158. Изменение Git deploy-ref не названо новым Render deployment.
+- **APK:** не изменялся и не собирался; этот web-выпуск не является новым APK.
+
+### После deployment — настоящий сайт и сервисы
+
+1. Реальные Vercel → Supabase login A/B → Render `/me`:200,6/3 точки, logout/login, reload и отсутствие данных A у B. Customers/история/summary/аналитика7/30 доступны; чужие точки404. Без токена401. Точные CORS/формат ошибок/отсутствие диагностических полей и известных секретов — [API отчёт](qa/abzal-public-release/production-api.json).
+2. Клиенты, каталог, форма продажи без записи, история, итог и аналитика: RU/KZ360/390/1440 без overflow. GET существующей recovery-квитанции вернул прежнего клиента после reload; неизвестные POST/гонки проверены только изолированными тестами. [Auth и страницы](qa/abzal-public-release/production-auth.json).
+3. В inbox владельца прочитана прежняя заявка **e77aa7d2-1799-4139-be37-728642d0925d** и проверена после reload; B получает404. Новых заявок, клиентов и денег **0**. Публичная форма показывает реальное название текущего магазина.
+4. Все9hotspots на360/390/1440 открывают свои магазины; настоящий canvas, RU/KZ,6 fallback-кейсов (нетWebGL/ошибкаGLB×3 площадки) PASS. Каталоги всех9магазинов совпадают с API по UUID, цене, наличию и demo-меткам; загруженный кабинетный каталог, двусторонний hover/focus PASS. [Публичный браузер](qa/abzal-public-release/production-public.json), [каталоги](qa/abzal-public-release/production-catalog.json). GLB не менялись; production отдаёт прежние принятые модели.
+
+**Ограничения:** физический телефон/GPU/микрофон не проверялись; использован Chrome с программным WebGL и мобильными viewport. Synthetic recovery/AI tests не называются живыми денежными или платными AI-пробами. Регистрация и новые mobile-артефакты остаются отдельными задачами владельцев. Долговременное восстановление публичной заявки после закрытия формы не добавлялось. Блокеров для этого web-выпуска не выявлено.
+
+Следующий шаг: дизайнер/public-web — физические touch/камеры/fallback; seller-web — сохранить проверенные recovery guards; mobile — отдельная приёмка своего актуального APK на устройстве; backend — без rollout, API и данные сохранены. Этот раздел и финальные JSON публикуются отдельным **документационным** commit в интеграционной ветке, без повторного push production-веток.
+
+---
+
 2026-10-17. Интеграция `integration/abzal-public-catalog` от свежего main/deploy `ad63a00bb5434f2c7977e4992851d65a46676328`. Ветки участников не перезаписывались. Код объединения до отчёта: `dea30a2`.
 
 ## Включено
