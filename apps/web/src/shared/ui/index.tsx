@@ -9,6 +9,7 @@ import {
   type SelectHTMLAttributes,
 } from "react";
 import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 import { ApiError } from "../api/client";
 import { useI18n, type TranslationKey } from "../i18n";
 
@@ -224,21 +225,68 @@ export function Dialog({
   const ref = useRef<HTMLDialogElement>(null);
   const id = useId();
   const { t } = useI18n();
+  const nativeModal =
+    typeof HTMLDialogElement !== "undefined" &&
+    typeof HTMLDialogElement.prototype.showModal === "function" &&
+    typeof HTMLDialogElement.prototype.close === "function";
   useEffect(() => {
     const dialog = ref.current;
     if (!dialog || !open) return;
     const previous = document.activeElement as HTMLElement | null;
-    dialog.showModal();
-    return () => {
-      dialog.close();
-      previous?.focus();
+    const containFocus = (event: FocusEvent) => {
+      if (!dialog.contains(event.target as Node)) dialog.focus();
     };
-  }, [open]);
+    if (nativeModal) dialog.showModal();
+    else {
+      dialog
+        .querySelector<HTMLElement>("button, input, select, textarea, a[href]")
+        ?.focus();
+      document.addEventListener("focusin", containFocus);
+    }
+    return () => {
+      document.removeEventListener("focusin", containFocus);
+      if (nativeModal) dialog.close();
+      if (previous?.isConnected) previous.focus();
+    };
+  }, [open, nativeModal]);
   if (!open) return null;
-  return (
+  const content = (
     <dialog
       ref={ref}
+      open={nativeModal ? undefined : true}
+      role="dialog"
+      aria-modal="true"
+      tabIndex={-1}
       aria-labelledby={id}
+      onKeyDown={(event) => {
+        if (nativeModal) return;
+        if (event.key === "Escape") {
+          event.preventDefault();
+          onClose();
+        } else if (event.key === "Tab") {
+          const focusable = Array.from(
+            ref.current?.querySelectorAll<HTMLElement>(
+              'button:not([disabled]), a[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex="0"]',
+            ) ?? [],
+          ).filter((element) => element.getClientRects().length > 0);
+          const first = focusable[0],
+            last = focusable[focusable.length - 1];
+          if (!first) {
+            event.preventDefault();
+            ref.current?.focus();
+          } else if (
+            event.shiftKey &&
+            (document.activeElement === first ||
+              document.activeElement === ref.current)
+          ) {
+            event.preventDefault();
+            last?.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        }
+      }}
       onCancel={(event) => {
         event.preventDefault();
         onClose();
@@ -253,4 +301,10 @@ export function Dialog({
       {children}
     </dialog>
   );
+  return nativeModal
+    ? content
+    : createPortal(
+        <div className="dialog-fallback-backdrop">{content}</div>,
+        document.body,
+      );
 }

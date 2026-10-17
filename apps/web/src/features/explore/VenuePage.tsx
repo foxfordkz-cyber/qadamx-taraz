@@ -9,12 +9,20 @@ import { getBusinesses, getVenues } from "./api";
 import { useFetch } from "./hooks";
 import { useT } from "./i18n";
 
+import { MAL_BAZAR_SLUG } from "./malBazarLinks";
+import MalBazarPage from "./MalBazarPage";
 import { LangSwitch, State } from "./ui";
 import "./explore.css";
 
 const Scene = lazy(() => import("./VenueScene"));
 
-export default function VenuePage() {
+/** Mal bazar is not a venue of the public API; its concept page sits beside the venues. */
+export default function VenueRoute() {
+  const { slug = "" } = useParams();
+  return slug === MAL_BAZAR_SLUG ? <MalBazarPage /> : <VenuePage />;
+}
+
+function VenuePage() {
   const { slug = "" } = useParams();
   const { t, name, categoryName } = useT();
   const nav = useNavigate();

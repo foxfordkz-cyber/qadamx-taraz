@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Header, Query, Response
+from fastapi import APIRouter, Depends, Header, Query, Request, Response
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -45,17 +45,35 @@ def me(db: DB, user: User):
     "/businesses/{id}/customers",
     response_model=schemas.Page[schemas.CustomerResponse],
     tags=["customers"],
+    description="Without ids: existing search and cursor pagination. With repeated query ids "
+    "(ids=UUID&ids=UUID): 1-100 values before deduplication, first-occurrence order, "
+    "only customers in the accessible business. Missing/foreign IDs are omitted equally. "
+    "Explicit q, cursor or limit with ids returns 422. The complete result uses the same "
+    "Page and server-calculated balances, with next_cursor=null; no default limit truncation.",
 )
 def get_customers(
     id: UUID,
     db: DB,
     user: User,
+    request: Request,
     q: Annotated[str, Query(max_length=200)] = "",
     limit: Limit = 50,
     cursor: UUID | None = None,
+    ids: Annotated[
+        list[UUID] | None,
+        Query(
+            min_length=1,
+            max_length=100,
+            description="Repeat ids once per UUID (form/explode). Empty values or >100 entries "
+            "return 422; duplicates count toward the limit and are returned once. "
+            "Do not combine with q, cursor or limit, even their default/empty values.",
+        ),
+    ] = None,
 ):
     ledger.require_membership(db, id, user)
-    return ledger.customers(db, id, q, limit, cursor)
+    if ids is not None and any(name in request.query_params for name in ("q", "cursor", "limit")):
+        raise APIError(422, "VALIDATION_ERROR", "ids cannot be combined with q, cursor or limit")
+    return ledger.customers(db, id, q, limit, cursor, ids=ids)
 
 
 @router.post(

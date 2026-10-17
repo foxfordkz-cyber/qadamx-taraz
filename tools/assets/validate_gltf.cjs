@@ -9,8 +9,13 @@ const validator = require(path.resolve(arg('--validator', '../qa-tools/node_modu
 const output = path.resolve(arg('--report', path.join(root, 'assets/venues/gltf-validation.json')));
 (async () => {
   const manifest = JSON.parse(fs.readFileSync(path.join(root, 'apps/web/public/venue-assets.json')));
+  // Concept assets outside the venue manifest are checked the same way.
+  const concepts = ['mal-bazar-asset.json']
+    .map(name => path.join(root, 'apps/web/public', name))
+    .filter(file => fs.existsSync(file))
+    .map(file => JSON.parse(fs.readFileSync(file)));
   const reports = [];
-  for (const venue of manifest.venues) {
+  for (const venue of [...manifest.venues, ...concepts]) {
     const data = fs.readFileSync(path.join(root, 'apps/web/public', venue.model_url));
     const report = await validator.validateBytes(new Uint8Array(data), {
       uri: `${venue.slug}.glb`, maxIssues: 50,

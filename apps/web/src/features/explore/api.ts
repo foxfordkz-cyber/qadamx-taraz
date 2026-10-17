@@ -55,6 +55,15 @@ export const getAssets = async () => {
     throw new ApiError(0, "INVALID_RESPONSE");
   return body.venues as VenueAsset[];
 };
+/** Concept model of the livestock market; it is not a venue of the public API. */
+export const getMalBazarAsset = async () => {
+  const r = await fetch("/mal-bazar-asset.json");
+  if (!r.ok) throw new ApiError(r.status, "ASSET_UNAVAILABLE");
+  const body = record(await r.json());
+  if (body.slug !== "mal-bazar" || !Array.isArray(body.hotspots))
+    throw new ApiError(0, "INVALID_RESPONSE");
+  return body as unknown as VenueAsset;
+};
 export async function getVenues() {
   const [venues, businesses, assets] = await Promise.all([
     all<Venue>("/venues"),

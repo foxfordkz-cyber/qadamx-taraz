@@ -49,7 +49,7 @@ function Metric({
         </span>
         <span className="analytics-kpi-scope">{scope}</span>
       </div>
-      <h2 id={headingId}>{title}</h2>
+      <h3 id={headingId}>{title}</h3>
       <strong
         className={`analytics-kpi-value ${textValue ? "analytics-kpi-text" : ""}`}
       >
@@ -70,6 +70,29 @@ export function AnalyticsPage() {
   const periodScope = t("analyticsPeriodScope");
   const currentScope = t("analyticsCurrentScope");
   const summaryId = useId();
+  const periodGroupId = useId();
+  const currentGroupId = useId();
+  // A zero net total can still contain daily receipts and reversals. Only fold
+  // charts when every supplied point is zero; current debt is independent.
+  const emptyCharts =
+    snapshot?.daily.every(
+      (day) =>
+        day.sales_minor === 0 &&
+        day.receipts_minor === 0 &&
+        day.sales_count === 0,
+    ) && snapshot.hourly.every((hour) => hour.sales_count === 0);
+  const charts = snapshot && (
+    <div className="analytics-chart-group">
+      <DailyChart
+        key={`daily:${business.id}:${days}:${scenario}`}
+        snapshot={snapshot}
+      />
+      <HourlyChart
+        key={`hourly:${business.id}:${days}:${scenario}`}
+        snapshot={snapshot}
+      />
+    </div>
+  );
   const asOf = snapshot
     ? new Intl.DateTimeFormat("ru-KZ", {
         timeZone: snapshot.timezone,
@@ -214,54 +237,72 @@ export function AnalyticsPage() {
               </Alert>
             )}
             <div className="analytics-kpis">
-              <Metric
-                title={t("analyticsPeriodSales")}
-                value={formatKZT(snapshot.cards.sales_minor, locale)}
-                scope={periodScope}
-                hint={t("analyticsSales")}
-                icon="summary"
-                primary
-              />
-              <Metric
-                title={t("analyticsPeriodReceipts")}
-                value={formatKZT(snapshot.cards.receipts_minor, locale)}
-                scope={periodScope}
-                hint={t("analyticsReceiptsHint")}
-                icon="history"
-              />
-              <Metric
-                title={t("analyticsCount")}
-                value={String(snapshot.cards.sales_count)}
-                scope={periodScope}
-                hint={t("analyticsActiveCountHint")}
-                icon="sale"
-              />
-              <Metric
-                title={t("analyticsAverage")}
-                textValue={snapshot.cards.average_ticket_minor === null}
-                value={
-                  snapshot.cards.average_ticket_minor === null
-                    ? t("analyticsNoSales")
-                    : formatKZT(snapshot.cards.average_ticket_minor, locale)
-                }
-                scope={periodScope}
-                hint={t("analyticsAverageHint")}
-                icon="catalog"
-              />
-              <Metric
-                title={t("analyticsCurrentDebt")}
-                value={formatKZT(snapshot.cards.outstanding_minor, locale)}
-                scope={currentScope}
-                hint={t("analyticsDebtHint")}
-                icon="debts"
-              />
-              <Metric
-                title={t("analyticsDebtorsCount")}
-                value={String(snapshot.cards.debtors_count)}
-                scope={currentScope}
-                hint={t("analyticsDebtorsHint")}
-                icon="customers"
-              />
+              <div
+                className="analytics-kpi-group"
+                role="group"
+                aria-labelledby={periodGroupId}
+              >
+                <h2 className="analytics-kpi-group-title" id={periodGroupId}>
+                  {periodScope}
+                </h2>
+                <Metric
+                  title={t("analyticsPeriodSales")}
+                  value={formatKZT(snapshot.cards.sales_minor, locale)}
+                  scope={periodScope}
+                  hint={t("analyticsSales")}
+                  icon="summary"
+                  primary
+                />
+                <Metric
+                  title={t("analyticsPeriodReceipts")}
+                  value={formatKZT(snapshot.cards.receipts_minor, locale)}
+                  scope={periodScope}
+                  hint={t("analyticsReceiptsHint")}
+                  icon="history"
+                />
+                <Metric
+                  title={t("analyticsCount")}
+                  value={String(snapshot.cards.sales_count)}
+                  scope={periodScope}
+                  hint={t("analyticsActiveCountHint")}
+                  icon="sale"
+                />
+                <Metric
+                  title={t("analyticsAverage")}
+                  textValue={snapshot.cards.average_ticket_minor === null}
+                  value={
+                    snapshot.cards.average_ticket_minor === null
+                      ? t("analyticsNoSales")
+                      : formatKZT(snapshot.cards.average_ticket_minor, locale)
+                  }
+                  scope={periodScope}
+                  hint={t("analyticsAverageHint")}
+                  icon="catalog"
+                />
+              </div>
+              <div
+                className="analytics-kpi-group"
+                role="group"
+                aria-labelledby={currentGroupId}
+              >
+                <h2 className="analytics-kpi-group-title" id={currentGroupId}>
+                  {currentScope}
+                </h2>
+                <Metric
+                  title={t("analyticsCurrentDebt")}
+                  value={formatKZT(snapshot.cards.outstanding_minor, locale)}
+                  scope={currentScope}
+                  hint={t("analyticsDebtHint")}
+                  icon="debts"
+                />
+                <Metric
+                  title={t("analyticsDebtorsCount")}
+                  value={String(snapshot.cards.debtors_count)}
+                  scope={currentScope}
+                  hint={t("analyticsDebtorsHint")}
+                  icon="customers"
+                />
+              </div>
             </div>
             <Card className="analytics-summary" aria-labelledby={summaryId}>
               <h2 id={summaryId}>{t("analyticsSummaryTitle")}</h2>
@@ -321,14 +362,17 @@ export function AnalyticsPage() {
                   />
                 </Card>
               )}
-            <DailyChart
-              key={`daily:${business.id}:${days}:${scenario}`}
-              snapshot={snapshot}
-            />
-            <HourlyChart
-              key={`hourly:${business.id}:${days}:${scenario}`}
-              snapshot={snapshot}
-            />
+            {emptyCharts ? (
+              <details
+                className="analytics-empty-charts"
+                key={`${business.id}:${days}:${scenario}`}
+              >
+                <summary>{t("analyticsShowCharts")}</summary>
+                {charts}
+              </details>
+            ) : (
+              charts
+            )}
           </>
         )
       )}
