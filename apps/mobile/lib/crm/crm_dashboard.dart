@@ -157,10 +157,19 @@ class _CrmDashboardState extends CrmScreenState<CrmDashboard> {
             business: widget.business,
             kk: kk,
           ),
-      if (widget.slug.isNotEmpty)
-        action('Каталог', 'Каталог', Icons.inventory_2_outlined,
-          CatalogPage(runtime: widget.runtime, business: widget.business, kk: kk, slug: widget.slug)),
         ),
+        if (widget.slug.isNotEmpty)
+          action(
+            'Каталог',
+            'Каталог',
+            Icons.inventory_2_outlined,
+            CatalogPage(
+              runtime: widget.runtime,
+              business: widget.business,
+              kk: kk,
+              slug: widget.slug,
+            ),
+          ),
         crmGap,
       ],
     ),
