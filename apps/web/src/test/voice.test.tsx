@@ -64,7 +64,7 @@ describe("voice form with stub provider responses", () => {
       );
       await waitFor(() =>
         expect(
-          screen.getByRole("button", { name: "Ручной ввод" }),
+          screen.getByRole("button", { name: "Заполнить вручную" }),
         ).toBeEnabled(),
       );
       expect(screen.getByRole("alert")).toHaveTextContent("Ввод сохранён");

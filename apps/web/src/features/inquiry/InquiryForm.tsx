@@ -1,70 +1,178 @@
-import { useRef, useState, type FormEvent } from "react";
-import { postInquiry } from "../explore/api";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useI18n } from "../../shared/i18n";
 import { ApiError } from "../../shared/api/client";
-import { useT, type Key } from "../explore/i18n";
+import { postInquiry } from "../explore/api";
 import type { InquiryInput, InquiryResult } from "../explore/types";
 
 const newId = () => crypto.randomUUID();
-type Errors = Partial<Record<"name" | "contact" | "message", Key>>;
-export default function InquiryForm({ businessId }: { businessId: string }) {
-  const { t } = useT();
+
+const messages = {
+  ru: {
+    title: "Оставить заявку",
+    context: "Получатель заявки:",
+    currentShop: "этот магазин",
+    name: "Ваше имя",
+    contact: "Как с вами связаться",
+    contactHint:
+      "Телефон, email, Telegram или другой удобный контакт. Его увидит только этот магазин.",
+    message: "Что вы ищете?",
+    required: "Обязательное поле",
+    nameTooLong: "Не более 100 символов",
+    contactTooLong: "Не более 200 символов",
+    messageTooLong: "Не более 2000 символов",
+    send: "Отправить заявку",
+    sending: "Отправляем…",
+    retry: "Повторить отправку",
+    rejected:
+      "Сервер не принял заявку. Поля сохранены — проверьте их или попробуйте позже.",
+    unknown:
+      "Не удалось подтвердить, создана ли заявка. Повторите отправку с теми же данными; не создавайте новую, пока не получите подтверждение.",
+    sent: "Заявка отправлена:",
+    requestNumber: "Номер заявки",
+    sentHint: "Ответ и наличие товара зависят от продавца.",
+    another: "Отправить ещё одну",
+  },
+  kk: {
+    title: "Өтінім қалдыру",
+    context: "Өтінімді алушы:",
+    currentShop: "осы дүкен",
+    name: "Атыңыз",
+    contact: "Сізбен қалай байланысуға болады",
+    contactHint:
+      "Телефон, email, Telegram немесе басқа байланыс жолы. Оны тек осы дүкен көреді.",
+    message: "Не іздеп жүрсіз?",
+    required: "Міндетті өріс",
+    nameTooLong: "100 таңбадан аспасын",
+    contactTooLong: "200 таңбадан аспасын",
+    messageTooLong: "2000 таңбадан аспасын",
+    send: "Өтінім жіберу",
+    sending: "Жіберілуде…",
+    retry: "Қайта жіберу",
+    rejected:
+      "Сервер өтінімді қабылдамады. Өрістер сақталды — тексеріп, кейінірек қайталап көріңіз.",
+    unknown:
+      "Өтінімнің жасалғанын растау мүмкін болмады. Сол деректермен қайта жіберіңіз; растау алынғанша жаңа өтінім жасамаңыз.",
+    sent: "Өтінім жіберілді:",
+    requestNumber: "Өтінім нөмірі",
+    sentHint: "Жауап пен тауардың бар-жоғын сатушы анықтайды.",
+    another: "Тағы бір өтінім жіберу",
+  },
+} as const;
+
+type Field = "name" | "contact" | "message";
+type FieldErrors = Partial<
+  Record<
+    Field,
+    "required" | "nameTooLong" | "contactTooLong" | "messageTooLong"
+  >
+>;
+type Failure = "rejected" | "unknown" | null;
+type Props = { businessId: string; businessName?: string };
+
+export default function InquiryForm({ businessId, businessName }: Props) {
+  // A changed recipient owns a fresh form, even if a caller omits its key.
+  return (
+    <ShopInquiryForm
+      key={businessId}
+      businessId={businessId}
+      businessName={businessName}
+    />
+  );
+}
+
+function ShopInquiryForm({ businessId, businessName }: Props) {
+  const { locale } = useI18n();
+  const t = messages[locale];
+  const storeName = businessName?.trim() || t.currentShop;
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [message, setMessage] = useState("");
-  const [errors, setErrors] = useState<Errors>({});
+  const [errors, setErrors] = useState<FieldErrors>({});
   const [sending, setSending] = useState(false);
-  const [failed, setFailed] = useState(false);
+  const [failure, setFailure] = useState<Failure>(null);
   const [done, setDone] = useState<InquiryResult | null>(null);
-  // Один id на заявку: сетевой повтор не создаст дубль на сервере
   const requestId = useRef(newId());
   const pending = useRef<InquiryInput | null>(null);
   const lock = useRef(false);
+  const uncertain = useRef(false);
+  const active = useRef(true);
+  useEffect(() => {
+    active.current = true;
+    return () => {
+      active.current = false;
+    };
+  }, []);
 
-  const submit = async (ev: FormEvent) => {
-    ev.preventDefault();
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (lock.current) return;
-    const err: Errors = {};
-    if (!name.trim()) err.name = "required";
-    if (!contact.trim()) err.contact = "required";
-    if (!message.trim()) err.message = "required";
-    setErrors(err);
-    if (Object.keys(err).length) return;
+
+    const values = {
+      visitor_name: name.trim(),
+      contact: contact.trim(),
+      message: message.trim(),
+    };
+    const nextErrors: FieldErrors = {};
+    if (!values.visitor_name) nextErrors.name = "required";
+    else if (Array.from(values.visitor_name).length > 100)
+      nextErrors.name = "nameTooLong";
+    if (!values.contact) nextErrors.contact = "required";
+    else if (Array.from(values.contact).length > 200)
+      nextErrors.contact = "contactTooLong";
+    if (!values.message) nextErrors.message = "required";
+    else if (Array.from(values.message).length > 2000)
+      nextErrors.message = "messageTooLong";
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) return;
+
     lock.current = true;
     setSending(true);
-    setFailed(false);
+    setFailure(null);
     try {
       pending.current ??= {
+        ...values,
         client_request_id: requestId.current,
-        contact: contact.trim(),
-        message: message.trim(),
-        visitor_name: name.trim(),
       };
-      const res = await postInquiry(businessId, pending.current);
+      const receipt = await postInquiry(businessId, pending.current);
+      if (!active.current) return;
       pending.current = null;
-      setDone(res); // форму очищаем только после ответа
-    } catch (e) {
-      if (
-        e instanceof ApiError &&
-        e.status > 0 &&
-        e.status < 500 &&
-        e.status !== 408
-      )
+      uncertain.current = false;
+      setDone(receipt);
+    } catch (error) {
+      if (!active.current) return;
+      const definitivelyRejected =
+        !uncertain.current &&
+        error instanceof ApiError &&
+        error.status >= 400 &&
+        error.status < 500 &&
+        error.status !== 408 &&
+        error.status !== 409;
+      if (definitivelyRejected) {
         pending.current = null;
-      setFailed(true); // введённый текст остаётся
+        requestId.current = newId();
+        setFailure("rejected");
+      } else {
+        // A later rejection cannot prove that an earlier unknown POST failed.
+        uncertain.current = true;
+        setFailure("unknown");
+      }
     } finally {
       lock.current = false;
-      setSending(false);
+      if (active.current) setSending(false);
     }
   };
 
   if (done)
     return (
       <section className="inq inq--ok" aria-live="polite">
-        <h2>{t("sent_title")}</h2>
+        <h2>{t.sent}</h2>
         <p>
-          {t("request_no")}: <strong>{done.id}</strong>
+          <strong>{storeName}</strong>
         </p>
-        <p className="muted">{t("sent_text")}</p>
+        <p>
+          {t.requestNumber}: <strong>{done.id}</strong>
+        </p>
+        <p className="muted">{t.sentHint}</p>
         <button
           type="button"
           className="btn"
@@ -74,73 +182,99 @@ export default function InquiryForm({ businessId }: { businessId: string }) {
             setName("");
             setContact("");
             setMessage("");
+            setErrors({});
+            setFailure(null);
           }}
         >
-          {t("send_another")}
+          {t.another}
         </button>
       </section>
     );
 
+  const fieldError = (field: Field) =>
+    errors[field] ? t[errors[field]!] : undefined;
+
   return (
     <section className="inq" aria-labelledby="inq-h">
-      <h2 id="inq-h">{t("inquiry")}</h2>
+      <h2 id="inq-h">{t.title}</h2>
+      <p className="muted">
+        {t.context} <strong>{storeName}</strong>
+      </p>
       <form onSubmit={submit} noValidate>
-        <fieldset disabled={sending || !!pending.current}>
+        <fieldset disabled={sending || pending.current !== null}>
           <label>
-            {t("name")}
+            <span>{t.name} *</span>
             <input
+              name="visitor_name"
               value={name}
-              maxLength={100}
-              autoComplete="name"
-              onChange={(e) => setName(e.target.value)}
-            />
-          </label>
-
-          <label>
-            {t("contact")}
-            <input
-              value={contact}
               maxLength={200}
-              autoComplete="tel"
-              inputMode="text"
+              autoComplete="name"
+              required
               aria-required="true"
-              aria-invalid={!!errors.contact}
-              aria-describedby={
-                errors.contact ? "contact-hint contact-error" : "contact-hint"
-              }
-              onChange={(e) => setContact(e.target.value)}
+              aria-invalid={!!errors.name}
+              aria-describedby={errors.name ? "inq-name-error" : undefined}
+              onChange={(event) => setName(event.target.value)}
             />
-            <small id="contact-hint" className="muted">
-              {t("contact_hint")}
-            </small>
-            {errors.contact && (
-              <small id="contact-error" className="err" role="alert">
-                {t(errors.contact)}
+            {errors.name && (
+              <small id="inq-name-error" className="err" role="alert">
+                {fieldError("name")}
               </small>
             )}
           </label>
 
           <label>
-            {t("message")}
+            <span>{t.contact} *</span>
+            <input
+              name="contact"
+              value={contact}
+              maxLength={400}
+              autoComplete="tel"
+              inputMode="text"
+              required
+              aria-required="true"
+              aria-invalid={!!errors.contact}
+              aria-describedby={
+                errors.contact
+                  ? "inq-contact-hint inq-contact-error"
+                  : "inq-contact-hint"
+              }
+              onChange={(event) => setContact(event.target.value)}
+            />
+            <small id="inq-contact-hint" className="muted">
+              {t.contactHint}
+            </small>
+            {errors.contact && (
+              <small id="inq-contact-error" className="err" role="alert">
+                {fieldError("contact")}
+              </small>
+            )}
+          </label>
+
+          <label>
+            <span>{t.message} *</span>
             <textarea
+              name="message"
               rows={4}
               value={message}
-              maxLength={2000}
+              maxLength={4000}
+              required
               aria-required="true"
               aria-invalid={!!errors.message}
-              onChange={(e) => setMessage(e.target.value)}
+              aria-describedby={
+                errors.message ? "inq-message-error" : undefined
+              }
+              onChange={(event) => setMessage(event.target.value)}
             />
             {errors.message && (
-              <small className="err" role="alert">
-                {t(errors.message)}
+              <small id="inq-message-error" className="err" role="alert">
+                {fieldError("message")}
               </small>
             )}
           </label>
         </fieldset>
-        {errors.name && <p role="alert">{t("required")}</p>}
-        {failed && (
-          <p className="err" role="alert">
-            {t("send_error")}
+        {failure && (
+          <p className="err" role="alert" aria-live="assertive">
+            {t[failure]}
           </p>
         )}
         <button
@@ -149,7 +283,7 @@ export default function InquiryForm({ businessId }: { businessId: string }) {
           disabled={sending}
           aria-busy={sending}
         >
-          {sending ? t("sending") : t("send")}
+          {sending ? t.sending : failure === "unknown" ? t.retry : t.send}
         </button>
       </form>
     </section>

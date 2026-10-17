@@ -1,5 +1,25 @@
 # Передача работы backend
 
+## 2026-10-17 — следующая интеграция публичной заявки
+
+От main8ee78ae, без повторного PR41/42: выборочный перенос формы e6c9dd, реальное имя ShopPage, защита unknown→4xx сохраняет key/body, смена магазина изолирует late response. Отдельный public-inquiry.md по поручению капитана, public-web.md не заменён. Apps/api/OpenAPI/AI/recovery/аналитика/GLB не менялись, Render не перезапускается.
+
+333unit/component, typecheck/lint/build/check:api PASS; recovery5/QA21/voice1/microphone18/general24/Auth7 PASS с заглушками (пересечения). Один устаревший E2E-selector формы обновлён, повтор прошёл. Живой кандидат с real Supabase/Render: hotspot→магазин→POST→локально потерянный ответ→тот же intent→та же квитанция; inboxA/foreignB404. Заявка e77aa7d2-1799-4139-be37-728642d0925d, точкаad6203bc-7320-5b36-982b-135504c5af68. Денег/AI/миграций/seed/cleanup0.
+
+[Review, rollout и ограничения](../INQUIRY_RELEASE_REVIEW.md). PR43 eba0f91 не содержит согласованный callback, оставлен отдельно; текущие public Auth flags сняты read-only, Site URL/allowlist не видны без администратора. PR45 cbb4d0c: APK0.2.2+5/source96ef1c4 скачан, SHA/config проверены; устройство ожидается, APK не собирался. Ссылка витрины ведёт на новый test release. Новые721da4e/PR46 и d010f5e сравнили, whole-branch не добавляли; следующий шаг владельцам — сверка с выпущенной формой и отдельная приёмка их оставшихся изменений.
+
+## 2026-10-17 — совместная приёмка PR42 recovery + PR41 polish
+
+От свежего main9845b91 в отдельной `integration/recovery-polish-062` объединены remote heads **2058b91** и **7d84cb6**, production-код merge **539bee6**. Пересечения Customers/test прочитаны: сохранены compare-and-clear, owner/session guards, Web Locks и полировка без UUID. Исправлен один тестовый селектор имени; приложение ради теста не менялось. API0.6.2/OpenAPI/generated/Auth/GLB/Flutter сохранены; apps/api равен e699158.
+
+**Собственные проверки:** полный319unit/component PASS, typecheck/lint/build/check:api PASS; Chrome recovery5, QA21, Voice1, microphone18, General24, Auth7 PASS (пересечения, синтетические API/audio). Asset validator0errors/warnings. LateK1/K2 и вкладки проверены изолированно, без лишних записей общейБД.
+
+**Живое:** candidate dist подставлен только в тестовом браузере на разрешённом Vercel origin, настоящий Supabase+Render. LoginA6, UI customerPOST201→локально потерянный ответ→unknown→GETcompleted→явный samekey/body replay201→ровно1клиент; reload/возвратA восстанавливают receipt; смена точки/logoutB3/foreign404 PASS. Первый harness ошибся с точкой после полной навигации, затем с подписью поиска; продолжение только по исходному key/body/receipt. Клиент **f02abd40-6356-47e3-9c31-7f8268b981f1**, точка **2c234f1c-2c79-5e3a-ab77-042e3da4dafa**, явно учебное имя. Денег/AI/миграций/seed/очистки нет.
+
+PR43 **eba0f91** исключён. [Контракт регистрации](../../packages/contracts/REGISTRATION_CALLBACK.md): единый Supabase, PKCE `/auth/callback`, точные URLs, ошибки/повтор/другой браузер, `/me` с0точек. Это передача владельцу frontend; настройки Auth не применены, email-приёмка отдельно.
+
+[Полный отчёт и откат](../RECOVERY_POLISH_RELEASE.md). Предыдущий Vercel deployment vF1TeDmkSY815MSLvgUSSSGdE1hU/9845b91 сохранён. Капитан разрешил обновить main/deploy refs после приёмки; Render auto-deploy off, неизменный backend не перезапускается. Deployed SHA подтверждается после push. Flutter получает прежнийAPI0.6.2; APK/телефон не проверены. Старый audio incident открыт.
+
 ## Повторная сверка опубликованных изменений — 2026-10-17
 
 По поручению капитана проверены свежие remote heads после общей базы 07197be. Включён PR40 `6e8fc5d`: только [предложение RU/KZ-названий](../DEMO_NAMES_RU_KZ.md), без изменения данных, seed, API или интерфейса. Регистрация `6f80867` подтянула main, но callback по-прежнему не реализован (`detectSessionInUrl: false`, redirect ожидает согласования); остаётся вне production. Recovery `9a3c868` не обновлён, прежний блокер сохраняется. Flutter `421b2fb`, AI `7c19a22`, модели `996a1b4` не изменились. Полировка продажи/долгов ещё не опубликована и не может быть перенесена с компьютера автора.

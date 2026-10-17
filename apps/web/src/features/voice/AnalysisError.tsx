@@ -1,10 +1,30 @@
 import { ApiError } from "../../shared/api/client";
 import { ErrorMessage } from "../../shared/ui";
+import { TechDetails } from "../ledger/TechDetails";
 import { useVoiceText } from "./i18n";
 
-export function AnalysisError({ error }: { error: unknown }) {
+// One message per failure: a known AI/audio reason; otherwise the caller's fallback
+// for server/unknown failures and the shared message (login, access…) for the rest.
+export function AnalysisError({
+  error,
+  fallback,
+}: {
+  error: unknown;
+  fallback?: string;
+}) {
   const { v } = useVoiceText();
-  if (!(error instanceof ApiError)) return <ErrorMessage error={error} />;
+  const serverSide =
+    !(error instanceof ApiError) || error.status === 0 || error.status >= 500;
+  const generic =
+    fallback && serverSide ? (
+      <>
+        <p>{fallback}</p>
+        <TechDetails error={error} />
+      </>
+    ) : (
+      <ErrorMessage error={error} />
+    );
+  if (!(error instanceof ApiError)) return generic;
   const key =
     error.status === 429 || error.code === "AI_QUOTA_EXCEEDED"
       ? "quotaError"
@@ -25,13 +45,9 @@ export function AnalysisError({ error }: { error: unknown }) {
   return key ? (
     <>
       <p>{v(key)}</p>
-      {error.metadata.requestId && (
-        <small>
-          {v("supportCode")}: {error.metadata.requestId}
-        </small>
-      )}
+      <TechDetails error={error} />
     </>
   ) : (
-    <ErrorMessage error={error} />
+    generic
   );
 }

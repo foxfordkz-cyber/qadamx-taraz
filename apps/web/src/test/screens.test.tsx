@@ -2,7 +2,7 @@ import { render, screen, within, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "../app/App";
 import { AuthProvider } from "../app/auth";
 import { makeQueryClient } from "../app/query";
@@ -10,6 +10,24 @@ import { I18nProvider } from "../shared/i18n";
 import { demoGateway } from "../shared/demo/gateway";
 import type { SellerGateway } from "../shared/api/gateway";
 import { ApiError } from "../shared/api/client";
+import { mockAuth } from "./qa-fixtures";
+
+afterEach(() => vi.unstubAllEnvs());
+async function openAuthenticated(gateway: SellerGateway) {
+  vi.stubEnv("VITE_API_BASE_URL", "https://qa.invalid/api/v1");
+  render(
+    <QueryClientProvider client={makeQueryClient()}>
+      <I18nProvider>
+        <AuthProvider client={mockAuth().client}>
+          <MemoryRouter initialEntries={["/seller"]}>
+            <App gateway={gateway} />
+          </MemoryRouter>
+        </AuthProvider>
+      </I18nProvider>
+    </QueryClientProvider>,
+  );
+  await screen.findByRole("heading", { name: "Хорошего рабочего дня!" });
+}
 
 async function openDemo(gateway: SellerGateway = demoGateway) {
   render(
@@ -275,11 +293,15 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
   });
   it("preserves customer fields after a rejected write and allows optional contact", async () => {
     const create = vi.fn().mockRejectedValue(new ApiError(500, "TEST_ERROR"));
-    await openDemo({
+    await openAuthenticated({
       ...demoGateway,
       mode: "live",
       canWrite: true,
       createCustomer: create,
+      customerCreationResult: async () => ({
+        status: "not_observed",
+        customer: null,
+      }),
     });
     await goTo("Клиенты");
     await userEvent.click(screen.getByRole("button", { name: /Новый клиент/ }));
@@ -307,11 +329,15 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
         business_id: business.id,
       }),
     );
-    await openDemo({
+    await openAuthenticated({
       ...demoGateway,
       mode: "live",
       canWrite: true,
       createCustomer,
+      customerCreationResult: async () => ({
+        status: "not_observed",
+        customer: null,
+      }),
     });
     await goTo("Клиенты");
     await userEvent.click(
@@ -325,9 +351,7 @@ describe("seller UI using explicitly injected test/demo gateways", () => {
     await userEvent.click(
       within(dialog).getByRole("button", { name: "Создать клиента" }),
     );
-    expect(
-      await screen.findByText("Выбран: Test created · test-created-customer"),
-    ).toBeInTheDocument();
+    expect(await screen.findByText("Выбран: Test created")).toBeInTheDocument();
     expect(createCustomer).toHaveBeenCalledTimes(1);
   });
   it("updates inquiry display only after the mutation resolves", async () => {

@@ -444,7 +444,9 @@ test("synthetic Chromium microphone denial leaves text, audio-file and manual en
   await expect(fileInput(page)).toBeEnabled();
   await page.getByLabel("Текст для AI").fill("Synthetic manual fallback");
   await expect(prepare(page)).toBeEnabled();
-  await page.getByRole("button", { name: "Ручной ввод", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Заполнить вручную", exact: true })
+    .click();
   await page.getByLabel("Сумма продажи, ₸", { exact: true }).fill("3000");
   await expect(
     page.getByLabel("Сумма продажи, ₸", { exact: true }),
@@ -538,10 +540,7 @@ for (const status of [415, 422, 503, 504]) {
     });
     await prepare(page).click();
     await expect(
-      page.getByRole("alert").filter({
-        hasText:
-          "AI временно недоступен. Ввод сохранён; продолжите вручную или повторите позже.",
-      }),
+      page.getByRole("alert").filter({ hasText: "Ввод сохранён" }),
     ).toBeVisible();
     await expect(
       page.getByText("synthetic-input.wav", { exact: true }),
@@ -553,7 +552,7 @@ for (const status of [415, 422, 503, 504]) {
       "1200",
     );
     await expect(
-      page.getByRole("button", { name: "Ручной ввод", exact: true }),
+      page.getByRole("button", { name: "Заполнить вручную", exact: true }),
     ).toBeEnabled();
     expect(services.drafts).toHaveLength(1);
   });

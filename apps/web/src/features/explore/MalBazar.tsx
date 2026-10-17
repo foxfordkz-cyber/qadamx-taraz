@@ -67,6 +67,11 @@ function MalBazarPlan({ label }: { label: string }) {
   );
 }
 
+/** Published Android test build with the livestock feed; the web has no listings
+    of its own. Update together with each mobile release. */
+const MOBILE_APP_RELEASE =
+  "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.2.2-hosted.1";
+
 export function MalBazarSection() {
   const { t } = useT();
   const [webgl] = useState(hasWebGL);
@@ -85,6 +90,15 @@ export function MalBazarSection() {
       <div className="mal-body">
         <div className="mal-copy">
           <p>{t("mal_text")}</p>
+          <a
+            className="btn btn--primary"
+            href={MOBILE_APP_RELEASE}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t("mal_app_link")}
+          </a>
+          <small className="muted">{t("mal_app_note")}</small>
           <p className="muted">{t("mal_scheme_note")}</p>
           {webgl && !lost && (
             <button

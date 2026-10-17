@@ -1,0 +1,45 @@
+{
+  "base": "9845b91b64d388c54312d2a8a75000218c7774af",
+  "merged_code": "539bee66bcd06a241d19be32baae621775b0c55b",
+  "live_recovery": {
+    "scenario": "candidate local static bundle on approved HTTPS origin; real Supabase and Render",
+    "paid_ai_calls": 0,
+    "financial_writes": 0,
+    "physical_device": false,
+    "created_customer": "f02abd40-6356-47e3-9c31-7f8268b981f1",
+    "posts": 1,
+    "a_memberships": 6,
+    "customer_name": "РЈС‡РµР±РЅС‹Р№ recovery PR41+42 2026-10-17 443153",
+    "business_id": "2c234f1c-2c79-5e3a-ab77-042e3da4dafa",
+    "post_attempted": true,
+    "initial_harness_issue": "Full page navigation reset business selection; marker assertion used another business. Resume same saved receipt, never new key.",
+    "continuation_from_saved_receipt": true,
+    "loss_after_real_commit": true,
+    "reload_preserves_marker": true,
+    "real_get_recovered": true,
+    "same_key_replay": true,
+    "matching_customers": 1,
+    "b_memberships": 3,
+    "b_isolation": true,
+    "ui_receipt_recovery": true,
+    "technical_uuid_hidden": true,
+    "completed": true
+  },
+  "checks": {
+    "test": 0,
+    "typecheck": 0,
+    "lint": 0,
+    "build": 0,
+    "check:api": 0
+  },
+  "e2e": {
+    "recovery": 0,
+    "qa": 0,
+    "voice": 0,
+    "microphone": 0,
+    "general": 0,
+    "auth": 0
+  },
+  "backend_unchanged": true,
+  "physical_device": false
+}
