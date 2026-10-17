@@ -3,8 +3,13 @@
 Продолжена существующая ветка #43. Исходный handoff сохранён `ad30329`, затем
 обычный merge `origin/main` **86ca9af15017b163a9e47335c68eee46ac2fafde**:
 **4ed9fd4835900576d72e2870393a9820802f65ab**. Затем main обновился до
-**8fa0029a847895a2b968592fb6ab5b8cc39ee0a1**, обычный merge и итоговый source:
-**6529e71f1110a94fe6a5faa3b7bd9207c9a23966**. Без force push и второго Auth.
+**8fa0029a847895a2b968592fb6ab5b8cc39ee0a1**, обычный merge:
+**6529e71f1110a94fe6a5faa3b7bd9207c9a23966**. Перед передачей получен новый main
+**f023aae85d0c817dece9a0dbc542e55049254e33**, третий обычный merge и итоговый source:
+**ff896931042eac106bb9cba0f1d5a4d7467d295f**. Без force push и второго Auth.
+InquiryForm #71, все features, API/Flutter и OpenAPI/examples/generated.ts совпадают
+с актуальным main. Новые заголовки страниц и health stage сохранены.
+**ZIP 67eb828 и 6529e71 не публиковать.** Новый кандидат — `qadam-pr43-cloudflare-ff89693.zip`.
 
 Один фиксированный callback `https://qadamx-taraz.pages.dev/auth/callback`,
 строгий origin guard, hosted build с сохранённым ids=true, SPA callback rules.
@@ -15,7 +20,7 @@
 и протокол email-приёмки](../REGISTRATION_CLOUDFLARE_HANDOFF.md).
 Browser synthetic: Cloudflare **6/6**, Auth **25/25**, Recovery **5/5**,
 history/ids **6/6**, Seller/Auth QA **21/21**. После последнего merge повторены все
-эти browser-наборы; полный Vitest **482/482**, 35 файлов.
+эти browser-наборы; полный Vitest **483/483**, 35 файлов.
 TypeScript/lint/check:api/format/build PASS.
 Настоящие публичные endpoints/CORS/email settings проверены read-only;
 Redirect URLs не раскрываются этим API. Капитану передан точный URL с требованием
