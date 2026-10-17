@@ -16,7 +16,11 @@ const state = vi.hoisted(() => ({
   business: { id: "business-A" },
   scope: "account-A",
   drafts: new Map<string, unknown>(),
-  gateway: { mode: "live", customers: vi.fn() },
+  gateway: {
+    mode: "live",
+    customers: vi.fn(),
+    customersByIds: undefined as ReturnType<typeof vi.fn> | undefined,
+  },
   api: { request: vi.fn() },
 }));
 vi.mock("../app/runtime", () => ({
@@ -86,6 +90,7 @@ beforeEach(() => {
   state.business = { id: "business-A" };
   state.scope = "account-A";
   state.gateway.mode = "live";
+  state.gateway.customersByIds = undefined;
   state.drafts.clear();
   state.gateway.customers
     .mockReset()
@@ -320,9 +325,13 @@ describe("debt amounts while customer names are unavailable", () => {
   );
 });
 
-// Reproduced RED on main 1a541ef (all three cases). The captain assigned the
-// approved ids extension to backend; enable these when its exact contract lands.
-describe.skip("customer outside the first directory page (waiting for backend ids contract)", () => {
+// Backend PR61/f6b3a9 contract fixtures; production capability remains disabled.
+describe("customer outside the first directory page", () => {
+  beforeEach(() => {
+    state.gateway.customersByIds = vi
+      .fn()
+      .mockResolvedValue(page([customer(51)]));
+  });
   it.each([
     "/seller/debts",
     "/seller/debts?customer_id=customer-51",
@@ -331,11 +340,93 @@ describe.skip("customer outside the first directory page (waiting for backend id
     "resolves the name on direct opening %s with an empty cache",
     async (path) => {
       const view = mount(path);
-      await waitFor(() => expect(state.gateway.customers).toHaveBeenCalled());
+      await waitFor(() =>
+        expect(state.gateway.customersByIds).toHaveBeenCalled(),
+      );
       expect(await screen.findByText("Учебный клиент 51")).toBeInTheDocument();
+      expect(state.gateway.customers).not.toHaveBeenCalled();
+      if (path.includes("customer_id"))
+        expect(document.querySelector(".debt-total")).toHaveTextContent(
+          "6 300 ₸",
+        );
       view.unmount();
       mount(path);
       expect(await screen.findByText("Учебный клиент 51")).toBeInTheDocument();
+    },
+  );
+  it.each(["business", "user"])(
+    "ignores a late ids response after %s changes",
+    async (change) => {
+      const pending = deferred<ReturnType<typeof page>>();
+      const lookup = state.gateway.customersByIds!;
+      lookup
+        .mockReturnValueOnce(pending.promise)
+        .mockResolvedValue(
+          page([
+            { ...customer(51, "business-B"), display_name: "Новый контекст" },
+          ]),
+        );
+      const view = mount();
+      await waitFor(() => expect(lookup).toHaveBeenCalledTimes(1));
+      const signal = lookup.mock.calls[0][2] as AbortSignal;
+      if (change === "business") state.business = { id: "business-B" };
+      else state.scope = "account-B";
+      state.api.request.mockResolvedValue(
+        page([operation("operation-2", state.business.id)]),
+      );
+      view.refresh();
+      expect(await screen.findByText("Новый контекст")).toBeInTheDocument();
+      expect(signal.aborted).toBe(true);
+      await act(async () => pending.resolve(page([customer(51)])));
+      expect(screen.queryByText("Учебный клиент 51")).not.toBeInTheDocument();
+    },
+  );
+  it("requests more than 100 unique row/filter ids in bounded batches", async () => {
+    state.api.request.mockResolvedValue(
+      page(
+        Array.from({ length: 205 }, (_, i) => ({
+          ...operation(`op-${i}`),
+          customer_id: `customer-${i}`,
+        })),
+      ),
+    );
+    state.gateway.customersByIds!.mockResolvedValue(page());
+    mount();
+    await waitFor(() =>
+      expect(state.gateway.customersByIds).toHaveBeenCalledTimes(3),
+    );
+    const batches = state.gateway.customersByIds!.mock.calls.map(
+      (call) => call[1] as string[],
+    );
+    expect(batches.map((batch) => batch.length)).toEqual([100, 100, 5]);
+    expect(new Set(batches.flat()).size).toBe(205);
+    expect(state.gateway.customers).not.toHaveBeenCalled();
+  });
+  it("does not fetch an empty batch and resolves a filter even without rows", async () => {
+    state.api.request.mockResolvedValue(page());
+    const view = mount();
+    await screen.findByRole("heading", { name: "Записей нет" });
+    expect(state.gateway.customersByIds).not.toHaveBeenCalled();
+    view.unmount();
+    mount("/seller/debts?customer_id=customer-51");
+    expect(await screen.findByText("6 300 ₸")).toBeInTheDocument();
+    expect(state.gateway.customersByIds!.mock.calls[0][1]).toEqual([
+      "customer-51",
+    ]);
+  });
+  it.each(["missing", "error"])(
+    "preserves server amounts when ids lookup is %s",
+    async (mode) => {
+      if (mode === "missing")
+        state.gateway.customersByIds!.mockResolvedValue(page());
+      else
+        state.gateway.customersByIds!.mockRejectedValue(
+          new ApiError(503, "UNAVAILABLE"),
+        );
+      mount("/seller/debts?customer_id=customer-51");
+      await screen.findByText("Клиент недоступен");
+      expect(screen.getByText("2 500 ₸")).toBeInTheDocument();
+      expect(document.querySelector(".debt-total")).not.toBeInTheDocument();
     },
   );
 });
