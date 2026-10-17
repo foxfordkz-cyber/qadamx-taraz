@@ -1,0 +1,39 @@
+.inquiry-form {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.ex .inquiry-form fieldset {
+  display: grid;
+  gap: var(--qadam-space-4);
+  margin: 0;
+}
+
+.ex .inquiry-form form > p {
+  margin: 0;
+}
+
+.ex .inquiry-form input,
+.ex .inquiry-form textarea {
+  /* Keep mobile browsers from zooming the form on focus. */
+  font-size: max(1rem, 16px);
+  min-height: var(--qadam-control-height);
+  width: 100%;
+  min-width: 0;
+}
+
+.ex .inquiry-form .button {
+  min-height: var(--qadam-control-height);
+  justify-self: start;
+}
+
+.inquiry-form:focus-visible {
+  outline: var(--qadam-focus-ring);
+  outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+  .ex .inquiry-form .button {
+    width: 100%;
+  }
+}

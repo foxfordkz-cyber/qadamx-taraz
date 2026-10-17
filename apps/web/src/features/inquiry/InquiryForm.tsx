@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { useI18n } from "../../shared/i18n";
 import { ApiError } from "../../shared/api/client";
+import { Button } from "../../shared/ui";
 import { postInquiry } from "../explore/api";
 import type { InquiryInput, InquiryResult } from "../explore/types";
+import "./inquiry.css";
 
 const newId = () => crypto.randomUUID();
 
@@ -17,6 +19,7 @@ const messages = {
       "Телефон, email, Telegram или другой удобный контакт. Его увидит только этот магазин.",
     message: "Что вы ищете?",
     required: "Обязательное поле",
+    allRequired: "Все поля обязательны.",
     nameTooLong: "Не более 100 символов",
     contactTooLong: "Не более 200 символов",
     messageTooLong: "Не более 2000 символов",
@@ -42,6 +45,7 @@ const messages = {
       "Телефон, email, Telegram немесе басқа байланыс жолы. Оны тек осы дүкен көреді.",
     message: "Не іздеп жүрсіз?",
     required: "Міндетті өріс",
+    allRequired: "Барлық өрісті толтыру қажет.",
     nameTooLong: "100 таңбадан аспасын",
     contactTooLong: "200 таңбадан аспасын",
     messageTooLong: "2000 таңбадан аспасын",
@@ -67,9 +71,12 @@ type FieldErrors = Partial<
   >
 >;
 type Failure = "rejected" | "unknown" | null;
-type Props = { businessId: string; businessName?: string };
+export type InquiryFormProps = { businessId: string; businessName: string };
 
-export default function InquiryForm({ businessId, businessName }: Props) {
+export default function InquiryForm({
+  businessId,
+  businessName,
+}: InquiryFormProps) {
   // A changed recipient owns a fresh form, even if a caller omits its key.
   return (
     <ShopInquiryForm
@@ -80,7 +87,11 @@ export default function InquiryForm({ businessId, businessName }: Props) {
   );
 }
 
-function ShopInquiryForm({ businessId, businessName }: Props) {
+function ShopInquiryForm({ businessId, businessName }: InquiryFormProps) {
+  const id = useId();
+  const form = useRef<HTMLFormElement>(null);
+  const confirmation = useRef<HTMLElement>(null);
+  const returnToForm = useRef(false);
   const { locale } = useI18n();
   const t = messages[locale];
   const storeName = businessName?.trim() || t.currentShop;
@@ -102,10 +113,19 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
       active.current = false;
     };
   }, []);
+  useEffect(() => {
+    if (done) confirmation.current?.focus();
+    else if (returnToForm.current) {
+      returnToForm.current = false;
+      (
+        form.current?.elements.namedItem("visitor_name") as HTMLElement | null
+      )?.focus();
+    }
+  }, [done]);
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (lock.current) return;
+    if (lock.current || done) return;
 
     const values = {
       visitor_name: name.trim(),
@@ -123,7 +143,16 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
     else if (Array.from(values.message).length > 2000)
       nextErrors.message = "messageTooLong";
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length) return;
+    const firstInvalid = (["name", "contact", "message"] as const).find(
+      (field) => nextErrors[field],
+    );
+    if (firstInvalid) {
+      const inputName = firstInvalid === "name" ? "visitor_name" : firstInvalid;
+      (
+        form.current?.elements.namedItem(inputName) as HTMLElement | null
+      )?.focus();
+      return;
+    }
 
     lock.current = true;
     setSending(true);
@@ -164,8 +193,13 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
 
   if (done)
     return (
-      <section className="inq inq--ok" aria-live="polite">
-        <h2>{t.sent}</h2>
+      <section
+        ref={confirmation}
+        className="inq inq--ok inquiry-form"
+        tabIndex={-1}
+        aria-labelledby={`${id}-sent`}
+      >
+        <h2 id={`${id}-sent`}>{t.sent}</h2>
         <p>
           <strong>{storeName}</strong>
         </p>
@@ -173,10 +207,10 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
           {t.requestNumber}: <strong>{done.id}</strong>
         </p>
         <p className="muted">{t.sentHint}</p>
-        <button
-          type="button"
-          className="btn"
+        <Button
+          variant="secondary"
           onClick={() => {
+            returnToForm.current = true;
             requestId.current = newId();
             setDone(null);
             setName("");
@@ -187,7 +221,7 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
           }}
         >
           {t.another}
-        </button>
+        </Button>
       </section>
     );
 
@@ -195,64 +229,84 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
     errors[field] ? t[errors[field]!] : undefined;
 
   return (
-    <section className="inq" aria-labelledby="inq-h">
-      <h2 id="inq-h">{t.title}</h2>
+    <section className="inq inquiry-form" aria-labelledby={`${id}-title`}>
+      <h2 id={`${id}-title`}>{t.title}</h2>
       <p className="muted">
         {t.context} <strong>{storeName}</strong>
       </p>
-      <form onSubmit={submit} noValidate>
-        <fieldset disabled={sending || pending.current !== null}>
-          <label>
+      <form ref={form} onSubmit={submit} noValidate aria-busy={sending}>
+        <p id={`${id}-required`} className="muted">
+          {t.allRequired}
+        </p>
+        <fieldset
+          disabled={sending || pending.current !== null}
+          aria-describedby={`${id}-required`}
+        >
+          <label htmlFor={`${id}-name`}>
             <span>{t.name} *</span>
             <input
+              id={`${id}-name`}
               name="visitor_name"
               value={name}
               maxLength={200}
               autoComplete="name"
+              enterKeyHint="next"
               required
               aria-required="true"
               aria-invalid={!!errors.name}
-              aria-describedby={errors.name ? "inq-name-error" : undefined}
-              onChange={(event) => setName(event.target.value)}
+              aria-describedby={errors.name ? `${id}-name-error` : undefined}
+              onChange={(event) => {
+                setName(event.target.value);
+                setErrors((previous) => ({ ...previous, name: undefined }));
+              }}
             />
             {errors.name && (
-              <small id="inq-name-error" className="err" role="alert">
+              <small id={`${id}-name-error`} className="err" role="alert">
                 {fieldError("name")}
               </small>
             )}
           </label>
 
-          <label>
+          <label htmlFor={`${id}-contact`}>
             <span>{t.contact} *</span>
             <input
+              id={`${id}-contact`}
               name="contact"
               value={contact}
               maxLength={400}
-              autoComplete="tel"
+              autoComplete="off"
               inputMode="text"
+              enterKeyHint="next"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               required
               aria-required="true"
               aria-invalid={!!errors.contact}
               aria-describedby={
                 errors.contact
-                  ? "inq-contact-hint inq-contact-error"
-                  : "inq-contact-hint"
+                  ? `${id}-contact-hint ${id}-contact-error`
+                  : `${id}-contact-hint`
               }
-              onChange={(event) => setContact(event.target.value)}
+              onChange={(event) => {
+                setContact(event.target.value);
+                setErrors((previous) => ({ ...previous, contact: undefined }));
+              }}
             />
-            <small id="inq-contact-hint" className="muted">
+            <small id={`${id}-contact-hint`} className="muted">
               {t.contactHint}
             </small>
             {errors.contact && (
-              <small id="inq-contact-error" className="err" role="alert">
+              <small id={`${id}-contact-error`} className="err" role="alert">
                 {fieldError("contact")}
               </small>
             )}
           </label>
 
-          <label>
+          <label htmlFor={`${id}-message`}>
             <span>{t.message} *</span>
             <textarea
+              id={`${id}-message`}
               name="message"
               rows={4}
               value={message}
@@ -261,12 +315,15 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
               aria-required="true"
               aria-invalid={!!errors.message}
               aria-describedby={
-                errors.message ? "inq-message-error" : undefined
+                errors.message ? `${id}-message-error` : undefined
               }
-              onChange={(event) => setMessage(event.target.value)}
+              onChange={(event) => {
+                setMessage(event.target.value);
+                setErrors((previous) => ({ ...previous, message: undefined }));
+              }}
             />
             {errors.message && (
-              <small id="inq-message-error" className="err" role="alert">
+              <small id={`${id}-message-error`} className="err" role="alert">
                 {fieldError("message")}
               </small>
             )}
@@ -277,14 +334,9 @@ function ShopInquiryForm({ businessId, businessName }: Props) {
             {t[failure]}
           </p>
         )}
-        <button
-          className="btn btn--primary"
-          type="submit"
-          disabled={sending}
-          aria-busy={sending}
-        >
+        <Button type="submit" disabled={sending} aria-busy={sending}>
           {sending ? t.sending : failure === "unknown" ? t.retry : t.send}
-        </button>
+        </Button>
       </form>
     </section>
   );
