@@ -1,5 +1,90 @@
 # Seller web — PR43 callback implementation, 2026-10-17
 
+## Joint frontend release checkpoint — 2026-10-17
+
+Local documentation checkpoint only; no new commit/push/deployment. The exact
+published PR43 head remains `6ce3d29bf16d33f57b1d9dbf5c0bf1c4fcce7464`.
+Main, Vercel, Render, Supabase and production environment variables were not changed.
+Backend rollout belongs to the integration agent.
+
+One consolidated handoff was posted and read back successfully in
+[backend PR61](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/61#issuecomment-6234533149),
+addressed to `@foxfordkz-cyber`. It contains exact published SHAs, checks, limitations,
+dependencies, activation/rollback order and manual registration/iPhone procedures.
+
+| PR | Published head, verified through GitHub API and local HEAD |
+|---|---|
+| 43 | `6ce3d29bf16d33f57b1d9dbf5c0bf1c4fcce7464` |
+| 65 | `559b4d0e36d60e8cadda46118f8dad1f057c2cab` |
+| 66 | `a964646f0ad1628f32d941e0d6e340bcfd6caff3` |
+| 67 | `8da93dc48ff998230212be4f31c32944a173f53b` |
+
+Each SHA has a successful Vercel commit status and Preview Comments check. These
+are published Preview candidates, not a claim about production's runtime SHA.
+
+**PR43 live attempt remains blocked.** The operator reported `You Need Access`:
+the protected Vercel deployment requires team-owner approval even though the
+operator is signed into Vercel. Qadam has not loaded in that attempt; callback,
+session and authenticated `/me` therefore remain unverified. No account details
+or email URLs were saved. Prior email delivery plus separate password login
+does not satisfy this gate. No new real signup/email was sent by the agent.
+
+Exact registration URL:
+`https://qadamx-taraz-git-integration-seller-registrat-7d21c0-p-it-chers.vercel.app/register`.
+Its callback is the same origin with `/auth/callback`. Fresh read-only checks:
+both routes redirect anonymous requests to Vercel SSO; Preview OPTIONS `/me`
+returns 200 with the exact Allow-Origin, anonymous GET returns 401 with that
+origin. After the owner approves access, first load the Qadam form, then use a
+fresh agreed test address and the latest email in that same browser/profile.
+Record direct callback, one PKCE exchange, authenticated `/me`, correct empty
+business state or own cabinet, reload and logout before any separate password
+login. Expired/reused/other-browser links remain separate live gates.
+
+**PR65 stays disabled.** Default flag and `.env.example` are false; administrative
+production env was not inspected or changed. The live Render OpenAPI still lists
+customer parameters `id/q/limit/cursor`, without `ids`. PR65 depends on PR63
+`ae593c15408b05b2d32342900c3ed018739d1565`. Backend PR61 head
+`735145e15d13b7b7bc7022dc79dff2700fb65116` documents application candidate
+`f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5`, not a completed rollout.
+Integrator must confirm deployed SHA and live ids/isolation before a separately
+enabled test build and the live names/reload/filter/business/user checks. The
+build-time production flag stays off until those pass. Disable/rebuild frontend
+before any rollback to a backend that ignores ids.
+
+**PR66 physical incident remains open.** Short operator sequence is in the
+consolidated handoff: identify iPhone/iOS/browser/URL/SHA; Safari then original
+in-app browser; menu/close/underlying button/RU-KZ/manual text; permission denial
+and explicit retry; record/stop/play/pause/delete and separate cancel; reload.
+No AI submission or monetary confirmation is needed. Device-specific morning
+cause and actual iPhone recording are not proven by desktop tests.
+
+**PR67 review requested, not received at publication of this handoff.**
+[Abzal @ab0ka](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/67#issuecomment-6234471380)
+was asked to review the exact SHA and pinned before/after gallery.
+[Bekzat @bekzatwr](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/67#issuecomment-6234472094)
+received a separate date-formatting coordination request and the shared Dialog
+review dependency. `shared/format.ts` was not changed; its future move does not
+block the remaining fixes. Earlier PR55 approval is not PR67 approval.
+
+Fresh targeted checks (Node22.19.0, installed dependencies; synthetic Auth/API):
+- PR43 `registration-preview.playwright.config.ts`: **6/6 PASS**.
+- PR65 `ledger-reading.playwright.config.ts`: **6/6 PASS**; Vitest
+  `ledger-reading.test.tsx` + `customer-ids-contract.test.ts`: **32/32 PASS**.
+- PR66 `ios-compatibility.playwright.config.ts --project=desktop-chromium`:
+  first parallel run **2/3**, timing out before the login form; separate full
+  rerun **3/3 PASS**. The timeout's cause is not established; no test or app code
+  was changed to obtain the second result.
+- PR67 `analytics.playwright.config.ts analytics-compact.spec.ts`: **3/3 PASS**.
+All Playwright runs used `--trace off`, retries=0, local isolated servers. Initial
+sandbox launches failed before tests because esbuild could not read a parent
+directory; authorized execution outside that sandbox resolved startup. These
+results do not replace live email, deployed ids or physical iPhone acceptance.
+Full historical unit/build/lint results below were not rerun as part of this
+checkpoint. Next work requires owner-approved Preview access, integrator rollout,
+physical device results and the reviewers' actual replies.
+
+---
+
 ## Registration audit after the captain's real-email attempt
 
 The captain received the confirmation email, encountered Vercel Authentication
