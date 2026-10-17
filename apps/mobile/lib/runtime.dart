@@ -8,6 +8,8 @@ import 'auth.dart';
 import 'config.dart';
 import 'data/livestock_api.dart';
 import 'data/account_api.dart';
+import 'crm/crm_api.dart';
+import 'crm/crm_pending.dart';
 
 class SessionFailure implements Exception {
   const SessionFailure(this.code);
@@ -22,11 +24,13 @@ class MobileRuntime extends ChangeNotifier {
     AuthGateway? auth,
     LivestockApi? api,
     AccountApi? accountApi,
+    CrmApi? crmApi,
     String? initializationError,
   }) : _config = config,
        _auth = auth,
        _api = api,
        _accountApi = accountApi,
+       _crmApi = crmApi,
        _initializationError = initializationError,
        _accountId = auth?.accountId {
     if (_api == null && config.apiUri != null) {
@@ -50,6 +54,15 @@ class MobileRuntime extends ChangeNotifier {
       // A temporary refresh outage must not log a token or destroy the draft.
       onError: (Object _) {},
     );
+    if (_crmApi == null && config.apiUri != null) {
+      _crmApi = CrmApi(
+        baseUrl: config.apiUri!,
+        accountId: () => accountId,
+        epoch: () => epoch,
+        accessToken: () async => _auth?.accessToken(),
+        pending: CrmPending(SecureCrmVault()),
+      );
+    }
   }
 
   static Future<MobileRuntime> create(AppConfig config) async {
@@ -82,6 +95,7 @@ class MobileRuntime extends ChangeNotifier {
   final String? _initializationError;
   LivestockApi? _api;
   AccountApi? _accountApi;
+  CrmApi? _crmApi;
   StreamSubscription<String?>? _subscription;
   String? _accountId;
   int _epoch = 0;
@@ -90,6 +104,7 @@ class MobileRuntime extends ChangeNotifier {
 
   LivestockApi? get api => _api;
   AccountApi? get accountApi => _accountApi;
+  CrmApi? get crmApi => _crmApi;
   String get frontendBaseUrl => _config.frontendBaseUrl;
   bool get configured => _api != null;
   bool get authConfigured => _auth != null;
@@ -152,6 +167,7 @@ class MobileRuntime extends ChangeNotifier {
     unawaited(_subscription?.cancel());
     _api?.close();
     _accountApi?.close();
+    _crmApi?.close();
     if (_auth is SupabaseAuthGateway) _auth.close();
     super.dispose();
   }

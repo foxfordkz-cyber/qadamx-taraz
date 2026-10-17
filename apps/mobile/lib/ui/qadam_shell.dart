@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../business_access.dart';
+import '../crm/crm_dashboard.dart';
 import '../data/api_failure.dart';
 import '../frontend_links.dart';
 import '../runtime.dart';
@@ -355,7 +356,19 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
                   ]),
                   _webAccess(),
                 ]
-              : [_businesses(), _webAccess()],
+              : [
+                  _businesses(),
+                  if (access.selected != null && runtime.crmApi != null)
+                    CrmDashboard(
+                      key: ValueKey(
+                        '${runtime.accountId}:${runtime.epoch}:${access.selectedId}',
+                      ),
+                      runtime: runtime,
+                      business: access.selectedId!,
+                      kk: kk,
+                    ),
+                  _webAccess(),
+                ],
         ),
       ),
     ),
