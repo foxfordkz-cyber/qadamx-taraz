@@ -118,6 +118,7 @@ export function History() {
     { l, locale } = useLedgerText(),
     [selected, setSelected] = useState<string | null>(null),
     write = useWrite();
+  const rows = q.data?.pages.flatMap((p) => p.items) ?? [];
   // Names only decorate rows, as on "Мне должны".
   const customers = useCustomers("");
   const names = new Map(
@@ -138,48 +139,77 @@ export function History() {
   return (
     <>
       <PageHeader title={l("history")} />
-      {q.isError && (
-        <ErrorState error={q.error} retry={() => void q.refetch()} />
+      {q.isError && !q.isFetchNextPageError && (
+        <ErrorState
+          error={q.error}
+          retry={() => void q.refetch({ cancelRefetch: false })}
+        />
+      )}
+      {q.isFetching && !q.isFetchingNextPage && rows.length === 0 && (
+        <Spinner />
+      )}
+      {q.isSuccess && !q.isFetching && rows.length === 0 && (
+        <EmptyState title={l("empty")} description={l("historyEmptyHint")} />
       )}
       <div className="history-list">
-        {q.data?.pages
-          .flatMap((p) => p.items)
-          .map((o) => (
-            <Card key={o.id} className="history-row">
-              <div className="history-main">
-                <h2>{o.description}</h2>
-                <p>
-                  <Badge tone={kindTone[o.kind]}>{kindLabel[o.kind]}</Badge>
-                  <span>{operationTime(o.created_at)}</span>
-                  {o.customer_id && names.get(o.customer_id) && (
-                    <span>{names.get(o.customer_id)}</span>
-                  )}
-                </p>
-              </div>
-              <p className="history-amounts">
-                <span>
-                  {l("sales")}{" "}
-                  <strong>{formatKZT(o.sales_delta_minor, locale)}</strong>
-                </span>
-                <span>
-                  {l("receipts")}{" "}
-                  <strong>{formatKZT(o.receipts_delta_minor, locale)}</strong>
-                </span>
+        {rows.map((o) => (
+          <Card key={o.id} className="history-row">
+            <div className="history-main">
+              <h2>{o.description}</h2>
+              <p>
+                <Badge tone={kindTone[o.kind]}>{kindLabel[o.kind]}</Badge>
+                <span>{operationTime(o.created_at)}</span>
+                {o.customer_id && names.get(o.customer_id) && (
+                  <span>{names.get(o.customer_id)}</span>
+                )}
               </p>
-              {o.kind !== "reversal" && (
-                <Button
-                  variant="secondary"
-                  disabled={!!write.pending || write.busy}
-                  onClick={() => setSelected(o.id)}
-                >
-                  {l("reverse")}
-                </Button>
-              )}
-            </Card>
-          ))}
+            </div>
+            <p className="history-amounts">
+              <span>
+                {l("sales")}{" "}
+                <strong>{formatKZT(o.sales_delta_minor, locale)}</strong>
+              </span>
+              <span>
+                {l("receipts")}{" "}
+                <strong>{formatKZT(o.receipts_delta_minor, locale)}</strong>
+              </span>
+            </p>
+            {o.kind !== "reversal" && (
+              <Button
+                variant="secondary"
+                disabled={!!write.pending || write.busy}
+                onClick={() => setSelected(o.id)}
+              >
+                {l("reverse")}
+              </Button>
+            )}
+          </Card>
+        ))}
       </div>
-      {q.hasNextPage && (
-        <Button onClick={() => void q.fetchNextPage()}>{l("more")}</Button>
+      {q.isFetchNextPageError && (
+        <div role="alert" className="error-state">
+          <h2>{l("historyNextError")}</h2>
+          <p>
+            <ErrorMessage error={q.error} />
+          </p>
+          <Button
+            variant="secondary"
+            disabled={q.isFetching}
+            onClick={() => void q.fetchNextPage({ cancelRefetch: false })}
+          >
+            {l("loadRetry")}
+          </Button>
+        </div>
+      )}
+      {q.isFetchingNextPage && <p role="status">{l("loadingMore")}</p>}
+      {q.hasNextPage && !q.isFetchNextPageError && (
+        <Button
+          variant="secondary"
+          disabled={q.isFetching}
+          onClick={() => void q.fetchNextPage({ cancelRefetch: false })}
+        >
+          {l(q.isFetchingNextPage ? "loadingMore" : "more")}
+        </Button>
       )}
       <Dialog
         title={l("reverse")}

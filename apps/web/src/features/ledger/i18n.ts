@@ -46,6 +46,11 @@ const ru = {
   customerDebts: "Долги одного клиента",
   allDebts: "Показать всех",
   history: "История операций",
+  historyEmptyHint:
+    "Здесь появятся подтверждённые продажи, оплаты и исправления.",
+  historyNextError: "Не удалось загрузить следующую страницу",
+  loadingMore: "Загрузка следующей страницы…",
+  loadRetry: "Повторить",
   summary: "Итог дня",
   sales: "Продажи",
   receipts: "Поступления",
@@ -114,6 +119,11 @@ const kk: Record<keyof typeof ru, string> = {
   customerDebts: "Бір клиенттің қарыздары",
   allDebts: "Барлығын көрсету",
   history: "Операциялар тарихы",
+  historyEmptyHint:
+    "Расталған сатылымдар, төлемдер мен түзетулер осында көрсетіледі.",
+  historyNextError: "Келесі бетті жүктеу мүмкін болмады",
+  loadingMore: "Келесі бет жүктелуде…",
+  loadRetry: "Қайталау",
   summary: "Күн қорытындысы",
   sales: "Сатылды",
   receipts: "Түсті",
