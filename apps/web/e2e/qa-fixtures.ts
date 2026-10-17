@@ -135,6 +135,14 @@ export async function mockServices(page: Page) {
       return error(401);
     if (path === "/api/v1/me")
       return state.meStatus === 200 ? send(me[account]) : error(state.meStatus);
+    const recovery = path.match(
+      /^\/api\/v1\/businesses\/([^/]+)\/customer-creation-result$/,
+    );
+    if (recovery) {
+      if (!me[account].businesses.some((b) => b.id === recovery[1]))
+        return error(404);
+      return send({ status: "not_observed", customer: null });
+    }
     const match = path.match(/^\/api\/v1\/businesses\/([^/]+)\/customers$/);
     if (match) {
       const businessId = match[1];

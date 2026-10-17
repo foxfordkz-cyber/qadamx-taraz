@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useRef, useSyncExternalStore } from "react";
 import {
   useInfiniteQuery,
   useMutation,
@@ -5,9 +6,14 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { useBusiness, useRuntime } from "../../app/runtime";
-import { ApiError } from "../../shared/api/client";
+import { useAuth } from "../../app/auth";
 import type { CustomerInput, InquiryStatus } from "../../shared/api/models";
 import { useDebouncedValue } from "../../shared/useDebouncedValue";
+import {
+  getCustomerRecovery,
+  normalizeCustomerApi,
+  type RecoveryOwner,
+} from "./customer-recovery";
 
 export function useInquiries() {
   const { gateway, scope } = useRuntime();
@@ -50,23 +56,67 @@ export function useCustomers(search: string) {
   });
   return { ...query, isSearchPending: normalized !== settled };
 }
-export function useCreateCustomer() {
+export function useCustomerCreationRecovery(enabled = true) {
   const { gateway, scope } = useRuntime();
   const { business } = useBusiness();
+  const auth = useAuth();
   const client = useQueryClient();
-  return useMutation({
-    mutationFn: async (input: CustomerInput) => {
-      const customer = await gateway.createCustomer(business, input);
-      if (customer.business_id !== business.id)
-        throw new ApiError(403, "ACCESS_DENIED");
-      return customer;
-    },
-    onSuccess: () => {
+  const apiBase =
+    gateway.mode === "live"
+      ? normalizeCustomerApi(import.meta.env.VITE_API_BASE_URL)
+      : null;
+  const userId = auth.session?.user.id;
+  const entry = useMemo(
+    () => getCustomerRecovery(scope, apiBase, userId, business.id),
+    [scope, apiBase, userId, business.id],
+  );
+  const { coordinator } = entry;
+  const live = useRef({ coordinator, enabled });
+  live.current = { coordinator, enabled };
+  const owner = useMemo<RecoveryOwner>(
+    () => ({
+      active: false,
+      current: () =>
+        live.current.coordinator === coordinator && live.current.enabled,
+    }),
+    [coordinator],
+  );
+  const request = {
+    gateway,
+    business,
+    onComplete: () => {
       void client.invalidateQueries({
         queryKey: [scope, business.id, "customers"],
       });
     },
-  });
+  };
+  const latestRequest = useRef(request);
+  latestRequest.current = request;
+  const snapshot = useSyncExternalStore(
+    coordinator.subscribe,
+    coordinator.getSnapshot,
+    coordinator.getSnapshot,
+  );
+  useEffect(() => {
+    if (!enabled) return;
+    owner.active = true;
+    coordinator.attach(owner);
+    void coordinator.check(owner, latestRequest.current);
+    return () => {
+      owner.active = false;
+      coordinator.detach(owner);
+      entry.release();
+    };
+  }, [coordinator, enabled, entry, owner]);
+  return {
+    ...snapshot,
+    resolvedCustomer:
+      snapshot.completionOwner === owner ? snapshot.resolvedCustomer : null,
+    busy: snapshot.state === "checking" || snapshot.state === "saving",
+    check: () => coordinator.check(owner, latestRequest.current),
+    create: (input: CustomerInput) =>
+      coordinator.create(owner, input, latestRequest.current),
+  };
 }
 export function useCatalog() {
   const { gateway, scope } = useRuntime();

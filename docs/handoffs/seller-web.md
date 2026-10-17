@@ -1,3 +1,90 @@
+# Seller web — Customer Recovery verification, 2026-10-17
+
+Branch **fix/seller-customer-recovery-safe**, existing separate worktree
+`work/qadam-customer-recovery-safe`. Saved checkpoint
+**25525053b7e4ac0fe20f5280d1a9a9053dd2e57a** was clean and matched origin.
+Fetch/prune and pull --ff-only succeeded. Authorized main synchronization:
+**9845b91b64d388c54312d2a8a75000218c7774af** → merge
+**0aa8561dffae12021339132370adaa9a54bc03f5**, no conflicts. Only two captain
+Markdown files arrived; all saved Recovery application/tests remain unchanged.
+Current exact HEAD: `git log -1 --format=%H`.
+
+The late K1 callback cannot delete pending K2: the shared coordinator uses Web
+Locks, key+bodyHash compare-and-clear and current mounted owner/session epoch /
+user/business/API guards. Customers and CustomerPicker share the intent, while
+unrelated forms retain their own inputs. Unknown/not_observed/503/409 keep the
+original key. Retry is explicit with the same canonical body; reload performs
+GET only. LocalStorage contains only the marker's key/hash. Unknown-origin legacy
+records remain blocked without migration. Missing Web Locks/storage blocks
+creation. No keyless fallback or new key bypass is implemented.
+
+Full review covered coordinator lifecycle, gateway/bindings, RU/KZ and regression
+coverage. Captain assertions are unchanged; the original RED reproduction is
+recorded in the earlier checkpoint. No new code defect was found on resumption.
+AuthProvider, Backend, OpenAPI/generated, Voice, financial/public modules,
+Flutter, 3D, dependencies and tracked screenshots match main.
+
+## Own resumed checks
+
+Commands run from `apps/web` with Node 24.21.0/npm 11.19.0:
+
+| Check | Result |
+|---|---|
+| npm ci | PASS; package/lock unchanged |
+| npm run check:api / typecheck / lint / build / format:check | PASS |
+| npm test -- --no-file-parallelism | **311/311**, 21 files |
+| npx vitest run src/test/recovery-late-review.test.tsx | **1/1**, original captain case |
+| npx vitest run --config vitest.microphone.config.ts | **35/35** |
+| Playwright customer-recovery | **5/5** |
+| Playwright qa | **21/21** |
+| Playwright voice-integration | **1/1** |
+| Playwright auth-onboarding | **7/7** |
+| Playwright microphone | **18/18** |
+| Playwright analytics (Seller/Analytics/public) | **24/24** |
+| git diff --check and forbidden-path diff | PASS / empty |
+
+All browser commands use `npx.cmd playwright test --config e2e/<suite>.playwright.config.ts --trace off`.
+Analytics screenshots use `QADAM_SCREENSHOT_ROOT=./test-results/recovery-screenshots`;
+tracked screenshots are preserved. Logs: `apps/web/test-results/recovery-resume`.
+Suites overlap: captain case is in 311; strict microphone 27 overlap default; the
+QA and Analytics configs repeat 8 Seller cases. Do not sum these as unique tests.
+HTTP/SDK/audio fixtures are synthetic; native Web Locks run in real Chromium tabs.
+No live Supabase/DB, paid AI, real email or physical Android acceptance is claimed.
+
+## Scope, limits and next step
+
+[Architecture, all 24 changed files, exact run commands, review and limits](../SELLER_CUSTOMER_RECOVERY_SAFE.md).
+[Checkpoint continuation and historical evidence](../SELLER_RECOVERY_CHECKPOINT.md).
+[17-step operator-ready rehearsal](../qa/SELLER_FINAL_DEMO_REHEARSAL.md).
+Existing routes, customer search/selection, RU/KZ and API 0.6.2 are retained.
+Three inherited dev audit findings (1 moderate/2 critical) and large 3D bundle warning
+remain; no forced package upgrade. Fresh live rehearsal needs reviewed deployment,
+approved training accounts/writes and separate AI/device/speaker permissions.
+
+PR #41 (`feature/sale-debts-polish:7d84cb6`, base deploy-062) has overlapping
+Customers presentation/test/docs edits. It was inspected, not merged or changed.
+Preserve both presentation and recovery when captain later integrates them.
+Registration [Draft PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)
+remains separate at **6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, base
+`integration/voice-preview-061`, unchanged by this resumed task. Its callback URL,
+Supabase allowlist, confirmation mechanism and live email acceptance remain blocked.
+No main/deploy/other branch, backend configuration, migration or working service
+was modified. Recovery is published as [Draft PR #42](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/42),
+base `main`, head `fix/seller-customer-recovery-safe`. Verification report commit
+**14f5ad8129605f47f65967603401c5c3cd17851f** was pushed successfully; local and
+remote HEAD matched. This following documentation-only commit records the PR link;
+the PR head and `git log -1 --format=%H` identify its current revision.
+GitHub confirmed PR #42 is Draft, not merged and conflict-free against main
+`9845b91b64d388c54312d2a8a75000218c7774af`. At revision
+`61044473a2be3026294c2d17f3d5f26ff1f39f28`, the automatic Vercel status and
+Preview Comments check both succeeded. No manual deployment or live browser
+acceptance was performed; preview success is not proof of Auth/DB acceptance.
+Next: captain review, integration/deployment in a separate authorized task, then
+the gated live rehearsal. Do not merge old PRs again or clear pending markers.
+
+The Registration/design/Analytics sections below are historical snapshots.
+
+---
 # Seller web — Registration readiness / Android preparation
 
 2026-10-16. Branch `feature/seller-registration-onboarding`, separate worktree
