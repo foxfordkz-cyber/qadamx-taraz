@@ -1,3 +1,0 @@
-/auth/callback /index.html 200
-/register /index.html 200
-/seller/* /index.html 200
