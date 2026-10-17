@@ -32,12 +32,19 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
       );
       const qa = renderQa({
         route: `/seller${route}?business_id=${ids.shopB}`,
+        initial: {
+          ...session(),
+          user: { ...session().user, email: "new-account@example.test" },
+        },
         fetcher,
       });
       await screen.findByRole("heading", {
-        name: "Нет доступных торговых точек",
+        name: "У вас пока нет торговых точек",
       });
       expect(qa.auth().session?.user.id).toBe(ids.a);
+      expect(
+        screen.getByText("new-account@example.test", { exact: true }),
+      ).toBeVisible();
       expect(qa.auth().demo).toBe(false);
       expect(screen.queryByLabelText("Торговая точка")).not.toBeInTheDocument();
       expect(
@@ -53,8 +60,14 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
       ).toBe(`Bearer ${session().access_token}`);
       await userEvent.click(screen.getByRole("button", { name: "KZ" }));
       await screen.findByRole("heading", {
-        name: "Қолжетімді сауда нүктесі жоқ",
+        name: "Сізде әзірге сауда нүктелері жоқ",
       });
+      expect(
+        screen.getByText("new-account@example.test", { exact: true }),
+      ).toBeVisible();
+      expect(
+        screen.getByRole("button", { name: "Қолжетімділікті жаңарту" }),
+      ).toBeVisible();
       expect(fetcher).toHaveBeenCalledTimes(1);
     },
   );
@@ -68,23 +81,27 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     );
     renderQa({ route: "/seller/customers", fetcher });
     await screen.findByRole("heading", {
-      name: "Нет доступных торговых точек",
+      name: "У вас пока нет торговых точек",
     });
     expect(
       screen.getByText(
         /Создание точки и приглашения в кабинете пока недоступны/,
       ),
     ).toBeInTheDocument();
-    await userEvent.click(screen.getByRole("button", { name: "Обновить" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Обновить доступ" }),
+    );
     await waitFor(() => expect(fetcher).toHaveBeenCalledTimes(2));
     expect(
-      screen.getByRole("heading", { name: "Нет доступных торговых точек" }),
+      screen.getByRole("heading", { name: "У вас пока нет торговых точек" }),
     ).toBeInTheDocument();
     expect(
       fetcher.mock.calls.every(([url]) => String(url).endsWith("/me")),
     ).toBe(true);
     assigned = true;
-    await userEvent.click(screen.getByRole("button", { name: "Обновить" }));
+    await userEvent.click(
+      screen.getByRole("button", { name: "Обновить доступ" }),
+    );
     await screen.findByRole("heading", { name: "QA Клиент A" });
     expect(screen.getByLabelText("Торговая точка")).toHaveValue(ids.shopA);
     expect(
@@ -100,7 +117,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     );
     const qa = renderQa({ route: "/seller", fetcher });
     await screen.findByRole("heading", {
-      name: "Нет доступных торговых точек",
+      name: "У вас пока нет торговых точек",
     });
     await userEvent.click(screen.getByRole("button", { name: "Выйти" }));
     await screen.findByRole("button", { name: "Войти" });
@@ -118,7 +135,7 @@ describe("existing Auth onboarding boundaries — synthetic SDK/HTTP", () => {
     );
     const qa = renderQa({ fetcher });
     await screen.findByRole("heading", {
-      name: "Нет доступных торговых точек",
+      name: "У вас пока нет торговых точек",
     });
     const oldScope = qa.auth().scope;
     act(() => qa.mock.emit(session(ids.b)));

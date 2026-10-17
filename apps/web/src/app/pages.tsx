@@ -66,7 +66,15 @@ export function LoginPage() {
         <Card className="login-card">
           <h2>{t("login")}</h2>
           <p className="muted">{t("loginHint")}</p>
-          {!auth.configured && <Alert>{t("authUnavailable")}</Alert>}
+          {!auth.configured && (
+            <Alert>
+              {t(
+                auth.invalidProjectUrl
+                  ? "authProjectUrlInvalid"
+                  : "authUnavailable",
+              )}
+            </Alert>
+          )}
           {auth.expired && <Alert tone="error">{t("unauthorized")}</Alert>}
           <form
             className="form-stack"
@@ -118,6 +126,18 @@ export function LoginPage() {
               {t(pending ? "loading" : "login")}
             </Button>
           </form>
+          <p>
+            <Link
+              to="/register"
+              className="button button-secondary"
+              aria-disabled={pending}
+              onClick={(event) => {
+                if (submitLock.current) event.preventDefault();
+              }}
+            >
+              {t("registrationOpen")}
+            </Link>
+          </p>
           <div className="login-demo">
             <Button
               variant="secondary"

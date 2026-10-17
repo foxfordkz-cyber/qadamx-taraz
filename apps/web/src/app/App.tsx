@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "./auth";
+import { RegistrationPage } from "./registration";
+import { AuthCallbackPage } from "./auth-callback";
 import { BusinessProvider, RuntimeProvider, useMemberships } from "./runtime";
 import { SellerLayout } from "./layout";
 import {
@@ -41,6 +43,11 @@ function ProtectedSeller() {
     return (
       <div className="standalone-state">
         <LanguageHeader />
+        {auth.session?.user.email && (
+          <p style={{ overflowWrap: "anywhere" }}>
+            {t("email")}: <strong>{auth.session.user.email}</strong>
+          </p>
+        )}
         <EmptyState
           title={t("noBusiness")}
           description={t("noBusinessHint")}
@@ -50,7 +57,7 @@ function ProtectedSeller() {
               disabled={me.isFetching}
               onClick={() => void me.refetch({ cancelRefetch: false })}
             >
-              {t(me.isFetching ? "loading" : "refresh")}
+              {t(me.isFetching ? "loading" : "refreshAccess")}
             </Button>
           }
         />
@@ -108,6 +115,8 @@ export function App({
       <RouteEffects />
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/auth/callback" element={<AuthCallbackPage />} />
         <Route
           path="/"
           element={integrations.public.home ?? <PublicPending />}

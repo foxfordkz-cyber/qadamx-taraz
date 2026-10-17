@@ -6,6 +6,7 @@ import '../data/livestock_api.dart';
 import '../data/money.dart';
 import '../runtime.dart';
 import 'qadam_theme.dart';
+import 'qadam_badge.dart';
 
 typedef Json = Map<String, dynamic>;
 
@@ -139,12 +140,14 @@ class Notice extends StatelessWidget {
   const Notice({
     super.key,
     required this.text,
-    this.icon = Icons.info_outline,
+    this.title,
+    this.icon,
     this.action,
     this.error = false,
   });
   final String text;
-  final IconData icon;
+  final String? title;
+  final IconData? icon;
   final Widget? action;
   final bool error;
   @override
@@ -160,9 +163,27 @@ class Notice extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(icon, size: 22),
+            Icon(
+              icon ?? (error ? Icons.error_outline : Icons.info_outline),
+              size: 22,
+              color: error ? QadamTheme.danger : QadamTheme.green,
+            ),
             const SizedBox(width: 12),
-            Expanded(child: Text(text, style: QadamTheme.noticeText)),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (title != null) ...[
+                    Text(
+                      title!,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                  ],
+                  Text(text, style: QadamTheme.noticeText),
+                ],
+              ),
+            ),
           ],
         ),
         if (action != null)
@@ -170,6 +191,30 @@ class Notice extends StatelessWidget {
       ],
     ),
   );
+}
+
+/// Shared read failure presentation; callers retain their own retry semantics.
+class ReadError extends StatelessWidget {
+  const ReadError({super.key, required this.onRetry, this.message});
+  final VoidCallback? onRetry;
+  final String? message;
+
+  @override
+  Widget build(BuildContext context) {
+    final kk = Localizations.localeOf(context).languageCode == 'kk';
+    return Notice(
+      error: true,
+      title: tr(kk, 'Не удалось загрузить данные', 'Деректер жүктелмеді'),
+      text:
+          message ??
+          tr(kk, 'Проверьте сеть и повторите.', 'Желіні тексеріп, қайталаңыз.'),
+      action: TextButton.icon(
+        onPressed: onRetry,
+        icon: const Icon(Icons.refresh),
+        label: Text(tr(kk, 'Повторить', 'Қайталау')),
+      ),
+    );
+  }
 }
 
 class ApiPhoto extends StatefulWidget {
@@ -301,9 +346,9 @@ class ListingCard extends StatelessWidget {
                     runSpacing: 4,
                     children: [
                       if (listing['is_demo'] == true)
-                        _Tag(
+                        QadamBadge(
                           tr(kk, 'Учебное объявление', 'Оқу хабарландыруы'),
-                          const Color(0xffffe5ab),
+                          warning: true,
                         ),
                       if (owned)
                         _Tag(statusText(listing, kk), const Color(0xffe9eedf)),

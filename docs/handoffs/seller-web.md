@@ -1,3 +1,299 @@
+# Seller web — PR43 Cloudflare callback, 2026-10-17
+
+## Integrator update — live Pages acceptance
+
+Published source `818bb25`, deployment `51e0a264-e0e7-4635-9b26-e02c6587badd`.
+The original ff89693 ZIP had a verified Cloudflare 308 callback redirect; the
+explicit rewrites were removed while retaining callback security headers.
+The captain completed the real email flow; the agent verified the new account's
+zero-membership screen and reload, then the existing ordinary account with six
+businesses and reload. Exact Pages callback added; previous URLs retained.
+Main 672731a and PR43 head 2b3c374 are preserved in `fix/registration-pages-routing`.
+Do not publish the original ff89693 ZIP again or merge PR43 without 818bb25.
+[Deployment, evidence limits and rollback](../REGISTRATION_PAGES_LIVE_20261017.md).
+Render, DB schema/data, memberships and AI settings unchanged by this task.
+Earlier sections below describe preparation before this verified release.
+
+Продолжена существующая ветка #43. Исходный handoff сохранён `ad30329`, затем
+обычный merge `origin/main` **86ca9af15017b163a9e47335c68eee46ac2fafde**:
+**4ed9fd4835900576d72e2870393a9820802f65ab**. Затем main обновился до
+**8fa0029a847895a2b968592fb6ab5b8cc39ee0a1**, обычный merge:
+**6529e71f1110a94fe6a5faa3b7bd9207c9a23966**. Перед передачей получен новый main
+**f023aae85d0c817dece9a0dbc542e55049254e33**, третий обычный merge и итоговый source:
+**ff896931042eac106bb9cba0f1d5a4d7467d295f**. Без force push и второго Auth.
+InquiryForm #71, все features, API/Flutter и OpenAPI/examples/generated.ts совпадают
+с актуальным main. Новые заголовки страниц и health stage сохранены.
+**ZIP 67eb828 и 6529e71 не публиковать.** Новый кандидат — `qadam-pr43-cloudflare-ff89693.zip`.
+
+Один фиксированный callback `https://qadamx-taraz.pages.dev/auth/callback`,
+строгий origin guard, hosted build с сохранённым ids=true, SPA callback rules.
+Валидный `/me` без точек показывает email, объяснение и RU/KZ обновление доступа;
+никаких owner/demo memberships. Recovery/история/финансы/дизайн сохранены.
+
+[Полный пакет интегратора: конфигурация, SHA256, проверки, реальные ограничения
+и протокол email-приёмки](../REGISTRATION_CLOUDFLARE_HANDOFF.md).
+Browser synthetic: Cloudflare **6/6**, Auth **25/25**, Recovery **5/5**,
+history/ids **6/6**, Seller/Auth QA **21/21**. После последнего merge повторены все
+эти browser-наборы; полный Vitest **483/483**, 35 файлов.
+TypeScript/lint/check:api/format/build PASS.
+Настоящие публичные endpoints/CORS/email settings проверены read-only;
+Redirect URLs не раскрываются этим API. Капитану передан точный URL с требованием
+сохранить прежние адреса. Mobile `@bltangenss` принял оба native URI и владельцев:
+[ответ](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43#issuecomment-6236483616).
+Согласование внесено в общий контракт; native handler/allowlist ещё не приняты.
+
+**Живое письмо → callback → session → /me ещё NOT RUN.** Пользователь готов
+проверить после публикации ZIP и подтверждения Supabase allowlist. Архив готов,
+но deploy/admin-доступа в этой сессии нет. PR остаётся Draft. Отдельный password
+login после письма не засчитывается. Следующие записи — сохранённая история.
+
+---
+
+# Historical Seller web — PR43 callback implementation, 2026-10-17
+
+## Joint frontend release checkpoint — 2026-10-17
+
+Local documentation checkpoint only; no new commit/push/deployment. The exact
+published PR43 head remains `6ce3d29bf16d33f57b1d9dbf5c0bf1c4fcce7464`.
+Main, Vercel, Render, Supabase and production environment variables were not changed.
+Backend rollout belongs to the integration agent.
+
+One consolidated handoff was posted and read back successfully in
+[backend PR61](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/61#issuecomment-6234533149),
+addressed to `@foxfordkz-cyber`. It contains exact published SHAs, checks, limitations,
+dependencies, activation/rollback order and manual registration/iPhone procedures.
+
+| PR | Published head, verified through GitHub API and local HEAD |
+|---|---|
+| 43 | `6ce3d29bf16d33f57b1d9dbf5c0bf1c4fcce7464` |
+| 65 | `559b4d0e36d60e8cadda46118f8dad1f057c2cab` |
+| 66 | `a964646f0ad1628f32d941e0d6e340bcfd6caff3` |
+| 67 | `8da93dc48ff998230212be4f31c32944a173f53b` |
+
+Each SHA has a successful Vercel commit status and Preview Comments check. These
+are published Preview candidates, not a claim about production's runtime SHA.
+
+**PR43 live attempt remains blocked.** The operator reported `You Need Access`:
+the protected Vercel deployment requires team-owner approval even though the
+operator is signed into Vercel. Qadam has not loaded in that attempt; callback,
+session and authenticated `/me` therefore remain unverified. No account details
+or email URLs were saved. Prior email delivery plus separate password login
+does not satisfy this gate. No new real signup/email was sent by the agent.
+
+Exact registration URL:
+`https://qadamx-taraz-git-integration-seller-registrat-7d21c0-p-it-chers.vercel.app/register`.
+Its callback is the same origin with `/auth/callback`. Fresh read-only checks:
+both routes redirect anonymous requests to Vercel SSO; Preview OPTIONS `/me`
+returns 200 with the exact Allow-Origin, anonymous GET returns 401 with that
+origin. After the owner approves access, first load the Qadam form, then use a
+fresh agreed test address and the latest email in that same browser/profile.
+Record direct callback, one PKCE exchange, authenticated `/me`, correct empty
+business state or own cabinet, reload and logout before any separate password
+login. Expired/reused/other-browser links remain separate live gates.
+
+**PR65 stays disabled.** Default flag and `.env.example` are false; administrative
+production env was not inspected or changed. The live Render OpenAPI still lists
+customer parameters `id/q/limit/cursor`, without `ids`. PR65 depends on PR63
+`ae593c15408b05b2d32342900c3ed018739d1565`. Backend PR61 head
+`735145e15d13b7b7bc7022dc79dff2700fb65116` documents application candidate
+`f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5`, not a completed rollout.
+Integrator must confirm deployed SHA and live ids/isolation before a separately
+enabled test build and the live names/reload/filter/business/user checks. The
+build-time production flag stays off until those pass. Disable/rebuild frontend
+before any rollback to a backend that ignores ids.
+
+**PR66 physical incident remains open.** Short operator sequence is in the
+consolidated handoff: identify iPhone/iOS/browser/URL/SHA; Safari then original
+in-app browser; menu/close/underlying button/RU-KZ/manual text; permission denial
+and explicit retry; record/stop/play/pause/delete and separate cancel; reload.
+No AI submission or monetary confirmation is needed. Device-specific morning
+cause and actual iPhone recording are not proven by desktop tests.
+
+**PR67 review requested, not received at publication of this handoff.**
+[Abzal @ab0ka](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/67#issuecomment-6234471380)
+was asked to review the exact SHA and pinned before/after gallery.
+[Bekzat @bekzatwr](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/67#issuecomment-6234472094)
+received a separate date-formatting coordination request and the shared Dialog
+review dependency. `shared/format.ts` was not changed; its future move does not
+block the remaining fixes. Earlier PR55 approval is not PR67 approval.
+
+Fresh targeted checks (Node22.19.0, installed dependencies; synthetic Auth/API):
+- PR43 `registration-preview.playwright.config.ts`: **6/6 PASS**.
+- PR65 `ledger-reading.playwright.config.ts`: **6/6 PASS**; Vitest
+  `ledger-reading.test.tsx` + `customer-ids-contract.test.ts`: **32/32 PASS**.
+- PR66 `ios-compatibility.playwright.config.ts --project=desktop-chromium`:
+  first parallel run **2/3**, timing out before the login form; separate full
+  rerun **3/3 PASS**. The timeout's cause is not established; no test or app code
+  was changed to obtain the second result.
+- PR67 `analytics.playwright.config.ts analytics-compact.spec.ts`: **3/3 PASS**.
+All Playwright runs used `--trace off`, retries=0, local isolated servers. Initial
+sandbox launches failed before tests because esbuild could not read a parent
+directory; authorized execution outside that sandbox resolved startup. These
+results do not replace live email, deployed ids or physical iPhone acceptance.
+Full historical unit/build/lint results below were not rerun as part of this
+checkpoint. Next work requires owner-approved Preview access, integrator rollout,
+physical device results and the reviewers' actual replies.
+
+---
+
+## Registration audit after the captain's real-email attempt
+
+The captain received the confirmation email, encountered Vercel Authentication
+after following its link, signed into Vercel through Google, and subsequently
+logged into Qadam separately with email/password. The supplied Preview screenshot
+shows the expected empty-business cabinet. **This is not a passed email callback.**
+No screenshot, email address, password, code or token is published in this change.
+
+Read-only checks: the exact Preview `/register` and `/auth/callback` both return
+302 to `vercel.com/sso-api` without an access cookie. Preview CORS was separately
+rechecked after the captain's configuration update: OPTIONS `/me` is 200 with
+the exact Preview Allow-Origin; anonymous GET `/me` is 401 with that Allow-Origin.
+The older CORS 400 reports below are historical.
+
+Updated the waiting-for-email instructions in RU/KZ: open the latest email in the
+original browser/device. Only the approved PR43 Preview build also explains that
+the browser must already have Vercel access. Production does not show that notice.
+No changes to callback exchange, Auth/session guards, memberships, recovery or money.
+
+The Preview acceptance suite now validates the actual SDK verifier against the
+signup/resend SHA-256 challenge and covers a synthetic access interstitial returning
+with/without the callback code plus a fresh browser without the verifier. With the
+code and original browser state, callback → session → `/me: businesses=[]` succeeds;
+without either, it offers recovery and does not claim successful authentication.
+The interstitial is an isolated model, **not** a test of Vercel's own SSO service.
+The first interstitial fixture used HTTP302, whose redirect hop bypassed the
+per-page mock and failed on an unresolvable `.example.test` host; it was replaced
+with intercepted browser navigation. The test browser additionally blocks external
+DNS resolution so an unhandled hop cannot reach a public service.
+
+Validation of this continuation: **413/413 Vitest**, **25/25 existing Auth E2E**
+and **6/6 Preview E2E** passed. Exact SHA is recorded in the PR. TypeScript, lint,
+contract, format and local production/Preview builds passed. There are still inherited
+3D bundle size warnings. No real emails/accounts were created by the agent.
+
+Synthetic Preview screenshots: [KZ at 360 px](../qa/registration-preview/confirmation-kk-360.png),
+[KZ at 1440 px](../qa/registration-preview/confirmation-kk-1440.png).
+
+Next live attempt: finish Vercel access at the exact approved branch origin first,
+then use a separately agreed fresh test address and open its email in that same
+browser/device. The already confirmed account is not registered again. Record
+direct return, actual session and `/me`, reload/logout separately from manual login.
+Do not disable deployment protection, change Site URL, or grant demo membership.
+
+---
+
+Previous implementation snapshot (`70a088c`):
+
+Latest continuation: captain approved the exact PR43 Preview callback. Vite scopes
+it to `VERCEL_ENV=preview` plus this exact registration branch; production keeps
+its callback. Signup/resend are blocked on another deployed origin, including at
+the provider boundary. RU/KZ guidance points to the agreed branch Preview.
+No new Auth client, endpoints or membership provisioning.
+
+Validation: 413 unit/component, 25 existing Auth E2E, 3 isolated Preview E2E,
+typecheck/lint/contract/format/build. Preview tests cover the compiled bundle,
+same-origin synthetic confirmation, SDK session, empty `/me`, reload/logout and
+360/1440 layouts. They do not prove real email delivery.
+
+Captain confirmed saved production URLs, but explicitly says Preview allowlist,
+Vercel access and backend CORS are still being prepared. Our Preview OPTIONS
+received 400, while production received 200. No live signup or mail was sent.
+Exact setup and acceptance steps: [updated review](../REGISTRATION_CALLBACK_REVIEW.md).
+Continue this same Draft PR43; main/deploy/production and Auth settings unchanged.
+
+---
+
+Previous implementation snapshot (`9227f6f`):
+
+Continued the existing `integration/seller-registration-deploy-review` / Draft
+[PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43), with no duplicate
+branch or PR. Merged current main `ad63a00` into this branch only: merge
+`36b9c72b123dec0ca6969bbfd71ea42b5a1818e3`. Both historical documentation sections
+were preserved. Customers/recovery and Abzal's presentation match that main exactly.
+
+Implemented the agreed PKCE callback in the existing AuthProvider/router: fixed
+email redirect, URL cleanup, one exchange across remounts, session/generation
+guards, validated `/me`, RU/KZ errors and explicit resend. A late exchange HTTP
+response is rejected before the SDK saves it if a newer login/logout superseded
+the attempt. No second client, membership provisioning or automatic Demo.
+
+[Current implementation, verification and outstanding live acceptance](../REGISTRATION_CALLBACK_REVIEW.md).
+Final isolated checks: **400/400** unit/component (26 files), **25/25** Auth/
+Registration/Callback browser, **5/5** Recovery browser, **21/21** Seller/Auth QA. TypeScript, lint,
+check:api, configured production build, formatting and diff checks PASS.
+Earlier reports below describe their historical revisions, not this callback.
+The agreed callback is **not** evidence that the Supabase allowlist was changed.
+Captain approved training point `2c234f1c-2c79-5e3a-ab77-042e3da4dafa`; before
+any future write it must still be present in A's actual `/me`. No live accounts,
+customers, emails or financial records were created in this continuation.
+
+Main, deployment branches, running services and Supabase settings were not changed.
+Fresh authenticated acceptance is pending usable A/B browser access; the new email
+flow also needs the captain's test mailbox and applied allowlist confirmation.
+
+---
+
+# Historical Seller web — Registration on deploy-062, 2026-10-17
+
+Worktree `work/qadam-registration-deploy-review`, branch
+`integration/seller-registration-deploy-review`, base deploy-062
+**9845b91b64d388c54312d2a8a75000218c7774af**. Main has the same base at task start.
+Selected 12 Registration source/test files from PR #31
+**6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, without a merge. PR #31 and Recovery
+PR #42 remain independent and unchanged. No Recovery coordinator was imported.
+
+Implemented `/register`, existing AuthProvider signUp/resend, neutral confirmation
+waiting, validation, synchronous duplicate-submit protection, service quota/error
+messages, RU/KZ. Credentials stay in memory; waiting marker has no identity data.
+Login/logout/session persistence and the existing session-generation guards remain.
+`/me` alone grants memberships; empty list shows waiting + explicit Refresh,
+API failures stay errors, no automatic Demo/provisioning or foreign-point access.
+
+New safe public URL diagnosis refuses malformed/service URLs before SDK creation,
+without repairing the destination or exposing its value. New integration tests
+cover wrong Project URL and missing API/network/401/403/404/500/malformed `/me`.
+Existing customer, financial, Voice, Analytics/public modules and API 0.6.2 are
+unchanged. No Backend, generated, package/lock, styles, Flutter or 3D edits.
+
+[Full changed-file list, diagnosis, commands, live gates](../SELLER_REGISTRATION_DEPLOY_REVIEW.md).
+The old audit and earlier snapshots below remain historical.
+
+Own checks: npm ci/check:api/typecheck/lint/build/format:check PASS; full serial
+unit/component **311/311 in 20 files**, strict microphone **35/35**.
+Browser verification PASS: Auth/Registration **17/17**, Customer/Auth/Seller QA
+**21/21**, financial retry/Analytics **1/1**, microphone **18/18**,
+Analytics/Seller/public **24/24**. Synthetic SDK/HTTP/audio only; suites overlap.
+Ignored logs: `apps/web/test-results/registration-deploy`; screenshots stay in
+test result folders. Two visually reviewed 360/1440 PNGs were copied to
+`docs/qa/registration-deploy` for this PR; the designer's gallery is unchanged.
+
+Own read-only production evidence: `/login`, health and OpenAPI 200/API0.6.2;
+anonymous `/me` 401 AUTH_REQUIRED; CORS preflight for the permanent origin 200
+with Authorization allowed. Published entry JS contains expected team Supabase
+and Render API URLs. Public Auth settings allow signup and require email
+confirmation. These are not authenticated login/DB/email acceptance.
+
+**Blocked:** exact callback route/HTTPS URL/allowlist/flow/destination, provider
+email settings/quota and agreed test account/environment. Existing proposals are
+not approvals. `detectSessionInUrl:false` remains; no callback/token exchange or
+real emails. The user's local `otp_expired` and Dashboard failure cannot be given
+a definitive cause without sanitized incident evidence. No personal Supabase is
+connected to the team API. No live writes, paid AI, physical Android, manual
+deployment, service restart or Supabase settings changes.
+
+Verified code **44aaed4fd01284b1115ce8cbb680686260931746** was pushed to the own
+branch and local/remote HEAD matched. All requested local gates are complete;
+later commits only record verification/publication. Published
+[Draft PR #43](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/43), base
+`deploy-062`, head `integration/seller-registration-deploy-review`. Acceptance
+report commit **8c940f3ea32b1324c7b8daf07ff45a4f1e8d8fdb** was pushed, local/remote
+matched, fetch and own pull --ff-only succeeded. This following docs-only commit
+records the PR link. Callback/test-environment questions are addressed to the
+captain/backend in the PR; no answer is assumed. Next: captain review and separate
+callback/live acceptance approval. PR #31/#42 remain unchanged. No merge occurred.
+Current exact SHA: `git log -1 --format=%H`; do not merge/deploy from these instructions.
+
+---
 # Seller web — Analytics readability, 2026-10-17
 
 Отдельная ветка `feature/seller-analytics-readability` от актуального main,
