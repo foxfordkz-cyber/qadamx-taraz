@@ -8,6 +8,7 @@ import 'crm_api.dart';
 import 'crm_models.dart';
 import 'crm_ui.dart';
 import 'crm_daily.dart';
+import 'customer_names.dart';
 
 class CustomersPage extends CrmScreen {
   const CustomersPage({
@@ -529,75 +530,174 @@ class LedgerPage extends CrmScreen {
 class _LedgerPageState extends CrmScreenState<LedgerPage> {
   List<CrmJson> items = [];
   final Map<String, String> names = {};
+  late final CustomerNames nameLookup;
   int nameRequest = 0;
+  int pageRequest = 0;
   String? next;
-  bool busy = true;
+  bool busy = false, namesBusy = false, namesLimited = false;
+  bool retryMore = false;
   Object? error;
+  Object? namesError;
+  @override
+  bool get active => super.active && widget.business == scope.business;
   @override
   void initState() {
     super.initState();
+    nameLookup = CustomerNames(api: api, scope: scope, isActive: () => active);
     load();
   }
 
+  @override
+  void dispose() {
+    pageRequest++;
+    nameRequest++;
+    nameLookup.dispose();
+    super.dispose();
+  }
+
   Future<void> load({bool more = false}) async {
+    if (busy || !active || (more && next == null)) return;
+    final request = ++pageRequest;
+    final cursor = more ? next : null;
     setState(() {
       busy = true;
       error = null;
-      if (!more) {
-        items = [];
-        next = null;
-      }
     });
     try {
       final result = await api.operations(
         scope,
         debts: widget.debts,
         customer: widget.customer,
-        cursor: more ? next : null,
+        cursor: cursor,
       );
-      if (active) {
+      if (active && request == pageRequest) {
         setState(() {
-          items = [...items, ...result.items];
+          items = more ? [...items, ...result.items] : result.items;
           next = result.next;
+          if (!more) {
+            nameRequest++;
+            nameLookup.invalidate();
+            names.clear();
+            namesError = null;
+            namesLimited = false;
+          }
         });
-        unawaited(loadNames());
+        unawaited(loadNames(refresh: !more));
       }
     } catch (e) {
-      if (active) setState(() => error = e);
+      if (active && request == pageRequest) {
+        setState(() {
+          error = e;
+          retryMore = more;
+          if (e is ApiFailure &&
+              const ['AUTH_REQUIRED', 'NOT_FOUND'].contains(e.code)) {
+            items = [];
+            next = null;
+            names.clear();
+            nameRequest++;
+            nameLookup.invalidate();
+            namesBusy = false;
+            namesError = null;
+            namesLimited = false;
+            retryMore = false;
+          }
+        });
+      }
     } finally {
-      if (active) setState(() => busy = false);
+      if (active && request == pageRequest) setState(() => busy = false);
     }
   }
 
-  Future<void> loadNames() async {
+  Future<void> loadNames({bool refresh = false}) async {
+    if (!active) return;
     final request = ++nameRequest;
-    final wanted = items
+    final allIds = items
         .map((item) => item['customer_id'])
         .whereType<String>()
-        .where((id) => !names.containsKey(id))
+        .map((id) => id.toLowerCase())
         .toSet();
-    if (wanted.isEmpty) return;
-    String? cursor;
-    final visited = <String>{};
+    setState(() {
+      namesBusy = allIds.isNotEmpty;
+      namesError = null;
+      namesLimited = false;
+    });
+    if (allIds.isEmpty) return;
     try {
-      // Bound the optional name lookup; ledger amounts never depend on it.
-      for (var page = 0; page < 10; page++) {
-        final result = await api.customers(scope, cursor: cursor);
+      if (api.customerIdsEnabled) {
+        // A capability error must NEVER fall back to the legacy list query.
+        final result = await nameLookup.load(allIds, refresh: refresh);
         if (!active || request != nameRequest) return;
         setState(() {
-          for (final customer in result.items) {
-            names[customer['id'] as String] =
-                customer['display_name'] as String;
-            wanted.remove(customer['id']);
-          }
+          names
+            ..clear()
+            ..addAll({
+              for (final entry in result.customers.entries)
+                entry.key: entry.value['display_name'] as String,
+            });
         });
-        cursor = result.next;
-        if (wanted.isEmpty || cursor == null || !visited.add(cursor)) return;
+      } else {
+        // Preserve current production behavior until the agreed PR61 rollout.
+        // This compatibility path is explicitly bounded; it does not claim a
+        // missing name is absent from the entire customer directory.
+        final found = refresh ? <String, String>{} : {...names};
+        final wanted = allIds.difference(found.keys.toSet());
+        String? cursor;
+        final visited = <String>{};
+        for (var page = 0; wanted.isNotEmpty && page < 10; page++) {
+          final result = await api.customers(scope, cursor: cursor);
+          if (!active || request != nameRequest) return;
+          for (final customer in result.items) {
+            final id = (customer['id'] as String).toLowerCase();
+            if (allIds.contains(id)) {
+              found[id] = customer['display_name'] as String;
+              wanted.remove(id);
+            }
+          }
+          cursor = result.next;
+          if (wanted.isEmpty || cursor == null) break;
+          if (!visited.add(cursor)) {
+            throw const ApiFailure('INVALID_RESPONSE');
+          }
+        }
+        if (!active || request != nameRequest) return;
+        setState(() {
+          names
+            ..clear()
+            ..addAll(found);
+          namesLimited = wanted.isNotEmpty && cursor != null;
+        });
       }
-    } catch (_) {
-      /* Amounts remain the validated server ledger; no guessed names. */
+    } catch (e) {
+      if (active && request == nameRequest) setState(() => namesError = e);
+    } finally {
+      if (active && request == nameRequest) setState(() => namesBusy = false);
     }
   }
+
+  String customerName(String id) =>
+      names[id.toLowerCase()] ??
+      (namesBusy
+          ? tr(kk, 'Загружаем имя клиента…', 'Клиент аты жүктелуде…')
+          : namesError != null
+          ? tr(kk, 'Имя клиента не загружено', 'Клиент аты жүктелмеді')
+          : namesLimited
+          ? tr(kk, 'Имя пока не найдено', 'Аты әлі табылмады')
+          : tr(kk, 'Клиент недоступен', 'Клиент қолжетімсіз'));
+
+  Widget amount(String ru, String kz, int value, {bool emphasis = false}) =>
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(tr(kk, ru, kz), style: Theme.of(context).textTheme.bodySmall),
+          const SizedBox(height: 4),
+          Text(
+            crmMoney(value, kk),
+            style: emphasis
+                ? Theme.of(context).textTheme.titleLarge
+                : Theme.of(context).textTheme.titleMedium,
+          ),
+        ],
+      );
 
   Future<void> open(CrmJson sale) async {
     if (widget.picker) {
@@ -628,16 +728,62 @@ class _LedgerPageState extends CrmScreenState<LedgerPage> {
         Text(
           tr(
             kk,
-            'Время: Asia/Almaty. Балансы и записи получены с сервера.',
-            'Уақыт: Asia/Almaty. Қалдықтар мен жазбалар серверден алынды.',
+            'Время Тараза. Суммы и остатки — по журналу точки.',
+            'Тараз уақыты. Сомалар мен қалдықтар нүкте журналынан.',
           ),
+          style: Theme.of(context).textTheme.bodySmall,
         ),
         OutlinedButton(
           onPressed: busy ? null : () => load(),
           child: Text(tr(kk, 'Обновить', 'Жаңарту')),
         ),
-        if (busy) const LinearProgressIndicator(),
-        if (error != null) Text(crmError(error!, kk)),
+        if (busy) const LinearProgressIndicator(key: Key('ledger-loading')),
+        if (error != null) ...[
+          Text(
+            error is ApiFailure &&
+                    const [
+                      'AUTH_REQUIRED',
+                      'NOT_FOUND',
+                    ].contains((error as ApiFailure).code)
+                ? crmError(error!, kk)
+                : tr(
+                    kk,
+                    retryMore
+                        ? 'Следующая страница не загрузилась. Полученные записи сохранены.'
+                        : 'Не удалось обновить журнал. Проверьте сеть и повторите.',
+                    retryMore
+                        ? 'Келесі бет жүктелмеді. Алынған жазбалар сақталды.'
+                        : 'Журнал жаңартылмады. Желіні тексеріп, қайталаңыз.',
+                  ),
+            key: const Key('ledger-error'),
+          ),
+          OutlinedButton(
+            key: const Key('ledger-retry'),
+            onPressed: busy ? null : () => load(more: retryMore),
+            child: Text(tr(kk, 'Повторить', 'Қайталау')),
+          ),
+        ],
+        if (namesError != null || namesLimited) ...[
+          Text(
+            tr(
+              kk,
+              namesLimited
+                  ? 'В текущей версии сервера часть имён может быть недоступна. Суммы журнала сохранены.'
+                  : 'Не удалось загрузить имена клиентов. Суммы журнала сохранены.',
+              namesLimited
+                  ? 'Сервердің ағымдағы нұсқасында кейбір аттар қолжетімсіз болуы мүмкін. Журнал сомалары сақталды.'
+                  : 'Клиент аттары жүктелмеді. Журнал сомалары сақталды.',
+            ),
+            key: const Key('ledger-names-status'),
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+          TextButton(
+            onPressed: namesBusy ? null : () => loadNames(refresh: true),
+            child: Text(
+              tr(kk, 'Повторить загрузку имён', 'Аттарды қайта жүктеу'),
+            ),
+          ),
+        ],
         if (!busy && error == null && items.isEmpty)
           Text(
             tr(
@@ -645,33 +791,44 @@ class _LedgerPageState extends CrmScreenState<LedgerPage> {
               widget.debts ? 'Открытых долгов нет.' : 'Записей пока нет.',
               widget.debts ? 'Ашық қарыздар жоқ.' : 'Әзірге жазбалар жоқ.',
             ),
+            key: const Key('ledger-empty'),
           ),
         for (final item in items)
           crmCard([
             if (item['customer_id'] != null)
               Text(
-                names[item['customer_id']] ??
-                    tr(
-                      kk,
-                      'Имя клиента пока не загружено',
-                      'Клиент аты әлі жүктелмеді',
-                    ),
+                customerName(item['customer_id'] as String),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
+            if (!widget.debts)
+              Text(switch (item['kind']) {
+                'sale' => tr(kk, 'Продажа', 'Сатылым'),
+                'repayment' => tr(kk, 'Доплата', 'Қосымша төлем'),
+                _ => tr(kk, 'Отмена операции', 'Операцияны жою'),
+              }, style: Theme.of(context).textTheme.titleMedium),
+            Text(item['description'] as String),
+            const SizedBox(height: 4),
             Text(
-              item['description'] as String,
-              style: Theme.of(context).textTheme.titleMedium,
+              crmDate(item['created_at'] as String),
+              style: Theme.of(context).textTheme.bodySmall,
             ),
-            Text(crmDate(item['created_at'] as String)),
+            const SizedBox(height: 12),
             if (widget.debts) ...[
-              Text(
-                '${tr(kk, 'Продажа', 'Сатылым')}: ${crmMoney(item['total_minor'] as int, kk)}',
+              Wrap(
+                spacing: 24,
+                runSpacing: 12,
+                children: [
+                  amount('Продано', 'Сатылды', item['total_minor'] as int),
+                  amount('Получено', 'Алынды', item['received_minor'] as int),
+                  amount(
+                    'Остаток',
+                    'Қалдық',
+                    item['balance_minor'] as int,
+                    emphasis: true,
+                  ),
+                ],
               ),
-              Text(
-                '${tr(kk, 'Получено', 'Алынды')}: ${crmMoney(item['received_minor'] as int, kk)}',
-              ),
-              Text(
-                '${tr(kk, 'Остаток', 'Қалдық')}: ${crmMoney(item['balance_minor'] as int, kk)}',
-              ),
+              const SizedBox(height: 12),
               FilledButton(
                 onPressed: () => open(item),
                 child: Text(
@@ -683,39 +840,48 @@ class _LedgerPageState extends CrmScreenState<LedgerPage> {
                 ),
               ),
             ] else ...[
+              Wrap(
+                spacing: 24,
+                runSpacing: 12,
+                children: [
+                  amount(
+                    'Продажи',
+                    'Сатылымдар',
+                    item['sales_delta_minor'] as int,
+                  ),
+                  amount(
+                    'Поступления',
+                    'Түсімдер',
+                    item['receipts_delta_minor'] as int,
+                  ),
+                ],
+              ),
               if (item['kind'] != 'reversal')
-                OutlinedButton(
-                  onPressed: () async {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => ReverseOperationPage(
-                          runtime: widget.runtime,
-                          business: widget.business,
-                          kk: kk,
-                          operation: item,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    onPressed: () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => ReverseOperationPage(
+                            runtime: widget.runtime,
+                            business: widget.business,
+                            kk: kk,
+                            operation: item,
+                          ),
                         ),
-                      ),
-                    );
-                    if (active) await load();
-                  },
-                  child: Text(tr(kk, 'Отменить операцию', 'Операцияны жою')),
+                      );
+                      if (active) await load();
+                    },
+                    child: Text(tr(kk, 'Отменить операцию', 'Операцияны жою')),
+                  ),
                 ),
-              Text(switch (item['kind']) {
-                'sale' => tr(kk, 'Продажа', 'Сатылым'),
-                'repayment' => tr(kk, 'Доплата', 'Қосымша төлем'),
-                _ => tr(kk, 'Отмена операции', 'Операцияны жою'),
-              }),
-              Text(
-                '${tr(kk, 'Продажи', 'Сатылымдар')}: ${crmMoney(item['sales_delta_minor'] as int, kk)}',
-              ),
-              Text(
-                '${tr(kk, 'Поступления', 'Түсімдер')}: ${crmMoney(item['receipts_delta_minor'] as int, kk)}',
-              ),
             ],
           ]),
         if (next != null)
           OutlinedButton(
+            key: const Key('ledger-more'),
             onPressed: busy ? null : () => load(more: true),
             child: Text(tr(kk, 'Загрузить ещё', 'Тағы жүктеу')),
           ),
