@@ -1,5 +1,18 @@
 # Передача работы backend
 
+## 2026-10-17 — совместная проверка PR61/63 без rollout
+
+[Точные SHA, review и последовательность приёмки](../CUSTOMER_IDS_HISTORY_JOINT_REVIEW.md).
+От main1a541ef в отдельной `integration/customer-ids-history` объединены
+PR61 **735145e** (application **f6b3a9a**) и PR63 **ae593c1**. Application merge
+**7107e446a700134b05d96c9638a477e72e5306e2**, без конфликтов; backend/contracts
+побайтово равны PR61. Диагностикаe699158 и текущие интеграции сохранены.
+Историю PR63 можно принимать независимо: она не требует ids. Имена вне первой
+страницы ещё не подключены, три name-теста skipped; это отдельный блокер frontend.
+Сначала backend/окно → HTTPS ids/A-B → новый зависимый frontend → имена/reload.
+Main/deploy, Render/Vercel, memberships/данные и APK не менялись; paidAI не вызывался.
+Проверки объединённой версии: [joint-checks.json](../qa/customer-ids/joint-checks.json).
+
 ## 2026-10-17 — review PR61 и подготовка окна Render
 
 [Review, точные версии, frontend-зависимость, HTTPS gate и откат](../CUSTOMER_IDS_ROLLOUT_REVIEW.md).
