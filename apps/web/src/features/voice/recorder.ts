@@ -65,7 +65,10 @@ export class AudioCapture {
           ? [
               "audio/webm;codecs=opus",
               "audio/mp4",
+              "audio/mp4;codecs=mp4a.40.2",
+              "audio/webm",
               "audio/ogg;codecs=opus",
+              "audio/ogg",
             ].find((m) => MediaRecorder.isTypeSupported(m))
           : undefined;
       if (typeof MediaRecorder.isTypeSupported === "function" && !mime)
@@ -81,14 +84,25 @@ export class AudioCapture {
         mime ? { mimeType: mime } : {},
       );
       this.recorder = recorder;
-      const actualMime = recorder.mimeType || mime || "";
-      if (!AUDIO_MIMES.has(actualMime.split(";", 1)[0].toLowerCase()))
-        throw new DOMException("Unsupported", "NotSupportedError");
+      let chunkMime = "";
       stream
         .getTracks()
         .forEach((track) => track.addEventListener?.("ended", this.ended));
       recorder.ondataavailable = (event) => {
         if (this.closed || !event.data.size) return;
+        const type = event.data.type;
+        if (type) {
+          const base = type.split(";", 1)[0].trim().toLowerCase();
+          if (
+            !AUDIO_MIMES.has(base) ||
+            (chunkMime &&
+              base !== chunkMime.split(";", 1)[0].trim().toLowerCase())
+          ) {
+            this.fail("invalid");
+            return;
+          }
+          chunkMime = type;
+        }
         this.size += event.data.size;
         // Retain no oversized payload; reject on Stop, keeping that action available.
         if (this.size <= MAX_AUDIO_BYTES) this.chunks.push(event.data);
@@ -101,11 +115,28 @@ export class AudioCapture {
           this.fail("interrupted");
           return;
         }
-        const extension = actualMime.includes("mp4")
-          ? "m4a"
-          : actualMime.includes("ogg")
-            ? "ogg"
-            : "webm";
+        // The emitted Blob is authoritative; Safari may finalize MIME at start/stop.
+        // Never relabel unsupported bytes with the originally requested format.
+        const actualMime = chunkMime || recorder.mimeType || mime || "";
+        const base = actualMime.split(";", 1)[0].trim().toLowerCase();
+        const extension = (
+          {
+            "audio/mp4": "m4a",
+            "audio/m4a": "m4a",
+            "audio/ogg": "ogg",
+            "audio/opus": "opus",
+            "audio/webm": "webm",
+            "audio/wav": "wav",
+            "audio/x-wav": "wav",
+            "audio/mpeg": "mp3",
+            "audio/mp3": "mp3",
+            "audio/flac": "flac",
+          } as Record<string, string>
+        )[base];
+        if (!extension) {
+          this.fail("unsupported");
+          return;
+        }
         const file = new File(this.chunks, `recording.${extension}`, {
           type: actualMime,
         });
