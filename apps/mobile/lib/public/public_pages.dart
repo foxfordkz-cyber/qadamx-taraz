@@ -717,6 +717,7 @@ class _PublicShopPageState extends State<PublicShopPage> {
                 if (widget.runtime.inquiries != null)
                   FilledButton.icon(
                     key: const Key('shop-inquiry-action'),
+                    style: QadamTheme.limeAction,
                     onPressed: () {
                       final target = inquiryAnchor.currentContext;
                       if (target != null) {
@@ -1147,6 +1148,7 @@ class _InquiryFormState extends State<InquiryForm> {
         const SizedBox(height: 16),
         FilledButton(
           onPressed: busy ? null : send,
+          style: QadamTheme.limeAction,
           child: Text(
             saved == null
                 ? tr(kk, 'Отправить заявку', 'Өтінім жіберу')

@@ -17,6 +17,11 @@ class QadamTheme {
   static const appTitle = TextStyle(fontSize: 22, fontWeight: FontWeight.w800);
   static const pageTitle = TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
   static const noticeText = TextStyle(height: 1.4);
+  static ButtonStyle get limeAction => FilledButton.styleFrom(
+    backgroundColor: lime,
+    foregroundColor: ink,
+    shape: const StadiumBorder(),
+  );
   static TextStyle heading(BuildContext context) => Theme.of(context)
       .textTheme
       .headlineSmall!
