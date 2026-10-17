@@ -1,3 +1,65 @@
+# 17 октября 2026 — Qadam 0.5.1+10, главная / площадки / кабинет / профиль
+
+[Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
+ветка `feature/mobile-native-parity`. **Source APK: `640d0ef7c936a403162a8c7185f2438ca6679bba`.**
+[Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-0.5.1-640d0ef-internal.apk)
+— **28 649 937 bytes / 27.32 MiB**, versionName0.5.1, versionCode10.
+SHA256: `bce1d35b0b848124f8fb41becacdadf03faa29e88cd1a2565160fb875b9eb29f`.
+GitHub digest и полное повторное публичное скачивание совпали с локальным APK.
+
+Нижнее меню: **Главная / Площадки / Кабинет / Профиль**.
+**Мал базар — четвёртая площадка**, открывающая существующую нативную ленту.
+Добавлены главная в стиле сайта, полезный профиль (аккаунт/кабинет/свои объявления,
+язык, помощь, версия/лицензии), основное действие кабинета над сводкой.
+Исправлена коллизия сохранения раскрытого выбора точки и прокрутки.
+Существующие CRM, Auth, деньги, pending и livestock API сохранены.
+
+Просмотрены Vercel production и новый pages.dev с read-only демо-кабинетом.
+Предоставленный Vercel Preview закрыт страницей входа: визуально не принят;
+его ветка прочитана на8f1764d37db9464bcd760be8a29c3b4eb93b96c4.
+Runtime SHA новых aliases независимо не подтверждён. Новые ссылки — ориентиры
+оформления; конфигурация API/Auth не переключалась.
+
+- API: `https://qadamx-taraz.onrender.com/api/v1`.
+- Frontend origin: `https://qadamx-taraz.vercel.app`.
+- Прежние Supabase URL/publishable key; только4 публичных параметра сборки.
+- Flutter3.47.7 / Dart3.13.5; package `kz.qadam.qadam_mobile`, API24+, ARM32/ARM64/x86_64.
+- Прежняя внутренняя подпись SHA256
+  `9bd5b1febe523295d33cfb13ce1233834c5b09ae79729668067af993b245160f`.
+
+Analyzer0 issues; **227 tests PASS / 1 opt-in skipped**; release build PASS.
+ZIP CRC, v2/v3, zipalign16KiB, ELF LOAD>=16KiB и7/7 asset hashes PASS.
+Статический scan известных credential patterns без находок.
+
+На официальном Android SDK эмуляторе Android7/API24/x86_64 выполнено
+**обновление0.5.0+9→0.5.1+10 без удаления**, запуск и перезапуск.
+Пройдены главная, четыре площадки, Мал базар/Back, профиль/помощь/RU/KZ,
+Кайкармет→Продукты→магазин→каталог→форма без отправки; Back сохранил фильтр.
+3D не загрузилось; проверен fallback изображения/списка, причина рендера не установлена.
+
+- [Полный отчёт и актуальная матрица](../../apps/mobile/docs/RELEASE_051.md).
+- [Настоящие снимки Android](../../apps/mobile/docs/reports/android-051/README.md).
+- [Видео Android-эмулятора70с](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.1-navigation.1/qadam-051-native-emulator.mp4).
+- [82 Flutter-кадра с явно синтетическими данными](../../apps/mobile/docs/reports/visual-051/README.md).
+- [Аудит APK](../../apps/mobile/docs/reports/mobile-051-apk-audit.json) и [проверка публикации](../../apps/mobile/docs/reports/mobile-051-release-verification.json).
+- [Чек-лист физической передачи](../../apps/mobile/docs/PARITY_ANDROID_ACCEPTANCE.md).
+
+**Физическая приёмка не выполнена; пользовательская «ошибка пакета» остаётся открытой.**
+Нет подтверждения A/B, камеры/микрофона, реальной сессии/pending при обновлении,
+всех9маркеров, публикации/статусов на устройстве или iPhone. Не удалять приложение/данные.
+Auth callback/confirmation/reset и отсутствующие API-поля/операции остаются
+зависимостями. Выбор языка пока сохраняется только в текущем процессе.
+
+Main/production/Render/Vercel/Supabase/БД/чужие web/3D не менялись.
+Платных AI, денежных операций и внешних заявок не было. recording.webm не искали.
+PR остаётся Draft. Следующий шаг — выделенный Android по опубликованному чек-листу.
+
+Сборка из apps/mobile: `flutter pub get`, `flutter analyze --no-pub`,
+`flutter test --no-pub --concurrency=1`,
+`./tool/build_android.ps1 -PublicConfig config/public.local.json -Release`.
+
+---
+
 # 17 октября 2026 — Qadam 0.5.0+9, визуальная передача
 
 [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60), ветка `feature/mobile-native-parity`.
