@@ -66,6 +66,8 @@
 
 Review Flutter 0.5.0 (`review/flutter-050-visual` от `main` = `deploy-062` @ `8f1764d`, по поручению интегратора): `mobile-v0.5.0-visual.1` @ `7b3a8ba`, APK `14f3f145…3eccf`. Доказательства разделены: APK на эмуляторе Pixel 6, рендеры автора, чтение кода, не проверено. P1 не найдено в пределах проверенных экранов; P2 сведены в пять групп для mobile (графики, форма и ошибки, порядок карточек, маркировка учебного и схемы, переносы KZ) и вопрос о форме кнопок; P3 отдельно. `apps/mobile` не менялся — [FLUTTER_050_VISUAL_REVIEW](../FLUTTER_050_VISUAL_REVIEW.md), галерея [flutter-050-review](../screenshots/flutter-050-review/README.md). Seed RU-only — замечание backend; ссылка APK 0.3.0 на сайте — после физической проверки 0.5.0.
 
+Повторная проверка P2 после PR #60 (`review/flutter-051-recheck` от `main` = `deploy-062` @ `86ca9af`): head PR #60 `640d0ef` (0.5.1+10) против `7b3a8ba`; нового APK нет, поэтому [A] и [P] не проверены, сравнение по рендерам автора `visual-051` и коду. Исправлено 0 из 9 P2; частично — кнопки (lime в блоках Главной и Кабинета) и №9 на Главной; новые наблюдения N1–N3. [FLUTTER_050_RECHECK](../FLUTTER_050_RECHECK.md), галерея [flutter-051-recheck](../screenshots/flutter-051-recheck/README.md). `apps/mobile` не менялся.
+
 ## Проверки
 
 Этап E: typecheck, lint, format, build, `check:api` — passed; unit/component 273 passed (265 прежних + 8 новых в `sale-debts-polish.test.tsx`); E2E в установленном Chrome — общий 24/24, QA 21/21, Analytics 24/24, microphone 18/18, voice-integration 1/1; `validate_assets.py` — ok. Тексты обновлены в тестах только там, где проверялись старые подписи. Перезаписанные E2E снимки возвращены и в изменения не входят. Физический телефон не проверялся.
