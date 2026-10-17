@@ -1,5 +1,9 @@
 # Передача работы backend
 
+## 2026-10-17 — интеграция PR47/49/52 без изменения backend
+
+От ad63a00 проверены точные heads d010f5e / 674e5d7 / 565e17d; отдельная ветка integration/abzal-public-catalog. InquiryForm (включая unknown→4xx/Unicode), customer recovery, Auth, API0.6.2/e699158 и GLB сохранены побайтово. [Полный отчёт и публикация](../ABZAL_PUBLIC_RELEASE.md). 336 unit/component; typecheck/lint/build/check:api; recovery5, QA21, voice1, microphone18, general24, Auth7 — PASS, наборы не суммировать. Настоящие Supabase/Render A/B, read-only recovery/inbox/каталог/аналитика и9hotspots на360/390/1440 прошли в кандидате; новая запись не создавалась. Использована заявка e77aa7d2-1799-4139-be37-728642d0925d. Backend/БД/миграции/Render не менялись. Следующий шаг — подтверждение production SHA/повтор read-only после Vercel, затем физическая приёмка команды; регистрация/mobile отдельно.
+
 ## 2026-10-17 — следующая интеграция публичной заявки
 
 От main8ee78ae, без повторного PR41/42: выборочный перенос формы e6c9dd, реальное имя ShopPage, защита unknown→4xx сохраняет key/body, смена магазина изолирует late response. Отдельный public-inquiry.md по поручению капитана, public-web.md не заменён. Apps/api/OpenAPI/AI/recovery/аналитика/GLB не менялись, Render не перезапускается.
