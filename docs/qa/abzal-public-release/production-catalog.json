@@ -1,0 +1,56 @@
+{
+  "candidate": false,
+  "readOnly": true,
+  "prices": [
+    {
+      "slug": "mart-demo-clothes",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "mart-demo-food",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "mart-demo-home",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "kaikarmet-demo-clothes",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "kaikarmet-demo-food",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "kaikarmet-demo-home",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "auyl-bereke-demo-clothes",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "auyl-bereke-demo-food",
+      "idMatches": true,
+      "catalog": 1
+    },
+    {
+      "slug": "auyl-bereke-demo-home",
+      "idMatches": true,
+      "catalog": 1
+    }
+  ],
+  "physicalDevice": false,
+  "catalogLoaded": true,
+  "catalogCount": 1,
+  "hoverFocus": true,
+  "completed": true
+}

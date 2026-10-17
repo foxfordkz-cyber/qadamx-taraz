@@ -1,0 +1,43 @@
+{
+  "sha": "6e8bd1b8bbffd8437918dfa2b461d85f49f19b5a",
+  "bundle_secret_scan": "PASS",
+  "assets": {
+    "/assets/index-XZJhP-5I.js": {
+      "bytes": 483412,
+      "sha256": "8c7e2f40ada8469cfba21cad7f1f384edd776c4ac82b61b372bc5ff76d85b3d9"
+    },
+    "/assets/auth-CB7MGzWB.js": {
+      "bytes": 223730,
+      "sha256": "b08ef7d102649174a68d175e0ce67571100cd15b84444698cab938dea6e3d891"
+    },
+    "/assets/index-c79t9tyR.css": {
+      "bytes": 84920,
+      "sha256": "652345fcc0d04521867dd5e2c32fa6a0073c185804fed0ba0749c42ec7ad4032"
+    },
+    "/models/mart.glb": {
+      "bytes": 1441176,
+      "sha256": "d9adafa2a1363026ac3f6859bbea4f5757876392200d590422fd9bd9492a45ee"
+    },
+    "/models/kaikarmet.glb": {
+      "bytes": 717596,
+      "sha256": "b119bfb35e4d81e68ce9633b5c94fb9f4364efe69d1987a6c073576476a5d2a1"
+    },
+    "/models/auyl-bereke.glb": {
+      "bytes": 746584,
+      "sha256": "d1c397dc38ade6d0470c39e291976bf21f8675f51b6b0538c58e4988bffdf0a5"
+    },
+    "/previews/auyl-bereke.webp": {
+      "bytes": 31078,
+      "sha256": "0ddef0dd1427b24998e738c31ca559504ee91264b1e5e31baa180ba90a90a440"
+    },
+    "/previews/kaikarmet.webp": {
+      "bytes": 29048,
+      "sha256": "aac2db66391b0816f2461211aff3f91a670d8235fca05115c669b1761e1f92d4"
+    },
+    "/previews/mart.webp": {
+      "bytes": 32706,
+      "sha256": "65c09f2a044a62f22d384f645b91d0dc79ba557822a913e161c4202263b3ce39"
+    }
+  },
+  "html_asset_paths_match": true
+}

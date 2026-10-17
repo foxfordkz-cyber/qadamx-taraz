@@ -1,0 +1,93 @@
+{
+  "statuses": [
+    {
+      "state": "success",
+      "context": "Vercel",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/Cxc2rPTQrJ816WLp9JwiLPXLNn5D",
+      "created_at": "2026-10-17T10:37:25Z",
+      "description": "Deployment has completed"
+    },
+    {
+      "state": "success",
+      "context": "Vercel",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/2xFa4iQmsBcbmoPBxXN7R87j4N1K",
+      "created_at": "2026-10-17T10:36:49Z",
+      "description": "Deployment has completed"
+    },
+    {
+      "state": "pending",
+      "context": "Vercel",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/FyBvrKYg5AWgFg917NqFbRkXqsSu",
+      "created_at": "2026-10-17T10:36:32Z",
+      "description": "Vercel is deploying your app"
+    },
+    {
+      "state": "pending",
+      "context": "Vercel",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/Cxc2rPTQrJ816WLp9JwiLPXLNn5D",
+      "created_at": "2026-10-17T10:36:32Z",
+      "description": "Vercel is deploying your app"
+    },
+    {
+      "state": "pending",
+      "context": "Vercel",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/7FLv6Z89kRbBaw4Zf3fmrzimBZHr",
+      "created_at": "2026-10-17T10:36:32Z",
+      "description": "Vercel is deploying your app"
+    },
+    {
+      "state": "pending",
+      "context": "Vercel",
+      "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/2xFa4iQmsBcbmoPBxXN7R87j4N1K",
+      "created_at": "2026-10-17T10:36:16Z",
+      "description": "Vercel is deploying your app"
+    }
+  ],
+  "prs": [
+    {
+      "number": 47,
+      "state": "closed",
+      "merged": true,
+      "head": "d010f5e9d6bc85995ded9201f7817a3debd4ca37",
+      "base": "deploy-062"
+    },
+    {
+      "number": 49,
+      "state": "closed",
+      "merged": true,
+      "head": "674e5d7f9678745902fba632e7f03c71618fc5a3",
+      "base": "deploy-062"
+    },
+    {
+      "number": 52,
+      "state": "open",
+      "merged": false,
+      "head": "565e17d451b28e5f1b301c8b69e617fa412c094c",
+      "base": "feature/public-polish"
+    },
+    {
+      "number": 54,
+      "state": "closed",
+      "merged": true,
+      "head": "6e8bd1b8bbffd8437918dfa2b461d85f49f19b5a",
+      "base": "main"
+    }
+  ],
+  "headers": {
+    "Age": "0",
+    "Date": "Sat, 17 Oct 2026 10:37:51 GMT",
+    "Etag": "\"8fcb60bcbbf7d6c3b02d7a177f1c106b\"",
+    "X-Vercel-Cache": "MISS",
+    "X-Vercel-Id": "fra1::4ms8x-1792233471436-b184a51d017a"
+  },
+  "production_entries": [
+    "/assets/index-XZJhP-5I.js",
+    "/assets/auth-CB7MGzWB.js",
+    "/assets/index-c79t9tyR.css"
+  ],
+  "local_entries": [
+    "/assets/index-XZJhP-5I.js",
+    "/assets/auth-CB7MGzWB.js",
+    "/assets/index-c79t9tyR.css"
+  ]
+}
