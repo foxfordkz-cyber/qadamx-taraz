@@ -1,5 +1,5 @@
 import { ApiError, type ApiClient } from "./client";
-import type { BackendBindings } from "./bindings";
+import type { BackendBindings, CustomerCreationResult } from "./bindings";
 import type {
   Business,
   CatalogItem,
@@ -33,7 +33,17 @@ export interface SellerGateway {
     cursor: string | null,
     signal?: AbortSignal,
   ): Promise<Page<Customer>>;
-  createCustomer(business: Business, input: CustomerInput): Promise<Customer>;
+  createCustomer(
+    business: Business,
+    input: CustomerInput,
+    idempotencyKey?: string,
+    signal?: AbortSignal,
+  ): Promise<Customer>;
+  customerCreationResult?(
+    business: Business,
+    idempotencyKey: string,
+    signal?: AbortSignal,
+  ): Promise<CustomerCreationResult>;
   catalog(business: Business, signal?: AbortSignal): Promise<Page<CatalogItem>>;
 }
 
@@ -95,18 +105,35 @@ export function createLiveGateway(
         throw new ApiError(403, "ACCESS_DENIED");
       return page;
     },
-    async createCustomer(b, input) {
+    async createCustomer(b, input, idempotencyKey, signal) {
       const body = requireBinding("customerBody")(input);
       const read = requireBinding("customer");
       const customer = read(
         await api.request(`${path(b)}/customers`, {
           method: "POST",
+          signal,
+          headers: idempotencyKey
+            ? { "Idempotency-Key": idempotencyKey }
+            : undefined,
           body: JSON.stringify(body),
         }),
       );
       if (customer.business_id !== b.id)
         throw new ApiError(403, "ACCESS_DENIED");
       return customer;
+    },
+    async customerCreationResult(b, idempotencyKey, signal) {
+      const read = requireBinding("customerCreationResult");
+      const result = read(
+        await api.request(`${path(b)}/customer-creation-result`, {
+          headers: { "Idempotency-Key": idempotencyKey },
+          signal,
+          cache: "no-store",
+        }),
+      );
+      if (result.status === "completed" && result.customer.business_id !== b.id)
+        throw new ApiError(403, "ACCESS_DENIED");
+      return result;
     },
     async catalog(b, signal) {
       const read = requireBinding("catalog");

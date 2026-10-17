@@ -23,10 +23,10 @@
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 35782,
+      "poster_bytes": 32706,
       "poster_dimensions": [
         1024,
-        768
+        543
       ]
     },
     {
@@ -50,10 +50,10 @@
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 30818,
+      "poster_bytes": 29048,
       "poster_dimensions": [
         1024,
-        768
+        640
       ]
     },
     {
@@ -77,10 +77,10 @@
       ],
       "textures": [],
       "degenerate_triangles": 0,
-      "poster_bytes": 32804,
+      "poster_bytes": 31078,
       "poster_dimensions": [
         1024,
-        768
+        519
       ]
     }
   ],

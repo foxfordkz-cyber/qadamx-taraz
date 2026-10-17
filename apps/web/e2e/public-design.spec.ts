@@ -124,7 +124,7 @@ test("public venue/shop/catalog/inquiry routes and WebGL fallback — intercepte
     ).toBeVisible();
     await expect(
       page.getByText(
-        "WebGL недоступен — 3D отключено. Карточки ниже работают как обычно.",
+        "3D недоступно в этом браузере. Карточки ниже работают как обычно.",
         { exact: true },
       ),
     ).toBeVisible();
@@ -159,7 +159,7 @@ test("public venue/shop/catalog/inquiry routes and WebGL fallback — intercepte
     ).toBeVisible();
     await expect(
       page.getByText(
-        "WebGL недоступен — 3D отключено. Карточки ниже работают как обычно.",
+        "3D недоступно в этом браузере. Карточки ниже работают как обычно.",
         { exact: true },
       ),
     ).toBeVisible();

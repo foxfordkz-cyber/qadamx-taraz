@@ -3,7 +3,7 @@ const ru = {
   aiUnavailable:
     "AI временно недоступен. Ввод сохранён; продолжите вручную или повторите позже.",
   sale: "Новая запись",
-  manual: "Ручной ввод",
+  manual: "Заполнить вручную",
   prepare: "Подготовить черновик",
   text: "Текст для AI",
   audio: "Аудиофайл (до 30 секунд, 8 МБ)",
@@ -26,7 +26,25 @@ const ru = {
     "Результат неизвестен. Повтор сохранит исходный ключ и тело. Не создавайте другую операцию.",
   hint: "Проверьте суммы, оплату и клиента. AI не записывает деньги. Неизвестная оплата не равна нулю.",
   expiry: "Черновик действует до",
-  debts: "Долги",
+  debts: "Мне должны",
+  aiTitle: "Голосом или текстом",
+  steps: "Шаги записи",
+  reversalKind: "Исправление",
+  stepInput: "Ввод",
+  stepReview: "Проверка",
+  stepConfirm: "Подтверждение",
+  techDetails: "Технические подробности",
+  debtsTotal: "Всего мне должны",
+  customerTotal: "Долг клиента",
+  left: "Остаток",
+  soldFor: "продажа на",
+  payDebt: "Принять оплату",
+  noCustomer: "Клиент не указан",
+  noDebts: "Сейчас никто не должен",
+  noDebtsHint: "Продажи в долг появятся здесь после подтверждения.",
+  debtsHint: "Неоплаченные продажи. Остатки считает сервер.",
+  customerDebts: "Долги одного клиента",
+  allDebts: "Показать всех",
   history: "История операций",
   summary: "Итог дня",
   sales: "Продажи",
@@ -53,7 +71,7 @@ const kk: Record<keyof typeof ru, string> = {
   aiUnavailable:
     "AI уақытша қолжетімсіз. Енгізілген деректер сақталды; қолмен жалғастырыңыз немесе кейін қайталаңыз.",
   sale: "Жаңа жазба",
-  manual: "Қолмен енгізу",
+  manual: "Қолмен толтыру",
   prepare: "Жазбаны дайындау",
   text: "AI үшін мәтін",
   audio: "Аудиофайл (30 секунд, 8 МБ дейін)",
@@ -76,7 +94,25 @@ const kk: Record<keyof typeof ru, string> = {
     "Нәтиже белгісіз. Қайталау сол кілт пен сұрауды сақтайды. Басқа операция құрмаңыз.",
   hint: "Соманы, төлемді және клиентті тексеріңіз. AI ақша жазбайды. Белгісіз төлем нөлге тең емес.",
   expiry: "Жазбаның жарамдылық мерзімі",
-  debts: "Қарыздар",
+  debts: "Маған қарыз",
+  aiTitle: "Дауыспен немесе мәтінмен",
+  steps: "Жазба қадамдары",
+  reversalKind: "Түзету",
+  stepInput: "Енгізу",
+  stepReview: "Тексеру",
+  stepConfirm: "Растау",
+  techDetails: "Техникалық мәліметтер",
+  debtsTotal: "Маған барлығы қарыз",
+  customerTotal: "Клиенттің қарызы",
+  left: "Қалдық",
+  soldFor: "сатылым сомасы",
+  payDebt: "Төлем қабылдау",
+  noCustomer: "Клиент көрсетілмеген",
+  noDebts: "Қазір ешкім қарыз емес",
+  noDebtsHint: "Қарызға сатылымдар расталғаннан кейін осында шығады.",
+  debtsHint: "Төленбеген сатылымдар. Қалдықты сервер есептейді.",
+  customerDebts: "Бір клиенттің қарыздары",
+  allDebts: "Барлығын көрсету",
   history: "Операциялар тарихы",
   summary: "Күн қорытындысы",
   sales: "Сатылды",
@@ -99,6 +135,23 @@ const kk: Record<keyof typeof ru, string> = {
   required:
     "Соманы, төлемді, қарыз болса клиентті толтырыңыз; төлем үшін сатылым мен дұрыс соманы таңдаңыз.",
 };
+/** Sale day in Almaty time as "16.10" for RU and KZ alike: browsers ship no
+    reliable short Kazakh month names (Chrome renders "M10 16"). */
+export function saleDate(iso: string) {
+  return new Intl.DateTimeFormat("ru-KZ", {
+    timeZone: "Asia/Almaty",
+    day: "2-digit",
+    month: "2-digit",
+  }).format(new Date(iso));
+}
+/** Operation time in Almaty as "16.10.2026, 13:10" for RU and KZ alike. */
+export function operationTime(iso: string) {
+  return new Intl.DateTimeFormat("ru-KZ", {
+    timeZone: "Asia/Almaty",
+    dateStyle: "short",
+    timeStyle: "short",
+  }).format(new Date(iso));
+}
 export function useLedgerText() {
   const { locale } = useI18n();
   return {

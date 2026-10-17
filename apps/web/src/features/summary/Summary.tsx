@@ -13,11 +13,11 @@ export const localDate = () =>
     month: "2-digit",
     day: "2-digit",
   }).format(new Date());
-export function Stats({ date = localDate() }: { date?: string }) {
+/** Server day summary; outstanding is the all-time debt, never a client-side sum. */
+export function useSummary(date = localDate()) {
   const { api, scope, gateway } = useRuntime(),
-    { business } = useBusiness(),
-    { l, locale } = useLedgerText();
-  const q = useQuery({
+    { business } = useBusiness();
+  return useQuery({
     queryKey: [scope, business.id, "summary", date],
     enabled: gateway.mode === "live" && !!date,
     queryFn: async ({ signal }) => {
@@ -34,6 +34,10 @@ export function Stats({ date = localDate() }: { date?: string }) {
       };
     },
   });
+}
+export function Stats({ date = localDate() }: { date?: string }) {
+  const { l, locale } = useLedgerText(),
+    q = useSummary(date);
   return (
     <>
       {q.isError && (

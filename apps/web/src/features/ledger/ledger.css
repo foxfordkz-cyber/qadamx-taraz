@@ -1,28 +1,309 @@
 .ledger-columns {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: var(--qadam-space-4);
+  align-items: start;
 }
 .ledger-stats {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 12px;
-  margin-block: 16px;
+  gap: var(--qadam-space-3);
+  margin-block: 0 var(--qadam-space-4);
+}
+.ledger-stats p {
+  margin: 0 0 var(--qadam-space-1);
 }
 .ledger-columns fieldset {
   border: 0;
   padding: 0;
+  margin: 0;
   min-width: 0;
 }
+.ledger-stack {
+  display: grid;
+  gap: var(--qadam-space-4);
+}
+.ledger-columns h2 {
+  margin-bottom: var(--qadam-space-2);
+}
+.ledger-hint {
+  margin-bottom: var(--qadam-space-4);
+  font-size: var(--qadam-text-sm);
+  line-height: 1.5;
+  color: var(--muted);
+}
 .ledger-columns textarea {
-  min-height: 120px;
+  min-height: 96px;
   max-width: 100%;
 }
-.ledger-columns .button {
-  margin-block: 6px;
+.ledger-columns .card > .button {
+  margin-top: var(--qadam-space-3);
 }
 .ledger-columns small {
   overflow-wrap: anywhere;
+}
+.ledger-alert {
+  margin: var(--qadam-space-4) 0 0;
+}
+.ledger-stack .ledger-alert {
+  margin: 0;
+}
+.ledger-alert p {
+  margin-bottom: var(--qadam-space-2);
+}
+.ledger-alert small {
+  display: block;
+  color: var(--muted);
+}
+.ledger-alert .actions {
+  margin-top: var(--qadam-space-3);
+}
+.ledger-error {
+  margin: 0;
+  font-size: var(--qadam-text-sm);
+  color: var(--qadam-danger);
+}
+.ledger-pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--qadam-space-3);
+}
+.ledger-customer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qadam-space-3);
+  flex-wrap: wrap;
+}
+.ledger-customer strong {
+  font-size: var(--qadam-text-md);
+  font-weight: 600;
+}
+.ledger-remaining {
+  margin: 0;
+  padding: var(--qadam-space-3) var(--qadam-space-4);
+  border-radius: var(--qadam-radius-small);
+  background: var(--qadam-surface-subtle);
+}
+.ledger-draft {
+  display: grid;
+  gap: var(--qadam-space-2);
+  margin-bottom: var(--qadam-space-4);
+}
+.ledger-draft blockquote {
+  margin: 0;
+  padding: var(--qadam-space-3) var(--qadam-space-4);
+  border-left: 3px solid var(--qadam-line-strong);
+  border-radius: var(--qadam-radius-small);
+  background: var(--qadam-surface-subtle);
+}
+.ledger-draft ul {
+  margin: 0;
+  padding-left: var(--qadam-space-5);
+  font-weight: 600;
+}
+.ledger-draft small {
+  color: var(--muted);
+}
+.debt-list {
+  display: grid;
+  gap: var(--qadam-space-3);
+  margin: 0 0 var(--qadam-space-4);
+  padding: 0;
+  list-style: none;
+}
+.debt-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--qadam-space-4);
+  padding: var(--qadam-space-4) var(--qadam-space-5);
+}
+.debt-main {
+  min-width: 0;
+}
+.debt-main h2 {
+  margin-bottom: var(--qadam-space-1);
+  font-size: var(--qadam-text-md);
+}
+.debt-main p {
+  margin: 0;
+  font-size: var(--qadam-text-sm);
+  color: var(--muted);
+}
+.debt-main .money {
+  white-space: nowrap;
+}
+.debt-side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--qadam-space-2) var(--qadam-space-4);
+  flex-shrink: 0;
+}
+.debt-side .button {
+  white-space: nowrap;
+}
+.debt-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--qadam-space-3);
+  flex-wrap: wrap;
+  margin: 0 0 var(--qadam-space-4);
+  padding: var(--qadam-space-4) var(--qadam-space-5);
+  border-radius: var(--qadam-radius-card);
+  background: var(--qadam-soft);
+}
+.debt-total span {
+  font-size: var(--qadam-text-sm);
+  font-weight: 600;
+  color: var(--muted);
+}
+.debt-total strong {
+  font-size: var(--qadam-text-xl);
+  font-variant-numeric: tabular-nums;
+}
+.history-list {
+  display: grid;
+  gap: var(--qadam-space-3);
+  margin-bottom: var(--qadam-space-4);
+}
+.history-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--qadam-space-4);
+  padding: var(--qadam-space-4) var(--qadam-space-5);
+}
+.history-main h2 {
+  margin-bottom: var(--qadam-space-1);
+  font-size: var(--qadam-text-md);
+}
+.history-main p {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--qadam-space-1) var(--qadam-space-3);
+  margin: 0;
+  font-size: var(--qadam-text-sm);
+  color: var(--muted);
+}
+.history-amounts {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  font-size: var(--qadam-text-sm);
+  color: var(--muted);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.history-amounts strong {
+  color: var(--qadam-ink);
+  white-space: nowrap;
+}
+/* Steps of a record: derived from progress, never a gate. */
+.sale-steps {
+  display: flex;
+  gap: var(--qadam-space-2);
+  margin: 0 0 var(--qadam-space-4);
+  padding: 0;
+  list-style: none;
+}
+.sale-steps li {
+  display: flex;
+  align-items: center;
+  gap: var(--qadam-space-2);
+  flex: 1;
+  min-width: 0;
+  min-height: var(--qadam-control-height);
+  padding: 0 var(--qadam-space-3);
+  border: 1px solid var(--qadam-line);
+  border-radius: var(--qadam-radius-small);
+  background: var(--qadam-white);
+  color: var(--muted);
+  font-size: var(--qadam-text-sm);
+  font-weight: 600;
+}
+.sale-steps span {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--qadam-surface-subtle);
+  font-size: var(--qadam-text-xs);
+}
+.sale-steps .is-done {
+  color: var(--qadam-success);
+}
+.sale-steps .is-done span {
+  background: var(--qadam-success-soft);
+}
+.sale-steps [aria-current="step"] {
+  border-color: var(--qadam-green);
+  color: var(--qadam-ink);
+}
+.sale-steps [aria-current="step"] span {
+  background: var(--qadam-green);
+  color: var(--qadam-white);
+}
+/* Voice and file in one compact block; recorder/preview behaviour stays in voice. */
+.sale-audio {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: var(--qadam-space-3);
+  padding: var(--qadam-space-3);
+  border: 1px solid var(--qadam-line);
+  border-radius: var(--qadam-radius-small);
+  background: var(--qadam-surface-subtle);
+}
+.sale-audio > :not(.field):not(.voice-actions) {
+  grid-column: 1 / -1;
+}
+.sale-audio .voice-actions .button {
+  margin: 0;
+}
+.sale-audio .voice-preview {
+  margin: 0;
+}
+.sale-audio > p {
+  margin: 0;
+}
+.sale-audio > .ledger-hint {
+  font-size: var(--qadam-text-xs);
+}
+.tech-details {
+  margin-top: var(--qadam-space-2);
+  color: var(--muted);
+}
+.tech-details summary {
+  min-height: 32px;
+  font-size: var(--qadam-text-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+.tech-details small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.debt-balance {
+  margin: 0;
+  font-size: var(--qadam-text-lg);
+  font-weight: 700;
+  white-space: nowrap;
+}
+/* Stacked layout (see the 1100px bridge in shared/merchant.css): the form a link
+   opened, e.g. repayment from "Мне должны", goes first; scrolling keeps it under the top bar. */
+@media (max-width: 1100px) {
+  .ledger-review-first .ledger-review {
+    order: -1;
+  }
+  .ledger-review {
+    scroll-margin-top: 128px;
+  }
 }
 @media (max-width: 700px) {
   .ledger-columns {
@@ -30,5 +311,54 @@
   }
   .ledger-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--qadam-space-2);
+  }
+  .ledger-columns .card {
+    padding: var(--qadam-space-4);
+  }
+  .debt-row {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--qadam-space-4);
+  }
+  .debt-side {
+    justify-content: space-between;
+  }
+  .history-row {
+    grid-template-columns: 1fr;
+    gap: var(--qadam-space-3);
+    padding: var(--qadam-space-4);
+  }
+  .history-amounts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--qadam-space-1) var(--qadam-space-4);
+    text-align: left;
+  }
+  .debt-total {
+    padding: var(--qadam-space-3) var(--qadam-space-4);
+  }
+  .debt-total strong {
+    font-size: var(--qadam-text-lg);
+  }
+  .sale-steps li {
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    padding: var(--qadam-space-1);
+    font-size: var(--qadam-text-xs);
+    text-align: center;
+  }
+  .sale-audio {
+    grid-template-columns: 1fr;
+  }
+  .debt-balance {
+    display: grid;
+    font-size: var(--qadam-text-md);
+  }
+  .debt-balance span {
+    font-size: var(--qadam-text-xs);
+    font-weight: 600;
+    color: var(--muted);
   }
 }

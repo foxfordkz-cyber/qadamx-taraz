@@ -211,7 +211,7 @@ describe("archive AI flow adapted to the shared contract", () => {
     expect(
       screen.getByRole("button", { name: "Подтвердить запись" }),
     ).toBeDisabled();
-    fireEvent.click(screen.getByRole("button", { name: "Ручной ввод" }));
+    fireEvent.click(screen.getByRole("button", { name: "Заполнить вручную" }));
     expect(
       screen.getByRole("button", { name: "Подтвердить запись" }),
     ).toBeEnabled();
@@ -273,12 +273,12 @@ describe("archive AI flow adapted to the shared contract", () => {
         "Продал на 3000, получил 1000",
       );
       expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("");
-      expect(screen.getByRole("button", { name: "Ручной ввод" })).toBeEnabled();
+      expect(
+        screen.getByRole("button", { name: "Заполнить вручную" }),
+      ).toBeEnabled();
       answerWith();
       await act(async () =>
-        fireEvent.click(
-          screen.getByRole("button", { name: "Повторить анализ" }),
-        ),
+        fireEvent.click(screen.getByRole("button", { name: "Повторить" })),
       );
       expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("3000");
       expect(financialCalls()).toHaveLength(0);
@@ -464,7 +464,9 @@ describe("AI request lifecycle with stub transport that deliberately ignores abo
     const signal = draftCalls()[0][1].signal as AbortSignal;
     await act(async () => vi.advanceTimersByTime(60_000));
     expect(signal.aborted).toBe(true);
-    expect(screen.getByRole("button", { name: "Ручной ввод" })).toBeEnabled();
+    expect(
+      screen.getByRole("button", { name: "Заполнить вручную" }),
+    ).toBeEnabled();
     expect(
       screen.getByRole("button", { name: "Подготовить черновик" }),
     ).toBeEnabled();

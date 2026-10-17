@@ -33,7 +33,7 @@ for (const width of [360, 390, 768, 1440]) {
       page.getByRole("button", { name: "Записать голос", exact: true }),
     ).toBeDisabled();
     await expect(
-      page.getByRole("button", { name: "Ручной ввод", exact: true }),
+      page.getByRole("button", { name: "Заполнить вручную", exact: true }),
     ).toBeDisabled();
     await expect(
       page.getByRole("button", { name: "Подтвердить запись", exact: true }),
