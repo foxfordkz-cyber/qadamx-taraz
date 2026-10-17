@@ -1,3 +1,49 @@
+# Seller web — safe Customer Recovery and main synchronization
+
+2026-10-17. Recovery branch **fix/seller-customer-recovery-safe**, separate worktree
+`work/qadam-customer-recovery-safe`, base **main:07197bec0a8ac331714eea3036f3af6eac939e7e**.
+Selected source **9a3c8687e59d70fa5d4fdbb99695af538a068791**, without a branch merge.
+Current exact checkout hash: `git log -1 --format=%H`.
+
+Registration was synchronized first in its own worktree: authorized merge of
+main into `feature/seller-registration-onboarding`, commit
+**6f808677c067cc00fb6b6b9eb26384f68c3d1e38**, pushed and local/remote HEAD matched.
+Only `docs/DECISIONS.md` conflicted; both Registration and captain decisions were
+preserved manually. [PR #31](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/31)
+is still open Draft, mergeable, base `integration/voice-preview-061`. No retarget,
+main merge or deployment. Registration UI/signUp/resend are on that separate
+branch; callback/live email await exact URL, Supabase allowlist and agreed flow.
+The older readiness notes below remain historical, not the status of PR #31.
+
+Recovery now shares one coordinator across CustomerPicker and Customers. Native
+Web Locks serialize marker changes; clearing compares key **and** body hash.
+Session epoch/user/business/API and mounted-form ownership ignore stale responses,
+including late K1 after K2. Other forms keep their unsent fields. Reload performs
+GET only; explicit retry keeps the same key/body. Local storage holds only key/hash.
+Legacy without known API origin blocks in place pending captain reconciliation.
+Missing Web Locks or unavailable storage blocks creation; no unsafe fallback.
+
+[Architecture, changed files, reproduction commands and limits](../SELLER_CUSTOMER_RECOVERY_SAFE.md).
+[17-step final demo rehearsal with actual evidence and gates](../qa/SELLER_FINAL_DEMO_REHEARSAL.md).
+Routes and shared CustomerPicker remain unchanged. No Backend, OpenAPI/generated,
+financial, Voice, public production modules, models, Flutter or package changes.
+
+User requested a pause before final verification/publication. **WIP checkpoint:** [exact completed checks, remaining work and resume commands](../SELLER_RECOVERY_CHECKPOINT.md). Full309 unit and all selected E2E passed; two new companion tests passed individually, but the final full rerun/build was interrupted. Recovery Draft PR is not yet created. Do not treat this snapshot as final acceptance.
+Registration own checks: **288/288 unit/component**, **17/17 Auth/Registration E2E**,
+**1/1 synthetic money/Analytics journey**. Seller/Analytics/public24 cases passed
+(23 first run + isolated passing repeat); fake-device Voice18 cases passed
+(17 first run + isolated passing repeat). npm ci/check:api/typecheck/lint/build/
+format:check/diff --check passed. Initial parallel runs hit resource timeouts;
+serial checks and repeats kept the original assertions. Three inherited dev
+package audit findings and the existing large 3D chunk warning remain.
+
+Production HTTPS root/health/OpenAPI/public venues probes succeeded read-only.
+No live login, shared DB writes, paid AI, physical Android or real audio recording
+in this task. Next: captain review/merge/deploy in a separate task, then approved
+training-account live rehearsal; supply exact callback settings for Registration.
+Do not clear unresolved customer markers manually or re-run old setup/migrations.
+
+---
 # Seller web — Registration readiness / Android preparation
 
 2026-10-16. Branch `feature/seller-registration-onboarding`, separate worktree
