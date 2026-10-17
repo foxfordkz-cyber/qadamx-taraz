@@ -96,12 +96,15 @@ export default function VenueScene({
   selectedId,
   hoverId,
   onSelect,
+  onHover,
 }: {
   asset?: VenueAsset;
   businesses: Business[];
   selectedId?: string | null;
   hoverId?: string | null;
   onSelect: (slug: string) => void;
+  /** Marker hover/focus mirrors the list highlight; cards drive hoverId back. */
+  onHover?: (slug: string | null) => void;
 }) {
   const { t } = useT(),
     [lost, setLost] = useState(false),
@@ -200,8 +203,15 @@ export default function VenueScene({
                       aria-pressed={active}
                       data-hotspot={h.business_slug}
                       onClick={() => onSelect(h.business_slug)}
+                      onMouseEnter={() => onHover?.(h.business_slug)}
+                      onMouseLeave={() => onHover?.(null)}
+                      onFocus={() => onHover?.(h.business_slug)}
+                      onBlur={() => onHover?.(null)}
                     >
-                      {asset.hotspots.findIndex((m) => m.id === h.id) + 1}
+                      {/* Compact visible marker inside a 44 × 44 touch target. */}
+                      <span className="hotspot-dot">
+                        {asset.hotspots.findIndex((m) => m.id === h.id) + 1}
+                      </span>
                     </button>
                     {active && (
                       <span className="hotspot-label" aria-hidden="true">
@@ -223,7 +233,10 @@ export default function VenueScene({
           </div>
         )}
       </Boundary>
-      <span className="badge badge--warn">{t("conceptual")}</span>
+      <div className="scene-meta">
+        <span className="badge badge--warn">{t("conceptual")}</span>
+        {supported && !lost && <p className="scene-hint">{t("scene_hint")}</p>}
+      </div>
     </>
   );
 }

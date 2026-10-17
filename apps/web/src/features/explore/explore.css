@@ -800,7 +800,7 @@
     box-sizing: border-box;
   }
   .ex .scene {
-    height: 290px;
+    height: 250px;
     margin: 14px 0 42px;
     border-radius: var(--qadam-radius-card);
   }
@@ -1260,24 +1260,93 @@
 .ex .venue-card:has(.venue-poster) .card-index {
   margin-bottom: 14px;
 }
+/* The button is the 44 × 44 touch target; only the inner dot is drawn, so close
+   markers do not cover each other or the facade on phones. */
 .ex .hotspot {
-  font-size: 16px;
+  display: grid;
+  place-items: center;
   width: 44px;
   height: 44px;
-  max-width: 110px;
-  padding: 6px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
   border-radius: 50%;
-  border: 2px solid var(--qadam-green);
-  background: var(--qadam-white);
+  background: transparent;
   color: var(--qadam-green);
+  font-size: 15px;
   font-weight: 800;
   cursor: pointer;
-  min-height: 44px;
-  box-shadow: var(--qadam-shadow);
 }
-.ex .hotspot[aria-pressed="true"] {
+.ex .hotspot-dot {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--qadam-green);
+  border-radius: 50%;
+  background: var(--qadam-white);
+  box-shadow: var(--qadam-shadow);
+  transition: transform 0.15s ease;
+}
+.ex .hotspot[aria-pressed="true"] .hotspot-dot {
   background: var(--qadam-green);
   color: var(--qadam-white);
+  transform: scale(1.12);
+}
+.ex .hotspot:focus-visible {
+  outline: none;
+}
+.ex .hotspot:focus-visible .hotspot-dot {
+  outline: var(--qadam-focus-ring);
+  outline-offset: 2px;
+}
+/* Badge and hint follow the scene (or its no-WebGL fallback) in normal flow. */
+.ex .scene:has(+ .scene-meta) {
+  margin-bottom: 14px;
+}
+.ex .scene-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 14px 0 40px;
+}
+.ex .scene-hint {
+  margin: 0;
+  font-size: var(--qadam-text-sm);
+  color: var(--muted);
+}
+.ex .venue-meta {
+  margin: 0 0 4px;
+  font-weight: 600;
+  color: var(--ink);
+}
+/* Point cards carry a name, a category and one action: no reserved empty height. */
+.ex .shop-card {
+  min-height: 0;
+  padding: 18px 20px;
+}
+.ex .shop-card p {
+  margin-bottom: 12px;
+}
+.ex .cards .card.is-active {
+  border-color: var(--qadam-green);
+  box-shadow: var(--qadam-shadow-raised);
+}
+@media (max-width: 480px) {
+  .ex .hotspot-dot {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .ex .scene-meta {
+    margin: 12px 0 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ex .hotspot-dot {
+    transition: none;
+  }
 }
 /* Selected marker names its shop next to the number; the list stays the full source. */
 .ex .hotspot-wrap {
