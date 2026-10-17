@@ -5,7 +5,7 @@ import '../crm/crm_pending.dart';
 import '../crm/crm_ui.dart' show crmCard, crmGap;
 import '../data/api_failure.dart';
 import '../runtime.dart';
-import '../ui/common.dart' show tr;
+import '../ui/common.dart' show tr, Notice, ReadError;
 import '../ui/language.dart';
 import '../ui/qadam_theme.dart';
 import '../ui/qadam_components.dart';
@@ -259,13 +259,7 @@ class _PublicHomeState extends State<PublicHome> {
               ),
               const SizedBox(height: 16),
               if (busy) const LinearProgressIndicator(),
-              if (error != null) ...[
-                Text(publicError(kk)),
-                OutlinedButton(
-                  onPressed: busy ? null : load,
-                  child: Text(tr(kk, 'Повторить', 'Қайталау')),
-                ),
-              ],
+              if (error != null) ReadError(onRetry: busy ? null : load),
               if (!busy && error == null && venues.isEmpty)
                 Padding(
                   padding: const EdgeInsets.only(bottom: 12),
@@ -528,13 +522,8 @@ class _VenuePageState extends State<VenuePage> {
             ),
           const SizedBox(height: 12),
           if (busy) const LinearProgressIndicator(),
-          if (error != null) ...[
-            Text(publicError(kk)),
-            OutlinedButton(
-              onPressed: () => load(initial: categories.isEmpty),
-              child: Text(tr(kk, 'Повторить', 'Қайталау')),
-            ),
-          ],
+          if (error != null)
+            ReadError(onRetry: () => load(initial: categories.isEmpty)),
           if (!busy && error == null && shops.isEmpty)
             Text(
               tr(
@@ -675,13 +664,7 @@ class _PublicShopPageState extends State<PublicShopPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (busy) const LinearProgressIndicator(),
-              if (error != null) ...[
-                Text(publicError(kk)),
-                OutlinedButton(
-                  onPressed: load,
-                  child: Text(tr(kk, 'Повторить', 'Қайталау')),
-                ),
-              ],
+              if (error != null) ReadError(onRetry: load),
               if (b != null) ...[
                 Wrap(
                   spacing: 8,
@@ -943,7 +926,10 @@ class _InquiryFormState extends State<InquiryForm> {
   }) => Column(
     crossAxisAlignment: CrossAxisAlignment.stretch,
     children: [
-      Text(tr(kk, ru, kz), style: Theme.of(context).textTheme.titleMedium),
+      Text(
+        '${tr(kk, ru, kz)} *',
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
       const SizedBox(height: 8),
       Semantics(
         label: tr(kk, ru, kz),
@@ -956,6 +942,7 @@ class _InquiryFormState extends State<InquiryForm> {
                 : 'inquiry-message',
           ),
           onChanged: (_) => setState(() {}),
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           controller: controller,
           enabled: !busy && saved == null,
           maxLines: lines,
@@ -1073,7 +1060,12 @@ class _InquiryFormState extends State<InquiryForm> {
           tr(kk, 'Оставить заявку', 'Өтінім қалдыру'),
           style: Theme.of(context).textTheme.titleLarge,
         ),
-        Text(widget.name),
+        const SizedBox(height: 8),
+        Text(
+          tr(kk, 'Получатель: ${widget.name}', 'Алушы: ${widget.name}'),
+          style: Theme.of(context).textTheme.titleSmall,
+        ),
+        const SizedBox(height: 8),
         Text(
           tr(
             kk,
@@ -1081,18 +1073,14 @@ class _InquiryFormState extends State<InquiryForm> {
             'Байланысты тек осы дүкен көреді. Өтінім тек батырманы басқанда жіберіледі.',
           ),
         ),
+        const SizedBox(height: 24),
         Form(
           key: form,
           child: Column(
             children: [
               field(name, 'Ваше имя', 'Атыңыз', 100),
               crmGap,
-              field(
-                contact,
-                'Как с вами связаться',
-                'Сізбен қалай байланысуға болады',
-                200,
-              ),
+              field(contact, 'Как с вами связаться', 'Байланыс дерегі', 200),
               crmGap,
               field(
                 message,
@@ -1107,16 +1095,18 @@ class _InquiryFormState extends State<InquiryForm> {
         crmGap,
         if (busy) const LinearProgressIndicator(),
         if (saved != null)
-          Text(
-            tr(
+          Notice(
+            text: tr(
               kk,
               'Результат ещё не подтверждён. Повтор отправит исходные данные без новой заявки.',
               'Нәтиже әлі расталмады. Қайталау бастапқы деректерді жаңа өтінімсіз жібереді.',
             ),
           ),
         if (error != null)
-          Text(
-            error is ApiFailure &&
+          Notice(
+            error: true,
+            text:
+                error is ApiFailure &&
                     (error as ApiFailure).code == 'INQUIRY_REJECTED'
                 ? tr(
                     kk,
@@ -1125,6 +1115,7 @@ class _InquiryFormState extends State<InquiryForm> {
                   )
                 : publicError(kk),
           ),
+        const SizedBox(height: 16),
         FilledButton(
           onPressed: busy ? null : send,
           child: Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../data/api_failure.dart';
+import '../ui/common.dart' show ReadError;
 
 /// Presentation only: values come from a validated server snapshot.
 class CrmMetric extends StatelessWidget {
@@ -151,27 +152,6 @@ class CrmReadError extends StatelessWidget {
             ? 'Байланысты тексеріп, қайталаңыз. Көрсеткіштер әлі алынбады.'
             : 'Проверьте подключение и повторите. Показатели пока не получены.',
     };
-    return Card(
-      margin: EdgeInsets.zero,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              kk ? 'Деректер жүктелмеді' : 'Не удалось загрузить данные',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 8),
-            Text(message),
-            TextButton.icon(
-              onPressed: onRetry,
-              icon: const Icon(Icons.refresh),
-              label: Text(kk ? 'Қайталау' : 'Повторить'),
-            ),
-          ],
-        ),
-      ),
-    );
+    return ReadError(onRetry: onRetry, message: message);
   }
 }
