@@ -16,6 +16,7 @@ backend/.env
 .wheel-cache/
 .wheel-core.txt
 .codex-log/
+.wrangler/
 
 # Local data and Blender backups
 *.sqlite

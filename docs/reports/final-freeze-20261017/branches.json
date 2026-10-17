@@ -1,0 +1,859 @@
+{
+  "captured_at_utc": "2026-10-17T17:53:25.242508+00:00",
+  "candidate_before_docs_commit": "0e03c1950382aeb4171365b213bcdd51dcb2fea8",
+  "branches": [
+    {
+      "branch": "assets/venue-models",
+      "sha": "11c4e459732b946d95960dcefbe3b58d43ddba40",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "backend/ai-drafts",
+      "sha": "2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/ai-runtime-diagnostics",
+      "sha": "33cb37a23e5ae1cbde4f43b34d5ecd2629ad32ac",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/bootstrap-api",
+      "sha": "0a78ae06b3a46dbaf379ab1d07dacc74ff7ff6ed",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/canonical-markets",
+      "sha": "f10bed86bdc09ee0d10a86bd402144a9802a9b30",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "backend/customer-ids",
+      "sha": "735145e15d13b7b7bc7022dc79dff2700fb65116",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/customer-post-recovery",
+      "sha": "acce3fd1ac83324cf55a4809d80847e53c950d18",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/integration-readiness",
+      "sha": "95f6087bc85c1a0763101088e6660c70cc4afa75",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/ledger-auth",
+      "sha": "193f6e527d716549d759d805dc4b86db1d9e059e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/livestock",
+      "sha": "4c82fc3f1fb6aa8b9633f4a7b14b5e8632e5dd0e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/openai-drafts",
+      "sha": "cba6b321be8ca27cce9ad8afd93b07c4539c6c60",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "backend/public-localization",
+      "sha": "f2b662f964de133d20faf2d5d5afd8d797ac5ecf",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "deploy-062",
+      "sha": "672731a9ca836782728a9f80493b68996c913adf",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "deploy/permanent-062",
+      "sha": "672731a9ca836782728a9f80493b68996c913adf",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "docs/ai-defense-budget-20",
+      "sha": "62bb02f3d1dd744b14080026de108c5ee2789b3e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "docs/customer-recovery-rollout-062",
+      "sha": "1ba7d406a5c0045de1633bb54bc67c26ae515d88",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "docs/demo-names-ru-kz",
+      "sha": "6e8fc5d56c1daafbedb306df320e32dd3134f623",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "docs/final-defense-live-20261017",
+      "sha": "b5a0d16aaf34be226d34ae044eec26178594059d",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "docs/markets-pages-rollout-20261017",
+      "sha": "80a324207644b797580785b2850757c3e0aaaf1c",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "docs/pitch-readme",
+      "sha": "9261cbaad543352ec3c122a0cd3867616faa1875",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "docs/team-context",
+      "sha": "f548d272e87e5da910a779b44788cbff330ae71f",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/aidana-ai-assistant",
+      "sha": "880d7137f39648f0bbce355369ee3e755d981f02",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/apk-link-050",
+      "sha": "a468dd99237a32161eda22b4adff9bdb0a0fdae4",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/cabinet-catalog-polish",
+      "sha": "d010f5e9d6bc85995ded9201f7817a3debd4ca37",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/fullstack-ready",
+      "sha": "d7acc9c7e7c265c637bedc220ab65423039695f4",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/home-venue-showcase",
+      "sha": "94d173478f2612ceb03d1bc7d44a1b7d03f999f7",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/livestock-price-sources",
+      "sha": "93525baddba583f85e7644f01e09e956496d45b3",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/mal-bazar-concept",
+      "sha": "9b18843edf7f5204bff0ce2776f488f4ddd9e26e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/mobile-demo-price-fixtures",
+      "sha": "568f2c3b80610914b296c987b5dcb9f86d2a2220",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/mobile-hosted-acceptance",
+      "sha": "cbb4d0c3ad71d661d3b9c1391443caf7daa0340c",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/mobile-livestock-api",
+      "sha": "1a93469f26a93fb12b7adb7158a1800009f0d257",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/mobile-native-ai",
+      "sha": "8e7e47528d8e8a722caa16a56b2131eb57e1fc39",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/mobile-native-crm",
+      "sha": "7fe9f73ee16e41f810b35f56ab7953741a60da62",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/mobile-native-parity",
+      "sha": "76476cce6d1fcd4a2c2504a06d7f947b33817664",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/mobile-qadam-shell",
+      "sha": "284cb77a21cb106442bd124ac03fe13e36211bfa",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/public-inquiry-accessibility",
+      "sha": "a3eff47a2f710463a00b5bb010045a91277e8ecf",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/public-inquiry-form",
+      "sha": "0f809e1c8e6368975bebe36aa2481a5c621ce4f0",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/public-polish",
+      "sha": "674e5d7f9678745902fba632e7f03c71618fc5a3",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/public-storefront",
+      "sha": "8818e8b73ecc2e2dd2f517f18796782b10d1872f",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/sale-debts-polish",
+      "sha": "7d84cb6e63d02aa9ef4ad215d67284155bb0d012",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/seller-analytics",
+      "sha": "ce68f01e3fe4a6b9898fd68be8e3ef2e4c467ad1",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/seller-analytics-readability",
+      "sha": "3064294957625d39325bc0fdec4e9576c6e799fe",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/seller-dashboard",
+      "sha": "a77f1a02b240dbf9e8c627937a5cb6445d92fb51",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/seller-design-integration",
+      "sha": "c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/seller-registration-onboarding",
+      "sha": "6f808677c067cc00fb6b6b9eb26384f68c3d1e38",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/shop-page-polish",
+      "sha": "565e17d451b28e5f1b301c8b69e617fa412c094c",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/unified-visual-3d",
+      "sha": "e5ef1de390309630654698f4c2d3981bebdffd35",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/unified-visual-3d-b",
+      "sha": "d91e3a5e1250bc23fc5de9408483352a622e6d3f",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/unified-visual-3d-c",
+      "sha": "1c8756dd2e0ea4e1e6f8206b3ffe8bc72be5635c",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/unified-visual-3d-d",
+      "sha": "3765ddbef123bc5c52bee243e403d15c527b7f26",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "feature/unified-visual-3d-models",
+      "sha": "996a1b49187bbcad570ca566f7330e7eb12ba8a0",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "feature/voice-playback-cancel",
+      "sha": "ae98f263b69cf06466ecc0ddca54f547c7cafb2b",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "fix/ai-draft-flow",
+      "sha": "7c19a22406cb529881789aa72b64a3a95e3f6892",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "fix/analytics-mobile-compact",
+      "sha": "8da93dc48ff998230212be4f31c32944a173f53b",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/customer-post-unknown-result",
+      "sha": "99ed2c03c8c4d75987ad5e41119055c2bb5142c6",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "fix/ios-controls-recording",
+      "sha": "9902a7f56ba16528aaa41ad96894142113e6d48e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/ledger-customer-ids-gated",
+      "sha": "559b4d0e36d60e8cadda46118f8dad1f057c2cab",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/ledger-customer-names-history",
+      "sha": "ae593c15408b05b2d32342900c3ed018739d1565",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/registration-pages-routing",
+      "sha": "4221073ceafe399d70f46c9d8f6997c928b84c8a",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/seller-auth-unicode",
+      "sha": "28960f21e13c9c38077bf68b7bb5449eb9aa824d",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "fix/seller-cabinet-reliability",
+      "sha": "9a3c8687e59d70fa5d4fdbb99695af538a068791",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "fix/seller-customer-recovery-safe",
+      "sha": "2058b914fc084ac1237ac805ce053d6ac9c8ddac",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/seller-sidebar-scroll",
+      "sha": "29b1b65f177e42729f34f7505be69b3725907e2c",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/titles-health-stage",
+      "sha": "f1e4c7157871e05b0e8e972622498374434a5d54",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "fix/voice-playback-lifecycle",
+      "sha": "649bbb303471abe79dd08d61f76bce52ee10e266",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "frontend/aidana-public-showcase",
+      "sha": "7d23500a6e45e71ad19725c322b6bfb1ba243bf0",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "frontend/public-inquiry-safe",
+      "sha": "721da4ea1140086c21fd093219497862eee57836",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "integration/abzal-public-catalog",
+      "sha": "7248bab0fd395c76b48a96549d1ae8a95454eddc",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "integration/customer-ids-history",
+      "sha": "8f1764d37db9464bcd760be8a29c3b4eb93b96c4",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/final-defense-20261017",
+      "sha": "672731a9ca836782728a9f80493b68996c913adf",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/latest-visible-release",
+      "sha": "abaee73901db39f54c838a5af3be83ed7d48f068",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "integration/livestock-https",
+      "sha": "ca51bbf9bcf1a5e5379b7b8ced147e4114e01434",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/local-combined-check",
+      "sha": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/main-release-20261017",
+      "sha": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/models-render-062",
+      "sha": "5118fd1e8afdaa87bb0da2abdac5a5b83b389be5",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/openai-recovery-062",
+      "sha": "4e983b42a2a0466d2fc07e4de09becf87a8ef7d5",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/public-inquiry-release",
+      "sha": "b2bafd01a0a40b307ff9ebd9a351ef2ccdc74da3",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "integration/recovery-polish-062",
+      "sha": "beb0fe17f399685607766844412fe810e4ab620e",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "integration/seller-analytics-061",
+      "sha": "13248851fd2b2a502aff211a506f71e85c2b0ab1",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/seller-registration-deploy-review",
+      "sha": "2b3c3741b633bb790c90ec0406a5016aca9a9f13",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/team-final-20261017",
+      "sha": "8fa0029a847895a2b968592fb6ab5b8cc39ee0a1",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/team-mobile",
+      "sha": "f240b278f292e40f8033db6526fd0161e035cd96",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/team-mvp",
+      "sha": "3d009dc86c93debcab05dedda530b7d1fe62a304",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/team-update-20261017",
+      "sha": "9845b91b64d388c54312d2a8a75000218c7774af",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/unified-web-062",
+      "sha": "cacf57af242c632f31f3e292d22d0c3078fe46da",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "integration/voice-preview-061",
+      "sha": "0737439915c17e8d8f20cddcbe9e75bebede9b46",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "main",
+      "sha": "672731a9ca836782728a9f80493b68996c913adf",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "review/cloudflare-acceptance",
+      "sha": "ef78aa0e9f19f1675927c866e2dc51d6eef3e43e",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "review/flutter-050-visual",
+      "sha": "31e9327e531aa2d248167d3deb1396c5951afa9f",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "review/flutter-051-recheck",
+      "sha": "3fddae40f3cbf1503e4853c130f909352630ee3b",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "review/hosting-acceptance-062",
+      "sha": "6ab0c11093aa20656e600342b589b02fc8a6c959",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "review/models-production-062",
+      "sha": "8be10b3cba7b320fbf1e57d78cd8f501312761da",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "review/render-diagnostic-20261017",
+      "sha": "ce9e25090566dbb668a2ab378ee23cddde51b51e",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "rollback/markets-guard-20261017",
+      "sha": "7cb90401c4a8f9a3252ea6d1f8d3d038e52e9384",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "test/mobile-microphone-acceptance",
+      "sha": "39a730e63e43bb8487ed2f9afb1ead7762737314",
+      "ancestor_of_candidate": false
+    },
+    {
+      "branch": "test/seller-regression",
+      "sha": "abee31fd5a1be2c2be06e3132fe7f42c90adac5d",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "test/voice-acceptance-analytics-cards",
+      "sha": "88a80da09661d7efb8b053c1cde11563408a73d7",
+      "ancestor_of_candidate": true
+    },
+    {
+      "branch": "test/voice-integration-acceptance",
+      "sha": "5591e057b4e137bd3e1d7137d607d3e1b8331825",
+      "ancestor_of_candidate": false
+    }
+  ],
+  "open_prs": [
+    {
+      "number": 81,
+      "title": "docs: README по фактам и материалы защиты",
+      "draft": false,
+      "head": "docs/pitch-readme",
+      "sha": "9261cbaad543352ec3c122a0cd3867616faa1875",
+      "base": "main",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-17T17:27:37Z"
+    },
+    {
+      "number": 43,
+      "title": "feat(auth): registration callback for Cloudflare Pages",
+      "draft": true,
+      "head": "integration/seller-registration-deploy-review",
+      "sha": "2b3c3741b633bb790c90ec0406a5016aca9a9f13",
+      "base": "main",
+      "author": "bekzatwr",
+      "updated": "2026-10-17T17:03:35Z"
+    },
+    {
+      "number": 80,
+      "title": "Feature/mobile demo price fixtures",
+      "draft": false,
+      "head": "feature/mobile-demo-price-fixtures",
+      "sha": "568f2c3b80610914b296c987b5dcb9f86d2a2220",
+      "base": "feature/mobile-native-parity",
+      "author": "gulnur0505",
+      "updated": "2026-10-17T16:39:45Z"
+    },
+    {
+      "number": 77,
+      "title": "docs: AI defense budget $20 and one hosted text acceptance",
+      "draft": true,
+      "head": "docs/ai-defense-budget-20",
+      "sha": "62bb02f3d1dd744b14080026de108c5ee2789b3e",
+      "base": "main",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-17T16:26:22Z"
+    },
+    {
+      "number": 60,
+      "title": "feat(mobile): native Qadam parity and review #68 fixes — APK 0.5.2",
+      "draft": true,
+      "head": "feature/mobile-native-parity",
+      "sha": "76476cce6d1fcd4a2c2504a06d7f947b33817664",
+      "base": "main",
+      "author": "bltangenss",
+      "updated": "2026-10-17T16:20:37Z"
+    },
+    {
+      "number": 72,
+      "title": "feat(api): canonical livestock markets and safe market filtering",
+      "draft": true,
+      "head": "backend/canonical-markets",
+      "sha": "f10bed86bdc09ee0d10a86bd402144a9802a9b30",
+      "base": "backend/public-localization",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-17T15:48:56Z"
+    },
+    {
+      "number": 75,
+      "title": "feat(web): ссылка на тестовую Android-сборку в разделе Мал базара (не выпускать до Android-приёмки)",
+      "draft": true,
+      "head": "feature/apk-link-050",
+      "sha": "a468dd99237a32161eda22b4adff9bdb0a0fdae4",
+      "base": "deploy-062",
+      "author": "ab0ka",
+      "updated": "2026-10-17T15:47:44Z"
+    },
+    {
+      "number": 65,
+      "title": "fix(ledger): resolve names beyond 50 using gated customer ids contract",
+      "draft": true,
+      "head": "fix/ledger-customer-ids-gated",
+      "sha": "559b4d0e36d60e8cadda46118f8dad1f057c2cab",
+      "base": "fix/ledger-customer-names-history",
+      "author": "sarsenbaevaaidana07",
+      "updated": "2026-10-17T13:57:22Z"
+    },
+    {
+      "number": 48,
+      "title": "Feature/public inquiry form",
+      "draft": false,
+      "head": "feature/public-inquiry-form",
+      "sha": "0f809e1c8e6368975bebe36aa2481a5c621ce4f0",
+      "base": "main",
+      "author": "gulnur0505",
+      "updated": "2026-10-17T13:24:09Z"
+    },
+    {
+      "number": 46,
+      "title": "feat(inquiry): scoped RU/KZ form with confirmed receipt and explicit retry",
+      "draft": true,
+      "head": "frontend/public-inquiry-safe",
+      "sha": "721da4ea1140086c21fd093219497862eee57836",
+      "base": "main",
+      "author": "sarsenbaevaaidana07",
+      "updated": "2026-10-17T09:37:50Z"
+    },
+    {
+      "number": 25,
+      "title": "feat(mobile): единая оболочка Qadam и HTTPS-кабинет",
+      "draft": true,
+      "head": "feature/mobile-qadam-shell",
+      "sha": "284cb77a21cb106442bd124ac03fe13e36211bfa",
+      "base": "feature/mobile-livestock-api",
+      "author": "bltangenss",
+      "updated": "2026-10-17T09:14:51Z"
+    },
+    {
+      "number": 31,
+      "title": "feat(auth): implement approved seller registration and confirmation UI",
+      "draft": true,
+      "head": "feature/seller-registration-onboarding",
+      "sha": "6f808677c067cc00fb6b6b9eb26384f68c3d1e38",
+      "base": "integration/voice-preview-061",
+      "author": "bekzatwr",
+      "updated": "2026-10-17T03:34:34Z"
+    },
+    {
+      "number": 39,
+      "title": "docs: production models acceptance; block unsafe customer recovery",
+      "draft": true,
+      "head": "review/models-production-062",
+      "sha": "8be10b3cba7b320fbf1e57d78cd8f501312761da",
+      "base": "integration/models-render-062",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T19:28:22Z"
+    },
+    {
+      "number": 38,
+      "title": "Integration: PR36 models on accepted Render 0.6.2 diagnostics",
+      "draft": true,
+      "head": "integration/models-render-062",
+      "sha": "5118fd1e8afdaa87bb0da2abdac5a5b83b389be5",
+      "base": "review/hosting-acceptance-062",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T19:07:32Z"
+    },
+    {
+      "number": 32,
+      "title": "fix(ai): restore clarification and safe draft recovery in shared app",
+      "draft": true,
+      "head": "fix/ai-draft-flow",
+      "sha": "7c19a22406cb529881789aa72b64a3a95e3f6892",
+      "base": "fix/voice-playback-lifecycle",
+      "author": "sarsenbaevaaidana07",
+      "updated": "2026-10-16T16:54:49Z"
+    },
+    {
+      "number": 35,
+      "title": "Integration: unified design and AI clarification on API 0.6.2 (review build)",
+      "draft": true,
+      "head": "integration/unified-web-062",
+      "sha": "cacf57af242c632f31f3e292d22d0c3078fe46da",
+      "base": "integration/openai-recovery-062",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T16:47:38Z"
+    },
+    {
+      "number": 19,
+      "title": "docs(seller): propose customer POST unknown-result recovery",
+      "draft": true,
+      "head": "fix/customer-post-unknown-result",
+      "sha": "99ed2c03c8c4d75987ad5e41119055c2bb5142c6",
+      "base": "integration/local-combined-check",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T16:10:26Z"
+    },
+    {
+      "number": 22,
+      "title": "feat(api): atomic customer creation and lost-response recovery",
+      "draft": true,
+      "head": "backend/customer-post-recovery",
+      "sha": "acce3fd1ac83324cf55a4809d80847e53c950d18",
+      "base": "integration/seller-analytics-061",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T16:10:24Z"
+    },
+    {
+      "number": 34,
+      "title": "docs: API 0.6.2 rollout — backup, live acceptance, current Flutter URLs",
+      "draft": true,
+      "head": "docs/customer-recovery-rollout-062",
+      "sha": "1ba7d406a5c0045de1633bb54bc67c26ae515d88",
+      "base": "integration/openai-recovery-062",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T16:10:22Z"
+    },
+    {
+      "number": 33,
+      "title": "Add server OpenAI draft adapter with bounded fallback and live evaluation",
+      "draft": true,
+      "head": "backend/openai-drafts",
+      "sha": "cba6b321be8ca27cce9ad8afd93b07c4539c6c60",
+      "base": "backend/ai-runtime-diagnostics",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T15:44:25Z"
+    },
+    {
+      "number": 23,
+      "title": "fix(voice): playback/cancel and lifecycle in shared apps/web",
+      "draft": true,
+      "head": "fix/voice-playback-lifecycle",
+      "sha": "649bbb303471abe79dd08d61f76bce52ee10e266",
+      "base": "integration/seller-analytics-061",
+      "author": "sarsenbaevaaidana07",
+      "updated": "2026-10-16T14:45:44Z"
+    },
+    {
+      "number": 18,
+      "title": "Integrate Seller Analytics with verified API 0.6.1",
+      "draft": true,
+      "head": "integration/seller-analytics-061",
+      "sha": "13248851fd2b2a502aff211a506f71e85c2b0ab1",
+      "base": "integration/livestock-https",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T14:45:42Z"
+    },
+    {
+      "number": 28,
+      "title": "test(voice): verify approved playback integration on API 0.6.1",
+      "draft": true,
+      "head": "test/voice-integration-acceptance",
+      "sha": "5591e057b4e137bd3e1d7137d607d3e1b8331825",
+      "base": "integration/seller-analytics-061",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T14:08:03Z"
+    },
+    {
+      "number": 16,
+      "title": "feat(seller): add live shop analytics and explicit Demo",
+      "draft": true,
+      "head": "feature/seller-analytics",
+      "sha": "ce68f01e3fe4a6b9898fd68be8e3ef2e4c467ad1",
+      "base": "integration/local-combined-check",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T14:04:32Z"
+    },
+    {
+      "number": 21,
+      "title": "test(voice): add playback/cancel acceptance and owner review",
+      "draft": true,
+      "head": "feature/voice-playback-cancel",
+      "sha": "ae98f263b69cf06466ecc0ddca54f547c7cafb2b",
+      "base": "integration/local-combined-check",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T13:14:30Z"
+    },
+    {
+      "number": 20,
+      "title": "test(voice): prepare mobile microphone acceptance",
+      "draft": true,
+      "head": "test/mobile-microphone-acceptance",
+      "sha": "39a730e63e43bb8487ed2f9afb1ead7762737314",
+      "base": "integration/local-combined-check",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T13:14:29Z"
+    },
+    {
+      "number": 15,
+      "title": "feat(mobile): add livestock Android client and prepare iPhone support",
+      "draft": true,
+      "head": "feature/mobile-livestock-api",
+      "sha": "1a93469f26a93fb12b7adb7158a1800009f0d257",
+      "base": "backend/livestock",
+      "author": "bltangenss",
+      "updated": "2026-10-16T12:47:29Z"
+    },
+    {
+      "number": 17,
+      "title": "Integrate livestock markets and verified HTTPS access for Flutter",
+      "draft": true,
+      "head": "integration/livestock-https",
+      "sha": "ca51bbf9bcf1a5e5379b7b8ced147e4114e01434",
+      "base": "integration/local-combined-check",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T11:55:45Z"
+    },
+    {
+      "number": 13,
+      "title": "Combined Qadam: live acceptance, HTTP Storage and ledger analytics",
+      "draft": true,
+      "head": "integration/local-combined-check",
+      "sha": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "base": "backend/livestock",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T10:32:16Z"
+    },
+    {
+      "number": 10,
+      "title": "Add JWT-owned livestock catalog, availability and private photo adapter",
+      "draft": true,
+      "head": "backend/livestock",
+      "sha": "4c82fc3f1fb6aa8b9633f4a7b14b5e8632e5dd0e",
+      "base": "integration/team-mobile",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T09:13:51Z"
+    },
+    {
+      "number": 6,
+      "title": "Refine Taraz venue models from exterior references",
+      "draft": true,
+      "head": "assets/venue-models",
+      "sha": "11c4e459732b946d95960dcefbe3b58d43ddba40",
+      "base": "main",
+      "author": "bltangenss",
+      "updated": "2026-10-16T09:00:43Z"
+    },
+    {
+      "number": 14,
+      "title": "fix(seller): isolate auth sessions and validate Unicode lengths",
+      "draft": true,
+      "head": "fix/seller-auth-unicode",
+      "sha": "28960f21e13c9c38077bf68b7bb5449eb9aa824d",
+      "base": "integration/team-mvp",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T07:51:28Z"
+    },
+    {
+      "number": 12,
+      "title": "test(seller): auth, API and regression coverage",
+      "draft": true,
+      "head": "test/seller-regression",
+      "sha": "abee31fd5a1be2c2be06e3132fe7f42c90adac5d",
+      "base": "feature/seller-dashboard",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T07:14:43Z"
+    },
+    {
+      "number": 11,
+      "title": "feat(seller): integrate merchant redesign into team MVP",
+      "draft": true,
+      "head": "feature/seller-design-integration",
+      "sha": "c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b",
+      "base": "integration/team-mvp",
+      "author": "bekzatwr",
+      "updated": "2026-10-16T06:34:40Z"
+    },
+    {
+      "number": 9,
+      "title": "Refresh integrated venues and storefront; publish Flutter contract",
+      "draft": true,
+      "head": "integration/team-mobile",
+      "sha": "f240b278f292e40f8033db6526fd0161e035cd96",
+      "base": "integration/team-mvp",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-16T06:20:09Z"
+    },
+    {
+      "number": 5,
+      "title": "feat(api): integrate Gemini drafts with authenticated ledger",
+      "draft": false,
+      "head": "backend/ai-drafts",
+      "sha": "2d2fc56bc5a9c9cf2153b8285f166f7150d0bd4c",
+      "base": "backend/ledger-auth",
+      "author": "foxfordkz-cyber",
+      "updated": "2026-10-15T16:33:01Z"
+    }
+  ],
+  "note": "Ancestry is not a complete semantic diff; cherry-picks may contain code from non-ancestor branches."
+}
