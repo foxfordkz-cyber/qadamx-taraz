@@ -1,3 +1,4 @@
+import 'qadam_name.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -204,7 +205,7 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
         leading: MediaQuery.textScalerOf(context).scale(14) <= 18.2
             ? const Icon(Icons.storefront_outlined)
             : null,
-        title: Text(
+        title: QadamName(
           access.selected?.name ?? tr(kk, 'Выберите точку', 'Нүктені таңдаңыз'),
           style: Theme.of(context).textTheme.titleMedium,
         ),
@@ -213,7 +214,7 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
           for (final business in access.businesses)
             ListTile(
               key: ValueKey('business-${business.id}'),
-              title: Text(business.name),
+              title: QadamName(business.name),
               selected: access.selectedId == business.id,
               leading: Icon(
                 access.selectedId == business.id

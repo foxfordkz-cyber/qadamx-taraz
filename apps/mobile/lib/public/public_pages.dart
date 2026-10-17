@@ -9,6 +9,7 @@ import '../ui/common.dart' show tr, Notice, ReadError;
 import '../ui/language.dart';
 import '../ui/qadam_theme.dart';
 import '../ui/qadam_badge.dart';
+import '../ui/qadam_name.dart';
 import '../ui/qadam_components.dart';
 import 'inquiry_service.dart';
 import 'venue_assets.dart';
@@ -590,7 +591,7 @@ class _VenuePageState extends State<VenuePage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            QadamName(
                               b['name'] as String,
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
@@ -700,7 +701,10 @@ class _PublicShopPageState extends State<PublicShopPage> {
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(b['name'] as String, style: QadamTheme.heading(context)),
+                QadamName(
+                  b['name'] as String,
+                  style: QadamTheme.heading(context),
+                ),
                 const SizedBox(height: 8),
                 if (widget.venue != null)
                   Text(
