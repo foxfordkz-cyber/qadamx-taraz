@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'language.dart';
 
 import '../business_access.dart';
 import '../crm/crm_dashboard.dart';
@@ -38,7 +39,7 @@ class QadamShell extends StatefulWidget {
 class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
   late final BusinessAccess access;
   bool _signingOut = false;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   MobileRuntime get runtime => widget.runtime;
 
   @override
@@ -188,45 +189,34 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
         ),
       ]);
     }
-    return _card([
-      _title('Ваши торговые точки', 'Сіздің сауда нүктелеріңіз'),
-      Text(
-        access.selected == null
-            ? tr(
-                kk,
-                'Выберите активную точку в приложении.',
-                'Қолданбадағы белсенді нүктені таңдаңыз.',
-              )
-            : tr(
-                kk,
-                'Активная точка: ${access.selected!.name}',
-                'Белсенді нүкте: ${access.selected!.name}',
+    return Card(
+      child: ExpansionTile(
+        key: ValueKey('point-selector-${access.selectedId}'),
+        initiallyExpanded: access.selected == null,
+        leading: const Icon(Icons.storefront_outlined),
+        title: Text(
+          access.selected?.name ?? tr(kk, 'Выберите точку', 'Нүктені таңдаңыз'),
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        subtitle: Text(
+          tr(kk, 'Сменить торговую точку', 'Сауда нүктесін ауыстыру'),
+        ),
+        children: [
+          for (final business in access.businesses)
+            ListTile(
+              key: ValueKey('business-${business.id}'),
+              title: Text(business.name),
+              selected: access.selectedId == business.id,
+              leading: Icon(
+                access.selectedId == business.id
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
               ),
+              onTap: () => access.select(business.id),
+            ),
+        ],
       ),
-      _gap(),
-      for (final business in access.businesses)
-        ListTile(
-          key: ValueKey('business-${business.id}'),
-          contentPadding: EdgeInsets.zero,
-          title: Text(business.name),
-          subtitle: Text(tr(kk, 'Владелец', 'Иесі')),
-          selected: access.selectedId == business.id,
-          leading: Icon(
-            access.selectedId == business.id
-                ? Icons.radio_button_checked
-                : Icons.radio_button_off,
-          ),
-          onTap: () => access.select(business.id),
-        ),
-      Text(
-        tr(
-          kk,
-          'Все операции выполняются для выбранной точки.',
-          'Барлық әрекет таңдалған нүкте үшін орындалады.',
-        ),
-        style: Theme.of(context).textTheme.bodySmall,
-      ),
-    ]);
+    );
   }
 
   Future<void> _logout() async {
@@ -271,6 +261,7 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
               ? [
                   _card([
                     _title('Qadam', 'Qadam'),
+                    const Text('0.5.0+9'),
                     if (runtime.accountEmail != null)
                       Text(runtime.accountEmail!),
                     Text(
@@ -344,10 +335,11 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
       ],
     ),
     bottomNavigationBar: NavigationBar(
-      selectedIndex: widget.section,
+      selectedIndex: const [0, 1, 3, 2].indexOf(widget.section),
       onDestinationSelected: (index) {
-        widget.onSection(index);
-        if (index == 0) unawaited(access.refresh());
+        final section = const [0, 1, 3, 2][index];
+        widget.onSection(section);
+        if (section == 0) unawaited(access.refresh());
       },
       destinations: [
         NavigationDestination(
@@ -363,16 +355,16 @@ class _QadamShellState extends State<QadamShell> with WidgetsBindingObserver {
           label: 'Мал базар',
         ),
         NavigationDestination(
-          key: const Key('nav-profile'),
-          icon: const Icon(Icons.person_outline),
-          selectedIcon: const Icon(Icons.person),
-          label: tr(kk, 'Профиль', 'Профиль'),
-        ),
-        NavigationDestination(
           key: const Key('nav-public'),
           icon: const Icon(Icons.map_outlined),
           selectedIcon: const Icon(Icons.map),
           label: tr(kk, 'Площадки', 'Алаңдар'),
+        ),
+        NavigationDestination(
+          key: const Key('nav-profile'),
+          icon: const Icon(Icons.person_outline),
+          selectedIcon: const Icon(Icons.person),
+          label: tr(kk, 'Профиль', 'Профиль'),
         ),
       ],
     ),

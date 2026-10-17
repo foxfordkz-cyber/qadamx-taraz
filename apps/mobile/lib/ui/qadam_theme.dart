@@ -1,72 +1,149 @@
 import 'package:flutter/material.dart';
 
-/// Existing Qadam mobile styling, centralized for the team's next design pass.
+/// Mobile projection of apps/web/src/shared/tokens.css. No runtime font fetch.
 class QadamTheme {
   QadamTheme._();
-  static const double gap = 12;
-  static const double pagePadding = 16;
-  static const appTitle = TextStyle(fontWeight: FontWeight.w800);
-  static const pageTitle = TextStyle(fontSize: 30, fontWeight: FontWeight.w800);
+  static const double gap = 12, pagePadding = 16;
+  static const paper = Color(0xfff5f3eb), ink = Color(0xff172a26);
+  static const green = Color(0xff164c3e), lime = Color(0xffd7f36a);
+  static const surface = Color(0xfffffefa), line = Color(0xffe1e2d8);
+  static const muted = Color(0xff58685f), soft = Color(0xffeaf0e5);
+  static const danger = Color(0xff9d2f1c);
+  static const noticeError = Color(0xfffbe7e0);
+  static const noticeInfo = Color(0xffe1eef1);
+  static const appTitle = TextStyle(fontSize: 22, fontWeight: FontWeight.w800);
+  static const pageTitle = TextStyle(fontSize: 28, fontWeight: FontWeight.w800);
   static const noticeText = TextStyle(height: 1.4);
-  static const noticeError = Color(0xffffeae4);
-  static const noticeInfo = Color(0xffeef1e7);
-  // Body typography follows Material's platform font and system text scaling.
-  static ThemeData get light => ThemeData(
-    useMaterial3: true,
-    brightness: Brightness.light,
-    scaffoldBackgroundColor: const Color(0xfff7f7ef),
-    colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xff68871e))
-        .copyWith(
-          primary: const Color(0xff26371a),
-          onPrimary: Colors.white,
-          primaryContainer: const Color(0xffd5f577),
-          onPrimaryContainer: const Color(0xff172112),
-          surface: const Color(0xfffffff9),
-          onSurface: const Color(0xff20271d),
+  static ThemeData get light {
+    final base = ThemeData(
+      useMaterial3: true,
+      fontFamily: 'Manrope',
+      fontFamilyFallback: const ['QadamKazakhExt', 'QadamKazakh'],
+      colorScheme: ColorScheme.fromSeed(seedColor: green).copyWith(
+        primary: green,
+        onPrimary: surface,
+        primaryContainer: lime,
+        onPrimaryContainer: ink,
+        secondary: green,
+        secondaryContainer: soft,
+        onSecondaryContainer: ink,
+        surface: surface,
+        onSurface: ink,
+        onSurfaceVariant: muted,
+        outline: line,
+        outlineVariant: line,
+        error: danger,
+        errorContainer: noticeError,
+      ),
+    );
+    return base.copyWith(
+      scaffoldBackgroundColor: paper,
+      textTheme: base.textTheme.copyWith(
+        headlineSmall: base.textTheme.headlineSmall!.copyWith(
+          fontSize: 28,
+          fontWeight: FontWeight.w800,
+          height: 1.18,
         ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: Color(0xfff7f7ef),
-      surfaceTintColor: Colors.transparent,
-    ),
-    cardTheme: const CardThemeData(
-      elevation: 0,
-      color: Color(0xfffffff9),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(24)),
+        titleLarge: base.textTheme.titleLarge!.copyWith(
+          fontSize: 22,
+          fontWeight: FontWeight.w800,
+          height: 1.25,
+        ),
+        titleMedium: base.textTheme.titleMedium!.copyWith(
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+          height: 1.35,
+        ),
+        bodyLarge: base.textTheme.bodyLarge!.copyWith(
+          fontSize: 16,
+          height: 1.45,
+        ),
+        bodyMedium: base.textTheme.bodyMedium!.copyWith(
+          fontSize: 14,
+          height: 1.45,
+        ),
+        bodySmall: base.textTheme.bodySmall!.copyWith(
+          fontSize: 12,
+          height: 1.4,
+          color: muted,
+        ),
+        labelLarge: base.textTheme.labelLarge!.copyWith(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+        ),
       ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: Colors.white,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 17),
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: Color(0xffdce0d2)),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: paper,
+        surfaceTintColor: Colors.transparent,
+        titleTextStyle: TextStyle(
+          fontFamily: 'Manrope',
+          fontFamilyFallback: ['QadamKazakhExt', 'QadamKazakh'],
+          color: ink,
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+        ),
       ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: const BorderSide(color: Color(0xffdce0d2)),
+      cardTheme: const CardThemeData(
+        elevation: 0,
+        color: surface,
+        margin: EdgeInsets.only(bottom: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          side: BorderSide(color: line),
+        ),
       ),
-    ),
-    filledButtonTheme: FilledButtonThemeData(
-      style: FilledButton.styleFrom(
-        minimumSize: const Size(48, 52),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: surface,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 14,
+        ),
+        errorMaxLines: 3,
+        helperMaxLines: 4,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: line),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: const BorderSide(color: line),
+        ),
       ),
-    ),
-    outlinedButtonTheme: OutlinedButtonThemeData(
-      style: OutlinedButton.styleFrom(
-        minimumSize: const Size(48, 50),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          minimumSize: const Size(48, 48),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
       ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
-    ),
-    navigationBarTheme: const NavigationBarThemeData(
-      backgroundColor: Color(0xfffffff9),
-      indicatorColor: Color(0xffd5f577),
-      height: 76,
-    ),
-  );
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(48, 48),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          side: const BorderSide(color: line),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(minimumSize: const Size(48, 48)),
+      ),
+      chipTheme: base.chipTheme.copyWith(
+        side: const BorderSide(color: line),
+        backgroundColor: surface,
+        selectedColor: lime,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      ),
+      navigationBarTheme: const NavigationBarThemeData(
+        backgroundColor: surface,
+        indicatorColor: lime,
+        height: 80,
+      ),
+      dividerTheme: const DividerThemeData(color: line, space: 24),
+    );
+  }
 }

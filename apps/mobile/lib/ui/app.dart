@@ -8,6 +8,7 @@ import '../runtime.dart';
 import '../frontend_links.dart';
 import 'qadam_shell.dart';
 import 'qadam_theme.dart';
+import 'language.dart';
 import 'common.dart';
 import 'listing_form.dart';
 
@@ -59,6 +60,11 @@ class _MobileAppState extends State<MobileApp> {
     supportedLocales: const [Locale('ru'), Locale('kk')],
     localizationsDelegates: GlobalMaterialLocalizations.delegates,
     theme: QadamTheme.light,
+    builder: (context, child) => QadamLanguage(
+      kk: _kk,
+      toggle: () => setState(() => _kk = !_kk),
+      child: child!,
+    ),
     home: QadamShell(
       runtime: widget.runtime,
       kk: _kk,
@@ -98,7 +104,7 @@ class _HomeState extends State<_Home> with WidgetsBindingObserver {
   bool _openingDetail = false;
   Object? _pendingError;
   Timer? _timer;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   MobileRuntime get runtime => widget.runtime;
   @override
   void initState() {
@@ -536,7 +542,7 @@ class _ListingsState extends State<_Listings> {
   bool _loading = true;
   Object? _error;
   int _request = 0;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   @override
   void initState() {
     super.initState();
@@ -802,7 +808,7 @@ class _StatisticsState extends State<_Statistics> {
   Object? _error;
   bool _loading = false;
   int _request = 0;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   @override
   void didUpdateWidget(covariant _Statistics oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -1057,7 +1063,7 @@ class _DetailState extends State<_Detail> with WidgetsBindingObserver {
   bool _busy = false;
   Timer? _timer;
   int _request = 0;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   LivestockApi get api => widget.runtime.api!;
   @override
   void initState() {
@@ -1206,7 +1212,7 @@ class _DetailState extends State<_Detail> with WidgetsBindingObserver {
     final item = _item;
     final photos = (item?['photos'] as List? ?? []).cast<Json>();
     return Scaffold(
-      appBar: AppBar(title: Text(tr(kk, 'Объявление', 'Хабарландыру'))),
+      appBar: AppBar(title: Text(tr(kk, 'Объявление', 'Хабарландыру')), actions: const [LanguageAction()]),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
@@ -1459,7 +1465,7 @@ class _LoginState extends State<_Login> {
   bool _busy = false;
   bool _hidden = true;
   bool _failed = false;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   @override
   void dispose() {
     _password.clear();
@@ -1490,7 +1496,7 @@ class _LoginState extends State<_Login> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: Text(tr(kk, 'Вход', 'Кіру'))),
+    appBar: AppBar(title: Text(tr(kk, 'Вход', 'Кіру')), actions: const [LanguageAction()]),
     body: SafeArea(
       child: Form(
         key: _form,

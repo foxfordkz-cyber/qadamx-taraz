@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../ui/language.dart';
 
 import '../data/api_failure.dart';
 import '../runtime.dart';
@@ -102,7 +103,7 @@ abstract class CrmScreen extends StatefulWidget {
 abstract class CrmScreenState<T extends CrmScreen> extends State<T> {
   late final CrmApi api;
   late final CrmScope scope;
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   bool get active => mounted && api.current(scope);
   @override
   void initState() {
@@ -131,7 +132,10 @@ abstract class CrmScreenState<T extends CrmScreen> extends State<T> {
           ),
         );
   Widget page(String ru, String kz, Widget body) => Scaffold(
-    appBar: AppBar(title: Text(tr(kk, ru, kz))),
+    appBar: AppBar(
+      title: Text(tr(kk, ru, kz)),
+      actions: const [LanguageAction()],
+    ),
     body: SafeArea(child: guarded(body)),
   );
 }
@@ -172,7 +176,7 @@ class _CrmWritePanelState extends State<CrmWritePanel> {
   bool unavailable = false;
   bool notObserved = false;
   bool get valid => mounted && widget.api.current(widget.scope);
-  bool get kk => widget.kk;
+  bool get kk => qadamKk(context);
   @override
   void initState() {
     super.initState();

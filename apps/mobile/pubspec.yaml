@@ -1,7 +1,7 @@
 name: qadam_mobile
 description: Qadam — мой бизнес, Мал базар и общий Supabase Auth.
 publish_to: none
-version: 0.4.0+8
+version: 0.5.0+9
 environment:
   sdk: '>=3.11.0 <4.0.0'
 dependencies:
@@ -30,6 +30,16 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-Variable.ttf
+    - family: QadamKazakhExt
+      fonts:
+        - asset: assets/fonts/NotoSans-CyrillicExt.ttf
+    - family: QadamKazakh
+      fonts:
+        - asset: assets/fonts/NotoSans-Cyrillic.ttf
   assets:
     - assets/venues/
     - assets/venues/models/
