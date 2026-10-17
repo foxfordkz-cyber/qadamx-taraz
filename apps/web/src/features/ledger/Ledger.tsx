@@ -13,7 +13,7 @@ import {
   PageHeader,
   Spinner,
 } from "../../shared/ui";
-import { useCustomers } from "../seller/queries";
+import { useLedgerCustomers } from "./customers";
 import { useSummary } from "../summary/Summary";
 import { formatKZT } from "../../shared/format";
 import { useLedgerList, useWrite, type Operation, type Sale } from "./data";
@@ -28,14 +28,14 @@ export function Debts() {
   if (customerId) params.set("customer_id", customerId);
   const q = useLedgerList<Sale>(params.toString());
   // Names only decorate rows; the debt list never waits for or depends on them.
-  const customers = useCustomers("");
-  const known = new Map(
-    customers.data?.pages.flatMap((p) => p.items).map((c) => [c.id, c]) ?? [],
-  );
   const rows = q.data?.pages.flatMap((p) => p.items) ?? [];
+  const known = useLedgerCustomers([
+    ...rows.map((row) => row.customer_id),
+    customerId,
+  ]);
   // Totals come from the server: the day summary, or the customer's own balance.
   const summary = useSummary();
-  const filtered = customerId ? known.get(customerId) : undefined;
+  const filtered = customerId ? known.get(customerId.toLowerCase()) : undefined;
   const total = customerId ? filtered?.balance_minor : summary.data?.balance;
   return (
     <>
@@ -75,7 +75,8 @@ export function Debts() {
               <div className="debt-main">
                 <h2>
                   {s.customer_id
-                    ? (known.get(s.customer_id)?.display_name ?? l("customer"))
+                    ? (known.get(s.customer_id.toLowerCase())?.display_name ??
+                      l("customerUnavailable"))
                     : l("noCustomer")}
                 </h2>
                 <p>
@@ -120,12 +121,7 @@ export function History() {
     write = useWrite();
   const rows = q.data?.pages.flatMap((p) => p.items) ?? [];
   // Names only decorate rows, as on "Мне должны".
-  const customers = useCustomers("");
-  const names = new Map(
-    customers.data?.pages
-      .flatMap((p) => p.items)
-      .map((c) => [c.id, c.display_name]) ?? [],
-  );
+  const known = useLedgerCustomers(rows.map((row) => row.customer_id));
   const kindLabel = {
     sale: l("sell"),
     repayment: l("repay"),
@@ -159,8 +155,11 @@ export function History() {
               <p>
                 <Badge tone={kindTone[o.kind]}>{kindLabel[o.kind]}</Badge>
                 <span>{operationTime(o.created_at)}</span>
-                {o.customer_id && names.get(o.customer_id) && (
-                  <span>{names.get(o.customer_id)}</span>
+                {o.customer_id && (
+                  <span>
+                    {known.get(o.customer_id.toLowerCase())?.display_name ??
+                      l("customerUnavailable")}
+                  </span>
                 )}
               </p>
             </div>

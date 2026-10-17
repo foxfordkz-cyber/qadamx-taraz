@@ -60,6 +60,73 @@ function operation() {
   };
 }
 
+for (const path of [
+  "/seller/debts",
+  "/seller/history",
+  "/seller/debts?customer_id=20000000-0000-4000-8000-000000000051",
+]) {
+  test(`customer beyond 50 survives direct URL and reload: ${path}`, async ({
+    page,
+  }) => {
+    const { state, services } = await setup(page);
+    const customerId = "20000000-0000-4000-8000-000000000051";
+    const lookups: string[][] = [];
+    await page.route("**/api/v1/businesses/*/customers?*", (route) => {
+      const query = new URL(route.request().url()).searchParams;
+      expect([...query.keys()]).toEqual(["ids"]);
+      expect(query.getAll("ids")).toEqual([customerId]);
+      lookups.push(query.getAll("ids"));
+      return route.fulfill({
+        json: {
+          items: [
+            {
+              id: customerId,
+              business_id: qaIds.shopA,
+              display_name: "Учебный клиент 51",
+              balance_minor: 630000,
+              note: "",
+              contact: null,
+            },
+          ],
+          next_cursor: null,
+        },
+      });
+    });
+    state.items = [{ ...operation(), customer_id: customerId }];
+    if (path.includes("debts"))
+      await page.route("**/api/v1/businesses/*/operations?*", (route) =>
+        route.fulfill({
+          json: {
+            items: [
+              {
+                id: operation().sale_id,
+                customer_id: customerId,
+                description: "Учебный долг",
+                total_minor: 450000,
+                received_minor: 200000,
+                balance_minor: 250000,
+                created_at: operation().created_at,
+              },
+            ],
+            next_cursor: null,
+          },
+        }),
+      );
+    await page.goto(path);
+    await expect(
+      page.getByText("Учебный клиент 51", { exact: true }),
+    ).toBeVisible();
+    await page.reload();
+    await expect(
+      page.getByText("Учебный клиент 51", { exact: true }),
+    ).toBeVisible();
+    expect(lookups.length).toBeGreaterThanOrEqual(2);
+    if (path.includes("customer_id"))
+      await expect(page.locator(".debt-total")).toContainText("6 300 ₸");
+    expect(services.unexpected).toEqual([]);
+  });
+}
+
 test("initial loading, successful empty and reload on mobile", async ({
   page,
 }, info) => {

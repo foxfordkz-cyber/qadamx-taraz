@@ -1,5 +1,9 @@
 import { ApiError, type ApiClient } from "./client";
-import type { BackendBindings, CustomerCreationResult } from "./bindings";
+import {
+  readUuid,
+  type BackendBindings,
+  type CustomerCreationResult,
+} from "./bindings";
 import type {
   Business,
   CatalogItem,
@@ -33,6 +37,11 @@ export interface SellerGateway {
     cursor: string | null,
     signal?: AbortSignal,
   ): Promise<Page<Customer>>;
+  customersByIds?(
+    business: Business,
+    ids: readonly string[],
+    signal?: AbortSignal,
+  ): Promise<Page<Customer>>;
   createCustomer(
     business: Business,
     input: CustomerInput,
@@ -51,6 +60,7 @@ export function createLiveGateway(
   api: ApiClient,
   bindings: Partial<BackendBindings>,
   expectedUserId?: string,
+  options: { customerIds?: boolean } = {},
 ): SellerGateway {
   const requireBinding = <K extends keyof BackendBindings>(
     key: K,
@@ -105,6 +115,37 @@ export function createLiveGateway(
         throw new ApiError(403, "ACCESS_DENIED");
       return page;
     },
+    // Opt-in only after the backend rollout. Old servers silently ignore ids.
+    ...(options.customerIds
+      ? {
+          async customersByIds(
+            b: Business,
+            ids: readonly string[],
+            signal?: AbortSignal,
+          ) {
+            if (ids.length === 0) return { items: [], next_cursor: null };
+            if (ids.length > 100) throw new ApiError(422, "VALIDATION_ERROR");
+            const requested = new Set(
+              ids.map((id) => readUuid(id).toLowerCase()),
+            );
+            const query = new URLSearchParams();
+            requested.forEach((id) => query.append("ids", id));
+            const page = requireBinding("customers")(
+              await api.request(`${path(b)}/customers?${query}`, { signal }),
+            );
+            if (page.items.some((customer) => customer.business_id !== b.id))
+              throw new ApiError(403, "ACCESS_DENIED");
+            if (
+              page.next_cursor !== null ||
+              page.items.some(
+                (customer) => !requested.has(customer.id.toLowerCase()),
+              )
+            )
+              throw new ApiError(0, "INVALID_RESPONSE");
+            return page;
+          },
+        }
+      : {}),
     async createCustomer(b, input, idempotencyKey, signal) {
       const body = requireBinding("customerBody")(input);
       const read = requireBinding("customer");
