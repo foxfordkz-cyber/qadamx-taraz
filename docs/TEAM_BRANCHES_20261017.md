@@ -1,8 +1,8 @@
 # Team branch inventory - 2026-10-17
 
-GitHub returned 68 published branches. Ancestry was checked for every listed HEAD against integration candidate 1005d42. This is an inventory, not a new line-by-line audit of all historical code. See [release review](LATEST_VISIBLE_RELEASE.md) for the disposition of new work.
+GitHub returned 70 published branches. Ancestry checked for every listed HEAD against candidate 2209b7b. This is an inventory, not a line-by-line re-audit of all historical code. New work disposition: [release review](LATEST_VISIBLE_RELEASE.md).
 
-Earlier work was sometimes cherry-picked; a head outside ancestry can still have its functionality included. Do not merge old branches solely to make this table green.
+Earlier work was sometimes cherry-picked; a separate head can have its functionality included. Do not merge obsolete bases just to close old PRs.
 
 | Branch | HEAD | Relation to candidate |
 |---|---|---|
@@ -25,7 +25,7 @@ Earlier work was sometimes cherry-picked; a head outside ancestry can still have
 | `feature/fullstack-ready` | `d7acc9c7e7c2` | Included in history |
 | `feature/mobile-hosted-acceptance` | `cbb4d0c3ad71` | Separate head; see release classification |
 | `feature/mobile-livestock-api` | `1a93469f26a9` | Included in history |
-| `feature/mobile-native-ai` | `3f5e02398cb2` | Separate head; see release classification |
+| `feature/mobile-native-ai` | `35216615553b` | Separate head; see release classification |
 | `feature/mobile-native-crm` | `7fe9f73ee16e` | Separate head; see release classification |
 | `feature/mobile-qadam-shell` | `284cb77a21cb` | Separate head; see release classification |
 | `feature/public-inquiry-form` | `3fb16ce5f65f` | Separate head; see release classification |
@@ -49,10 +49,12 @@ Earlier work was sometimes cherry-picked; a head outside ancestry can still have
 | `fix/seller-auth-unicode` | `28960f21e13c` | Separate head; see release classification |
 | `fix/seller-cabinet-reliability` | `9a3c8687e59d` | Separate head; see release classification |
 | `fix/seller-customer-recovery-safe` | `2058b914fc08` | Included in history |
+| `fix/seller-sidebar-scroll` | `29b1b65f177e` | Included in history |
 | `fix/voice-playback-lifecycle` | `649bbb303471` | Included in history |
 | `frontend/aidana-public-showcase` | `7d23500a6e45` | Separate head; see release classification |
 | `frontend/public-inquiry-safe` | `721da4ea1140` | Separate head; see release classification |
 | `integration/abzal-public-catalog` | `7248bab0fd39` | Separate head; see release classification |
+| `integration/latest-visible-release` | `0965d635362f` | Included in history |
 | `integration/livestock-https` | `ca51bbf9bcf1` | Included in history |
 | `integration/local-combined-check` | `58d4eb47e0d5` | Included in history |
 | `integration/main-release-20261017` | `07197bec0a8a` | Included in history |

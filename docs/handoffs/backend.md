@@ -4,8 +4,8 @@
 
 По поручению капитана подготовлен [общий кандидат](../LATEST_VISIBLE_RELEASE.md):
 новая аналитика `3064294`, transport-защиты заявки и ссылка на тестовый APK0.3.0.
-346 unit/25 E2E и сборочные проверки PASS. Backend, БД, секреты и платные AI не
-затрагивались. Проверено 68 опубликованных веток; PR43/email и PR53/SDK+Android
+346 unit/29 E2E и сборочные проверки PASS. Backend, БД, секреты и платные AI не
+затрагивались. Проверено 70 опубликованных веток; PR43/email и PR53/SDK+Android
 оставлены отдельными. Следующий шаг — подтверждение Vercel после продвижения refs.
 
 ## 2026-10-17 — интеграция PR47/49/52 без изменения backend
@@ -40,7 +40,7 @@ PR43 **eba0f91** исключён. [Контракт регистрации](../
 
 ## Общая интеграция 2026-10-17
 
-По поручению капитана подготовлена база main/deploy из PR39 `8be10b3` и Flutter PR25 `421b2fb`. [Точный состав, проверки и ограничения](../MAIN_RELEASE_20261017.md). Backend побайтово совпадает с e699158: повторный rollout Render/миграции не нужны. Web совпадает с production a8e358f. Recovery UI 9a3c868 и signup PR31 остаются исключёнными до исправлений/приёмки. Исторические разделы ниже не определяют текущую ревизию.
+По поручению капитана подготовлена база main/deploy из PR39 `8be10b3` и Flutter PR25 `421b2fb`. [Точный состав, проверки и ограничения](../MAIN_RELEASE_20261017.md). Backend побайтово совпадает с e699158: повторный rollout Render/миграции не нужны. Web совпадает с production a8e358f. Recovery UI 9a3c870 и signup PR31 остаются исключёнными до исправлений/приёмки. Исторические разделы ниже не определяют текущую ревизию.
 
 Роль: капитан, весь backend. Обновлено: 2026-10-15. Ручной этап `backend/ledger-auth` сохранён коммитом `78483b8`, интеграция с опубликованным bootstrap — `193f6e5`; ветка запушена, открыт [PR #4 в main](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/4), без слияния. Исходная `0001_catalog` сохранена из main (`ced32e7`, PR #2), тесты каркаса сохранены и адаптированы. Текущая ветка `backend/ai-drafts` основана на head PR журнала. Актуальный результат AI-этапа и следующий шаг — в последней секции этого файла. Ни merge, ни деплой не выполнены.
 
@@ -518,7 +518,7 @@ Baseline7дней: sales1800000/receipts1200000/debt600000/count6/average300000�
 
 Remote проверены: PR18 **5ab11b146778698f54164057974fc81c397192dc**, PR17ca51bbf, PR20 **39a730e** добавляет толькоtests/docs. PR19/doc99ed2c0, корневая Aidana880d713 и mobile3ac3a1a не объединялись. Playback/cancel в общемAudioInput отсутствуют; исходники/денежные правила/контракты не менялись. ИзPR18 собрана отдельнаяproductiondist с публичным внешнимAPIenv, безlocalhostAPI/серверныхсекретов. Types/buildPASS,3Dchunkwarning прежний.
 
-**Frontend:** https://crucial-funky-marion-barcelona.trycloudflare.com/login → loopback5192/previewPID33204, отдельныйcloudflared34696. **API:** https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1 прежний, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, чистыйcheckoutca51bbf. Web5188/PID28500 и5191/PID9268 сохранены. [Инструкция/URL/commits](../HTTPS_FRONTEND_PREVIEW.md).
+**Frontend:** https://crucial-funky-marion-barcelona.trycloudflare.com/login → loopback5192/previewPID33204, отдельныйcloudflared34696. **API:** https://kelkoo-student-skiing-universal.trycloudflare.com/api/v1 прежний, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, чистыйcheckoutca51bbf. Web5188/PID28500 и5191/PID9270 сохранены. [Инструкция/URL/commits](../HTTPS_FRONTEND_PREVIEW.md).
 
 По разрешённой задаче точный frontend origin добавлен к CORS5188 после preflight на8019. Команда предупреждена [в PR18](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6215381194); перезапущен только опознанный API8018, переключение/readiness заняло около6секунд. Новый API listener10208/launcher34292, прежний API cloudflared33900 сохранён. [О восстановлении сообщено](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/18#issuecomment-6215495430). .env не менялся, ALLOWED_ORIGINS задан в окружении процесса и сохранён в игнорируемом tmp/api-runtime-overrides.json; учитывать при следующем restart. Ревизия0005 только прочитана, БД/Storage/setup не менялись.
 
@@ -552,7 +552,7 @@ Remote проверены: PR18 **5ab11b146778698f54164057974fc81c397192dc**, PR
 
 **Frontend с заглушками:**73PASS в qa-customers-regression, qa-contract-regression, client, bindings; check:api/typecheck/lint PASS. Изначально запуск блокировался записью Vite temp за пределами sandbox, повтор с доступом прошёл; неверный первоначальный test-filter не нашёл файлы, после указания реальных src/test/* suite выполнен. UI/coordinator seller не реализовывались, новые E2E/браузерные/liveGemini проверки не заявляются.
 
-**Сохранённая живая среда:** readonly HTTP200 у API8018/health, внешнего APIhealth и frontend/login; внешний OpenAPI по-прежнему0.6.1. FastAPI listener10208/launcher34292, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, checkoutca51bbf; cloudflared33900/API и34696/frontend не тронуты. Preview5192/PID33204, старые5188/PID28500 и5191/PID9268 сохранены. [Текущие адреса](../HTTPS_FRONTEND_PREVIEW.md). Общую Supabase не очищали, setup/seed/0006 не запускали, новых учебных записей там нет, env/секреты не меняли. Это доступность с ПК капитана, не новая физическая приёмка Flutter.
+**Сохранённая живая среда:** readonly HTTP200 у API8018/health, внешнего APIhealth и frontend/login; внешний OpenAPI по-прежнему0.6.1. FastAPI listener10208/launcher34292, код4f67e2c80a4e7cf9b5df59c6c022ac8ff036a3d5, checkoutca51bbf; cloudflared33900/API и34696/frontend не тронуты. Preview5192/PID33204, старые5188/PID28500 и5191/PID9270 сохранены. [Текущие адреса](../HTTPS_FRONTEND_PREVIEW.md). Общую Supabase не очищали, setup/seed/0006 не запускали, новых учебных записей там нет, env/секреты не меняли. Это доступность с ПК капитана, не новая физическая приёмка Flutter.
 
 Следующий шаг: review Draft и согласованный rollout0006/0.6.2 с проверенным восстановимым backup, затем отдельная живая приёмка customer recovery. Frontend берёт текущие OpenAPI/generated, хранит key по identity/APIproject/business доPOST, повторяет только прежниеkey/body и трактуетnot_observed как unknown. Доrollout нельзя включать recovery endpoint на существующемHTTPS0.6.1. Послеreload при утраченном body иnot_observed безопасное автоматическое завершение не гарантируется; поиск клиента по имени не заменяет receipt. Main/PR не сливались, деплоя нет.
 
@@ -689,6 +689,6 @@ Vercel GLB по SHA-256 всё ещё совпадают со старым 0f97c
 
 ### 2026-10-17 — модели реально опубликованы на production Vercel
 
-Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event **Dqtc8FnqY4QGcfM3WKxWDQxuvmpV** success и все3 production GLB SHA256 совпадают. Отчётный commit отдельной review-ветки не означает ещё один production deploy. Recovery9a3c868 исключён из-за подтверждённого late-response удаления нового pending intent. Диагностический e699158 сохранён, Render не переключался; process SHA остаётся подтверждением капитана, публичный API0.6.2 повторно проверен.
+Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event **Dqtc8FnqY4QGcfM3WKxWDQxuvmpV** success и все3 production GLB SHA256 совпадают. Отчётный commit отдельной review-ветки не означает ещё один production deploy. Recovery9a3c870 исключён из-за подтверждённого late-response удаления нового pending intent. Диагностический e699158 сохранён, Render не переключался; process SHA остаётся подтверждением капитана, публичный API0.6.2 повторно проверен.
 
 Новый настоящий Vercel→Render browser loginA6→точка→клиенты/history/summary HTTP200→Analytics7/30/reload→logoutB3→foreign404→logout PASS. Production3D360/390/1440,RU/KZ,27hotspots/6введённыхfallbacks PASS; физический телефон не заявляем. Read-onlyHTTP health/OpenAPI/Auth/CORS/изоляция/21JSONprivacy PASS. Ни новых клиентов, ни денег, ни AI-запросов, ни миграций. [Полный отчёт и следующий шаг по владельцам](../MODELS_PRODUCTION_ACCEPTANCE.md). APK не обновлялся. Исходный recording.webm отсутствует, инцидент открыт; новая запись будет отдельным сценарием после разрешения расходов.
