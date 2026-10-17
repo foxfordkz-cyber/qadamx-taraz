@@ -95,7 +95,7 @@ describe("Мал базар", () => {
       screen.getByRole("link", { name: "Открыть приложение для Android" }),
     ).toHaveAttribute(
       "href",
-      "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.3.0-native.1",
+      "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.5.2-review68.1",
     );
     expect(document.body.textContent).not.toMatch(/₸|Есть сегодня:|\d+ гол/);
   });

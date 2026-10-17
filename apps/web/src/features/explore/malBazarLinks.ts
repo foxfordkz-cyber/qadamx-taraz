@@ -6,4 +6,4 @@ export const MAL_BAZAR_POSTER = "/previews/mal-bazar.webp";
 /** Published Android test build with the livestock feed; the web has no listings
     of its own. Update together with each mobile release. */
 export const MOBILE_APP_RELEASE =
-  "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.3.0-native.1";
+  "https://github.com/foxfordkz-cyber/qadamx-taraz/releases/tag/mobile-v0.5.2-review68.1";
