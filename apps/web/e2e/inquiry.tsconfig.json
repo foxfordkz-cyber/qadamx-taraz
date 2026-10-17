@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "../src/features/inquiry",
+    "./inquiry-harness.tsx",
+    "./inquiry.acceptance.ts",
+    "./inquiry.playwright.config.ts"
+  ]
+}
