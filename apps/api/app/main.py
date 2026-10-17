@@ -17,6 +17,7 @@ from app.db import make_engine
 from app.draft_routes import router as draft_router
 from app.errors import APIError
 from app.livestock_routes import router as livestock_router
+from app.markets_rollback_guard import MarketsRollbackGuard
 from app.public_routes import router as public_router
 from app.routers import router
 from app.services.ai_provider import ProviderPlan
@@ -74,6 +75,7 @@ def create_app(settings: Settings | None = None):
         if any((settings.supabase_url, settings.jwt_issuer, settings.jwt_audience))
         else None
     )
+    app.add_middleware(MarketsRollbackGuard)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.allowed_origins,
