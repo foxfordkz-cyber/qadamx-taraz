@@ -1,0 +1,18 @@
+{
+  "static_source": "local candidate production build at intercepted Vercel origin (NOT deployed)",
+  "services": "real Supabase and Render HTTPS",
+  "ids_flag": true,
+  "app_writes": 0,
+  "ai_calls": 0,
+  "physical_device": false,
+  "checks": [
+    "history name/reload with existing real customer",
+    "filtered customer server balance/reload; RU/KZ 360/390/1440",
+    "same owner other business omits original customer",
+    "real logout/login A6 B3 and foreign business404; final logout route guard"
+  ],
+  "a_memberships": 6,
+  "b_memberships": 3,
+  "ids_browser_requests": 5,
+  "completed": true
+}

@@ -1,5 +1,33 @@
 # Передача работы backend
 
+## 2026-10-17 — зависимый frontend PR63/65 принят в отдельном кандидате
+
+Проверенный application/build SHA **53ea0b9eb9013fd7826d3ece927a1428c1bd03fa**:
+PR63 ae593c1 + PR65 559b4d0 поверх PR64/актуального main1a541ef и API f6b3a9a.
+Backend/contracts побайтово сохранены. Hosted builder фиксирует public ids=true
+после уже принятого HTTPS rollout; это не переключение production в данной задаче.
+
+[Подробный review, доказательства, план выпуска и Safari](../CUSTOMER_IDS_FRONTEND_ACCEPTANCE.md).
+378 unit, 6 history E2E, 5 recovery E2E, 18 synthetic microphone E2E PASS;
+typecheck/lint/build/check:api PASS. Отдельный hosted build с входным false подтвердил
+принудительное включение ids. Настоящие A/B Supabase+Render через локальный bundle:
+имя/history/reload, фильтр+серверный баланс, RU/KZ360/390/1440, смена точки и foreign404 PASS.
+Случай клиента51/гонки — fixtures; общую БД ради них не заполняли. Appwrites0/paidAI0.
+
+Production Vercel пока **1a541ef**, event DvMb7zzTZjWX418eKdJLYVUCTjDf;
+проверен по GitHub status и совпадению публичных asset bytes с сохранённой сборкой.
+Кандидат публикуется в существующий Draft PR64, не в deploy. Render f6b3a9a не менялся,
+новый dep-ID ожидается от капитана отдельно. APK не менялся.
+
+#66 код a964646 есть в отдельном Vercel preview, отсутствует в production.
+Новый head ca45a53 проверен: только уточнение двух документов, тот же код.
+Капитан подтвердил Demo на iOS26/27: disabled запись/деньги ожидаемы по коду;
+без обычного входа и повтора на физическом iPhone инцидент не закрыт.
+Desktop WebKit: исходный тест focus 1PASS/2FAIL; исправленная keyboard/touch/Demo
+обвязка 5PASS, component4PASS. Patch опубликован в отчёте, приложение #66 отдельно.
+#43 новыйhead6ce3d29 и #67 остаются вне кандидата. Следующий шаг — согласованный
+frontend release с подтверждением VercelSHA/ids GET, без нового Render rollout.
+
 ## 2026-10-17 — PR61 на Render: HTTPS ids/A-B PASS
 
 Капитан подтвердил новый specific-commit Live **f6b3a9a94d8bf1c982344c05e0203dcb5bc6b8b5**

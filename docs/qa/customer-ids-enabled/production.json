@@ -1,0 +1,74 @@
+{
+  "url": "https://qadamx-taraz.vercel.app",
+  "assets": [
+    {
+      "path": "/assets/auth-CB7MGzWB.js",
+      "sha256": "b08ef7d102649174a68d175e0ce67571100cd15b84444698cab938dea6e3d891",
+      "bytes": 223730,
+      "ios_fallback_marker": false,
+      "ids_lookup_marker": false
+    },
+    {
+      "path": "/assets/index-BMQXppQw.js",
+      "sha256": "11406049face7e5d4f4ba8fcd572ced032f6a7dcda6d9a971fa78856657e8ada",
+      "bytes": 488535,
+      "ios_fallback_marker": false,
+      "ids_lookup_marker": false
+    },
+    {
+      "path": "/assets/index-C2MiuQKe.css",
+      "sha256": "072f151771498fe29e09c962434ad941f8bb5fa74039fc47844b60654c900ba4",
+      "bytes": 86185,
+      "ios_fallback_marker": false,
+      "ids_lookup_marker": false
+    }
+  ],
+  "statuses": {
+    "1a541efb97ca402fb8165b5841bbbeff03afd4b1": [
+      {
+        "context": "Vercel",
+        "state": "success",
+        "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/DvMb7zzTZjWX418eKdJLYVUCTjDf"
+      }
+    ],
+    "a964646f0ad1628f32d941e0d6e340bcfd6caff3": [
+      {
+        "context": "Vercel",
+        "state": "success",
+        "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/2o4ZPfk2mse1zPaHjvdKh4jmnbBd"
+      }
+    ]
+  },
+  "prs": [
+    {
+      "number": 63,
+      "sha": "ae593c15408b05b2d32342900c3ed018739d1565",
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 65,
+      "sha": "559b4d0e36d60e8cadda46118f8dad1f057c2cab",
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 66,
+      "sha": "a964646f0ad1628f32d941e0d6e340bcfd6caff3",
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 43,
+      "sha": "6ce3d29bf16d33f57b1d9dbf5c0bf1c4fcce7464",
+      "merged": false,
+      "state": "open"
+    },
+    {
+      "number": 67,
+      "sha": "8da93dc48ff998230212be4f31c32944a173f53b",
+      "merged": false,
+      "state": "open"
+    }
+  ]
+}
