@@ -1,5 +1,11 @@
 # 17 октября 2026 — Qadam 0.5.2+11, исправления review #68
 
+**Отдельная задача 17 октября — деморолик для хакатона:**
+[MP4, 3:00, Full HD, без звука, русские субтитры](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Hackathon-Demo-RU-3min.mp4).
+[Сценарий, источники, ограничения и проверка файла](../../apps/mobile/docs/hackathon-demo-20261017/README.md).
+Это монтаж опубликованного сайта, подписанных учебных экранов и записи эмулятора.
+APK не менялся; платных AI-вызовов, денежных операций и новой физической приёмки не было.
+
 Продолжение [Draft PR #60](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/60),
 ветка `feature/mobile-native-parity`. **Source APK: `79a29b9341b03e4ac3ffc58ebf6a06b00374d2f4`.**
 [Скачать новый APK0.5.2+11](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk).

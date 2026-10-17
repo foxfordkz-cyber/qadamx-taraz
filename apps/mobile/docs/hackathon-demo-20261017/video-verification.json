@@ -1,0 +1,20 @@
+{
+  "file": "Qadam-Hackathon-Demo-RU-3min.mp4",
+  "duration_seconds": 180.0,
+  "width": 1920,
+  "height": 1080,
+  "fps": 24.0,
+  "frame_count": 4320,
+  "video_codec": "H.264",
+  "pixel_format": "yuv420p",
+  "audio_streams": 0,
+  "subtitles": "Russian burned in; UTF-8 SRT supplied separately",
+  "bytes": 3884620,
+  "sha256": "77adc165f9373b1801b3827c16a1fbb6c80228f07d59863ff17205052d91a5ab",
+  "full_decode_errors": 0,
+  "sampled_scene_frames": 18,
+  "closing_qr_verified": "https://qadamx-taraz.pages.dev",
+  "fast_start": true,
+  "live_ai_or_financial_writes": false,
+  "physical_android_acceptance": false
+}

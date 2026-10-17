@@ -1,0 +1,30 @@
+{
+  "project_source_reference": "76476cce6d1fcd4a2c2504a06d7f947b33817664",
+  "website": "https://qadamx-taraz.pages.dev",
+  "website_runtime_sha": "not independently confirmed",
+  "assets": {
+    "captures/draft-input.png": "92d72a2ecd50ebc2c45c7ff906c1c78dd2037fc7837975271b3cb556aaf40400",
+    "captures/draft-review.png": "9b0e0371ced574d0a6b1f3396d7005c6af9ba8dde700b60455a197d3dcf7e695",
+    "captures/qr.png": "b9e41a66bfd01b27de90b8bc9fcc8cf458a0022044281012bb9878c6e2df752e",
+    "captures/web-analytics-charts.jpg": "a6fea90fa41d5b84316be318aeb354ec67a80167d0b5f1a81bb052ef9b953581",
+    "captures/web-home.jpg": "d77aea2a83028a893acca3367f5ca3df2d097b14a499cd35f4a4329639a08cf1",
+    "captures/web-inquiry-filled.jpg": "0ac18de0b93f232f14c6aab28d5bc0a02b864d16d5b0574251d2163e7256f55a",
+    "captures/web-kaikarmet-scene.jpg": "f27d16253212616c82514c8bec24eda4e0e52a48cce3d746cec818859fdb9dbd",
+    "captures/web-shop.jpg": "2627fee66c2f1707f2a8890f1391774b859f380894f87fab5e289e531eb1711a",
+    "captures/web-venues-auyl.jpg": "83da41bb24980607e5ce3768cc1be88dd3a01daad5d7145d9663a5e59598d531",
+    "captures/web-venues-kaikarmet.jpg": "b6b6cfa7f64d3bb90d1b337c457d3dbe1da751464b928932599451724f97232d",
+    "captures/web-venues-mart.jpg": "237a8d008610ea4ee8043c965e2256e984b0a8756e8c08b0662514fffc66a83d",
+    "captures/mobile/dashboard-ru-390-x1.0.png": "7364603f6bec82f107572c34fbda988fd2659672cdc7ba861e49cc7d26baecce",
+    "captures/mobile/debts-ru-390-x1.0.png": "dd93f4f315c7f80875ad9663d7a4c6057b99dd3db6b509a75ad8c1bf4d00b044",
+    "captures/mobile/history-ru-390-x1.0.png": "84da9c351003db1851fdc6619fcc23d29fcb96e9eea5c0fe9e26a35fa722c5d8",
+    "captures/mobile/home-kk-390-x1.0.png": "b3507baaa1d429868ffdc01ebbf5278631357cef7135bbb279446835d1ca93ee",
+    "captures/mobile/home-ru-390-x1.0.png": "824716b9c3a2283e5c16c30794ebdbae9fe5f704f195a9e6dcd336f38d54465d",
+    "captures/mobile/market-ru-390-x1.0.png": "4a338fe91add9f1c832bb02e6262900331a3ad288188d0823ed75934be724dc1",
+    "fonts/Manrope-OFL.txt": "2e9a4958fb8e5be69eca9abc48544e1ca1898ca71edc54ac3da25cd93101881e",
+    "fonts/Manrope-Variable.ttf": "3ae11c49db0455a3cc33e37d380f20fdb8c7f8b41dc07625c177e3d87a9d6ae6",
+    "fonts/NotoSans-CyrillicExt.ttf": "362e50a273df202fc29639965ae56a966e142ab887fea85b8bbb30da9520e372",
+    "fonts/NotoSans-LatinExt.ttf": "eeaf5f9c8c16e584de34a89ee4469ff3e6c38dfa6dc62c8d72285e50f126245c",
+    "fonts/NotoSans-OFL.txt": "303aa29b5fe1a05733ddfa4c68971e417df7fa05c4ea5ebc3bb897a261595700",
+    "sources/native-clip.mp4": "42da8951971260c4114fcd96b4743458c1919db311739ee8f59b68633ffd7398"
+  }
+}
