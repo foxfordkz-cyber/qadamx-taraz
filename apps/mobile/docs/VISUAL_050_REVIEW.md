@@ -14,6 +14,11 @@ ARM32/ARM64/x86_64. Прежний внутренний Android Debug серти
 `9bd5b1febe523295d33cfb13ce1233834c5b09ae79729668067af993b245160f`; v2/v3 PASS, это не store signing.
 [Полный статический аудит APK](reports/mobile-050-apk-audit.json).
 
+GitHub Release подтвердил состояние uploaded, полный размер и SHA256, совпавший
+с локальным APK. Контрольный публичный GET получил 3 718 270 из 28 335 925 bytes
+и прервался по сетевому timeout 180с. Полное повторное скачивание не проверено;
+это не ошибка сборки или подписи. [Проверка публикации](reports/mobile-050-release-verification.json).
+
 В сборке постоянные Render/Vercel URL и прежняя публичная Supabase-конфигурация.
 Проверены четыре разрешённых значения; сканирование известных credential patterns,
 private-role JWT, приватных файлов и старых tunnel URL не выявило совпадений.

@@ -4,6 +4,8 @@
 **Source APK: `7b3a8bad757b13e0dc37d35d703e6a53cd4d9940`.**
 [Скачать APK](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.0-visual.1/qadam-0.5.0-7b3a8ba-internal.apk) — **28335925 bytes (27.02 MiB)**, versionCode9.
 SHA256: `14f3f145ba68202611b7d0745bef8297a023fe7d23ec8bd5697688f3d9e3eccf`.
+GitHub подтвердил полный размер и совпадающий digest. Контрольное скачивание
+здесь прервалось по сетевому timeout; полный redownload не объявляется проверенным.
 Package `kz.qadam.qadam_mobile`, Android24+, прежняя внутренняя подпись.
 Flutter3.47.7 / Dart3.13.5.
 
