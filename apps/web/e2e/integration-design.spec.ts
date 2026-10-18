@@ -123,7 +123,7 @@ test("integrated mobile menu closes on Escape and route change; shared fonts and
   });
   await debts.click();
   await expect(page).toHaveURL(/\/seller\/debts$/);
-  await expect(debts).toHaveClass(/is-active/);
+  await expect(debts).toHaveAttribute("aria-current", "page");
   await expect(more).not.toHaveClass(/is-active/);
   await expect(
     page.getByLabel("Торговая точка", { exact: true }),
