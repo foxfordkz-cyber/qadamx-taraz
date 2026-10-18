@@ -42,6 +42,7 @@ for (const locale of ["ru", "kk"] as const) {
               : "Кезеңнің қысқаша қорытындысын жаса",
           locale,
           days: 7,
+          ai: true,
         },
       ]);
       await page

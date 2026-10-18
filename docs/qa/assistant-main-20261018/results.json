@@ -64,5 +64,35 @@
     "skipped": 0,
     "unexpected": 4,
     "flaky": 0
+  },
+  "api_071_delta": {
+    "application_sha": "a4ce3b0",
+    "checks": [
+      {
+        "suite": "delta-071-unit",
+        "passed": 50,
+        "failed": 0,
+        "log_sha256": "0a6120ab2a0263aa46e4bd8bea5a0faff1efca0e87253bf938534051e35053f3"
+      },
+      {
+        "suite": "delta-071-assistant-qa",
+        "passed": 13,
+        "failed": 0,
+        "log_sha256": "a7004ae58c28652ec9ae2ae35fca901851efe0fd3bba1996329e9ac95735c4ec"
+      },
+      {
+        "suite": "delta-071-assistant",
+        "passed": 6,
+        "failed": 0,
+        "log_sha256": "bee03bde15ff40a051af93f8d9a2e5d145303b8c5b98fc732de27c94e00ba46a"
+      },
+      {
+        "suite": "delta-071-cabinet",
+        "passed": 10,
+        "failed": 0,
+        "log_sha256": "f96cbab775f52d83f5f42ace054ef1c32f93221bb031047fb2c35589b026f38e"
+      }
+    ],
+    "scope": "affected subset after main update; not a second full-suite run"
   }
 }

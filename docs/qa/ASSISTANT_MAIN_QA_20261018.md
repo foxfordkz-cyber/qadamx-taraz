@@ -10,6 +10,12 @@
 четыре упали на старом hero главной страницы. Кабинет с двумя AI-входами теперь
 проверен. Физический Safari/Chrome и контрольный вопрос живому AI остаются открытыми.
 
+Во время QA main обновился до **a4ce3b0** (API 0.7.1). После обычного merge
+в QA-ветку дополнительно прошли **50/50 затронутых unit и 29/29 E2E**, API-типы,
+typecheck, lint и build. Это повтор подмножества проверок, не ещё 79 новых сценариев.
+Подробности обновления — ниже; полного повторного 513-тестового запуска на a4ce3b0
+не было. Hero и денежный код этим обновлением не менялись.
+
 ## Что было сделано раньше
 
 [QA-коммит 705fe58](https://github.com/foxfordkz-cyber/qadamx-taraz/commit/705fe58dd54c88e438a438ab2866c64e483d1f75)
@@ -74,6 +80,22 @@ name не учитывал подзаголовок новой кнопки, KZ-
 «Сатылымды айтыңыз». Проверки существования кнопок, href, открытия панели,
 Escape, возврата фокуса и ширины сохранены. Повтор: все четыре проверки кабинета PASS.
 Production-код в QA-ветке не менялся; `skip`/ожидаемые падения не добавлены.
+
+## Допроверка API 0.7.1 на a4ce3b0
+
+Изменения `0a2ac3b`/`a4ce3b0` уже находились в main: новый серверный `ai=false`
+возвращает `source=facts`, явный вопрос существующего frontend передаёт `ai:true`.
+Прочитаны новый контракт и backend handoff. В QA обновлены строгие ожидания тела
+запроса в `assistant.spec.ts`, `assistant-qa.acceptance.ts` и `cabinet-ai-first.spec.ts`;
+проверяется явный `ai:true`. Production-реализация взята из main без правок QA.
+
+- `npm test -- src/test/assistant.test.tsx src/test/analytics-ui.test.tsx src/test/seller-navigation.test.tsx --maxWorkers=1 --no-file-parallelism` — **50/50**.
+- Assistant QA — **13/13**, assistant/screenshots — **6/6**, cabinet enabled — **10/10**.
+- `check:api`, `typecheck`, `lint`, `build` с `VITE_ASSISTANT_ENABLED=true` — **PASS**.
+
+Повторные логи — `apps/web/tmp/qa-main/delta-071-*.log`; их хеши добавлены в
+машинную сводку. UI автоматической сводки `ai=false` в этот QA не добавлялся.
+Backend PostgreSQL-тесты из handoff не выдаются за выполненные этим прогоном.
 
 ## Непройденная проверка — REL-02, hero
 
