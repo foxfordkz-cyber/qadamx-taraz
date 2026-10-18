@@ -100,16 +100,6 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.ex .top-link {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--qadam-control-height);
-  text-decoration: none;
-  font-weight: 700;
-}
-.ex .top-link span {
-  color: var(--qadam-orange-deep);
-}
 .ex .lang {
   display: flex;
   gap: 3px;
@@ -192,11 +182,14 @@
 /* Two lines on desktop, so the venue overview starts on the first screen. */
 .ex .hero h1 {
   color: var(--qadam-white);
+  /* Long Kazakh words at 200 % text wrap inside the card instead of being cut. */
+  overflow-wrap: anywhere;
   font-size: clamp(2.5rem, 5.2vw, 4.6rem);
-  max-width: 15ch;
+  max-width: 18ch;
 }
 .ex .hero-copy > p {
   max-width: 47ch;
+  overflow-wrap: anywhere;
   color: rgba(255, 255, 255, 0.76);
   font-size: clamp(1rem, 1.5vw, 1.2rem);
 }
@@ -336,7 +329,8 @@
   scroll-margin-top: 24px;
 }
 .ex .hero + #venues,
-.ex .hero + .scene + #venues {
+.ex .hero + .scene + #venues,
+.ex .how + #venues {
   margin-top: clamp(36px, 6vw, 68px);
 }
 .ex .cards {
@@ -770,9 +764,6 @@
     height: 32px;
     padding: 7px;
     border-radius: var(--qadam-radius-small);
-  }
-  .ex .top-link {
-    font-size: 0.78rem;
   }
   .ex .lang {
     gap: 0;
@@ -1366,6 +1357,85 @@
   pointer-events: auto;
 }
 
+/* Three steps under the hero: the seller flow, so the purpose reads in seconds. */
+.ex .how {
+  margin-top: clamp(24px, 3.5vw, 40px);
+}
+.ex .how-title {
+  margin: 0 0 14px;
+  font-size: 1.25rem;
+}
+.ex .how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.ex .how-steps li {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
+}
+/* A chevron between the cards; decorative, the list order carries the sequence. */
+.ex .how-steps li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: -17px;
+  top: 50%;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid var(--qadam-muted);
+  border-right: 2px solid var(--qadam-muted);
+  transform: translateY(-50%) rotate(45deg);
+}
+.ex .how-icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--green);
+}
+.ex .how-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: var(--lime);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ex .how-steps h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+.ex .how-steps p {
+  margin: 0;
+  color: var(--qadam-muted);
+  overflow-wrap: anywhere;
+}
+@media (max-width: 760px) {
+  .ex .how-steps {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .ex .how-steps li:not(:last-child)::after {
+    right: auto;
+    left: 34px;
+    top: auto;
+    bottom: -17px;
+    transform: rotate(135deg);
+  }
+}
+
 /* Мал базар — concept model; no listings until the market has a confirmed key. */
 .ex .mal {
   margin-top: 64px;
@@ -1410,6 +1480,32 @@
   border-radius: var(--qadam-radius-card);
   background: var(--qadam-surface-subtle);
 }
+/* Home: Mal bazar as one compact card; the scheme and the model are on its page. */
+.ex .mal--compact {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: 24px;
+  align-items: start;
+  margin-top: 48px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--white);
+}
+.ex .mal-head {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+  min-width: 0;
+}
+.ex .mal-head h2 {
+  margin: 0;
+}
+.ex .mal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 /* Mal bazar page: what works now, as three plain cards. */
 .ex .mal-facts {
   margin-top: 36px;
@@ -1452,6 +1548,14 @@
   .ex .mal-copy .btn,
   .ex .mal-facts .btn {
     justify-self: stretch;
+  }
+  .ex .mal--compact {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 20px;
+  }
+  .ex .mal-links .btn {
+    flex: 1 1 100%;
   }
 }
 

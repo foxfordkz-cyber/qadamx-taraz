@@ -3,6 +3,7 @@ import { getVenues } from "./api";
 import { useFetch } from "./hooks";
 import { useT } from "./i18n";
 import { LangSwitch, State } from "./ui";
+import { HowItWorks } from "./HowItWorks";
 import { MalBazarSection } from "./MalBazar";
 import { VenueShowcase } from "./VenueShowcase";
 import "./explore.css";
@@ -22,9 +23,6 @@ export default function ExplorePage() {
           </svg>
           <span>qadam</span>
         </Link>
-        <a className="top-link" href="#venues">
-          {t("find_shop")} <span aria-hidden="true">↘</span>
-        </a>
         <LangSwitch />
       </header>
 
@@ -35,14 +33,13 @@ export default function ExplorePage() {
           </span>
           <h1>{t("hero_title")}</h1>
           <p>{t("hero_text")}</p>
-          <p>{t("hero_seller")}</p>
           <div className="actions">
-            <a className="btn btn--primary" href="#venues">
-              {t("find_shop")} <span aria-hidden="true">↗</span>
-            </a>
-            <Link className="btn btn--quiet" to="/seller">
+            <Link className="btn btn--primary" to="/seller">
               {t("seller_cabinet")}
             </Link>
+            <a className="btn btn--quiet" href="#venues">
+              {t("find_shop")} <span aria-hidden="true">↘</span>
+            </a>
           </div>
         </div>
         <div className="hero-art" aria-hidden="true">
@@ -98,6 +95,8 @@ export default function ExplorePage() {
           </svg>
         </div>
       </section>
+
+      <HowItWorks />
 
       <section id="venues" aria-labelledby="venues-h">
         <div className="section-heading">
