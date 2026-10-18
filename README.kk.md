@@ -30,7 +30,7 @@
 - **Сайт:** [qadamx-taraz.pages.dev](https://qadamx-taraz.pages.dev) — витрина және сатушы кабинеті (`/login`)
 - **API:** [https://qadamx-taraz.onrender.com/api/v1](https://qadamx-taraz.onrender.com/api/v1/health), құжаттама [Swagger](https://qadamx-taraz.onrender.com/docs). Тегін сервер бір минутқа дейін оянуы мүмкін
 - **Android:** Сынақ [APK 0.5.2](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk) (pre-release, жүктелген файлдың SHA-256 тексерілді), барлық нұсқалар — [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases). Телефонға орнату және қабылдау расталмаған
-- **Видео:** Прогон жазылғаннан кейін қосылады
+- **Видео:** [90 секундтық демо](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Business-Demo-RU-90sec.mp4) — дыбыссыз, орысша субтитрлермен, оқу экрандарының монтажы
 
 ## Кімге және немен көмектеседі
 
