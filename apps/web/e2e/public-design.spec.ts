@@ -118,7 +118,7 @@ test("public venue/shop/catalog/inquiry routes and WebGL fallback — intercepte
     await page.goto("/");
     await expect(
       page.getByRole("heading", {
-        name: "Найдите магазин на рынке Тараза",
+        name: "Qadam — учёт продаж и долгов голосом",
         exact: true,
       }),
     ).toBeVisible();
