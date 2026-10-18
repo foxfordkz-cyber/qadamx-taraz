@@ -71,6 +71,7 @@ describe("approved analytics DTO, frontend validation only", () => {
   it("preserves current debt from earlier dates even when the selected period is empty", () => {
     const value = makeDemoAnalyticsSnapshot(businessId, 7, "empty");
     value.cards.outstanding_minor = 150_000;
+    value.debt_aging = null;
     value.cards.debtors_count = 1;
     const snapshot = readAnalyticsSnapshot(value, { businessId, days: 7 });
     expect(snapshot.cards.outstanding_minor).toBe(150_000);
@@ -100,6 +101,7 @@ describe("approved analytics DTO, frontend validation only", () => {
   });
   it("reads the supplied integer average ticket and never substitutes receipts", () => {
     const value = makeDemoAnalyticsSnapshot(businessId, 7, "empty");
+    value.collection = null;
     value.cards = {
       ...value.cards,
       sales_minor: 199,
