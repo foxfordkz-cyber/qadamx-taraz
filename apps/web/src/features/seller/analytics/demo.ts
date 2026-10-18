@@ -5,6 +5,7 @@ import type {
   AnalyticsSnapshot,
   DemoScenario,
 } from "./model";
+import type { Sale } from "../../ledger/data";
 
 export const DEMO_ANALYTICS_AS_OF = "2026-10-16T10:00:00Z";
 export const DEMO_ANALYTICS_BUSINESS = "11111111-1111-4111-8111-111111111111";
@@ -121,6 +122,53 @@ export function makeDemoAnalyticsSnapshot(
       hour,
       sales_count: empty || reversal ? 0 : count,
     })),
+  };
+}
+
+// Preview rows of the same explicitly synthetic snapshot (3 of 8 debtors).
+// These are teaching fixtures, not a second journal or calculated live balances.
+const demoDebtPreview: Pick<
+  Sale,
+  "id" | "customer_id" | "description" | "created_at" | "balance_minor"
+>[] = [
+  {
+    id: "demo-open-sale-1",
+    customer_id: "33333333-3333-4333-8333-333333333333",
+    description: "Демо · 01",
+    created_at: "2026-10-16T09:00:00Z",
+    balance_minor: 150_000,
+  },
+  {
+    id: "demo-open-sale-2",
+    customer_id: "44444444-4444-4444-8444-444444444444",
+    description: "Демо · 02",
+    created_at: "2026-10-16T08:00:00Z",
+    balance_minor: 900_000,
+  },
+  {
+    id: "demo-open-sale-3",
+    customer_id: "55555555-5555-4555-8555-555555555555",
+    description: "Демо · 03",
+    created_at: "2026-10-15T07:00:00Z",
+    balance_minor: 700_000,
+  },
+];
+
+/** Reuse the last analytics day and all-date debt; never substitute for live data. */
+export function makeDemoDashboardSnapshot(businessId: string) {
+  const snapshot = makeDemoAnalyticsSnapshot(businessId, 7);
+  const day = snapshot.daily[snapshot.daily.length - 1];
+  return {
+    date: snapshot.period_to,
+    summary: {
+      sales: day.sales_minor,
+      receipts: day.receipts_minor,
+      balance: snapshot.cards.outstanding_minor,
+    },
+    debts:
+      businessId === DEMO_ANALYTICS_BUSINESS
+        ? structuredClone(demoDebtPreview)
+        : [],
   };
 }
 

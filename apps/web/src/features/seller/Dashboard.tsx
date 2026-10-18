@@ -24,6 +24,7 @@ import { useLedgerList, type Sale } from "../ledger/data";
 import { useLedgerCustomers } from "../ledger/customers";
 import { saleDate, useLedgerText } from "../ledger/i18n";
 import { useSummary } from "../summary/Summary";
+import { makeDemoDashboardSnapshot } from "./analytics/demo";
 import "./dashboard.css";
 
 /** Keep the original assistant transport and scope/abort guarantees in one provider. */
@@ -65,13 +66,16 @@ function Dashboard() {
   }
   const summary = useSummary();
   const debts = useLedgerList<Sale>("outstanding_only=true");
-  // Preserve server order: this is a preview of open sales, not a ranking of customers.
-  const rows = (debts.data?.pages.flatMap((page) => page.items) ?? []).slice(
-    0,
-    3,
-  );
-  const names = useLedgerCustomers(rows.map((row) => row.customer_id));
   const demo = gateway.mode === "demo";
+  const demoSnapshot = demo ? makeDemoDashboardSnapshot(business.id) : null;
+  const overview = demoSnapshot?.summary ?? summary.data;
+  // Preserve server order: this is a preview of open sales, not a ranking of customers.
+  const rows = (
+    demoSnapshot?.debts ??
+    debts.data?.pages.flatMap((page) => page.items) ??
+    []
+  ).slice(0, 3);
+  const names = useLedgerCustomers(rows.map((row) => row.customer_id));
   const enabled = assistantEnabled();
   return (
     <div className="cabinet-home">
@@ -139,7 +143,11 @@ function Dashboard() {
             {t("summary")} <span aria-hidden="true">→</span>
           </Link>
         </div>
-        <p className="muted cabinet-period">{t("dashboardPeriod")}</p>
+        <p className="muted cabinet-period">
+          {demoSnapshot
+            ? `${t("demo")} · ${demoSnapshot.date}`
+            : t("dashboardPeriod")}
+        </p>
         {demo ? (
           <Alert>{t("dashboardDemoStats")}</Alert>
         ) : summary.isError ? (
@@ -163,12 +171,14 @@ function Dashboard() {
                         : "dashboardBalance",
                   )}
                 </dt>
-                <dd>{demo ? "—" : formatKZT(summary.data![key], locale)}</dd>
+                <dd>{formatKZT(overview![key], locale)}</dd>
                 <small>
                   {t(
                     key === "balance"
                       ? "dashboardAllDates"
-                      : "dashboardForToday",
+                      : demo
+                        ? "dashboardDemoDay"
+                        : "dashboardForToday",
                   )}
                 </small>
               </div>
@@ -185,11 +195,10 @@ function Dashboard() {
           </Link>
         </div>
         <p className="muted cabinet-period">{t("dashboardDebtsHint")}</p>
-        {demo ? (
-          <p className="muted">{t("dashboardDemoDebts")}</p>
-        ) : debts.isError ? (
+        {demo && <p className="muted">{t("dashboardDemoDebts")}</p>}
+        {!demo && debts.isError ? (
           <ErrorState error={debts.error} retry={() => void debts.refetch()} />
-        ) : debts.isPending ? (
+        ) : !demo && debts.isPending ? (
           <Spinner />
         ) : rows.length === 0 ? (
           <EmptyState title={l("noDebts")} description={l("noDebtsHint")} />
