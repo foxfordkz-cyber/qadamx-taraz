@@ -2,7 +2,10 @@
 
 Ветка отчёта: `test/ai-assistant-final-acceptance`, base `main`.
 Проверенный source: `2ba2c09ea2e5d154c8f9b305614d9da33c462b83`.
-Точный commit публикации отчёта: `git log -1 --format=%H -- docs/qa/DEFENSE_QA_20261018.md`.
+Commit отчёта: `efbd146bcb43194a233d30254afdc3e31841d5a6`, push подтверждён,
+local/remote HEAD совпали. [Draft PR #90](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/90),
+base `main`, head `test/ai-assistant-final-acceptance`. Merge не выполнялся.
+Актуальный HEAD ветки (включая эту передачу): `git rev-parse HEAD` после безопасного fetch/pull.
 
 Последнее указание пользователя ограничивает работу проверками и отчётом.
 В публикуемом diff только этот handoff, [отчёт](../qa/DEFENSE_QA_20261018.md)
