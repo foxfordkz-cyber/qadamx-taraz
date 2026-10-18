@@ -1,13 +1,15 @@
 import type { components } from "../../../shared/api/generated";
 import { ApiError } from "../../../shared/api/client";
 
-/** Aliases of the captain-published OpenAPI 0.6.0 schemas. */
+/** Aliases of the captain-published OpenAPI 0.7.2 schemas. */
 export type AnalyticsSnapshot = components["schemas"]["AnalyticsResponse"];
 export type AnalyticsDays = AnalyticsSnapshot["days"];
 export type DemoScenario = "activity" | "empty" | "error" | "reversal";
 export type AnalyticsCards = components["schemas"]["AnalyticsCards"];
 export type AnalyticsDaily = components["schemas"]["AnalyticsDay"];
 export type AnalyticsHourly = components["schemas"]["AnalyticsHour"];
+export type AnalyticsCollection = components["schemas"]["AnalyticsCollection"];
+export type AnalyticsDebtBucket = components["schemas"]["AnalyticsDebtBucket"];
 
 export class AnalyticsResponseError extends ApiError {
   constructor() {
@@ -47,6 +49,56 @@ function nextDate(value: string, offset: number): string {
   const result = new Date(`${value}T00:00:00Z`);
   result.setUTCDate(result.getUTCDate() + offset);
   return result.toISOString().slice(0, 10);
+}
+
+function readCollection(
+  value: unknown,
+  cards: AnalyticsCards,
+): AnalyticsCollection | null | undefined {
+  if (value === null || value === undefined) return value;
+  const source = object(value);
+  const collection: AnalyticsCollection = {
+    sales_minor: integer(source.sales_minor),
+    paid_at_sale_minor: integer(source.paid_at_sale_minor),
+    paid_later_minor: integer(source.paid_later_minor),
+    outstanding_minor: integer(source.outstanding_minor),
+  };
+  if (
+    collection.sales_minor !== cards.sales_minor ||
+    BigInt(collection.paid_at_sale_minor) +
+      BigInt(collection.paid_later_minor) +
+      BigInt(collection.outstanding_minor) !==
+      BigInt(collection.sales_minor)
+  )
+    invalid();
+  return collection;
+}
+
+function readDebtAging(
+  value: unknown,
+  cards: AnalyticsCards,
+): AnalyticsDebtBucket[] | null | undefined {
+  if (value === null || value === undefined) return value;
+  if (!Array.isArray(value) || value.length !== 3) invalid();
+  const keys = new Set<AnalyticsDebtBucket["key"]>();
+  const buckets: AnalyticsDebtBucket[] = value.map((item) => {
+    const source = object(item);
+    const key = source.key;
+    if (key !== "0_7" && key !== "8_30" && key !== "31_plus") invalid();
+    if (keys.has(key)) invalid();
+    keys.add(key);
+    return {
+      key,
+      amount_minor: integer(source.amount_minor),
+      sales_count: integer(source.sales_count),
+    };
+  });
+  if (
+    buckets.reduce((sum, bucket) => sum + BigInt(bucket.amount_minor), 0n) !==
+    BigInt(cards.outstanding_minor)
+  )
+    invalid();
+  return buckets;
 }
 
 /** Reject mismatched scopes and malformed snapshots instead of rendering partial money.
@@ -148,6 +200,8 @@ export function readAnalyticsSnapshot(
     BigInt(cards.sales_count)
   )
     invalid();
+  const collection = readCollection(source.collection, cards);
+  const debtAging = readDebtAging(source.debt_aging, cards);
   return {
     business_id: expected.businessId,
     days: expected.days,
@@ -160,5 +214,7 @@ export function readAnalyticsSnapshot(
     cards,
     daily,
     hourly,
+    ...(collection !== undefined ? { collection } : {}),
+    ...(debtAging !== undefined ? { debt_aging: debtAging } : {}),
   };
 }
