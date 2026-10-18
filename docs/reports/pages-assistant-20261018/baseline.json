@@ -1,0 +1,21 @@
+{
+  "expected_rollback_id": "0a3a135b-7af1-4bbf-8d2d-92cf873b3f99",
+  "id_source": "captain instruction, management access unavailable",
+  "checks": [
+    {
+      "route": "/",
+      "production_status": 200,
+      "rollback_status": 200,
+      "same_html": true,
+      "production_sha256": "7a4d548c11d08da27ea0b4598f24899e09b18c19baed90c3dd795bf2dd7d3c64"
+    },
+    {
+      "route": "/login",
+      "production_status": 200,
+      "rollback_status": 200,
+      "same_html": true,
+      "production_sha256": "7a4d548c11d08da27ea0b4598f24899e09b18c19baed90c3dd795bf2dd7d3c64"
+    }
+  ],
+  "checked_at": "2026-10-18T04:52:39.661Z"
+}

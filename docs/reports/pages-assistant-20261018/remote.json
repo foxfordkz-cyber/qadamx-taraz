@@ -1,0 +1,29 @@
+{
+  "source_sha": "2ba2c09ea2e5d154c8f9b305614d9da33c462b83",
+  "origin": "https://qadamx-taraz.pages.dev",
+  "index_status": 200,
+  "index_hash_match": true,
+  "files": [
+    {
+      "path": "assets/auth-CB7MGzWB.js",
+      "status": 200,
+      "hash_match": true
+    },
+    {
+      "path": "assets/index-Bnzy6twA.js",
+      "status": 200,
+      "hash_match": true
+    },
+    {
+      "path": "assets/VenueScene-CGUKWdmZ.js",
+      "status": 200,
+      "hash_match": true
+    }
+  ],
+  "strings": {
+    "apk052": true,
+    "assistant": true,
+    "no_old_apk": true
+  },
+  "checked_at": "2026-10-18T04:56:56.317Z"
+}

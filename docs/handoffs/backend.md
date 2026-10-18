@@ -1,5 +1,18 @@
 # Передача работы backend
 
+## 2026-10-18 — Pages2ba2c09 опубликован, шаги5–6 PASS
+
+Капитан сообщил ручной Production Success09:55:
+`f89a486c-72e6-4188-bea8-9db5d8e15813`. Основной Pages независимо совпал с
+source `2ba2c09ea2e5d154c8f9b305614d9da33c462b83` по index.html и всем3JS.
+verify-pages из корня:6маршрутов+3entry-assets200/ok; Node strings APK0.5.2,
+«Спросите Qadam», отсутствие0.3.0 PASS. Браузер: главнаяRU/KZ, площадка→hotspot2→
+правильный магазин, Android0.5.2, выход из сохранённой сессии→login→Demo,
+новая главная и фиксированный ответ помощника «без AI» PASS, console errors0.
+Контроль реального AI оставлен капитану. Render/API0.7.0/Environment/Supabase/
+миграции не менялись, новых денег/заявок/платных вызовов нет. Rollback0a3a135b
+сохранён, не потребовался. [Точный отчёт и JSON](../PAGES_ASSISTANT_RELEASE_20261018.md).
+
 ## 2026-10-18 — Pages2ba2c09: сборка готова, upload ожидается
 
 Свежий origin/main=`2ba2c09ea2e5d154c8f9b305614d9da33c462b83`; обе deploy-ветки
