@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://qadamx-taraz.pages.dev"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-qadamx--taraz.pages.dev-164C3E?style=for-the-badge" alt="Сайт"></a>
-  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.3-D7F36A?style=for-the-badge" alt="API"></a>
+  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.7.2-D7F36A?style=for-the-badge" alt="API"></a>
   <a href="https://qadamx-taraz.onrender.com/docs"><img src="https://img.shields.io/badge/Swagger-docs-2F6F5A?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger"></a>
 </p>
 
@@ -59,33 +59,40 @@
 | Голосовой и текстовый черновик | ✅ Работает | Запись до 30 с, файл или текст, RU/KZ, уточняющие вопросы |
 | Ручной ввод | ✅ Работает | Та же форма без AI |
 | Продажи, оплаты, долги | ✅ Работает | Полная, частичная и нулевая оплата, доплата, отмена с историей |
-| Клиенты, история, итог дня, аналитика | ✅ Работает | Поиск клиента, фильтры, 7 и 30 дней |
+| Клиенты, история, итог дня, аналитика | ✅ Работает | Поиск клиента, фильтры, 7 и 30 дней. Итог периода от сервера сразу при открытии, «Кому напомнить», объяснение с AI по кнопке |
+| AI-помощник «Спросите Qadam» | ✅ Работает | Отвечает по данным своей точки: кто должен, как прошла неделя, черновик напоминания для копирования. Числа сверяются с данными сервера, AI ничего не записывает |
 | Защита от повторов | ✅ Работает | Идемпотентная атомарная запись, восстановление части незавершённых запросов |
 | Витрина и заявки | ✅ Работает | Площадки в 3D и обычным списком, каталог, заявка продавцу |
 | Интерфейс RU/KZ | ✅ Работает | Основной путь и ошибки. Учебные данные переведены не все |
-| Flutter-приложение | 🟡 Тестовые APK | Площадки, магазины, CRM. Физическая приёмка открыта |
+| Flutter-приложение | 🟡 Тестовый APK 0.5.2 | Площадки, магазины, CRM. Голос → черновик на Android проверен вручную. Полная приёмка установленного приложения не завершена |
 | Мал базар | 🟡 Концепт | Контракт рынков готов, справочник пуст, реальных цен нет |
 | Регистрация продавцов | ✅ Проверено на сайте | Настоящее письмо, новый аккаунт, reload и повторный обычный вход; доступ к точкам назначается отдельно. [Приёмка](docs/REGISTRATION_PAGES_LIVE_20261017.md) |
-| Сайт в Safari | ✅ Проверено командой | Основные функции сайта проверены вручную в Safari |
-| Flutter на физических Android и iPhone | ⏳ Не принято | APK проверен на эмуляторе, установка на телефоны не завершена |
-| Замер пользы | ⏳ Не проведён | Сравнение ручного ввода и голоса — следующий шаг |
+| Голос на настоящих устройствах | ✅ Проверено вручную 18.10 | Ноутбук (Chrome), iPhone (Safari), Android (APK): фраза голосом → расшифровка → черновик AI. [Скриншоты](docs/qa/evidence/voice-20261018/) |
 
 ## Скриншоты
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/assets/readme/sale-draft.webp" alt="Голос или текст → черновик AI → проверка"><br><sub>Голос или текст → черновик AI → проверка</sub></td>
-    <td width="50%"><img src="docs/assets/readme/hero.webp" alt="Витрина площадок Тараза"><br><sub>Витрина площадок Тараза</sub></td>
+    <td colspan="2"><img src="docs/assets/readme/home-v2.webp" alt="Главная: учёт продаж и долгов голосом"><br><sub>Главная: цель продукта и три шага</sub></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="docs/assets/readme/venues-3d.webp" alt="Три площадки в 3D: Кайкармет, MART, Ауыл Береке"><br><sub>Три площадки в 3D: Кайкармет, MART, Ауыл Береке</sub></td>
+    <td width="50%"><img src="docs/assets/readme/cabinet.webp" alt="Кабинет продавца: «Скажите о продаже» и «Спросите Qadam»"><br><sub>Кабинет: два входа с AI</sub></td>
+    <td width="50%"><img src="docs/assets/readme/sale-draft.webp" alt="Голос или текст → черновик AI → проверка"><br><sub>Продажа: голос → черновик AI → проверка</sub></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><img src="docs/assets/readme/debts.webp" alt="«Мне должны»: остатки считает сервер" width="70%"><br><sub>«Мне должны»: остатки считает сервер</sub></td>
+    <td width="50%"><img src="docs/assets/readme/analytics.webp" alt="Аналитика: карточки, итог периода, кому напомнить"><br><sub>Аналитика: итог периода и «Кому напомнить»</sub></td>
+    <td width="50%" align="center"><img src="docs/assets/readme/assistant.webp" alt="AI-помощник «Спросите Qadam»" width="80%"><br><sub>«Спросите Qadam»: ответ и черновик напоминания</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/assets/readme/device-laptop.webp" alt="Голос на ноутбуке"><br><sub>Голос на ноутбуке: черновик 5 000 / 2 000 ₸</sub></td>
+    <td width="50%" align="center"><img src="docs/assets/readme/devices-phones.webp" alt="Голос на iPhone и в Android-приложении"><br><sub>iPhone (Safari) и Android (APK): голос → черновик</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/assets/readme/venues-3d.webp" alt="Три площадки в 3D: Кайкармет, MART, Ауыл Береке"><br><sub>Витрина: три площадки в 3D и обычным списком</sub></td>
   </tr>
 </table>
 
-<sub>Снимки сделаны на синтетических учебных данных.</sub>
+<sub>Экраны сайта сняты на учебных и синтетических данных; снимки устройств — ручная проверка команды 18.10.2026 на учебной точке.</sub>
 
 ## Архитектура и стек
 
@@ -181,7 +188,8 @@ flutter run --dart-define-from-file=config/public.local.json
 | API, AI | `AI_PROVIDER`, `AI_API_KEY`, `AI_MODEL`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_TRANSCRIPTION_MODEL`, `AI_FALLBACK_OPENAI`, `AI_PRIMARY_TIMEOUT_SECONDS` |
 | API, фото Мал базара | `STORAGE_SERVICE_KEY`, `STORAGE_BUCKET`, `LIVESTOCK_DEMO_MODE` |
 | API, тесты и учебные владельцы | `TEST_DATABASE_URL`, `DEMO_OWNER_A_SUB`, `DEMO_OWNER_B_SUB`, `DEMO_OWNER_A_TOKEN`, `DEMO_OWNER_B_TOKEN` |
-| Сайт | `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_CUSTOMER_IDS_ENABLED` |
+| API, помощник | `ASSISTANT_ENABLED`, `ASSISTANT_DAILY_LIMIT` |
+| Сайт | `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_CUSTOMER_IDS_ENABLED`, `VITE_ASSISTANT_ENABLED` |
 
 ## Как устроен деплой
 
@@ -210,7 +218,7 @@ API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv
 - Выпуск `8fa0029` на Pages и Render: миграции 0007/0008 после backup и проверки восстановления, вход A/B, изоляция точек, история, аналитика. [Отчёт rollout](docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md)
 - Автотесты объединённого кода по отчёту выпуска: 357 backend, 395 web unit/component, E2E заявки, голоса и recovery
 - Один контрольный текстовый AI-запрос на production: HTTP 200, 4,719 с, 300000/100000 тиын, без денежной записи. Это один прогон, не средняя задержка
-- Автотесты не заменяют проверку на телефоне. `main` может быть впереди опубликованной сборки
+- Голос на ноутбуке, iPhone и Android проверен вручную 18.10, автотесты эту проверку не заменяют. `main` может быть впереди опубликованной сборки
 - `health.stage=manual-ledger` — прежняя служебная метка: она не означает отсутствие AI и не требует нового deployment
 
 ## Учебные данные и безопасность
