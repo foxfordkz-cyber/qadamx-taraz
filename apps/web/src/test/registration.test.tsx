@@ -94,7 +94,9 @@ describe("approved registration MVP through the existing AuthProvider (synthetic
     const qa = setup();
     await fill();
     await userEvent.click(screen.getByRole("button", { name: "KZ" }));
-    expect(screen.getByLabelText("Құпиясөз")).toHaveValue("synthetic-password");
+    expect(screen.getByLabelText("Құпия сөз")).toHaveValue(
+      "synthetic-password",
+    );
     await userEvent.click(screen.getByRole("button", { name: "RU" }));
     await submit();
     await waitForConfirmation();

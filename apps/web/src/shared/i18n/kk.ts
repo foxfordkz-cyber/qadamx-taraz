@@ -22,7 +22,7 @@ export const kk: Record<keyof typeof ru, string> = {
   dashboardPeriod: "Бүгін, Тараз уақытымен. Күн әлі аяқталған жоқ.",
   dashboardSales: "Сатылымдар",
   dashboardReceipts: "Түсімдер",
-  dashboardBalance: "Маған қарыз",
+  dashboardBalance: "Маған қарыздар",
   dashboardAllDates: "Барлық күндер бойынша",
   dashboardForToday: "Бүгінгі",
   dashboardDemoDay: "Оқу күні бойынша",
@@ -78,15 +78,15 @@ export const kk: Record<keyof typeof ru, string> = {
   callbackBrowser:
     "Хатты тіркелуді бастаған браузерде және құрылғыда ашыңыз. Пошта расталған болса, құпиясөзбен кіріңіз.",
   callbackUnknown:
-    "Нәтижені растау мүмкін болмады. Құпиясөзбен кіріңіз немесе жаңа хат сұраңыз. Сұрау автоматты түрде қайталанбайды.",
+    "Нәтижені растау мүмкін болмады. Құпия сөзбен кіріңіз немесе жаңа хат сұраңыз. Сұрау автоматты түрде қайталанбайды.",
   callbackChanged: "Сеанс өзгерді. Кабинетке кіру бетінен өтіңіз.",
   callbackExpiredSession: "Сервер сессияны растамады. Аккаунтқа қайта кіріңіз.",
   authProjectUrlInvalid:
     "Supabase мекенжайы қате. Қолданба баптауларында /rest/v1 немесе /auth/v1 жолынсыз Project URL көрсетіңіз. Капитанға хабарласыңыз.",
-  registrationOpen: "Аккаунт құру",
+  registrationOpen: "Тіркелу",
   registrationTitle: "Тіркелу",
   registrationSubmit: "Тіркелу",
-  registrationLogin: "Кіруге оралу",
+  registrationLogin: "Кіру бетіне оралу",
   registrationApprovedOriginOnly:
     "Тіркелу үшін Qadam негізгі сайтын ашыңыз. Тіркелуді бастап, хатты сол браузерде ашыңыз.",
   registrationOpenApprovedOrigin: "Qadam тіркелуін ашу",
@@ -96,10 +96,10 @@ export const kk: Record<keyof typeof ru, string> = {
   registrationAnother: "Басқа мекенжайды көрсету",
   registrationHint:
     "Аккаунт құрып, email мекенжайын растаңыз. Сауда нүктесіне кіру құқығын капитан береді.",
-  registrationConfirmPassword: "Құпиясөзді растаңыз",
+  registrationConfirmPassword: "Құпия сөзді растаңыз",
   registrationPasswordHint:
     "Кемінде 6 таңба. Сервис бұдан да сенімді құпиясөзді талап етуі мүмкін.",
-  registrationMismatch: "Құпиясөздер сәйкес келмейді.",
+  registrationMismatch: "Құпия сөздер сәйкес келмейді.",
   registrationWeakPassword: "Сенімдірек құпиясөзді таңдаңыз.",
   registrationValidation:
     "Электрондық пошта мекенжайын және енгізілген деректерді тексеріңіз.",
@@ -216,7 +216,8 @@ export const kk: Record<keyof typeof ru, string> = {
   financialDemoHint:
     "Demo режимінде операциялар жазылмайды, қарыздар мен қорытындылар серверден жүктелмейді. Сауда нүктесінің есебін жүргізу үшін жұмыс аккаунтына кіріңіз.",
   menu: "Тағы",
-  storefrontHint: "Сауда нүктесі мен сатып алушыларға ортақ платформа.",
+  storefrontHint:
+    "Сауда нүктелері мен сатып алушыларды біріктіретін платформа.",
   activeBusiness: "Сіз жұмыс істеп жатқан сауда нүктесі",
   quickActions: "Жылдам әрекеттер",
   customerDirectory: "Сатып алушылар базасы",
@@ -262,8 +263,8 @@ export const kk: Record<keyof typeof ru, string> = {
   login: "Кіру",
   logout: "Шығу",
   email: "Электрондық пошта",
-  password: "Құпиясөз",
-  passwordShow: "Құпиясөзді көрсету",
+  password: "Құпия сөз",
+  passwordShow: "Құпия сөзді көрсету",
   welcome: "Бизнесіңіз. Бәрі қол астында.",
   loginHint: "Qadam әкімшісі берген сатушы аккаунтымен кіріңіз.",
   authUnavailable:
@@ -271,7 +272,7 @@ export const kk: Record<keyof typeof ru, string> = {
   authError: "Кіру мүмкін болмады. Деректерді тексеріп, қайталап көріңіз.",
   signoutError: "Шығу мүмкін болмады. Қайталап көріңіз.",
   demo: "Демо",
-  demoOpen: "Демоны көру",
+  demoOpen: "Демо нұсқаны көру",
   demoTitle: "Демо режимі · тек көру",
   demoHint: "Демо режимінде оқу деректері қолданылады; өзгерістер сақталмайды",
   demoWrites:
@@ -281,7 +282,7 @@ export const kk: Record<keyof typeof ru, string> = {
   noBusinessHint:
     "Сауда нүктесіне кіру құқығы әлі берілмеген. Кабинетте сауда нүктесін құру және шақыру жіберу әзірге қолжетімсіз. Qadam әкімшісіне хабарласып, содан кейін тізімді жаңартыңыз.",
   sale: "Сату",
-  debts: "Маған қарыз",
+  debts: "Маған қарыздар",
   inquiries: "Өтінімдер",
   summary: "Күн қорытындысы",
   customers: "Клиенттер",
