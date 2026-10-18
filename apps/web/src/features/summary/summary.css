@@ -1,0 +1,25 @@
+.summary-share {
+  margin-block: var(--qadam-space-5);
+}
+.summary-share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--qadam-space-3);
+  margin-bottom: var(--qadam-space-3);
+}
+.summary-share-actions .button {
+  min-height: 44px;
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.summary-share > p:last-child {
+  margin-bottom: 0;
+}
+@media (max-width: 600px) {
+  .summary-share-actions .button {
+    width: 100%;
+  }
+}

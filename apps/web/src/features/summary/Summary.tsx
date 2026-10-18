@@ -3,9 +3,19 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useBusiness, useRuntime } from "../../app/runtime";
 import { formatKZT } from "../../shared/format";
-import { Card, ErrorState, Input, PageHeader } from "../../shared/ui";
+import {
+  Alert,
+  Card,
+  ErrorState,
+  Input,
+  PageHeader,
+  Spinner,
+} from "../../shared/ui";
 import { money, record } from "../ledger/data";
 import { useLedgerText } from "../ledger/i18n";
+import { ShareSummary } from "./ShareSummary";
+import { shareLabels, summaryShareText, type SummaryValues } from "./share";
+import { demoSummary, demoSummaryDate } from "./demo";
 export const localDate = () =>
   new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Almaty",
@@ -36,41 +46,77 @@ export function useSummary(date = localDate()) {
   });
 }
 export function Stats({ date = localDate() }: { date?: string }) {
-  const { l, locale } = useLedgerText(),
-    q = useSummary(date);
+  const q = useSummary(date);
   return (
     <>
       {q.isError && (
         <ErrorState error={q.error} retry={() => void q.refetch()} />
       )}
-      <div className="ledger-stats">
-        {q.data &&
-          (["sales", "receipts", "balance", "inquiries"] as const).map((k) => (
-            <Card key={k}>
-              <p>{l(k)}</p>
-              <strong>
-                {k === "inquiries" ? q.data[k] : formatKZT(q.data[k], locale)}
-              </strong>
-            </Card>
-          ))}
-      </div>
+      <SummaryStats data={q.data} />
     </>
   );
 }
+function SummaryStats({ data }: { data?: SummaryValues }) {
+  const { l, locale } = useLedgerText();
+  return (
+    <div className="ledger-stats">
+      {data &&
+        (["sales", "receipts", "balance", "inquiries"] as const).map((k) => (
+          <Card key={k}>
+            <p>{l(k)}</p>
+            <strong>
+              {k === "inquiries" ? data[k] : formatKZT(data[k], locale)}
+            </strong>
+          </Card>
+        ))}
+    </div>
+  );
+}
 export function Summary() {
-  const [date, setDate] = useState(localDate()),
-    { l } = useLedgerText();
+  const { scope, gateway } = useRuntime();
+  const { business } = useBusiness();
+  return <SummaryPage key={`${scope}:${business.id}:${gateway.mode}`} />;
+}
+function SummaryPage() {
+  const { gateway } = useRuntime();
+  const demo = gateway.mode === "demo";
+  const [date, setDate] = useState(demo ? demoSummaryDate : localDate()),
+    { l, locale } = useLedgerText();
+  const { business } = useBusiness();
+  const q = useSummary(date);
+  const data = demo ? demoSummary : q.data;
+  const ready = !!date && (demo || (q.isSuccess && !q.isFetching));
+  const text =
+    ready && data
+      ? summaryShareText({
+          date,
+          businessName: business.name,
+          locale,
+          summary: data,
+        })
+      : null;
   return (
     <>
       <PageHeader title={l("summary")} />
+      {demo && <Alert>{shareLabels[locale].demo}</Alert>}
       <Input
         type="date"
         label={l("day")}
         value={date}
+        disabled={demo}
         onChange={(e) => setDate(e.target.value)}
       />
-      <Stats date={date} />
+      {gateway.mode === "live" && !!date && q.isPending && <Spinner />}
+      {!demo && q.isError && (
+        <ErrorState error={q.error} retry={() => void q.refetch()} />
+      )}
+      <SummaryStats data={data} />
       <p>{l("note")}</p>
+      <ShareSummary
+        key={`${date}:${locale}:${text}`}
+        text={text}
+        locale={locale}
+      />
     </>
   );
 }
