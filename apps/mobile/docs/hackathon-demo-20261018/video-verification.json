@@ -1,0 +1,27 @@
+{
+  "file": "Qadam-Business-Demo-RU-90sec.mp4",
+  "duration_seconds": 90.0,
+  "width": 1920,
+  "height": 1080,
+  "fps": 24.0,
+  "frame_count": 2160,
+  "video_codec": "H.264",
+  "pixel_format": "yuv420p",
+  "audio_streams": 0,
+  "subtitles": "Russian burned in; UTF-8 SRT supplied separately",
+  "bytes": 2112668,
+  "sha256": "1a12ec198027c34e307c010d0dcedddcceb62097d06a3a04e1a886bf69ccea7a",
+  "full_decode_errors": 0,
+  "sampled_scene_frames": 11,
+  "closing_qr_verified": "https://qadamx-taraz.pages.dev",
+  "fast_start": true,
+  "live_ai_or_financial_writes": false,
+  "physical_phone_playback": "not performed",
+  "new_assistant_footage": false,
+  "money_example_tenge": {
+    "sale": 4500,
+    "initial_payment": 2000,
+    "extra_payment": 500,
+    "final_debt": 2000
+  }
+}
