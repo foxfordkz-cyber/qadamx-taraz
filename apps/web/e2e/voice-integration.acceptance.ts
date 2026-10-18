@@ -208,16 +208,15 @@ async function stats(page: Page, receipts: string, debt: string) {
   ]);
 }
 async function report(page: Page, receipts: string, debt: string) {
-  // Six cards since PR55: sales, receipts, sale count, average, debt, debtors.
-  // This scenario keeps one sale and one debtor throughout.
-  await expect(page.locator(".analytics-kpi-value")).toHaveText([
-    "3 000 ₸",
-    receipts,
-    "1",
-    "3 000 ₸",
-    debt,
-    "1",
-  ]);
+  await expect(
+    page.locator(".analytics-main-kpis .analytics-kpi-value"),
+  ).toHaveText(["3 000 ₸", receipts, debt]);
+  const details = page.locator(".analytics-details");
+  if ((await details.getAttribute("open")) === null)
+    await details.locator(":scope > summary").click();
+  await expect(
+    page.locator(".analytics-details .analytics-kpi-value"),
+  ).toHaveText(["1", "3 000 ₸", "1"]);
   await expect(page.locator(".analytics-hourly-bars button")).toHaveCount(24);
 }
 
@@ -343,9 +342,9 @@ test("verified voice build preserves customer, money retry and Analytics refresh
   await expect(page.locator(".analytics-kpi-value")).toHaveText([
     "0 ₸",
     "0 ₸",
+    "0 ₸",
     "0",
     "Нет продаж",
-    "0 ₸",
     "0",
   ]);
   await page
