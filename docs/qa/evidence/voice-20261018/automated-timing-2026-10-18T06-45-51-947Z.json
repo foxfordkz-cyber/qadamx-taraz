@@ -1,0 +1,60 @@
+{
+  "classification": "Automated Playwright Timing — synthetic Auth/API; NOT human speed or live voice",
+  "startedAt": "2026-10-18T06:45:51.947Z",
+  "sourceSha": "ae6b6c12fd4b90b48566318270804d8a8708d3b0",
+  "browser": "155.0.8059.84",
+  "node": "v24.21.0",
+  "os": "win32",
+  "viewport": {
+    "width": 1440,
+    "height": 1000
+  },
+  "retries": 0,
+  "timer": "process.hrtime.bigint; immediately before Manual click to asserted saved UI after verified synthetic POST",
+  "realFinancialPosts": 0,
+  "paidAiRequests": 0,
+  "externalRequestsBlocked": [],
+  "results": [
+    {
+      "n": 1,
+      "language": "KZ",
+      "status": "PASS",
+      "seconds": 1.7249608,
+      "syntheticPosts": 1,
+      "startedAt": "2026-10-18T06:46:06.768Z"
+    },
+    {
+      "n": 2,
+      "language": "RU",
+      "status": "PASS",
+      "seconds": 3.7014447,
+      "syntheticPosts": 1,
+      "startedAt": "2026-10-18T06:46:16.923Z"
+    },
+    {
+      "n": 3,
+      "language": "RU",
+      "status": "PASS",
+      "seconds": 0.4534188,
+      "syntheticPosts": 1,
+      "startedAt": "2026-10-18T06:46:27.490Z"
+    },
+    {
+      "n": 4,
+      "language": "KZ",
+      "status": "PASS",
+      "seconds": 0.498694,
+      "syntheticPosts": 1,
+      "startedAt": "2026-10-18T06:46:29.467Z"
+    },
+    {
+      "n": 5,
+      "language": "RU/KZ",
+      "status": "PASS",
+      "seconds": 0.7688721,
+      "syntheticPosts": 1,
+      "startedAt": "2026-10-18T06:46:31.404Z",
+      "paymentClarifiedMinor": 70000
+    }
+  ]
+}
