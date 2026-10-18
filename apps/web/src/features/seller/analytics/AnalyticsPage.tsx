@@ -15,6 +15,7 @@ import {
   Spinner,
 } from "../../../shared/ui";
 import { DailyChart, DailyTable, HourlyChart, analyticsDate } from "./Charts";
+import { CollectionCards } from "./CollectionCards";
 import { AssistantProvider, AssistantPanel } from "../../assistant";
 import { useAssistant } from "../../assistant/state";
 import type { AnalyticsDays, AnalyticsSnapshot, DemoScenario } from "./model";
@@ -151,7 +152,9 @@ function AnalyticsReport({
             </div>
           </Card>
           <Card className="analytics-reminders" aria-labelledby={debtorsId}>
-            <h2 id={debtorsId}>{t("assistantWhoToRemind")}</h2>
+            <h2 id={debtorsId} tabIndex={-1}>
+              {t("assistantWhoToRemind")}
+            </h2>
             {result ? (
               debtors.length ? (
                 <ul>
@@ -189,6 +192,11 @@ function AnalyticsReport({
           </Card>
         </div>
       )}
+      <CollectionCards
+        snapshot={snapshot}
+        demo={demo}
+        remindersId={debtorsId}
+      />
       {snapshot.cards.sales_count === 0 &&
         snapshot.cards.receipts_minor === 0 && (
           <Card className="analytics-empty">

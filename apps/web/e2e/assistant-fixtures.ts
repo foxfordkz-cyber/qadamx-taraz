@@ -45,6 +45,12 @@ export async function prepareAssistant(page: Page, navigate = true) {
     snapshot.daily.at(-1)!.receipts_minor = 150000;
     snapshot.daily.at(-1)!.sales_count = 1;
     snapshot.hourly[12].sales_count = 1;
+    snapshot.collection = structuredClone(
+      examples.AnalyticsCollectionAndDebtAging.collection,
+    );
+    snapshot.debt_aging = structuredClone(
+      examples.AnalyticsCollectionAndDebtAging.debt_aging,
+    );
     await route.fulfill({
       json: {
         ...snapshot,

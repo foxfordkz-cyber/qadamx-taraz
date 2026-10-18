@@ -200,7 +200,9 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     const view = await openDemo({ mode: "demo", read });
     await reportReady();
     expect(view.auth().demo).toBe(true);
-    expect(screen.getByText("Демо-данные")).toBeInTheDocument();
+    expect(
+      view.container.querySelector(".analytics-page > .badge"),
+    ).toHaveTextContent("Демо-данные");
     expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument();
     expect(metric("Поступления").getByText("51 000 ₸")).toBeInTheDocument();
     expect(metric("Средний чек").getByText("2 960 ₸")).toBeInTheDocument();
@@ -337,6 +339,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       "empty",
     );
     snapshot.cards.outstanding_minor = 3_500_000;
+    snapshot.debt_aging = null;
     snapshot.cards.debtors_count = 8;
     await openDemo(
       createDemoAnalyticsAdapter({ delayMs: 0, resolve: () => snapshot }),

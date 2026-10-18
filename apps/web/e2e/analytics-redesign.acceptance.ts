@@ -26,7 +26,8 @@ for (const locale of ["ru", "kk"] as const) {
         .poll(() => page.evaluate(() => document.documentElement.scrollWidth))
         .toBe(width);
       const directory = path.resolve(
-        "../../docs/screenshots/analytics-redesign",
+        process.env.QADAM_SCREENSHOT_ROOT ??
+          "../../docs/screenshots/analytics-redesign",
       );
       await mkdir(directory, { recursive: true });
       await page.evaluate(() => {

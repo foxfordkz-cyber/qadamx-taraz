@@ -118,6 +118,32 @@ export function makeDemoAnalyticsSnapshot(
     period_to: daily[days - 1].date,
     today_incomplete: true,
     cards,
+    collection: {
+      sales_minor: cards.sales_minor,
+      paid_at_sale_minor:
+        empty || reversal ? 0 : days === 7 ? 4_300_000 : 22_000_000,
+      paid_later_minor:
+        empty || reversal ? 0 : days === 7 ? 800_000 : 4_800_000,
+      outstanding_minor:
+        empty || reversal ? 0 : days === 7 ? 2_300_000 : 3_200_000,
+    },
+    debt_aging: [
+      {
+        key: "0_7",
+        amount_minor: empty || reversal ? 0 : 2_300_000,
+        sales_count: empty || reversal ? 0 : 3,
+      },
+      {
+        key: "8_30",
+        amount_minor: empty || reversal ? 0 : 900_000,
+        sales_count: empty || reversal ? 0 : 2,
+      },
+      {
+        key: "31_plus",
+        amount_minor: empty || reversal ? 0 : 300_000,
+        sales_count: empty || reversal ? 0 : 1,
+      },
+    ],
     daily,
     hourly: (days === 7 ? weeklyHours : monthlyHours).map((count, hour) => ({
       hour,

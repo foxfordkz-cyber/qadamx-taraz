@@ -2,6 +2,7 @@ import { expect, test } from "@playwright/test";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
+import { stripVTControlCharacters } from "node:util";
 import type { components } from "../src/shared/api/generated";
 import { login, mockServices, qaIds } from "./qa-fixtures";
 
@@ -332,10 +333,7 @@ test("Automated Playwright Timing — five synthetic manual scenarios", async ({
       if (tick !== undefined)
         result.elapsedUntilFailureSeconds =
           Number(process.hrtime.bigint() - tick) / 1e9;
-      result.error = String(error)
-        // eslint-disable-next-line no-control-regex -- strip ANSI colours
-        .replace(/\x1b\[[0-9;]*m/g, "")
-        .slice(0, 2500);
+      result.error = stripVTControlCharacters(String(error)).slice(0, 2500);
       await page
         .screenshot({
           path: testInfo.outputPath(`synthetic-failure-${scenario.n}.png`),
