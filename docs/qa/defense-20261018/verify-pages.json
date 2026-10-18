@@ -1,0 +1,52 @@
+{
+  "origin": "https://qadamx-taraz.pages.dev",
+  "checked_at": "2026-10-18T05:04:09.597Z",
+  "scope": "SPA routes and static bundles only; not an AI, Auth or physical-device acceptance",
+  "results": [
+    {
+      "route": "/",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/login",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/register",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/auth/callback",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/seller",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "route": "/seller/analytics",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "asset": "https://qadamx-taraz.pages.dev/assets/index-Bnzy6twA.js",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "asset": "https://qadamx-taraz.pages.dev/assets/auth-CB7MGzWB.js",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "asset": "https://qadamx-taraz.pages.dev/assets/index-DOcOg911.css",
+      "status": 200,
+      "ok": true
+    }
+  ]
+}
