@@ -1,0 +1,46 @@
+
+[WebServer] (node:22756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+
+(node:20300) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/1] e2e\customer-recovery.acceptance.ts:157:1 › lost acknowledgement after synthetic commit resolves through completed lookup without a second POST
+  1) e2e\customer-recovery.acceptance.ts:157:1 › lost acknowledgement after synthetic commit resolves through completed lookup without a second POST
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "GET /api/v1/businesses/10000000-0000-4000-8000-000000000001/summary",
+    +   "GET /api/v1/businesses/10000000-0000-4000-8000-000000000001/operations",
+    + ]
+
+      170 |   expect(server.lookups).toContain(server.posts[0].key);
+      171 |   expect(await savedIntent(page)).toBeNull();
+    > 172 |   expect(server.unexpected).toEqual([]);
+          |                             ^
+      173 | });
+      174 |
+      175 | test("not_observed preserves the unknown attempt; an explicit retry sends identical key and body", async ({
+        at <qa-worktree>\apps\web\e2e\customer-recovery.acceptance.ts:172:29
+
+    Error Context: test-results\captain-acceptance\retry-1\customer-recovery.acceptan-5f3db-ookup-without-a-second-POST\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\captain-acceptance\retry-1\customer-recovery.acceptan-5f3db-ookup-without-a-second-POST\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\captain-acceptance\retry-1\customer-recovery.acceptan-5f3db-ookup-without-a-second-POST\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    e2e\customer-recovery.acceptance.ts:157:1 › lost acknowledgement after synthetic commit resolves through completed lookup without a second POST

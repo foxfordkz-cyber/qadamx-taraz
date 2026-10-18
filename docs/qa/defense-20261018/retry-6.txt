@@ -1,0 +1,40 @@
+[WebServer] (node:15612) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:23524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\integration-design.spec.ts:87:1 › integrated mobile menu closes on Escape and route change; shared fonts and touch controls load (30.2s)
+
+
+  1) e2e\integration-design.spec.ts:87:1 › integrated mobile menu closes on Escape and route change; shared fonts and touch controls load
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('dialog', { name: 'Все разделы', exact: true }).getByRole('link', { name: 'Мне должны', exact: true })
+
+
+      104 |   await expect(more).toHaveAttribute("aria-expanded", "false");
+      105 |   await more.click();
+    > 106 |   await menu.getByRole("link", { name: "Мне должны", exact: true }).click();
+          |                                                                     ^
+      107 |   await expect(menu).not.toBeVisible();
+      108 |   await expect(page).toHaveURL(/\/seller\/debts$/);
+      109 |   await expect(more).toHaveClass(/is-active/);
+        at <qa-worktree>\apps\web\e2e\integration-design.spec.ts:106:69
+
+    Error Context: test-results\captain-acceptance\retry-6\integration-design-integra-51f66-nts-and-touch-controls-load\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\captain-acceptance\retry-6\integration-design-integra-51f66-nts-and-touch-controls-load\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\captain-acceptance\retry-6\integration-design-integra-51f66-nts-and-touch-controls-load\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\integration-design.spec.ts:87:1 › integrated mobile menu closes on Escape and route change; shared fonts and touch controls load

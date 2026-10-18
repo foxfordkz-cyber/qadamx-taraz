@@ -1,0 +1,303 @@
+{
+  "time": "2026-10-18T05:14:38.615Z",
+  "browser": "Codex IAB on Windows; desktop responsive viewport, not physical phone",
+  "observations": [
+    {
+      "page": "https://qadamx-taraz.pages.dev/venues/kaikarmet",
+      "locale": "KZ",
+      "width": 327,
+      "result": "Venue loads, 3 shops; initial viewport before calibration (measured 327 CSS px)"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/shops/kaikarmet-demo-clothes",
+      "locale": "RU/KZ",
+      "width": 360,
+      "result": "Shop catalog and inquiry form visible; form not submitted"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/",
+      "locale": "RU/KZ",
+      "width": 360,
+      "result": "Public flow and Android release 0.5.2 link",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller",
+      "locale": "RU",
+      "result": "Demo entry, both CTA, six mobile navigation actions",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller",
+      "locale": "RU",
+      "width": 360,
+      "result": "Explicit Demo example without AI; Escape and top close button dismiss drawer"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/analytics",
+      "locale": "RU",
+      "width": 360,
+      "result": "Explain action above 3 KPI, reminders and collapsed details visible",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/analytics",
+      "locale": "KZ",
+      "result": "Translated analytics; details collapsed",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/sale",
+      "locale": "KZ",
+      "result": "Sale opens; all financial and AI write actions disabled in Demo",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/debts",
+      "locale": "KZ",
+      "result": "Debts opens with explicit live-data sign-in notice",
+      "dimensions": {
+        "scroll": 360,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/inquiries",
+      "locale": "KZ",
+      "result": "Inquiries opens with labeled sample records",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/customers",
+      "locale": "KZ",
+      "result": "Customers opens; More closes on navigation",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/catalog",
+      "locale": "KZ",
+      "result": "Catalog opens",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/history",
+      "locale": "KZ",
+      "result": "History opens with live-data sign-in notice"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/summary",
+      "locale": "KZ",
+      "result": "Summary opens with live-data sign-in notice",
+      "dimensions": {
+        "scroll": 360,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller",
+      "locale": "KZ",
+      "result": "Home CTA translated; no horizontal page overflow",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller",
+      "locale": "KZ",
+      "result": "Demo answer labeled AI not used",
+      "dimensions": {
+        "scroll": 346,
+        "width": 360
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller",
+      "locale": "KZ",
+      "result": "Desktop sidebar and CTA visible",
+      "dimensions": {
+        "scroll": 1426,
+        "width": 1440
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/sale",
+      "locale": "RU",
+      "result": "Продажа opens",
+      "dimensions": {
+        "scroll": 1426,
+        "width": 1440
+      },
+      "headings": [
+        "Новая запись",
+        "Голосом или текстом",
+        "Проверка и подтверждение"
+      ]
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/debts",
+      "locale": "RU",
+      "result": "Мне должны opens",
+      "dimensions": {
+        "scroll": 1440,
+        "width": 1440
+      },
+      "headings": ["Мне должны", "Финансовые данные доступны после входа"]
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/inquiries",
+      "locale": "RU",
+      "result": "Заявки opens",
+      "dimensions": {
+        "scroll": 1426,
+        "width": 1440
+      },
+      "headings": [
+        "Заявки",
+        "Әсел · Демо",
+        "Демо-покупатель",
+        "Демо-покупатель 02"
+      ]
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/analytics",
+      "locale": "RU",
+      "result": "Аналитика opens",
+      "dimensions": {
+        "scroll": 1426,
+        "width": 1440
+      },
+      "headings": [
+        "Аналитика моей точки",
+        "AI-итог недели",
+        "Продажи за период",
+        "Получено за период",
+        "Мне должны сейчас",
+        "Продажи по дням",
+        "Кому напомнить"
+      ]
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/customers",
+      "locale": "RU",
+      "result": "Клиенты opens from desktop More",
+      "dimensions": {
+        "scroll": 1440,
+        "width": 1440
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/catalog",
+      "locale": "RU",
+      "result": "Каталог opens from desktop More",
+      "dimensions": {
+        "scroll": 1440,
+        "width": 1440
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/history",
+      "locale": "RU",
+      "result": "История opens from desktop More",
+      "dimensions": {
+        "scroll": 1440,
+        "width": 1440
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller/summary",
+      "locale": "RU",
+      "result": "Итог дня opens from desktop More",
+      "dimensions": {
+        "scroll": 1440,
+        "width": 1440
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/seller",
+      "locale": "RU",
+      "width": 1440,
+      "result": "Demo drawer example and Escape work on desktop"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/",
+      "locale": "RU",
+      "result": "Desktop home and Android release link visible",
+      "dimensions": {
+        "scroll": 1426,
+        "width": 1440
+      }
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/venues/kaikarmet",
+      "locale": "KZ",
+      "width": 1440,
+      "result": "Venue opens and shop links load"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/shops/kaikarmet-demo-clothes",
+      "locale": "KZ",
+      "width": 1440,
+      "result": "Shop loads"
+    },
+    {
+      "page": "https://qadamx-taraz.pages.dev/shops/kaikarmet-demo-clothes",
+      "locale": "RU",
+      "result": "Desktop shop localized",
+      "dimensions": {
+        "scroll": 1426,
+        "width": 1440
+      }
+    }
+  ],
+  "console": [
+    {
+      "level": "warn",
+      "message": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+      "timestamp": "2026-10-18T05:09:07.135Z",
+      "url": "https://qadamx-taraz.pages.dev/assets/VenueScene-CGUKWdmZ.js"
+    },
+    {
+      "level": "warn",
+      "message": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+      "timestamp": "2026-10-18T05:09:11.209Z",
+      "url": "https://qadamx-taraz.pages.dev/assets/VenueScene-CGUKWdmZ.js"
+    },
+    {
+      "level": "warn",
+      "message": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+      "timestamp": "2026-10-18T05:13:49.99Z",
+      "url": "https://qadamx-taraz.pages.dev/assets/VenueScene-CGUKWdmZ.js"
+    },
+    {
+      "level": "warn",
+      "message": "THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.",
+      "timestamp": "2026-10-18T05:14:31.062Z",
+      "url": "https://qadamx-taraz.pages.dev/assets/VenueScene-CGUKWdmZ.js"
+    }
+  ]
+}

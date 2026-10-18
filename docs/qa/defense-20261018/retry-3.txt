@@ -1,0 +1,46 @@
+[WebServer] (node:25524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:7304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/1] e2e\customer-recovery.acceptance.ts:202:1 › reload checks the original key with GET only; a different body cannot become a new customer
+  1) e2e\customer-recovery.acceptance.ts:202:1 › reload checks the original key with GET only; a different body cannot become a new customer
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 4
+
+    - Array []
+    + Array [
+    +   "GET /api/v1/businesses/10000000-0000-4000-8000-000000000001/summary",
+    +   "GET /api/v1/businesses/10000000-0000-4000-8000-000000000001/operations",
+    + ]
+
+      241 |   expect(server.posts).toHaveLength(2);
+      242 |   expect(server.posts[1]).toEqual(server.posts[0]);
+    > 243 |   expect(server.unexpected).toEqual([]);
+          |                             ^
+      244 | });
+      245 |
+      246 | test("two real tabs queue native Web Locks and adopt storage events before different bodies can create twice", async ({
+        at <qa-worktree>\apps\web\e2e\customer-recovery.acceptance.ts:243:29
+
+    Error Context: test-results\captain-acceptance\retry-3\customer-recovery.acceptan-d6037-annot-become-a-new-customer\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\captain-acceptance\retry-3\customer-recovery.acceptan-d6037-annot-become-a-new-customer\trace.zip
+    Usage:
+
+        npx playwright show-trace test-results\captain-acceptance\retry-3\customer-recovery.acceptan-d6037-annot-become-a-new-customer\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+  1 failed
+    e2e\customer-recovery.acceptance.ts:202:1 › reload checks the original key with GET only; a different body cannot become a new customer
