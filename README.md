@@ -30,7 +30,7 @@
 - **Сайт:** [qadamx-taraz.pages.dev](https://qadamx-taraz.pages.dev) — витрина и кабинет продавца (`/login`)
 - **API:** [https://qadamx-taraz.onrender.com/api/v1](https://qadamx-taraz.onrender.com/api/v1/health), документация [Swagger](https://qadamx-taraz.onrender.com/docs). Бесплатный сервер может просыпаться до минуты
 - **Android:** Тестовый [APK 0.5.2](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk) (pre-release, SHA-256 скачанного файла проверен), все сборки — в [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases). Установка и приёмка на телефоне не подтверждены
-- **Видео:** [демо на 90 секунд](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Business-Demo-RU-90sec.mp4) — без звука, с русскими субтитрами, монтаж учебных экранов
+- **Видео:** [демо на 2 минуты с AI-помощником](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Business-Demo-RU-with-assistant.mp4) — без звука, с русскими субтитрами, монтаж учебных экранов; помощник показан в демо-режиме
 
 ## Кому и чем помогает
 
