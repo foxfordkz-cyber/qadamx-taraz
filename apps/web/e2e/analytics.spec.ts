@@ -102,6 +102,34 @@ async function interceptLiveAnalytics(page: Page) {
       ),
     });
   });
+  await page.route("**/api/v1/businesses/*/assistant", async (route) => {
+    const request = route.request().postDataJSON();
+    expect(request.ai).toBe(false);
+    const businessId = new URL(route.request().url()).pathname
+      .split("/")
+      .at(-2)!;
+    const snapshot = liveFixture(businessId, request.days);
+    await route.fulfill({
+      json: {
+        business_id: businessId,
+        days: request.days,
+        locale: request.locale,
+        timezone: "Asia/Almaty",
+        currency: "KZT",
+        as_of: snapshot.as_of,
+        source: "facts",
+        answer: "Сводка тестового сервера.",
+        facts: [
+          {
+            key: "sales",
+            label: "Продажи",
+            value_minor: snapshot.cards.sales_minor,
+          },
+        ],
+        actions: [],
+      },
+    });
+  });
   return state;
 }
 
@@ -122,11 +150,20 @@ async function demoReport(page: Page) {
   await enterDemo(page);
   await navigateSeller(page, "analytics");
   await expect(page.locator(".analytics-main-kpis")).toBeVisible();
-  await expect(
-    page.getByText("Demo · синтетическая аналитика", { exact: true }),
-  ).toBeVisible();
+  await expect(page.getByText("Демо-данные", { exact: true })).toBeVisible();
   await page.locator(".analytics-details > summary").click();
   return traffic;
+}
+
+async function selectScenario(page: Page, value: string) {
+  const controls = page.locator(".analytics-demo-controls");
+  if (
+    !(await controls.evaluate(
+      (element) => (element as HTMLDetailsElement).open,
+    ))
+  )
+    await controls.locator(":scope > summary").click();
+  await controls.locator("select").selectOption(value);
 }
 
 async function noPageOverflow(page: Page, width: number) {
@@ -162,10 +199,9 @@ for (const width of [360, 390, 768, 1440]) {
       expect(
         targets.every(({ width, height }) => width >= 44 && height >= 44),
       ).toBe(true);
-      await expect(page.locator(".analytics-kpi-primary")).toHaveCSS(
-        "background-color",
-        "rgb(22, 76, 62)",
-      );
+      await expect(
+        page.locator(".analytics-main-kpis .analytics-kpi").first(),
+      ).toHaveCSS("background-color", "rgb(255, 254, 250)");
       await noPageOverflow(page, width);
       await page.getByRole("button", { name: "30 дней", exact: true }).click();
       await expect(daily.getByRole("button")).toHaveCount(30);
@@ -197,19 +233,19 @@ for (const width of [360, 390, 768, 1440]) {
       await expect(page.locator(".analytics-hour-selection")).not.toContainText(
         "₸",
       );
-      const summary = page.locator(".analytics-table-details summary").first();
-      await summary.focus();
-      await summary.press("Enter");
+
       const table = page.getByRole("table", {
         name: "Действующие продажи и поступления по дням",
       });
       await expect(table.getByRole("row")).toHaveCount(31);
       await expect(table.getByRole("columnheader")).toHaveCount(4);
-      await page.locator(".analytics-table-scroll").first().focus();
+      await page
+        .locator(".analytics-daily-table .analytics-table-scroll")
+        .focus();
       await expect(
-        page.locator(".analytics-table-scroll").first(),
+        page.locator(".analytics-daily-table .analytics-table-scroll"),
       ).toBeFocused();
-      await page.locator(".analytics-table-details summary").nth(1).click();
+      await page.locator(".analytics-table-details summary").first().click();
       await expect(
         page
           .getByRole("table", {
@@ -237,16 +273,12 @@ test("negative receipts, RU/KZ, reduced motion and no financial writes", async (
   await expect(
     page.locator(".analytics-daily-bars button").last(),
   ).toContainText("16 қаз.");
-  await expect(
-    page.getByRole("heading", { name: "Менің сауда нүктемнің аналитикасы" }),
-  ).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Аналитика" })).toBeVisible();
   await expect(
     page.getByRole("button", { name: "30 күн", exact: true }),
   ).toHaveAttribute("aria-pressed", "true");
   await page.getByRole("button", { name: "RU", exact: true }).click();
-  await page
-    .getByLabel("Учебный сценарий", { exact: true })
-    .selectOption("reversal");
+  await selectScenario(page, "reversal");
   await expect(page.locator(".analytics-main-kpis")).toContainText("-1 000 ₸");
   await expect(page.locator(".analytics-details")).toContainText("Нет продаж");
   await page.getByRole("button", { name: "Поступления", exact: true }).click();
@@ -291,9 +323,7 @@ test("empty allowed business hides the earlier report immediately, then retry re
     .getByLabel("Торговая точка", { exact: true })
     .selectOption("11111111-1111-4111-8111-111111111111");
   await expect(page.locator(".analytics-main-kpis")).toContainText("74 000 ₸");
-  await page
-    .getByLabel("Учебный сценарий", { exact: true })
-    .selectOption("error");
+  await selectScenario(page, "error");
   await expect(
     page.getByRole("heading", { name: "Не удалось загрузить данные" }),
   ).toBeVisible();
@@ -314,15 +344,17 @@ test("published Analytics API uses Bearer, period and permitted business without
   await login(page, "a");
   await navigateSeller(page, "analytics");
   await expect(page.locator(".analytics-main-kpis")).toContainText("3 000 ₸");
-  await expect(page.locator(".analytics-demo-panel")).toHaveCount(0);
+  await expect(page.locator(".analytics-demo-controls")).toHaveCount(0);
   await page.getByRole("button", { name: "30 дней", exact: true }).click();
   await expect(page.locator(".analytics-daily-bars button")).toHaveCount(30);
   await page
     .getByLabel("Торговая точка", { exact: true })
     .selectOption(qaIds.shopA2);
-  await expect(page.locator(".analytics-business")).toContainText(
-    "QA Кайкармет",
-  );
+  await expect(
+    page
+      .getByLabel("Торговая точка", { exact: true })
+      .locator("option:checked"),
+  ).toContainText("QA Кайкармет");
   await expect(page.locator(".analytics-main-kpis")).not.toContainText(
     "3 000 ₸",
   );
@@ -331,9 +363,11 @@ test("published Analytics API uses Bearer, period and permitted business without
   await expect(page).toHaveURL(/\/login$/);
   await login(page, "b");
   await navigateSeller(page, "analytics");
-  await expect(page.locator(".analytics-business")).toContainText(
-    "QA Ауыл Береке",
-  );
+  await expect(
+    page
+      .getByLabel("Торговая точка", { exact: true })
+      .locator("option:checked"),
+  ).toContainText("QA Ауыл Береке");
   await expect(page.locator(".analytics-details")).toContainText("Нет продаж");
   await expect(page.locator(".analytics-main-kpis")).not.toContainText(
     "3 000 ₸",
@@ -349,7 +383,10 @@ test("published Analytics API uses Bearer, period and permitted business without
   );
   expect(
     state.calls.filter(
-      (call) => call.method === "POST" && call.path.startsWith("/api/"),
+      (call) =>
+        call.method === "POST" &&
+        call.path.startsWith("/api/") &&
+        !call.path.endsWith("/assistant"),
     ),
   ).toEqual([]);
   expect(state.unexpected).toEqual([]);
@@ -370,7 +407,7 @@ test("Live API failure keeps an explicit retry without synthetic financial data"
   await expect(
     page.locator(".analytics-summary, .analytics-empty"),
   ).toHaveCount(0);
-  await expect(page.locator(".analytics-demo-panel")).toHaveCount(0);
+  await expect(page.locator(".analytics-demo-controls")).toHaveCount(0);
   expect(analytics.calls).toHaveLength(1);
   analytics.status = 200;
   await page.getByRole("button", { name: "Повторить", exact: true }).click();
@@ -390,15 +427,13 @@ test("direct route/reload show the active membership and links add no period fil
   await page.getByRole("button", { name: "30 дней", exact: true }).click();
   await expect(page.locator(".analytics-daily-bars button")).toHaveCount(30);
   await page.locator(".analytics-details > summary").click();
-  await page
-    .getByRole("link", { name: "Открыть историю", exact: true })
-    .click();
+  await navigateSeller(page, "history");
   await expect(page).toHaveURL(/\/seller\/history$/);
   await page.goBack();
   await expect(page.locator(".analytics-kpi")).toHaveCount(6);
   await page
-    .locator(".assistant-debtors")
-    .getByRole("link", { name: "Открыть долги", exact: true })
+    .locator(".analytics-reminders")
+    .getByRole("link", { name: "Все долги →", exact: true })
     .click();
   await expect(page).toHaveURL(/\/seller\/debts$/);
   await page.goto("/seller/analytics");
@@ -412,12 +447,18 @@ test("direct route/reload show the active membership and links add no period fil
   await expect(page.getByLabel("Торговая точка", { exact: true })).toHaveValue(
     qaIds.shopA,
   );
-  await expect(page.locator(".analytics-business")).toContainText("QA MART");
+  await expect(
+    page
+      .getByLabel("Торговая точка", { exact: true })
+      .locator("option:checked"),
+  ).toContainText("QA MART");
   await expect(page.locator(".analytics-main-kpis")).toContainText("3 000 ₸");
   await page
     .getByLabel("Торговая точка", { exact: true })
     .selectOption(qaIds.shopA2);
-  await expect(page.locator(".analytics-summary")).not.toContainText("3 000 ₸");
+  await expect(page.locator(".analytics-main-kpis")).not.toContainText(
+    "3 000 ₸",
+  );
   await expect(page.locator(".analytics-empty")).toBeVisible();
   await page.getByRole("link", { name: "Новая продажа", exact: true }).click();
   await expect(page).toHaveURL(/\/seller\/sale$/);
@@ -427,7 +468,10 @@ test("direct route/reload show the active membership and links add no period fil
   expect(analytics.calls.at(-1)?.business).toBe(qaIds.shopA2);
   expect(
     state.calls.filter(
-      (call) => call.method === "POST" && call.path.startsWith("/api/"),
+      (call) =>
+        call.method === "POST" &&
+        call.path.startsWith("/api/") &&
+        !call.path.endsWith("/assistant"),
     ),
   ).toEqual([]);
 });
@@ -475,18 +519,14 @@ test("capture genuine desktop/mobile Analytics states with explicit synthetic la
   await page.getByRole("button", { name: "7 дней", exact: true }).click();
   await expect(page.locator(".analytics-daily-bars button")).toHaveCount(7);
   await capture("analytics-mobile-7");
-  await page
-    .getByLabel("Учебный сценарий", { exact: true })
-    .selectOption("empty");
+  await selectScenario(page, "empty");
   await expect(
     page.getByRole("heading", {
       name: "Нет действующих продаж и чистых поступлений",
     }),
   ).toBeVisible();
   await capture("analytics-mobile-empty");
-  await page
-    .getByLabel("Учебный сценарий", { exact: true })
-    .selectOption("error");
+  await selectScenario(page, "error");
   await expect(
     page.getByRole("heading", { name: "Не удалось загрузить данные" }),
   ).toBeVisible();
@@ -495,9 +535,7 @@ test("capture genuine desktop/mobile Analytics states with explicit synthetic la
   await capture("analytics-desktop-error");
   await page.getByRole("button", { name: "Повторить", exact: true }).click();
   await expect(page.locator(".analytics-kpi")).toHaveCount(6);
-  await page
-    .getByLabel("Учебный сценарий", { exact: true })
-    .selectOption("reversal");
+  await selectScenario(page, "reversal");
   await page.getByRole("button", { name: "Поступления", exact: true }).click();
   await expect(page.locator(".analytics-negative-label")).toContainText(
     "-1 000 ₸",

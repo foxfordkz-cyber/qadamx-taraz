@@ -61,7 +61,7 @@ export function readAssistantResponse(
     data.locale !== expected.locale ||
     data.timezone !== "Asia/Almaty" ||
     data.currency !== "KZT" ||
-    !["ai", "fallback"].includes(String(data.source)) ||
+    !["ai", "fallback", "facts"].includes(String(data.source)) ||
     typeof data.as_of !== "string" ||
     !Number.isFinite(Date.parse(data.as_of)) ||
     !Array.isArray(data.facts) ||

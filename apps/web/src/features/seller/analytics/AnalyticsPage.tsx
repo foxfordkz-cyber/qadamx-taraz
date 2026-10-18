@@ -1,6 +1,7 @@
-import { useId, useState } from "react";
+import { useId, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { useBusiness } from "../../../app/runtime";
+import { ApiError } from "../../../shared/api/client";
 import { formatKZT } from "../../../shared/format";
 import { useI18n } from "../../../shared/i18n";
 import {
@@ -10,58 +11,234 @@ import {
   Card,
   EmptyState,
   ErrorState,
-  PageHeader,
   Select,
   Spinner,
 } from "../../../shared/ui";
-import { Icon, type IconName } from "../../../shared/ui/Icon";
-import { DailyChart, HourlyChart, analyticsDate } from "./Charts";
-import {
-  AssistantProvider,
-  AssistantCard,
-  AssistantDebtors,
-} from "../../assistant";
-import type { AnalyticsDays, DemoScenario } from "./model";
+import { DailyChart, DailyTable, HourlyChart, analyticsDate } from "./Charts";
+import { AssistantProvider, AssistantPanel } from "../../assistant";
+import { useAssistant } from "../../assistant/state";
+import type { AnalyticsDays, AnalyticsSnapshot, DemoScenario } from "./model";
 import { useAnalytics } from "./queries";
 import "./analytics.css";
 
 function Metric({
   title,
   value,
-  scope,
+  detail,
   hint,
-  icon,
-  primary = false,
-  textValue = false,
 }: {
   title: string;
   value: string;
-  scope: string;
-  hint: string;
-  icon: IconName;
-  primary?: boolean;
-  textValue?: boolean;
+  detail?: ReactNode;
+  hint?: string;
 }) {
-  const headingId = useId();
+  const id = useId();
   return (
-    <Card
-      className={`analytics-kpi ${primary ? "analytics-kpi-primary" : ""}`}
-      aria-labelledby={headingId}
-    >
-      <div className="analytics-kpi-top">
-        <span className="analytics-kpi-icon" aria-hidden="true">
-          <Icon name={icon} />
-        </span>
-        <span className="analytics-kpi-scope">{scope}</span>
-      </div>
-      <h3 id={headingId}>{title}</h3>
-      <strong
-        className={`analytics-kpi-value ${textValue ? "analytics-kpi-text" : ""}`}
-      >
-        {value}
-      </strong>
-      <p>{hint}</p>
+    <Card className="analytics-kpi" aria-labelledby={id} title={hint}>
+      <h3 id={id}>{title}</h3>
+      <strong className="analytics-kpi-value">{value}</strong>
+      {detail && <div className="analytics-kpi-detail">{detail}</div>}
     </Card>
+  );
+}
+
+function AnalyticsReport({
+  snapshot,
+  demo,
+}: {
+  snapshot: AnalyticsSnapshot;
+  demo: boolean;
+}) {
+  const state = useAssistant();
+  const { t, locale } = useI18n();
+  const [panel, setPanel] = useState<{ question?: string } | null>(null);
+  const summaryId = useId(),
+    debtorsId = useId();
+  const result = state.available ? state.response : undefined;
+  const change = result?.facts.find(
+    (fact) => fact.key === "sales_change",
+  )?.value_minor;
+  const debtors =
+    result?.facts.filter((fact) => fact.key === "debtor").slice(0, 5) ?? [];
+  const limited = state.error instanceof ApiError && state.error.status === 429;
+  return (
+    <>
+      <div className="analytics-kpis analytics-main-kpis">
+        <Metric
+          title={t("analyticsSalesShort")}
+          value={formatKZT(snapshot.cards.sales_minor, locale)}
+          detail={
+            change != null && (
+              <span
+                className={
+                  change > 0
+                    ? "analytics-change-positive"
+                    : "analytics-change-neutral"
+                }
+              >
+                {t("analyticsSalesChange")
+                  .replace(
+                    "{amount}",
+                    `${change > 0 ? "+" : change < 0 ? "−" : ""}${formatKZT(Math.abs(change), locale)}`,
+                  )
+                  .replace("{days}", String(snapshot.days))}
+              </span>
+            )
+          }
+        />
+        <Metric
+          title={t("analyticsReceipts")}
+          value={formatKZT(snapshot.cards.receipts_minor, locale)}
+          hint={t("analyticsReceiptsHint")}
+        />
+        <Metric
+          title={t("analyticsCurrentDebt")}
+          value={formatKZT(snapshot.cards.outstanding_minor, locale)}
+          hint={t("analyticsDebtHint")}
+        />
+      </div>
+      {state.available && (
+        <div className="analytics-insights">
+          <Card
+            className="analytics-period-summary"
+            aria-labelledby={summaryId}
+          >
+            <h2 id={summaryId}>{t("analyticsPeriodSummary")}</h2>
+            {result && (
+              <>
+                <p className="analytics-period-answer" aria-live="polite">
+                  {result.answer}
+                </p>
+                <p className="assistant-source">
+                  {t(
+                    demo
+                      ? "assistantDemo"
+                      : result.source === "ai"
+                        ? "analyticsSourceAI"
+                        : result.source === "facts"
+                          ? "assistantSourceFacts"
+                          : "assistantSourceFallback",
+                  )}
+                </p>
+              </>
+            )}
+            {state.pending && (
+              <p role="status" className="muted">
+                {t("loading")}
+              </p>
+            )}
+            {limited ? (
+              <Alert tone="error">{t("assistantLimit")}</Alert>
+            ) : state.error ? (
+              <ErrorState
+                error={state.error}
+                retry={() => void state.retry()}
+              />
+            ) : null}
+            <div className="analytics-summary-actions">
+              <Button
+                variant="secondary"
+                disabled={state.pending || limited}
+                onClick={() =>
+                  void state.ask(t("assistantSummaryQuestion"), true)
+                }
+              >
+                {t("analyticsExplainAI")}
+              </Button>
+              <Button variant="ghost" onClick={() => setPanel({})}>
+                {t("analyticsAskQadam")}
+              </Button>
+            </div>
+          </Card>
+          <Card className="analytics-reminders" aria-labelledby={debtorsId}>
+            <h2 id={debtorsId}>{t("assistantWhoToRemind")}</h2>
+            {result ? (
+              debtors.length ? (
+                <ul>
+                  {debtors.map((fact) => (
+                    <li key={fact.customer_id}>
+                      <div>
+                        <span>{fact.label}</span>
+                        <strong>{formatKZT(fact.value_minor!, locale)}</strong>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        aria-label={`${t("analyticsReminder")}: ${fact.label}`}
+                        onClick={() =>
+                          setPanel({
+                            question: `${t("assistantSuggestReminder")} ${fact.label}`,
+                          })
+                        }
+                      >
+                        {t("analyticsReminder")}
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="muted">{t("assistantNoDebtors")}</p>
+              )
+            ) : (
+              <p className="muted">
+                {t(state.pending ? "loading" : "assistantDebtorsOpen")}
+              </p>
+            )}
+            <Link className="analytics-all-debts" to="/seller/debts">
+              {t("analyticsAllDebts")} →
+            </Link>
+          </Card>
+        </div>
+      )}
+      {snapshot.cards.sales_count === 0 &&
+        snapshot.cards.receipts_minor === 0 && (
+          <Card className="analytics-empty">
+            <EmptyState
+              title={t("analyticsNoActivity")}
+              description={t("analyticsNoActivityHint")}
+              action={
+                <Link className="button button-secondary" to="/seller/sale">
+                  {t("analyticsNewSale")}
+                </Link>
+              }
+            />
+          </Card>
+        )}
+      <DailyChart snapshot={snapshot} />
+      <details className="analytics-details">
+        <summary>{t("analyticsDetails")}</summary>
+        <div className="analytics-details-content">
+          <HourlyChart snapshot={snapshot} />
+          <div className="analytics-kpis">
+            <Metric
+              title={t("analyticsAverage")}
+              value={
+                snapshot.cards.average_ticket_minor === null
+                  ? t("analyticsNoSales")
+                  : formatKZT(snapshot.cards.average_ticket_minor, locale)
+              }
+            />
+            <Metric
+              title={t("analyticsCount")}
+              value={String(snapshot.cards.sales_count)}
+            />
+            <Metric
+              title={t("analyticsDebtorsCount")}
+              value={String(snapshot.cards.debtors_count)}
+            />
+          </div>
+          <DailyTable snapshot={snapshot} />
+        </div>
+      </details>
+      {panel && state.available && (
+        <AssistantPanel
+          days={snapshot.days}
+          demoSnapshot={demo ? snapshot : undefined}
+          initialQuestion={panel.question}
+          onClose={() => setPanel(null)}
+          onUnavailable={state.disable}
+        />
+      )}
+    </>
   );
 }
 
@@ -72,34 +249,18 @@ export function AnalyticsPage() {
   const [scenario, setScenario] = useState<DemoScenario>("activity");
   const query = useAnalytics(days, scenario);
   const snapshot = query.mode === "waiting" ? undefined : query.data;
-  const periodScope = t("analyticsPeriodScope");
-  const currentScope = t("analyticsCurrentScope");
-  const summaryId = useId();
-  const asOf = snapshot
-    ? new Intl.DateTimeFormat("ru-KZ", {
-        timeZone: snapshot.timezone,
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      }).format(new Date(snapshot.as_of))
-    : null;
+  const from = snapshot?.period_from,
+    to = snapshot?.period_to;
+  const period =
+    snapshot && from && to
+      ? `${from.slice(0, 7) === to.slice(0, 7) ? Number(from.slice(8)) : analyticsDate(from, locale, snapshot.timezone)}–${analyticsDate(to, locale, snapshot.timezone)}`
+      : "";
   return (
-    <section className="analytics-page" aria-label={t("analyticsTitle")}>
-      <PageHeader
-        title={t("analyticsTitle")}
-        subtitle={t("analyticsSubtitle")}
-      />
-      <div className="analytics-report-toolbar">
-        <div className="analytics-business">
-          <span className="analytics-business-icon">
-            <Icon name="shop" />
-          </span>
-          <div>
-            <span className="analytics-eyebrow">{t("business")}</span>
-            <strong>{business.name}</strong>
-          </div>
+    <section className="analytics-page" aria-label={t("analytics")}>
+      <header className="analytics-heading">
+        <div>
+          <h1>{t("analytics")}</h1>
+          {period && <p className="analytics-period-label">{period}</p>}
         </div>
         <div
           className="analytics-period-switch"
@@ -121,30 +282,10 @@ export function AnalyticsPage() {
             {t("analytics30Days")}
           </Button>
         </div>
-      </div>
-      {query.mode === "demo" && (
-        <div className="analytics-demo-panel">
-          <Alert>
-            <strong>{t("analyticsDemoTitle")}</strong>
-            <p>{t("analyticsDemoHint")}</p>
-            <p>{t("analyticsDemoClock")}</p>
-          </Alert>
-          <Select
-            label={t("analyticsScenario")}
-            value={scenario}
-            onChange={(event) =>
-              setScenario(event.target.value as DemoScenario)
-            }
-          >
-            <option value="activity">{t("analyticsActivity")}</option>
-            <option value="empty">{t("analyticsEmptyScenario")}</option>
-            <option value="error">{t("analyticsErrorScenario")}</option>
-            <option value="reversal">{t("analyticsReversalScenario")}</option>
-          </Select>
-        </div>
-      )}
+      </header>
+      {query.mode === "demo" && <Badge>{t("analyticsDemoData")}</Badge>}
       {query.mode === "waiting" ? (
-        <Card className="analytics-waiting">
+        <Card>
           <EmptyState
             title={t("analyticsWaitingTitle")}
             description={
@@ -166,14 +307,9 @@ export function AnalyticsPage() {
                 <h2>{t("errorTitle")}</h2>
                 <p>{t("analyticsDemoErrorHint")}</p>
               </Alert>
-              <div className="actions">
-                <Button
-                  variant="secondary"
-                  onClick={() => void query.refetch()}
-                >
-                  {t("retry")}
-                </Button>
-              </div>
+              <Button variant="secondary" onClick={() => void query.refetch()}>
+                {t("retry")}
+              </Button>
             </>
           ) : (
             <ErrorState
@@ -186,180 +322,30 @@ export function AnalyticsPage() {
         snapshot && (
           <AssistantProvider
             days={days}
+            autoSummary
+            demoSnapshot={query.mode === "demo" ? snapshot : undefined}
             key={`${business.id}:${days}:${scenario}`}
           >
-            <div className="analytics-snapshot-meta">
-              <div>
-                <strong>
-                  <time dateTime={snapshot.period_from}>
-                    {analyticsDate(
-                      snapshot.period_from,
-                      locale,
-                      snapshot.timezone,
-                    )}
-                  </time>{" "}
-                  —{" "}
-                  <time dateTime={snapshot.period_to}>
-                    {analyticsDate(
-                      snapshot.period_to,
-                      locale,
-                      snapshot.timezone,
-                    )}
-                  </time>
-                </strong>
-                <span>
-                  {t("analyticsAsOf")}:{" "}
-                  <time dateTime={snapshot.as_of}>{asOf}</time> ·{" "}
-                  {snapshot.timezone}
-                </span>
-              </div>
-              <Badge>{t("analyticsPartial")}</Badge>
-            </div>
-            {query.mode === "demo" && scenario === "reversal" && (
-              <Alert>
-                <strong>{t("analyticsReversalTitle")}</strong>
-                <p>{t("analyticsReversalHint")}</p>
-              </Alert>
-            )}
-            <AssistantCard summary />
-            <div className="analytics-kpis analytics-main-kpis">
-              <Metric
-                title={t("analyticsPeriodSales")}
-                value={formatKZT(snapshot.cards.sales_minor, locale)}
-                scope={periodScope}
-                hint={t("analyticsSales")}
-                icon="summary"
-                primary
-              />
-              <Metric
-                title={t("analyticsPeriodReceipts")}
-                value={formatKZT(snapshot.cards.receipts_minor, locale)}
-                scope={periodScope}
-                hint={t("analyticsReceiptsHint")}
-                icon="history"
-              />
-              <Metric
-                title={t("analyticsCurrentDebt")}
-                value={formatKZT(snapshot.cards.outstanding_minor, locale)}
-                scope={currentScope}
-                hint={t("analyticsDebtHint")}
-                icon="debts"
-              />
-            </div>
-            {snapshot.cards.sales_count === 0 &&
-              snapshot.cards.receipts_minor === 0 && (
-                <Card className="analytics-empty">
-                  <EmptyState
-                    title={t("analyticsNoActivity")}
-                    description={t("analyticsNoActivityHint")}
-                    action={
-                      <Link className="button button-primary" to="/seller/sale">
-                        <Icon name="sale" />
-                        {t("analyticsNewSale")}
-                      </Link>
-                    }
-                  />
-                </Card>
-              )}
-            <DailyChart
-              key={`daily:${business.id}:${days}:${scenario}`}
-              snapshot={snapshot}
-            />
-            <AssistantDebtors />
-            <details
-              className="analytics-details"
-              key={`details:${business.id}:${days}:${scenario}`}
-            >
-              <summary>{t("analyticsDetails")}</summary>
-              <div className="analytics-details-content">
-                <div className="analytics-kpis">
-                  <Metric
-                    title={t("analyticsCount")}
-                    value={String(snapshot.cards.sales_count)}
-                    scope={periodScope}
-                    hint={t("analyticsActiveCountHint")}
-                    icon="sale"
-                  />
-                  <Metric
-                    title={t("analyticsAverage")}
-                    textValue={snapshot.cards.average_ticket_minor === null}
-                    value={
-                      snapshot.cards.average_ticket_minor === null
-                        ? t("analyticsNoSales")
-                        : formatKZT(snapshot.cards.average_ticket_minor, locale)
-                    }
-                    scope={periodScope}
-                    hint={t("analyticsAverageHint")}
-                    icon="catalog"
-                  />
-                  <Metric
-                    title={t("analyticsDebtorsCount")}
-                    value={String(snapshot.cards.debtors_count)}
-                    scope={currentScope}
-                    hint={t("analyticsDebtorsHint")}
-                    icon="customers"
-                  />
-                </div>
-                <Card className="analytics-summary" aria-labelledby={summaryId}>
-                  <h2 id={summaryId}>{t("analyticsSummaryTitle")}</h2>
-                  <p>
-                    <strong>{periodScope}. </strong>
-                    {t("analyticsSummaryPeriod")
-                      .replace("{count}", String(snapshot.cards.sales_count))
-                      .replace(
-                        "{sales}",
-                        formatKZT(snapshot.cards.sales_minor, locale),
-                      )
-                      .replace(
-                        "{receipts}",
-                        formatKZT(snapshot.cards.receipts_minor, locale),
-                      )}
-                  </p>
-                  <p>
-                    <strong>{currentScope}. </strong>
-                    {t("analyticsSummaryDebt")
-                      .replace(
-                        "{debt}",
-                        formatKZT(snapshot.cards.outstanding_minor, locale),
-                      )
-                      .replace(
-                        "{debtors}",
-                        String(snapshot.cards.debtors_count),
-                      )}
-                  </p>
-                  {snapshot.cards.receipts_minor < 0 && (
-                    <p className="analytics-signed-note">
-                      {t("analyticsNegativeReceiptsSummary")}
-                    </p>
-                  )}
-                  <nav
-                    className="analytics-report-links"
-                    aria-label={t("analyticsReportLinks")}
-                  >
-                    <Link
-                      className="button button-secondary"
-                      to="/seller/history"
-                    >
-                      <Icon name="history" />
-                      {t("analyticsOpenHistory")}
-                    </Link>
-                    <Link
-                      className="button button-secondary"
-                      to="/seller/debts"
-                    >
-                      <Icon name="debts" />
-                      {t("analyticsOpenDebts")}
-                    </Link>
-                  </nav>
-                </Card>
-                <HourlyChart
-                  key={`hourly:${business.id}:${days}:${scenario}`}
-                  snapshot={snapshot}
-                />
-              </div>
-            </details>
+            <AnalyticsReport snapshot={snapshot} demo={query.mode === "demo"} />
           </AssistantProvider>
         )
+      )}
+      {query.mode === "demo" && (
+        <details className="analytics-demo-controls">
+          <summary>{t("analyticsScenario")}</summary>
+          <Select
+            label={t("analyticsScenario")}
+            value={scenario}
+            onChange={(event) =>
+              setScenario(event.target.value as DemoScenario)
+            }
+          >
+            <option value="activity">{t("analyticsActivity")}</option>
+            <option value="empty">{t("analyticsEmptyScenario")}</option>
+            <option value="error">{t("analyticsErrorScenario")}</option>
+            <option value="reversal">{t("analyticsReversalScenario")}</option>
+          </Select>
+        </details>
       )}
     </section>
   );

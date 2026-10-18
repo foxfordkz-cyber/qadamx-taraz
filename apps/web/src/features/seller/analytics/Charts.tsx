@@ -127,13 +127,12 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
   const range = positive + negative || 1;
   const baseline = (negative / range) * 100;
   const seriesLabel = t(
-    series === "sales_minor" ? "analyticsSales" : "analyticsReceipts",
+    series === "sales_minor" ? "analyticsSalesShort" : "analyticsReceipts",
   );
   return (
     <Card className="analytics-chart-card" aria-labelledby={headingId}>
       <div className="analytics-chart-heading">
         <div>
-          <span className="analytics-eyebrow">{t("analyticsPeriod")}</span>
           <h2 id={headingId}>{t("analyticsDailyTitle")}</h2>
         </div>
         <div
@@ -146,7 +145,7 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
             aria-pressed={series === "sales_minor"}
             onClick={() => setSeries("sales_minor")}
           >
-            {t("analyticsSales")}
+            {t("analyticsSalesShort")}
           </Button>
           <Button
             variant="ghost"
@@ -157,10 +156,12 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
           </Button>
         </div>
       </div>
-      <p className="analytics-chart-explanation">{t("analyticsDailyHint")}</p>
-      {series === "receipts_minor" && (
-        <p className="analytics-signed-note">{t("analyticsSignedHint")}</p>
-      )}
+      <p
+        className="analytics-chart-explanation"
+        title={t("analyticsSignedHint")}
+      >
+        {t("analyticsChartCaption")}
+      </p>
       <div
         className="analytics-selection"
         role="status"
@@ -175,7 +176,7 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
         </div>
         <dl>
           <div>
-            <dt>{t("analyticsSales")}</dt>
+            <dt>{t("analyticsSalesShort")}</dt>
             <dd>{formatKZT(point.sales_minor, locale)}</dd>
           </div>
           <div>
@@ -204,6 +205,7 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
         role="region"
         aria-label={t("analyticsDailyChart")}
         aria-describedby={helpId}
+        title={t("analyticsChartHint")}
       >
         <div className="analytics-bars analytics-daily-bars">
           {snapshot.daily.map((day, index) => {
@@ -254,45 +256,51 @@ export function DailyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
           {t("analyticsDailyMinimum")}: {formatKZT(-negative, locale)}
         </div>
       )}
-      <p className="analytics-chart-help" id={helpId}>
+      <p className="sr-only" id={helpId}>
         {t("analyticsChartHint")}
       </p>
-      <details className="analytics-table-details">
-        <summary>{t("analyticsShowDailyTable")}</summary>
-        <div
-          className="analytics-table-scroll"
-          tabIndex={0}
-          role="region"
-          aria-label={t("analyticsTableScroll")}
-        >
-          <table className="analytics-table">
-            <caption>{t("analyticsDailyCaption")}</caption>
-            <thead>
-              <tr>
-                <th scope="col">{t("analyticsDate")}</th>
-                <th scope="col">{t("analyticsSales")}</th>
-                <th scope="col">{t("analyticsReceipts")}</th>
-                <th scope="col">{t("analyticsCount")}</th>
+    </Card>
+  );
+}
+
+export function DailyTable({ snapshot }: { snapshot: AnalyticsSnapshot }) {
+  const { t, locale } = useI18n();
+  return (
+    <Card className="analytics-daily-table">
+      <h2>{t("analyticsShowDailyTable")}</h2>
+      <div
+        className="analytics-table-scroll"
+        tabIndex={0}
+        role="region"
+        aria-label={t("analyticsTableScroll")}
+      >
+        <table className="analytics-table">
+          <caption>{t("analyticsDailyCaption")}</caption>
+          <thead>
+            <tr>
+              <th scope="col">{t("analyticsDate")}</th>
+              <th scope="col">{t("analyticsSalesShort")}</th>
+              <th scope="col">{t("analyticsReceipts")}</th>
+              <th scope="col">{t("analyticsCount")}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {snapshot.daily.map((day) => (
+              <tr key={day.date}>
+                <th scope="row">
+                  <time dateTime={day.date}>
+                    {analyticsDate(day.date, locale, snapshot.timezone)}
+                  </time>
+                  {day.is_partial && <small>{t("analyticsPartial")}</small>}
+                </th>
+                <td>{formatKZT(day.sales_minor, locale)}</td>
+                <td>{formatKZT(day.receipts_minor, locale)}</td>
+                <td>{day.sales_count}</td>
               </tr>
-            </thead>
-            <tbody>
-              {snapshot.daily.map((day) => (
-                <tr key={day.date}>
-                  <th scope="row">
-                    <time dateTime={day.date}>
-                      {analyticsDate(day.date, locale, snapshot.timezone)}
-                    </time>
-                    {day.is_partial && <small>{t("analyticsPartial")}</small>}
-                  </th>
-                  <td>{formatKZT(day.sales_minor, locale)}</td>
-                  <td>{formatKZT(day.receipts_minor, locale)}</td>
-                  <td>{day.sales_count}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </details>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Card>
   );
 }
@@ -395,7 +403,7 @@ export function HourlyChart({ snapshot }: { snapshot: AnalyticsSnapshot }) {
           ))}
         </div>
       </div>
-      <p className="analytics-chart-help" id={helpId}>
+      <p className="sr-only" id={helpId}>
         {t("analyticsChartHint")}
       </p>
       <details className="analytics-table-details">

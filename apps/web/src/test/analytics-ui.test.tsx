@@ -138,7 +138,7 @@ async function openDemo(adapter?: DemoAnalyticsAdapter) {
   );
   await screen.findByRole("heading", { name: "Хорошего рабочего дня!" });
   await userEvent.click(screen.getAllByRole("link", { name: "Аналитика" })[0]);
-  await screen.findByRole("heading", { name: "Аналитика моей точки" });
+  await screen.findByRole("heading", { name: "Аналитика" });
   return view;
 }
 
@@ -149,11 +149,14 @@ function metric(name: string) {
 }
 
 async function reportReady() {
-  await screen.findByRole("heading", { name: "Продажи за период" });
+  await screen.findByRole("heading", { name: "Продажи" });
 }
 
 async function openTables() {
-  await userEvent.click(screen.getByText("Таблица по дням", { exact: true }));
+  const details =
+    document.querySelector<HTMLDetailsElement>(".analytics-details")!;
+  if (!details.open)
+    await userEvent.click(screen.getByText("Подробнее", { exact: true }));
   await userEvent.click(screen.getByText("Таблица по часам", { exact: true }));
   return {
     daily: screen.getByRole("table", {
@@ -188,7 +191,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     ).toBeInTheDocument();
     expect(read).not.toHaveBeenCalled();
     expect(
-      screen.queryByRole("heading", { name: "Аналитика моей точки" }),
+      screen.queryByRole("heading", { name: "Аналитика" }),
     ).not.toBeInTheDocument();
   });
 
@@ -197,15 +200,9 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     const view = await openDemo({ mode: "demo", read });
     await reportReady();
     expect(view.auth().demo).toBe(true);
-    expect(
-      screen.getByText("Demo · синтетическая аналитика"),
-    ).toBeInTheDocument();
-    expect(
-      metric("Продажи за период").getByText("74 000 ₸"),
-    ).toBeInTheDocument();
-    expect(
-      metric("Получено за период").getByText("51 000 ₸"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Демо-данные")).toBeInTheDocument();
+    expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument();
+    expect(metric("Поступления").getByText("51 000 ₸")).toBeInTheDocument();
     expect(metric("Средний чек").getByText("2 960 ₸")).toBeInTheDocument();
     expect(
       metric("Мне должны сейчас").getByText("35 000 ₸"),
@@ -238,9 +235,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       within(period).getByRole("button", { name: "30 дней" }),
     );
     await waitFor(() =>
-      expect(
-        metric("Продажи за период").getByText("300 000 ₸"),
-      ).toBeInTheDocument(),
+      expect(metric("Продажи").getByText("300 000 ₸")).toBeInTheDocument(),
     );
     expect(
       within(period).getByRole("button", { name: "30 дней" }),
@@ -248,7 +243,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     await userEvent.click(screen.getByRole("button", { name: "KZ" }));
     expect(
       screen.getByRole("heading", {
-        name: "Менің сауда нүктемнің аналитикасы",
+        name: "Аналитика",
       }),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "30 күн" })).toHaveAttribute(
@@ -256,9 +251,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       "true",
     );
     expect(screen.getByLabelText("Оқу сценарийі")).toHaveValue("activity");
-    expect(
-      metric("Кезеңдегі сатылымдар").getByText("300 000 ₸"),
-    ).toBeInTheDocument();
+    expect(metric("Сатылымдар").getByText("300 000 ₸")).toBeInTheDocument();
     expect(read.mock.calls.map(([request]) => request.days)).toEqual([7, 30]);
     expect(
       new Set(read.mock.calls.map(([request]) => request.scope)).size,
@@ -266,65 +259,49 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     await userEvent.click(screen.getByRole("button", { name: "RU" }));
     await userEvent.click(screen.getByRole("button", { name: "7 дней" }));
     await waitFor(() =>
-      expect(
-        metric("Продажи за период").getByText("74 000 ₸"),
-      ).toBeInTheDocument(),
+      expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument(),
     );
   });
 
-  it("separates six API metrics and period/current scopes in both languages, with unfiltered links", async () => {
+  it("keeps three main metrics, details and unfiltered debt links in both languages", async () => {
+    vi.stubEnv("VITE_ASSISTANT_ENABLED", "true");
     await openDemo();
     await reportReady();
     const cards = [
-      ["Продажи за период", "74 000 ₸"],
-      ["Получено за период", "51 000 ₸"],
+      ["Продажи", "74 000 ₸"],
+      ["Поступления", "51 000 ₸"],
       ["Количество продаж", "25"],
       ["Средний чек", "2 960 ₸"],
       ["Мне должны сейчас", "35 000 ₸"],
-      ["Количество должников", "8"],
+      ["Количество должников", "3"],
     ];
-    cards.forEach(([title, value], index) => {
-      expect(metric(title).getByText(value)).toBeInTheDocument();
-      expect(
-        metric(title).getByText(
-          index < 4 ? "За выбранный период" : "Сейчас · все даты",
-        ),
-      ).toBeInTheDocument();
-    });
-    const summary = screen.getByRole("article", { name: "Краткая сводка" });
-    expect(summary).toHaveTextContent(
-      "Зарегистрировано продаж: 25, на сумму 74 000 ₸. Поступления: 51 000 ₸.",
-    );
-    expect(summary).toHaveTextContent(
-      "Сейчас · все даты. Общий долг: 35 000 ₸. Должников: 8.",
+    cards.forEach(([title, value]) =>
+      expect(metric(title).getByText(value)).toBeInTheDocument(),
     );
     expect(
-      within(summary).getByRole("link", { name: "Открыть историю" }),
-    ).toHaveAttribute("href", "/seller/history");
+      document.querySelectorAll(".analytics-main-kpis .analytics-kpi"),
+    ).toHaveLength(3);
+    expect(document.querySelector(".analytics-details")).not.toHaveAttribute(
+      "open",
+    );
     expect(
-      within(summary).getByRole("link", { name: "Открыть долги" }),
-    ).toHaveAttribute("href", "/seller/debts");
+      await screen.findByText(/За период продажи составили 74 000/),
+    ).toHaveTextContent("35 000 ₸");
+    expect(screen.getByRole("link", { name: "Все долги →" })).toHaveAttribute(
+      "href",
+      "/seller/debts",
+    );
     await userEvent.click(screen.getByRole("button", { name: "30 дней" }));
     await waitFor(() =>
-      expect(
-        screen.getByRole("article", { name: "Краткая сводка" }),
-      ).toHaveTextContent(
-        "Зарегистрировано продаж: 100, на сумму 300 000 ₸. Поступления: 251 000 ₸.",
-      ),
+      expect(metric("Продажи").getByText("300 000 ₸")).toBeInTheDocument(),
     );
-    expect(metric("Количество должников").getByText("8")).toBeInTheDocument();
+    expect(metric("Количество должников").getByText("3")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "KZ" }));
     expect(metric("Сатылымдар саны").getByText("100")).toBeInTheDocument();
-    expect(metric("Борышкерлер саны").getByText("8")).toBeInTheDocument();
+    expect(metric("Борышкерлер саны").getByText("3")).toBeInTheDocument();
     expect(
-      screen.getByRole("article", { name: "Қысқаша қорытынды" }),
-    ).toHaveTextContent(
-      "Қазір · барлық күндер. Жалпы қарыз: 35 000 ₸. Борышкерлер: 8.",
-    );
-    expect(screen.getByRole("link", { name: "Тарихты ашу" })).toHaveAttribute(
-      "href",
-      "/seller/history",
-    );
+      await screen.findByText(/Кезеңдегі сатылымдар — 300 000/),
+    ).toHaveTextContent("35 000 ₸");
   });
 
   it("keeps zero days/hours and presents null average as no sales rather than zero or NaN", async () => {
@@ -374,7 +351,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       metric("Мне должны сейчас").getByText("35 000 ₸"),
     ).toBeInTheDocument();
     expect(metric("Количество должников").getByText("8")).toBeInTheDocument();
-    expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
+    expect(metric("Продажи").getByText("0 ₸")).toBeInTheDocument();
     expect(metric("Средний чек").getByText("Нет продаж")).toBeInTheDocument();
     expect(
       screen.getByText(/Текущий долг показан отдельно/),
@@ -391,17 +368,14 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       screen.getByLabelText("Учебный сценарий"),
       "reversal",
     );
-    await screen.findByText("Учебный пример отмены");
+    await waitFor(() =>
+      expect(metric("Поступления").getByText("-1 000 ₸")).toBeInTheDocument(),
+    );
     expect(
-      screen.getByRole("article", { name: "Краткая сводка" }),
-    ).toHaveTextContent("Поступления: -1 000 ₸.");
-    expect(
-      screen.getByRole("article", { name: "Краткая сводка" }),
-    ).toHaveTextContent("возвраты при отменах превысили полученные оплаты");
-    expect(
-      metric("Получено за период").getByText("-1 000 ₸"),
-    ).toBeInTheDocument();
-    expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
+      document.querySelector(".analytics-chart-explanation"),
+    ).toHaveAttribute("title", expect.stringContaining("отмен"));
+    expect(metric("Поступления").getByText("-1 000 ₸")).toBeInTheDocument();
+    expect(metric("Продажи").getByText("0 ₸")).toBeInTheDocument();
     expect(metric("Средний чек").getByText("Нет продаж")).toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "Поступления" }));
     const chart = screen.getByRole("region", {
@@ -482,7 +456,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     await openDemo({ mode: "demo", read });
     expect(screen.getByText("Загрузка…")).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Продажи за период" }),
+      screen.queryByRole("heading", { name: "Продажи" }),
     ).not.toBeInTheDocument();
     await act(async () =>
       pending.resolve(makeDemoAnalyticsSnapshot(DEMO_ANALYTICS_BUSINESS, 7)),
@@ -500,7 +474,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       screen.getByRole("button", { name: "Повторить" }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Продажи за период" }),
+      screen.queryByRole("heading", { name: "Продажи" }),
     ).not.toBeInTheDocument();
     expect(
       read.mock.calls.filter(([request]) => request.scenario === "error"),
@@ -528,7 +502,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     await userEvent.selectOptions(selector, DEMO_ANALYTICS_EMPTY_BUSINESS);
     expect(screen.queryByText("74 000 ₸")).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Продажи за период" }),
+      screen.queryByRole("heading", { name: "Продажи" }),
     ).not.toBeInTheDocument();
     await act(async () =>
       pending.resolve(
@@ -538,7 +512,7 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     await screen.findByRole("heading", {
       name: "Нет действующих продаж и чистых поступлений",
     });
-    expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
+    expect(metric("Продажи").getByText("0 ₸")).toBeInTheDocument();
     expect(selector).toHaveValue(DEMO_ANALYTICS_EMPTY_BUSINESS);
   });
 
@@ -556,11 +530,9 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
     expect(view.auth().session).not.toBeNull();
     expect(read).not.toHaveBeenCalled();
     expect(screen.queryByLabelText("Учебный сценарий")).not.toBeInTheDocument();
+    expect(screen.queryByText("Демо-данные")).not.toBeInTheDocument();
     expect(
-      screen.queryByText("Demo · синтетическая аналитика"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("heading", { name: "Продажи за период" }),
+      screen.queryByRole("heading", { name: "Продажи" }),
     ).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "30 дней" }));
     expect(read).not.toHaveBeenCalled();
@@ -584,26 +556,20 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
       adapter: { mode: "demo", read: demoRead },
     });
     await reportReady();
-    expect(
-      metric("Продажи за период").getByText("74 000 ₸"),
-    ).toBeInTheDocument();
+    expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument();
     expect(view.auth().demo).toBe(false);
     expect(screen.getByLabelText("Торговая точка")).toHaveValue(ids.shopA);
     expect(screen.queryByLabelText("Учебный сценарий")).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole("button", { name: "30 дней" }));
     await waitFor(() =>
-      expect(
-        metric("Продажи за период").getByText("300 000 ₸"),
-      ).toBeInTheDocument(),
+      expect(metric("Продажи").getByText("300 000 ₸")).toBeInTheDocument(),
     );
     await userEvent.click(screen.getByRole("button", { name: "KZ" }));
     expect(screen.getByRole("button", { name: "30 күн" })).toHaveAttribute(
       "aria-pressed",
       "true",
     );
-    expect(
-      metric("Кезеңдегі сатылымдар").getByText("300 000 ₸"),
-    ).toBeInTheDocument();
+    expect(metric("Сатылымдар").getByText("300 000 ₸")).toBeInTheDocument();
     const requests = fetcher.mock.calls.filter(([input]) =>
       analyticsUrl(input),
     );
@@ -651,7 +617,7 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
         screen.queryByText("PRIVATE_SERVER_TRACE_MUST_NOT_RENDER"),
       ).not.toBeInTheDocument();
       expect(
-        screen.queryByRole("heading", { name: "Продажи за период" }),
+        screen.queryByRole("heading", { name: "Продажи" }),
       ).not.toBeInTheDocument();
       expect(
         screen.queryByRole("article", { name: "Краткая сводка" }),
@@ -671,9 +637,7 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
       expect(
         fetcher.mock.calls.filter(([input]) => analyticsUrl(input)),
       ).toHaveLength(2);
-      expect(
-        metric("Продажи за период").getByText("74 000 ₸"),
-      ).toBeInTheDocument();
+      expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument();
       expect(demoRead).not.toHaveBeenCalled();
       expect(view.auth().demo).toBe(false);
     },
@@ -697,7 +661,7 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
     expect(view.auth().expired).toBe(true);
     expect(view.auth().demo).toBe(false);
     expect(
-      screen.queryByRole("heading", { name: "Продажи за период" }),
+      screen.queryByRole("heading", { name: "Продажи" }),
     ).not.toBeInTheDocument();
     expect(demoRead).not.toHaveBeenCalled();
     expect(
@@ -722,7 +686,7 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
     );
     expect(screen.queryByText("74 000 ₸")).not.toBeInTheDocument();
     expect(
-      screen.queryByRole("heading", { name: "Продажи за период" }),
+      screen.queryByRole("heading", { name: "Продажи" }),
     ).not.toBeInTheDocument();
     expect(view.auth().demo).toBe(false);
     expect(demoRead).not.toHaveBeenCalled();
@@ -751,7 +715,7 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
       pending.resolve(json(liveSnapshot(ids.shopA2, 7, true))),
     );
     await reportReady();
-    expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
+    expect(metric("Продажи").getByText("0 ₸")).toBeInTheDocument();
     expect(selector).toHaveValue(ids.shopA2);
     expect(
       fetcher.mock.calls.some(([input]) => String(input).includes(ids.shopB)),
@@ -782,15 +746,13 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
       expect(screen.getByLabelText("Торговая точка")).toHaveValue(ids.shopB),
     );
     await reportReady();
-    expect(metric("Продажи за период").getByText("0 ₸")).toBeInTheDocument();
+    expect(metric("Продажи").getByText("0 ₸")).toBeInTheDocument();
     act(() => view.mock!.emit(session(ids.a, "qa-fresh-A-session")));
     await waitFor(() =>
       expect(screen.getByLabelText("Торговая точка")).toHaveValue(ids.shopA),
     );
     await waitFor(() =>
-      expect(
-        metric("Продажи за период").getByText("74 000 ₸"),
-      ).toBeInTheDocument(),
+      expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument(),
     );
     const freshScope = view.auth().scope;
     expect(freshScope).not.toBe(oldScope);
@@ -798,9 +760,7 @@ describe("Analytics UI using the published 0.6 contract and the real authenticat
     expect(view.auth().expired).toBe(false);
     expect(view.auth().session?.user.id).toBe(ids.a);
     expect(view.auth().scope).toBe(freshScope);
-    expect(
-      metric("Продажи за период").getByText("74 000 ₸"),
-    ).toBeInTheDocument();
+    expect(metric("Продажи").getByText("74 000 ₸")).toBeInTheDocument();
     expect(
       view.cache
         .getQueryCache()

@@ -62,7 +62,7 @@ export async function prepareAssistant(page: Page, navigate = true) {
       business_id: new URL(route.request().url()).pathname.split("/").at(-2),
       days: request.days,
       locale: request.locale,
-      source: state.source,
+      source: request.ai === false ? "facts" : state.source,
     };
     if (request.locale === "kk") {
       response.answer =
@@ -95,7 +95,9 @@ export async function prepareAssistant(page: Page, navigate = true) {
   await login(page);
   if (navigate) {
     await navigateSeller(page, "analytics");
-    await expect(page.locator(".assistant")).toBeVisible();
+    await expect(
+      page.locator(".analytics-period-summary .assistant-source"),
+    ).toBeVisible();
   }
   return { state, services };
 }

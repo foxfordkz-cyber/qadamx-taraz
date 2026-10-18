@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ApiError } from "../../shared/api/client";
 import { formatKZT } from "../../shared/format";
@@ -59,10 +59,40 @@ function Reminder({ text }: { text: string }) {
   );
 }
 
-export function AssistantCard({ summary = false }: { summary?: boolean }) {
+export function AssistantCard({
+  summary = false,
+  initialQuestion,
+}: {
+  summary?: boolean;
+  initialQuestion?: string;
+}) {
   const state = useAssistant();
   const { t, locale } = useI18n();
-  const [question, setQuestion] = useState("");
+  const [question, setQuestion] = useState(initialQuestion ?? "");
+  const started = useRef(false);
+  const answerRef = useRef<HTMLElement>(null);
+  const { ask, available } = state;
+  useEffect(() => {
+    let active = true;
+    if (initialQuestion && available && !started.current) {
+      // Let StrictMode's setup/cleanup finish before sending the user-requested
+      // reminder. Otherwise the first mount aborts it and the second cannot retry.
+      queueMicrotask(() => {
+        if (!active) return;
+        started.current = true;
+        void ask(initialQuestion, true);
+      });
+    }
+    return () => {
+      active = false;
+    };
+  }, [initialQuestion, available, ask]);
+  useEffect(() => {
+    if (state.response && window.matchMedia?.("(max-width: 720px)").matches) {
+      answerRef.current?.focus({ preventScroll: true });
+      answerRef.current?.scrollIntoView({ block: "start" });
+    }
+  }, [state.response]);
   const id = useId();
   if (!state.available) return null;
   const limited = state.error instanceof ApiError && state.error.status === 429;
@@ -160,20 +190,19 @@ export function AssistantCard({ summary = false }: { summary?: boolean }) {
       {limited ? (
         <Alert tone="error">{t("assistantLimit")}</Alert>
       ) : state.error ? (
-        <ErrorState
-          error={state.error}
-          retry={() => void state.ask(state.lastQuestion)}
-        />
+        <ErrorState error={state.error} retry={() => void state.retry()} />
       ) : null}
       {result && (
         <section
+          ref={answerRef}
+          tabIndex={-1}
           className="assistant-result"
           aria-label={t("assistantAnswer")}
           aria-live="polite"
         >
           <p className="assistant-answer">{result.answer}</p>
           {empty && <p>{t("assistantEmpty")}</p>}
-          {summary ? (
+          {result.facts.length > 0 && (
             <details className="assistant-facts-details">
               <summary>{t("assistantFacts")}</summary>
               {result.facts.length ? (
@@ -191,20 +220,7 @@ export function AssistantCard({ summary = false }: { summary?: boolean }) {
                 </dl>
               ) : null}
             </details>
-          ) : result.facts.length ? (
-            <dl className="assistant-facts">
-              {result.facts.map((fact, index) => (
-                <div key={`${fact.key}:${index}`}>
-                  <dt>{fact.label}</dt>
-                  <dd>
-                    {fact.value_minor != null
-                      ? formatKZT(fact.value_minor, locale)
-                      : fact.count}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          ) : null}
+          )}
           <div className="assistant-actions">
             {result.actions.map((action, index) =>
               action.kind === "reminder_draft" ? (
@@ -230,7 +246,9 @@ export function AssistantCard({ summary = false }: { summary?: boolean }) {
                 ? "assistantDemo"
                 : result.source === "ai"
                   ? "assistantSourceAI"
-                  : "assistantSourceFallback",
+                  : result.source === "facts"
+                    ? "assistantSourceFacts"
+                    : "assistantSourceFallback",
             )}
           </p>
           <small className="muted">
