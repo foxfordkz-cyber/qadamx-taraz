@@ -1,5 +1,6 @@
 import { expect, type Page } from "@playwright/test";
 import type { components } from "../src/shared/api/generated";
+import { navigateSeller } from "./helpers";
 
 // All credentials, tokens, memberships and customers are synthetic. Real SDK,
 // production App and fetch run in Chromium; auth/API responses are intercepted.
@@ -138,6 +139,28 @@ export async function mockServices(page: Page, syntheticWebOrigin?: string) {
       return error(401);
     if (path === "/api/v1/me")
       return state.meStatus === 200 ? send(me[account]) : error(state.meStatus);
+    // The cabinet now reads its overview on entry. These are synthetic GETs;
+    // keep the same JWT and membership boundary as every private fixture.
+    const overview = path.match(
+      /^\/api\/v1\/businesses\/([^/]+)\/(summary|operations)$/,
+    );
+    if (overview && method === "GET") {
+      if (
+        !me[account].businesses.some((business) => business.id === overview[1])
+      )
+        return error(404);
+      if (overview[2] === "operations")
+        return send({ items: [], next_cursor: null });
+      return send({
+        date: url.searchParams.get("date") ?? "2026-10-18",
+        timezone: "Asia/Almaty",
+        currency: "KZT",
+        sales_minor: 0,
+        receipts_minor: 0,
+        outstanding_minor: 0,
+        new_inquiries_count: 0,
+      } satisfies components["schemas"]["SummaryResponse"]);
+    }
     const recovery = path.match(
       /^\/api\/v1\/businesses\/([^/]+)\/customer-creation-result$/,
     );
@@ -199,7 +222,7 @@ export async function login(page: Page, account: "a" | "b" = "a") {
   await page.getByRole("button", { name: "Войти", exact: true }).click();
 }
 export async function customers(page: Page) {
-  await page.locator('a[href="/seller/customers"]:visible').first().click();
+  await navigateSeller(page, "customers");
   await expect(
     page.getByRole("heading", { name: "Клиенты", exact: true }),
   ).toBeVisible();

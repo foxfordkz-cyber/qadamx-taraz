@@ -262,8 +262,7 @@ export function Dialog({
       tabIndex={-1}
       aria-labelledby={id}
       onKeyDown={(event) => {
-        if (nativeModal) return;
-        if (event.key === "Escape") {
+        if (event.key === "Escape" && !nativeModal) {
           event.preventDefault();
           onClose();
         } else if (event.key === "Tab") {

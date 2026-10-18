@@ -1,6 +1,7 @@
 .cabinet-home {
   display: grid;
   gap: 28px;
+  overflow-wrap: anywhere;
 }
 .cabinet-home-heading,
 .cabinet-section-heading {
@@ -206,6 +207,7 @@ dialog.cabinet-assistant-panel {
   box-sizing: border-box;
   overflow: auto;
   overscroll-behavior: contain;
+  overflow-wrap: anywhere;
 }
 .cabinet-assistant-panel .dialog-heading {
   position: sticky;
