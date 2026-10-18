@@ -4,6 +4,7 @@ import base from "../playwright.config";
 
 export default defineConfig({
   ...base,
+  testIgnore: [],
   testDir: fileURLToPath(new URL(".", import.meta.url)),
   testMatch: "assistant.spec.ts",
   outputDir: "../test-results/assistant",

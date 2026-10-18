@@ -1,0 +1,27 @@
+{
+  "application_sha": "793646fb5071a10dd99471897ff99a78412e72a4",
+  "checks": [
+    {
+      "suite": "assistant-qa",
+      "stats": {
+        "startTime": "2026-10-18T03:42:10.443Z",
+        "duration": 31548.599,
+        "expected": 13,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      }
+    },
+    {
+      "suite": "assistant-release-surfaces",
+      "stats": {
+        "startTime": "2026-10-18T03:43:06.570Z",
+        "duration": 82103.34599999999,
+        "expected": 0,
+        "skipped": 0,
+        "unexpected": 8,
+        "flaky": 0
+      }
+    }
+  ]
+}
