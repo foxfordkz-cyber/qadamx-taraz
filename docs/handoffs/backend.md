@@ -1,5 +1,20 @@
 # Передача работы backend
 
+## 2026-10-18 — Pages2ba2c09: сборка готова, upload ожидается
+
+Свежий origin/main=`2ba2c09ea2e5d154c8f9b305614d9da33c462b83`; обе deploy-ветки
+продвинуты только fast-forward. Отдельная рабочая копия release/pages-assistant-20261018.
+Один npm ci/build:hosted PASS с прежним публичным конфигом, ids=true и assistant=true.
+Node-проверки строк APK0.5.2/«Спросите Qadam», отсутствие0.3.0/.map/.env и известных
+секретов PASS. Готов проверенный ZIP qadam-pages-2ba2c09-assistant.zip.
+CLI не имеет доступа к правильному Cloudflare-аккаунту (10000), upload не выполнялся.
+Ожидаемый rollback0a3a135b-7af1-4bbf-8d2d-92cf873b3f99: публичный HTML совпал с
+основным доменом, / и /login200; ID из management независимо не подтверждён.
+Пока verify-pages подтверждает только старый сайт. Капитану передан ZIP для одной
+ручной загрузки, после неё обязательны verify-pages, Node-сверка JS и браузерный Demo.
+Render/API0.7.0, Supabase, Environment и миграции не тронуты; платных запросов нет.
+[Точный source, проверки и откат](../PAGES_ASSISTANT_RELEASE_20261018.md).
+
 ## 2026-10-17 — интеграция перед заморозкой
 
 Принятая регистрация с routing818bb25, Flutter0.5.2, README/защита и отчёты
