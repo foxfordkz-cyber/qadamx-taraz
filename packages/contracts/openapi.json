@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.7.1"
+    "version": "0.7.2"
   },
   "paths": {
     "/api/v1/health": {
@@ -3754,6 +3754,40 @@
         ],
         "title": "AnalyticsCards"
       },
+      "AnalyticsCollection": {
+        "properties": {
+          "sales_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Sales Minor"
+          },
+          "paid_at_sale_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Paid At Sale Minor"
+          },
+          "paid_later_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Paid Later Minor"
+          },
+          "outstanding_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Outstanding Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "sales_minor",
+          "paid_at_sale_minor",
+          "paid_later_minor",
+          "outstanding_minor"
+        ],
+        "title": "AnalyticsCollection",
+        "description": "Sales made in the period: paid at sale + paid later + still owed = sales."
+      },
       "AnalyticsDay": {
         "properties": {
           "date": {
@@ -3790,6 +3824,38 @@
           "is_partial"
         ],
         "title": "AnalyticsDay"
+      },
+      "AnalyticsDebtBucket": {
+        "properties": {
+          "key": {
+            "type": "string",
+            "enum": [
+              "0_7",
+              "8_30",
+              "31_plus"
+            ],
+            "title": "Key"
+          },
+          "amount_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Amount Minor"
+          },
+          "sales_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Sales Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "key",
+          "amount_minor",
+          "sales_count"
+        ],
+        "title": "AnalyticsDebtBucket",
+        "description": "All open debts as of as_of, by age of the sale in Asia/Almaty days."
       },
       "AnalyticsHour": {
         "properties": {
@@ -3881,6 +3947,32 @@
             "maxItems": 24,
             "minItems": 24,
             "title": "Hourly"
+          },
+          "collection": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AnalyticsCollection"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "debt_aging": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AnalyticsDebtBucket"
+                },
+                "type": "array",
+                "maxItems": 3,
+                "minItems": 3
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Debt Aging"
           }
         },
         "additionalProperties": false,

@@ -338,6 +338,20 @@ def analytics_example(sales=0, receipts=0, count=0, debt=0, debtors=0):
 
 EXAMPLES["AnalyticsEmpty"] = analytics_example()
 EXAMPLES["AnalyticsSaleAndRepayment"] = analytics_example(300000, 150000, 1, 150000, 1)
+EXAMPLES["AnalyticsCollectionAndDebtAging"] = {
+    **EXAMPLES["AnalyticsSaleAndRepayment"],
+    "collection": {
+        "sales_minor": 300000,
+        "paid_at_sale_minor": 100000,
+        "paid_later_minor": 50000,
+        "outstanding_minor": 150000,
+    },
+    "debt_aging": [
+        {"key": "0_7", "amount_minor": 150000, "sales_count": 1},
+        {"key": "8_30", "amount_minor": 0, "sales_count": 0},
+        {"key": "31_plus", "amount_minor": 0, "sales_count": 0},
+    ],
+}
 EXAMPLES["AnalyticsOldSaleReversedToday"] = analytics_example(receipts=-100000)
 
 EXAMPLES["CustomerCreationCompleted"] = {

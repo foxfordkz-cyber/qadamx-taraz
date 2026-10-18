@@ -39,6 +39,19 @@ WITH clock AS (
  FROM journal GROUP BY customer_id
 ), hours AS (
  SELECT hour, count(*) AS count FROM active GROUP BY hour
+), sale_balances AS (
+ SELECT sale_id, sum(sales_delta_minor - receipts_delta_minor) AS owed
+ FROM journal WHERE sale_id IS NOT NULL GROUP BY sale_id
+), open_sales AS (
+ SELECT p.last_day - (s.created_at AT TIME ZONE 'Asia/Almaty')::date AS age, b.owed
+ FROM journal s CROSS JOIN period p JOIN sale_balances b ON b.sale_id = s.id
+ WHERE s.kind = 'sale' AND b.owed > 0
+ AND NOT EXISTS (SELECT 1 FROM journal r WHERE r.reversal_of = s.id)
+), collected AS (
+ SELECT coalesce(sum(a.sales_delta_minor), 0) AS sales,
+ coalesce(sum(a.receipts_delta_minor), 0) AS at_sale,
+ coalesce(sum(coalesce(b.owed, 0)), 0) AS owed
+ FROM active a LEFT JOIN sale_balances b ON b.sale_id = a.id
 )
 SELECT p.as_of, p.first_day AS period_from, p.last_day AS period_to,
  jsonb_build_object(
@@ -58,7 +71,19 @@ SELECT p.as_of, p.first_day AS period_from, p.last_day AS period_to,
  LEFT JOIN receipts r ON r.day = p.first_day + n) AS daily,
  (SELECT jsonb_agg(jsonb_build_object(
  'hour', h, 'sales_count', coalesce(hours.count, 0)) ORDER BY h)
- FROM generate_series(0, 23) h LEFT JOIN hours ON hours.hour = h) AS hourly
+ FROM generate_series(0, 23) h LEFT JOIN hours ON hours.hour = h) AS hourly,
+ (SELECT jsonb_build_object(
+ 'sales_minor', c.sales, 'paid_at_sale_minor', c.at_sale,
+ 'paid_later_minor', c.sales - c.at_sale - c.owed, 'outstanding_minor', c.owed)
+ FROM collected c) AS collection,
+ (SELECT jsonb_agg(jsonb_build_object(
+ 'key', bucket.key,
+ 'amount_minor', coalesce((SELECT sum(o.owed) FROM open_sales o
+ WHERE o.age BETWEEN bucket.low AND bucket.high), 0),
+ 'sales_count', (SELECT count(*) FROM open_sales o
+ WHERE o.age BETWEEN bucket.low AND bucket.high)) ORDER BY bucket.low)
+ FROM (VALUES ('0_7', -100000, 7), ('8_30', 8, 30), ('31_plus', 31, 100000))
+ AS bucket(key, low, high)) AS debt_aging
 FROM period p CROSS JOIN sales s
 """)
 

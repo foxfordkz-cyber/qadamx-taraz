@@ -33,6 +33,23 @@ class AnalyticsHour(Contract):
     sales_count: Count
 
 
+class AnalyticsCollection(Contract):
+    """Sales made in the period: paid at sale + paid later + still owed = sales."""
+
+    sales_minor: Amount
+    paid_at_sale_minor: Amount
+    paid_later_minor: Amount
+    outstanding_minor: Amount
+
+
+class AnalyticsDebtBucket(Contract):
+    """All open debts as of as_of, by age of the sale in Asia/Almaty days."""
+
+    key: Literal["0_7", "8_30", "31_plus"]
+    amount_minor: Amount
+    sales_count: Count
+
+
 class AnalyticsResponse(Contract):
     business_id: UUID
     days: Literal[7, 30]
@@ -45,3 +62,7 @@ class AnalyticsResponse(Contract):
     cards: AnalyticsCards
     daily: Annotated[list[AnalyticsDay], Field(min_length=7, max_length=30)]
     hourly: Annotated[list[AnalyticsHour], Field(min_length=24, max_length=24)]
+    collection: AnalyticsCollection | None = None
+    debt_aging: Annotated[list[AnalyticsDebtBucket], Field(min_length=3, max_length=3)] | None = (
+        None
+    )
