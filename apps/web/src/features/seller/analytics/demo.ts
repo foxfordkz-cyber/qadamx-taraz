@@ -1,3 +1,4 @@
+import { demoDebtors, demoOutstanding } from "../../../shared/demo/debts";
 import type {
   AnalyticsCards,
   AnalyticsDaily,
@@ -96,16 +97,16 @@ export function makeDemoAnalyticsSnapshot(
             receipts_minor: 5_100_000,
             sales_count: 25,
             average_ticket_minor: 296_000,
-            outstanding_minor: 3_500_000,
-            debtors_count: 8,
+            outstanding_minor: demoOutstanding,
+            debtors_count: demoDebtors.length,
           }
         : {
             sales_minor: 30_000_000,
             receipts_minor: 25_100_000,
             sales_count: 100,
             average_ticket_minor: 300_000,
-            outstanding_minor: 3_500_000,
-            debtors_count: 8,
+            outstanding_minor: demoOutstanding,
+            debtors_count: demoDebtors.length,
           };
   return {
     business_id: businessId,
@@ -125,7 +126,7 @@ export function makeDemoAnalyticsSnapshot(
   };
 }
 
-// Preview rows of the same explicitly synthetic snapshot (3 of 8 debtors).
+// Preview sales for the same explicitly synthetic snapshot and demo clients.
 // These are teaching fixtures, not a second journal or calculated live balances.
 const demoDebtPreview: Pick<
   Sale,
@@ -247,3 +248,12 @@ export function createDemoAnalyticsAdapter(
 }
 
 export const demoAnalyticsAdapter = createDemoAnalyticsAdapter();
+
+/** Previous-period totals belong to this same explicit teaching dataset. */
+export function demoPreviousSales(snapshot: AnalyticsSnapshot) {
+  return snapshot.cards.sales_minor === 0
+    ? 0
+    : snapshot.days === 7
+      ? 7_100_000
+      : 28_000_000;
+}

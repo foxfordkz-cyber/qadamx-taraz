@@ -1,5 +1,16 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  analyticsSalesShort: "Сатылымдар",
+  analyticsPeriodSummary: "Кезең қорытындысы",
+  analyticsSalesChange: "Алдыңғы {days} күнге қарағанда {amount}",
+  analyticsExplainAI: "AI арқылы түсіндіру",
+  analyticsAskQadam: "Qadam-нан сұрау",
+  analyticsSourceAI: "Деректеріңізге негізделген AI жауабы",
+  assistantSourceFacts: "Сервер деректері бойынша",
+  analyticsReminder: "Еске салу",
+  analyticsAllDebts: "Барлық қарыздар",
+  analyticsDemoData: "Демо-деректер",
+  analyticsChartCaption: "Сомаларды көру үшін күнді таңдаңыз.",
   dashboardSpeak: "Сатылымды айтыңыз",
   dashboardSpeakHint: "Дауыспен жазып, тексеріп, сақтаңыз.",
   dashboardAskHint: "Нүктеңіздің қарыздары мен нәтижелерін біліңіз.",

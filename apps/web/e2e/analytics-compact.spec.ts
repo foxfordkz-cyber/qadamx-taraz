@@ -21,6 +21,17 @@ async function openReport(page: Page) {
   await page.evaluate(() => document.fonts.ready);
 }
 
+async function selectScenario(page: Page, value: string) {
+  const controls = page.locator(".analytics-demo-controls");
+  if (
+    !(await controls.evaluate(
+      (element) => (element as HTMLDetailsElement).open,
+    ))
+  )
+    await controls.locator(":scope > summary").click();
+  await controls.locator("select").selectOption(value);
+}
+
 async function wholeLabels(page: Page) {
   await expect
     .poll(() =>
@@ -80,9 +91,7 @@ test("whole edge labels, grouped mobile scopes and keyboard survive RU/KZ, 7/30 
         await expect(
           page.locator(".analytics-main-kpis .analytics-kpi:visible"),
         ).toHaveCount(3);
-        await expect(page.locator(".analytics-kpi-top:visible")).toHaveCount(
-          width <= 700 ? 3 : 6,
-        );
+        await expect(page.locator(".analytics-kpi-primary")).toHaveCount(0);
         for (const bars of [
           ".analytics-daily-bars",
           ".analytics-hourly-bars",
@@ -107,7 +116,7 @@ test("empty charts expand by keyboard and reset for another period or point", as
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await openReport(page);
-  await page.locator(".analytics-demo-panel select").selectOption("empty");
+  await selectScenario(page, "empty");
   const disclosure = page.locator(".analytics-details");
   await expect(disclosure).toBeVisible();
   await expect(
@@ -137,7 +146,7 @@ test("empty charts expand by keyboard and reset for another period or point", as
   await expect(disclosure).not.toHaveAttribute("open", "");
   await page.getByRole("button", { name: "KZ", exact: true }).click();
   await expect(toggle).toHaveText("Толығырақ");
-  await page.locator(".analytics-demo-panel select").selectOption("error");
+  await selectScenario(page, "error");
   await expect(page.locator(".analytics-error")).toBeVisible();
   await expect(page.locator(".analytics-kpi, .analytics-details")).toHaveCount(
     0,
@@ -182,14 +191,14 @@ test("capture compact analytics before/after on matching viewports", async ({
       await capture(`${locale.toLowerCase()}-${width}-7`);
     }
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.locator(".analytics-demo-panel select").selectOption("empty");
+    await selectScenario(page, "empty");
     await expect(page.locator(".analytics-empty")).toBeVisible();
     await capture(`${locale.toLowerCase()}-390-empty`);
-    await page.locator(".analytics-demo-panel select").selectOption("activity");
+    await selectScenario(page, "activity");
     await expect(page.locator(".analytics-daily-bars button")).toHaveCount(7);
-    await expect(page.locator(".analytics-kpi-primary")).toContainText(
-      "74 000 ₸",
-    );
+    await expect(
+      page.locator(".analytics-main-kpis .analytics-kpi").first(),
+    ).toContainText("74 000 ₸");
   }
   await writeFile(
     path.join(destination, "measurements.json"),
