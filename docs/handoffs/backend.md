@@ -1140,3 +1140,21 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 `GET /analytics` получил необязательные `collection` и `debt_aging` (один SQL-снимок с остальной аналитикой, без миграций). Инварианты проверяются во всех тестах аналитики: собираемость в сумме = продажи периода, возраст долгов в сумме = «Мне должны». Новые тесты: корзины 0–7/8–30/31+, отменённая продажа, отменённое погашение. Текущий web принимает ответ с новыми полями (проверено на `readAnalyticsSnapshot`), поэтому API можно выпускать раньше фронтенда. Контракт: `packages/contracts/ANALYTICS_API.md`, `openapi.json`, `examples.json`, `generated.ts`.
 
 **Выпуск 0.7.2, 2026-10-18 ~12:50 GMT+5.** `main` = deploy-ветки = `e34ca6b`, Render `dep-dba6vbjrjlhs739596n0`. Проверено: OpenAPI 0.7.2 с `collection` и `debt_aging`, health 200, публичные `/venues` и `/businesses` 200, `/analytics` без JWT 401, CORS с Pages 200; текущий сайт (Pages `11f8c826`) в живом кабинете показывает аналитику без ошибок. Environment не менялся.
+
+### 2026-10-18 — интегратор: «Напомнить в WhatsApp», отдельный frontend PR
+
+Ветка `feature/whatsapp-reminder` от свежего `origin/main` **daa0a0d517b3e32a347754064030e56c730bf8cb**. По срочному поручению капитана изменены только frontend и его тесты/документация. В `shared/whatsapp.ts` — согласованные RU/KZ шаблоны с общим `formatKZT` и `wa.me` с `encodeURIComponent`. Телефон `+7`/`8` и 10 цифр нормализуется; нет однозначного телефона — выбор контакта в WhatsApp. Произвольные email/имена и несколько разных телефонов не превращаются в адресата.
+
+В карточке напоминания помощника ссылка передаёт готовый текст и контакт точного клиента через существующий scoped lookup. В `/seller/debts` текст использует серверный `balance_minor` конкретной продажи, имя клиента и выбранной точки; отдельного AI-вызова нет. Открывается новая вкладка с `noopener noreferrer`, рядом пояснение о самостоятельной отправке. Иконка, текст, минимум 44 px, RU/KZ. В Demo показаны три явно учебных долга из общего `shared/demo/debts.ts`; другая demo-точка остаётся пустой. Gateway, Auth, API, финансовые записи и `features/seller/analytics` не менялись.
+
+Проверки итогового кода из `apps/web`:
+
+- `npm ci`; `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm run build` — PASS.
+- `npm test -- --maxWorkers=1 --no-file-parallelism` — **559/559**, 42 файла; включает 23 новых utility и 6 component cases.
+- `npx playwright test -c e2e/whatsapp-reminder.playwright.config.ts --retries=0` — **8/8**: RU/KZ × 360/390/1440, две поверхности, href/остаток/контакт, размер, отсутствие скролла/ошибок и Demo без API.
+- Отдельные конфиги `assistant` — **6/6**, `assistant-qa` — **13/13**, `ledger-reading` — **6/6**. Все browser Auth/API/assistant ответы синтетические; не живая приёмка WhatsApp, телефона или AI.
+- [Два скриншота 390 RU](../screenshots/whatsapp-reminder/README.md) осмотрены. Автоматически обновлённые чужие screenshots аналитики не включены в PR.
+
+На исходном main существовал lint blocker в `e2e/manual-entry-timing.acceptance.ts:336` (`no-control-regex`). Только очистка ANSI в тексте ошибки заменена стандартным `node:util.stripVTControlCharacters`; продукт и сценарии измерения не менялись. Первые ошибки типов новых тестов и их неоднозначный селектор исправлены до итогового зелёного прогона. Build сохранил предупреждения об empty auth chunk и размере JS >500 kB; сборка успешна.
+
+Публикация кода в GitHub не означает выпуск сайта: main/deploy-ветки, Pages, Render, Supabase и Environment в этой задаче не переключались. Никаких живых AI-вызовов, денежных записей или отправленных сообщений. Следующий шаг: review этого PR капитаном; включение в общую Pages-сборку после принятия. В 14:00 запланировано продолжение части B с повторной проверкой свежих refs; уже включённый PR #94 повторно не сливать.

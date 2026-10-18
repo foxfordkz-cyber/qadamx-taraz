@@ -1,7 +1,12 @@
 // Debt/history/reversal flow adapted from PR #7. Balances are exclusively server values.
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { useRuntime } from "../../app/runtime";
+import { useBusiness, useRuntime } from "../../app/runtime";
+import { useI18n } from "../../shared/i18n";
+import { WhatsAppLink } from "../../shared/WhatsAppLink";
+import { reminderText } from "../../shared/whatsapp";
+import { demoOpenSales } from "./demoDebts";
+import { demoOutstanding } from "../../shared/demo/debts";
 import {
   Badge,
   Button,
@@ -23,12 +28,19 @@ export function Debts() {
   const [sp] = useSearchParams(),
     { l, locale } = useLedgerText(),
     { gateway } = useRuntime();
+  const { business } = useBusiness();
+  const { t } = useI18n();
+  const demo = gateway.mode === "demo";
   const customerId = sp.get("customer_id");
   const params = new URLSearchParams({ outstanding_only: "true" });
   if (customerId) params.set("customer_id", customerId);
   const q = useLedgerList<Sale>(params.toString());
   // Names only decorate rows; the debt list never waits for or depends on them.
-  const rows = q.data?.pages.flatMap((p) => p.items) ?? [];
+  const rows = demo
+    ? demoOpenSales(business.id).filter(
+        (row) => !customerId || row.customer_id === customerId,
+      )
+    : (q.data?.pages.flatMap((p) => p.items) ?? []);
   const known = useLedgerCustomers([
     ...rows.map((row) => row.customer_id),
     customerId,
@@ -36,7 +48,15 @@ export function Debts() {
   // Totals come from the server: the day summary, or the customer's own balance.
   const summary = useSummary();
   const filtered = customerId ? known.get(customerId.toLowerCase()) : undefined;
-  const total = customerId ? filtered?.balance_minor : summary.data?.balance;
+  const total = demo
+    ? customerId
+      ? rows[0]?.balance_minor
+      : rows.length
+        ? demoOutstanding
+        : 0
+    : customerId
+      ? filtered?.balance_minor
+      : summary.data?.balance;
   return (
     <>
       <PageHeader
@@ -64,8 +84,8 @@ export function Debts() {
       {q.isError && (
         <ErrorState error={q.error} retry={() => void q.refetch()} />
       )}
-      {q.isLoading && <Spinner />}
-      {q.isSuccess && rows.length === 0 && (
+      {!demo && q.isLoading && <Spinner />}
+      {(demo || q.isSuccess) && rows.length === 0 && (
         <EmptyState title={l("noDebts")} description={l("noDebtsHint")} />
       )}
       <ul className="debt-list">
@@ -91,12 +111,29 @@ export function Debts() {
                   <span>{l("left")}:</span>{" "}
                   <strong>{formatKZT(s.balance_minor, locale)}</strong>
                 </p>
-                <Link
-                  className="button button-secondary"
-                  to={`/seller/sale?sale=${s.id}`}
-                >
-                  {l("payDebt")}
-                </Link>
+                <div className="debt-reminder-actions">
+                  <Link
+                    className="button button-secondary"
+                    to={`/seller/sale?sale=${s.id}`}
+                  >
+                    {l("payDebt")}
+                  </Link>
+                  {s.balance_minor > 0 && (
+                    <WhatsAppLink
+                      reminder
+                      text={reminderText(
+                        known.get(s.customer_id?.toLowerCase() ?? "")
+                          ?.display_name ?? t("whatsappCustomer"),
+                        s.balance_minor,
+                        business.name,
+                        locale,
+                      )}
+                      contact={
+                        known.get(s.customer_id?.toLowerCase() ?? "")?.contact
+                      }
+                    />
+                  )}
+                </div>
               </div>
             </Card>
           </li>

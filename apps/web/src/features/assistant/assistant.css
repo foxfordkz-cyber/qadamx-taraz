@@ -139,6 +139,12 @@
   margin-top: 0;
   font-size: 1rem;
 }
+.assistant-reminder-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+}
 .assistant-reminder p {
   white-space: pre-wrap;
   overflow-wrap: anywhere;

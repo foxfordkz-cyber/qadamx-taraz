@@ -1,4 +1,8 @@
 export const ru = {
+  whatsappSend: "Отправить в WhatsApp",
+  whatsappRemind: "Напомнить в WhatsApp",
+  whatsappHint: "Сообщение отправляете вы сами из WhatsApp",
+  whatsappCustomer: "покупатель",
   analyticsSalesShort: "Продажи",
   analyticsPeriodSummary: "Итог периода",
   analyticsSalesChange: "{amount} к прошлым {days} дням",

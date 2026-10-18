@@ -139,7 +139,15 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--qadam-space-2) var(--qadam-space-4);
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  max-width: 100%;
+}
+.debt-reminder-actions {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  max-width: 320px;
 }
 .debt-side .button {
   white-space: nowrap;

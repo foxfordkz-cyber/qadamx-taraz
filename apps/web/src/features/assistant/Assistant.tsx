@@ -2,6 +2,8 @@ import { useEffect, useId, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ApiError } from "../../shared/api/client";
 import { formatKZT } from "../../shared/format";
+import { WhatsAppLink } from "../../shared/WhatsAppLink";
+import { useLedgerCustomers } from "../ledger/customers";
 import { useI18n, type TranslationKey } from "../../shared/i18n";
 import { Alert, Button, Card, ErrorState, Spinner } from "../../shared/ui";
 import { debtLink, type AssistantRequest } from "./model";
@@ -27,26 +29,39 @@ const actionLabels = {
   open_analytics: "analyticsTitle",
 } as const;
 
-function Reminder({ text }: { text: string }) {
+function Reminder({
+  text,
+  customerId,
+}: {
+  text: string;
+  customerId?: string | null;
+}) {
   const { t } = useI18n();
+  const customers = useLedgerCustomers([customerId]);
+  const contact = customerId
+    ? customers.get(customerId.toLowerCase())?.contact
+    : null;
   const [copy, setCopy] = useState<"idle" | "copied" | "failed">("idle");
   return (
     <div className="assistant-reminder">
       <h3>{t("assistantReminder")}</h3>
       <p>{text}</p>
-      <Button
-        variant="secondary"
-        onClick={async () => {
-          try {
-            await navigator.clipboard.writeText(text);
-            setCopy("copied");
-          } catch {
-            setCopy("failed");
-          }
-        }}
-      >
-        {t("assistantCopy")}
-      </Button>
+      <div className="assistant-reminder-tools">
+        <Button
+          variant="secondary"
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(text);
+              setCopy("copied");
+            } catch {
+              setCopy("failed");
+            }
+          }}
+        >
+          {t("assistantCopy")}
+        </Button>
+        <WhatsAppLink text={text} contact={contact} />
+      </div>
       <span role="status">
         {copy === "copied"
           ? t("assistantCopied")
@@ -224,7 +239,11 @@ export function AssistantCard({
           <div className="assistant-actions">
             {result.actions.map((action, index) =>
               action.kind === "reminder_draft" ? (
-                <Reminder key={`${index}:${action.text}`} text={action.text!} />
+                <Reminder
+                  key={`${index}:${action.text}`}
+                  text={action.text!}
+                  customerId={action.customer_id}
+                />
               ) : (
                 <Link
                   className="button button-secondary"

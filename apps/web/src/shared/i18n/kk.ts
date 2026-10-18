@@ -1,5 +1,9 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  whatsappSend: "WhatsApp-қа жіберу",
+  whatsappRemind: "WhatsApp арқылы еске салу",
+  whatsappHint: "Хабарды WhatsApp-тан өзіңіз жібересіз",
+  whatsappCustomer: "сатып алушы",
   analyticsSalesShort: "Сатылымдар",
   analyticsPeriodSummary: "Кезең қорытындысы",
   analyticsSalesChange: "Алдыңғы {days} күнге қарағанда {amount}",

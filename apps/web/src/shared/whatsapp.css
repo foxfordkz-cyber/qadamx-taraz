@@ -1,0 +1,25 @@
+.whatsapp-reminder {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+}
+.whatsapp-reminder a.whatsapp-reminder-link {
+  min-height: 44px;
+  min-width: 44px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+.whatsapp-reminder-link svg {
+  flex: 0 0 20px;
+}
+.whatsapp-reminder small {
+  color: var(--qadam-muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.whatsapp-reminder-link:focus-visible {
+  outline: 2px solid var(--qadam-green);
+  outline-offset: 3px;
+}
