@@ -7,6 +7,12 @@ export async function navigateSeller(page: Page, route: string) {
   const visibleLink = page.locator(`a[href="${href}"]:visible`).first();
   if ((await visibleLink.count()) > 0) {
     await visibleLink.click();
+  } else if (
+    await page.locator(".seller-secondary-nav > summary").isVisible()
+  ) {
+    // Secondary destinations are intentionally folded on the desktop shell.
+    await page.locator(".seller-secondary-nav > summary").click();
+    await page.locator(`.seller-secondary-nav a[href="${href}"]`).click();
   } else {
     await page.locator('.bottom-nav button[aria-haspopup="dialog"]').click();
     const menu = page.getByRole("dialog");

@@ -1,0 +1,63 @@
+/* Navigation remains part of the existing seller shell and its routes. */
+.sidebar .seller-secondary-nav {
+  margin: 8px 0 20px;
+  border-top: 1px solid var(--qadam-line);
+  padding-top: 8px;
+}
+.sidebar .seller-secondary-nav > summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 12px 14px;
+  border-radius: var(--qadam-radius-control);
+  color: var(--qadam-muted);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  list-style: none;
+}
+.sidebar .seller-secondary-nav > summary::-webkit-details-marker {
+  display: none;
+}
+.sidebar .seller-secondary-nav > summary::after {
+  content: "+";
+  margin-left: auto;
+  font-size: 18px;
+}
+.sidebar .seller-secondary-nav[open] > summary::after {
+  content: "−";
+}
+.sidebar .seller-secondary-nav > summary:hover {
+  background: var(--qadam-surface-muted);
+}
+.sidebar .seller-secondary-nav > summary:focus-visible {
+  outline: 2px solid var(--qadam-green);
+  outline-offset: 2px;
+}
+.sidebar .seller-secondary-nav > summary svg {
+  width: 20px;
+  height: 20px;
+}
+.sidebar .seller-secondary-nav nav {
+  margin-top: 5px;
+}
+@media (max-width: 760px) {
+  .bottom-nav.seller-bottom-nav {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding-inline: 6px;
+    gap: 2px;
+  }
+  .seller-bottom-nav > a,
+  .seller-bottom-nav > button {
+    min-width: 44px;
+    min-height: 60px;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+  .seller-bottom-nav > a > span,
+  .seller-bottom-nav > button > span {
+    max-width: 100%;
+  }
+}

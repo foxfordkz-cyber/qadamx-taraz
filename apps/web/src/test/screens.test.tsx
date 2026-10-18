@@ -47,7 +47,15 @@ async function openDemo(gateway: SellerGateway = demoGateway) {
   await screen.findByRole("heading", { name: "Хорошего рабочего дня!" });
 }
 async function goTo(name: string) {
-  await userEvent.click(screen.getAllByRole("link", { name })[0]);
+  const direct = screen.queryAllByRole("link", { name })[0];
+  if (direct) {
+    await userEvent.click(direct);
+    return;
+  }
+  await userEvent.click(screen.getByRole("button", { name: "Все разделы" }));
+  await userEvent.click(
+    within(screen.getByRole("dialog")).getByRole("link", { name }),
+  );
 }
 describe("seller UI using explicitly injected test/demo gateways", () => {
   it("navigates through the mobile menu and closes it after selecting a section", async () => {

@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import { useAuth } from "./auth";
 import { useBusiness } from "./runtime";
-import { mainActions } from "./pages";
 import { LanguageSwitch, useI18n, type TranslationKey } from "../shared/i18n";
 import {
   Alert,
@@ -21,14 +20,21 @@ import {
 } from "../shared/ui";
 import { Brand, QadamMark } from "../shared/ui/Brand";
 import { Icon, type IconName } from "../shared/ui/Icon";
+import "./seller-navigation.css";
 
-const links: { path: string; label: TranslationKey; icon: IconName }[] = [
+type SellerLink = { path: string; label: TranslationKey; icon: IconName };
+const primaryLinks: SellerLink[] = [
   { path: "", label: "home", icon: "home" },
-  ...mainActions,
+  { path: "sale", label: "sale", icon: "sale" },
+  { path: "debts", label: "debts", icon: "debts" },
+  { path: "analytics", label: "analytics", icon: "summary" },
+  { path: "inquiries", label: "inquiries", icon: "inquiries" },
+];
+const secondaryLinks: SellerLink[] = [
   { path: "customers", label: "customers", icon: "customers" },
   { path: "catalog", label: "catalog", icon: "catalog" },
   { path: "history", label: "history", icon: "history" },
-  { path: "analytics", label: "analytics", icon: "summary" },
+  { path: "summary", label: "summary", icon: "summary" },
 ];
 export function SellerLayout() {
   const { t } = useI18n();
@@ -65,8 +71,8 @@ export function SellerLayout() {
       <aside className="sidebar">
         <Brand to="/seller" />
         <p className="sidebar-label">{t("cabinet")}</p>
-        <nav aria-label={t("more")}>
-          {links.map((link) => (
+        <nav className="seller-primary-nav" aria-label={t("cabinet")}>
+          {primaryLinks.map((link) => (
             <NavLink
               key={link.path}
               end
@@ -77,6 +83,26 @@ export function SellerLayout() {
             </NavLink>
           ))}
         </nav>
+        <details
+          className="seller-secondary-nav"
+          key={locationKey}
+          open={secondaryLinks.some(
+            (link) => pathname === `/seller/${link.path}`,
+          )}
+        >
+          <summary>
+            <Icon name="menu" />
+            <span>{t("menu")}</span>
+          </summary>
+          <nav aria-label={t("more")}>
+            {secondaryLinks.map((link) => (
+              <NavLink key={link.path} end to={`/seller/${link.path}`}>
+                <Icon name={link.icon} />
+                <span>{t(link.label)}</span>
+              </NavLink>
+            ))}
+          </nav>
+        </details>
         <div className="sidebar-footer">
           <Icon name="shop" />
           <strong>Qadam · Taraz</strong>
@@ -152,30 +178,24 @@ export function SellerLayout() {
           </main>
         </div>
       </div>
-      <nav className="bottom-nav" aria-label={t("cabinet")}>
-        {links
-          .filter((link) =>
-            ["", "sale", "customers", "inquiries"].includes(link.path),
-          )
-          .map((link) => (
-            <NavLink
-              key={link.path}
-              end
-              to={`/seller${link.path ? `/${link.path}` : ""}`}
-            >
-              <Icon name={link.icon} />
-              <span>{t(link.label)}</span>
-            </NavLink>
-          ))}
+      <nav className="bottom-nav seller-bottom-nav" aria-label={t("cabinet")}>
+        {primaryLinks.map((link) => (
+          <NavLink
+            key={link.path}
+            end
+            to={`/seller${link.path ? `/${link.path}` : ""}`}
+          >
+            <Icon name={link.icon} />
+            <span>{t(link.label)}</span>
+          </NavLink>
+        ))}
         <button
           type="button"
           aria-label={t("more")}
           aria-haspopup="dialog"
           aria-expanded={menuOpen}
           className={
-            ["debts", "summary", "catalog", "history", "analytics"].some(
-              (path) => pathname === `/seller/${path}`,
-            )
+            secondaryLinks.some((link) => pathname === `/seller/${link.path}`)
               ? "is-active"
               : ""
           }
@@ -191,7 +211,7 @@ export function SellerLayout() {
         onClose={() => setMenu({ locationKey, open: false })}
       >
         <nav className="section-menu" aria-label={t("more")}>
-          {links.map((link) => (
+          {secondaryLinks.map((link) => (
             <NavLink
               key={link.path}
               end
