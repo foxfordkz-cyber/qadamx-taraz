@@ -251,7 +251,7 @@ flowchart LR
 | AI | OpenAI через серверный адаптер | Ключ только на Render. Провайдер выбирается переменной `AI_PROVIDER` |
 | Android | [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases) | APK собирается отдельно из `apps/mobile` и публикуется как pre-release |
 
-Бесплатный Render засыпает после простоя, первый запрос может идти до минуты. Старый адрес `qadamx-taraz.vercel.app` больше не основной: он не обновляется из-за лимита сборок, используйте Pages.
+Бесплатный Render засыпает после простоя, первый запрос может идти до минуты.
 
 ## Проверки и границы доказательств
 
