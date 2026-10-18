@@ -134,6 +134,11 @@ Git: подготовка в отдельном worktree `work/qadam-live-microp
 `a4ce3b046f917ff18d9d6ce6009a5bc2c0ba9f64`. По прямому запросу пользователя
 «сделай пуш» подготовка публикуется в отдельной ветке
 `docs/live-microphone-pitch-qa`; base Draft PR — `main` согласно CONTRIBUTING.
+Опубликован [Draft PR #92](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/92).
+Commit протокола: `ddd58fc25395593166a9270824e996422d7cb0cf`; push успешен,
+совпадение local/remote SHA подтверждено. Следующий документационный commit
+добавляет эту ссылку; актуальный HEAD проверять через `git rev-parse HEAD`
+и `git ls-remote origin refs/heads/docs/live-microphone-pitch-qa`.
 Повторный `git fetch origin --prune` успешен, `origin/main` совпадает с этим HEAD.
 Проверки подготовки: `git diff --check` PASS; неизменность PITCH вне раздела 6
 и всех предыдущих разделов handoff проверена сравнением с HEAD; изменены только
