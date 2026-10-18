@@ -416,3 +416,12 @@ Vercel build success для ca45a53; анонимные `/`, `/login`, `/seller/
 ## Перед завершением
 
 Записать ветку, сделанное, проверенные сценарии и ошибки, следующий шаг и ссылку PR после создания.
+
+## 2026-10-18 — Share Day Summary
+
+Ветка `feature/share-day-summary` от `main:daa0a0d517b3e32a347754064030e56c730bf8cb`.
+На `/seller/summary` добавлены WhatsApp/Copy/Native Share, точный RU/KZ текст, существующий форматтер тенге и выбранный день Asia/Almaty. Используется один загруженный Summary; новые запросы, AI и финансовые записи не добавлены. Изоляция пользователя/точки/даты сохранена, loading/error блокируют действия.
+
+Demo отдельно согласован пользователем: существующий `examples.json/SummaryResponse`, фиксированная дата 15.10.2026, явная учебная пометка. Общий WhatsApp helper не создавался; функция локальна в `features/summary/share.ts`. Изменения production ограничены `features/summary/**`; backend, contracts, Auth, ledger, assistant, seller и gateway не изменены.
+
+[Описание, команды, 22 regression tests и скриншоты](../SHARE_DAY_SUMMARY.md). Проверки: 552/552 unit, 7/7 E2E, check:api/typecheck/build, lint новых файлов и diff-check — PASS. Общие lint/format имеют прежние ошибки в неизменённых manual-entry-timing.acceptance.ts/dashboard-demo.test.tsx (подробности в отчёте). Main обновился параллельно; чужие изменения не объединялись. Реальная доставка WhatsApp и системное меню физического телефона не подтверждены. Следующий шаг: review капитана; merge/deploy самостоятельно не выполняются.
