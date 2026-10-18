@@ -51,7 +51,12 @@ function useAssistantSession(days: AssistantRequest["days"]) {
       Array.from(trimmed).length > 500
     )
       return;
-    const request: AssistantRequest = { question: trimmed, days, locale };
+    const request: AssistantRequest = {
+      question: trimmed,
+      days,
+      locale,
+      ai: true,
+    };
     const current = new AbortController();
     controller.current = current;
     setPending(true);

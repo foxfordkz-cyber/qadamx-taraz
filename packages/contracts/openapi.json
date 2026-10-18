@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.7.0"
+    "version": "0.7.1"
   },
   "paths": {
     "/api/v1/health": {
@@ -1429,7 +1429,7 @@
           "assistant"
         ],
         "summary": "Ask Assistant",
-        "description": "Seller question → short answer from server-calculated facts of this business. The model only words the answer; every amount, count and customer is checked against facts, otherwise source=fallback with a server template. No ledger writes, nothing is sent: reminder_draft is text to copy. Disabled deployments return 404 ASSISTANT_DISABLED; a per-user daily limit returns 429 ASSISTANT_LIMIT.",
+        "description": "Seller question → short answer from server-calculated facts of this business. The model only words the answer; every amount, count and customer is checked against facts, otherwise source=fallback with a server template. No ledger writes, nothing is sent: reminder_draft is text to copy. ai=false returns source=facts: the server summary of the same facts without a model call or daily limit, for automatic page loads. Disabled deployments return 404 ASSISTANT_DISABLED; a per-user daily limit returns 429 ASSISTANT_LIMIT.",
         "operationId": "ask_assistant_api_v1_businesses__id__assistant_post",
         "security": [
           {
@@ -4036,6 +4036,12 @@
             ],
             "title": "Days",
             "default": 7
+          },
+          "ai": {
+            "type": "boolean",
+            "title": "Ai",
+            "description": "false: server summary from the same facts, no model call and no daily limit",
+            "default": true
           }
         },
         "additionalProperties": false,
@@ -4111,7 +4117,8 @@
             "type": "string",
             "enum": [
               "ai",
-              "fallback"
+              "fallback",
+              "facts"
             ],
             "title": "Source"
           }
