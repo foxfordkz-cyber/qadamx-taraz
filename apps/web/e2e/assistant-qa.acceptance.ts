@@ -7,7 +7,8 @@ const copy = {
   ru: {
     question: "Ваш вопрос",
     ask: "Спросить",
-    explain: "Объяснить мои цифры",
+    explain: "Объяснить с AI",
+    open: "Спросить Qadam",
     fallback: "AI недоступен, показаны данные сервера",
     retry: "Повторить",
     limit: "Лимит вопросов на сегодня",
@@ -18,7 +19,8 @@ const copy = {
   kk: {
     question: "Сұрағыңыз",
     ask: "Сұрау",
-    explain: "Көрсеткіштерімді түсіндіру",
+    explain: "AI арқылы түсіндіру",
+    open: "Qadam-нан сұрау",
     fallback: "AI қолжетімсіз, сервер деректері көрсетілген",
     retry: "Қайталау",
     limit: "Бүгінгі сұрақтар лимиті",
@@ -41,7 +43,9 @@ for (const locale of ["ru", "kk"] as const) {
         if (locale === "kk")
           await page.getByRole("button", { name: "KZ", exact: true }).click();
         const ui = copy[locale];
-        await page.locator(".assistant-questions > summary").click();
+        await expect(page.locator(".analytics-period-answer")).toBeVisible();
+        expect(state.calls.every((call) => !call.ai)).toBe(true);
+        await page.getByRole("button", { name: ui.open, exact: true }).click();
         const ask = page.getByRole("button", { name: ui.ask, exact: true });
         await expect(ask).toBeDisabled();
         await page.getByLabel(ui.question, { exact: true }).fill("  QA: ?  ");
@@ -54,8 +58,10 @@ for (const locale of ["ru", "kk"] as const) {
           await ask.press("Enter");
           await expect(ask).toBeDisabled();
           await expect(page.locator(".assistant .spinner")).toBeVisible();
-          await expect.poll(() => state.calls.length).toBe(1);
-          expect(state.calls[0]).toEqual({
+          await expect
+            .poll(() => state.calls.filter((call) => call.ai).length)
+            .toBe(1);
+          expect(state.calls.filter((call) => call.ai)[0]).toEqual({
             question: "QA: ?",
             locale,
             days: 7,
@@ -77,9 +83,9 @@ for (const locale of ["ru", "kk"] as const) {
         expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
           await page.locator(".assistant-reminder p").textContent(),
         );
-        await expect(page.locator(".assistant-debtors li a")).toHaveAttribute(
+        await expect(page.locator(".analytics-reminders > a")).toHaveAttribute(
           "href",
-          /\/seller\/debts\?customer_id=/,
+          "/seller/debts",
         );
         const chips = page.locator(".assistant-suggestions button");
         await expect(chips).toHaveCount(4);
@@ -131,19 +137,25 @@ for (const locale of ["ru", "kk"] as const) {
         if (locale === "kk")
           await page.getByRole("button", { name: "KZ", exact: true }).click();
         const ui = copy[locale];
-        const explain = page.getByRole("button", { name: ui.explain });
+        await expect(page.locator(".analytics-period-answer")).toBeVisible();
+        await page.getByRole("button", { name: ui.open, exact: true }).click();
+        await page.getByLabel(ui.question, { exact: true }).fill("QA: ?");
+        const explain = page.getByRole("button", { name: ui.ask, exact: true });
         state.status = 503;
         await explain.click();
         await expect(page.locator(".assistant [role=alert]")).toBeVisible();
-        expect(state.calls).toHaveLength(1);
+        expect(state.calls.filter((call) => call.ai)).toHaveLength(1);
         state.status = 200;
         state.source = "fallback";
         await page
           .locator(".assistant")
           .getByRole("button", { name: ui.retry })
           .click();
-        await expect(page.locator(".assistant-source")).toHaveText(ui.fallback);
-        expect(state.calls[1]).toEqual(state.calls[0]);
+        await expect(
+          page.getByRole("dialog").locator(".assistant-source"),
+        ).toHaveText(ui.fallback);
+        const paidCalls = state.calls.filter((call) => call.ai);
+        expect(paidCalls[1]).toEqual(paidCalls[0]);
         state.response = { facts: [], actions: [] };
         await explain.click();
         await expect(page.locator(".assistant-result")).toContainText(ui.empty);
@@ -154,7 +166,7 @@ for (const locale of ["ru", "kk"] as const) {
           ui.limit,
         );
         await expect(explain).toBeDisabled();
-        expect(state.calls).toHaveLength(4);
+        expect(state.calls.filter((call) => call.ai)).toHaveLength(4);
         expect(services.unexpected).toEqual([]);
       });
 
@@ -192,19 +204,20 @@ test("period and point changes discard old answers and reject a foreign envelope
   page,
 }) => {
   const { state } = await prepareAssistant(page);
+  const summary = page.locator(".analytics-period-summary");
   await page.getByRole("button", { name: copy.ru.explain }).click();
-  await expect(page.locator(".assistant-result")).toBeVisible();
+  await expect(summary.locator(".assistant-source")).toHaveText(
+    "Ответ AI по вашим данным",
+  );
   await page.locator(".analytics-period-switch button").nth(1).click();
-  await expect(page.locator(".assistant-result")).toHaveCount(0);
-  await page.getByRole("button", { name: copy.ru.explain }).click();
-  await expect(page.locator(".assistant-result")).toBeVisible();
-  expect(state.calls.at(-1)?.days).toBe(30);
+  await expect(summary.locator(".assistant-source")).toHaveText(
+    "По данным сервера",
+  );
+  expect(state.calls.at(-1)).toMatchObject({ days: 30, ai: false });
+  state.response.business_id = qaIds.shopA;
   await page
     .getByLabel("Торговая точка", { exact: true })
     .selectOption(qaIds.shopA2);
-  await expect(page.locator(".assistant-result")).toHaveCount(0);
-  state.response.business_id = qaIds.shopA;
-  await page.getByRole("button", { name: copy.ru.explain }).click();
-  await expect(page.locator(".assistant [role=alert]")).toBeVisible();
-  await expect(page.locator(".assistant-result")).toHaveCount(0);
+  await expect(summary.locator("[role=alert]")).toBeVisible();
+  await expect(summary.locator(".analytics-period-answer")).toHaveCount(0);
 });

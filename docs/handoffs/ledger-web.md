@@ -2,8 +2,10 @@
 
 ## 2026-10-18 — аналитика и помощник, API 0.7.1
 
-Ветка `feature/analytics-redesign` от свежего `origin/main` **a4ce3b0**.
+Ветка `feature/analytics-redesign` создана от `origin/main` **a4ce3b0**, затем обновлена обычным merge до **e8f7b22** (PR #89, #90, #91 и #93). Изменения этих PR сохранены. QA помощника адаптирован к панели и автоматическим `ai=false`; новый acceptance-набор отделён от обычных E2E без assistant-флага.
 PR в `main` создаётся после финальной проверки; номер и сообщение капитану фиксируются в PR.
+
+Мини-замер и контрольный живой вопрос переданы Бекзату по уточнению капитана. В этой задаче используются только моки и демо; прежняя запись ниже об ожидании учебного входа больше не относится к текущей работе.
 
 Сделано:
 
@@ -19,11 +21,12 @@ PR в `main` создаётся после финальной проверки; 
 Проверено локально на синтетических API/Auth:
 
 - `npm run check:api`, `npm run typecheck`, `npm run lint`, `npm run build` — PASS. У сборки остаются прежние предупреждения empty auth chunk и размера JS/3D bundle.
-- `npm test -- --maxWorkers=1 --no-file-parallelism` — **523/523**; заключительный целевой набор analytics/assistant — **56/56**.
-- `npm run test:e2e -- --config e2e/analytics.playwright.config.ts analytics.spec.ts analytics-compact.spec.ts` — **13/13**.
+- `npm test -- --maxWorkers=1 --no-file-parallelism` — **530/530** после merge свежего main (до merge **523/523**); целевой набор analytics/assistant — **56/56**.
+- `npm run test:e2e -- --config e2e/analytics.playwright.config.ts` — **44/44**, включая analytics/compact **13/13** и регрессии кабинета.
+- `npm run test:e2e -- --config e2e/assistant-qa.playwright.config.ts` — **13/13**: реальные transport/provider с синтетическими ответами, отдельный учёт `ai=false`/`ai=true`, копирование, 429, fallback, пустые факты, чужая точка.
 - `npm run test:e2e -- --config e2e/assistant.playwright.config.ts` — **6/6**.
 - `npm run test:e2e -- --config e2e/analytics-redesign.playwright.config.ts` — **7/7**.
-- `npm run test:e2e -- --config e2e/analytics-layout.playwright.config.ts` — **4/4**. Итого **30 E2E**: RU/KZ, 360/390/1440, 200% текст, ≥44 px, без горизонтального переполнения, клавиатура/Clipboard/фокус, Demo без API, обязательный `ai=false` и явный `ai=true`.
+- `npm run test:e2e -- --config e2e/analytics-layout.playwright.config.ts` — **5/5**. Покрыты RU/KZ, 360/390/1440, 200% текст, ≥44 px, отсутствие горизонтального переполнения, клавиатура/Clipboard/фокус, Demo без API, обязательный `ai=false`, явный `ai=true` и один запрос напоминания при StrictMode.
 - Форматирование изменённых файлов и `git diff --check` — PASS. Первые прогоны выявили устаревшие ожидания встроенного чата и StrictMode-отмену; исправления проверены повторными прогонами, проверки безопасности транспорта сохранены.
 
 [Скриншоты до/после 390/1440 RU/KZ и панели](../screenshots/analytics-redesign/README.md).

@@ -1,4 +1,4 @@
-﻿import { demoDebtors } from "../../shared/demo/debts";
+import { demoDebtors } from "../../shared/demo/debts";
 import { formatKZT } from "../../shared/format";
 import {
   makeDemoAnalyticsSnapshot,

@@ -126,7 +126,7 @@ export function makeDemoAnalyticsSnapshot(
   };
 }
 
-// Preview rows of the same explicitly synthetic snapshot (3 of 8 debtors).
+// Preview sales for the same explicitly synthetic snapshot and demo clients.
 // These are teaching fixtures, not a second journal or calculated live balances.
 const demoDebtPreview: Pick<
   Sale,
