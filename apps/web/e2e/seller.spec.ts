@@ -214,7 +214,8 @@ test("mobile menu supports keyboard dismissal, direct navigation and touch targe
         height: element.getBoundingClientRect().height,
       })),
     );
-  expect(targets).toHaveLength(7);
+  // Five primary destinations, More, and the two language controls.
+  expect(targets).toHaveLength(8);
   for (const target of targets) {
     expect(target.width).toBeGreaterThanOrEqual(44);
     expect(target.height).toBeGreaterThanOrEqual(44);

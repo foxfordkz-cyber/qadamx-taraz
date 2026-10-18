@@ -24,8 +24,9 @@ for (const screen of lowScreens) {
     await enterDemo(page);
     const sidebar = page.locator(".sidebar");
     await expect(sidebar).toBeVisible();
+    await sidebar.locator(".seller-secondary-nav summary").click();
     const storefront = ".sidebar-footer a";
-    const lastItem = ".sidebar nav a:last-child";
+    const lastItem = ".sidebar .seller-secondary-nav nav a:last-child";
 
     // Pointer: the panel scrolls on its own, independent of the page content.
     await sidebar.hover();
@@ -34,7 +35,9 @@ for (const screen of lowScreens) {
     expect(await inViewport(page, lastItem)).toBe(true);
     const [footerTop, navBottom] = await page.evaluate(() => [
       document.querySelector(".sidebar-footer")!.getBoundingClientRect().top,
-      document.querySelector(".sidebar nav")!.getBoundingClientRect().bottom,
+      document
+        .querySelector(".sidebar .seller-secondary-nav")!
+        .getBoundingClientRect().bottom,
     ]);
     expect(footerTop).toBeGreaterThanOrEqual(navBottom - 0.5);
 
