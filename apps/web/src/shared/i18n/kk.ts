@@ -167,7 +167,7 @@ export const kk: Record<keyof typeof ru, string> = {
   analyticsPeriod: "Есеп кезеңі",
   analytics7Days: "7 күн",
   analytics30Days: "30 күн",
-  analyticsDemoTitle: "Demo · синтетикалық аналитика",
+  analyticsDemoTitle: "Демо · үлгі деректермен аналитика",
   analyticsDemoHint:
     "Бұл — оқу мысалы, сауда нүктеңіздің есебі емес. Деректер серверден жүктелмейді, операциялар жазылмайды.",
   analyticsDemoClock:
