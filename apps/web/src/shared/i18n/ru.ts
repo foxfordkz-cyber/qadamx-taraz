@@ -1,4 +1,22 @@
 export const ru = {
+  dashboardSpeak: "Скажите о продаже",
+  dashboardSpeakHint: "Запишите голосом, проверьте и сохраните.",
+  dashboardAskHint: "Узнайте о долгах и результатах вашей точки.",
+  dashboardToday: "Как идут дела",
+  dashboardPeriod: "Сегодня по времени Тараза. День ещё не завершён.",
+  dashboardSales: "Продажи",
+  dashboardReceipts: "Поступления",
+  dashboardBalance: "Мне должны",
+  dashboardAllDates: "За все даты",
+  dashboardForToday: "За сегодня",
+  dashboardAllDebts: "Все долги",
+  dashboardDebtsHint: "Три последние продажи с неоплаченным остатком.",
+  dashboardDemoStats: "Демо-режим: финансовые данные сервера не загружаются.",
+  dashboardDemoDebts: "Для просмотра настоящих долгов войдите в свою точку.",
+  dashboardAssistantUnavailable:
+    "Помощник сейчас недоступен. Продажи, долги и аналитика по-прежнему доступны в меню.",
+  dashboardAssistantNote:
+    "Ответ помогает разобраться в данных. Записи и оплаты создаются только в соответствующих формах после вашего подтверждения.",
   assistantTitle: "Спросите Qadam",
   assistantOtherQuestion: "Задать другой вопрос",
   assistantFacts: "Факты из ответа",

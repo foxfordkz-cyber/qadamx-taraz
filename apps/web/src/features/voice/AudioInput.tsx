@@ -93,6 +93,7 @@ export function AudioInput({
       />
       <div className="voice-actions">
         <Button
+          id="qadam-record-sale"
           disabled={disabled || state === "requesting" || stopping}
           variant="secondary"
           onClick={() => (active ? capture.current?.stop() : start())}

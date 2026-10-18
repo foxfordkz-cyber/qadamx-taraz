@@ -1,0 +1,299 @@
+.cabinet-home {
+  display: grid;
+  gap: 28px;
+}
+.cabinet-home-heading,
+.cabinet-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.cabinet-home-heading h1 {
+  margin: 4px 0 8px;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.cabinet-home-heading p {
+  margin: 0;
+}
+.cabinet-start {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr));
+  gap: 16px;
+}
+.cabinet-start-action {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+  padding: 24px;
+  min-height: 148px;
+  border: 1px solid var(--qadam-line);
+  border-radius: var(--qadam-radius-card);
+  text-align: left;
+  font: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    border-color 0.15s;
+}
+.cabinet-start-action > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.cabinet-start-action strong {
+  display: block;
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+.cabinet-start-action small {
+  display: block;
+  margin-top: 8px;
+  line-height: 1.5;
+  font-size: var(--qadam-text-sm);
+}
+.cabinet-start-icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border-radius: 16px;
+  font-size: 1.8rem;
+}
+.cabinet-speak {
+  color: var(--qadam-white);
+  background: var(--qadam-green);
+  border-color: var(--qadam-green);
+}
+.cabinet-speak .cabinet-start-icon {
+  color: var(--qadam-ink);
+  background: var(--qadam-lime);
+}
+.cabinet-speak small {
+  color: var(--qadam-on-dark-muted);
+}
+.cabinet-ask {
+  background: var(--qadam-white);
+  color: var(--qadam-ink);
+}
+.cabinet-ask .cabinet-start-icon {
+  background: var(--qadam-lime);
+  color: var(--qadam-green);
+}
+.cabinet-ask small {
+  color: var(--qadam-muted);
+}
+.cabinet-start-action:hover {
+  box-shadow: var(--qadam-shadow-raised);
+}
+.cabinet-start-action:focus-visible {
+  outline: var(--qadam-focus-ring);
+  outline-offset: 4px;
+}
+.cabinet-start-action > svg {
+  flex-shrink: 0;
+}
+.cabinet-section-heading h2 {
+  margin: 0;
+  font-size: var(--qadam-text-lg);
+}
+.cabinet-section-heading > a {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--qadam-green);
+  font-weight: 700;
+}
+.cabinet-period {
+  font-size: var(--qadam-text-sm);
+  margin: 4px 0 16px;
+}
+.cabinet-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+.cabinet-metrics > div {
+  padding: 20px;
+  border: 1px solid var(--qadam-line);
+  border-radius: var(--qadam-radius-card);
+  background: var(--qadam-white);
+  min-width: 0;
+}
+.cabinet-metrics dt {
+  color: var(--qadam-muted);
+  font-size: var(--qadam-text-sm);
+}
+.cabinet-metrics dd {
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  margin: 8px 0 4px;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.cabinet-metrics small {
+  color: var(--qadam-muted);
+}
+.cabinet-debts {
+  padding: 24px;
+}
+.cabinet-debt-preview {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cabinet-debt-preview li + li {
+  border-top: 1px solid var(--qadam-line);
+}
+.cabinet-debt-preview a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  min-height: 72px;
+  color: inherit;
+  text-decoration: none;
+}
+.cabinet-debt-preview a:hover .cabinet-debt-person strong {
+  text-decoration: underline;
+}
+.cabinet-debt-person {
+  flex: 1;
+  min-width: 0;
+}
+.cabinet-debt-person strong,
+.cabinet-debt-person small,
+.cabinet-debt-amount strong,
+.cabinet-debt-amount small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+.cabinet-debt-person small,
+.cabinet-debt-amount small {
+  color: var(--qadam-muted);
+  margin-top: 4px;
+  font-size: var(--qadam-text-sm);
+}
+.cabinet-debt-amount {
+  text-align: right;
+  max-width: 45%;
+  font-variant-numeric: tabular-nums;
+}
+.cabinet-debt-preview svg {
+  flex-shrink: 0;
+  color: var(--qadam-green);
+}
+dialog.cabinet-assistant-panel {
+  position: fixed;
+  inset: 0 0 0 auto;
+  margin: 0;
+  width: min(560px, 100vw);
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  border: 0;
+  border-left: 1px solid var(--qadam-line);
+  border-radius: 24px 0 0 24px;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.cabinet-assistant-panel .dialog-heading {
+  position: sticky;
+  top: -24px;
+  z-index: 1;
+  background: var(--qadam-white);
+  padding: 12px 0;
+}
+.cabinet-assistant-panel .dialog-heading h2 {
+  font-size: 1.35rem;
+}
+.cabinet-assistant-context {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--qadam-muted);
+  font-size: var(--qadam-text-sm);
+}
+.cabinet-assistant-context > span {
+  overflow-wrap: anywhere;
+}
+.cabinet-assistant-panel .assistant {
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.cabinet-assistant-panel .assistant-heading h2 {
+  display: none;
+}
+.cabinet-assistant-note {
+  font-size: var(--qadam-text-sm);
+  color: var(--qadam-muted);
+  margin: 24px 0 16px;
+}
+@media (max-width: 700px) {
+  .cabinet-home {
+    gap: 24px;
+  }
+  .cabinet-start-action {
+    padding: 20px;
+    min-height: 124px;
+    gap: 12px;
+  }
+  .cabinet-start-action strong {
+    font-size: 1.15rem;
+  }
+  .cabinet-metrics {
+    grid-template-columns: 1fr;
+  }
+  .cabinet-metrics > div {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 4px 12px;
+  }
+  .cabinet-metrics dd {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    margin: 0;
+    text-align: right;
+  }
+  .cabinet-metrics small {
+    grid-column: 1;
+  }
+  .cabinet-debts {
+    padding: 16px;
+  }
+  .cabinet-debt-preview a {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .cabinet-debt-preview svg {
+    display: none;
+  }
+  dialog.cabinet-assistant-panel {
+    width: 100vw;
+    border: 0;
+    border-radius: 0;
+    padding: max(16px, env(safe-area-inset-top))
+      max(16px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom))
+      max(16px, env(safe-area-inset-left));
+  }
+  .cabinet-assistant-panel .dialog-heading {
+    top: -16px;
+  }
+}

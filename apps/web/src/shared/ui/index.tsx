@@ -213,11 +213,13 @@ export function ErrorState({
 }
 export function Dialog({
   title,
+  className = "",
   open,
   onClose,
   children,
 }: {
   title: string;
+  className?: string;
   open: boolean;
   onClose: () => void;
   children: ReactNode;
@@ -253,6 +255,7 @@ export function Dialog({
   const content = (
     <dialog
       ref={ref}
+      className={className}
       open={nativeModal ? undefined : true}
       role="dialog"
       aria-modal="true"

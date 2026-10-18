@@ -49,6 +49,21 @@ function SaleForm() {
     [params] = useSearchParams(),
     { v } = useVoiceText(),
     { t } = useI18n();
+  // Cabinet entry focuses the existing control. Permission and recording still require a click.
+  useEffect(() => {
+    if (params.get("entry") !== "voice") return;
+    const frame = requestAnimationFrame(() => {
+      const button = document.getElementById(
+        "qadam-record-sale",
+      ) as HTMLButtonElement | null;
+      if (button && !button.disabled) button.focus();
+      else
+        document
+          .querySelector<HTMLTextAreaElement>(".ledger-columns textarea")
+          ?.focus();
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [params]);
   const [capturing, setCapturing] = useState(false),
     [parseNotice, setParseNotice] = useState<"cancelled" | "timeout" | null>(
       null,

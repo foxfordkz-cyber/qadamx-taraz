@@ -1,5 +1,23 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  dashboardSpeak: "Сатылымды айтыңыз",
+  dashboardSpeakHint: "Дауыспен жазып, тексеріп, сақтаңыз.",
+  dashboardAskHint: "Нүктеңіздің қарыздары мен нәтижелерін біліңіз.",
+  dashboardToday: "Істер қалай жүріп жатыр",
+  dashboardPeriod: "Бүгін, Тараз уақытымен. Күн әлі аяқталған жоқ.",
+  dashboardSales: "Сатылымдар",
+  dashboardReceipts: "Түсімдер",
+  dashboardBalance: "Маған қарыз",
+  dashboardAllDates: "Барлық күндер бойынша",
+  dashboardForToday: "Бүгінгі",
+  dashboardAllDebts: "Барлық қарыздар",
+  dashboardDebtsHint: "Төленбеген қалдығы бар соңғы үш сатылым.",
+  dashboardDemoStats: "Демо режимі: сервердің қаржы деректері жүктелмейді.",
+  dashboardDemoDebts: "Нақты қарыздарды көру үшін өз нүктеңізге кіріңіз.",
+  dashboardAssistantUnavailable:
+    "Көмекші қазір қолжетімсіз. Сатылымдар, қарыздар және аналитика мәзірде қолжетімді.",
+  dashboardAssistantNote:
+    "Жауап деректерді түсінуге көмектеседі. Жазбалар мен төлемдер тиісті нысандарда тек сіздің растауыңыздан кейін жасалады.",
   assistantTitle: "Qadam-нан сұраңыз",
   assistantOtherQuestion: "Басқа сұрақ қою",
   assistantFacts: "Жауаптағы деректер",
