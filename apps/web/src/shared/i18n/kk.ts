@@ -21,9 +21,11 @@ export const kk: Record<keyof typeof ru, string> = {
   dashboardBalance: "Маған қарыз",
   dashboardAllDates: "Барлық күндер бойынша",
   dashboardForToday: "Бүгінгі",
+  dashboardDemoDay: "Оқу күні бойынша",
   dashboardAllDebts: "Барлық қарыздар",
   dashboardDebtsHint: "Төленбеген қалдығы бар соңғы үш сатылым.",
-  dashboardDemoStats: "Демо режимі: сервердің қаржы деректері жүктелмейді.",
+  dashboardDemoStats:
+    "Демо: демо-аналитикадағы оқу деректері. Сервердің қаржы деректері жүктелмейді.",
   dashboardDemoDebts: "Нақты қарыздарды көру үшін өз нүктеңізге кіріңіз.",
   dashboardAssistantUnavailable:
     "Көмекші қазір қолжетімсіз. Сатылымдар, қарыздар және аналитика мәзірде қолжетімді.",

@@ -103,18 +103,28 @@ test("integrated mobile menu closes on Escape and route change; shared fonts and
   await expect(more).toBeFocused();
   await expect(more).toHaveAttribute("aria-expanded", "false");
   await more.click();
-  await menu.getByRole("link", { name: "Мне должны", exact: true }).click();
+  // Debts now belongs to the primary navigation. Exercise a real secondary
+  // route to retain coverage of More closing and its active state.
+  await menu.getByRole("link", { name: "История", exact: true }).click();
   await expect(menu).not.toBeVisible();
-  await expect(page).toHaveURL(/\/seller\/debts$/);
+  await expect(page).toHaveURL(/\/seller\/history$/);
   await expect(more).toHaveClass(/is-active/);
   await more.click();
   await expect(menu).toBeVisible();
   await page.goBack();
   await expect(menu).not.toBeVisible();
   await page.goForward();
-  await expect(page).toHaveURL(/\/seller\/debts$/);
+  await expect(page).toHaveURL(/\/seller\/history$/);
   await expect(menu).not.toBeVisible();
   await expect(more).toHaveAttribute("aria-expanded", "false");
+  const debts = page.locator(".bottom-nav").getByRole("link", {
+    name: "Мне должны",
+    exact: true,
+  });
+  await debts.click();
+  await expect(page).toHaveURL(/\/seller\/debts$/);
+  await expect(debts).toHaveAttribute("aria-current", "page");
+  await expect(more).not.toHaveClass(/is-active/);
   await expect(
     page.getByLabel("Торговая точка", { exact: true }),
   ).toBeVisible();
@@ -131,7 +141,8 @@ test("integrated mobile menu closes on Escape and route change; shared fonts and
         height: element.getBoundingClientRect().height,
       })),
     );
-  expect(targets).toHaveLength(7);
+  // Five primary destinations + More + RU/KZ; Debts moved out of More.
+  expect(targets).toHaveLength(8);
   for (const target of targets) {
     expect(target.width).toBeGreaterThanOrEqual(44);
     expect(target.height).toBeGreaterThanOrEqual(44);

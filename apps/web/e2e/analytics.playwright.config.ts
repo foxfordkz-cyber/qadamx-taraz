@@ -24,6 +24,8 @@ export default defineConfig({
     reuseExistingServer: false,
     env: {
       VITE_ASSISTANT_ENABLED: "true",
+      // This aggregate also runs ledger-reading.spec.ts; match its dedicated config.
+      VITE_CUSTOMER_IDS_ENABLED: "true",
       VITE_API_BASE_URL: `${origin}/api/v1`,
       VITE_SUPABASE_URL: `${origin}/__qa_supabase`,
       VITE_SUPABASE_PUBLISHABLE_KEY: "sb_publishable_synthetic_analytics_only",

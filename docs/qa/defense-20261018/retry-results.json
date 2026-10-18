@@ -1,0 +1,38 @@
+[
+  {
+    "log": "test-results/captain-acceptance/retry-1.log",
+    "exit": 1,
+    "config": "customer-recovery",
+    "name": "lost acknowledgement after synthetic commit resolves through completed lookup without a second POST"
+  },
+  {
+    "name": "not_observed preserves the unknown attempt",
+    "config": "customer-recovery",
+    "log": "test-results/captain-acceptance/retry-2.log",
+    "exit": 1
+  },
+  {
+    "name": "reload checks the original key with GET only",
+    "config": "customer-recovery",
+    "log": "test-results/captain-acceptance/retry-3.log",
+    "exit": 1
+  },
+  {
+    "name": "two real tabs queue native Web Locks",
+    "config": "customer-recovery",
+    "log": "test-results/captain-acceptance/retry-4.log",
+    "exit": 1
+  },
+  {
+    "name": "a legacy intent with unknown API origin",
+    "config": "customer-recovery",
+    "log": "test-results/captain-acceptance/retry-5.log",
+    "exit": 1
+  },
+  {
+    "name": "integrated mobile menu closes on Escape and route change",
+    "config": "analytics",
+    "log": "test-results/captain-acceptance/retry-6.log",
+    "exit": 1
+  }
+]

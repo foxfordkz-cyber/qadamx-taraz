@@ -79,6 +79,27 @@ async function services(context: BrowserContext) {
           { id: qaIds.shopA, name: "QA MART", slug: "qa-mart", role: "owner" },
         ],
       });
+    // Dashboard reads before the user opens Customers. Keep this allowlist
+    // narrow: unexpected methods, businesses and ledger queries still fail.
+    if (path === `/api/v1/businesses/${qaIds.shopA}/summary`) {
+      expect(request.method()).toBe("GET");
+      expect([...url.searchParams.keys()]).toEqual(["date"]);
+      expect(url.searchParams.get("date")).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      return send({
+        sales_minor: 0,
+        receipts_minor: 0,
+        outstanding_minor: 0,
+        new_inquiries_count: 0,
+      });
+    }
+    if (path === `/api/v1/businesses/${qaIds.shopA}/operations`) {
+      expect(request.method()).toBe("GET");
+      expect(Object.fromEntries(url.searchParams)).toEqual({
+        outstanding_only: "true",
+        limit: "50",
+      });
+      return send({ items: [], next_cursor: null });
+    }
     if (path === `/api/v1/businesses/${qaIds.shopA}/customer-creation-result`) {
       expect(request.method()).toBe("GET");
       expect(url.search).toBe("");
