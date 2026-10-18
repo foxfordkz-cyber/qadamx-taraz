@@ -46,6 +46,14 @@ def report(api, days=7, now=NOW):
     for key in ["sales_minor", "receipts_minor", "sales_count"]:
         assert sum(r[key] for r in result["daily"]) == cards[key]
     assert sum(r["is_partial"] for r in result["daily"]) == 1
+    money = result["collection"]
+    assert money["sales_minor"] == cards["sales_minor"]
+    assert (
+        money["paid_at_sale_minor"] + money["paid_later_minor"] + money["outstanding_minor"]
+        == money["sales_minor"]
+    )
+    assert [b["key"] for b in result["debt_aging"]] == ["0_7", "8_30", "31_plus"]
+    assert sum(b["amount_minor"] for b in result["debt_aging"]) == cards["outstanding_minor"]
     return result
 
 
@@ -177,3 +185,36 @@ def test_http_auth_isolation_periods_no_writes(ledger_api):
         assert api["client"].get(url, headers=api["a"], params={"days": days}).status_code == 422
     with Session(api["engine"]) as db:
         assert db.scalar(select(func.count()).select_from(Operation)) == 1
+
+
+def test_collection_and_debt_aging_by_sale_age(ledger_api):
+    api = ledger_api
+    fresh = add(api, NOW - timedelta(days=1), 300000, 100000)  # in period, owes 2 000
+    add(api, NOW - timedelta(hours=3), 0, 50000, "repayment", fresh)  # paid later 500
+    add(api, NOW - timedelta(days=2), 200000, 200000)  # in period, fully paid at sale
+    week = add(api, NOW - timedelta(days=8), 400000, 0)  # before period, 8 days old
+    add(api, NOW - timedelta(hours=1), 0, 100000, "repayment", week)  # old debt repayment
+    add(api, NOW - timedelta(days=45), 150000, 50000)  # 45 days old, owes 1 000
+    gone = add(api, NOW - timedelta(days=3), 500000, 0)  # reversed: counts nowhere
+    add(api, NOW - timedelta(days=3, hours=-1), -500000, 0, "reversal", gone, reverse=gone)
+    result = report(api)
+    assert result["collection"] == dict(
+        sales_minor=500000,
+        paid_at_sale_minor=300000,
+        paid_later_minor=50000,
+        outstanding_minor=150000,
+    )
+    assert result["debt_aging"] == [
+        dict(key="0_7", amount_minor=150000, sales_count=1),
+        dict(key="8_30", amount_minor=300000, sales_count=1),
+        dict(key="31_plus", amount_minor=100000, sales_count=1),
+    ]
+
+
+def test_reversed_repayment_returns_debt_to_its_age_bucket(ledger_api):
+    api = ledger_api
+    sale = add(api, NOW - timedelta(days=10), 300000, 0)
+    paid = add(api, NOW - timedelta(days=1), 0, 300000, "repayment", sale)
+    assert report(api)["debt_aging"][1] == dict(key="8_30", amount_minor=0, sales_count=0)
+    add(api, NOW - timedelta(hours=1), 0, -300000, "reversal", sale, reverse=paid)
+    assert report(api)["debt_aging"][1] == dict(key="8_30", amount_minor=300000, sales_count=1)

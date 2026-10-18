@@ -481,6 +481,20 @@ export interface components {
       /** Debtors Count */
       debtors_count: number;
     };
+    /**
+     * AnalyticsCollection
+     * @description Sales made in the period: paid at sale + paid later + still owed = sales.
+     */
+    AnalyticsCollection: {
+      /** Sales Minor */
+      sales_minor: number;
+      /** Paid At Sale Minor */
+      paid_at_sale_minor: number;
+      /** Paid Later Minor */
+      paid_later_minor: number;
+      /** Outstanding Minor */
+      outstanding_minor: number;
+    };
     /** AnalyticsDay */
     AnalyticsDay: {
       /**
@@ -496,6 +510,21 @@ export interface components {
       sales_count: number;
       /** Is Partial */
       is_partial: boolean;
+    };
+    /**
+     * AnalyticsDebtBucket
+     * @description All open debts as of as_of, by age of the sale in Asia/Almaty days.
+     */
+    AnalyticsDebtBucket: {
+      /**
+       * Key
+       * @enum {string}
+       */
+      key: "0_7" | "8_30" | "31_plus";
+      /** Amount Minor */
+      amount_minor: number;
+      /** Sales Count */
+      sales_count: number;
     };
     /** AnalyticsHour */
     AnalyticsHour: {
@@ -554,6 +583,9 @@ export interface components {
       daily: components["schemas"]["AnalyticsDay"][];
       /** Hourly */
       hourly: components["schemas"]["AnalyticsHour"][];
+      collection?: components["schemas"]["AnalyticsCollection"] | null;
+      /** Debt Aging */
+      debt_aging?: components["schemas"]["AnalyticsDebtBucket"][] | null;
     };
     /** AssistantAction */
     AssistantAction: {

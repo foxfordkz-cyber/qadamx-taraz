@@ -31,3 +31,12 @@
 [analytics-examples.json](analytics-examples.json) содержит полные ответы: пустые7дней; продажа3000/оплачено1000 и доплата500 (тиыны300000/150000, долг150000, count1, средний300000); отмена старой продажи (текущие receipts отрицательные, sales/count0). Это синтетические данные, не живой отчёт точки. После реализации примеры валидируются Pydantic и включаются в общий examples.json; OpenAPI и generated.ts обновляются вместе.
 
 Нельзя выводить прибыль, прогноз, рост%, сравнения чужих точек или выводы о посещаемости. UI — задача frontend. Backend acceptance: отдельная PostgreSQL; old repayment, отмены за границами, пустые данные, local midnight, half-up, изоляция и согласованность графиков/карточек. Общую Supabase не очищать.
+
+## API 0.7.2 — собираемость и возраст долгов
+
+Добавочные необязательные поля ответа `GET /businesses/{id}/analytics` (на старом API отсутствуют, клиент скрывает блоки при `null`):
+
+- `collection` — продажи периода и что с ними стало к `as_of`: `sales_minor` (= `cards.sales_minor`), `paid_at_sale_minor` (оплачено при продаже), `paid_later_minor` (доплаты по этим продажам), `outstanding_minor` (ещё в долгу). Всегда `paid_at_sale + paid_later + outstanding = sales`. Отменённые продажи не входят, отменённые погашения возвращают долг.
+- `debt_aging` — все открытые долги на `as_of` по давности продажи в днях Asia/Almaty: `0_7`, `8_30`, `31_plus`, у каждой `amount_minor` и `sales_count`. Сумма `amount_minor` = `cards.outstanding_minor`.
+
+Пример — `AnalyticsCollectionAndDebtAging` в `examples.json` (`analytics-examples.json` остаётся в прежней форме 0.7.1). Суммы — целые тиыны; проценты считает клиент: `(paid_at_sale + paid_later) / sales`.

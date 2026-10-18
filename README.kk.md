@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://qadamx-taraz.pages.dev"><img src="https://img.shields.io/badge/%D0%A1%D0%B0%D0%B9%D1%82-qadamx--taraz.pages.dev-164C3E?style=for-the-badge" alt="Сайт"></a>
-  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.6.3-D7F36A?style=for-the-badge" alt="API"></a>
+  <a href="https://qadamx-taraz.onrender.com/api/v1/health"><img src="https://img.shields.io/badge/API-0.7.2-D7F36A?style=for-the-badge" alt="API"></a>
   <a href="https://qadamx-taraz.onrender.com/docs"><img src="https://img.shields.io/badge/Swagger-docs-2F6F5A?style=for-the-badge&logo=swagger&logoColor=white" alt="Swagger"></a>
 </p>
 
@@ -59,33 +59,40 @@
 | Дауыстық және мәтіндік жоба | ✅ Жұмыс істейді | 30 секундқа дейін жазба, файл не мәтін, KZ/RU, нақтылау сұрақтары |
 | Қолмен енгізу | ✅ Жұмыс істейді | AI-сыз сол форма |
 | Сатылым, төлем, қарыз | ✅ Жұмыс істейді | Толық, ішінара және нөлдік төлем, қосымша төлем, тарихы сақталатын болдырмау |
-| Клиенттер, тарих, күн қорытындысы, аналитика | ✅ Жұмыс істейді | Клиентті іздеу, сүзгілер, 7 және 30 күн |
+| Клиенттер, тарих, күн қорытындысы, аналитика | ✅ Жұмыс істейді | Клиентті іздеу, сүзгілер, 7 және 30 күн. Ашқанда сервердің кезең қорытындысы, «Кімге еске салу», батырма бойынша AI түсіндірмесі |
+| «Qadam-нан сұраңыз» AI-көмекшісі | ✅ Жұмыс істейді | Өз нүктесінің деректері бойынша жауап береді: кім қарыз, апта қалай өтті, көшіруге арналған еске салу жобасы. Сандар сервер деректерімен салыстырылады, AI ештеңе жазбайды |
 | Қайталаудан қорғау | ✅ Жұмыс істейді | Идемпотентті атомарлы жазба, аяқталмаған сұраулардың бір бөлігін қалпына келтіру |
 | Витрина және өтінімдер | ✅ Жұмыс істейді | Алаңдар 3D-де және тізіммен, каталог, сатушыға өтінім |
 | KZ/RU интерфейсі | ✅ Жұмыс істейді | Негізгі жол және қателер. Оқу деректерінің бәрі аударылмаған |
-| Flutter қосымшасы | 🟡 Сынақ APK | Алаңдар, дүкендер, CRM. Құрылғыда тексеру ашық |
+| Flutter қосымшасы | 🟡 Сынақ APK 0.5.2 | Алаңдар, дүкендер, CRM. Android-та дауыс → жоба қолмен тексерілді. Орнатылған қосымшаны толық қабылдау аяқталмаған |
 | Мал базар | 🟡 Концепт | Базарлар келісімшарты дайын, анықтамалық бос, нақты баға жоқ |
 | Сатушыларды тіркеу | ✅ Сайтта тексерілді | Нақты хат, жаңа аккаунт, бетті жаңарту және бұрынғы аккаунтқа қайта кіру; сауда нүктесіне рұқсат бөлек беріледі. [Тексеру нәтижесі](docs/REGISTRATION_PAGES_LIVE_20261017.md) |
-| Safari-дегі сайт | ✅ Команда тексерді | Сайттың негізгі функциялары Safari-де қолмен тексерілді |
-| Нақты Android және iPhone-дағы Flutter | ⏳ Қабылданбады | APK эмуляторда тексерілді, телефондарға орнату аяқталмаған |
-| Пайдалылықты өлшеу | ⏳ Өткізілмеді | Қолмен енгізу мен дауысты салыстыру — келесі қадам |
+| Нақты құрылғылардағы дауыс | ✅ 18.10 қолмен тексерілді | Ноутбук (Chrome), iPhone (Safari), Android (APK): дауыспен сөйлем → мәтін → AI жобасы. [Скриншоттар](docs/qa/evidence/voice-20261018/) |
 
 ## Скриншоттар
 
 <table>
   <tr>
-    <td width="50%"><img src="docs/assets/readme/sale-draft.webp" alt="Дауыс не мәтін → AI жобасы → тексеру"><br><sub>Дауыс не мәтін → AI жобасы → тексеру</sub></td>
-    <td width="50%"><img src="docs/assets/readme/hero.webp" alt="Тараз алаңдарының витринасы"><br><sub>Тараз алаңдарының витринасы</sub></td>
+    <td colspan="2"><img src="docs/assets/readme/home-v2.webp" alt="Басты бет: сату мен қарызды дауыспен есепке алу"><br><sub>Басты бет: өнімнің мақсаты және үш қадам</sub></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="docs/assets/readme/venues-3d.webp" alt="Үш алаң 3D-де: Кайкармет, MART, Ауыл Береке"><br><sub>Үш алаң 3D-де: Кайкармет, MART, Ауыл Береке</sub></td>
+    <td width="50%"><img src="docs/assets/readme/cabinet.webp" alt="Сатушы кабинеті: дауыспен сату және Qadam-нан сұрау"><br><sub>Кабинет: AI-ге екі кіру жолы</sub></td>
+    <td width="50%"><img src="docs/assets/readme/sale-draft.webp" alt="Дауыс не мәтін → AI жобасы → тексеру"><br><sub>Сату: дауыс → AI жобасы → тексеру</sub></td>
   </tr>
   <tr>
-    <td colspan="2" align="center"><img src="docs/assets/readme/debts.webp" alt="«Маған қарыз»: қалдықты сервер есептейді" width="70%"><br><sub>«Маған қарыз»: қалдықты сервер есептейді</sub></td>
+    <td width="50%"><img src="docs/assets/readme/analytics.webp" alt="Аналитика: карточкалар, кезең қорытындысы, кімге еске салу"><br><sub>Аналитика: кезең қорытындысы және «Кімге еске салу»</sub></td>
+    <td width="50%" align="center"><img src="docs/assets/readme/assistant.webp" alt="«Qadam-нан сұраңыз» AI-көмекшісі" width="80%"><br><sub>«Qadam-нан сұраңыз»: жауап және еске салу жобасы</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/assets/readme/device-laptop.webp" alt="Ноутбуктағы дауыс"><br><sub>Ноутбуктағы дауыс: 5 000 / 2 000 ₸ жобасы</sub></td>
+    <td width="50%" align="center"><img src="docs/assets/readme/devices-phones.webp" alt="iPhone мен Android қосымшасындағы дауыс"><br><sub>iPhone (Safari) және Android (APK): дауыс → жоба</sub></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="docs/assets/readme/venues-3d.webp" alt="Үш алаң 3D-де: Кайкармет, MART, Ауыл Береке"><br><sub>Витрина: үш алаң 3D-де және тізіммен</sub></td>
   </tr>
 </table>
 
-<sub>Суреттер синтетикалық оқу деректерімен түсірілген.</sub>
+<sub>Сайт экрандары оқу және синтетикалық деректермен түсірілген; құрылғы суреттері — команданың 18.10.2026 оқу нүктесіндегі қолмен тексеруі.</sub>
 
 ## Архитектура және стек
 
@@ -181,7 +188,8 @@ flutter run --dart-define-from-file=config/public.local.json
 | API, AI | `AI_PROVIDER`, `AI_API_KEY`, `AI_MODEL`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `OPENAI_TRANSCRIPTION_MODEL`, `AI_FALLBACK_OPENAI`, `AI_PRIMARY_TIMEOUT_SECONDS` |
 | API, Мал базар суреттері | `STORAGE_SERVICE_KEY`, `STORAGE_BUCKET`, `LIVESTOCK_DEMO_MODE` |
 | API, тесттер мен оқу иелері | `TEST_DATABASE_URL`, `DEMO_OWNER_A_SUB`, `DEMO_OWNER_B_SUB`, `DEMO_OWNER_A_TOKEN`, `DEMO_OWNER_B_TOKEN` |
-| Сайт | `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_CUSTOMER_IDS_ENABLED` |
+| API, көмекші | `ASSISTANT_ENABLED`, `ASSISTANT_DAILY_LIMIT` |
+| Сайт | `VITE_API_BASE_URL`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_CUSTOMER_IDS_ENABLED`, `VITE_ASSISTANT_ENABLED` |
 
 ## Deploy қалай құрылған
 
@@ -210,7 +218,7 @@ API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv
 - Pages пен Render-дегі `8fa0029` шығарылымы: backup пен қалпына келтіруді тексергеннен кейін 0007/0008 миграциялары, A/B кіру, нүктелерді оқшаулау, тарих, аналитика. [Rollout есебі](docs/PUBLIC_DATA_MARKETS_PRODUCTION_20261017.md)
 - Шығарылым есебі бойынша біріккен кодтың автотесттері: 357 backend, 395 web unit/component, өтінім, дауыс және recovery E2E
 - Production-дағы бір бақылау мәтіндік AI сұрауы: HTTP 200, 4,719 с, 300000/100000 тиын, ақша жазбасы жасалмаған. Бұл бір прогон, орташа кідіріс емес
-- Автотесттер телефондағы тексеруді алмастырмайды. `main` жарияланған нұсқадан алда болуы мүмкін
+- Ноутбук, iPhone және Android-тағы дауыс 18.10 қолмен тексерілді, автотесттер бұл тексеруді алмастырмайды. `main` жарияланған нұсқадан алда болуы мүмкін
 - `health.stage=manual-ledger` — бұрынғы қызметтік белгі: AI жоқ дегенді білдірмейді және жаңа deployment талап етпейді
 
 ## Оқу деректері және қауіпсіздік
