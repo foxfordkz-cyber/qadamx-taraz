@@ -1,0 +1,68 @@
+{
+  "application_sha": "2ba2c09ea2e5d154c8f9b305614d9da33c462b83",
+  "prior_qa_commit": "705fe58dd54c88e438a438ab2866c64e483d1f75",
+  "suites": [
+    {
+      "suite": "unit",
+      "passed": 513,
+      "failed": 0,
+      "log_sha256": "d1fa11d3fac5c9257df4bde1fc0afc7f82ab365b991e93e1f99af1cdbc1171e1"
+    },
+    {
+      "suite": "assistant-qa",
+      "passed": 13,
+      "failed": 0,
+      "log_sha256": "9f07ba0a4e842a2de37fb0d98a39cb214783bca328e203d9edf973588811acf3"
+    },
+    {
+      "suite": "assistant",
+      "passed": 6,
+      "failed": 0,
+      "log_sha256": "598a1616757782573cb44753474f18c7d2f667486d13ae79b2cfc5798f16f244"
+    },
+    {
+      "suite": "cabinet",
+      "passed": 10,
+      "failed": 0,
+      "log_sha256": "29fc705880b4a690291e1eee3c177a8a9e1a09e447f7032e9bec7ab3205fed30"
+    },
+    {
+      "suite": "cabinet-disabled",
+      "passed": 1,
+      "failed": 0,
+      "log_sha256": "d0e9f0b394ecfd304b57282e1d94b02608bb14beb6cf73f78bb633795d713905"
+    },
+    {
+      "suite": "money",
+      "passed": 1,
+      "failed": 0,
+      "log_sha256": "50cf7a04656b792dbccf33c8f672269cf1c54beef24cfa967227140e240c2dac"
+    },
+    {
+      "suite": "seller",
+      "passed": 21,
+      "failed": 0,
+      "log_sha256": "6f9c70595a00057f1d025c4b8ee8af911c38c9b78bece39ef02dd7b1e46af532"
+    },
+    {
+      "suite": "auth",
+      "passed": 25,
+      "failed": 0,
+      "log_sha256": "5fe53f371ab91c8afa1298ccb7b80dbe8738ade0f45152623ccf26a2252a0be7"
+    },
+    {
+      "suite": "release-surfaces-final",
+      "passed": 4,
+      "failed": 4,
+      "log_sha256": "cacf26091af610d5e4a9cb14596498c2e162eccdb4cf18422bf2a4ee1022565b"
+    }
+  ],
+  "release_stats": {
+    "startTime": "2026-10-18T05:25:57.250Z",
+    "duration": 47956.97,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}
