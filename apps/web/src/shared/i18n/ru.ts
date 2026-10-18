@@ -9,9 +9,11 @@ export const ru = {
   dashboardBalance: "Мне должны",
   dashboardAllDates: "За все даты",
   dashboardForToday: "За сегодня",
+  dashboardDemoDay: "За учебный день",
   dashboardAllDebts: "Все долги",
   dashboardDebtsHint: "Три последние продажи с неоплаченным остатком.",
-  dashboardDemoStats: "Демо-режим: финансовые данные сервера не загружаются.",
+  dashboardDemoStats:
+    "Демо: учебный снимок из демо-аналитики. Финансовые данные сервера не загружаются.",
   dashboardDemoDebts: "Для просмотра настоящих долгов войдите в свою точку.",
   dashboardAssistantUnavailable:
     "Помощник сейчас недоступен. Продажи, долги и аналитика по-прежнему доступны в меню.",
