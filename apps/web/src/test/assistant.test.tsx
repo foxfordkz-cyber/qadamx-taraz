@@ -228,6 +228,7 @@ describe("assistant through the real Auth/runtime/API providers", () => {
       question: "Кто мне должен больше всего?",
       days: 7,
       locale: "ru",
+      ai: true,
     });
     expect(new Headers(init?.headers).get("Authorization")).toBe(
       `Bearer qa-only-${ids.a}`,
@@ -339,6 +340,7 @@ describe("assistant through the real Auth/runtime/API providers", () => {
       days: 30,
       locale: "kk",
       question: "Кезеңнің қысқаша қорытындысын жаса",
+      ai: true,
     });
   });
   it("aborts a pending response on business change and ignores its late result", async () => {

@@ -195,7 +195,7 @@ export interface paths {
     put?: never;
     /**
      * Ask Assistant
-     * @description Seller question → short answer from server-calculated facts of this business. The model only words the answer; every amount, count and customer is checked against facts, otherwise source=fallback with a server template. No ledger writes, nothing is sent: reminder_draft is text to copy. Disabled deployments return 404 ASSISTANT_DISABLED; a per-user daily limit returns 429 ASSISTANT_LIMIT.
+     * @description Seller question → short answer from server-calculated facts of this business. The model only words the answer; every amount, count and customer is checked against facts, otherwise source=fallback with a server template. No ledger writes, nothing is sent: reminder_draft is text to copy. ai=false returns source=facts: the server summary of the same facts without a model call or daily limit, for automatic page loads. Disabled deployments return 404 ASSISTANT_DISABLED; a per-user daily limit returns 429 ASSISTANT_LIMIT.
      */
     post: operations["ask_assistant_api_v1_businesses__id__assistant_post"];
     delete?: never;
@@ -618,6 +618,12 @@ export interface components {
        * @enum {integer}
        */
       days: 7 | 30;
+      /**
+       * Ai
+       * @description false: server summary from the same facts, no model call and no daily limit
+       * @default true
+       */
+      ai: boolean;
     };
     /** AssistantResponse */
     AssistantResponse: {
@@ -663,7 +669,7 @@ export interface components {
        * Source
        * @enum {string}
        */
-      source: "ai" | "fallback";
+      source: "ai" | "fallback" | "facts";
     };
     /** Body_upload_api_v1_livestock_photos_post */
     Body_upload_api_v1_livestock_photos_post: {

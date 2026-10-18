@@ -1,16 +1,17 @@
-# «Спросите Qadam» — контракт API 0.7.0
+# «Спросите Qadam» — контракт API 0.7.1
 
-`POST /api/v1/businesses/{id}/assistant`, Bearer JWT продавца. Схемы — в `openapi.json` (`AssistantRequest`, `AssistantResponse`), примеры — в `examples.json` (`AssistantRequest`, `AssistantResponse`, `AssistantFallbackResponse`, `AssistantDisabledErrorResponse`). Типы для web — `apps/web/src/shared/api/generated.ts`.
+`POST /api/v1/businesses/{id}/assistant`, Bearer JWT продавца. Схемы — в `openapi.json` (`AssistantRequest`, `AssistantResponse`), примеры — в `examples.json` (`AssistantRequest`, `AssistantResponse`, `AssistantFallbackResponse`, `AssistantFactsRequest`, `AssistantFactsResponse`, `AssistantDisabledErrorResponse`). Типы для web — `apps/web/src/shared/api/generated.ts`.
 
 ## Запрос
 
 ```json
-{ "question": "Кто мне должен больше всего?", "locale": "ru", "days": 7 }
+{ "question": "Кто мне должен больше всего?", "locale": "ru", "days": 7, "ai": true }
 ```
 
 - `question` — 1–500 символов, обязательное.
 - `locale` — `ru` или `kk`, по умолчанию `ru`. Ответ, подписи фактов и тексты напоминаний на этом языке.
 - `days` — `7` или `30`, по умолчанию `7`. Тот же период, что в аналитике.
+- `ai` — по умолчанию `true`. `false` — сводка сервера из тех же фактов без вызова модели, бесплатно, мгновенно и без дневного лимита. Ответ с `source="facts"`. Используйте при открытии страницы аналитики и главной, а `ai=true` — только по явной кнопке или вопросу продавца.
 
 ## Ответ 200
 
@@ -19,12 +20,12 @@
 | `answer` | 1–4 предложения для продавца |
 | `facts[]` | Цифры, посчитанные сервером: `key`, `label` (на языке запроса), `value_minor` (тиыны) или `count`. Для `key="debtor"` — `label` = имя клиента, `customer_id`, `value_minor` = остаток долга. До 5 должников по убыванию долга |
 | `actions[]` | До 3 кнопок: `open_debts` → `/seller/debts`, `new_sale` → `/seller/sale`, `open_history` → `/seller/history`, `open_analytics` → `/seller/analytics`, `reminder_draft` → карточка с `text` и кнопкой «Скопировать» для клиента `customer_id`. Ничего не отправляется |
-| `source` | `ai` — сформулировала модель, все суммы и клиенты проверены по `facts`. `fallback` — AI недоступен или ответ не прошёл проверку, текст собран сервером из тех же фактов |
+| `source` | `ai` — сформулировала модель, все суммы и клиенты проверены по `facts`. `fallback` — AI недоступен или ответ не прошёл проверку, текст собран сервером. `facts` — запрошен `ai=false`, текст собран сервером без модели |
 | `days`, `locale`, `as_of`, `timezone`, `currency` | Период и момент расчёта |
 
 Ключи фактов: `sales`, `sales_previous`, `sales_change`, `receipts`, `outstanding`, `debtors`, `sales_count`, `average_ticket` (может отсутствовать без продаж), `today_sales`, `today_receipts`, `debtor`.
 
-Подписи в интерфейсе: для `ai` — «Ответ AI по вашим данным. Цифры посчитал сервер». Для `fallback` — «AI недоступен, показаны данные сервера».
+Подписи в интерфейсе: для `ai` — «Ответ AI по вашим данным. Цифры посчитал сервер». Для `fallback` — «AI недоступен, показаны данные сервера». Для `facts` — «Сводка по данным сервера, без AI».
 
 ## Ошибки
 

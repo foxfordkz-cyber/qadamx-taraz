@@ -282,7 +282,7 @@ def model_for_example(name):
         return AnalyticsResponse
     if name == "AssistantDisabledErrorResponse":
         return schemas.ErrorResponse
-    if name == "AssistantRequest":
+    if name in {"AssistantRequest", "AssistantFactsRequest"}:
         return AssistantRequest
     if name.startswith("Assistant"):
         return AssistantResponse
@@ -396,6 +396,7 @@ EXAMPLES["AssistantRequest"] = {
     "question": "Кто мне должен больше всего?",
     "locale": "ru",
     "days": 7,
+    "ai": True,
 }
 EXAMPLES["AssistantResponse"] = {
     "business_id": BUSINESS,
@@ -422,6 +423,19 @@ EXAMPLES["AssistantFallbackResponse"] = {
     "Сейчас клиенты должны 1 500 ₸, должников: 1. Больше всего должен Демо Асқар: 1 500 ₸.",
     "actions": [{"kind": "open_debts", "customer_id": None, "text": None}],
     "source": "fallback",
+}
+EXAMPLES["AssistantFactsRequest"] = {
+    "question": "Кратко подведи итог периода",
+    "locale": "ru",
+    "days": 7,
+    "ai": False,
+}
+EXAMPLES["AssistantFactsResponse"] = {
+    **EXAMPLES["AssistantFallbackResponse"],
+    "answer": "За последние 7 дней продажи 3 000 ₸, поступления 1 500 ₸. "
+    "Это на 3 000 ₸ больше, чем за прошлые 7 дней. "
+    "Сейчас клиенты должны 1 500 ₸, должников: 1. Больше всего должен Демо Асқар: 1 500 ₸.",
+    "source": "facts",
 }
 EXAMPLES["AssistantDisabledErrorResponse"] = {
     "error": {"code": "ASSISTANT_DISABLED", "message": "Assistant is not enabled", "fields": {}},

@@ -253,3 +253,32 @@ def test_isolation_auth_validation_and_daily_limit(ledger_api):
     other = ask(api, business=api["other"], headers=api["b"])
     assert other.status_code == 200
     assert all(f["key"] != "debtor" for f in other.json()["facts"])
+
+
+def test_server_summary_compares_periods_in_both_languages():
+    ru, _ = fallback("Итог", FACTS, 7, "ru", "")
+    assert "Это на 3 000 ₸ больше, чем за прошлые 7 дней." in ru
+    kk, _ = fallback("Қорытынды", FACTS, 7, "kk", "")
+    assert "Бұл өткен 7 күннен 3 000 ₸ көп." in kk
+    lower = [*FACTS[:2], FACTS[2].model_copy(update={"value_minor": -50000}), *FACTS[3:]]
+    assert "на 500 ₸ меньше" in fallback("Итог", lower, 30, "ru", "")[0]
+
+
+@pytest.mark.postgres
+def test_facts_mode_calls_no_model_and_keeps_daily_limit(ledger_api):
+    api = ledger_api
+    assert post(api, sale(api)).status_code == 200
+    calls = []
+    api["app"].state.assistant = Assistant(
+        settings(assistant_daily_limit=1), generate=stub(raw=model("Долг 2 000 ₸."), calls=calls)
+    )
+    for _ in range(3):
+        body = ask(api, "Кратко подведи итог периода", ai=False).json()
+        assert body["source"] == "facts" and calls == []
+        assert "3 000 ₸" in body["answer"] and "2 000 ₸" in body["answer"]
+        assert [a["kind"] for a in body["actions"]] == ["open_debts"]
+    assert any(f["key"] == "debtor" for f in body["facts"])
+    first = ask(api)
+    assert first.status_code == 200 and first.json()["source"] == "ai" and len(calls) == 1
+    assert ask(api).status_code == 429
+    assert ask(api, ai=False).status_code == 200

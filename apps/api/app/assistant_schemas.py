@@ -25,6 +25,10 @@ class AssistantRequest(Contract):
     question: Annotated[str, Field(min_length=1, max_length=500)]
     locale: Literal["ru", "kk"] = "ru"
     days: Literal[7, 30] = 7
+    ai: bool = Field(
+        default=True,
+        description="false: server summary from the same facts, no model call and no daily limit",
+    )
 
 
 class AssistantFact(Contract):
@@ -53,4 +57,4 @@ class AssistantResponse(Contract):
     answer: Annotated[str, Field(min_length=1, max_length=1500)]
     facts: Annotated[list[AssistantFact], Field(max_length=20)]
     actions: Annotated[list[AssistantAction], Field(max_length=3)]
-    source: Literal["ai", "fallback"]
+    source: Literal["ai", "fallback", "facts"]

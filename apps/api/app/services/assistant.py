@@ -233,8 +233,13 @@ def fallback(question, facts, days, locale, shop):
     debtors = [f for f in facts if f.key == "debtor"]
     sales, receipts = by_key["sales"].value_minor, by_key["receipts"].value_minor
     outstanding, count = by_key["outstanding"].value_minor, by_key["debtors"].count
+    change = by_key["sales_change"].value_minor
     if kk:
         parts = [f"Соңғы {days} күнде сатылым {tenge(sales)}, түсім {tenge(receipts)}."]
+        if change > 0:
+            parts.append(f"Бұл өткен {days} күннен {tenge(change)} көп.")
+        elif change < 0:
+            parts.append(f"Бұл өткен {days} күннен {tenge(-change)} аз.")
         parts.append(
             f"Қазір клиенттердің қарызы {tenge(outstanding)}, қарызы барлар: {count}."
             if outstanding > 0
@@ -245,6 +250,10 @@ def fallback(question, facts, days, locale, shop):
             parts.append(f"Ең көп қарыз — {top.label}: {tenge(top.value_minor)}.")
     else:
         parts = [f"За последние {days} дней продажи {tenge(sales)}, поступления {tenge(receipts)}."]
+        if change > 0:
+            parts.append(f"Это на {tenge(change)} больше, чем за прошлые {days} дней.")
+        elif change < 0:
+            parts.append(f"Это на {tenge(-change)} меньше, чем за прошлые {days} дней.")
         parts.append(
             f"Сейчас клиенты должны {tenge(outstanding)}, должников: {count}."
             if outstanding > 0

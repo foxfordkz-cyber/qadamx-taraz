@@ -21,7 +21,9 @@ router = APIRouter(prefix="/api/v1")
     description="Seller question → short answer from server-calculated facts of this business. "
     "The model only words the answer; every amount, count and customer is checked against "
     "facts, otherwise source=fallback with a server template. No ledger writes, nothing is "
-    "sent: reminder_draft is text to copy. Disabled deployments return 404 ASSISTANT_DISABLED; "
+    "sent: reminder_draft is text to copy. ai=false returns source=facts: the server summary "
+    "of the same facts without a model call or daily limit, for automatic page loads. "
+    "Disabled deployments return 404 ASSISTANT_DISABLED; "
     "a per-user daily limit returns 429 ASSISTANT_LIMIT.",
 )
 async def ask_assistant(
@@ -34,14 +36,20 @@ async def ask_assistant(
         facts, as_of, shop = await run_in_threadpool(
             assistant.collect_facts, db, id, user, payload.days, payload.locale
         )
-        service.limit.take(user)
-        answer, actions, source = await service.answer(
-            question=payload.question,
-            facts=facts,
-            days=payload.days,
-            locale=payload.locale,
-            shop=shop,
-        )
+        if payload.ai:
+            service.limit.take(user)
+            answer, actions, source = await service.answer(
+                question=payload.question,
+                facts=facts,
+                days=payload.days,
+                locale=payload.locale,
+                shop=shop,
+            )
+        else:
+            answer, actions = assistant.fallback(
+                payload.question, facts, payload.days, payload.locale, shop
+            )
+            source = "facts"
     response.headers["Cache-Control"] = "no-store"
     return assistant.response(
         id, payload.days, payload.locale, as_of, answer, facts, actions, source
