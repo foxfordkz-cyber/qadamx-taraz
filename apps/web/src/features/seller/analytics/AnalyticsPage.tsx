@@ -192,6 +192,11 @@ function AnalyticsReport({
           </Card>
         </div>
       )}
+      <CollectionCards
+        snapshot={snapshot}
+        demo={demo}
+        remindersId={debtorsId}
+      />
       {snapshot.cards.sales_count === 0 &&
         snapshot.cards.receipts_minor === 0 && (
           <Card className="analytics-empty">
@@ -206,11 +211,6 @@ function AnalyticsReport({
             />
           </Card>
         )}
-      <CollectionCards
-        snapshot={snapshot}
-        demo={demo}
-        remindersId={debtorsId}
-      />
       <DailyChart snapshot={snapshot} />
       <details className="analytics-details">
         <summary>{t("analyticsDetails")}</summary>

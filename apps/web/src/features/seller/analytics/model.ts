@@ -1,22 +1,10 @@
 import type { components } from "../../../shared/api/generated";
 import { ApiError } from "../../../shared/api/client";
 
-/** Temporary UI types from the approved 0.7.2 contract, until generated.ts lands. */
-export type AnalyticsCollection = {
-  sales_minor: number;
-  paid_at_sale_minor: number;
-  paid_later_minor: number;
-  outstanding_minor: number;
-};
-export type AnalyticsDebtAge = {
-  key: "0_7" | "8_30" | "31_plus";
-  amount_minor: number;
-  sales_count: number;
-};
-export type AnalyticsSnapshot = components["schemas"]["AnalyticsResponse"] & {
-  collection?: AnalyticsCollection | null;
-  debt_aging?: AnalyticsDebtAge[] | null;
-};
+/** Aliases of the captain-published OpenAPI 0.7.2 schemas. */
+export type AnalyticsCollection = components["schemas"]["AnalyticsCollection"];
+export type AnalyticsDebtAge = components["schemas"]["AnalyticsDebtBucket"];
+export type AnalyticsSnapshot = components["schemas"]["AnalyticsResponse"];
 export type AnalyticsDays = AnalyticsSnapshot["days"];
 export type DemoScenario = "activity" | "empty" | "error" | "reversal";
 export type AnalyticsCards = components["schemas"]["AnalyticsCards"];

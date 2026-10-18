@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
+import examples from "../../../../packages/contracts/examples.json";
 import { CollectionCards } from "../features/seller/analytics/CollectionCards";
 import {
   makeDemoAnalyticsSnapshot,
@@ -164,6 +165,15 @@ describe("collection and debt aging presentation", () => {
 });
 
 describe("optional analytics contract fields", () => {
+  it("accepts the captain's published API 0.7.2 example", () => {
+    const sample = examples.AnalyticsCollectionAndDebtAging;
+    expect(
+      readAnalyticsSnapshot(sample, {
+        businessId: sample.business_id,
+        days: sample.days as 7,
+      }),
+    ).toEqual(sample);
+  });
   it.each([7, 30] as const)(
     "keeps both demo invariants for %i days",
     (days) => {

@@ -6,7 +6,7 @@ import { Badge, Card } from "../../../shared/ui";
 import type { AnalyticsSnapshot } from "./model";
 import "./collection.css";
 
-/** Only presentation ratios are calculated here; all monetary totals come from the API. */
+/** Display the server's cohort amounts, their collected subtotal and ratio. */
 export function CollectionCards({
   snapshot,
   demo,
@@ -101,16 +101,18 @@ export function CollectionCards({
                   )
                   .join("; ")}
               >
-                {segments.map((segment) => (
-                  <span
-                    key={segment.key}
-                    className={`analytics-collection-segment is-${segment.key}`}
-                    style={{
-                      width: `${(segment.amount / collection.sales_minor) * 100}%`,
-                    }}
-                    aria-hidden="true"
-                  />
-                ))}
+                {segments
+                  .filter((segment) => segment.amount > 0)
+                  .map((segment) => (
+                    <span
+                      key={segment.key}
+                      className={`analytics-collection-segment is-${segment.key}`}
+                      style={{
+                        width: `${(segment.amount / collection.sales_minor) * 100}%`,
+                      }}
+                      aria-hidden="true"
+                    />
+                  ))}
               </div>
               <dl className="analytics-collection-legend">
                 {segments.map((segment) => (
