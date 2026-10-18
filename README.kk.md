@@ -40,6 +40,7 @@
 - **API:** [https://qadamx-taraz.onrender.com/api/v1](https://qadamx-taraz.onrender.com/api/v1/health), құжаттама [Swagger](https://qadamx-taraz.onrender.com/docs). Тегін сервер бір минутқа дейін оянуы мүмкін
 - **Android:** Сынақ [APK 0.5.2](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk) (pre-release, жүктелген файлдың SHA-256 тексерілді), барлық нұсқалар — [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases). Телефонға орнату және қабылдау расталмаған
 - **Видео:** [AI-көмекшісі бар 2 минуттық демо](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Business-Demo-RU-with-assistant.mp4) — дыбыссыз, орысша субтитрлермен, оқу экрандарының монтажы; көмекші демо режимінде көрсетілген
+- **Слайдтар:** [қорғау презентациясы, қазақша, PDF](docs/pitch/Qadam-Business-slides-KZ.pdf)
 
 ## Кімге және немен көмектеседі
 
@@ -271,14 +272,14 @@ API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv
 
 ## Команда
 
-| Қатысушы | Рөлі |
-|---|---|
-| Дамир ([foxfordkz-cyber](https://github.com/foxfordkz-cyber)) | Капитан және интегратор, backend, шығарылым |
-| Абзал (Abzal Sabit) | Визуал және 3D, визуалды қабылдау |
-| Bekzat | Сатушы кабинеті: қаңқа, клиенттер, сұрауларды қалпына келтіру |
-| Aidana | Дауыстық енгізу және аналитика |
-| Tanirberdi Bolat | Flutter қосымшасы |
-| gulnur0505 | Кабинеттің сенімділігі және тесттер |
+| Қатысушы | Команда | Рөлі |
+|---|---|---|
+| Қарабек Дамир ([foxfordkz-cyber](https://github.com/foxfordkz-cyber)) | QadamX | Капитан және интегратор, backend, шығарылым |
+| Болат Тәңірберген (Tanirberdi Bolat) | QadamX | Flutter қосымшасы, кабинеттің басты беті |
+| Сәбит Абзал (Abzal Sabit) | QadamK | Визуал және 3D, басты бет, слайдтар |
+| Жорабек Бекзат (Bekzat) | QadamK | Сатушы кабинеті, күн қорытындысы WhatsApp-қа, құрылғыларда тексеру |
+| Сәрсенбаева Айдана (Aidana) | QadamK | Дауыстық енгізу, аналитика және көмекші |
+| Махсут Гүлнур (gulnur0505) | QadamK | Кабинеттің сенімділігі, тесттер, қазақ тілін тексеру |
 
 <sub>Рөлдер коммиттер тарихы мен жұмысты тапсыру құжаттары бойынша көрсетілген.</sub>
 

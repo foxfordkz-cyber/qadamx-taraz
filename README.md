@@ -40,6 +40,7 @@
 - **API:** [https://qadamx-taraz.onrender.com/api/v1](https://qadamx-taraz.onrender.com/api/v1/health), документация [Swagger](https://qadamx-taraz.onrender.com/docs). Бесплатный сервер может просыпаться до минуты
 - **Android:** Тестовый [APK 0.5.2](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/mobile-v0.5.2-review68.1/qadam-0.5.2-79a29b9-internal.apk) (pre-release, SHA-256 скачанного файла проверен), все сборки — в [GitHub Releases](https://github.com/foxfordkz-cyber/qadamx-taraz/releases). Установка и приёмка на телефоне не подтверждены
 - **Видео:** [демо на 2 минуты с AI-помощником](https://github.com/foxfordkz-cyber/qadamx-taraz/releases/download/qadam-hackathon-demo-20261017/Qadam-Business-Demo-RU-with-assistant.mp4) — без звука, с русскими субтитрами, монтаж учебных экранов; помощник показан в демо-режиме
+- **Слайды:** [презентация защиты на казахском, PDF](docs/pitch/Qadam-Business-slides-KZ.pdf)
 
 ## Кому и чем помогает
 
@@ -271,14 +272,14 @@ API: `uv run ruff check .`, `uv run python -m app.export_contracts --check`, `uv
 
 ## Команда
 
-| Участник | Роль |
-|---|---|
-| Дамир ([foxfordkz-cyber](https://github.com/foxfordkz-cyber)) | Капитан и интегратор, backend, выпуск |
-| Абзал (Abzal Sabit) | Визуал и 3D, визуальная приёмка |
-| Bekzat | Кабинет продавца: каркас, клиенты, восстановление запросов |
-| Aidana | Голосовой ввод и аналитика |
-| Tanirberdi Bolat | Flutter-приложение |
-| gulnur0505 | Надёжность кабинета и тесты |
+| Участник | Команда | Роль |
+|---|---|---|
+| Қарабек Дамир ([foxfordkz-cyber](https://github.com/foxfordkz-cyber)) | QadamX | Капитан и интегратор, backend, выпуск |
+| Болат Тәңірберген (Tanirberdi Bolat) | QadamX | Flutter-приложение, главная кабинета |
+| Сәбит Абзал (Abzal Sabit) | QadamK | Визуал и 3D, главная страница, слайды |
+| Жорабек Бекзат (Bekzat) | QadamK | Кабинет продавца, итог дня в WhatsApp, проверка на устройствах |
+| Сәрсенбаева Айдана (Aidana) | QadamK | Голосовой ввод, аналитика и помощник |
+| Махсут Гүлнур (gulnur0505) | QadamK | Надёжность кабинета, тесты, вычитка казахского |
 
 <sub>Роли указаны по истории коммитов и передачам работы.</sub>
 
