@@ -1,5 +1,45 @@
 # Передача работы backend
 
+## 2026-10-18 — часть B: PR #94 и архив Pages
+
+По разрешению капитана PR #94 `feature/analytics-redesign`, head
+`2afac1df6b1de600080244f5063e44b942f80df7`, включён обычным merge `32103ca`
+поверх свежего main `1d47a1d`. Сохранены #89/#91/#90/#93 и обе README
+с новым двухминутным видео. Backend, контракты, Auth/recovery и зависимости
+не изменены этой интеграцией. Отдельная рабочая ветка: `codex/pages-analytics-94`.
+
+Проверки интегратора на объединённом коде:
+
+- `npm ci --no-audit --no-fund`; check:api, typecheck, lint — PASS.
+- `npm test -- --maxWorkers=1 --no-file-parallelism` — **530/530**, 40 файлов.
+- E2E по отдельным конфигурациям: analytics **44/44**, assistant **6/6**,
+  assistant-qa **13/13**, cabinet-ai-first **10/10**, analytics-redesign **7/7**,
+  analytics-layout **5/5**. Наборы пересекаются, не суммировать.
+  Все без retries/skips; API/Auth синтетические, RU/KZ и 360/390/1440.
+  Это не физическая приёмка телефона и не живой AI.
+- `npm run build:hosted` — PASS с прежней публичной конфигурацией,
+  `VITE_CUSTOMER_IDS_ENABLED=true`, `VITE_ASSISTANT_ENABLED=true`.
+- Node-проверка: **23 файла**, нет `.map`/`.env`, нет известных серверных
+  секретов; присутствуют `mobile-v0.5.2-review68.1`, «Спросите Qadam»,
+  «Qadam — учёт продаж и долгов голосом», «Объяснить с AI»;
+  старой строки `mobile-v0.3.0` нет. ZIP распакован и сверен по SHA-256
+  каждого файла с dist, `index.html` находится в корне архива.
+
+Первый typecheck был ошибочно начат до завершения npm ci и не нашёл tsc;
+после окончания установки штатный прогон прошёл, код для этого не менялся.
+Сохранены прежние предупреждения build о большом JS/3D bundle и пустом auth chunk.
+Новые скриншоты локального прогона оставлены отдельно, в commit не добавлены.
+
+Архив `tmp/qadam-pages-<main SHA>-analytics.zip` предназначен для одной ручной
+Production-загрузки в существующий проект `qadamx-taraz`. Локальные
+`tmp/pages94-evidence/manifest.json` и `zip.json` содержат точный source SHA,
+хеши файлов и архива. Это подготовленный ZIP, **не новый deployment**.
+Откат Pages: `f89a486c-72e6-4188-bea8-9db5d8e15813`.
+Render/Supabase/Environment/deploy-ветки не переключались; платных запросов,
+денежных записей и миграций нет. После ручного Success: получить deployment ID,
+выполнить `node scripts/verify-pages.mjs`, сверить опубликованные файлы с
+манифестом и проверить главную/кабинет/аналитику в Demo без живого AI.
+
 ## 2026-10-18 — небольшой PR: демо-цифры главной кабинета
 
 После интеграции #89 → #91 → #90 и test-only исправлений (main `ab473f1`)
