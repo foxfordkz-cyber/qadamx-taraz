@@ -57,10 +57,10 @@ for (const width of [360, 390, 768, 1440]) {
       "text",
     );
     await page.getByRole("button", { name: "KZ", exact: true }).click();
-    await expect(page.getByLabel("Құпиясөз", { exact: true })).toHaveValue(
+    await expect(page.getByLabel("Құпия сөз", { exact: true })).toHaveValue(
       "synthetic-password",
     );
-    await expect(page.getByLabel("Құпиясөзді растаңыз")).toHaveValue(
+    await expect(page.getByLabel("Құпия сөзді растаңыз")).toHaveValue(
       "synthetic-password",
     );
     await page.getByRole("button", { name: "RU", exact: true }).click();

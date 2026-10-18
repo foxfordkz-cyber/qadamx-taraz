@@ -333,6 +333,7 @@ test("Automated Playwright Timing — five synthetic manual scenarios", async ({
         result.elapsedUntilFailureSeconds =
           Number(process.hrtime.bigint() - tick) / 1e9;
       result.error = String(error)
+        // eslint-disable-next-line no-control-regex -- strip ANSI colours
         .replace(/\x1b\[[0-9;]*m/g, "")
         .slice(0, 2500);
       await page

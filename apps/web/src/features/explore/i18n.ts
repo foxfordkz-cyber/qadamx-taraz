@@ -160,7 +160,7 @@ const kk: Record<keyof typeof ru, string> = {
   no_shops: "Ештеңе табылмады. Сұранысты немесе санатты өзгертіңіз.",
   catalog: "Каталог",
   price_ask: "Нақтылау",
-  demo_shop: "Оқу нүктесі",
+  demo_shop: "Демо нүкте",
   point_on_scheme: "сызбадағы {n}-нүкте",
   write_seller: "Өтінім қалдыру",
   in_stock: "Бар",
