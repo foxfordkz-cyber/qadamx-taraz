@@ -141,7 +141,8 @@ test("integrated mobile menu closes on Escape and route change; shared fonts and
         height: element.getBoundingClientRect().height,
       })),
     );
-  expect(targets).toHaveLength(7);
+  // Five primary destinations + More + RU/KZ; Debts moved out of More.
+  expect(targets).toHaveLength(8);
   for (const target of targets) {
     expect(target.width).toBeGreaterThanOrEqual(44);
     expect(target.height).toBeGreaterThanOrEqual(44);
