@@ -291,7 +291,7 @@ for (const locale of ["ru", "kk"] as const) {
       expect(state.calls).toHaveLength(1);
       expect(state.calls[0]).toMatchObject({
         businessId: qaIds.shopA,
-        request: { locale, days: 7 },
+        request: { locale, days: 7, ai: true },
       });
       await page.keyboard.press("Escape");
       await expect(dialog).toHaveCount(0);

@@ -59,6 +59,7 @@ for (const locale of ["ru", "kk"] as const) {
             question: "QA: ?",
             locale,
             days: 7,
+            ai: true,
           });
           for (const chip of await page
             .locator(".assistant-suggestions button")
@@ -86,7 +87,12 @@ for (const locale of ["ru", "kk"] as const) {
           const question = await chips.nth(index).textContent();
           await chips.nth(index).click();
           await expect(page.locator(".assistant-result")).toBeVisible();
-          expect(state.calls.at(-1)).toEqual({ question, locale, days: 7 });
+          expect(state.calls.at(-1)).toEqual({
+            question,
+            locale,
+            days: 7,
+            ai: true,
+          });
         }
         state.response.actions = [
           { kind: "open_debts", customer_id: null, text: null },

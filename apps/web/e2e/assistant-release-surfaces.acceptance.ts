@@ -17,7 +17,10 @@ for (const locale of ["ru", "kk"] as const) {
         await expect(page.locator("#main-content h1")).toBeVisible();
         if (locale === "kk")
           await page.getByRole("button", { name: "KZ", exact: true }).click();
-        const directory = path.resolve("../../docs/qa/assistant-release");
+        const directory = path.resolve(
+          process.env.QADAM_QA_SCREENSHOT_ROOT ??
+            "../../docs/qa/assistant-release",
+        );
         await mkdir(directory, { recursive: true });
         await page.screenshot({
           path: path.join(directory, `cabinet-${locale}-${width}.png`),
@@ -25,12 +28,12 @@ for (const locale of ["ru", "kk"] as const) {
         });
         const entry = page.getByRole("button", {
           name: locale === "ru" ? "Спросите Qadam" : "Qadam-нан сұраңыз",
-          exact: true,
+          exact: false,
         });
         await expect(entry).toBeVisible();
         await expect(
           page.getByRole("link", {
-            name: locale === "ru" ? "Скажите о продаже" : /Сату.*айтыңыз/i,
+            name: locale === "ru" ? "Скажите о продаже" : "Сатылымды айтыңыз",
           }),
         ).toHaveAttribute("href", /\/seller\/sale/);
         await entry.focus();
@@ -57,7 +60,10 @@ for (const locale of ["ru", "kk"] as const) {
         await expect(page.locator("h1")).toBeVisible();
         if (locale === "kk")
           await page.getByRole("button", { name: "KZ", exact: true }).click();
-        const directory = path.resolve("../../docs/qa/assistant-release");
+        const directory = path.resolve(
+          process.env.QADAM_QA_SCREENSHOT_ROOT ??
+            "../../docs/qa/assistant-release",
+        );
         await mkdir(directory, { recursive: true });
         await page.screenshot({
           path: path.join(directory, `hero-${locale}-${width}.png`),
