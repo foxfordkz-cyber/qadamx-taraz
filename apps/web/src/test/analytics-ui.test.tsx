@@ -343,10 +343,10 @@ describe("Analytics through the existing App, Auth, business and RU/KZ providers
       "href",
       "/seller/sale",
     );
-    expect(
-      screen.getByText("Показать по дням и часам").parentElement,
-    ).not.toHaveAttribute("open");
-    await userEvent.click(screen.getByText("Показать по дням и часам"));
+    expect(screen.getByText("Подробнее").parentElement).not.toHaveAttribute(
+      "open",
+    );
+    await userEvent.click(screen.getByText("Подробнее"));
     const tables = await openTables();
     expect(within(tables.daily).getAllByRole("row")).toHaveLength(8);
     expect(within(tables.hourly).getAllByRole("row")).toHaveLength(25);
