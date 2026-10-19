@@ -829,6 +829,7 @@ class _StatisticsState extends State<_Statistics> {
   Json? _result;
   Object? _error;
   bool _loading = false;
+  bool _showDemoExample = false;
   int _request = 0;
   bool get kk => qadamKk(context);
   @override
@@ -851,6 +852,7 @@ class _StatisticsState extends State<_Statistics> {
       _loading = true;
       _error = null;
       _result = null;
+      _showDemoExample = false;
     });
     try {
       final result = await widget.api.get(
@@ -912,6 +914,7 @@ class _StatisticsState extends State<_Statistics> {
         onChanged: (value) => setState(() {
           _species = value!;
           _result = null;
+          _showDemoExample = false;
           _request++;
           _loading = false;
         }),
@@ -923,6 +926,7 @@ class _StatisticsState extends State<_Statistics> {
         textInputAction: TextInputAction.search,
         onChanged: (_) => setState(() {
           _result = null;
+          _showDemoExample = false;
           _request++;
           _loading = false;
         }),
@@ -939,6 +943,7 @@ class _StatisticsState extends State<_Statistics> {
         onChanged: (_) => setState(() {
           _result = null;
           _error = null;
+          _showDemoExample = false;
           _request++;
           _loading = false;
         }),
@@ -1052,6 +1057,25 @@ class _StatisticsState extends State<_Statistics> {
             ),
           ),
         ),
+      if (_result?['status'] == 'insufficient_data') ...[
+        OutlinedButton.icon(
+          key: const ValueKey('toggle-demo-price-example'),
+          onPressed: () =>
+              setState(() => _showDemoExample = !_showDemoExample),
+          icon: Icon(
+            _showDemoExample
+                ? Icons.visibility_off_outlined
+                : Icons.school_outlined,
+          ),
+          label: Text(
+            _showDemoExample
+                ? tr(kk, 'Скрыть пример', 'Үлгіні жасыру')
+                : tr(kk, 'Показать пример для демо', 'Демо үлгісін көрсету'),
+          ),
+        ),
+        if (_showDemoExample)
+          _DemoPriceExample(species: _species, kk: kk),
+      ],
       const SizedBox(height: 20),
       Notice(
         text: tr(
@@ -1062,6 +1086,105 @@ class _StatisticsState extends State<_Statistics> {
       ),
     ],
   );
+}
+
+// Synthetic values stay out of API requests and server statistics.
+const _demoPriceExamples = <String, ({int minimumMinor, int medianMinor})>{
+  'cattle': (minimumMinor: 32000000, medianMinor: 35000000),
+  'sheep': (minimumMinor: 4000000, medianMinor: 5000000),
+  'goat': (minimumMinor: 3500000, medianMinor: 4500000),
+  'horse': (minimumMinor: 50000000, medianMinor: 65000000),
+  'camel': (minimumMinor: 80000000, medianMinor: 95000000),
+};
+
+class _DemoPriceExample extends StatelessWidget {
+  const _DemoPriceExample({required this.species, required this.kk});
+  final String species;
+  final bool kk;
+
+  @override
+  Widget build(BuildContext context) {
+    final example = _demoPriceExamples[species]!;
+    return Card(
+      color: QadamTheme.soft,
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.school_outlined, color: QadamTheme.green),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        tr(
+                          kk,
+                          'Учебный пример · не рынок',
+                          'Оқу үлгісі · нарық дерегі емес',
+                        ),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        tr(
+                          kk,
+                          '5 вымышленных предложений для демонстрации',
+                          'Демоға арналған 5 ойдан шығарылған ұсыныс',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 18),
+            Text(
+              '${speciesGlyph(species)}  ${speciesName(species, kk)}',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 14),
+            Text(
+              tr(
+                kk,
+                'Минимум за голову',
+                'Бір бастың ең төмен бағасы',
+              ),
+            ),
+            Text(
+              money(example.minimumMinor),
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              tr(
+                kk,
+                'Медиана за голову',
+                'Бір бас бағасының медианасы',
+              ),
+            ),
+            Text(
+              money(example.medianMinor),
+              style: Theme.of(context).textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              tr(
+                kk,
+                'Цены вымышлены: это не данные выбранного города или рынка и не реальные объявления. Они не отправляются и не входят в статистику.',
+                'Бағалар ойдан шығарылған: олар таңдалған қала не базар дерегі емес және нақты хабарландырулардан алынбаған. Олар жіберілмейді және статистикаға кірмейді.',
+              ),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class _Detail extends StatefulWidget {
