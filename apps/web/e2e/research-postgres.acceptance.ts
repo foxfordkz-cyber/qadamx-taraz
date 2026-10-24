@@ -30,7 +30,8 @@ async function login(page: Page, account = "a") {
   );
   await page.getByRole("button", { name: "Войти", exact: true }).click();
   const token = (await (await received).json()).access_token as string;
-  await expect(page.locator(".app-shell")).toBeVisible();
+  // Cold Vite compilation and real /me verification precede seller rendering.
+  await expect(page.locator(".app-shell")).toBeVisible({ timeout: 15000 });
   return token; // Ephemeral test JWT, never logged or written to artifacts.
 }
 test.beforeEach(async ({ page }) => {
@@ -165,6 +166,14 @@ test("feedback commits despite lost response; explicit replay has one DB row, re
   await expect(page.getByText(/Результат отправки неизвестен/)).toBeVisible();
   expect(bodies).toHaveLength(1);
   await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue(priority);
+  // The unknown intent survives SPA navigation and a different business.
+  await navigateSeller(page, "customers");
+  await navigateSeller(page, "research");
+  await page.getByLabel("Торговая точка").selectOption(info.empty);
+  await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue("");
+  await page.getByLabel("Торговая точка").selectOption(info.business);
+  await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue(priority);
+  expect(bodies).toHaveLength(1);
   await page.getByRole("button", { name: "Повторить тот же ответ" }).click();
   await expect(page.getByText(/Ответ сохранён сервером/)).toContainText(
     receipt!.id,
@@ -188,9 +197,7 @@ test("feedback commits despite lost response; explicit replay has one DB row, re
   );
   expect(changed.status()).toBe(409);
   await page.reload();
-  // Existing BusinessProvider intentionally keeps selection in memory. Reload
-  // defaults to the first permitted point; review the ORIGINAL point explicitly.
-  await page.getByLabel("Торговая точка").selectOption(info.business);
+  await expect(page.getByLabel("Торговая точка")).toHaveValue(info.business);
   await page.getByText("Мои сохранённые ответы", { exact: true }).click();
   await page.getByRole("button", { name: "Загрузить мои ответы" }).click();
   await expect(page.locator("#feedback li")).toContainText(priority);
@@ -201,6 +208,9 @@ test("feedback commits despite lost response; explicit replay has one DB row, re
   await page.getByRole("button", { name: "Выйти", exact: true }).click();
   await expect(page.locator("#feedback")).toHaveCount(0);
   const otherToken = await login(page, "b");
+  await expect(page.getByLabel("Торговая точка")).not.toHaveValue(
+    info.business,
+  );
   await navigateSeller(page, "research");
   await expect(page.getByText(priority, { exact: true })).toHaveCount(0);
   const foreign = await request.get(
@@ -210,6 +220,82 @@ test("feedback commits despite lost response; explicit replay has one DB row, re
     },
   );
   expect(foreign.status()).toBe(404);
+  await page.getByRole("button", { name: "Выйти", exact: true }).click();
+  await login(page);
+  await expect(page.getByLabel("Торговая точка")).toHaveValue(info.business);
+  await navigateSeller(page, "research");
+  await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue("");
+});
+
+test("unsaved feedback remains in session memory; reload/logout warn, discard is explicit", async ({
+  page,
+  request,
+}) => {
+  const info = await (await request.get(`${origin}/__qa/info`)).json();
+  const before = sqlEvidence();
+  let posts = 0;
+  page.on("request", (r) => {
+    if (r.method() === "POST" && r.url().includes("/research/feedback"))
+      posts++;
+  });
+  await login(page);
+  await page.getByLabel("Торговая точка").selectOption(info.business);
+  await navigateSeller(page, "research");
+  const text = "Unsubmitted synthetic QA draft, never a research participant";
+  await page.getByLabel(/Что улучшить первым/).fill(text);
+  await page.getByLabel(/Согласен на описанную/).check();
+  await navigateSeller(page, "debts");
+  await expect(
+    page.getByRole("heading", { name: "Мне должны", exact: true }),
+  ).toBeVisible();
+  // Route change closes the secondary menu. Wait for that UI
+  // transition before deciding whether the Research link is already visible.
+  await expect(page.locator(".seller-secondary-nav")).not.toHaveAttribute(
+    "open",
+  );
+  await navigateSeller(page, "research");
+  await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue(text);
+  await expect(page.getByLabel(/Согласен на описанную/)).toBeChecked();
+  const storage = await page.evaluate(() =>
+    JSON.stringify({
+      local: { ...localStorage },
+      session: { ...sessionStorage },
+    }),
+  );
+  expect(storage.includes(text)).toBe(false); // Never print auth storage in failures/artifacts.
+  const reloadDialog = page.waitForEvent("dialog");
+  // A cancelled reload has no navigation to await. Trigger the real browser
+  // action, then observe its beforeunload dialog and the still-present form.
+  await page.evaluate(() => {
+    window.setTimeout(() => window.location.reload(), 0);
+  });
+  const dialog = await reloadDialog;
+  expect(dialog.type()).toBe("beforeunload");
+  await dialog.dismiss();
+  await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue(text);
+  const logoutDialog = page.waitForEvent("dialog");
+  const logout = page
+    .getByRole("button", { name: "Выйти", exact: true })
+    .click();
+  const confirmation = await logoutDialog;
+  expect(confirmation.message()).toContain("несохранённый отзыв");
+  await confirmation.dismiss();
+  await logout;
+  await expect(page.getByLabel(/Что улучшить первым/)).toHaveValue(text);
+  await page.getByRole("button", { name: "KZ", exact: true }).click();
+  await expect(page.getByText(/Серверде сақталмаған/)).toBeVisible();
+  await page.screenshot({
+    path: `${evidence}/research-unsaved-kk.png`,
+    fullPage: true,
+  });
+  page.once("dialog", (d) => d.accept());
+  await page.getByRole("button", { name: "Жобаны жою", exact: true }).click();
+  await expect(page.getByLabel(/Алдымен нені жақсарту/)).toHaveValue("");
+  await page.reload(); // Clean draft no longer registers a beforeunload warning.
+  await expect(page.getByLabel("Сауда нүктесі")).toHaveValue(info.business);
+  expect(posts).toBe(0);
+  expect(sqlEvidence().feedback).toEqual(before.feedback);
+  expect(sqlEvidence().ledger).toEqual(before.ledger);
 });
 
 test("real verifier rejects absent/tampered tokens and foreign businesses; consent is enforced server-side", async ({

@@ -83,3 +83,16 @@ for the diploma author, not a claim of handwritten code or real study participan
 
 Exact follow-up paths and commits: `git diff --name-status 29da962..HEAD` and
 `git log --oneline 29da962..HEAD`; publication SHA is recorded in seller handoff.
+
+## Stabilization from 8bbc0ac, 2026-10-24
+
+AI-assisted work for the diploma author: validated sessionStorage business-ID
+preference, per-business/auth-epoch in-memory feedback recovery, unload/logout
+warnings, immutable unknown-result retry after a later rejection, date-labelled
+readable forecast and explained score categories. Application changes remain in
+seller shell/runtime/research and RU/KZ strings. Auth implementation, backend,
+ledger, contracts and the other session's assistant experiments are untouched.
+New business-selection regressions, extended feedback and actual SQL browser tests
+provide evidence; [report](stabilization-20261024.md). Exact paths/commits:
+`git diff --name-status 8bbc0ac..HEAD`, `git log --oneline 8bbc0ac..HEAD`.
+No new empirical model findings, participants or hand-authorship claims.

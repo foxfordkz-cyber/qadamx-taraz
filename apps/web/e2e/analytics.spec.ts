@@ -444,16 +444,24 @@ test("direct route/reload show the active membership and links add no period fil
     .selectOption(qaIds.shopA2);
   await expect(page.locator(".analytics-empty")).toBeVisible();
   await page.reload();
-  // BusinessProvider intentionally keeps selection in memory; a reload chooses
-  // the first /me membership. The report must match that visible selection.
+  // Restore the permitted preference after /me, without showing the first
+  // business's totals while the selected empty business reloads.
   await expect(page.getByLabel("Торговая точка", { exact: true })).toHaveValue(
-    qaIds.shopA,
+    qaIds.shopA2,
   );
   await expect(
     page
       .getByLabel("Торговая точка", { exact: true })
       .locator("option:checked"),
-  ).toContainText("QA MART");
+  ).toContainText("QA Кайкармет");
+  await expect(page.locator(".analytics-main-kpis")).not.toContainText(
+    "3 000 ₸",
+  );
+  await expect(page.locator(".analytics-empty")).toBeVisible();
+  expect(analytics.calls.at(-1)?.business).toBe(qaIds.shopA2);
+  await page
+    .getByLabel("Торговая точка", { exact: true })
+    .selectOption(qaIds.shopA);
   await expect(page.locator(".analytics-main-kpis")).toContainText("3 000 ₸");
   await page
     .getByLabel("Торговая точка", { exact: true })

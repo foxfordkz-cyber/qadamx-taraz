@@ -53,6 +53,7 @@ are synthetic engineering evidence, never user-research or predictive evidence.
 
 ## Evidence index
 
+- [Research stabilization: business selection, unsaved feedback and integration readiness](stabilization-20261024.md).
 - [Latest end-to-end acceptance: real API/PostgreSQL and Supabase browser login](end-to-end-acceptance.md).
 
 - [Architecture, data flow and database ER](architecture.md).

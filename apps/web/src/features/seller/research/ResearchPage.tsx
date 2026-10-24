@@ -80,55 +80,84 @@ export function ForecastReport({ snapshot }: { snapshot: Forecast }) {
           <p>
             <strong>{r("selected")}:</strong> {method(snapshot.selected_method)}
           </p>
-          <svg
-            className="research-chart"
-            viewBox="0 0 610 220"
-            role="img"
+          <p>
+            {r("history")}: {historical[0]?.date} — {historical.at(-1)?.date}
+            <br />
+            {r("forecastPeriod")}: {snapshot.forecast[0]?.date} —{" "}
+            {snapshot.forecast.at(-1)?.date}
+          </p>
+          <p className="muted">{r("chartHint")}</p>
+          <div
+            className="research-chart-frame"
+            tabIndex={0}
+            role="region"
             aria-label={r("forecast")}
           >
-            <title>
-              {r("history")} / {r("baseline")} / {r("ml")}
-            </title>
-            {[0, 0.5, 1].map((f) => (
-              <g key={f}>
-                <line
-                  x1="80"
-                  x2="580"
-                  y1={185 - f * 150}
-                  y2={185 - f * 150}
-                  stroke="currentColor"
-                  opacity="0.15"
-                />
-                <text x="72" y={190 - f * 150} textAnchor="end">
-                  {format(max * f)}
-                </text>
-              </g>
-            ))}
-            <polyline
-              points={points(historical.map((d) => d.sales_minor))}
-              className="research-line history-line"
-            />
-            <polyline
-              points={points(
-                [last, ...snapshot.forecast.map((d) => d.baseline_minor)],
-                historical.length - 1,
-              )}
-              className="research-line baseline-line"
-            />
-            <polyline
-              points={points(
-                [last, ...snapshot.forecast.map((d) => d.ml_minor)],
-                historical.length - 1,
-              )}
-              className="research-line ml-line"
-            />
-            <text x="80" y="212">
-              {historical[0]?.date}
-            </text>
-            <text x="580" y="212" textAnchor="end">
-              {snapshot.forecast.at(-1)?.date}
-            </text>
-          </svg>
+            <svg
+              className="research-chart"
+              viewBox="0 0 610 220"
+              role="img"
+              aria-label={r("forecast")}
+            >
+              <title>
+                {r("history")} / {r("baseline")} / {r("ml")}
+              </title>
+              <line
+                x1={
+                  80 +
+                  ((historical.length - 0.5) * 500) / Math.max(1, count - 1)
+                }
+                x2={
+                  80 +
+                  ((historical.length - 0.5) * 500) / Math.max(1, count - 1)
+                }
+                y1="25"
+                y2="185"
+                stroke="currentColor"
+                strokeDasharray="3 3"
+                opacity="0.5"
+              />
+              {[0, 0.5, 1].map((f) => (
+                <g key={f}>
+                  <line
+                    x1="80"
+                    x2="580"
+                    y1={185 - f * 150}
+                    y2={185 - f * 150}
+                    stroke="currentColor"
+                    opacity="0.15"
+                  />
+                  <text x="72" y={190 - f * 150} textAnchor="end">
+                    {format(max * f)}
+                  </text>
+                </g>
+              ))}
+              <polyline
+                points={points(historical.map((d) => d.sales_minor))}
+                className="research-line history-line"
+              />
+              <polyline
+                points={points(
+                  [last, ...snapshot.forecast.map((d) => d.baseline_minor)],
+                  historical.length - 1,
+                )}
+                className="research-line baseline-line"
+              />
+              <polyline
+                points={points(
+                  [last, ...snapshot.forecast.map((d) => d.ml_minor)],
+                  historical.length - 1,
+                )}
+                className="research-line ml-line"
+              />
+              <text x="80" y="212">
+                {historical[0]?.date}
+              </text>
+              <text x="580" y="212" textAnchor="end">
+                {snapshot.forecast.at(-1)?.date}
+              </text>
+            </svg>
+          </div>
           <div className="research-legend">
             <span className="history-key">— {r("history")}</span>
             <span className="baseline-key">┄ {r("baseline")}</span>
@@ -145,7 +174,7 @@ export function ForecastReport({ snapshot }: { snapshot: Forecast }) {
                 <table>
                   <thead>
                     <tr>
-                      <th>{r("selected")}</th>
+                      <th>{r("method")}</th>
                       <th>MAE, ₸</th>
                       <th>RMSE, ₸</th>
                     </tr>
@@ -251,6 +280,7 @@ export function RiskReport({
   return (
     <>
       <p>{r("rules")}</p>
+      <p className="muted">{r("categories")}</p>
       {!snapshot.items.length ? (
         <p>{r("noDebt")}</p>
       ) : (
@@ -309,7 +339,7 @@ export function ResearchPage() {
 function ResearchScreen() {
   const auth = useAuth();
   const { business } = useBusiness();
-  const { api, scope } = useRuntime();
+  const { api, scope, drafts } = useRuntime();
   const { r } = useResearchText();
   const [horizon, setHorizon] = useState<7 | 30>(7);
   const [riskCursor, setRiskCursor] = useState("");
@@ -432,6 +462,8 @@ function ResearchScreen() {
               api={api}
               businessId={business.id}
               enabled={enabled && !auth.demo}
+              drafts={drafts}
+              scope={scope}
             />
             {!auth.demo && (
               <details>

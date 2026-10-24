@@ -736,3 +736,56 @@ Vercel login. Доступ владельца/защита не обходили
 Продолжение остаётся в [Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100),
 base `main`. Отдельный documentation follow-up фиксирует публикацию; его SHA можно
 получить через `git log -1 --format=%H`. Merge и production deploy не выполнялись.
+
+## 2026-10-24 — Research stabilization, PR100
+
+Активная ветка `feature/ml-sales-debt-research`; исходный HEAD
+`8bbc0acae75d2fea23c9e95ce4f36f91e9b7b4e4`, base main
+`2518b2e80b8c8ef881063a968645382d61aeb37e`. Ошибочное Stage 1 задание отменено;
+до начала исправленной задачи рабочее дерево было чистым, отменять чужой код не
+потребовалось. Независимая сессия assistant factual validation не затронута.
+
+Эта запись **заменяет прежнее ограничение выбора точки после reload**: выбранный
+ID хранится в sessionStorage отдельно для API/пользователя и восстанавливается
+только из актуального разрешённого списка /me. Отозванная/чужая точка не
+восстанавливается. Auth epoch, права API и финансовые расчёты не менялись.
+
+Отзыв/согласие/исходный idempotency intent сохраняются в памяти Runtime отдельно
+по точке и поколению сессии при SPA-переходах. Добавлены RU/KZ unsaved-состояние,
+предупреждение reload/logout и подтверждённое удаление неотправленного черновика.
+После неизвестного POST сохраняется тот же ключ/тело, даже если повтор вернул 4xx;
+автоматических отправок нет. Успешная квитанция остаётся при SPA-переходах.
+Текст/ключ не сохраняются в Web Storage. При подтверждённом reload/logout, expiry
+или падении процесса они могут потеряться; предупреждение браузера — best effort.
+После потери состояния сначала посмотреть «Мои сохранённые ответы».
+
+Прогноз показывает диапазоны дат, границу история/прогноз и читаемый прокручиваемый
+график; категории долга пояснены как баллы приоритета. Методика, MAE/RMSE, правила
+риска, серверные суммы и API0.8.0 сохранены. Backend, миграции, OpenAPI/generated,
+AuthProvider, Voice и ledger в этой стабилизации не изменены.
+
+Проверки финального кода: **639/639 unit/component**, **47/47 профильных backend**,
+**44/44 общих E2E**, **6/6 Research fixtures**, **4/4 настоящих HTTP/PostgreSQL E2E**.
+TypeScript, lint, build, format, API check, backend ruff/export прошли. Общий E2E
+использовал CLI timeout60s, без retries; SQL — отдельную новую БД loopback55439.
+Предыдущие failures не скрыты: startup timeouts, ожидание отменённого reload,
+переход меню и устаревшее ожидание выбора точки. Команды, длительности, ограничения
+и полный контекст: [stabilization-20261024.md](../diploma-evidence/stabilization-20261024.md).
+
+Изменённые области: app/business-selection.ts (новый), App/runtime/layout;
+features/seller/research; shared/i18n RU/KZ; business-selection/research-feedback
+unit tests; test setup; research-postgres и analytics E2E; Research evidence/docs.
+Точный перечень: `git diff --name-status 8bbc0ac..HEAD`.
+
+Локальный запуск оставлен на http://127.0.0.1:4298/seller/research (обычный API8320,
+реальная Supabase сессия, отдельная **синтетическая** PostgreSQL). Проверены 7/30,
+400₸ риска и сохранение выбора после reload; новые screenshots находятся в
+`docs/diploma-evidence/screenshots/`. Это не проверка реальных merchant данных
+и не результаты участников исследования. Автотесты используют отдельный test issuer.
+
+Hosted backend вновь сообщил 0.7.2 без Research, Preview требует Vercel login.
+Production-ready не заявляется. Нужны review капитана, совместимый backend,
+согласованная миграция0009/backup, доступ Preview, реальные полные данные и
+retention/withdrawal процедура. Rollback: предыдущий frontend/API artifact;
+feedback table не удалять без отдельного решения/backup. PR100 остаётся Draft,
+main/shared DB/deploy не изменены. Публикация и проверенный code SHA — ниже.

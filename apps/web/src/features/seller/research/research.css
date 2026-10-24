@@ -22,11 +22,16 @@
 .research-report > p {
   margin: 0;
 }
+.research-chart-frame {
+  overflow-x: auto;
+  min-width: 0;
+}
 .research-chart {
   width: 100%;
+  min-width: 560px;
   max-height: 340px;
   color: inherit;
-  font-size: 11px;
+  font-size: 13px;
 }
 .research-line {
   fill: none;

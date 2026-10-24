@@ -25,45 +25,126 @@ export function validFeedback(payload: Feedback) {
   );
 }
 
+type Draft = {
+  used: Feedback["features_used"];
+  clarity: string;
+  usefulness: string;
+  risk: string;
+  priority: string;
+  problem: string;
+  suggestion: string;
+  consent: boolean;
+  followUp: boolean;
+  status: "idle" | "saving" | "saved" | "invalid" | "unknown" | "rejected";
+  receipt: string;
+  intent: Feedback | null;
+  uncertain: boolean;
+};
+function emptyDraft(): Draft {
+  return {
+    used: [],
+    clarity: "",
+    usefulness: "",
+    risk: "",
+    priority: "",
+    problem: "",
+    suggestion: "",
+    consent: false,
+    followUp: false,
+    status: "idle",
+    receipt: "",
+    intent: null,
+    uncertain: false,
+  };
+}
+function unsaved(draft: Draft) {
+  return (
+    draft.status !== "saved" &&
+    Boolean(
+      draft.intent ||
+        draft.used.length ||
+        draft.clarity ||
+        draft.usefulness ||
+        draft.risk ||
+        draft.priority ||
+        draft.problem ||
+        draft.suggestion ||
+        draft.consent ||
+        draft.followUp,
+    )
+  );
+}
+
 export function FeedbackForm({
   api,
   businessId,
   enabled,
+  drafts,
+  scope = "standalone",
 }: {
   api: ApiClient;
   businessId: string;
   enabled: boolean;
+  drafts?: Map<string, unknown>;
+  scope?: string;
 }) {
   const { locale, r } = useResearchText();
-  const [used, setUsed] = useState<Feedback["features_used"]>([]);
-  const [clarity, setClarity] = useState("");
-  const [usefulness, setUsefulness] = useState("");
-  const [risk, setRisk] = useState("");
-  const [priority, setPriority] = useState("");
-  const [problem, setProblem] = useState("");
-  const [suggestion, setSuggestion] = useState("");
-  const [consent, setConsent] = useState(false);
-  const [followUp, setFollowUp] = useState(false);
-  const [status, setStatus] = useState<
-    "idle" | "saving" | "saved" | "invalid" | "unknown" | "rejected"
-  >("idle");
-  const [receipt, setReceipt] = useState("");
-  const intent = useRef<Feedback | null>(null);
+  // Runtime's map is scoped to the auth generation and is destroyed at logout.
+  // Never write questionnaire text or POST bodies to Web Storage.
+  const key = `${scope}:${businessId}:research-feedback`;
+  const marker = `${key}-unsaved`;
+  const [draft, setDraft] = useState<Draft>(
+    () => (drafts?.get(key) as Draft | undefined) ?? emptyDraft(),
+  );
+  const current = useRef(draft);
+  const {
+    used,
+    clarity,
+    usefulness,
+    risk,
+    priority,
+    problem,
+    suggestion,
+    consent,
+    followUp,
+    status,
+    receipt,
+  } = draft;
   const busy = useRef(false);
   const active = useRef(true);
   const controller = useRef<AbortController | null>(null);
+  function update(patch: Partial<Draft>) {
+    const next = { ...current.current, ...patch };
+    current.current = next;
+    drafts?.set(key, next);
+    if (unsaved(next)) drafts?.set(marker, true);
+    else drafts?.delete(marker);
+    if (active.current) setDraft(next);
+  }
   useEffect(() => {
     active.current = true;
     return () => {
       active.current = false;
       controller.current?.abort();
+      // An aborted POST may already be committed. Keep its exact intent for
+      // explicit replay when this business is reopened in the same session.
+      if (current.current.status === "saving") {
+        const next: Draft = {
+          ...current.current,
+          status: "unknown",
+          uncertain: true,
+        };
+        current.current = next;
+        drafts?.set(key, next);
+        drafts?.set(marker, true);
+      }
     };
-  }, []);
+  }, [drafts, key, marker]);
   async function submit(event: FormEvent) {
     event.preventDefault();
     if (!enabled || busy.current || status === "saved") return;
     const payload =
-      intent.current ??
+      current.current.intent ??
       ({
         client_request_id: crypto.randomUUID(),
         language: locale,
@@ -79,12 +160,11 @@ export function FeedbackForm({
         follow_up: followUp,
       } satisfies Feedback);
     if (!validFeedback(payload)) {
-      setStatus("invalid");
+      update({ status: "invalid" });
       return;
     }
-    intent.current = payload;
     busy.current = true;
-    setStatus("saving");
+    update({ intent: payload, status: "saving" });
     const request = new AbortController();
     controller.current = request;
     let timeout: ReturnType<typeof setTimeout> | undefined;
@@ -119,19 +199,18 @@ export function FeedbackForm({
         !Number.isFinite(Date.parse(response.created_at))
       )
         throw new ApiError(0, "INVALID_RESPONSE");
-      setReceipt(response.id);
-      setStatus("saved");
+      update({ receipt: response.id, status: "saved", uncertain: false });
     } catch (error) {
       if (!active.current) return;
       if (
         error instanceof ApiError &&
         error.status >= 400 &&
         error.status < 500 &&
-        error.status !== 409
+        error.status !== 409 &&
+        !current.current.uncertain
       ) {
-        intent.current = null;
-        setStatus("rejected");
-      } else setStatus("unknown");
+        update({ intent: null, status: "rejected" });
+      } else update({ status: "unknown", uncertain: true });
     } finally {
       clearTimeout(timeout);
       busy.current = false;
@@ -153,6 +232,9 @@ export function FeedbackForm({
     <form onSubmit={(e) => void submit(e)} noValidate>
       <p>{r("privacy")}</p>
       {!enabled && <Alert>{r("demoFeedback")}</Alert>}
+      {enabled && status !== "saved" && (
+        <p role="status">{r(unsaved(draft) ? "unsaved" : "notSubmitted")}</p>
+      )}
       <fieldset disabled={locked || !enabled} className="research-fields">
         <legend>{r("feedback")}</legend>
         <fieldset className="research-checks">
@@ -163,11 +245,11 @@ export function FeedbackForm({
                 type="checkbox"
                 checked={used.includes(feature)}
                 onChange={(e) =>
-                  setUsed(
-                    e.target.checked
+                  update({
+                    used: e.target.checked
                       ? [...used, feature]
                       : used.filter((f) => f !== feature),
-                  )
+                  })
                 }
               />
               {r(feature)}
@@ -178,21 +260,21 @@ export function FeedbackForm({
         <Select
           label={r("clarity")}
           value={clarity}
-          onChange={(e) => setClarity(e.target.value)}
+          onChange={(e) => update({ clarity: e.target.value })}
         >
           {ratingOptions}
         </Select>
         <Select
           label={r("usefulness")}
           value={usefulness}
-          onChange={(e) => setUsefulness(e.target.value)}
+          onChange={(e) => update({ usefulness: e.target.value })}
         >
           {ratingOptions}
         </Select>
         <Select
           label={r("riskClarity")}
           value={risk}
-          onChange={(e) => setRisk(e.target.value)}
+          onChange={(e) => update({ risk: e.target.value })}
         >
           {ratingOptions}
         </Select>
@@ -200,21 +282,21 @@ export function FeedbackForm({
           <span>{r("unresolved")}</span>
           <textarea
             value={problem}
-            onChange={(e) => setProblem(e.target.value)}
+            onChange={(e) => update({ problem: e.target.value })}
             rows={3}
           />
         </label>
         <Input
           label={r("priority")}
           value={priority}
-          onChange={(e) => setPriority(e.target.value)}
+          onChange={(e) => update({ priority: e.target.value })}
           required
         />
         <label className="field">
           <span>{r("suggestion")}</span>
           <textarea
             value={suggestion}
-            onChange={(e) => setSuggestion(e.target.value)}
+            onChange={(e) => update({ suggestion: e.target.value })}
             rows={3}
           />
         </label>
@@ -222,7 +304,7 @@ export function FeedbackForm({
           <input
             type="checkbox"
             checked={followUp}
-            onChange={(e) => setFollowUp(e.target.checked)}
+            onChange={(e) => update({ followUp: e.target.checked })}
           />
           {r("followUp")}
         </label>
@@ -230,7 +312,7 @@ export function FeedbackForm({
           <input
             type="checkbox"
             checked={consent}
-            onChange={(e) => setConsent(e.target.checked)}
+            onChange={(e) => update({ consent: e.target.checked })}
             required
           />
           {r("consent")}
@@ -256,6 +338,17 @@ export function FeedbackForm({
                   : "submit",
             )}
           </Button>
+          {!locked && unsaved(draft) && (
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                if (window.confirm(r("discardConfirm"))) update(emptyDraft());
+              }}
+            >
+              {r("discard")}
+            </Button>
+          )}
         </>
       )}
     </form>

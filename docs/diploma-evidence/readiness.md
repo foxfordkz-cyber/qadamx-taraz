@@ -1,5 +1,11 @@
 # Implemented vs planned
 
+[Stabilization update](stabilization-20261024.md): business selection now survives
+reload only after current /me validation; unsaved feedback survives internal
+navigation in auth-scoped memory, with reload/logout warnings and immutable retry.
+No secure durable feedback draft storage or crash recovery is claimed. Production
+gates below remain unchanged.
+
 | Capability | Implemented here | Limit / next gate |
 |---|---|---|
 | Forecast | Tenant-scoped day-close history, 7/30 baseline + ridge, chronological validation/test, chart/table/export | Experimental; >=98/144 complete days; actual-data completeness not verified |

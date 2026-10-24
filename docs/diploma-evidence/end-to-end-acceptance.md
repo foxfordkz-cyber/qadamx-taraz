@@ -1,5 +1,11 @@
 # Research end-to-end acceptance — 2026-10-24 follow-up
 
+**Later update:** [Research stabilization](stabilization-20261024.md) implements
+authorized tab-local business restoration and in-memory feedback recovery across
+internal navigation, with reload/logout warnings. The old reload/draft limitations
+below describe the earlier tested commit; consult the stabilization report for the
+current behavior and its remaining browser/crash limitations.
+
 Branch `feature/ml-sales-debt-research`, [Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100).
 Start HEAD `29da9620b909f354d1680d8db3730a1dcca45f2e`, equal to remote after fetch/pull.
 Base main remained `2518b2e80b8c8ef881063a968645382d61aeb37e`. No other branch was merged.
