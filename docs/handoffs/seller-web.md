@@ -640,8 +640,8 @@ GET/POST `/feedback` на существующем JWT/membership. Live-разв
 `docs/ml-evaluation-plan.md`, `docs/user-research-plan.md`.
 
 Этапы 1–4 опубликованы: 8804795, 6bdaeb6, 45b33ab, b7c4750.
-Итоговый HEAD читать через `git log -1 --format=%H`; финальная публикация будет
-зафиксирована отдельной записью после проверок. Не использовать старые ветки из
+Итоговый HEAD читать через `git log -1 --format=%H`; финальная публикация
+зафиксирована ниже. Не использовать старые ветки из
 предыдущих разделов этого handoff для продолжения данной задачи.
 
 Команды (Windows: npm.cmd при запрете npm.ps1):
@@ -667,3 +667,25 @@ Shared rollout требует капитана, backup/recovery и retention/wit
 модели нет. Перед recruitment назначить ответственного, контакт, защищённое хранение
 и удаление за 90 дней; автоматического purge нет. Синтетические результаты не
 подтверждают научную гипотезу. Production rollout и физические устройства не проверялись.
+
+### Публикация diploma extension — 2026-10-24
+
+Проверенный implementation commit: **4021cf2e9796d59d38cf787cc1e8bea2f8f8fea4**.
+`fetch --prune` и `pull --ff-only origin feature/ml-sales-debt-research` прошли;
+push успешен, local/remote HEAD этого commit совпали. Base main остался
+2518b2e80b8c8ef881063a968645382d61aeb37e. Создан
+[Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100),
+base `main`, head `feature/ml-sales-debt-research`. Эта последующая docs-запись
+сохраняет ссылку и проверенный code SHA; её hash — в истории ветки.
+
+Финальные проверки: 437/437 backend на отдельной PostgreSQL, 625/625 unit/component,
+6/6 research E2E. Default E2E: 43 passed/1 failed; после исправления устаревшего
+ожидания навигации отдельный повтор этого теста — 1/1 passed. Полный прогон не
+выдаётся за all-green одной командой. TypeScript/lint/build/format/API generation
+и проверка воспроизводимости — passed. Существующие warning сборки/зависимостей,
+предыдущие падения и ограничения сохранены в test-execution.md.
+
+Продолжение: review PR и миграции 0009 капитаном; согласовать rollout и процедуру
+согласия/удаления, затем получить реальные полные ряды и проверенные debt labels.
+До этого не заявлять научный выигрыш модели, результаты опроса или live-приёмку.
+Merge/deploy не выполнялись. Не переносить работу обратно в старые feature-ветки.

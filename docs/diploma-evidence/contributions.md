@@ -17,7 +17,12 @@ diploma task; the captain should review before any shared DB rollout.
 | 2 | Ridge/baselines, daily data read, evaluation CLI, API schemas/examples and tests | 6bdaeb6 |
 | 3 | Scoped debt facts, explainable rules, paging and boundary/isolation tests | 45b33ab |
 | 4 | Consent form/API/table/migration, per-owner review, safe retries and protocol | b7c4750 |
-| 5 | Integrated RU/KZ screen, charts/comparison, evidence/ER, regression/E2E | See final branch log and seller handoff |
+| 5 | Integrated RU/KZ screen, charts/comparison, evidence/ER, regression/E2E | 4021cf2e9796d59d38cf787cc1e8bea2f8f8fea4 |
+
+Published as [Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100),
+head feature/ml-sales-debt-research, base main. This publication-only follow-up
+records the tested code commit; its own exact hash is available in the branch log.
+No merge or deployment is included.
 
 ## File/module ownership in this extension
 
