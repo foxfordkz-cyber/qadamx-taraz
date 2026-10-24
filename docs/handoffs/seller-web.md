@@ -730,4 +730,9 @@ loopback55439. После reload выбрать QA history point заново: �
 Hosted OpenAPI0.7.2 не имеет research endpoints; Vercel Preview перенаправляет на
 Vercel login. Доступ владельца/защита не обходились и не менялись. Shared migration,
 реальные merchant data и production-приёмка остаются отдельными зависимостями.
-Merge и production deploy не выполнялись; новые SHA будут добавлены после push.
+Проверенный код и evidence опубликованы commit
+`9fafacb9243f1569b856dfe953acbc216b7ec561`; push в
+`origin/feature/ml-sales-debt-research` успешен, local/remote HEAD совпали.
+Продолжение остаётся в [Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100),
+base `main`. Отдельный documentation follow-up фиксирует публикацию; его SHA можно
+получить через `git log -1 --format=%H`. Merge и production deploy не выполнялись.
