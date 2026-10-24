@@ -1,5 +1,6 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  research: "Болжам және кері байланыс",
   whatsappSend: "WhatsApp-қа жіберу",
   whatsappRemind: "WhatsApp арқылы еске салу",
   whatsappHint: "Хабарды WhatsApp-тан өзіңіз жібересіз",
@@ -401,4 +402,6 @@ export const kk: Record<keyof typeof ru, string> = {
   remaining: "Төлеуге қалды",
   outstanding: "Қазір маған қарыз",
   inquiry: "Өтінім",
+  researchUnsavedLogout:
+    "Сақталмаған пікір немесе жіберу нәтижесі белгісіз жауап бар. Шыққанда мәтін мен қайталау кілті жадтан өшеді. Қалу үшін бас тартыңыз. Сақтамай шығу керек пе? Қайта кіргенде алдымен сақталған жауаптарды тексеріңіз.",
 };

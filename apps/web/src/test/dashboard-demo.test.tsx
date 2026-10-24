@@ -26,9 +26,7 @@ describe("cabinet teaching snapshot", () => {
       );
       await screen.findByRole("heading", { name: "Хорошего рабочего дня!" });
       if (locale === "kk")
-        await userEvent.click(
-          screen.getByRole("button", { name: "KZ" }),
-        );
+        await userEvent.click(screen.getByRole("button", { name: "KZ" }));
       const metrics = view.container.querySelector(".cabinet-metrics")!;
       expect(metrics.querySelectorAll("dd")).toHaveLength(3);
       for (const days of [7, 30] as const) {

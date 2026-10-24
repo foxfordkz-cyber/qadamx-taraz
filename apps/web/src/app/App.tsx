@@ -4,7 +4,9 @@ import { useAuth } from "./auth";
 import { RegistrationPage } from "./registration";
 import { AuthCallbackPage } from "./auth-callback";
 import { BusinessProvider, RuntimeProvider, useMemberships } from "./runtime";
+import { businessSelectionKey } from "./business-selection";
 import { SellerLayout } from "./layout";
+import { ResearchPage } from "../features/seller/research/ResearchPage";
 import {
   DashboardPage,
   LoginPage,
@@ -64,7 +66,13 @@ function ProtectedSeller() {
       </div>
     );
   return (
-    <BusinessProvider businesses={me.data.businesses}>
+    <BusinessProvider
+      businesses={me.data.businesses}
+      persistenceKey={businessSelectionKey(
+        auth.demo ? "demo" : auth.session!.user.id,
+        import.meta.env.VITE_API_BASE_URL ?? "",
+      )}
+    >
       <SellerLayout />
     </BusinessProvider>
   );
@@ -135,6 +143,7 @@ export function App({
           <Route path="customers" element={<CustomersPage />} />
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="research" element={<ResearchPage />} />
           {(["sale", "debts", "history", "summary"] as const).map((key) => (
             <Route
               key={key}

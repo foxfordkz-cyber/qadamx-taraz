@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.7.2"
+    "version": "0.8.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -1193,6 +1193,438 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AnalyticsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/research/forecast": {
+      "get": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Get Forecast",
+        "operationId": "get_forecast_api_v1_businesses__id__research_forecast_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "enum": [
+                7,
+                30
+              ],
+              "default": 7,
+              "title": "Horizon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/research/debt-risk": {
+      "get": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Get Debt Risk",
+        "operationId": "get_debt_risk_api_v1_businesses__id__research_debt_risk_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtRiskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/research/feedback": {
+      "post": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Post Feedback",
+        "operationId": "post_feedback_api_v1_businesses__id__research_feedback_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackReceipt"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Get Feedback",
+        "operationId": "get_feedback_api_v1_businesses__id__research_feedback_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackPage"
                 }
               }
             }
@@ -4489,6 +4921,154 @@
         ],
         "title": "CustomerResponse"
       },
+      "DebtRiskItem": {
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "balance_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Balance Minor"
+          },
+          "initial_debt_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Initial Debt Minor"
+          },
+          "later_paid_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Later Paid Minor"
+          },
+          "oldest_open_sale_days": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Oldest Open Sale Days"
+          },
+          "open_sales": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Open Sales"
+          },
+          "score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Category"
+          },
+          "factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Factors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "customer_id",
+          "display_name",
+          "balance_minor",
+          "initial_debt_minor",
+          "later_paid_minor",
+          "oldest_open_sale_days",
+          "open_sales",
+          "score",
+          "category",
+          "factors"
+        ],
+        "title": "DebtRiskItem"
+      },
+      "DebtRiskResponse": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "title": "As Of"
+          },
+          "method": {
+            "type": "string",
+            "const": "rules-v1",
+            "title": "Method",
+            "default": "rules-v1"
+          },
+          "supervised_status": {
+            "type": "string",
+            "const": "insufficient_data",
+            "title": "Supervised Status",
+            "default": "insufficient_data"
+          },
+          "overdue_status": {
+            "type": "string",
+            "const": "unknown_no_due_dates",
+            "title": "Overdue Status",
+            "default": "unknown_no_due_dates"
+          },
+          "outcome_metrics": {
+            "type": "null",
+            "title": "Outcome Metrics"
+          },
+          "currency": {
+            "type": "string",
+            "const": "KZT",
+            "title": "Currency",
+            "default": "KZT"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DebtRiskItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "as_of",
+          "items",
+          "next_cursor"
+        ],
+        "title": "DebtRiskResponse"
+      },
       "DraftResponse": {
         "additionalProperties": false,
         "properties": {
@@ -4671,6 +5251,602 @@
           "request_id"
         ],
         "title": "ErrorResponse"
+      },
+      "FeedbackCreate": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Language"
+          },
+          "consent": {
+            "type": "boolean",
+            "title": "Consent"
+          },
+          "consent_version": {
+            "type": "string",
+            "const": "v1",
+            "title": "Consent Version",
+            "default": "v1"
+          },
+          "features_used": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "sales",
+                "debts",
+                "voice",
+                "analytics",
+                "forecast",
+                "risk",
+                "catalog",
+                "inquiries"
+              ]
+            },
+            "type": "array",
+            "maxItems": 8,
+            "title": "Features Used"
+          },
+          "sales_debt_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sales Debt Clarity"
+          },
+          "forecast_usefulness": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Usefulness"
+          },
+          "risk_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Clarity"
+          },
+          "unresolved_problem": {
+            "type": "string",
+            "maxLength": 1500,
+            "title": "Unresolved Problem",
+            "default": ""
+          },
+          "improve_first": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Improve First"
+          },
+          "suggestion": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Suggestion",
+            "default": ""
+          },
+          "follow_up": {
+            "type": "boolean",
+            "title": "Follow Up",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "language",
+          "consent",
+          "features_used",
+          "sales_debt_clarity",
+          "forecast_usefulness",
+          "risk_clarity",
+          "improve_first"
+        ],
+        "title": "FeedbackCreate"
+      },
+      "FeedbackPage": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackRecord"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "items",
+          "next_cursor"
+        ],
+        "title": "FeedbackPage"
+      },
+      "FeedbackReceipt": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "client_request_id",
+          "created_at"
+        ],
+        "title": "FeedbackReceipt"
+      },
+      "FeedbackRecord": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Language"
+          },
+          "consent": {
+            "type": "boolean",
+            "title": "Consent"
+          },
+          "consent_version": {
+            "type": "string",
+            "const": "v1",
+            "title": "Consent Version",
+            "default": "v1"
+          },
+          "features_used": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "sales",
+                "debts",
+                "voice",
+                "analytics",
+                "forecast",
+                "risk",
+                "catalog",
+                "inquiries"
+              ]
+            },
+            "type": "array",
+            "maxItems": 8,
+            "title": "Features Used"
+          },
+          "sales_debt_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sales Debt Clarity"
+          },
+          "forecast_usefulness": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Usefulness"
+          },
+          "risk_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Clarity"
+          },
+          "unresolved_problem": {
+            "type": "string",
+            "maxLength": 1500,
+            "title": "Unresolved Problem",
+            "default": ""
+          },
+          "improve_first": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Improve First"
+          },
+          "suggestion": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Suggestion",
+            "default": ""
+          },
+          "follow_up": {
+            "type": "boolean",
+            "title": "Follow Up",
+            "default": false
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "language",
+          "consent",
+          "features_used",
+          "sales_debt_clarity",
+          "forecast_usefulness",
+          "risk_clarity",
+          "improve_first",
+          "id",
+          "created_at"
+        ],
+        "title": "FeedbackRecord"
+      },
+      "ForecastDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "baseline_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Baseline Minor"
+          },
+          "ml_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Ml Minor"
+          },
+          "selected_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Selected Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "baseline_minor",
+          "ml_minor",
+          "selected_minor"
+        ],
+        "title": "ForecastDay"
+      },
+      "ForecastEvaluation": {
+        "properties": {
+          "train_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Train From"
+          },
+          "train_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Train To"
+          },
+          "validation_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Validation From"
+          },
+          "validation_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Validation To"
+          },
+          "test_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Test From"
+          },
+          "test_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Test To"
+          },
+          "baseline_method": {
+            "type": "string",
+            "enum": [
+              "rolling_mean_7",
+              "seasonal_naive_7"
+            ],
+            "title": "Baseline Method"
+          },
+          "ridge_alpha": {
+            "type": "number",
+            "title": "Ridge Alpha"
+          },
+          "validation_baseline": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "validation_ml": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "baseline": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "ml": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "test_winner": {
+            "type": "string",
+            "enum": [
+              "ml",
+              "baseline",
+              "tie"
+            ],
+            "title": "Test Winner"
+          },
+          "test_observations": {
+            "type": "integer",
+            "title": "Test Observations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "train_from",
+          "train_to",
+          "validation_from",
+          "validation_to",
+          "test_from",
+          "test_to",
+          "baseline_method",
+          "ridge_alpha",
+          "validation_baseline",
+          "validation_ml",
+          "baseline",
+          "ml",
+          "test_winner",
+          "test_observations"
+        ],
+        "title": "ForecastEvaluation"
+      },
+      "ForecastMetrics": {
+        "properties": {
+          "mae_minor": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Mae Minor"
+          },
+          "rmse_minor": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Rmse Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mae_minor",
+          "rmse_minor"
+        ],
+        "title": "ForecastMetrics"
+      },
+      "ForecastResponse": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "title": "As Of"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "insufficient_data",
+              "experimental"
+            ],
+            "title": "Status"
+          },
+          "model_version": {
+            "type": "string",
+            "const": "ridge-lags-v1",
+            "title": "Model Version"
+          },
+          "horizon": {
+            "type": "integer",
+            "enum": [
+              7,
+              30
+            ],
+            "title": "Horizon"
+          },
+          "currency": {
+            "type": "string",
+            "const": "KZT",
+            "title": "Currency"
+          },
+          "timezone": {
+            "type": "string",
+            "const": "Asia/Almaty",
+            "title": "Timezone"
+          },
+          "provenance": {
+            "type": "string",
+            "enum": [
+              "business_ledger",
+              "demo_business_ledger",
+              "synthetic_example"
+            ],
+            "title": "Provenance"
+          },
+          "dataset_sha256": {
+            "type": "string",
+            "title": "Dataset Sha256"
+          },
+          "observed_days": {
+            "type": "integer",
+            "title": "Observed Days"
+          },
+          "required_days": {
+            "type": "integer",
+            "title": "Required Days"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchDay"
+            },
+            "type": "array",
+            "title": "History"
+          },
+          "forecast": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastDay"
+            },
+            "type": "array",
+            "title": "Forecast"
+          },
+          "evaluation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ForecastEvaluation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "selected_method": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ridge-lags-v1",
+                  "rolling_mean_7",
+                  "seasonal_naive_7"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Method"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "as_of",
+          "status",
+          "model_version",
+          "horizon",
+          "currency",
+          "timezone",
+          "provenance",
+          "dataset_sha256",
+          "observed_days",
+          "required_days",
+          "history",
+          "forecast",
+          "evaluation",
+          "selected_method",
+          "warnings"
+        ],
+        "title": "ForecastResponse"
       },
       "HealthResponse": {
         "properties": {
@@ -6085,6 +7261,28 @@
           "description"
         ],
         "title": "RepaymentCreate"
+      },
+      "ResearchDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "sales_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Sales Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "sales_minor"
+        ],
+        "title": "ResearchDay"
       },
       "ReverseCreate": {
         "properties": {

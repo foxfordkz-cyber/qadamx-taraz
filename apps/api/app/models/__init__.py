@@ -9,6 +9,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     ForeignKeyConstraint,
+    Index,
     Integer,
     MetaData,
     String,
@@ -98,6 +99,26 @@ class Customer(Base):
     display_name: Mapped[str] = mapped_column(String(200))
     note: Mapped[str] = mapped_column(Text, default="")
     contact: Mapped[str | None] = mapped_column(String(200))
+
+
+class ResearchFeedback(Base):
+    __tablename__ = "research_feedback"
+    __table_args__ = (
+        UniqueConstraint(
+            "business_id", "created_by", "client_request_id", name="uq_research_feedback_request"
+        ),
+        Index("ix_research_feedback_owner_page", "business_id", "created_by", "id"),
+        CheckConstraint("payload @> jsonb_build_object('consent', true)", name="consent"),
+    )
+    id: Mapped[UUID] = mapped_column(Uuid, primary_key=True, default=uuid4)
+    business_id: Mapped[UUID] = mapped_column(ForeignKey("qadam.businesses.id"))
+    created_by: Mapped[UUID] = mapped_column(Uuid)
+    client_request_id: Mapped[UUID] = mapped_column(Uuid)
+    request_hash: Mapped[str] = mapped_column(String(64))
+    payload: Mapped[dict] = mapped_column(JSONB)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default=func.clock_timestamp()
+    )
 
 
 class CustomerCreationRequest(Base):
