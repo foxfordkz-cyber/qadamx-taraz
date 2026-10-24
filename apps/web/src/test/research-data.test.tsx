@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { QueryClient } from "@tanstack/react-query";
+import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import examples from "../../../../packages/contracts/research-examples.json";
 import { I18nProvider } from "../shared/i18n";
@@ -18,6 +19,33 @@ import {
 
 const business = "10000000-0000-4000-8000-000000000001";
 describe("research contract and isolation", () => {
+  it("preserves positive held-out errors smaller than a tiyn", () => {
+    const snapshot = demoForecast(business, 7);
+    snapshot.evaluation!.ml = { mae_minor: 0.25, rmse_minor: 0.375 };
+    render(
+      <I18nProvider>
+        <ForecastReport snapshot={snapshot} />
+      </I18nProvider>,
+    );
+    expect(screen.getByText("0,0025 ₸")).toBeVisible();
+    expect(screen.getByText("0,00375 ₸")).toBeVisible();
+  });
+  it("offers a read-only link to the existing customer's open sales", () => {
+    const snapshot = demoRisk(business);
+    render(
+      <MemoryRouter>
+        <I18nProvider>
+          <RiskReport snapshot={snapshot} allowNavigation />
+        </I18nProvider>
+      </MemoryRouter>,
+    );
+    expect(
+      screen.getByRole("link", { name: "Проверить открытые продажи" }),
+    ).toHaveAttribute(
+      "href",
+      `/seller/debts?customer_id=${snapshot.items[0].customer_id}`,
+    );
+  });
   it.each([7, 30] as const)(
     "reads reproducible %i-day Demo only with explicit provenance",
     (horizon) => {

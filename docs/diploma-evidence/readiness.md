@@ -11,6 +11,12 @@
 | Database | Additive Alembic 0009 + constraints/RLS/index, exercised on isolated PostgreSQL | Captain-approved shared rollout, backup/recovery and deletion procedures pending |
 | Scientific study | Protocol, real-data absence report and clearly synthetic reproducibility fixtures | Recruitment, real experiments, confidence analysis and findings pending |
 
+Follow-up: [end-to-end acceptance](end-to-end-acceptance.md) now verifies actual
+FastAPI/PostgreSQL through a browser, plus actual Supabase login against isolated
+local SQL. Feedback was persisted and reread, not merely mocked. The dataset is
+still synthetic and no real scientific findings are claimed. Hosted API remains
+0.7.2 without research routes; branch Preview is behind Vercel authentication.
+
 No manual deployments, real financial writes, AI requests or Supabase settings changes were
 performed. No additional runtime dependency or environment variable is required.
 The API version is additive 0.8.0; existing app endpoints/financial models remain.

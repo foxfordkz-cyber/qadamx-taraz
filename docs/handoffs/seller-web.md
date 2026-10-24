@@ -695,3 +695,39 @@ Vercel integration автоматически сообщила успешный 
 агент не запускал. Preview не проверялся с живым backend и не подтверждает rollout
 миграции или production-приёмку. Локальные результаты тестов остаются отдельными
 от этих GitHub/Vercel статусов.
+
+## 2026-10-24 — PR100: проверка от браузера до PostgreSQL
+
+Продолжение только в `feature/ml-sales-debt-research`, исходный HEAD29da962 совпал
+с remote; main2518b2e не изменился. [Полный отчёт и команды](../diploma-evidence/end-to-end-acceptance.md).
+Исправлены дробные MAE/RMSE меньше одного тиына; добавлена ссылка из правил риска
+на существующие открытые продажи клиента. Production Auth/ledger, backend-код,
+миграции и контракты в этом продолжении не изменялись.
+
+Новый `tests/research_browser_server.py` используется только для isolated E2E:
+подписанный тестовый JWT, настоящий FastAPI/SQL, запрет непустой/общей БД, никаких
+mock research-ответов. Новые `research-postgres.acceptance.ts` и config проверяют
+оба прогноза, SQL-суммы, потерю ответа после commit, повтор без дубля, consent422,
+подменённый JWT401, чужую точку404 и сохранность ledger.
+
+Результаты: 627 unit/component, 47 профильных backend, 44 общих E2E, 6 research
+fixture E2E и 3 HTTP/PostgreSQL E2E — все passed. Lint/typecheck/build/format/API
+checks прошли. Предыдущие ошибки запуска/SQL-верификатора и выбора точки после
+reload сохранены в отчёте; они не выдаются за успешные прогоны.
+
+Вручную через browser automation выполнен **настоящий Supabase login**, проверка
+7/30 и RU/KZ, риска400₸ и тестового отзыва: receipt совпал с SQL, одна строка с
+consent=true, текст прочитан после reload. Использованы только синтетические
+данные отдельной локальной PostgreSQL, не реальные записи production-точки.
+Сервер уже переведён на обычный `uvicorn app.main:app`, без test Auth маршрутов.
+
+Оставлены локальные API8320 и web4298: http://127.0.0.1:4298/seller/research.
+Игнорируемые apps/api/.env и apps/web/.env.local содержат только локальные/public
+настройки, не пароль/JWT. БД qadam_research_browser_20261024_manual_test — отдельная
+loopback55439. После reload выбрать QA history point заново: общий BusinessProvider
+не хранит выбор между reload. Unsaved feedback остаётся только в памяти вкладки.
+
+Hosted OpenAPI0.7.2 не имеет research endpoints; Vercel Preview перенаправляет на
+Vercel login. Доступ владельца/защита не обходились и не менялись. Shared migration,
+реальные merchant data и production-приёмка остаются отдельными зависимостями.
+Merge и production deploy не выполнялись; новые SHA будут добавлены после push.

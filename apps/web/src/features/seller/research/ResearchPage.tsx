@@ -32,6 +32,12 @@ import "./research.css";
 export function ForecastReport({ snapshot }: { snapshot: Forecast }) {
   const { locale, r } = useResearchText();
   const format = (value: number) => formatKZT(Math.round(value), locale);
+  // MAE/RMSE are averages and may be smaller than one tiyn; money's
+  // integer formatter would incorrectly turn a positive error into zero.
+  const formatMetric = (value: number) =>
+    `${new Intl.NumberFormat("ru-KZ", { maximumSignificantDigits: 6 })
+      .format(value / 100)
+      .replace(/[\u00a0\u202f]/g, " ")} ₸`;
   const method = (name: string | null) =>
     r(
       name === "ridge-lags-v1"
@@ -147,13 +153,13 @@ export function ForecastReport({ snapshot }: { snapshot: Forecast }) {
                   <tbody>
                     <tr>
                       <th>{method(evaluation.baseline_method)}</th>
-                      <td>{format(evaluation.baseline.mae_minor)}</td>
-                      <td>{format(evaluation.baseline.rmse_minor)}</td>
+                      <td>{formatMetric(evaluation.baseline.mae_minor)}</td>
+                      <td>{formatMetric(evaluation.baseline.rmse_minor)}</td>
                     </tr>
                     <tr>
                       <th>{r("ml")}</th>
-                      <td>{format(evaluation.ml.mae_minor)}</td>
-                      <td>{format(evaluation.ml.rmse_minor)}</td>
+                      <td>{formatMetric(evaluation.ml.mae_minor)}</td>
+                      <td>{formatMetric(evaluation.ml.rmse_minor)}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -225,7 +231,13 @@ export function ForecastReport({ snapshot }: { snapshot: Forecast }) {
   );
 }
 
-export function RiskReport({ snapshot }: { snapshot: Risk }) {
+export function RiskReport({
+  snapshot,
+  allowNavigation = false,
+}: {
+  snapshot: Risk;
+  allowNavigation?: boolean;
+}) {
   const { locale, r } = useResearchText();
   const factors: ResearchTextKey[] = [
     "open_sale_age_0_7",
@@ -271,6 +283,16 @@ export function RiskReport({ snapshot }: { snapshot: Risk }) {
                     <li key={f}>{r(f as ResearchTextKey)}</li>
                   ))}
               </ul>
+              {allowNavigation && (
+                <p>
+                  <Link
+                    to={`/seller/debts?customer_id=${encodeURIComponent(item.customer_id)}`}
+                  >
+                    {r("checkSales")}
+                  </Link>
+                  <span className="muted"> · {r("checkDebtHint")}</span>
+                </p>
+              )}
             </li>
           ))}
         </ul>
@@ -386,7 +408,7 @@ function ResearchScreen() {
                 retry={() => void risk.refetch()}
               />
             ) : (
-              <RiskReport snapshot={risk.data} />
+              <RiskReport snapshot={risk.data} allowNavigation={!auth.demo} />
             )}
             <div className="actions">
               {riskCursor && (

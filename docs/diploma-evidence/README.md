@@ -53,6 +53,8 @@ are synthetic engineering evidence, never user-research or predictive evidence.
 
 ## Evidence index
 
+- [Latest end-to-end acceptance: real API/PostgreSQL and Supabase browser login](end-to-end-acceptance.md).
+
 - [Architecture, data flow and database ER](architecture.md).
 - [Dataset provenance and preprocessing](dataset.md), [forecast method](forecast-method.md).
 - [Reproducible experiment protocol and comparison](../ml-evaluation-plan.md).

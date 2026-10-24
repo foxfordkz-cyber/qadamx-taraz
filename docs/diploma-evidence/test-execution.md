@@ -1,5 +1,10 @@
 # Test execution report — 2026-10-24
 
+Later in this session, the [end-to-end follow-up](end-to-end-acceptance.md) passed
+all 44 default E2E in one run, 6 research fixture E2E, 3 real HTTP/PostgreSQL E2E,
+627 unit/component and 47 focused backend tests. Actual Supabase login with local
+SQL was also inspected in browser. The original runs below remain historical.
+
 Branch: feature/ml-sales-debt-research. Base:
 2518b2e80b8c8ef881063a968645382d61aeb37e. Tested stage changes are recorded in
 [contributions](contributions.md); final code SHA is in seller-web handoff and Git.

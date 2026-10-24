@@ -65,3 +65,21 @@ git show --stat <stage-commit>
 Scientific contribution still pending: acquisition of eligible real data,
 consented participants, interpretation of real errors and feedback, independent
 replication/peer review. Synthetic test results do not satisfy those items.
+
+## End-to-end follow-up, 2026-10-24 (from 29da962)
+
+New work: fractional-tiyn metric formatting and a read-only customer-sales action
+in ResearchPage.tsx/i18n.ts; two component regressions; guarded local browser/SQL
+fixture `apps/api/tests/research_browser_server.py`; independent Playwright
+research-postgres config and three HTTP/SQL acceptance cases. No backend application,
+financial, Auth, migration or contract code changed. Documentation now records
+actual Supabase browser login with a local teaching DB, not just mocked UI tests.
+
+Test evidence: 627 unit/component, 47 focused backend, 44 default + 6 research
+fixture + 3 real HTTP/SQL E2E passed. New interactive/SQL screenshots and refreshed
+Demo captures have explicit provenance in end-to-end-acceptance.md. Actual merchant
+data and scientific/user-study results remain absent. This is AI-assisted work
+for the diploma author, not a claim of handwritten code or real study participants.
+
+Exact follow-up paths and commits: `git diff --name-status 29da962..HEAD` and
+`git log --oneline 29da962..HEAD`; publication SHA is recorded in seller handoff.
