@@ -164,6 +164,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/businesses/{id}/research/forecast": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Forecast */
+    get: operations["get_forecast_api_v1_businesses__id__research_forecast_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/businesses/{id}/drafts": {
     parameters: {
       query?: never;
@@ -872,6 +889,138 @@ export interface components {
        */
       request_id: string;
     };
+    /** ForecastDay */
+    ForecastDay: {
+      /**
+       * Date
+       * Format: date
+       */
+      date: string;
+      /** Baseline Minor */
+      baseline_minor: number;
+      /** Ml Minor */
+      ml_minor: number;
+      /** Selected Minor */
+      selected_minor: number;
+    };
+    /** ForecastEvaluation */
+    ForecastEvaluation: {
+      /**
+       * Train From
+       * Format: date
+       */
+      train_from: string;
+      /**
+       * Train To
+       * Format: date
+       */
+      train_to: string;
+      /**
+       * Validation From
+       * Format: date
+       */
+      validation_from: string;
+      /**
+       * Validation To
+       * Format: date
+       */
+      validation_to: string;
+      /**
+       * Test From
+       * Format: date
+       */
+      test_from: string;
+      /**
+       * Test To
+       * Format: date
+       */
+      test_to: string;
+      /**
+       * Baseline Method
+       * @enum {string}
+       */
+      baseline_method: "rolling_mean_7" | "seasonal_naive_7";
+      /** Ridge Alpha */
+      ridge_alpha: number;
+      validation_baseline: components["schemas"]["ForecastMetrics"];
+      validation_ml: components["schemas"]["ForecastMetrics"];
+      baseline: components["schemas"]["ForecastMetrics"];
+      ml: components["schemas"]["ForecastMetrics"];
+      /**
+       * Test Winner
+       * @enum {string}
+       */
+      test_winner: "ml" | "baseline" | "tie";
+      /** Test Observations */
+      test_observations: number;
+    };
+    /** ForecastMetrics */
+    ForecastMetrics: {
+      /** Mae Minor */
+      mae_minor: number;
+      /** Rmse Minor */
+      rmse_minor: number;
+    };
+    /** ForecastResponse */
+    ForecastResponse: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /**
+       * As Of
+       * Format: date-time
+       */
+      as_of: string;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "insufficient_data" | "experimental";
+      /**
+       * Model Version
+       * @constant
+       */
+      model_version: "ridge-lags-v1";
+      /**
+       * Horizon
+       * @enum {integer}
+       */
+      horizon: 7 | 30;
+      /**
+       * Currency
+       * @constant
+       */
+      currency: "KZT";
+      /**
+       * Timezone
+       * @constant
+       */
+      timezone: "Asia/Almaty";
+      /**
+       * Provenance
+       * @enum {string}
+       */
+      provenance: "business_ledger" | "demo_business_ledger";
+      /** Dataset Sha256 */
+      dataset_sha256: string;
+      /** Observed Days */
+      observed_days: number;
+      /** Required Days */
+      required_days: number;
+      /** History */
+      history: components["schemas"]["ResearchDay"][];
+      /** Forecast */
+      forecast: components["schemas"]["ForecastDay"][];
+      evaluation: components["schemas"]["ForecastEvaluation"] | null;
+      /** Selected Method */
+      selected_method:
+        | ("ridge-lags-v1" | "rolling_mean_7" | "seasonal_naive_7")
+        | null;
+      /** Warnings */
+      warnings: string[];
+    };
     /** HealthResponse */
     HealthResponse: {
       /**
@@ -1406,6 +1555,16 @@ export interface components {
       amount_minor: number;
       /** Description */
       description: string;
+    };
+    /** ResearchDay */
+    ResearchDay: {
+      /**
+       * Date
+       * Format: date
+       */
+      date: string;
+      /** Sales Minor */
+      sales_minor: number;
     };
     /** ReverseCreate */
     ReverseCreate: {
@@ -2248,6 +2407,75 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["AnalyticsResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_forecast_api_v1_businesses__id__research_forecast_get: {
+    parameters: {
+      query?: {
+        horizon?: 7 | 30;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ForecastResponse"];
         };
       };
       /** @description Unauthorized */

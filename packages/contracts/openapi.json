@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.7.2"
+    "version": "0.8.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -1193,6 +1193,108 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AnalyticsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/research/forecast": {
+      "get": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Get Forecast",
+        "operationId": "get_forecast_api_v1_businesses__id__research_forecast_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "horizon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "enum": [
+                7,
+                30
+              ],
+              "default": 7,
+              "title": "Horizon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForecastResponse"
                 }
               }
             }
@@ -4672,6 +4774,286 @@
         ],
         "title": "ErrorResponse"
       },
+      "ForecastDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "baseline_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Baseline Minor"
+          },
+          "ml_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Ml Minor"
+          },
+          "selected_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Selected Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "baseline_minor",
+          "ml_minor",
+          "selected_minor"
+        ],
+        "title": "ForecastDay"
+      },
+      "ForecastEvaluation": {
+        "properties": {
+          "train_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Train From"
+          },
+          "train_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Train To"
+          },
+          "validation_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Validation From"
+          },
+          "validation_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Validation To"
+          },
+          "test_from": {
+            "type": "string",
+            "format": "date",
+            "title": "Test From"
+          },
+          "test_to": {
+            "type": "string",
+            "format": "date",
+            "title": "Test To"
+          },
+          "baseline_method": {
+            "type": "string",
+            "enum": [
+              "rolling_mean_7",
+              "seasonal_naive_7"
+            ],
+            "title": "Baseline Method"
+          },
+          "ridge_alpha": {
+            "type": "number",
+            "title": "Ridge Alpha"
+          },
+          "validation_baseline": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "validation_ml": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "baseline": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "ml": {
+            "$ref": "#/components/schemas/ForecastMetrics"
+          },
+          "test_winner": {
+            "type": "string",
+            "enum": [
+              "ml",
+              "baseline",
+              "tie"
+            ],
+            "title": "Test Winner"
+          },
+          "test_observations": {
+            "type": "integer",
+            "title": "Test Observations"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "train_from",
+          "train_to",
+          "validation_from",
+          "validation_to",
+          "test_from",
+          "test_to",
+          "baseline_method",
+          "ridge_alpha",
+          "validation_baseline",
+          "validation_ml",
+          "baseline",
+          "ml",
+          "test_winner",
+          "test_observations"
+        ],
+        "title": "ForecastEvaluation"
+      },
+      "ForecastMetrics": {
+        "properties": {
+          "mae_minor": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Mae Minor"
+          },
+          "rmse_minor": {
+            "type": "number",
+            "minimum": 0.0,
+            "title": "Rmse Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "mae_minor",
+          "rmse_minor"
+        ],
+        "title": "ForecastMetrics"
+      },
+      "ForecastResponse": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "title": "As Of"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "insufficient_data",
+              "experimental"
+            ],
+            "title": "Status"
+          },
+          "model_version": {
+            "type": "string",
+            "const": "ridge-lags-v1",
+            "title": "Model Version"
+          },
+          "horizon": {
+            "type": "integer",
+            "enum": [
+              7,
+              30
+            ],
+            "title": "Horizon"
+          },
+          "currency": {
+            "type": "string",
+            "const": "KZT",
+            "title": "Currency"
+          },
+          "timezone": {
+            "type": "string",
+            "const": "Asia/Almaty",
+            "title": "Timezone"
+          },
+          "provenance": {
+            "type": "string",
+            "enum": [
+              "business_ledger",
+              "demo_business_ledger"
+            ],
+            "title": "Provenance"
+          },
+          "dataset_sha256": {
+            "type": "string",
+            "title": "Dataset Sha256"
+          },
+          "observed_days": {
+            "type": "integer",
+            "title": "Observed Days"
+          },
+          "required_days": {
+            "type": "integer",
+            "title": "Required Days"
+          },
+          "history": {
+            "items": {
+              "$ref": "#/components/schemas/ResearchDay"
+            },
+            "type": "array",
+            "title": "History"
+          },
+          "forecast": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastDay"
+            },
+            "type": "array",
+            "title": "Forecast"
+          },
+          "evaluation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ForecastEvaluation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "selected_method": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ridge-lags-v1",
+                  "rolling_mean_7",
+                  "seasonal_naive_7"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Selected Method"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Warnings"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "as_of",
+          "status",
+          "model_version",
+          "horizon",
+          "currency",
+          "timezone",
+          "provenance",
+          "dataset_sha256",
+          "observed_days",
+          "required_days",
+          "history",
+          "forecast",
+          "evaluation",
+          "selected_method",
+          "warnings"
+        ],
+        "title": "ForecastResponse"
+      },
       "HealthResponse": {
         "properties": {
           "status": {
@@ -6085,6 +6467,28 @@
           "description"
         ],
         "title": "RepaymentCreate"
+      },
+      "ResearchDay": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "title": "Date"
+          },
+          "sales_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Sales Minor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "date",
+          "sales_minor"
+        ],
+        "title": "ResearchDay"
       },
       "ReverseCreate": {
         "properties": {

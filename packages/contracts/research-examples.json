@@ -1,0 +1,24 @@
+{
+  "note": "Synthetic contract examples, not scientific results",
+  "ForecastInsufficient": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "as_of": "2026-10-24T10:00:00Z",
+    "status": "insufficient_data",
+    "model_version": "ridge-lags-v1",
+    "horizon": 7,
+    "currency": "KZT",
+    "timezone": "Asia/Almaty",
+    "provenance": "demo_business_ledger",
+    "dataset_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "observed_days": 0,
+    "required_days": 98,
+    "history": [],
+    "forecast": [],
+    "evaluation": null,
+    "selected_method": null,
+    "warnings": [
+      "recorded_sales_only",
+      "experimental_not_guaranteed"
+    ]
+  }
+}

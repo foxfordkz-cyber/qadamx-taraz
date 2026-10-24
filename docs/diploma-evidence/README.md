@@ -57,3 +57,23 @@ The completed stages will add architecture/ER diagrams, methodology, dataset
 description, experiment status, test execution report and capture instructions here.
 Real research findings remain **pending** until consented responses and eligible
 historical observations exist.
+
+## Stage 2 — forecast service
+
+Added `app/services/forecasting.py`, scoped `research` service/routes/schemas,
+contract examples, reproducible `app.evaluate_research` CLI and forecast tests.
+Existing endpoints are preserved; API 0.8.0 adds `/businesses/{id}/research/forecast`.
+OpenAPI and generated TypeScript were regenerated with the existing commands.
+No dependency was added. [Method and dataset definition](forecast-method.md).
+
+Checks: **17/17 pytest** (13 calculation tests + 4 tests against isolated PostgreSQL
+17.11 on localhost:55439), scoped ruff, contract export/check and web generate/check
+passed. Tests cover local midnight, day-close reversal behavior, empty/missing
+data, tenant 401/404, 7/30 evaluation and reproducibility. The first DB test attempt
+failed because database creation had not completed; after creating the empty
+dedicated `qadam_diploma_test`, all passed. No production database was accessed.
+Python/uv and npm dependencies installed from lock files in this worktree.
+
+`synthetic-forecast-7.json` / `synthetic-forecast-30.json` are deterministic
+engineering results only. `real-data-status.json` reports `insufficient_data`:
+no real eligible dataset was supplied. UI integration follows in stage 5.
