@@ -181,6 +181,23 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/businesses/{id}/research/debt-risk": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Debt Risk */
+    get: operations["get_debt_risk_api_v1_businesses__id__research_debt_risk_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/businesses/{id}/drafts": {
     parameters: {
       query?: never;
@@ -830,6 +847,78 @@ export interface components {
       business_id: string;
       /** Balance Minor */
       balance_minor: number;
+    };
+    /** DebtRiskItem */
+    DebtRiskItem: {
+      /**
+       * Customer Id
+       * Format: uuid
+       */
+      customer_id: string;
+      /** Display Name */
+      display_name: string;
+      /** Balance Minor */
+      balance_minor: number;
+      /** Initial Debt Minor */
+      initial_debt_minor: number;
+      /** Later Paid Minor */
+      later_paid_minor: number;
+      /** Oldest Open Sale Days */
+      oldest_open_sale_days: number;
+      /** Open Sales */
+      open_sales: number;
+      /** Score */
+      score: number;
+      /**
+       * Category
+       * @enum {string}
+       */
+      category: "low" | "medium" | "high";
+      /** Factors */
+      factors: string[];
+    };
+    /** DebtRiskResponse */
+    DebtRiskResponse: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /**
+       * As Of
+       * Format: date-time
+       */
+      as_of: string;
+      /**
+       * Method
+       * @default rules-v1
+       * @constant
+       */
+      method: "rules-v1";
+      /**
+       * Supervised Status
+       * @default insufficient_data
+       * @constant
+       */
+      supervised_status: "insufficient_data";
+      /**
+       * Overdue Status
+       * @default unknown_no_due_dates
+       * @constant
+       */
+      overdue_status: "unknown_no_due_dates";
+      /** Outcome Metrics */
+      outcome_metrics?: null;
+      /**
+       * Currency
+       * @default KZT
+       * @constant
+       */
+      currency: "KZT";
+      /** Items */
+      items: components["schemas"]["DebtRiskItem"][];
+      /** Next Cursor */
+      next_cursor: string | null;
     };
     /** DraftResponse */
     DraftResponse: {
@@ -2476,6 +2565,76 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["ForecastResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_debt_risk_api_v1_businesses__id__research_debt_risk_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DebtRiskResponse"];
         };
       };
       /** @description Unauthorized */

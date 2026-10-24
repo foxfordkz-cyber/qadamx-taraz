@@ -1352,6 +1352,123 @@
         }
       }
     },
+    "/api/v1/businesses/{id}/research/debt-risk": {
+      "get": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Get Debt Risk",
+        "operationId": "get_debt_risk_api_v1_businesses__id__research_debt_risk_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebtRiskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/businesses/{id}/drafts": {
       "post": {
         "tags": [
@@ -4590,6 +4707,154 @@
           "balance_minor"
         ],
         "title": "CustomerResponse"
+      },
+      "DebtRiskItem": {
+        "properties": {
+          "customer_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Customer Id"
+          },
+          "display_name": {
+            "type": "string",
+            "title": "Display Name"
+          },
+          "balance_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Balance Minor"
+          },
+          "initial_debt_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Initial Debt Minor"
+          },
+          "later_paid_minor": {
+            "type": "integer",
+            "maximum": 9007199254740991.0,
+            "minimum": 0.0,
+            "title": "Later Paid Minor"
+          },
+          "oldest_open_sale_days": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Oldest Open Sale Days"
+          },
+          "open_sales": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Open Sales"
+          },
+          "score": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Score"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Category"
+          },
+          "factors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Factors"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "customer_id",
+          "display_name",
+          "balance_minor",
+          "initial_debt_minor",
+          "later_paid_minor",
+          "oldest_open_sale_days",
+          "open_sales",
+          "score",
+          "category",
+          "factors"
+        ],
+        "title": "DebtRiskItem"
+      },
+      "DebtRiskResponse": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "title": "As Of"
+          },
+          "method": {
+            "type": "string",
+            "const": "rules-v1",
+            "title": "Method",
+            "default": "rules-v1"
+          },
+          "supervised_status": {
+            "type": "string",
+            "const": "insufficient_data",
+            "title": "Supervised Status",
+            "default": "insufficient_data"
+          },
+          "overdue_status": {
+            "type": "string",
+            "const": "unknown_no_due_dates",
+            "title": "Overdue Status",
+            "default": "unknown_no_due_dates"
+          },
+          "outcome_metrics": {
+            "type": "null",
+            "title": "Outcome Metrics"
+          },
+          "currency": {
+            "type": "string",
+            "const": "KZT",
+            "title": "Currency",
+            "default": "KZT"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DebtRiskItem"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "as_of",
+          "items",
+          "next_cursor"
+        ],
+        "title": "DebtRiskResponse"
       },
       "DraftResponse": {
         "additionalProperties": false,

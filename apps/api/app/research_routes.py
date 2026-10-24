@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Query, Response
 
 from app.errors import APIError
-from app.research_schemas import ForecastResponse
+from app.research_schemas import DebtRiskResponse, ForecastResponse
 from app.routers import DB, User
 from app.services import ledger, research
 
@@ -24,3 +24,17 @@ def get_forecast(
         raise APIError(422, "VALIDATION_ERROR", "horizon must be 7 or 30")
     response.headers["Cache-Control"] = "no-store"
     return research.forecast(db, id, horizon)
+
+
+@router.get("/debt-risk", response_model=DebtRiskResponse)
+def get_debt_risk(
+    id: UUID,
+    db: DB,
+    user: User,
+    response: Response,
+    limit: Annotated[int, Query(ge=1, le=100)] = 25,
+    cursor: UUID | None = None,
+):
+    ledger.require_membership(db, id, user)
+    response.headers["Cache-Control"] = "no-store"
+    return research.debt_risk(db, id, limit, cursor)

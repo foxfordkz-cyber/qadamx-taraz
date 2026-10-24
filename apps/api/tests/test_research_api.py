@@ -32,14 +32,14 @@ def sale(api, when, amount=10000, paid=10000, *, business=None, customer=None):
     return ident
 
 
-def reversal(api, sale_id, when, amount=10000, paid=10000):
+def reversal(api, sale_id, when, amount=10000, paid=10000, parent=None):
     with Session(api["engine"]) as db:
         db.add(
             Operation(
                 id=uuid4(),
                 business_id=api["business"],
                 customer_id=api["customer"],
-                sale_id=sale_id,
+                sale_id=parent or sale_id,
                 kind="reversal",
                 sales_delta_minor=-amount,
                 receipts_delta_minor=-paid,
@@ -112,3 +112,61 @@ def test_forecast_real_postgres_evaluation_is_reproducible(ledger_api):
     assert first.provenance == "demo_business_ledger"
     assert first.evaluation.test_observations == 30
     assert len(first.forecast) == 30
+
+
+def test_risk_uses_net_payments_and_distinguishes_rules_from_ml(ledger_api):
+    api = ledger_api
+    ident = sale(api, NOW - timedelta(days=31), 10000, 5000)
+    sale(api, NOW, 99999, 0, business=api["other"], customer=api["other_customer"])
+    with Session(api["engine"]) as db:
+        report = research.debt_risk(db, api["business"], as_of=NOW)
+        assert report.method == "rules-v1" and report.outcome_metrics is None
+        assert report.supervised_status == "insufficient_data"
+        assert report.overdue_status == "unknown_no_due_dates"
+        assert len(report.items) == 1 and report.items[0].balance_minor == 5000
+        assert report.items[0].score == 80
+    payment = uuid4()
+    with Session(api["engine"]) as db:
+        db.add(
+            Operation(
+                id=payment,
+                business_id=api["business"],
+                customer_id=api["customer"],
+                sale_id=ident,
+                kind="repayment",
+                sales_delta_minor=0,
+                receipts_delta_minor=4000,
+                created_at=NOW,
+                created_by=api["owner_a"],
+                description="Synthetic repayment",
+            )
+        )
+        db.commit()
+        report = research.debt_risk(db, api["business"], as_of=NOW)
+        assert report.items[0].balance_minor == 1000
+        assert report.items[0].later_paid_minor == 4000
+        assert report.items[0].score == 50
+    reversal(api, payment, NOW, amount=0, paid=4000, parent=ident)
+    with Session(api["engine"]) as db:
+        assert research.debt_risk(db, api["business"], as_of=NOW).items[0].score == 80
+
+
+def test_risk_route_and_bounded_pagination(ledger_api):
+    from app.models import Customer
+
+    api = ledger_api
+    for _ in range(3):
+        customer = uuid4()
+        with Session(api["engine"]) as db:
+            db.add(Customer(id=customer, business_id=api["business"], display_name="Synthetic"))
+            db.commit()
+        sale(api, NOW - timedelta(days=1), 100, 0, customer=customer)
+    path = f"/api/v1/businesses/{api['business']}/research/debt-risk"
+    assert api["client"].get(path).status_code == 401
+    assert api["client"].get(path, headers=api["b"]).status_code == 404
+    first = api["client"].get(path + "?limit=2", headers=api["a"])
+    assert first.status_code == 200 and first.headers["cache-control"] == "no-store"
+    body = first.json()
+    second = api["client"].get(path + "?limit=2&cursor=" + body["next_cursor"], headers=api["a"])
+    assert len(second.json()["items"]) == 1 and second.json()["next_cursor"] is None
+    assert api["client"].get(path + "?limit=101", headers=api["a"]).status_code == 422

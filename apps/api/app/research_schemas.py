@@ -60,3 +60,28 @@ class ForecastResponse(Contract):
     evaluation: ForecastEvaluation | None
     selected_method: Literal["ridge-lags-v1", "rolling_mean_7", "seasonal_naive_7"] | None
     warnings: list[str]
+
+
+class DebtRiskItem(Contract):
+    customer_id: UUID
+    display_name: str
+    balance_minor: ResearchAmount
+    initial_debt_minor: ResearchAmount
+    later_paid_minor: ResearchAmount
+    oldest_open_sale_days: Annotated[int, Field(ge=0)]
+    open_sales: Annotated[int, Field(ge=1)]
+    score: Annotated[int, Field(ge=0, le=100)]
+    category: Literal["low", "medium", "high"]
+    factors: list[str]
+
+
+class DebtRiskResponse(Contract):
+    business_id: UUID
+    as_of: AwareDatetime
+    method: Literal["rules-v1"] = "rules-v1"
+    supervised_status: Literal["insufficient_data"] = "insufficient_data"
+    overdue_status: Literal["unknown_no_due_dates"] = "unknown_no_due_dates"
+    outcome_metrics: None = None
+    currency: Literal["KZT"] = "KZT"
+    items: list[DebtRiskItem]
+    next_cursor: UUID | None

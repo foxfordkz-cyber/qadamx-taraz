@@ -20,5 +20,16 @@
       "recorded_sales_only",
       "experimental_not_guaranteed"
     ]
+  },
+  "DebtRiskEmpty": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "as_of": "2026-10-24T10:00:00Z",
+    "method": "rules-v1",
+    "supervised_status": "insufficient_data",
+    "overdue_status": "unknown_no_due_dates",
+    "outcome_metrics": null,
+    "currency": "KZT",
+    "items": [],
+    "next_cursor": null
   }
 }

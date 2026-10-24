@@ -77,3 +77,19 @@ Python/uv and npm dependencies installed from lock files in this worktree.
 `synthetic-forecast-7.json` / `synthetic-forecast-30.json` are deterministic
 engineering results only. `real-data-status.json` reports `insufficient_data`:
 no real eligible dataset was supplied. UI integration follows in stage 5.
+
+## Stage 3 — debt review priority
+
+Added `app/services/debt_risk.py` and paged `/research/debt-risk`; it reads the
+current net journal including reversed repayments. Factors: oldest open-sale age,
+remaining share of initial credit, observed net later payments on those open sales.
+Age 8–30 adds 25; age 31+ adds 50; at least half unpaid adds 20; no net later
+payment adds 10. Low <30, medium 30–59, high >=60. These are explicit prototype
+rules, not learned weights, overdue labels, credit eligibility or probabilities.
+No actions or balances are changed. Due dates/outcomes are absent, so supervised
+status is `insufficient_data` and classification metrics are null.
+
+Checks: **18/18 pytest** (12 rule boundaries/invalid facts + 6 PostgreSQL research
+tests), scoped ruff and generated contract checks passed. Includes paid/reversed
+payment balances, paging, authentication and cross-business denial. Stage 2 commit:
+`6bdaeb6`; stage 1: `8804795`. UI integration follows in stage 5.
