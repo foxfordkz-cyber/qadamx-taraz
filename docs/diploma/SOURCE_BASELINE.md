@@ -27,3 +27,7 @@
 Candidate-де forecast/risk/feedback **код бар**; main-да жоқ.25pure tests current run өтті; candidate DB/API/frontend integration тексерілмеді. FeedbackForm standalone, App/router wiring табылмады. Forecast/risk frontend route табылмады. Current assistant main/candidate byte-equivalent,Stage1gap бар. Осыны ескермей S3–S5 нөлден жазу duplication болар еді.
 
 `docs/diploma` бастапқыда жоқ; main-нан `docs/diploma-research-workspace` local branch ашылды. App code edit/merge/commit/push/deploy/DB migration жасалмайды. Exact application file hashes және prior-audit hashes `evidence/baseline_comparison.json`; final source guard root verification-да. University PDF/capture source provenance manifest арқылы бақыланады.
+
+## Stage1 implementation update — 24.10.2026
+
+Local implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1`,frozen42comparison және final318backend/57web checks бар. [Actual implementation report](04_Implementation_Evidence/stage1_implementation_report.md). Бұрынғы «planned/not implemented» мәтін бастапқы planning snapshot;жаңа report current Stage1 күйін береді. RealDB/liveAI,student attribution және later stages әлі pending.

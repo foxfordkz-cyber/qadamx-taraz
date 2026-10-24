@@ -1,0 +1,30 @@
+[
+  {
+    "id": "api-types",
+    "command": "node scripts/generate-api.mjs --check",
+    "exit_code": 0,
+    "seconds": 5,
+    "log": "stage1-web-api-types.log"
+  },
+  {
+    "id": "typecheck",
+    "command": "node node_modules/typescript/bin/tsc -b",
+    "exit_code": 0,
+    "seconds": 34.33,
+    "log": "stage1-web-typecheck.log"
+  },
+  {
+    "id": "lint",
+    "command": "node node_modules/eslint/bin/eslint.js . --max-warnings 0",
+    "exit_code": 0,
+    "seconds": 45.12,
+    "log": "stage1-web-lint.log"
+  },
+  {
+    "id": "assistant-web-tests",
+    "command": "node node_modules/vitest/vitest.mjs run src/test/assistant.test.tsx src/test/whatsapp-components.test.tsx src/test/whatsapp.test.ts --maxWorkers=2",
+    "exit_code": 0,
+    "seconds": 60.79,
+    "log": "stage1-web-assistant-web-tests.log"
+  }
+]

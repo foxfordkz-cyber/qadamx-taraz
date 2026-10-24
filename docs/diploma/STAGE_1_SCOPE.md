@@ -5,6 +5,8 @@
 **Нұсқа күні:** 24.10.2026. Негізгі source: `main@2518b2e80b8c`. Зерттеу кандидаты: `feature/ml-sales-debt-research@b7c4750b158a`. Ресми жұмыс/жоба жіктелімі расталмаған.
 
 
+> Бұл бастапқы planning scope. Current implementation report: [Stage1 result](04_Implementation_Evidence/stage1_implementation_report.md).
+
 ## Нақты проблема және baseline
 
 [`apps/api/app/services/assistant.py:199`](https://github.com/foxfordkz-cyber/qadamx-taraz/blob/2518b2e80b8c8ef881063a968645382d61aeb37e/apps/api/app/services/assistant.py#L199) жауаптағы сандардың facts set-ке кіруін тексереді, бірақ олардың metric/customer байланысын толық бекітпейді. Main/candidate implementation бірдей. Pilot4deliberately-invalid cases ішіндегі invented name,wrong metric value,wrong debtor amount өтті;new unsupported number rejected. Бұл counterexample detection, representative accuracy емес.
@@ -45,3 +47,7 @@ Current және v2 per-case accept/reject/reason бірге жазылады; m
 ## Rollback және scope completion
 
 AI wording feature-ін disable етіп server facts/fallback-қа қайту; unsafe legacy prose-ге үнсіз қайтпау. DB rollback/migration жоқ. Stage1 осы жерде **жоспарланды,іске асырылмады**. Келесі coding session осы scope бойынша бөлек commit/PR және captain review жасайды;main-ға тікелей merge жасалмайды.
+
+## Stage1 implementation update — 24.10.2026
+
+Local implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1`,frozen42comparison және final318backend/57web checks бар. [Actual implementation report](04_Implementation_Evidence/stage1_implementation_report.md). Бұрынғы «planned/not implemented» мәтін бастапқы planning snapshot;жаңа report current Stage1 күйін береді. RealDB/liveAI,student attribution және later stages әлі pending.

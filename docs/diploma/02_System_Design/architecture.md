@@ -206,3 +206,7 @@ flowchart TD
   Numbers -->|Иә| Result[Model prose, source=ai]
   Result --> Gap[Шектеу: metric-value және free-text name binding толық тексерілмейді]
 ```
+
+## Stage1 local overlay
+
+[08 improved validation](diagrams/08_improved_ai_validation.mmd) implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1` үшін. Main/candidate source links historicalbaseline болып қалады;current privateprotocol ID-only,server rendering.

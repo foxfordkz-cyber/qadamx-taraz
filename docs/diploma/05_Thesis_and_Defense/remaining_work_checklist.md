@@ -7,7 +7,7 @@
 
 - [ ] Official work/project classification және9.1/9.14/page/caption/assignment/abstract ambiguities жазбаша нақтылансын.
 - [ ] Студент identity/жеке үлесі/teammate және supervisor растауы;AI assistance disclosure.
-- [ ] Stage1 structured fact/entity validator implement;finite locked regression/current-v2 evidence.
+- [x] Stage1 code және frozen42/current-v2 engineering evidence:implementation 6ac5266abddffa7f1278d403ece55cc3eba457a1;realDB/liveAI жәнеstudent verification бөлек ашық.
 - [ ] Consented multilingual gold corpus/audio;independent labels;live extraction actual observations.
 - [ ] Candidate source review:solver reference,chronological integrity,recording completeness;authorized history if available.
 - [ ] Candidate debt rules wording;no outcome labels болса supervised branch blocked қалсын.

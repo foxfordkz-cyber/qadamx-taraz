@@ -204,7 +204,7 @@
 | Code/UI evidence | Current assistant.py; STAGE_1_SCOPE; draft routes |
 | Формула | Strict fact-value equality per snapshot; no free amount synthesis |
 | Күтілетін қорытындының шекарасы | S1 design current failure class-ін нысанаға алады |
-| Жетіспейтін ақпарат | v2 code not implemented; public compatibility suite needs execution |
+| Жетіспейтін ақпарат | Stage1 code implemented/contract tests passed; isolated DB and live provider still pending |
 
 ## Мазмұн беттері 29–30 — 2.7 Forecast/risk кеңейтімінің дизайны
 
@@ -285,10 +285,10 @@
 | Ғылыми/техникалық references | L10,L19; EXP-B protocol |
 | Кесте атауы және міндетті бағандар | Current vs v2 — case,gold,mutation,current,v2,reason |
 | Сурет атауы және элементтер | Error-class bar chart only after balanced measured run |
-| Code/UI evidence | 4-case raw JSONL; S1 future regression artifacts |
+| Code/UI evidence | 4-case pilot +frozen42 paired CSV/JSONL;implementation 6ac5266abddffa7f1278d403ece55cc3eba457a1 |
 | Формула | FAR,FRR,P,R,F1 if denominators meaningful |
 | Күтілетін қорытындының шекарасы | Current numeric check шектеуі бар; v2 superiority тек іске асқаннан кейін |
-| Жетіспейтін ақпарат | v2 және valid controls absent; no final comparative metric |
+| Жетіспейтін ақпарат | Stage1 frozen18valid/24invalid completed;actual paired metrics available;live relevance/generalization absent |
 
 ## Мазмұн беттері 41–42 — 3.5 Functional/integration verification
 
@@ -359,3 +359,7 @@
 | Формула | Жаңа метрика/дерек енгізілмейді |
 | Күтілетін қорытындының шекарасы | Қорытынды student independent analysis негізінде жазылады |
 | Жетіспейтін ақпарат | Көптеген scientific results әлі жиналмаған; final text осы жерде жасалмайды |
+
+## Stage1 evidence update
+
+27–28/39–42мазмұн беттеріне енді [actualStage1 report](../04_Implementation_Evidence/stage1_implementation_report.md) және [finite paired comparison](../03_Datasets_and_Experiments/stage1_experiment_results.md) бар. V2implementation/validcontrols missing деген ескі planning remarks осы scope үшін жабылды. Live relevance,real DB,student interpretation open.50contentpages conditional classification өзгермеді.

@@ -5,13 +5,13 @@
 **Нұсқа күні:** 24.10.2026. Негізгі source: `main@2518b2e80b8c`. Зерттеу кандидаты: `feature/ml-sales-debt-research@b7c4750b158a`. Ресми жұмыс/жоба жіктелімі расталмаған.
 
 
-Кезеңдер кейінгі coding жұмысына арналған; осы пакетте application code өзгертілмейді. S3–S5 In progress — бұрынғы candidate code бар болғандықтан; осы docs stage implementation completion емес. S1 басым,себебі current assistant semantic association gap code+counterexample арқылы расталған.
+Бастапқы roadmap кейінгі coding жұмысына арналған. Stage1 local code-та іске асырылып, тексерілді; S2–S6 кейінгі жұмыс болып қалады. S3–S5 In progress — бұрынғы candidate code бар болғандықтан; бастапқы docs stage implementation completion емес. S1 басым,себебі current assistant semantic association gap code+counterexample арқылы расталған.
 
 ## S1 — AI factual validation improvements (P1)
 
 | Өріс | Нақты scope |
 |---|---|
-| Күй | Not started |
+| Күй | Tested |
 | Тәуелділік | main baseline frozen; current/candidate assistant byte-equivalent; EXP-B pilot |
 | Repository modules (apps/api prefix unless web) | apps/api/app/services/assistant.py; proposed apps/api/app/services/assistant_structured.py; apps/api/tests/test_assistant.py; proposed apps/api/tests/test_assistant_semantics.py |
 | Implementation tasks | Fact/entity keyed internal claim schema; server-only rendering; fail-closed fallback; public AssistantResponse сақтау |
@@ -21,6 +21,9 @@
 | Acceptance | Locked invalid binding suite-де false acceptance0; valid controls false rejection0; public schema unchanged; no new money writes |
 | Risks | Еркін model prose ішіндегі hidden factual claim; display rounding; incomplete facts |
 | Rollback | AI wording-ті өшіру/сервер facts fallback; schema/data migration жоқ. Legacy unsafe prose-ге үнсіз қайтпау |
+
+
+Stage1 implementation 6ac5266abddffa7f1278d403ece55cc3eba457a1;frozen42target passed;realDB/liveAI/production rollout бөлек.
 
 ## S2 — Reproducible AI extraction evaluation (P2)
 

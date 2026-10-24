@@ -15,3 +15,5 @@
 | B07 P1 | Official classification / page plan / contribution | Supervisor/department response | Written decisions mapped to R IDs and student ownership | S6 |
 | B08 P2 | Additional literature and actual citation mapping | Read authoritative sources | ≥30 genuinely used, not metadata count | S6 |
 | B09 P2 | Final screenshots / demo / scientific interpretation | Accepted code + actual runs | Every displayed result traceable; limitations shown | S6 |
+
+Stage1 B01 local code/test gate орындалды (`6ac5266abddffa7f1278d403ece55cc3eba457a1`);student/realDB/liveAI review бөлек. B02 жәнеlater-stage items ашық.

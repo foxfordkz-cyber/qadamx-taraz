@@ -44,3 +44,7 @@ H-D2 тек сенімді outcome label пайда болғанда: anchor cur
 ## Owner research — келесі кезеңнің хаттамасы
 
 Ұсыныс5–10 convenience-sample owner,15–20мин formative session; нақты recruited N=0. Тапсырмалар: partial sale, repayment, voice correction/confirmation, forecast unavailable/experimental state, rule explanation. Consent/contact/private storage/deletion жауаптысы тағайындалмай басталмайды. Candidate feedback API account-linked; 1–5 рейтинг means inferential efficacy емес. Transcript/қатысушы пікірі ойдан толтырылмайды. Қатысу/withdrawal, task outcome, final financial error, confusions және sample bias бөлек тіркеледі.
+
+## B — completed finite engineering comparison
+
+[Stage1 actual results](stage1_experiment_results.md):18valid/24invalid,frozen before implementation,paired encodings;newFP0/FN0. Original pilot сақталды. Live-model relevance/generalization тексерілмеді.

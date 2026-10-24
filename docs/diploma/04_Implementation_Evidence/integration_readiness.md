@@ -15,3 +15,7 @@
 | Docs | Бұл пакет modular traceability береді | Student independent review; official classification/author split/source reading |
 
 Research candidate бұрын жасалған код болғандықтан S3–S5 «нөлден implement» емес, review/test/integrate ретінде жоспарланады. No merge/deployment/DB change осы кезеңде жасалмады. Main baseline-нан docs branch ғана ашылды; application source hash guard тексеріледі. Candidate migration0009 бұл жерде applied емес. Public API schema changes captain-approved separate implementation шағында ғана.
+
+## Stage1 local readiness
+
+Structured validator implemented,tested318backend/57web;contractstable. RealDB/liveAI integration жәнеcaptain review әлі қажет. Stage3–5candidate өзгертілмеді.

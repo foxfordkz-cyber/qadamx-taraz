@@ -13,3 +13,7 @@
 `evidence/...`, `tools/...` және workbook сілтемелері ZIP package түбіріне қатысты. Толық PDF/log/raw synthetic data және Excel package түбірінде сақталады. Репозиторийге көшірілген осы docs-only нұсқа application кодын өзгертпейді; негізгі таратылатын self-contained artifact — `Qadam_Diploma_Research_Workspace.zip`.
 
 Ресми work/project жіктелімі, студенттің жеке үлесі, нақты бизнес/owner деректері және final student verification ашық. CSV/Excel статустары source/test scope-пен ғана өзгереді. Root-тағы төрт негізгі planning document осы docs-only көшірмеде де берілді; authoritative distributed package ішіндегі мазмұны бірдей.
+
+## Stage1 implemented locally
+
+[Implementation report](04_Implementation_Evidence/stage1_implementation_report.md),[actual42case comparison](03_Datasets_and_Experiments/stage1_experiment_results.md),[editable08diagram](02_System_Design/diagrams/08_improved_ai_validation.mmd). Code `6ac5266abddffa7f1278d403ece55cc3eba457a1`,backend318pass/web57pass;realDB/liveAI not run;main/deployment unchanged.
