@@ -150,7 +150,10 @@ async function demoReport(page: Page) {
   await enterDemo(page);
   await navigateSeller(page, "analytics");
   await expect(page.locator(".analytics-main-kpis")).toBeVisible();
-  await expect(page.getByText("Демо-данные", { exact: true })).toBeVisible();
+  // The current dashboard labels each synthetic card separately.
+  await expect(
+    page.getByText("Демо-данные", { exact: true }).first(),
+  ).toBeVisible();
   await page.locator(".analytics-details > summary").click();
   return traffic;
 }
@@ -431,10 +434,9 @@ test("direct route/reload show the active membership and links add no period fil
   await expect(page).toHaveURL(/\/seller\/history$/);
   await page.goBack();
   await expect(page.locator(".analytics-kpi")).toHaveCount(6);
-  await page
-    .locator(".analytics-reminders")
-    .getByRole("link", { name: "Все долги →", exact: true })
-    .click();
+  // This suite runs with the assistant flag off. Its conditional reminder
+  // card is intentionally absent; the seller navigation remains available.
+  await navigateSeller(page, "debts");
   await expect(page).toHaveURL(/\/seller\/debts$/);
   await page.goto("/seller/analytics");
   await page

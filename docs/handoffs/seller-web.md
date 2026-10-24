@@ -618,3 +618,52 @@ npm audit сообщает 3 унаследованных dev findings в Vitest
 ## Опубликовано
 
 Проверенный code commit **3faa4b23e6c973836ba1099e7695546ec427eb65**, push успешен и local/remote hash совпал; fetch/pull --ff-only своей ветки — Already up to date. Base повторно проверен:3d009dc86c93debcab05dedda530b7d1fe62a304. Новый **open Draft PR #11**: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/11, base integration/team-mvp. Эта запись отдельным docs commit дополняет проверенный код; актуальный итоговый HEAD — git log -1 --format=%H. Новому Codex продолжать только feature/seller-design-integration. Merge не выполнялся.
+
+## 2026-10-24 — Diploma extension / feature/ml-sales-debt-research
+
+Текущая задача выполняется в отдельном worktree `work/qadam-ml-sales-debt-research`.
+База — `main:2518b2e80b8c8ef881063a968645382d61aeb37e`. После fetch удалённой
+integration/team-mvp нет; её исторический head 3d009dc входит в main (ещё 344 commit).
+Чужие ветки/PR не объединялись, финансовые команды, Auth, Voice и Flutter сохранены.
+
+Готово: `/seller/research` RU/KZ, прогноз 7/30 с baseline/ridge и MAE/RMSE,
+правила риска долга, анкета с согласием и приватным paged review/export.
+В Demo используются явно обозначенные синтетические примеры; POST выключен.
+Живые endpoints — новые `/businesses/{id}/research/forecast`, `/debt-risk`,
+GET/POST `/feedback` на существующем JWT/membership. Live-развёртывание не проводилось.
+Все прежние paths и schemas OpenAPI структурно совпадают с базой; дополнения — API0.8.0.
+
+Основные новые модули, изменённые файлы, этапы и вклад: `docs/diploma-evidence/contributions.md`.
+Результаты и ограничения проверок: `docs/diploma-evidence/test-execution.md`.
+Архитектура, ER, данные, методы, screenshots и готово/запланировано:
+`docs/diploma-evidence/README.md`. Исследовательские планы —
+`docs/ml-evaluation-plan.md`, `docs/user-research-plan.md`.
+
+Этапы 1–4 опубликованы: 8804795, 6bdaeb6, 45b33ab, b7c4750.
+Итоговый HEAD читать через `git log -1 --format=%H`; финальная публикация будет
+зафиксирована отдельной записью после проверок. Не использовать старые ветки из
+предыдущих разделов этого handoff для продолжения данной задачи.
+
+Команды (Windows: npm.cmd при запрете npm.ps1):
+- API: `cd apps/api`; `uv sync --locked`; `uv run ruff check app tests`;
+  `uv run ruff format --check app tests`; `uv run python -m app.export_contracts --check`.
+- PostgreSQL tests: **отдельная пустая БД с именем *_test**, отличная от DATABASE_URL;
+  `TEST_DATABASE_URL` указывает только на неё; `uv run pytest -q --tb=short`.
+  Fixture применяет/откатывает миграции и очищает только тестовую схему.
+- Web: `cd apps/web`; `npm ci`; `npm run generate:api`; `npm run check:api`;
+  `npm run typecheck`; `npm run lint`; `npm test -- --maxWorkers=1`;
+  `npm run build`; `npm run format:check`; `npm run test:e2e`;
+  `npx playwright test -c e2e/research.playwright.config.ts` (Chrome, localhost:4296).
+- Demo: `npm run dev -- --port 5173 --strictPort`; /login → Посмотреть демо →
+  Ещё → Прогноз и обратная связь. Для Demo реальные ключи не нужны.
+- Вычисления: из API `uv run python -m app.evaluate_research --synthetic --horizon 7
+  --output ../../tmp/research-synthetic-7.json`; реальные экспорты не коммитить.
+
+Новая миграция 0009_research_feedback применялась только в локальной тестовой БД.
+Shared rollout требует капитана, backup/recovery и retention/withdrawal процесса.
+Новых env и зависимостей нет. Прогноз без 98/144 полных дней unavailable; реальные
+данные не получены. Debt rules не являются ML, вероятностью или просрочкой:
+для обучения нужны проверенные сроки/исходы. Реальных участников/анкет/метрик качества
+модели нет. Перед recruitment назначить ответственного, контакт, защищённое хранение
+и удаление за 90 дней; автоматического purge нет. Синтетические результаты не
+подтверждают научную гипотезу. Production rollout и физические устройства не проверялись.

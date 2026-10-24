@@ -53,10 +53,18 @@ are synthetic engineering evidence, never user-research or predictive evidence.
 
 ## Evidence index
 
-The completed stages will add architecture/ER diagrams, methodology, dataset
-description, experiment status, test execution report and capture instructions here.
+- [Architecture, data flow and database ER](architecture.md).
+- [Dataset provenance and preprocessing](dataset.md), [forecast method](forecast-method.md).
+- [Reproducible experiment protocol and comparison](../ml-evaluation-plan.md).
+- [Real-data absence report](real-data-status.json).
+- [7-day synthetic computation](synthetic-forecast-7.json), [30-day synthetic computation](synthetic-forecast-30.json).
+- [Test execution and limitations](test-execution.md).
+- [Screenshots and capture/local demonstration guide](capture-guide.md).
+- [Implemented vs planned](readiness.md), [file ownership and commits](contributions.md).
+- [Consent, recruitment and findings protocol](../user-research-plan.md).
+
 Real research findings remain **pending** until consented responses and eligible
-historical observations exist.
+historical observations exist. No real dataset or participant result is invented.
 
 ## Stage 2 — forecast service
 
@@ -111,3 +119,23 @@ constraint to `jsonb_build_object` and reran successfully. Test fixture typing w
 corrected before the final successful typecheck. Stage 3 commit: `45b33ab`.
 No real questionnaire response or participant was collected. Screen navigation,
 combined rendering and full regression suite follow in stage 5.
+
+## Stage 5 — integration and reproducible evidence
+
+Integrated `/seller/research`, RU/KZ, 7/30 chart and comparison table, explained
+debt factors, feedback/private review/export and independent Demo. Added diagrams,
+actual-schema ER, dataset/model methods, implemented/planned distinction, ownership
+record and four desktop/mobile browser captures. Existing production Auth,
+financial commands, Voice, public storefront and Flutter files are unchanged.
+
+Final own checks: **437 backend tests** on isolated PostgreSQL; **625 unit/component
+tests** in 46 files; **6 research E2E**. Default E2E: 43 passed in the full run,
+then its one corrected legacy navigation case passed in an isolated rerun. TypeScript,
+lint, build, format, generated API, backend lint/format/export and reproducibility
+checks passed. See [test execution](test-execution.md) for failed/interrupted attempts,
+exact limitations and commands; this is not a claim of live production acceptance.
+
+Real scientific findings and actual feedback collection remain pending. Migration
+0009 needs a reviewed shared rollout; no production database, deployment or paid AI
+was used. Stages 1–4 are already committed above; final publication is recorded in
+the [contribution record](contributions.md) and seller handoff.

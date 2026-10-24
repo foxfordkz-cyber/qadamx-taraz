@@ -1,4 +1,5 @@
 export const ru = {
+  research: "Прогноз и обратная связь",
   whatsappSend: "Отправить в WhatsApp",
   whatsappRemind: "Напомнить в WhatsApp",
   whatsappHint: "Сообщение отправляете вы сами из WhatsApp",

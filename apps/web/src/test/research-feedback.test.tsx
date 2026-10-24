@@ -101,6 +101,7 @@ describe("consented research feedback", () => {
       .mockImplementation(async (_path, init) => ({
         id,
         client_request_id: JSON.parse(init.body).client_request_id,
+        created_at: "2026-10-24T10:00:00Z",
       }));
     setup(request);
     fill();
@@ -125,6 +126,42 @@ describe("consented research feedback", () => {
     fireEvent.click(screen.getByRole("button", { name: "Отправить отзыв" }));
     await screen.findByText(/Сервер отклонил/);
     expect(screen.getByLabelText(/Что улучшить первым/)).toBeEnabled();
+  });
+  it("leaves loading on timeout even if transport ignores abort and ignores its late receipt", async () => {
+    vi.useFakeTimers();
+    try {
+      let resolve!: (value: unknown) => void;
+      const request = vi.fn<ApiClient["request"]>(
+        () =>
+          new Promise((done) => {
+            resolve = done;
+          }),
+      );
+      setup(request);
+      fill();
+      fireEvent.click(screen.getByRole("button", { name: "Отправить отзыв" }));
+      await act(async () => {
+        await vi.advanceTimersByTimeAsync(20001);
+      });
+      expect(
+        screen.getByRole("button", { name: "Повторить тот же ответ" }),
+      ).toBeEnabled();
+      expect(request).toHaveBeenCalledTimes(1);
+      const body = JSON.parse(request.mock.calls[0][1]!.body as string);
+      await act(async () =>
+        resolve({
+          id,
+          client_request_id: body.client_request_id,
+          created_at: "2026-10-24T10:00:00Z",
+        }),
+      );
+      expect(
+        screen.queryByText(/Ответ сохранён сервером/),
+      ).not.toBeInTheDocument();
+      expect(screen.getByLabelText(/Что улучшить первым/)).toBeDisabled();
+    } finally {
+      vi.useRealTimers();
+    }
   });
   it("aborts pending work on session/business unmount", async () => {
     const request = vi.fn<ApiClient["request"]>(() => new Promise(() => {}));

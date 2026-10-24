@@ -5,6 +5,7 @@ import { RegistrationPage } from "./registration";
 import { AuthCallbackPage } from "./auth-callback";
 import { BusinessProvider, RuntimeProvider, useMemberships } from "./runtime";
 import { SellerLayout } from "./layout";
+import { ResearchPage } from "../features/seller/research/ResearchPage";
 import {
   DashboardPage,
   LoginPage,
@@ -135,6 +136,7 @@ export function App({
           <Route path="customers" element={<CustomersPage />} />
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="analytics" element={<AnalyticsPage />} />
+          <Route path="research" element={<ResearchPage />} />
           {(["sale", "debts", "history", "summary"] as const).map((key) => (
             <Route
               key={key}

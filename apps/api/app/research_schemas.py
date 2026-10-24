@@ -51,7 +51,7 @@ class ForecastResponse(Contract):
     horizon: Literal[7, 30]
     currency: Literal["KZT"]
     timezone: Literal["Asia/Almaty"]
-    provenance: Literal["business_ledger", "demo_business_ledger"]
+    provenance: Literal["business_ledger", "demo_business_ledger", "synthetic_example"]
     dataset_sha256: str
     observed_days: int
     required_days: int

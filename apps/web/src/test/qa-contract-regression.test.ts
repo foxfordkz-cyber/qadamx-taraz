@@ -104,9 +104,20 @@ describe("QA accepted OpenAPI snapshot — static contract, not live backend", (
   });
   it("money fields stay integer minor units, including nullable and signed deltas", () => {
     let count = 0;
-    for (const schema of Object.values(contract.components.schemas)) {
+    for (const [schemaName, schema] of Object.entries(
+      contract.components.schemas,
+    )) {
       for (const [name, raw] of Object.entries(schema.properties)) {
         if (!name.endsWith("_minor")) continue;
+        // Statistical averages/root means are fractional measurements in minor
+        // units, not ledger money amounts. Keep the exception schema-specific.
+        if (
+          schemaName === "ForecastMetrics" &&
+          ["mae_minor", "rmse_minor"].includes(name)
+        ) {
+          expect(raw).toMatchObject({ type: "number", minimum: 0 });
+          continue;
+        }
         count++;
         const field = raw as { type?: string; anyOf?: { type: string }[] };
         expect(

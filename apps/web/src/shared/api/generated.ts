@@ -1259,7 +1259,10 @@ export interface components {
        * Provenance
        * @enum {string}
        */
-      provenance: "business_ledger" | "demo_business_ledger";
+      provenance:
+        | "business_ledger"
+        | "demo_business_ledger"
+        | "synthetic_example";
       /** Dataset Sha256 */
       dataset_sha256: string;
       /** Observed Days */

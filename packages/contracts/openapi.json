@@ -5761,7 +5761,8 @@
             "type": "string",
             "enum": [
               "business_ledger",
-              "demo_business_ledger"
+              "demo_business_ledger",
+              "synthetic_example"
             ],
             "title": "Provenance"
           },

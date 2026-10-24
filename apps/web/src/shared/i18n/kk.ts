@@ -1,5 +1,6 @@
 import type { ru } from "./ru";
 export const kk: Record<keyof typeof ru, string> = {
+  research: "Болжам және кері байланыс",
   whatsappSend: "WhatsApp-қа жіберу",
   whatsappRemind: "WhatsApp арқылы еске салу",
   whatsappHint: "Хабарды WhatsApp-тан өзіңіз жібересіз",

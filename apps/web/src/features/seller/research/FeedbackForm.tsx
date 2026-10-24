@@ -87,16 +87,21 @@ export function FeedbackForm({
     setStatus("saving");
     const request = new AbortController();
     controller.current = request;
-    const timeout = setTimeout(() => request.abort(), 20000);
+    let timeout: ReturnType<typeof setTimeout> | undefined;
     try {
-      const response = await api.request(
-        `/businesses/${businessId}/research/feedback`,
-        {
+      const response = await Promise.race([
+        api.request(`/businesses/${businessId}/research/feedback`, {
           method: "POST",
           body: JSON.stringify(payload),
           signal: request.signal,
-        },
-      );
+        }),
+        new Promise<never>((_, reject) => {
+          timeout = setTimeout(() => {
+            request.abort();
+            reject(new ApiError(0, "TIMEOUT"));
+          }, 20000);
+        }),
+      ]);
       if (!active.current) return;
       if (request.signal.aborted) throw new ApiError(0, "TIMEOUT");
       if (
@@ -106,7 +111,12 @@ export function FeedbackForm({
         !("client_request_id" in response) ||
         response.client_request_id !== payload.client_request_id ||
         typeof response.id !== "string" ||
-        !/^[0-9a-f-]{36}$/i.test(response.id)
+        !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+          response.id,
+        ) ||
+        !("created_at" in response) ||
+        typeof response.created_at !== "string" ||
+        !Number.isFinite(Date.parse(response.created_at))
       )
         throw new ApiError(0, "INVALID_RESPONSE");
       setReceipt(response.id);

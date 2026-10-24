@@ -45,5 +45,1767 @@
     "improve_first": "Синтетический пример формы",
     "suggestion": "",
     "follow_up": false
+  },
+  "ForecastSynthetic7": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "as_of": "2025-06-30T10:00:00Z",
+    "status": "experimental",
+    "model_version": "ridge-lags-v1",
+    "horizon": 7,
+    "currency": "KZT",
+    "timezone": "Asia/Almaty",
+    "provenance": "synthetic_example",
+    "dataset_sha256": "fed1df76e184fea875152e6a0d27a862891a4eb04516c7cfcdb950e9329100f6",
+    "observed_days": 180,
+    "required_days": 98,
+    "history": [
+      {
+        "date": "2025-01-01",
+        "sales_minor": 10000
+      },
+      {
+        "date": "2025-01-02",
+        "sales_minor": 10600
+      },
+      {
+        "date": "2025-01-03",
+        "sales_minor": 11200
+      },
+      {
+        "date": "2025-01-04",
+        "sales_minor": 11800
+      },
+      {
+        "date": "2025-01-05",
+        "sales_minor": 12400
+      },
+      {
+        "date": "2025-01-06",
+        "sales_minor": 13000
+      },
+      {
+        "date": "2025-01-07",
+        "sales_minor": 13600
+      },
+      {
+        "date": "2025-01-08",
+        "sales_minor": 10700
+      },
+      {
+        "date": "2025-01-09",
+        "sales_minor": 11300
+      },
+      {
+        "date": "2025-01-10",
+        "sales_minor": 11900
+      },
+      {
+        "date": "2025-01-11",
+        "sales_minor": 12500
+      },
+      {
+        "date": "2025-01-12",
+        "sales_minor": 13100
+      },
+      {
+        "date": "2025-01-13",
+        "sales_minor": 13700
+      },
+      {
+        "date": "2025-01-14",
+        "sales_minor": 14300
+      },
+      {
+        "date": "2025-01-15",
+        "sales_minor": 11400
+      },
+      {
+        "date": "2025-01-16",
+        "sales_minor": 12000
+      },
+      {
+        "date": "2025-01-17",
+        "sales_minor": 12600
+      },
+      {
+        "date": "2025-01-18",
+        "sales_minor": 13200
+      },
+      {
+        "date": "2025-01-19",
+        "sales_minor": 13800
+      },
+      {
+        "date": "2025-01-20",
+        "sales_minor": 14400
+      },
+      {
+        "date": "2025-01-21",
+        "sales_minor": 15000
+      },
+      {
+        "date": "2025-01-22",
+        "sales_minor": 12100
+      },
+      {
+        "date": "2025-01-23",
+        "sales_minor": 12700
+      },
+      {
+        "date": "2025-01-24",
+        "sales_minor": 13300
+      },
+      {
+        "date": "2025-01-25",
+        "sales_minor": 13900
+      },
+      {
+        "date": "2025-01-26",
+        "sales_minor": 14500
+      },
+      {
+        "date": "2025-01-27",
+        "sales_minor": 15100
+      },
+      {
+        "date": "2025-01-28",
+        "sales_minor": 15700
+      },
+      {
+        "date": "2025-01-29",
+        "sales_minor": 12800
+      },
+      {
+        "date": "2025-01-30",
+        "sales_minor": 13400
+      },
+      {
+        "date": "2025-01-31",
+        "sales_minor": 14000
+      },
+      {
+        "date": "2025-02-01",
+        "sales_minor": 14600
+      },
+      {
+        "date": "2025-02-02",
+        "sales_minor": 15200
+      },
+      {
+        "date": "2025-02-03",
+        "sales_minor": 15800
+      },
+      {
+        "date": "2025-02-04",
+        "sales_minor": 16400
+      },
+      {
+        "date": "2025-02-05",
+        "sales_minor": 13500
+      },
+      {
+        "date": "2025-02-06",
+        "sales_minor": 14100
+      },
+      {
+        "date": "2025-02-07",
+        "sales_minor": 14700
+      },
+      {
+        "date": "2025-02-08",
+        "sales_minor": 15300
+      },
+      {
+        "date": "2025-02-09",
+        "sales_minor": 15900
+      },
+      {
+        "date": "2025-02-10",
+        "sales_minor": 16500
+      },
+      {
+        "date": "2025-02-11",
+        "sales_minor": 17100
+      },
+      {
+        "date": "2025-02-12",
+        "sales_minor": 14200
+      },
+      {
+        "date": "2025-02-13",
+        "sales_minor": 14800
+      },
+      {
+        "date": "2025-02-14",
+        "sales_minor": 15400
+      },
+      {
+        "date": "2025-02-15",
+        "sales_minor": 16000
+      },
+      {
+        "date": "2025-02-16",
+        "sales_minor": 16600
+      },
+      {
+        "date": "2025-02-17",
+        "sales_minor": 17200
+      },
+      {
+        "date": "2025-02-18",
+        "sales_minor": 17800
+      },
+      {
+        "date": "2025-02-19",
+        "sales_minor": 14900
+      },
+      {
+        "date": "2025-02-20",
+        "sales_minor": 15500
+      },
+      {
+        "date": "2025-02-21",
+        "sales_minor": 16100
+      },
+      {
+        "date": "2025-02-22",
+        "sales_minor": 16700
+      },
+      {
+        "date": "2025-02-23",
+        "sales_minor": 17300
+      },
+      {
+        "date": "2025-02-24",
+        "sales_minor": 17900
+      },
+      {
+        "date": "2025-02-25",
+        "sales_minor": 18500
+      },
+      {
+        "date": "2025-02-26",
+        "sales_minor": 15600
+      },
+      {
+        "date": "2025-02-27",
+        "sales_minor": 16200
+      },
+      {
+        "date": "2025-02-28",
+        "sales_minor": 16800
+      },
+      {
+        "date": "2025-03-01",
+        "sales_minor": 17400
+      },
+      {
+        "date": "2025-03-02",
+        "sales_minor": 18000
+      },
+      {
+        "date": "2025-03-03",
+        "sales_minor": 18600
+      },
+      {
+        "date": "2025-03-04",
+        "sales_minor": 19200
+      },
+      {
+        "date": "2025-03-05",
+        "sales_minor": 16300
+      },
+      {
+        "date": "2025-03-06",
+        "sales_minor": 16900
+      },
+      {
+        "date": "2025-03-07",
+        "sales_minor": 17500
+      },
+      {
+        "date": "2025-03-08",
+        "sales_minor": 18100
+      },
+      {
+        "date": "2025-03-09",
+        "sales_minor": 18700
+      },
+      {
+        "date": "2025-03-10",
+        "sales_minor": 19300
+      },
+      {
+        "date": "2025-03-11",
+        "sales_minor": 19900
+      },
+      {
+        "date": "2025-03-12",
+        "sales_minor": 17000
+      },
+      {
+        "date": "2025-03-13",
+        "sales_minor": 17600
+      },
+      {
+        "date": "2025-03-14",
+        "sales_minor": 18200
+      },
+      {
+        "date": "2025-03-15",
+        "sales_minor": 18800
+      },
+      {
+        "date": "2025-03-16",
+        "sales_minor": 19400
+      },
+      {
+        "date": "2025-03-17",
+        "sales_minor": 20000
+      },
+      {
+        "date": "2025-03-18",
+        "sales_minor": 20600
+      },
+      {
+        "date": "2025-03-19",
+        "sales_minor": 17700
+      },
+      {
+        "date": "2025-03-20",
+        "sales_minor": 18300
+      },
+      {
+        "date": "2025-03-21",
+        "sales_minor": 18900
+      },
+      {
+        "date": "2025-03-22",
+        "sales_minor": 19500
+      },
+      {
+        "date": "2025-03-23",
+        "sales_minor": 20100
+      },
+      {
+        "date": "2025-03-24",
+        "sales_minor": 20700
+      },
+      {
+        "date": "2025-03-25",
+        "sales_minor": 21300
+      },
+      {
+        "date": "2025-03-26",
+        "sales_minor": 18400
+      },
+      {
+        "date": "2025-03-27",
+        "sales_minor": 19000
+      },
+      {
+        "date": "2025-03-28",
+        "sales_minor": 19600
+      },
+      {
+        "date": "2025-03-29",
+        "sales_minor": 20200
+      },
+      {
+        "date": "2025-03-30",
+        "sales_minor": 20800
+      },
+      {
+        "date": "2025-03-31",
+        "sales_minor": 21400
+      },
+      {
+        "date": "2025-04-01",
+        "sales_minor": 22000
+      },
+      {
+        "date": "2025-04-02",
+        "sales_minor": 19100
+      },
+      {
+        "date": "2025-04-03",
+        "sales_minor": 19700
+      },
+      {
+        "date": "2025-04-04",
+        "sales_minor": 20300
+      },
+      {
+        "date": "2025-04-05",
+        "sales_minor": 20900
+      },
+      {
+        "date": "2025-04-06",
+        "sales_minor": 21500
+      },
+      {
+        "date": "2025-04-07",
+        "sales_minor": 22100
+      },
+      {
+        "date": "2025-04-08",
+        "sales_minor": 22700
+      },
+      {
+        "date": "2025-04-09",
+        "sales_minor": 19800
+      },
+      {
+        "date": "2025-04-10",
+        "sales_minor": 20400
+      },
+      {
+        "date": "2025-04-11",
+        "sales_minor": 21000
+      },
+      {
+        "date": "2025-04-12",
+        "sales_minor": 21600
+      },
+      {
+        "date": "2025-04-13",
+        "sales_minor": 22200
+      },
+      {
+        "date": "2025-04-14",
+        "sales_minor": 22800
+      },
+      {
+        "date": "2025-04-15",
+        "sales_minor": 23400
+      },
+      {
+        "date": "2025-04-16",
+        "sales_minor": 20500
+      },
+      {
+        "date": "2025-04-17",
+        "sales_minor": 21100
+      },
+      {
+        "date": "2025-04-18",
+        "sales_minor": 21700
+      },
+      {
+        "date": "2025-04-19",
+        "sales_minor": 22300
+      },
+      {
+        "date": "2025-04-20",
+        "sales_minor": 22900
+      },
+      {
+        "date": "2025-04-21",
+        "sales_minor": 23500
+      },
+      {
+        "date": "2025-04-22",
+        "sales_minor": 24100
+      },
+      {
+        "date": "2025-04-23",
+        "sales_minor": 21200
+      },
+      {
+        "date": "2025-04-24",
+        "sales_minor": 21800
+      },
+      {
+        "date": "2025-04-25",
+        "sales_minor": 22400
+      },
+      {
+        "date": "2025-04-26",
+        "sales_minor": 23000
+      },
+      {
+        "date": "2025-04-27",
+        "sales_minor": 23600
+      },
+      {
+        "date": "2025-04-28",
+        "sales_minor": 24200
+      },
+      {
+        "date": "2025-04-29",
+        "sales_minor": 24800
+      },
+      {
+        "date": "2025-04-30",
+        "sales_minor": 21900
+      },
+      {
+        "date": "2025-05-01",
+        "sales_minor": 22500
+      },
+      {
+        "date": "2025-05-02",
+        "sales_minor": 23100
+      },
+      {
+        "date": "2025-05-03",
+        "sales_minor": 23700
+      },
+      {
+        "date": "2025-05-04",
+        "sales_minor": 24300
+      },
+      {
+        "date": "2025-05-05",
+        "sales_minor": 24900
+      },
+      {
+        "date": "2025-05-06",
+        "sales_minor": 25500
+      },
+      {
+        "date": "2025-05-07",
+        "sales_minor": 22600
+      },
+      {
+        "date": "2025-05-08",
+        "sales_minor": 23200
+      },
+      {
+        "date": "2025-05-09",
+        "sales_minor": 23800
+      },
+      {
+        "date": "2025-05-10",
+        "sales_minor": 24400
+      },
+      {
+        "date": "2025-05-11",
+        "sales_minor": 25000
+      },
+      {
+        "date": "2025-05-12",
+        "sales_minor": 25600
+      },
+      {
+        "date": "2025-05-13",
+        "sales_minor": 26200
+      },
+      {
+        "date": "2025-05-14",
+        "sales_minor": 23300
+      },
+      {
+        "date": "2025-05-15",
+        "sales_minor": 23900
+      },
+      {
+        "date": "2025-05-16",
+        "sales_minor": 24500
+      },
+      {
+        "date": "2025-05-17",
+        "sales_minor": 25100
+      },
+      {
+        "date": "2025-05-18",
+        "sales_minor": 25700
+      },
+      {
+        "date": "2025-05-19",
+        "sales_minor": 26300
+      },
+      {
+        "date": "2025-05-20",
+        "sales_minor": 26900
+      },
+      {
+        "date": "2025-05-21",
+        "sales_minor": 24000
+      },
+      {
+        "date": "2025-05-22",
+        "sales_minor": 24600
+      },
+      {
+        "date": "2025-05-23",
+        "sales_minor": 25200
+      },
+      {
+        "date": "2025-05-24",
+        "sales_minor": 25800
+      },
+      {
+        "date": "2025-05-25",
+        "sales_minor": 26400
+      },
+      {
+        "date": "2025-05-26",
+        "sales_minor": 27000
+      },
+      {
+        "date": "2025-05-27",
+        "sales_minor": 27600
+      },
+      {
+        "date": "2025-05-28",
+        "sales_minor": 24700
+      },
+      {
+        "date": "2025-05-29",
+        "sales_minor": 25300
+      },
+      {
+        "date": "2025-05-30",
+        "sales_minor": 25900
+      },
+      {
+        "date": "2025-05-31",
+        "sales_minor": 26500
+      },
+      {
+        "date": "2025-06-01",
+        "sales_minor": 27100
+      },
+      {
+        "date": "2025-06-02",
+        "sales_minor": 27700
+      },
+      {
+        "date": "2025-06-03",
+        "sales_minor": 28300
+      },
+      {
+        "date": "2025-06-04",
+        "sales_minor": 25400
+      },
+      {
+        "date": "2025-06-05",
+        "sales_minor": 26000
+      },
+      {
+        "date": "2025-06-06",
+        "sales_minor": 26600
+      },
+      {
+        "date": "2025-06-07",
+        "sales_minor": 27200
+      },
+      {
+        "date": "2025-06-08",
+        "sales_minor": 27800
+      },
+      {
+        "date": "2025-06-09",
+        "sales_minor": 28400
+      },
+      {
+        "date": "2025-06-10",
+        "sales_minor": 29000
+      },
+      {
+        "date": "2025-06-11",
+        "sales_minor": 26100
+      },
+      {
+        "date": "2025-06-12",
+        "sales_minor": 26700
+      },
+      {
+        "date": "2025-06-13",
+        "sales_minor": 27300
+      },
+      {
+        "date": "2025-06-14",
+        "sales_minor": 27900
+      },
+      {
+        "date": "2025-06-15",
+        "sales_minor": 28500
+      },
+      {
+        "date": "2025-06-16",
+        "sales_minor": 29100
+      },
+      {
+        "date": "2025-06-17",
+        "sales_minor": 29700
+      },
+      {
+        "date": "2025-06-18",
+        "sales_minor": 26800
+      },
+      {
+        "date": "2025-06-19",
+        "sales_minor": 27400
+      },
+      {
+        "date": "2025-06-20",
+        "sales_minor": 28000
+      },
+      {
+        "date": "2025-06-21",
+        "sales_minor": 28600
+      },
+      {
+        "date": "2025-06-22",
+        "sales_minor": 29200
+      },
+      {
+        "date": "2025-06-23",
+        "sales_minor": 29800
+      },
+      {
+        "date": "2025-06-24",
+        "sales_minor": 30400
+      },
+      {
+        "date": "2025-06-25",
+        "sales_minor": 27500
+      },
+      {
+        "date": "2025-06-26",
+        "sales_minor": 28100
+      },
+      {
+        "date": "2025-06-27",
+        "sales_minor": 28700
+      },
+      {
+        "date": "2025-06-28",
+        "sales_minor": 29300
+      },
+      {
+        "date": "2025-06-29",
+        "sales_minor": 29900
+      }
+    ],
+    "forecast": [
+      {
+        "date": "2025-06-30",
+        "baseline_minor": 29800,
+        "ml_minor": 30472,
+        "selected_minor": 30472
+      },
+      {
+        "date": "2025-07-01",
+        "baseline_minor": 30400,
+        "ml_minor": 31063,
+        "selected_minor": 31063
+      },
+      {
+        "date": "2025-07-02",
+        "baseline_minor": 27500,
+        "ml_minor": 28168,
+        "selected_minor": 28168
+      },
+      {
+        "date": "2025-07-03",
+        "baseline_minor": 28100,
+        "ml_minor": 28763,
+        "selected_minor": 28763
+      },
+      {
+        "date": "2025-07-04",
+        "baseline_minor": 28700,
+        "ml_minor": 29359,
+        "selected_minor": 29359
+      },
+      {
+        "date": "2025-07-05",
+        "baseline_minor": 29300,
+        "ml_minor": 29955,
+        "selected_minor": 29955
+      },
+      {
+        "date": "2025-07-06",
+        "baseline_minor": 29900,
+        "ml_minor": 30540,
+        "selected_minor": 30540
+      }
+    ],
+    "evaluation": {
+      "train_from": "2025-01-01",
+      "train_to": "2025-06-15",
+      "validation_from": "2025-06-16",
+      "validation_to": "2025-06-22",
+      "test_from": "2025-06-23",
+      "test_to": "2025-06-29",
+      "baseline_method": "seasonal_naive_7",
+      "ridge_alpha": 0.1,
+      "validation_baseline": {
+        "mae_minor": 700.0,
+        "rmse_minor": 700.0
+      },
+      "validation_ml": {
+        "mae_minor": 45.285714285714285,
+        "rmse_minor": 46.581725417347336
+      },
+      "baseline": {
+        "mae_minor": 700.0,
+        "rmse_minor": 700.0
+      },
+      "ml": {
+        "mae_minor": 42.285714285714285,
+        "rmse_minor": 43.4313908859216
+      },
+      "test_winner": "ml",
+      "test_observations": 7
+    },
+    "selected_method": "ridge-lags-v1",
+    "warnings": [
+      "recorded_sales_only",
+      "experimental_not_guaranteed"
+    ]
+  },
+  "ForecastSynthetic30": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "as_of": "2025-06-30T10:00:00Z",
+    "status": "experimental",
+    "model_version": "ridge-lags-v1",
+    "horizon": 30,
+    "currency": "KZT",
+    "timezone": "Asia/Almaty",
+    "provenance": "synthetic_example",
+    "dataset_sha256": "fed1df76e184fea875152e6a0d27a862891a4eb04516c7cfcdb950e9329100f6",
+    "observed_days": 180,
+    "required_days": 144,
+    "history": [
+      {
+        "date": "2025-01-01",
+        "sales_minor": 10000
+      },
+      {
+        "date": "2025-01-02",
+        "sales_minor": 10600
+      },
+      {
+        "date": "2025-01-03",
+        "sales_minor": 11200
+      },
+      {
+        "date": "2025-01-04",
+        "sales_minor": 11800
+      },
+      {
+        "date": "2025-01-05",
+        "sales_minor": 12400
+      },
+      {
+        "date": "2025-01-06",
+        "sales_minor": 13000
+      },
+      {
+        "date": "2025-01-07",
+        "sales_minor": 13600
+      },
+      {
+        "date": "2025-01-08",
+        "sales_minor": 10700
+      },
+      {
+        "date": "2025-01-09",
+        "sales_minor": 11300
+      },
+      {
+        "date": "2025-01-10",
+        "sales_minor": 11900
+      },
+      {
+        "date": "2025-01-11",
+        "sales_minor": 12500
+      },
+      {
+        "date": "2025-01-12",
+        "sales_minor": 13100
+      },
+      {
+        "date": "2025-01-13",
+        "sales_minor": 13700
+      },
+      {
+        "date": "2025-01-14",
+        "sales_minor": 14300
+      },
+      {
+        "date": "2025-01-15",
+        "sales_minor": 11400
+      },
+      {
+        "date": "2025-01-16",
+        "sales_minor": 12000
+      },
+      {
+        "date": "2025-01-17",
+        "sales_minor": 12600
+      },
+      {
+        "date": "2025-01-18",
+        "sales_minor": 13200
+      },
+      {
+        "date": "2025-01-19",
+        "sales_minor": 13800
+      },
+      {
+        "date": "2025-01-20",
+        "sales_minor": 14400
+      },
+      {
+        "date": "2025-01-21",
+        "sales_minor": 15000
+      },
+      {
+        "date": "2025-01-22",
+        "sales_minor": 12100
+      },
+      {
+        "date": "2025-01-23",
+        "sales_minor": 12700
+      },
+      {
+        "date": "2025-01-24",
+        "sales_minor": 13300
+      },
+      {
+        "date": "2025-01-25",
+        "sales_minor": 13900
+      },
+      {
+        "date": "2025-01-26",
+        "sales_minor": 14500
+      },
+      {
+        "date": "2025-01-27",
+        "sales_minor": 15100
+      },
+      {
+        "date": "2025-01-28",
+        "sales_minor": 15700
+      },
+      {
+        "date": "2025-01-29",
+        "sales_minor": 12800
+      },
+      {
+        "date": "2025-01-30",
+        "sales_minor": 13400
+      },
+      {
+        "date": "2025-01-31",
+        "sales_minor": 14000
+      },
+      {
+        "date": "2025-02-01",
+        "sales_minor": 14600
+      },
+      {
+        "date": "2025-02-02",
+        "sales_minor": 15200
+      },
+      {
+        "date": "2025-02-03",
+        "sales_minor": 15800
+      },
+      {
+        "date": "2025-02-04",
+        "sales_minor": 16400
+      },
+      {
+        "date": "2025-02-05",
+        "sales_minor": 13500
+      },
+      {
+        "date": "2025-02-06",
+        "sales_minor": 14100
+      },
+      {
+        "date": "2025-02-07",
+        "sales_minor": 14700
+      },
+      {
+        "date": "2025-02-08",
+        "sales_minor": 15300
+      },
+      {
+        "date": "2025-02-09",
+        "sales_minor": 15900
+      },
+      {
+        "date": "2025-02-10",
+        "sales_minor": 16500
+      },
+      {
+        "date": "2025-02-11",
+        "sales_minor": 17100
+      },
+      {
+        "date": "2025-02-12",
+        "sales_minor": 14200
+      },
+      {
+        "date": "2025-02-13",
+        "sales_minor": 14800
+      },
+      {
+        "date": "2025-02-14",
+        "sales_minor": 15400
+      },
+      {
+        "date": "2025-02-15",
+        "sales_minor": 16000
+      },
+      {
+        "date": "2025-02-16",
+        "sales_minor": 16600
+      },
+      {
+        "date": "2025-02-17",
+        "sales_minor": 17200
+      },
+      {
+        "date": "2025-02-18",
+        "sales_minor": 17800
+      },
+      {
+        "date": "2025-02-19",
+        "sales_minor": 14900
+      },
+      {
+        "date": "2025-02-20",
+        "sales_minor": 15500
+      },
+      {
+        "date": "2025-02-21",
+        "sales_minor": 16100
+      },
+      {
+        "date": "2025-02-22",
+        "sales_minor": 16700
+      },
+      {
+        "date": "2025-02-23",
+        "sales_minor": 17300
+      },
+      {
+        "date": "2025-02-24",
+        "sales_minor": 17900
+      },
+      {
+        "date": "2025-02-25",
+        "sales_minor": 18500
+      },
+      {
+        "date": "2025-02-26",
+        "sales_minor": 15600
+      },
+      {
+        "date": "2025-02-27",
+        "sales_minor": 16200
+      },
+      {
+        "date": "2025-02-28",
+        "sales_minor": 16800
+      },
+      {
+        "date": "2025-03-01",
+        "sales_minor": 17400
+      },
+      {
+        "date": "2025-03-02",
+        "sales_minor": 18000
+      },
+      {
+        "date": "2025-03-03",
+        "sales_minor": 18600
+      },
+      {
+        "date": "2025-03-04",
+        "sales_minor": 19200
+      },
+      {
+        "date": "2025-03-05",
+        "sales_minor": 16300
+      },
+      {
+        "date": "2025-03-06",
+        "sales_minor": 16900
+      },
+      {
+        "date": "2025-03-07",
+        "sales_minor": 17500
+      },
+      {
+        "date": "2025-03-08",
+        "sales_minor": 18100
+      },
+      {
+        "date": "2025-03-09",
+        "sales_minor": 18700
+      },
+      {
+        "date": "2025-03-10",
+        "sales_minor": 19300
+      },
+      {
+        "date": "2025-03-11",
+        "sales_minor": 19900
+      },
+      {
+        "date": "2025-03-12",
+        "sales_minor": 17000
+      },
+      {
+        "date": "2025-03-13",
+        "sales_minor": 17600
+      },
+      {
+        "date": "2025-03-14",
+        "sales_minor": 18200
+      },
+      {
+        "date": "2025-03-15",
+        "sales_minor": 18800
+      },
+      {
+        "date": "2025-03-16",
+        "sales_minor": 19400
+      },
+      {
+        "date": "2025-03-17",
+        "sales_minor": 20000
+      },
+      {
+        "date": "2025-03-18",
+        "sales_minor": 20600
+      },
+      {
+        "date": "2025-03-19",
+        "sales_minor": 17700
+      },
+      {
+        "date": "2025-03-20",
+        "sales_minor": 18300
+      },
+      {
+        "date": "2025-03-21",
+        "sales_minor": 18900
+      },
+      {
+        "date": "2025-03-22",
+        "sales_minor": 19500
+      },
+      {
+        "date": "2025-03-23",
+        "sales_minor": 20100
+      },
+      {
+        "date": "2025-03-24",
+        "sales_minor": 20700
+      },
+      {
+        "date": "2025-03-25",
+        "sales_minor": 21300
+      },
+      {
+        "date": "2025-03-26",
+        "sales_minor": 18400
+      },
+      {
+        "date": "2025-03-27",
+        "sales_minor": 19000
+      },
+      {
+        "date": "2025-03-28",
+        "sales_minor": 19600
+      },
+      {
+        "date": "2025-03-29",
+        "sales_minor": 20200
+      },
+      {
+        "date": "2025-03-30",
+        "sales_minor": 20800
+      },
+      {
+        "date": "2025-03-31",
+        "sales_minor": 21400
+      },
+      {
+        "date": "2025-04-01",
+        "sales_minor": 22000
+      },
+      {
+        "date": "2025-04-02",
+        "sales_minor": 19100
+      },
+      {
+        "date": "2025-04-03",
+        "sales_minor": 19700
+      },
+      {
+        "date": "2025-04-04",
+        "sales_minor": 20300
+      },
+      {
+        "date": "2025-04-05",
+        "sales_minor": 20900
+      },
+      {
+        "date": "2025-04-06",
+        "sales_minor": 21500
+      },
+      {
+        "date": "2025-04-07",
+        "sales_minor": 22100
+      },
+      {
+        "date": "2025-04-08",
+        "sales_minor": 22700
+      },
+      {
+        "date": "2025-04-09",
+        "sales_minor": 19800
+      },
+      {
+        "date": "2025-04-10",
+        "sales_minor": 20400
+      },
+      {
+        "date": "2025-04-11",
+        "sales_minor": 21000
+      },
+      {
+        "date": "2025-04-12",
+        "sales_minor": 21600
+      },
+      {
+        "date": "2025-04-13",
+        "sales_minor": 22200
+      },
+      {
+        "date": "2025-04-14",
+        "sales_minor": 22800
+      },
+      {
+        "date": "2025-04-15",
+        "sales_minor": 23400
+      },
+      {
+        "date": "2025-04-16",
+        "sales_minor": 20500
+      },
+      {
+        "date": "2025-04-17",
+        "sales_minor": 21100
+      },
+      {
+        "date": "2025-04-18",
+        "sales_minor": 21700
+      },
+      {
+        "date": "2025-04-19",
+        "sales_minor": 22300
+      },
+      {
+        "date": "2025-04-20",
+        "sales_minor": 22900
+      },
+      {
+        "date": "2025-04-21",
+        "sales_minor": 23500
+      },
+      {
+        "date": "2025-04-22",
+        "sales_minor": 24100
+      },
+      {
+        "date": "2025-04-23",
+        "sales_minor": 21200
+      },
+      {
+        "date": "2025-04-24",
+        "sales_minor": 21800
+      },
+      {
+        "date": "2025-04-25",
+        "sales_minor": 22400
+      },
+      {
+        "date": "2025-04-26",
+        "sales_minor": 23000
+      },
+      {
+        "date": "2025-04-27",
+        "sales_minor": 23600
+      },
+      {
+        "date": "2025-04-28",
+        "sales_minor": 24200
+      },
+      {
+        "date": "2025-04-29",
+        "sales_minor": 24800
+      },
+      {
+        "date": "2025-04-30",
+        "sales_minor": 21900
+      },
+      {
+        "date": "2025-05-01",
+        "sales_minor": 22500
+      },
+      {
+        "date": "2025-05-02",
+        "sales_minor": 23100
+      },
+      {
+        "date": "2025-05-03",
+        "sales_minor": 23700
+      },
+      {
+        "date": "2025-05-04",
+        "sales_minor": 24300
+      },
+      {
+        "date": "2025-05-05",
+        "sales_minor": 24900
+      },
+      {
+        "date": "2025-05-06",
+        "sales_minor": 25500
+      },
+      {
+        "date": "2025-05-07",
+        "sales_minor": 22600
+      },
+      {
+        "date": "2025-05-08",
+        "sales_minor": 23200
+      },
+      {
+        "date": "2025-05-09",
+        "sales_minor": 23800
+      },
+      {
+        "date": "2025-05-10",
+        "sales_minor": 24400
+      },
+      {
+        "date": "2025-05-11",
+        "sales_minor": 25000
+      },
+      {
+        "date": "2025-05-12",
+        "sales_minor": 25600
+      },
+      {
+        "date": "2025-05-13",
+        "sales_minor": 26200
+      },
+      {
+        "date": "2025-05-14",
+        "sales_minor": 23300
+      },
+      {
+        "date": "2025-05-15",
+        "sales_minor": 23900
+      },
+      {
+        "date": "2025-05-16",
+        "sales_minor": 24500
+      },
+      {
+        "date": "2025-05-17",
+        "sales_minor": 25100
+      },
+      {
+        "date": "2025-05-18",
+        "sales_minor": 25700
+      },
+      {
+        "date": "2025-05-19",
+        "sales_minor": 26300
+      },
+      {
+        "date": "2025-05-20",
+        "sales_minor": 26900
+      },
+      {
+        "date": "2025-05-21",
+        "sales_minor": 24000
+      },
+      {
+        "date": "2025-05-22",
+        "sales_minor": 24600
+      },
+      {
+        "date": "2025-05-23",
+        "sales_minor": 25200
+      },
+      {
+        "date": "2025-05-24",
+        "sales_minor": 25800
+      },
+      {
+        "date": "2025-05-25",
+        "sales_minor": 26400
+      },
+      {
+        "date": "2025-05-26",
+        "sales_minor": 27000
+      },
+      {
+        "date": "2025-05-27",
+        "sales_minor": 27600
+      },
+      {
+        "date": "2025-05-28",
+        "sales_minor": 24700
+      },
+      {
+        "date": "2025-05-29",
+        "sales_minor": 25300
+      },
+      {
+        "date": "2025-05-30",
+        "sales_minor": 25900
+      },
+      {
+        "date": "2025-05-31",
+        "sales_minor": 26500
+      },
+      {
+        "date": "2025-06-01",
+        "sales_minor": 27100
+      },
+      {
+        "date": "2025-06-02",
+        "sales_minor": 27700
+      },
+      {
+        "date": "2025-06-03",
+        "sales_minor": 28300
+      },
+      {
+        "date": "2025-06-04",
+        "sales_minor": 25400
+      },
+      {
+        "date": "2025-06-05",
+        "sales_minor": 26000
+      },
+      {
+        "date": "2025-06-06",
+        "sales_minor": 26600
+      },
+      {
+        "date": "2025-06-07",
+        "sales_minor": 27200
+      },
+      {
+        "date": "2025-06-08",
+        "sales_minor": 27800
+      },
+      {
+        "date": "2025-06-09",
+        "sales_minor": 28400
+      },
+      {
+        "date": "2025-06-10",
+        "sales_minor": 29000
+      },
+      {
+        "date": "2025-06-11",
+        "sales_minor": 26100
+      },
+      {
+        "date": "2025-06-12",
+        "sales_minor": 26700
+      },
+      {
+        "date": "2025-06-13",
+        "sales_minor": 27300
+      },
+      {
+        "date": "2025-06-14",
+        "sales_minor": 27900
+      },
+      {
+        "date": "2025-06-15",
+        "sales_minor": 28500
+      },
+      {
+        "date": "2025-06-16",
+        "sales_minor": 29100
+      },
+      {
+        "date": "2025-06-17",
+        "sales_minor": 29700
+      },
+      {
+        "date": "2025-06-18",
+        "sales_minor": 26800
+      },
+      {
+        "date": "2025-06-19",
+        "sales_minor": 27400
+      },
+      {
+        "date": "2025-06-20",
+        "sales_minor": 28000
+      },
+      {
+        "date": "2025-06-21",
+        "sales_minor": 28600
+      },
+      {
+        "date": "2025-06-22",
+        "sales_minor": 29200
+      },
+      {
+        "date": "2025-06-23",
+        "sales_minor": 29800
+      },
+      {
+        "date": "2025-06-24",
+        "sales_minor": 30400
+      },
+      {
+        "date": "2025-06-25",
+        "sales_minor": 27500
+      },
+      {
+        "date": "2025-06-26",
+        "sales_minor": 28100
+      },
+      {
+        "date": "2025-06-27",
+        "sales_minor": 28700
+      },
+      {
+        "date": "2025-06-28",
+        "sales_minor": 29300
+      },
+      {
+        "date": "2025-06-29",
+        "sales_minor": 29900
+      }
+    ],
+    "forecast": [
+      {
+        "date": "2025-06-30",
+        "baseline_minor": 29800,
+        "ml_minor": 30472,
+        "selected_minor": 30472
+      },
+      {
+        "date": "2025-07-01",
+        "baseline_minor": 30400,
+        "ml_minor": 31063,
+        "selected_minor": 31063
+      },
+      {
+        "date": "2025-07-02",
+        "baseline_minor": 27500,
+        "ml_minor": 28168,
+        "selected_minor": 28168
+      },
+      {
+        "date": "2025-07-03",
+        "baseline_minor": 28100,
+        "ml_minor": 28763,
+        "selected_minor": 28763
+      },
+      {
+        "date": "2025-07-04",
+        "baseline_minor": 28700,
+        "ml_minor": 29359,
+        "selected_minor": 29359
+      },
+      {
+        "date": "2025-07-05",
+        "baseline_minor": 29300,
+        "ml_minor": 29955,
+        "selected_minor": 29955
+      },
+      {
+        "date": "2025-07-06",
+        "baseline_minor": 29900,
+        "ml_minor": 30540,
+        "selected_minor": 30540
+      },
+      {
+        "date": "2025-07-07",
+        "baseline_minor": 29800,
+        "ml_minor": 31135,
+        "selected_minor": 31135
+      },
+      {
+        "date": "2025-07-08",
+        "baseline_minor": 30400,
+        "ml_minor": 31729,
+        "selected_minor": 31729
+      },
+      {
+        "date": "2025-07-09",
+        "baseline_minor": 27500,
+        "ml_minor": 28836,
+        "selected_minor": 28836
+      },
+      {
+        "date": "2025-07-10",
+        "baseline_minor": 28100,
+        "ml_minor": 29430,
+        "selected_minor": 29430
+      },
+      {
+        "date": "2025-07-11",
+        "baseline_minor": 28700,
+        "ml_minor": 30025,
+        "selected_minor": 30025
+      },
+      {
+        "date": "2025-07-12",
+        "baseline_minor": 29300,
+        "ml_minor": 30619,
+        "selected_minor": 30619
+      },
+      {
+        "date": "2025-07-13",
+        "baseline_minor": 29900,
+        "ml_minor": 31199,
+        "selected_minor": 31199
+      },
+      {
+        "date": "2025-07-14",
+        "baseline_minor": 29800,
+        "ml_minor": 31800,
+        "selected_minor": 31800
+      },
+      {
+        "date": "2025-07-15",
+        "baseline_minor": 30400,
+        "ml_minor": 32395,
+        "selected_minor": 32395
+      },
+      {
+        "date": "2025-07-16",
+        "baseline_minor": 27500,
+        "ml_minor": 29503,
+        "selected_minor": 29503
+      },
+      {
+        "date": "2025-07-17",
+        "baseline_minor": 28100,
+        "ml_minor": 30097,
+        "selected_minor": 30097
+      },
+      {
+        "date": "2025-07-18",
+        "baseline_minor": 28700,
+        "ml_minor": 30691,
+        "selected_minor": 30691
+      },
+      {
+        "date": "2025-07-19",
+        "baseline_minor": 29300,
+        "ml_minor": 31284,
+        "selected_minor": 31284
+      },
+      {
+        "date": "2025-07-20",
+        "baseline_minor": 29900,
+        "ml_minor": 31863,
+        "selected_minor": 31863
+      },
+      {
+        "date": "2025-07-21",
+        "baseline_minor": 29800,
+        "ml_minor": 32464,
+        "selected_minor": 32464
+      },
+      {
+        "date": "2025-07-22",
+        "baseline_minor": 30400,
+        "ml_minor": 33060,
+        "selected_minor": 33060
+      },
+      {
+        "date": "2025-07-23",
+        "baseline_minor": 27500,
+        "ml_minor": 30168,
+        "selected_minor": 30168
+      },
+      {
+        "date": "2025-07-24",
+        "baseline_minor": 28100,
+        "ml_minor": 30761,
+        "selected_minor": 30761
+      },
+      {
+        "date": "2025-07-25",
+        "baseline_minor": 28700,
+        "ml_minor": 31354,
+        "selected_minor": 31354
+      },
+      {
+        "date": "2025-07-26",
+        "baseline_minor": 29300,
+        "ml_minor": 31947,
+        "selected_minor": 31947
+      },
+      {
+        "date": "2025-07-27",
+        "baseline_minor": 29900,
+        "ml_minor": 32524,
+        "selected_minor": 32524
+      },
+      {
+        "date": "2025-07-28",
+        "baseline_minor": 29800,
+        "ml_minor": 33125,
+        "selected_minor": 33125
+      },
+      {
+        "date": "2025-07-29",
+        "baseline_minor": 30400,
+        "ml_minor": 33720,
+        "selected_minor": 33720
+      }
+    ],
+    "evaluation": {
+      "train_from": "2025-01-01",
+      "train_to": "2025-04-30",
+      "validation_from": "2025-05-01",
+      "validation_to": "2025-05-30",
+      "test_from": "2025-05-31",
+      "test_to": "2025-06-29",
+      "baseline_method": "seasonal_naive_7",
+      "ridge_alpha": 0.1,
+      "validation_baseline": {
+        "mae_minor": 1866.6666666666667,
+        "rmse_minor": 2060.7442021431643
+      },
+      "validation_ml": {
+        "mae_minor": 208.03333333333333,
+        "rmse_minor": 229.27981449166722
+      },
+      "baseline": {
+        "mae_minor": 1866.6666666666667,
+        "rmse_minor": 2060.7442021431643
+      },
+      "ml": {
+        "mae_minor": 136.9,
+        "rmse_minor": 150.28628236358324
+      },
+      "test_winner": "ml",
+      "test_observations": 30
+    },
+    "selected_method": "ridge-lags-v1",
+    "warnings": [
+      "recorded_sales_only",
+      "experimental_not_guaranteed"
+    ]
   }
 }

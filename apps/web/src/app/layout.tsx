@@ -35,6 +35,7 @@ const secondaryLinks: SellerLink[] = [
   { path: "catalog", label: "catalog", icon: "catalog" },
   { path: "history", label: "history", icon: "history" },
   { path: "summary", label: "summary", icon: "summary" },
+  { path: "research", label: "research", icon: "summary" },
 ];
 export function SellerLayout() {
   const { t } = useI18n();
