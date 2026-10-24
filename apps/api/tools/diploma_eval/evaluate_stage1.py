@@ -18,14 +18,24 @@ sys.path.insert(0, str(API_ROOT))
 from app.assistant_schemas import AssistantFact  # noqa: E402
 
 
+def frozen_file_digest(path, expected):
+    """Git enforces LF; the original Windows freeze used CRLF. No other edits allowed."""
+    raw = path.read_bytes()
+    lf = raw.replace(b"\r\n", b"\n")
+    variants = (raw, lf, lf.replace(b"\n", b"\r\n"))
+    if expected not in {hashlib.sha256(v).hexdigest() for v in variants}:
+        raise ValueError("Frozen content changed: " + path.name)
+    return hashlib.sha256(lf).hexdigest()
+
+
 def load_frozen():
     fixture = API_ROOT / "tests/fixtures/assistant_stage1_cases.json"
     freeze = json.loads(fixture.with_name("assistant_stage1_freeze.json").read_text("utf-8"))
     baseline = API_ROOT / "tests/evaluation_baselines/assistant_numeric_v1.py"
-    if hashlib.sha256(fixture.read_bytes()).hexdigest() != freeze["fixture_sha256"]:
-        raise ValueError("Frozen cases changed; create a new protocol version instead")
-    if hashlib.sha256(baseline.read_bytes()).hexdigest() != freeze["baseline_file_sha256"]:
-        raise ValueError("Frozen baseline changed")
+    freeze["fixture_content_lf_sha256"] = frozen_file_digest(fixture, freeze["fixture_sha256"])
+    freeze["baseline_content_lf_sha256"] = frozen_file_digest(
+        baseline, freeze["baseline_file_sha256"]
+    )
     spec = importlib.util.spec_from_file_location("offline_numeric_baseline", baseline)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
@@ -70,12 +80,51 @@ def metrics(rows, field):
 
 
 def revision():
+    files = [
+        "app/services/assistant.py",
+        "app/services/assistant_structured.py",
+        "tests/test_assistant.py",
+        "tests/test_assistant_semantics.py",
+        "tests/fixtures/assistant_stage1_cases.json",
+        "tests/fixtures/assistant_stage1_freeze.json",
+        "tests/evaluation_baselines/assistant_numeric_v1.py",
+        "tools/diploma_eval/evaluate_stage1.py",
+    ]
+    hashes = {
+        p: hashlib.sha256((API_ROOT / p).read_bytes()).hexdigest()
+        for p in files
+        if (API_ROOT / p).is_file()
+    }
     try:
-        return subprocess.check_output(
+        head = subprocess.check_output(
             ["git", "-C", str(REPO_ROOT), "rev-parse", "HEAD"], text=True
         ).strip()
+        status = subprocess.check_output(
+            [
+                "git",
+                "-C",
+                str(REPO_ROOT),
+                "status",
+                "--porcelain",
+                "--untracked-files=all",
+                "--",
+                *["apps/api/" + p for p in files],
+            ],
+            text=True,
+        ).strip()
+        return dict(
+            checkout_head_sha=head,
+            implementation_commit_sha=None if status else head,
+            implementation_tree_dirty=bool(status),
+            implementation_files_sha256=hashes,
+        )
     except (OSError, subprocess.CalledProcessError):
-        return None
+        return dict(
+            checkout_head_sha=None,
+            implementation_commit_sha=None,
+            implementation_tree_dirty=None,
+            implementation_files_sha256=hashes,
+        )
 
 
 def main():
@@ -99,10 +148,17 @@ def main():
         note=data["scope_note"],
         python=platform.python_version(),
         run_utc=datetime.now(UTC).isoformat(),
-        implementation_commit_sha=revision(),
         baseline_source_sha=freeze["baseline_source_sha"],
         live_provider_calls=0,
     )
+    config.update(revision())
+    config["fixture_content_lf_sha256"] = freeze["fixture_content_lf_sha256"]
+    config["baseline_content_lf_sha256"] = freeze["baseline_content_lf_sha256"]
+    config["hash_policy"] = "Only LF/CRLF normalization; original Windows byte hashes also retained"
+    config["implementation_files_lf_sha256"] = {
+        p: hashlib.sha256((API_ROOT / p).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+        for p in config["implementation_files_sha256"]
+    }
     rows = []
     for case in data["cases"]:
         facts = [AssistantFact.model_validate(f) for f in data["snapshots"][case["snapshot"]]]
