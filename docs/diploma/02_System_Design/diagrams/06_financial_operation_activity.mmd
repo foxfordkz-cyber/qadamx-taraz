@@ -1,0 +1,20 @@
+flowchart TD
+  A[Сатушы қолмен не draft арқылы өріс береді] --> V[Schema validation]
+  V --> Auth[JWT және owner membership]
+  Auth --> Lock[Business FOR UPDATE]
+  Lock --> Draft[Берілсе draft author және scope check]
+  Draft --> Key{Осы key үшін receipt табылды ма?}
+  Key -->|Бар, hash бірдей| Replay[Original committed response]
+  Key -->|Бар, hash басқа| Conflict[409 conflict]
+  Key -->|Жоқ| Check[Draft expiry және consumed check]
+  Check --> Kind{Операция түрі}
+  Kind -->|Sale| Sale[Total, received, customer тексеру]
+  Kind -->|Repayment| Repay[Sale lock және current balance]
+  Kind -->|Reverse| Reverse[Original және dependent payments тексеру]
+  Sale --> Write[Operation және receipt қосу]
+  Repay --> Write
+  Reverse --> Write
+  Write --> Consume[Қажет болса draft consume]
+  Consume --> Commit[Бір transaction commit]
+  Commit --> Response[HTTP success]
+  Write -. Exception .-> Rollback[Бәрі rollback]

@@ -1,0 +1,13 @@
+﻿test_id,scope,status,execution,result,artifact,limitations,source_sha
+T01,main API non-Postgres,Tested,Previous audit run,229 passed;32 skipped;129 deselected;1 warning,evidence/previous_runs/api-tests-unrestricted.log,PostgreSQL integration not run,2518b2e80b8c8ef881063a968645382d61aeb37e
+T02,main web initial,Evidence collected,Previous audit run,590 passed;16 failed;4 skipped;8 failing files,evidence/previous_runs/web-tests.log,Timeout/element failures; exact cause not proven; do not hide failed run,2518b2e80b8c8ef881063a968645382d61aeb37e
+T03,main web maxWorkers2 rerun,Tested,Previous audit run,610 passed;44 files,evidence/previous_runs/web-tests-limited.log,"Frontend stub/synthetic tests, not live API",2518b2e80b8c8ef881063a968645382d61aeb37e
+T04,main Playwright demo,Tested,Previous audit run,6 passed;RU/KK;360/390/1440,evidence/previous_runs/web-e2e-local.log,"Local synthetic demo, no production acceptance",2518b2e80b8c8ef881063a968645382d61aeb37e
+T05,main contracts/Ruff/web typecheck lint build,Evidence collected,Previous audit run,Passed; build chunk warnings retained,evidence/previous_runs/test_results.md,Summary plus earlier audit; no fresh all-suite run,2518b2e80b8c8ef881063a968645382d61aeb37e
+T06,main validator4 invalid counterexamples,Tested,Current workspace rerun,3 semantic invalid ACCEPTED;1 unsupported number REJECTED,evidence/assistant-counterexamples.jsonl,"No valid controls, not representative accuracy",2518b2e80b8c8ef881063a968645382d61aeb37e
+T07,candidate pure forecast+risk,Tested,Current workspace run,25 passed;1 warning;0.50s,evidence/candidate-pure-tests.log,Only2 pure test files; no DB/API/Web candidate tests,b7c4750b158a6b1fc747e63a68ae7b2d078b5107
+T08,candidate deterministic synthetic h7/h30,Evidence collected,Current existing CLI run,Both horizon reports + empty insufficient_data report generated,evidence/synthetic-forecast-7.json,No real business forecast validation,b7c4750b158a6b1fc747e63a68ae7b2d078b5107
+T09,Postgres ledger/research migration,Not started,Not run,Өлшенбеген,,Isolated test DB required; shared DB not touched,b7c4750b158a6b1fc747e63a68ae7b2d078b5107
+T10,Flutter tests/build/device,Not started,Not run,Өлшенбеген,,Toolchain/device evidence missing,2518b2e80b8c8ef881063a968645382d61aeb37e
+T11,Live ASR/provider extraction,Blocked,Not run,Өлшенбеген;WER/accuracy null,,Consented gold/model budget missing,2518b2e80b8c8ef881063a968645382d61aeb37e
+T12,Candidate feedback UI/tenant/idempotency E2E,Not started,Not run,Өлшенбеген,,Standalone component not wired; migration pending,b7c4750b158a6b1fc747e63a68ae7b2d078b5107

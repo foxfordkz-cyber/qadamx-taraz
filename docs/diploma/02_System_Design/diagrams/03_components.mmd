@@ -1,0 +1,25 @@
+flowchart TB
+  subgraph MAIN[main baseline]
+    React[React App және RuntimeProvider] --> Gateway[ApiClient және SellerGateway]
+    Flutter[Flutter runtime және CrmApi] --> API[FastAPI create_app]
+    Gateway --> API
+    API --> Ledger[routers және ledger service]
+    API --> Draft[draft_routes және drafts service]
+    API --> Assistant[assistant_routes және assistant service]
+    API --> Public[public_routes]
+    API --> Livestock[livestock_routes]
+    Ledger --> ORM[SQLAlchemy models]
+    Draft --> ORM
+    Public --> ORM
+    Livestock --> ORM
+    Assistant --> Reads[analytics және journal facts]
+    ORM --> PG[(PostgreSQL)]
+    Reads --> PG
+    Draft --> Providers[ProviderPlan: Gemini немесе OpenAI]
+  end
+  subgraph CAND[Зерттеу кандидаты ғана: main-ға қосылмаған]
+    Routes[research_routes] --> Forecast[forecasting: ridge және baselines]
+    Routes --> Risk[debt_risk: rules-v1]
+    Routes --> Feedback[research_feedback service]
+    Form[FeedbackForm: standalone component]
+  end
