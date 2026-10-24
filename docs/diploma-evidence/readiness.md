@@ -11,7 +11,11 @@
 | Database | Additive Alembic 0009 + constraints/RLS/index, exercised on isolated PostgreSQL | Captain-approved shared rollout, backup/recovery and deletion procedures pending |
 | Scientific study | Protocol, real-data absence report and clearly synthetic reproducibility fixtures | Recruitment, real experiments, confidence analysis and findings pending |
 
-No deployments, real financial writes, AI requests or Supabase settings changes were
+No manual deployments, real financial writes, AI requests or Supabase settings changes were
 performed. No additional runtime dependency or environment variable is required.
 The API version is additive 0.8.0; existing app endpoints/financial models remain.
 A dedicated /seller/research link is in secondary navigation, Analytics and Customers.
+
+After the authorized push, the repository's existing Vercel integration automatically
+reported a successful branch preview. No deploy command was issued; the preview is
+not a production release or evidence of live backend/migration acceptance.
