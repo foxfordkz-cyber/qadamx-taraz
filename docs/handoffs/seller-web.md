@@ -789,3 +789,14 @@ Production-ready не заявляется. Нужны review капитана, 
 retention/withdrawal процедура. Rollback: предыдущий frontend/API artifact;
 feedback table не удалять без отдельного решения/backup. PR100 остаётся Draft,
 main/shared DB/deploy не изменены. Публикация и проверенный code SHA — ниже.
+
+### Публикация стабилизации
+
+Проверенный implementation commit: **cc02e75f7d5a12ca8b1d171498f3cc4e513db59f**.
+Fetch/prune и ff-only pull успешны; main остался 2518b2e. Первый push оборвался
+из-за сетевого reset; обычный повтор с HTTP/1.1 завершился успешно. GitHub API
+подтвердил совпадение PR head с локальным cc02e75, Draft=true, mergeable=true.
+Этот последующий docs commit фиксирует code SHA и точный перечень файлов; его
+собственный hash доступен через `git log -1 --format=%H`. Код после тестов не менялся.
+Продолжение — только review и согласование release dependencies из отчёта,
+не автоматический merge или production rollout.

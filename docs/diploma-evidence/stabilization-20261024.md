@@ -6,6 +6,7 @@ Official diploma topic (unchanged):
 ## Scope and provenance
 
 Start commit: `8bbc0acae75d2fea23c9e95ce4f36f91e9b7b4e4`.
+Tested implementation commit: `cc02e75f7d5a12ca8b1d171498f3cc4e513db59f`.
 Base main: `2518b2e80b8c8ef881063a968645382d61aeb37e`.
 Branch: `feature/ml-sales-debt-research`, existing [Draft PR100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100).
 
@@ -212,3 +213,35 @@ Research reports/handoff/screenshots record actual evidence.
 Exact tracked paths: `git diff --name-status 8bbc0ac..HEAD`.
 This is AI-assisted implementation and verification, not a claim of manual
 authorship, empirical model improvement or completed participant research.
+
+### Exact files in the stabilization commit
+
+- `apps/web/e2e/analytics.spec.ts`
+- `apps/web/e2e/research-postgres.acceptance.ts`
+- `apps/web/src/app/App.tsx`
+- `apps/web/src/app/business-selection.ts`
+- `apps/web/src/app/layout.tsx`
+- `apps/web/src/app/runtime.tsx`
+- `apps/web/src/features/seller/research/FeedbackForm.tsx`
+- `apps/web/src/features/seller/research/ResearchPage.tsx`
+- `apps/web/src/features/seller/research/i18n.ts`
+- `apps/web/src/features/seller/research/research.css`
+- `apps/web/src/shared/i18n/kk.ts`
+- `apps/web/src/shared/i18n/ru.ts`
+- `apps/web/src/test/business-selection.test.tsx`
+- `apps/web/src/test/research-feedback.test.tsx`
+- `apps/web/src/test/setup.ts`
+- `docs/diploma-evidence/README.md`
+- `docs/diploma-evidence/contributions.md`
+- `docs/diploma-evidence/end-to-end-acceptance.md`
+- `docs/diploma-evidence/readiness.md`
+- `docs/diploma-evidence/screenshots/postgres-feedback-persisted.png`
+- `docs/diploma-evidence/screenshots/postgres-research-ru.png`
+- `docs/diploma-evidence/screenshots/research-kk-1440.png`
+- `docs/diploma-evidence/screenshots/research-kk-360.png`
+- `docs/diploma-evidence/screenshots/research-ru-1440.png`
+- `docs/diploma-evidence/screenshots/research-ru-360.png`
+- `docs/diploma-evidence/screenshots/research-stabilized-local.jpg`
+- `docs/diploma-evidence/screenshots/research-unsaved-kk.png`
+- `docs/diploma-evidence/stabilization-20261024.md`
+- `docs/handoffs/seller-web.md`
