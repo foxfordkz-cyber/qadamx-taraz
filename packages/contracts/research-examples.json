@@ -31,5 +31,19 @@
     "currency": "KZT",
     "items": [],
     "next_cursor": null
+  },
+  "FeedbackRequest": {
+    "client_request_id": "b9f20c8d-6ba9-4ffd-a3c9-6b595a46f792",
+    "language": "ru",
+    "consent": true,
+    "consent_version": "v1",
+    "features_used": [],
+    "sales_debt_clarity": null,
+    "forecast_usefulness": null,
+    "risk_clarity": null,
+    "unresolved_problem": "",
+    "improve_first": "Синтетический пример формы",
+    "suggestion": "",
+    "follow_up": false
   }
 }

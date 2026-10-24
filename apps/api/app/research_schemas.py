@@ -2,7 +2,7 @@ from datetime import date
 from typing import Annotated, Literal
 from uuid import UUID
 
-from pydantic import AwareDatetime, Field
+from pydantic import AwareDatetime, Field, model_validator
 
 from app.schemas import Contract
 
@@ -84,4 +84,50 @@ class DebtRiskResponse(Contract):
     outcome_metrics: None = None
     currency: Literal["KZT"] = "KZT"
     items: list[DebtRiskItem]
+    next_cursor: UUID | None
+
+
+ResearchFeature = Literal[
+    "sales", "debts", "voice", "analytics", "forecast", "risk", "catalog", "inquiries"
+]
+Rating = Annotated[int, Field(strict=True, ge=1, le=5)]
+
+
+class FeedbackCreate(Contract):
+    client_request_id: UUID
+    language: Literal["ru", "kk"]
+    consent: Annotated[bool, Field(strict=True)]
+    consent_version: Literal["v1"] = "v1"
+    features_used: Annotated[list[ResearchFeature], Field(max_length=8)]
+    sales_debt_clarity: Rating | None
+    forecast_usefulness: Rating | None
+    risk_clarity: Rating | None
+    unresolved_problem: Annotated[str, Field(max_length=1500)] = ""
+    improve_first: Annotated[str, Field(min_length=1, max_length=500)]
+    suggestion: Annotated[str, Field(max_length=2000)] = ""
+    follow_up: Annotated[bool, Field(strict=True)] = False
+
+    @model_validator(mode="after")
+    def validate_consent_and_features(self):
+        if not self.consent:
+            raise ValueError("Research consent is required")
+        if len(set(self.features_used)) != len(self.features_used):
+            raise ValueError("Duplicate features")
+        return self
+
+
+class FeedbackReceipt(Contract):
+    id: UUID
+    client_request_id: UUID
+    created_at: AwareDatetime
+
+
+class FeedbackRecord(FeedbackCreate):
+    id: UUID
+    created_at: AwareDatetime
+
+
+class FeedbackPage(Contract):
+    business_id: UUID
+    items: list[FeedbackRecord]
     next_cursor: UUID | None

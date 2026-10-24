@@ -93,3 +93,21 @@ Checks: **18/18 pytest** (12 rule boundaries/invalid facts + 6 PostgreSQL resear
 tests), scoped ruff and generated contract checks passed. Includes paid/reversed
 payment balances, paging, authentication and cross-business denial. Stage 2 commit:
 `6bdaeb6`; stage 1: `8804795`. UI integration follows in stage 5.
+
+## Stage 4 — consented feedback
+
+Added `ResearchFeedback`, migration `0009_research_feedback`, POST and private paged
+GET `/research/feedback`, bilingual `FeedbackForm` and the [research protocol](../user-research-plan.md).
+One request ID per immutable submission, transaction committed before success,
+explicit retry after unknown result; no automatic replay. No contact requirement.
+JWT + membership + submitting author scope apply to reads. RLS enabled, direct
+PUBLIC/anon/authenticated access revoked. The migration was applied/downgraded only
+on the isolated test DB; production needs captain rollout and retention process.
+
+Checks: **16/16 PostgreSQL feedback tests**, **7/7 component tests**, TypeScript,
+scoped lint/format and generated contract check passed. Initial migration check
+found SQLAlchemy parsing a JSON literal as a bind parameter; changed the consent
+constraint to `jsonb_build_object` and reran successfully. Test fixture typing was
+corrected before the final successful typecheck. Stage 3 commit: `45b33ab`.
+No real questionnaire response or participant was collected. Screen navigation,
+combined rendering and full regression suite follow in stage 5.

@@ -30,6 +30,7 @@ def private_response(request):
     path = request.url.path.rstrip("/")
     return (
         path.startswith("/api/v1/livestock")
+        or (path.startswith("/api/v1/businesses/") and "/research/" in path)
         or path.endswith("/customer-creation-result")
         or (request.method == "POST" and path.endswith("/customers"))
     )

@@ -198,6 +198,24 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/businesses/{id}/research/feedback": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Feedback */
+    get: operations["get_feedback_api_v1_businesses__id__research_feedback_get"];
+    put?: never;
+    /** Post Feedback */
+    post: operations["post_feedback_api_v1_businesses__id__research_feedback_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/businesses/{id}/drafts": {
     parameters: {
       query?: never;
@@ -977,6 +995,156 @@ export interface components {
        * Format: uuid
        */
       request_id: string;
+    };
+    /** FeedbackCreate */
+    FeedbackCreate: {
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /**
+       * Language
+       * @enum {string}
+       */
+      language: "ru" | "kk";
+      /** Consent */
+      consent: boolean;
+      /**
+       * Consent Version
+       * @default v1
+       * @constant
+       */
+      consent_version: "v1";
+      /** Features Used */
+      features_used: (
+        | "sales"
+        | "debts"
+        | "voice"
+        | "analytics"
+        | "forecast"
+        | "risk"
+        | "catalog"
+        | "inquiries"
+      )[];
+      /** Sales Debt Clarity */
+      sales_debt_clarity: number | null;
+      /** Forecast Usefulness */
+      forecast_usefulness: number | null;
+      /** Risk Clarity */
+      risk_clarity: number | null;
+      /**
+       * Unresolved Problem
+       * @default
+       */
+      unresolved_problem: string;
+      /** Improve First */
+      improve_first: string;
+      /**
+       * Suggestion
+       * @default
+       */
+      suggestion: string;
+      /**
+       * Follow Up
+       * @default false
+       */
+      follow_up: boolean;
+    };
+    /** FeedbackPage */
+    FeedbackPage: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /** Items */
+      items: components["schemas"]["FeedbackRecord"][];
+      /** Next Cursor */
+      next_cursor: string | null;
+    };
+    /** FeedbackReceipt */
+    FeedbackReceipt: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+    };
+    /** FeedbackRecord */
+    FeedbackRecord: {
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /**
+       * Language
+       * @enum {string}
+       */
+      language: "ru" | "kk";
+      /** Consent */
+      consent: boolean;
+      /**
+       * Consent Version
+       * @default v1
+       * @constant
+       */
+      consent_version: "v1";
+      /** Features Used */
+      features_used: (
+        | "sales"
+        | "debts"
+        | "voice"
+        | "analytics"
+        | "forecast"
+        | "risk"
+        | "catalog"
+        | "inquiries"
+      )[];
+      /** Sales Debt Clarity */
+      sales_debt_clarity: number | null;
+      /** Forecast Usefulness */
+      forecast_usefulness: number | null;
+      /** Risk Clarity */
+      risk_clarity: number | null;
+      /**
+       * Unresolved Problem
+       * @default
+       */
+      unresolved_problem: string;
+      /** Improve First */
+      improve_first: string;
+      /**
+       * Suggestion
+       * @default
+       */
+      suggestion: string;
+      /**
+       * Follow Up
+       * @default false
+       */
+      follow_up: boolean;
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
     };
     /** ForecastDay */
     ForecastDay: {
@@ -2635,6 +2803,147 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["DebtRiskResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_feedback_api_v1_businesses__id__research_feedback_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["FeedbackPage"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  post_feedback_api_v1_businesses__id__research_feedback_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FeedbackCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["FeedbackReceipt"];
         };
       };
       /** @description Unauthorized */

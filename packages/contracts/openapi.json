@@ -1469,6 +1469,219 @@
         }
       }
     },
+    "/api/v1/businesses/{id}/research/feedback": {
+      "post": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Post Feedback",
+        "operationId": "post_feedback_api_v1_businesses__id__research_feedback_post",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FeedbackCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackReceipt"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "research"
+        ],
+        "summary": "Get Feedback",
+        "operationId": "get_feedback_api_v1_businesses__id__research_feedback_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 25,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FeedbackPage"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
     "/api/v1/businesses/{id}/drafts": {
       "post": {
         "tags": [
@@ -5038,6 +5251,321 @@
           "request_id"
         ],
         "title": "ErrorResponse"
+      },
+      "FeedbackCreate": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Language"
+          },
+          "consent": {
+            "type": "boolean",
+            "title": "Consent"
+          },
+          "consent_version": {
+            "type": "string",
+            "const": "v1",
+            "title": "Consent Version",
+            "default": "v1"
+          },
+          "features_used": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "sales",
+                "debts",
+                "voice",
+                "analytics",
+                "forecast",
+                "risk",
+                "catalog",
+                "inquiries"
+              ]
+            },
+            "type": "array",
+            "maxItems": 8,
+            "title": "Features Used"
+          },
+          "sales_debt_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sales Debt Clarity"
+          },
+          "forecast_usefulness": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Usefulness"
+          },
+          "risk_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Clarity"
+          },
+          "unresolved_problem": {
+            "type": "string",
+            "maxLength": 1500,
+            "title": "Unresolved Problem",
+            "default": ""
+          },
+          "improve_first": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Improve First"
+          },
+          "suggestion": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Suggestion",
+            "default": ""
+          },
+          "follow_up": {
+            "type": "boolean",
+            "title": "Follow Up",
+            "default": false
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "language",
+          "consent",
+          "features_used",
+          "sales_debt_clarity",
+          "forecast_usefulness",
+          "risk_clarity",
+          "improve_first"
+        ],
+        "title": "FeedbackCreate"
+      },
+      "FeedbackPage": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/FeedbackRecord"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "items",
+          "next_cursor"
+        ],
+        "title": "FeedbackPage"
+      },
+      "FeedbackReceipt": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "client_request_id",
+          "created_at"
+        ],
+        "title": "FeedbackReceipt"
+      },
+      "FeedbackRecord": {
+        "properties": {
+          "client_request_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Client Request Id"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "ru",
+              "kk"
+            ],
+            "title": "Language"
+          },
+          "consent": {
+            "type": "boolean",
+            "title": "Consent"
+          },
+          "consent_version": {
+            "type": "string",
+            "const": "v1",
+            "title": "Consent Version",
+            "default": "v1"
+          },
+          "features_used": {
+            "items": {
+              "type": "string",
+              "enum": [
+                "sales",
+                "debts",
+                "voice",
+                "analytics",
+                "forecast",
+                "risk",
+                "catalog",
+                "inquiries"
+              ]
+            },
+            "type": "array",
+            "maxItems": 8,
+            "title": "Features Used"
+          },
+          "sales_debt_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sales Debt Clarity"
+          },
+          "forecast_usefulness": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Forecast Usefulness"
+          },
+          "risk_clarity": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 5.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Clarity"
+          },
+          "unresolved_problem": {
+            "type": "string",
+            "maxLength": 1500,
+            "title": "Unresolved Problem",
+            "default": ""
+          },
+          "improve_first": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Improve First"
+          },
+          "suggestion": {
+            "type": "string",
+            "maxLength": 2000,
+            "title": "Suggestion",
+            "default": ""
+          },
+          "follow_up": {
+            "type": "boolean",
+            "title": "Follow Up",
+            "default": false
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "client_request_id",
+          "language",
+          "consent",
+          "features_used",
+          "sales_debt_clarity",
+          "forecast_usefulness",
+          "risk_clarity",
+          "improve_first",
+          "id",
+          "created_at"
+        ],
+        "title": "FeedbackRecord"
       },
       "ForecastDay": {
         "properties": {
