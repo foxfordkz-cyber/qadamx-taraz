@@ -1,0 +1,13 @@
+{
+  "dataset_id": "DS-B-LOCKED-42-v1",
+  "fixture_sha256": "46732cf49f163a0b571019c32ea44e9910c6e46d96a65f961786e0db66988700",
+  "baseline_source_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "original_assistant_sha256": "7a8bcd8d9a6ac01a12b68d5b84d46063c712880c973bb53819a58b943252c5a1",
+  "baseline_file_sha256": "f375d67d7965bb372625d6727aa59c44a08c709f8ac06420e4ab23ed86d7a747",
+  "valid_cases": 18,
+  "invalid_cases": 24,
+  "original_counterexamples": 4,
+  "freeze_utc": "2026-10-24T09:15:11.696504+00:00",
+  "paired_encoding_note": "Same semantic intents and snapshots; distinct legacy-prose and structured-ID encodings frozen before implementation. Strict protocol-policy failures are included; not a population/model accuracy benchmark.",
+  "baseline_definitions_ast_verified": true
+}
