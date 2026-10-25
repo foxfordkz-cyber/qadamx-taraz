@@ -302,3 +302,13 @@ test. Статистические ошибки могут быть дробны
 исследовательские данные и участники требуют отдельной подготовки капитаном.
 Научное превосходство ML и завершённое исследование пользователей не заявляются.
 Подробнее: docs/diploma-evidence, docs/ml-evaluation-plan.md, docs/user-research-plan.md.
+
+## 2026-10-24 — Stage1 private ID-only assistant validation (local branch)
+
+Implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1` replaces numeric-membership/free-prose validation with scoped
+fact identifiers and deterministic RU/KK server rendering. Every model-supplied name,
+value,unit,prose field is forbidden;reminder recipient/balance comes from current request.
+PublicRequest/Response/action/source enums andfinancial journal stay unchanged. Legacy
+validator exists only in offline tests. Valid signed daily journal deltas are retained.
+Frozen paired42case comparison passes finite FP0/FN0;not a live LLM accuracy claim.
+Not merged/deployed;laterresearchcandidate untouched;realDB/liveAI acceptance pending.

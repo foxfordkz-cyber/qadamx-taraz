@@ -1,0 +1,24 @@
+{
+  "implementation": "6ac5266abddffa7f1278d403ece55cc3eba457a1",
+  "code_source_unchanged_since_verified_commit": true,
+  "frozen_git_blob_unchanged": true,
+  "paired_cases": 42,
+  "valid": 18,
+  "invalid": 24,
+  "new_false_acceptance_count": 0,
+  "new_false_rejection_count": 0,
+  "public_contracts_unchanged": true,
+  "protected_tracked_files": 827,
+  "workbook_sheets": 10,
+  "tracking_rows": 187,
+  "formula_count": 17,
+  "validation_ranges": 9,
+  "formula_errors": 0,
+  "preserved_workbook_sheets": [
+    "Literature Register",
+    "University Requirements"
+  ],
+  "verified_for_thesis": 0,
+  "mermaid_sources": 8,
+  "new_report_links_checked": true
+}

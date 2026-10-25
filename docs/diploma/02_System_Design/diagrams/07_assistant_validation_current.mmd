@@ -1,0 +1,12 @@
+flowchart TD
+  R[JWT және business membership] --> Facts[Server facts жинау]
+  Facts --> Flag{ai=true ме?}
+  Flag -->|Жоқ| Fixed[Server fallback template, source=facts]
+  Flag -->|Иә| Limit[Per-process daily limit]
+  Limit --> Model[Provider: facts және question]
+  Model --> Parse[ModelAnswer JSON/schema]
+  Parse --> Actions[Allowed actions және reminder customer_id]
+  Actions --> Numbers[Digits allowed_numbers жиынына кіре ме?]
+  Numbers -->|Жоқ не exception| Fallback[Server fallback, source=fallback]
+  Numbers -->|Иә| Result[Model prose, source=ai]
+  Result --> Gap[Шектеу: metric-value және free-text name binding толық тексерілмейді]

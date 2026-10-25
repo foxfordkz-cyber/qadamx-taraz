@@ -1,0 +1,22 @@
+{
+  "operation": "edit existing workbook",
+  "updated_sheets": 8,
+  "preserved_sheets": 2,
+  "status_counts": [
+    10,
+    14,
+    14,
+    12,
+    109,
+    0,
+    28
+  ],
+  "verified_for_thesis": 0,
+  "sensitivity": "passed",
+  "xlsx_roundtrip": "passed",
+  "previews": 8,
+  "implementation": "6ac5266abddffa7f1278d403ece55cc3eba457a1",
+  "visual_sheets_reviewed": 8,
+  "detail_renders_reviewed": 3,
+  "xlsx_sha256": "41db394ac0f817a8820a826ee66cbeffc9042285648a0fdf953ad282665cb08d"
+}

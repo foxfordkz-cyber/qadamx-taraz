@@ -1,0 +1,37 @@
+erDiagram
+  VENUES ||--o{ BUSINESSES : venue_id
+  BUSINESSES ||--o{ MEMBERSHIPS : business_id
+  BUSINESSES ||--o{ CATALOG_ITEMS : business_id
+  BUSINESSES ||--o{ CUSTOMERS : business_id
+  BUSINESSES ||--o{ OPERATIONS : business_id
+  CUSTOMERS o|--o{ OPERATIONS : customer_id
+  OPERATIONS ||--o{ OPERATIONS : sale_id
+  OPERATIONS o|--o| OPERATIONS : reversal_of
+  OPERATIONS ||--o{ IDEMPOTENCY_RECORDS : result_operation_id
+  BUSINESSES ||--o{ IDEMPOTENCY_RECORDS : business_id
+  BUSINESSES ||--o{ DRAFTS : business_id
+  OPERATIONS o|--o| DRAFTS : consumed_operation_id
+  BUSINESSES ||--o{ CUSTOMER_CREATION_REQUESTS : business_id
+  CUSTOMERS ||--o{ CUSTOMER_CREATION_REQUESTS : result_customer_id
+  BUSINESSES ||--o{ INQUIRIES : business_id
+  LIVESTOCK_MARKETS o|--o{ LIVESTOCK_LISTINGS : market_id
+  LIVESTOCK_LISTINGS o|--o{ LIVESTOCK_PHOTOS : listing_id
+  BUSINESSES ||--o{ RESEARCH_FEEDBACK_CANDIDATE : business_id
+  OPERATIONS {
+    uuid id PK
+    uuid business_id FK
+    uuid customer_id FK
+    uuid sale_id FK
+    string kind
+    bigint sales_delta_minor
+    bigint receipts_delta_minor
+    uuid reversal_of FK
+  }
+  RESEARCH_FEEDBACK_CANDIDATE {
+    uuid id PK
+    uuid business_id FK
+    uuid created_by
+    uuid client_request_id
+    string request_hash
+    jsonb payload
+  }

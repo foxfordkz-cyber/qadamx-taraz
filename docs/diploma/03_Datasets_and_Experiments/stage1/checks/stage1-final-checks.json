@@ -1,0 +1,62 @@
+[
+  {
+    "check": "backend-tests",
+    "command": "python work/run_stage1.py tests --junitxml=C:\\Users\\user\\Documents\\Codex\\2026-10-24\\https-chatgpt-com-share-6adc4ef8-8a60\\work\\stage1-backend-tests.xml",
+    "exit_code": 0,
+    "elapsed_seconds": 24.765,
+    "started_utc": "2026-10-24T09:50:35.970857+00:00",
+    "source_sha256": {
+      "app/services/assistant.py": "61e6566d41f29cd1dd4f2b9cdf490284f00c8b7f6b7a94ff86e43c80f51b00ee",
+      "app/services/assistant_structured.py": "6863e7d29dce87d7fbc030417e27a9c4a3557e4c277e792dc020d3ccd8589081",
+      "tests/test_assistant.py": "fb14e21c1c0d05772f23e1464532e903098f79df3a6313b88de17b430b8eb0bc",
+      "tests/test_assistant_semantics.py": "8f33451f07ecffd87ab23304656b4d99d15ff5bca38547c61832e4636fff4e20",
+      "tools/diploma_eval/evaluate_stage1.py": "dded39393431da933d4cbc9e6b6b488bf1b5cd79002888bf129a1c0655397d71"
+    },
+    "log": "stage1-backend-tests.log"
+  },
+  {
+    "check": "ruff",
+    "command": "python work/run_stage1.py ruff",
+    "exit_code": 0,
+    "elapsed_seconds": 0.516,
+    "started_utc": "2026-10-24T09:51:00.741425+00:00",
+    "source_sha256": {
+      "app/services/assistant.py": "61e6566d41f29cd1dd4f2b9cdf490284f00c8b7f6b7a94ff86e43c80f51b00ee",
+      "app/services/assistant_structured.py": "6863e7d29dce87d7fbc030417e27a9c4a3557e4c277e792dc020d3ccd8589081",
+      "tests/test_assistant.py": "fb14e21c1c0d05772f23e1464532e903098f79df3a6313b88de17b430b8eb0bc",
+      "tests/test_assistant_semantics.py": "8f33451f07ecffd87ab23304656b4d99d15ff5bca38547c61832e4636fff4e20",
+      "tools/diploma_eval/evaluate_stage1.py": "dded39393431da933d4cbc9e6b6b488bf1b5cd79002888bf129a1c0655397d71"
+    },
+    "log": "stage1-ruff.log"
+  },
+  {
+    "check": "format",
+    "command": "python work/run_stage1.py format",
+    "exit_code": 0,
+    "elapsed_seconds": 0.25,
+    "started_utc": "2026-10-24T09:51:01.256116+00:00",
+    "source_sha256": {
+      "app/services/assistant.py": "61e6566d41f29cd1dd4f2b9cdf490284f00c8b7f6b7a94ff86e43c80f51b00ee",
+      "app/services/assistant_structured.py": "6863e7d29dce87d7fbc030417e27a9c4a3557e4c277e792dc020d3ccd8589081",
+      "tests/test_assistant.py": "fb14e21c1c0d05772f23e1464532e903098f79df3a6313b88de17b430b8eb0bc",
+      "tests/test_assistant_semantics.py": "8f33451f07ecffd87ab23304656b4d99d15ff5bca38547c61832e4636fff4e20",
+      "tools/diploma_eval/evaluate_stage1.py": "dded39393431da933d4cbc9e6b6b488bf1b5cd79002888bf129a1c0655397d71"
+    },
+    "log": "stage1-format.log"
+  },
+  {
+    "check": "contracts",
+    "command": "python work/run_stage1.py contracts",
+    "exit_code": 0,
+    "elapsed_seconds": 2.719,
+    "started_utc": "2026-10-24T09:51:01.503538+00:00",
+    "source_sha256": {
+      "app/services/assistant.py": "61e6566d41f29cd1dd4f2b9cdf490284f00c8b7f6b7a94ff86e43c80f51b00ee",
+      "app/services/assistant_structured.py": "6863e7d29dce87d7fbc030417e27a9c4a3557e4c277e792dc020d3ccd8589081",
+      "tests/test_assistant.py": "fb14e21c1c0d05772f23e1464532e903098f79df3a6313b88de17b430b8eb0bc",
+      "tests/test_assistant_semantics.py": "8f33451f07ecffd87ab23304656b4d99d15ff5bca38547c61832e4636fff4e20",
+      "tools/diploma_eval/evaluate_stage1.py": "dded39393431da933d4cbc9e6b6b488bf1b5cd79002888bf129a1c0655397d71"
+    },
+    "log": "stage1-contracts.log"
+  }
+]

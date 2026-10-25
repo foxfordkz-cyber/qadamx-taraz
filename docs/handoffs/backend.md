@@ -1180,3 +1180,27 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 - Vercel больше не используется: капитан убрал доступ GitHub-приложения Vercel к репозиторию. Последние коммиты получали от `vercel[bot]` статус `failure` («Deployment rate limited»); уже поставленные статусы GitHub удалить не даёт. Сайт размещён только на Cloudflare Pages, упоминание старого адреса убрано из README.
 - Удалены 87 удалённых веток, которые полностью входят в `main`. Список «ветка → SHA» для восстановления лежит у интегратора локально. Оставлены `main`, `deploy/permanent-062`, `deploy-062` и 33 ветки с коммитами, которых нет в `main`.
 - В `main` добавлены слайды защиты `docs/pitch/Qadam-Business-slides-KZ.pdf` и полные имена команды QadamX/QadamK в README и ТЗ.
+
+### 2026-10-24 — Stage1 assistant fact bindings, local feature branch
+
+`feature/stage1-factual-validation` от main `2518b2e80b8c8ef881063a968645382d61aeb37e`. Implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1`;
+freeze `3cb1ee19cc43a4b9fe5fcfd8436503cc864dbf8d`. Модель выбирает только scoped factIDs;сервер пишет
+RU/KK имена,суммы,единицы и reminder. Свободная prose/numeric-membership validation
+убрана из runtime;original сохранён только в tests/evaluation_baselines. Provider transport,
+collector,fallback,лимиты иpublicDTO сохранены. Ledger/models/migrations не менялись.
+
+Frozen42paired syntheticcases:18valid/24invalid;originalTP18/FP19/TN5/FN0,newTP18/FP0/TN24/FN0.
+Это смена protocol representation,не доказательство реальной LLM accuracy. Final pytest
+`-m "not postgres"`:318passed,32skipped,129deselected,1warning;Ruff check/format и
+export_contracts --check passed. Web check:api/typecheck/lint passed;assistant/WhatsApp57tests
+в3files passed. HTTP/providers stubbed. Initial103pass/1fail escape assertion log сохранён.
+
+Docs: `docs/diploma/04_Implementation_Evidence/stage1_implementation_report.md`,
+`03_Datasets_and_Experiments/stage1_experiment_results.md`,editable08diagram;raw/config/logs
+вstage1/. Git LF/WindowsCRLF hashes portable,fixture/gold неизменны. Source/treehash guard827
+прочих apps/packages файлов unchanged;publicOpenAPI/examples/generatedTS unchanged.
+
+Нет Postgres daemon;realDB suite/Flutter/liveAI не запускались. No push/PR/merge/deploy,
+sharedDB/serviceconfig не трогали. Latercandidate `b7c4750b158a6b1fc747e63a68ae7b2d078b5107` untouched. Следующий шаг:
+captain review,isolatedDB acceptance ипоследующийStage2;не возвращать unsafelegacy parser.
+CodexAI assistance раскрыта,студент/личный вклад не установлены;teamcode не присвоен студенту.

@@ -1,0 +1,27 @@
+sequenceDiagram
+  actor Seller as Сатушы
+  participant UI as React Sale
+  participant API as FastAPI
+  participant DB as PostgreSQL
+  participant AI as Сыртқы provider
+  Seller->>UI: Мәтін не аудио, талдауды бастау
+  UI->>API: POST drafts, бір source
+  API->>DB: Membership тексеру
+  API->>DB: Rollback, lock босату
+  API->>API: Audio normalize және шектер
+  alt OpenAI audio
+    API->>AI: Transcription
+    AI-->>API: Transcript
+    API->>AI: Structured extraction
+  else Gemini немесе text extraction
+    API->>AI: Structured generation
+  end
+  AI-->>API: Untrusted JSON
+  API->>API: Pydantic және evidence spans
+  API->>DB: Membership қайта тексеру, draft commit
+  API-->>UI: Draft, missing fields және сұрақтар
+  Seller->>UI: Клиент, сома және растау
+  UI->>API: POST operations және Idempotency-Key
+  API->>DB: Business, draft және sale lock/check
+  API->>DB: Operation, receipt және consumed draft commit
+  API-->>UI: Operation және current balance

@@ -1,0 +1,30 @@
+{
+  "configuration": {
+    "dataset_id": "DS-B-LOCKED-42-v1",
+    "fixture_sha256": "46732cf49f163a0b571019c32ea44e9910c6e46d96a65f961786e0db66988700",
+    "positive_class": "gold_valid",
+    "protocol": "paired-encodings-v1",
+    "note": "Same semantic intents and snapshots; distinct legacy-prose and structured-ID encodings frozen before implementation. Strict protocol-policy failures are included; not a population/model accuracy benchmark.",
+    "python": "3.12.14",
+    "run_utc": "2026-10-24T09:19:07.048649+00:00",
+    "implementation_commit_sha": "80887e9802c8d56cf291a042c60109bbfcf457b1",
+    "baseline_source_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "live_provider_calls": 0
+  },
+  "n": 42,
+  "valid": 18,
+  "invalid": 24,
+  "original": {
+    "tp": 18,
+    "fp": 19,
+    "tn": 5,
+    "fn": 0,
+    "false_acceptance_rate": 0.7916666666666666,
+    "false_rejection_rate": 0.0,
+    "precision": 0.4864864864864865,
+    "recall": 1.0,
+    "f1": 0.6545454545454545
+  },
+  "improved": null,
+  "limitation": "Finite constructed paired protocols, not real-world model accuracy"
+}
