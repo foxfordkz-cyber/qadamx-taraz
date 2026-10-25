@@ -1,0 +1,15 @@
+{
+  "version": "qadam-stage8-constructed-holdout-v1",
+  "frozen_at_utc": "2026-10-25T08:50:22.025853+00:00",
+  "case_count": 120,
+  "implementation": "b84b4c70b58c21465705f1dc8c3ca31657054fce",
+  "baseline": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+  "hashes_lf": {
+    "docs/diploma-evidence/ai-evaluation-stage8/dataset.jsonl": "dab90ae87f7dc8e25a1d07de20dc5ae6bd8536943641975a368125807e1229e5",
+    "docs/diploma-evidence/ai-evaluation-stage8/dataset.csv": "f81de3882a3669dff4bd0cd33b82b69b941894f289452a4b0d49c95b714b2d32",
+    "docs/diploma-evidence/ai-evaluation-stage8/evaluation-protocol.md": "27ad91c13e493b3536ec9f61d90d499f29e8ebcf30d990efebcd53f5dc765c6a",
+    "apps/api/tools/stage8_eval/build_corpus.py": "7f32be3268fdbfde0d18aa399f0a2e629f884bfb8b76259eaddca72ce2f09361"
+  },
+  "live_calls": 0,
+  "independence": "Unseen during Stage7 development; same exposed Codex author, not blind or independently adjudicated"
+}
