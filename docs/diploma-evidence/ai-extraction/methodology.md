@@ -4,6 +4,10 @@ Baseline: `ae43dc25543ab261511c8b5f5982c7dfe8112da8:apps/api/app/services/ai.py`
 
 Conditions: identical 100 text/locale/provider-output inputs, one explicit offline provider call per case, no network, no money writes, no paid retry. Provider temperature/model are not applicable. Transport timeout/error regressions are separate tests. Production retry/configuration behavior is preserved.
 
+The evaluation label `mixed` maps to the existing supported request locale `auto`;
+RU and KK map to `ru` and `kk`. Frozen replies are independent of locale and are
+replayed identically for both implementations.
+
 Metrics:
 
 - Transaction classification: exact kind on cases whose gold outcome is a draft; abstention/error counts as incorrect there.

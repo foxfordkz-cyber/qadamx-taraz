@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-25",
+  "implementation_commit": "b84b4c70b58c21465705f1dc8c3ca31657054fce",
+  "backend": {
+    "tests": 615,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds_junit": 283.772,
+    "database": "dedicated disposable loopback PostgreSQL 17.11",
+    "warning": "Existing Starlette/httpx deprecation"
+  },
+  "frontend": {
+    "passed": 82,
+    "files": 6,
+    "full_frontend_suite": false
+  },
+  "browser": {
+    "passed": 3,
+    "failed": 0,
+    "retries": 0,
+    "chrome": "156.0.8078.47",
+    "api_origin": "http://127.0.0.1:8317",
+    "web_origin": "http://127.0.0.1:4299",
+    "provider": "frozen synthetic test double",
+    "database": "qadam_research_browser_stage7c_test",
+    "physical_device": false
+  },
+  "checks": {
+    "ruff": "passed",
+    "ruff_format_changed_files": "passed",
+    "export_contracts": "passed",
+    "check_api": "passed",
+    "typecheck": "passed",
+    "lint": "passed",
+    "format_check": "passed",
+    "build": "passed"
+  },
+  "evaluation": {
+    "cases": 100,
+    "before_full": 71,
+    "after_full": 99,
+    "live_calls": 0
+  },
+  "local_log_sha256": {
+    "backend-final.log": "971883f7bd7b08b99ca3f7ad391ea8195ecb79f3a64f4016621c271d7ac9f27f",
+    "backend-final.xml": "109d3cb3ea2f29e4f266dd88e7a085b90cc0ea9dcfe755c98d4217f00b4a351d",
+    "frontend.log": "657bf05d0bce3d53e468b23348892f21643878b1f2cc6b476ef24ad984166b03",
+    "browser-accepted.log": "d8fafc960a1eb27fcc5b0ea844658f1854ee21452166e52e39a8e78468614003",
+    "final-web-typecheck.log": "590c458fe881da4caa07601ca40d8fb6731c78dd6fe3e2573a8bfa54d3cbd8fb",
+    "final-web-lint.log": "edb5d1fc26f9b25ff3b5bfe2c01ea0128ab1c38a58e5f56dcbd765619a074b1c",
+    "final-web-format-check.log": "6aa494f9a0c7890a7f6e3c45f7de97c9aa2c304b00705a0ac1c9062da291b085",
+    "web-build.log": "02437269d2ac7c59e38d56db031a19108b72d86643a754107b4a7e238b2e0ad9",
+    "web-check-api.log": "912a87bf23fd2b5c6cfac2cbf1b90977b21dc493d1af181403bacce8f71686ed"
+  },
+  "limits": [
+    "Provider replies are authored faults, not live LLM/ASR outputs",
+    "Local signed JWT issuer, not live Supabase",
+    "No deployment, shared DB, real merchant data or physical-device acceptance",
+    "One retained conservative regression S7-090"
+  ]
+}
