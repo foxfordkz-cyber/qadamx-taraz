@@ -13,6 +13,7 @@ from app.config import Settings
 from app.errors import APIError
 from app.schemas import Contract, Description, NonnegativeMoney, PositiveMoney
 from app.services.ai_diagnostics import ai_stage
+from app.services.extraction_grounding import ground_extraction
 
 FieldName = Literal[
     "kind", "customer_query", "description", "total_minor", "received_minor", "amount_minor"
@@ -208,7 +209,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         if len(raw) > 32_000:
                             raise ValueError("Output too long")
                         # Text transcript is authoritative, not an AI rewrite.
-                        data = json.loads(raw)
+                        data = json.loads(raw, object_pairs_hook=_unique_fields)
                         if not isinstance(data, dict):
                             raise ValueError("Expected object")
                         if text is not None:
@@ -221,7 +222,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         ):
                             if quote and quote not in result.transcript:
                                 raise ValueError("Evidence is not in source")
-                        return result
+                        return ground_extraction(result)
                 except (ValueError, ValidationError, RecursionError):
                     if getattr(provider, "fallback_used", False):
                         break  # One fallback pipeline, never a paid parsing retry.
@@ -239,3 +240,12 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
     except (httpx.HTTPError, ValueError):
         raise APIError(503, "AI_UNAVAILABLE", "AI unavailable; use manual input") from None
     raise APIError(503, "AI_UNAVAILABLE", "AI returned invalid output; use manual input")
+
+
+def _unique_fields(pairs):
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("Duplicate JSON field")
+        result[key] = value
+    return result

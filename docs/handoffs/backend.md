@@ -1204,3 +1204,43 @@ Docs: `docs/diploma/04_Implementation_Evidence/stage1_implementation_report.md`,
 sharedDB/serviceconfig не трогали. Latercandidate `b7c4750b158a6b1fc747e63a68ae7b2d078b5107` untouched. Следующий шаг:
 captain review,isolatedDB acceptance ипоследующийStage2;не возвращать unsafelegacy parser.
 CodexAI assistance раскрыта,студент/личный вклад не установлены;teamcode не присвоен студенту.
+
+## 2026-10-25 — Stage 7: RU/KK extraction grounding (local feature branch)
+
+Ветка `feature/multilingual-ai-extraction`, отдельный worktree от Stage 6
+`eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd`; application baseline
+`ae43dc25543ab261511c8b5f5982c7dfe8112da8`. Чужие ветки и незавершённое
+изменение Stage 6 demo-scenarios.md сохранены.
+
+Изменены только production `app/services/ai.py` и новый
+`app/services/extraction_grounding.py`: проверка duplicate JSON keys, ограниченная
+нормализация RU/KK сумм по цитате, сохранение неизвестной оплаты, проверка названного
+клиента, противоречий и границ чисел. AI сохраняет лишь Draft; подтверждение,
+идемпотентность и ledger остаются существующими. API, миграции, Auth, Stage 1 и
+Research не менялись.
+
+100 синтетических примеров и provider doubles заморожены commit
+`0313038e33b3f518b777682b7006c82f448ac483` до изменений. Offline full match:
+71/100 → 99/100; 29 улучшений, один сохранённый регресс-уточнение S7-090.
+Это проверка post-provider validation, не live LLM/ASR accuracy.
+Stage 1 frozen corpus не менялся.
+
+Проверено: полный pytest с отдельной PostgreSQL — 615 passed, без skips;
+Ruff/format, export_contracts --check; web check:api/typecheck/lint/format/build;
+82 frontend-теста в шести связанных файлах; 3 Chrome→API→SQL сценария.
+Синтетическая продажа 3000/1000 даёт долг 2000, до подтверждения ledger неизменен,
+двойной клик создаёт одну операцию. Неизвестная оплата остаётся null; ошибка JSON
+оставляет ввод и ручное продолжение. Скриншоты содержат только тестовые данные.
+
+Команды, полные результаты, файлы и source SHA:
+`docs/diploma-evidence/ai-extraction/`, особенно `reproduction.md`,
+`test-report.md`, `comparison/summary.json`, `implementation-report.md`.
+Из apps/api: `python tools/extraction_eval/evaluate.py --output ../../tmp/stage7-replay`.
+Browser: из apps/web `npx playwright test -c e2e/extraction.playwright.config.ts`;
+требуется новый пустой loopback RESEARCH_TEST_DATABASE_URL, см. reproduction.
+
+Ограничения: ноль платных/live provider запросов; нет проверки ASR, физических
+устройств, production Supabase и независимого holdout. Парсер намеренно ограничен,
+может запросить лишнее уточнение; выбор семантической роли цитаты остаётся
+провайдеру и человеку. Следующий Stage 8: независимая разметка/holdout и отдельно
+согласованный live-provider/ASR бюджет. Shared DB, merge и deploy не выполнялись.

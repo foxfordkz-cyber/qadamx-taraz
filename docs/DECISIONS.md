@@ -312,3 +312,22 @@ PublicRequest/Response/action/source enums andfinancial journal stay unchanged. 
 validator exists only in offline tests. Valid signed daily journal deltas are retained.
 Frozen paired42case comparison passes finite FP0/FN0;not a live LLM accuracy claim.
 Not merged/deployed;laterresearchcandidate untouched;realDB/liveAI acceptance pending.
+
+## 2026-10-25 — Stage 7: source-grounded extraction, unchanged money boundary
+
+The existing private sales/repayment extraction now grounds supported RU/KK/mixed
+numeric evidence in integer tiyn and requires a spoken customer name form.
+Provider paid/debt labels cannot silently replace an explicitly quoted partial receipt.
+Unknown payment stays null; ambiguous source fragments request clarification.
+Duplicate JSON keys are rejected. This is bounded deterministic validation after the
+existing provider/schema checks, not a replacement LLM or learned classifier.
+
+Public contracts, provider configuration/retries, Auth, tenant checks, operation
+confirmation/idempotency, ledger, Research and Stage 1 factual assistant remain unchanged.
+No AI output writes money automatically. Unsupported grammar is handled conservatively,
+including one recorded over-clarification regression rather than a benchmark-specific fix.
+
+Frozen synthetic 100-case comparison: 71→99 full matches, 29 improved and 1 regressed.
+These injected-response results do not measure live LLM/ASR performance.
+Dataset, raw results, PostgreSQL/browser checks and limitations:
+`docs/diploma-evidence/ai-extraction/`. No deployment/shared DB modification.
