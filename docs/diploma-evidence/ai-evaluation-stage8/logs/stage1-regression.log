@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage8-ai-evaluation\apps\api\tools\diploma_eval\evaluate_stage1.py", line 247, in <module>
+    main()
+  File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage8-ai-evaluation\apps\api\tools\diploma_eval\evaluate_stage1.py", line 142, in main
+    raise ValueError("--verify-original must run BEFORE changing application validation")
+ValueError: --verify-original must run BEFORE changing application validation

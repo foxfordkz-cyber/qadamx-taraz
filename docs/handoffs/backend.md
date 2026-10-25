@@ -1244,3 +1244,37 @@ Browser: из apps/web `npx playwright test -c e2e/extraction.playwright.config.
 может запросить лишнее уточнение; выбор семантической роли цитаты остаётся
 провайдеру и человеку. Следующий Stage 8: независимая разметка/holdout и отдельно
 согласованный live-provider/ASR бюджет. Shared DB, merge и deploy не выполнялись.
+
+## 2026-10-25 — Stage 8: интеграция и constructed held-out evaluation
+
+Локальная ветка `feature/diploma-stage8-ai-evaluation`, отдельный worktree.
+Stage 6 eb954bf7 → fast-forward Stage 7 11ee40a; исходные коммиты сохранены,
+production-код Stage 7 не менялся. Новое: frozen 120-case corpus, paired evaluator,
+SQL parity, combined Chrome/API/PostgreSQL acceptance и отключённый по умолчанию
+live evaluation runner. Freeze: 071ae3ef7b0a1db0091c31ff6b762d16226f91b8.
+Tool/test commit: 92aba501844d777fd7a2175b8a7e72a82ffb09bf.
+
+Полное совпадение 75/120 → 104/120; RU 35/40, KZ 34/40, mixed 35/40.
+41 улучшение и 12 новых консервативных регрессий; все 16 оставшихся ошибок сохранены.
+Это authored provider fixtures, не измерение live LLM/ASR. Набор новый, но тот же
+Codex-автор знал Stage 7: независимой слепой разметки/реальных разговоров нет.
+Gold и frozen Stage 1/7 не менялись.
+
+Найдено ограничение: OpenAI adapter json.loads/json.dumps может удалить duplicate
+keys до общего validator. Characterization test воспроизводит это; 12/12 offline
+rejection нельзя выдавать за проверку всей OpenAI-цепочки. Исправление и новый
+набор для разработки — отдельный Stage 9, без подгонки текущего holdout.
+
+Проверки: полный pytest 647 passed (отдельная PostgreSQL), Vitest 639/47 files,
+combined Chrome E2E 6 passed, retries 0; Ruff, export_contracts, check:api,
+typecheck, lint, format, build passed. Stage 1: TP18/TN24/FP0/FN0; Stage 7: 71→99.
+Начальные ошибки TEMP и неверного Stage 1 флага сохранены в evidence/logs.
+Paid requests 0; live ASR/WER, physical devices и Supabase acceptance не выполнены.
+
+Команды: apps/api — python -m tools.stage8_eval.evaluate --output ../../tmp/stage8-repro;
+apps/web — npx playwright test -c e2e/stage8.playwright.config.ts с новой пустой
+loopback RESEARCH_TEST_DATABASE_URL. Подробные безопасные команды, файлы,
+скриншоты, raw results и методика: docs/diploma-evidence/ai-evaluation-stage8/README.md.
+Доказательства зафиксированы отдельным docs-коммитом; точный SHA:
+git log -1 --format=%H -- docs/diploma-evidence/ai-evaluation-stage8/README.md.
+Push, изменение PR #100, main merge, deploy и shared DB не выполнялись.

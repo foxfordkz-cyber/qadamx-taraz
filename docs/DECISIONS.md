@@ -331,3 +331,24 @@ Frozen synthetic 100-case comparison: 71→99 full matches, 29 improved and 1 re
 These injected-response results do not measure live LLM/ASR performance.
 Dataset, raw results, PostgreSQL/browser checks and limitations:
 `docs/diploma-evidence/ai-extraction/`. No deployment/shared DB modification.
+
+## 2026-10-25 — Stage 8: freeze before evaluation; preserve negative evidence
+
+Stage 7 is integrated unchanged onto the verified Stage 6 history in a separate
+local branch. Stage 8 adds tooling/tests/evidence, not another production parser.
+The 120-case constructed holdout and protocol were committed before comparison.
+The same exposed Codex author generated it; no blind independence or live provider
+accuracy is claimed. Same authored replies produce 75→104 exact matches, with
+12 new conservative regressions preserved. Stage 1/7 frozen corpora are unchanged.
+
+The common validator rejects duplicate JSON keys, but the existing OpenAI adapter
+may canonicalize them first. A new characterization test records this gap.
+Direct-fixture 12/12 rejection must not be promoted to complete adapter protection.
+Any fix requires a separately reviewed change and fresh development/validation
+evidence; do not relabel the holdout or weaken financial checks to raise its score.
+
+The opt-in live tool defaults to zero-budget dry planning, sequential single attempts,
+exact-plan owner approval, private local artifacts and no financial API. No live
+request or ASR measurement occurred. Local SQL/Chrome integration is synthetic
+acceptance, not production, Supabase or physical-device acceptance.
+Evidence and reproducible commands: `docs/diploma-evidence/ai-evaluation-stage8/`.

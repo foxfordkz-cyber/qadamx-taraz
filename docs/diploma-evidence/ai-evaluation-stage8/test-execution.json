@@ -1,0 +1,159 @@
+{
+  "date": "2026-10-25",
+  "tool_and_test_commit": "92aba501844d777fd7a2175b8a7e72a82ffb09bf",
+  "implementation_commit": "b84b4c70b58c21465705f1dc8c3ca31657054fce",
+  "baseline_commit": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+  "dataset_freeze_commit": "071ae3ef7b0a1db0091c31ff6b762d16226f91b8",
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.14",
+    "node": "24.21.0",
+    "postgres": "17.11",
+    "chrome": "156.0.8078.47",
+    "database": "dedicated loopback, synthetic only"
+  },
+  "final": {
+    "backend": {
+      "passed": 647,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "deselected": 0,
+      "seconds": 191.84,
+      "warnings": 1
+    },
+    "frontend": {
+      "passed": 639,
+      "files": 47,
+      "failed": 0,
+      "skipped": 0,
+      "deselected": 0,
+      "seconds": 185.34
+    },
+    "browser": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "retries": 0,
+      "workers": 1,
+      "reported_duration": "1.9m"
+    },
+    "live_tool_focused": {
+      "passed": 14,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "stage1": {
+      "cases": 42,
+      "improved": {
+        "tp": 18,
+        "tn": 24,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "stage7": {
+      "cases": 100,
+      "before_full": 71,
+      "after_full": 99,
+      "known_mismatches": [
+        "S7-090"
+      ]
+    },
+    "stage8": {
+      "cases": 120,
+      "before_full": 75,
+      "after_full": 104,
+      "regressions": 12,
+      "remaining_mismatches": 16
+    }
+  },
+  "exit_zero_checks": [
+    "ruff check",
+    "ruff format --check",
+    "app.export_contracts --check",
+    "check:api",
+    "typecheck",
+    "lint",
+    "format:check",
+    "build",
+    "git diff --check"
+  ],
+  "final_test_edit_rechecks": [
+    "typecheck",
+    "lint",
+    "format:check",
+    "six browser scenarios in fresh DB"
+  ],
+  "initial_failures": [
+    {
+      "log": "logs/live-tool-tests.log",
+      "passed": 8,
+      "setup_errors": 6,
+      "reason": "Windows user TEMP WinError 5",
+      "resolution": "worktree-local --basetemp; 14 passed"
+    },
+    {
+      "log": "logs/stage1-regression.log",
+      "reason": "--verify-original is a pre-implementation guard",
+      "resolution": "normal Stage1 comparison; 42 cases"
+    }
+  ],
+  "preliminary_selection": {
+    "passed": 4,
+    "deselected": 14,
+    "log": "logs/evaluation-tests.log",
+    "superseded_by_full_backend": true
+  },
+  "not_executed": [
+    "paid providers",
+    "live ASR/WER",
+    "physical devices/microphone",
+    "production/shared DB",
+    "live Supabase",
+    "historical complete Stage6 86 E2E matrix",
+    "other browser configs",
+    "Flutter"
+  ],
+  "paid_requests": 0,
+  "original_log_sha256": {
+    "backend.log": "000fdd304ee847ae8d28f15eafaca80675b62ba705cc04ad13a0c52959cd31cc",
+    "backend.xml": "e66ccea6c4835c2063c828e1d3ef5b47a352c89ca0ca8caf59c8df61b1a40ee1",
+    "frontend.log": "a0db6060f2e2bf50ac1d80966e41d2f21c4c7c72d03eeb5d486bbffebd3fc6ad",
+    "browser.log": "1967d52d4b1d4cae1799bc58adcd5424cf260626e4fb77b00f6c926981c7809b",
+    "browser-final.log": "c3db0382c9cc191db0600ba9c89a1233878fbc29faef5f06cc8fa689d20aa8de",
+    "evaluation-tests.log": "97ddd49dc6f3d592bf006d92a0ce0f9540fbfeba26e586dacffe3db9ae107ccc",
+    "live-tool-tests.log": "0b369e7e6900c944e7e618b02481baba8a684fbe506285aa1bf78687a3fde85f",
+    "live-tool-final.log": "57e00481bbb72f790ee7bcdbae860d103fd237a725d692420bcbd3e54c051c95",
+    "stage1-regression.log": "edcb381c0be5f62413bad3f34a39d72e2ed385dabc2b9a6bf5cc860ed5597cea",
+    "stage1-regression-final.log": "234f442587c3431270d00be73d611d10c3b92accd84e1ce79662a5bc4ad8d9a8",
+    "stage7-regression.log": "f86f99f65438ac0ffc70f5e6427e1dc44b2bc2d5c902ca4b35f48c9a83e144eb",
+    "web-build.log": "9644db69d1be03f81e6d948489774b775380e312854f803760b092d636f9672b",
+    "web-check-api.log": "912a87bf23fd2b5c6cfac2cbf1b90977b21dc493d1af181403bacce8f71686ed",
+    "web-checks.json": "dfc3b4eb0487a08019dd359fb767ba4ff071a0299739dd6c88bed2937f6107b3",
+    "web-format-check.log": "6aa494f9a0c7890a7f6e3c45f7de97c9aa2c304b00705a0ac1c9062da291b085",
+    "web-lint.log": "edb5d1fc26f9b25ff3b5bfe2c01ea0128ab1c38a58e5f56dcbd765619a074b1c",
+    "web-typecheck.log": "590c458fe881da4caa07601ca40d8fb6731c78dd6fe3e2573a8bfa54d3cbd8fb"
+  },
+  "log_sha256_lf": {
+    "backend.log": "ea75611be39b758d8893dc97f4d0e14324af8477215d8c114a9cd69a501475dd",
+    "backend.xml": "7702f7eefc18848cd0bfcc59e224b122ef5e9efc5bddbe6eeef399cdfe7d8e3c",
+    "browser-final.log": "dc8a10d3345cb5050da58a75ec0dcbfcc13566163ca5c5a5906cc57b5620902c",
+    "browser.log": "1ed53c09cd5168a9f99e5ab66035f87e512e9942fa0438ff8e6c8bdc8226d197",
+    "evaluation-tests.log": "3b3474bbd512abf91e41416484c9ab7781300c0d9edd841336f7e0a3f9866581",
+    "frontend.log": "2a206845fc0633191886d0396a8cfe8f04266ff45359bb27b635ad5a556ca3d5",
+    "live-tool-final.log": "a8baa7b08409681ebdb5a13d65aefb8d68233d3b9b0e315e8edb366d011dc414",
+    "live-tool-tests.log": "a43cc5c9f130046d613292930ae824b704983e12d6d3eb002e165f56919040a4",
+    "stage1-regression-final.log": "bd0852a1ccd052293e2fae78e287b600bfeb420e003b01a5a17fe2d66b12da53",
+    "stage1-regression.log": "2e02546b09e5c9d9e2eaf743f2d833259a1f4858c0a0892c0e60dfbc79204ac4",
+    "stage7-regression.log": "e0effea5e33c4c2a69e2c230afc63d23894ccf29f36f3629a8e0c6751232e583",
+    "web-build.log": "710f1f4908d31fd4899ed82c6b9b26c313d025df59d743e7f81cccd4a0e4b525",
+    "web-check-api.log": "c68aee9d6d658f85d30855650ac3ae3e7323df400962e086970bc39749a5cc56",
+    "web-checks.json": "d0491081474c25a1dee3b104fa53206b226556844ff106ab252bf6d9c205e8ab",
+    "web-format-check.log": "02f7660f12978af53c552b01d551afafe0a8d135a8d986795360fb42e7a8eb4d",
+    "web-lint.log": "dc49b4be45e2c9c4fda6ad84b2d6059c7dae3f3cebb4761e218f866a1706c80e",
+    "web-typecheck.log": "4f915e6bb78007a874d25e41fede75a408b7fcdce6691abf178dada981902b4b"
+  },
+  "log_normalization": "LF line endings and one final newline only; no result/error lines removed"
+}
