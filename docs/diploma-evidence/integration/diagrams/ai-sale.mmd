@@ -1,0 +1,19 @@
+sequenceDiagram
+  actor Seller
+  participant UI as React Sale
+  participant API as FastAPI draft route
+  participant AI as Provider adapter
+  participant DB as PostgreSQL
+  Seller->>UI: Enter text or record; explicitly request draft
+  UI->>API: Authenticated draft request
+  API->>API: Check membership, limits and input
+  API->>AI: Extract operation fields
+  AI-->>API: Structured extraction / failure
+  API->>API: Validate evidence, amounts and unknown payment
+  API->>DB: Store draft only, no ledger operation
+  API-->>UI: Draft or explicit error / manual fallback
+  Seller->>UI: Review, correct, choose client and confirm
+  UI->>API: POST operations + stable idempotency key
+  API->>DB: Atomic validated ledger write
+  DB-->>API: Persisted operation / existing result
+  API-->>UI: Saved result and balance

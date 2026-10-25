@@ -1,0 +1,13 @@
+flowchart TD
+  Confirm["Explicit seller confirmation"] --> Auth["JWT + business/entity membership"]
+  Auth --> Key["Stable idempotency key / matching payload"]
+  Key --> Validate["Integer minor units; valid sale or repayment"]
+  Validate --> Tx["Atomic ledger transaction / concurrency protection"]
+  Tx --> Sale["Sale: sales delta + received delta"]
+  Tx --> Repay["Repayment: sales delta 0; receipts delta > 0"]
+  Tx --> Reverse["Reversal: opposite deltas; original retained"]
+  Sale --> Journal[("Append-only operation history")]
+  Repay --> Journal
+  Reverse --> Journal
+  Journal --> Balance["Per-sale balance = sum(sales delta - receipts delta)"]
+  Balance --> Views["Debts / history / analytics / read-only facts"]

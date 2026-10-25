@@ -1,0 +1,135 @@
+[
+  {
+    "path": "screenshots/assistant-sql-ru-1280.png",
+    "image_pixels": [1280, 1687],
+    "captured_at": "2026-10-25T11:56:47.335139+05:00",
+    "sha256": "f78b0d84efc34f79781152320ab6555cfab2ed9bbcf74df760a05b3cafd95174",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-customers-desktop.png",
+    "image_pixels": [1440, 1000],
+    "captured_at": "2026-10-25T11:53:57.417186+05:00",
+    "sha256": "c74a84a92eb28ca9ec606f49e94192404e68f31455f77289459bf381e1ec0d30",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-customers-mobile.png",
+    "image_pixels": [390, 1233],
+    "captured_at": "2026-10-25T11:54:01.926694+05:00",
+    "sha256": "9de3517e74fa9f6978193f659422ab8e122ccaecca1844b6d5383f86afd5f3bb",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-dashboard-desktop.png",
+    "image_pixels": [1440, 1297],
+    "captured_at": "2026-10-25T11:53:56.907903+05:00",
+    "sha256": "f55fa402b7ca0ed3f50d09d66ec3515c4247ff2e4a1b4a7d7e42729155ce3af9",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-dashboard-mobile.png",
+    "image_pixels": [390, 1506],
+    "captured_at": "2026-10-25T11:54:01.321069+05:00",
+    "sha256": "2c311d3f6996309f7c7078b4268a61d5e0d95a39281fed47e897c40dee8d4876",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-debts-desktop.png",
+    "image_pixels": [1440, 1291],
+    "captured_at": "2026-10-25T11:53:58.380013+05:00",
+    "sha256": "db36da5594e40b2932c390f64e61100801c3aa1afa01c7af20e6d330267d1216",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-debts-mobile.png",
+    "image_pixels": [390, 1756],
+    "captured_at": "2026-10-25T11:54:02.732836+05:00",
+    "sha256": "86a6194eebac6ed95ae41a7b56e5c8f93d2ddd531fffc9f9b28079deb71affc0",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-history-desktop.png",
+    "image_pixels": [1440, 1000],
+    "captured_at": "2026-10-25T11:53:58.898306+05:00",
+    "sha256": "08f2c935b81de83b50e3f7eca739cf1df0a0c3f62d3394db7947e94453e4542d",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-history-mobile.png",
+    "image_pixels": [390, 844],
+    "captured_at": "2026-10-25T11:54:03.228911+05:00",
+    "sha256": "ddf499ee8a48c062af474c8bcf509d5657cb16ec44efd6f3fadb686176a2bc9d",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-sale-desktop.png",
+    "image_pixels": [1440, 1000],
+    "captured_at": "2026-10-25T11:53:57.819392+05:00",
+    "sha256": "df817c6f091d25604a5a7b1caf7486561bd94433a0056ed24a0027f626cac320",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/demo-sale-mobile.png",
+    "image_pixels": [390, 1708],
+    "captured_at": "2026-10-25T11:54:02.333058+05:00",
+    "sha256": "75a2f1dd1b40f3eaae31d1c845a9f0cb7f7f5a5324056d7e3fe0ea52af9791cb",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/feedback-sql-ru-1280.png",
+    "image_pixels": [1280, 2654],
+    "captured_at": "2026-10-25T11:56:57.613181+05:00",
+    "sha256": "329e81dde4f9ecad119e539daececdeb795be5d036b79706f17c1171e0cb43f4",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/regression-postgres-feedback-persisted.png",
+    "image_pixels": [1280, 3642],
+    "captured_at": "2026-10-25T11:52:10.850929+05:00",
+    "sha256": "4fa9b5f4d885f933959d3b62c69124f8f85368a2c9cbb5bcb896a5037633a3f0",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/regression-postgres-research-ru.png",
+    "image_pixels": [1280, 3500],
+    "captured_at": "2026-10-25T11:51:28.001923+05:00",
+    "sha256": "4668ad874294da8376697b5de52e60d861ed8261f11819da1f030aa2eaa121ab",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/regression-research-unsaved-kk.png",
+    "image_pixels": [1280, 3545],
+    "captured_at": "2026-10-25T11:52:28.423084+05:00",
+    "sha256": "485949c2b2726f50bcce4f664f9a7edd5a1c6c6ba5e59ae5c77c6181426e0d37",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/research-sql-kk-1440.png",
+    "image_pixels": [1440, 3450],
+    "captured_at": "2026-10-25T11:57:37.286404+05:00",
+    "sha256": "de0c444958f4c814d87f1c24027662774c9d5934a56ce35df0de7aa0562a4a29",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/research-sql-kk-360.png",
+    "image_pixels": [360, 5113],
+    "captured_at": "2026-10-25T11:57:34.102909+05:00",
+    "sha256": "5348fef6b4f88db48b058833d3aee0c94fecfc90a8195afacbd3409a1507da87",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/research-sql-ru-1440.png",
+    "image_pixels": [1440, 3456],
+    "captured_at": "2026-10-25T11:57:35.789532+05:00",
+    "sha256": "433380ebb7608ae84cb17e823b8402c4e83fa924f423da8dc157bb2c9233d235",
+    "synthetic": true
+  },
+  {
+    "path": "screenshots/research-sql-ru-360.png",
+    "image_pixels": [360, 5063],
+    "captured_at": "2026-10-25T11:57:32.296841+05:00",
+    "sha256": "3889338ba3fffd5e21ee48b640511d9a4710ad043ca96629c583d99331d4942d",
+    "synthetic": true
+  }
+]
