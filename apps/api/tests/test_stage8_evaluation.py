@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 from test_ai import TEXT, VALID, StubProvider
 from test_openai import completion, settings, transport
 
+from app.errors import APIError
 from app.models import Customer, Operation
 from app.services.ai import extract
 from app.services.drafts import save_draft
@@ -26,7 +27,7 @@ from tools.stage8_eval.evaluate import (
 )
 
 
-def test_stage8_freeze_and_implementations_are_unchanged():
+def test_stage8_freeze_is_unchanged_and_guard_refuses_relabeling_new_runtime():
     rows, _ = load_corpus()
     assert len(rows) == 120
     assert {lang: sum(r["language"] == lang for r in rows) for lang in ("ru", "kk", "mixed")} == {
@@ -34,7 +35,8 @@ def test_stage8_freeze_and_implementations_are_unchanged():
         "kk": 40,
         "mixed": 40,
     }
-    implementations()
+    with pytest.raises(ValueError, match="Stage7 implementation changed"):
+        implementations()
 
 
 def test_metric_denominators_do_not_hide_invalid_or_uncertain_cases():
@@ -60,8 +62,8 @@ def test_false_rejection_and_conservative_loss_are_different():
     assert summarize([row], "after")["false_output_rejection"]["numerator"] == 0
 
 
-def test_duplicate_key_core_rejects_but_openai_adapter_currently_canonicalizes(monkeypatch):
-    """Characterize a real adapter limitation, not a claim it safely rejects duplicates."""
+def test_duplicate_key_core_and_openai_adapter_both_reject_after_stage9(monkeypatch):
+    """Stage8's recorded failure now rejects before OpenAI re-encoding."""
     raw = json.dumps(VALID)[:-1] + ',"received_minor":100000}'
     direct = copy.deepcopy(load_corpus()[0][-1])
     direct.update(input=TEXT, provider_raw=raw)
@@ -74,8 +76,9 @@ def test_duplicate_key_core_rejects_but_openai_adapter_currently_canonicalizes(m
 
     transport(monkeypatch, handler)
     provider = OpenAIProvider(settings())
-    result = asyncio.run(extract(provider, text=TEXT))
-    assert result.received_minor == 100000  # Duplicate marker is already lost upstream.
+    with pytest.raises(APIError) as exc:
+        asyncio.run(extract(provider, text=TEXT))
+    assert exc.value.code == "AI_UNAVAILABLE"
 
 
 @pytest.mark.postgres

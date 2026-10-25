@@ -14,6 +14,7 @@ from app.errors import APIError
 from app.schemas import Contract, Description, NonnegativeMoney, PositiveMoney
 from app.services.ai_diagnostics import ai_stage
 from app.services.extraction_grounding import ground_extraction
+from app.services.strict_json import strict_json_object
 
 FieldName = Literal[
     "kind", "customer_query", "description", "total_minor", "received_minor", "amount_minor"
@@ -153,7 +154,7 @@ class GeminiProvider:
             response.raise_for_status()
         with ai_stage("provider_json") as diagnostic:
             diagnostic.provider_status = response.status_code
-            body = response.json()
+            body = strict_json_object(response.content)
             # Gemini billing depends on the project tier; record tokens, never invent a cost.
             usage = body.get("usageMetadata", {}) if isinstance(body, dict) else {}
             if not isinstance(usage, dict):
@@ -209,9 +210,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         if len(raw) > 32_000:
                             raise ValueError("Output too long")
                         # Text transcript is authoritative, not an AI rewrite.
-                        data = json.loads(raw, object_pairs_hook=_unique_fields)
-                        if not isinstance(data, dict):
-                            raise ValueError("Expected object")
+                        data = strict_json_object(raw)
                         if text is not None:
                             data["transcript"] = text
                         result = Extraction.model_validate(data)
@@ -240,12 +239,3 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
     except (httpx.HTTPError, ValueError):
         raise APIError(503, "AI_UNAVAILABLE", "AI unavailable; use manual input") from None
     raise APIError(503, "AI_UNAVAILABLE", "AI returned invalid output; use manual input")
-
-
-def _unique_fields(pairs):
-    result = {}
-    for key, value in pairs:
-        if key in result:
-            raise ValueError("Duplicate JSON field")
-        result[key] = value
-    return result

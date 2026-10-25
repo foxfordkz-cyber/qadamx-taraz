@@ -239,9 +239,9 @@ def word_error(reference, hypothesis):
     return {"edits": previous[-1], "reference_words": len(a), "wer": previous[-1] / len(a)}
 
 
-async def execute(plan, approval, destination, factory=provider_for):
+async def execute(plan, approval, destination, factory=provider_for, comparators=None):
     authorize(plan, approval)  # Must precede key access/provider construction.
-    original, improved = implementations()
+    original, improved = implementations() if comparators is None else comparators
     cases = {row["id"]: row for row in load_corpus()[0]}
     reservations = ROOT / "tmp/stage8-consumed-approvals"
     reservations.mkdir(parents=True, exist_ok=True)

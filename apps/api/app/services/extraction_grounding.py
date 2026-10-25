@@ -88,7 +88,9 @@ FOREIGN = re.compile(r"[$€£₽]|\b(?:usd|eur|rub|доллар\w*|евро|р�
 FULL = re.compile(
     r"\b(?:(?:оплатил[аи]?|оплачен[оа]?|заплатил[аи]?)\s+(?:(?:сразу|уже|сейчас)\s+)?(?:полностью|все)|"
     r"(?:полностью|все)\s+(?:оплатил[аи]?|оплачен[оа]?|заплатил[аи]?)|"
-    r"(?:толық|түгел|бәрін|толығымен)\s+(?:төледі|төленді))\b"
+    r"(?:толық|түгел|бәрін|толығымен)\s+(?:төледі|төленді)|"
+    r"(?:деньги|денежку|ақшаны|ақшасын)\s+(?:все|всю|толық|түгел(?:дей)?)\s+"
+    r"(?:занесл[аи]|внесл[аи]|передал[аи]|ұстатты|берді))\b"
 )
 ZERO = re.compile(
     r"\b(?:(?:все|полностью)\s+в\s+долг|ничего\s+не\s+(?:заплатил[аи]?|оплатил[аи]?)|"
@@ -241,9 +243,13 @@ def customer_in_source(query, transcript):
         return False
     last = re.escape(words[-1])
     # Cyrillic nominative → common oblique endings, not arbitrary fuzzy matching.
-    forms = [last + r"(?:ға|ге|қа|ке|дан|ден|тан|тен|ның|нің|ды|ді|ты|ті|у|а|ом|е)?"]
+    forms = [
+        last + r"(?:ға|ге|қа|ке|дан|ден|тан|тен|ның|нің|дың|дің|тың|тің|ды|ді|ты|ті|у|а|ом|е)?"
+    ]
     if words[-1].endswith("а"):
         forms.append(re.escape(words[-1][:-1]) + r"(?:е|у|ой|ы)")
+        if len(words[-1]) > 1 and words[-1][-2] in "гкхжчшщ":
+            forms.append(re.escape(words[-1][:-1]) + "и")
     if words[-1].endswith("я"):
         forms.append(re.escape(words[-1][:-1]) + r"(?:е|ю|ей|и)")
     if words[-1].endswith("ь"):
@@ -265,9 +271,27 @@ def customer_in_source(query, transcript):
     return False
 
 
+def payment_context_asserted(quote, transcript):
+    """Keep omitted questions, negations, alternatives and future intent uncertain."""
+    quote, source = normalized(quote), normalized(transcript)
+    future = r"\b(?:завтра|потом|будет|ертең|кейін)\b"
+    if AMBIGUOUS.search(quote) or re.search(future, quote):
+        return False
+    matches = list(re.finditer(re.escape(quote), source)) if quote else []
+    return bool(matches) and all(
+        not AMBIGUOUS.search(source[max(0, item.start() - 25) : item.start()])
+        and not re.search(future, source[max(0, item.start() - 25) : item.start()])
+        and not re.match(
+            r"[\s,]*(?:\?|(?:ма|ме|ба|бе|па|пе|емес|жоқ|или|либо|әлде)\b)",
+            source[item.end() :],
+        )
+        for item in matches
+    )
+
+
 def full_payment_from_source(quote, transcript):
     """A short 'fully' quote needs an actual positive payment clause in source."""
-    if not quote or "?" in quote or AMBIGUOUS.search(quote):
+    if not quote or "?" in quote or not payment_context_asserted(quote, transcript):
         return False
     if not FULL.search(quote) and quote not in {
         "полностью",
@@ -300,7 +324,9 @@ def zero_payment_from_source(quote, transcript):
     source = normalized(transcript)
     matches = list(re.finditer(re.escape(literal), source))
     return bool(matches) and all(
-        not AMBIGUOUS.search(source[max(0, item.start() - 25) : item.start()])
+        # Explicit nonpayment is an affirmative zero, not a negation of the
+        # following debt clause. Keep any surrounding "if/not" uncertainty.
+        not AMBIGUOUS.search(ZERO.sub("", source[max(0, item.start() - 80) : item.start()]))
         and not re.match(r"\s*(?:\?|емес\b)", source[item.end() :])
         for item in matches
     )
@@ -345,11 +371,15 @@ def ground_extraction(result):
     )
     future = re.search(r"\b(?:должен|нужно|надо|завтра|потом|будет|ертең|кейін)\b", quote)
     receipt = re.search(
-        r"\b(?:оплат\w*|заплат\w*|получил\w*|внес\w*|дал[аи]?|төлед\w*|"
-        r"төлен\w*|берді|алдым|төлем)\b",
+        r"\b(?:оплат\w*|оплачен[оаы]?|заплат\w*|получил\w*|получен[оаы]?|"
+        r"поступил[оаи]?|внес\w*|дал[аи]?|төлед\w*|төлен\w*|берді|алдым|төлем|түсті)\b",
         quote,
     )
-    if future or (numeric_quote and result.payment_status in {"paid", "debt"} and not receipt):
+    if (
+        future
+        or (numeric_quote and not payment_context_asserted(quote, result.transcript))
+        or (numeric_quote and result.payment_status in {"paid", "debt"} and not receipt)
+    ):
         uncertain("received_minor")
         result.payment_status = "unknown"
         return result

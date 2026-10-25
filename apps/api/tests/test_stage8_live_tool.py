@@ -7,7 +7,7 @@ from uuid import uuid4
 import pytest
 
 from tools.stage8_eval.evaluate import DATA, load_corpus
-from tools.stage8_eval.live import authorize, execute, prepare, private_audio_path, word_error
+from tools.stage9_eval.live import authorize, execute, prepare, private_audio_path, word_error
 
 
 def manifest():
