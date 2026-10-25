@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { mkdir } from "node:fs/promises";
 import { navigateSeller } from "./helpers";
 
-const api = "http://127.0.0.1:8321";
+const api = process.env.QADAM_QA_API_ORIGIN ?? "http://127.0.0.1:8321";
 const evidence = process.env.QADAM_QA_EVIDENCE_DIR!;
 const apiDir = fileURLToPath(new URL("../../api", import.meta.url));
 function sql() {
