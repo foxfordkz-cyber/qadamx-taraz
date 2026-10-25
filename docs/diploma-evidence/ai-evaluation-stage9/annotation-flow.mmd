@@ -1,0 +1,15 @@
+flowchart LR
+    A[Owner-approved independent sampling and privacy plan] --> B[Independent source collection]
+    B --> C[De-identify and assign opaque IDs]
+    C --> D[Blind annotator 1]
+    C --> E[Blind annotator 2]
+    D --> F[Lock both labels before comparison]
+    E --> F
+    F --> G[Record every disagreement]
+    G --> H[Independent adjudication or unresolved status]
+    H --> I[Freeze gold / schema / split / hashes before runs]
+    I --> J{Separate budget and consent approval}
+    J -- absent --> K[Blocked: no live call or audio collection]
+    J -- present --> L[Bounded sequential live evaluation]
+    L --> M[Retain failures and missing measurements]
+    M --> N[Report per-language metrics / cost / ASR separately]

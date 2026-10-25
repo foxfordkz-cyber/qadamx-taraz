@@ -1,0 +1,16 @@
+[WebServer] Traceback (most recent call last):
+[WebServer]   File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\apps\api\tests\stage9_browser_server.py", line 97, in <module>
+[WebServer]     uvicorn.run(combined(), host="127.0.0.1", port=PORT, access_log=False)
+[WebServer]                 ^^^^^^^^^^
+[WebServer]   File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\apps\api\tests\stage9_browser_server.py", line 57, in combined
+[WebServer]     Settings(
+[WebServer]   File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\apps\api\.venv\Lib\site-packages\pydantic_settings\main.py", line 292, in __init__
+[WebServer]     super().__init__(**__pydantic_self__.__class__._settings_build_values(sources, init_kwargs))
+[WebServer]   File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\apps\api\.venv\Lib\site-packages\pydantic\main.py", line 280, in __init__
+[WebServer]     validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+[WebServer]                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[WebServer] pydantic_core._pydantic_core.ValidationError: 1 validation error for Settings
+[WebServer] openai_model
+[WebServer]   String should match pattern '^(?:gpt-[a-zA-Z0-9._-]+)?$' [type=string_pattern_mismatch, input_value='fixture-only', input_type=str]
+[WebServer]     For further information visit https://errors.pydantic.dev/2.14/v/string_pattern_mismatch
+Error: Process from config.webServer was not able to start. Exit code: 1

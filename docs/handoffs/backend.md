@@ -1278,3 +1278,41 @@ loopback RESEARCH_TEST_DATABASE_URL. Подробные безопасные к�
 Доказательства зафиксированы отдельным docs-коммитом; точный SHA:
 git log -1 --format=%H -- docs/diploma-evidence/ai-evaluation-stage8/README.md.
 Push, изменение PR #100, main merge, deploy и shared DB не выполнялись.
+
+## 2026-10-25 — Stage 9: strict JSON и исправление регрессий извлечения
+
+Отдельная локальная ветка `feature/diploma-stage9-extraction-hardening` от
+`08fd3eef541c6ab47f1d44e79d38778eefd2c784`.
+Baseline/protocol до правок: `fe4e73f5723c46d6b308c6b1115327d881611db9`.
+Код и тесты: `fa73fe4999c0201626643be7eaf9d2667dc328ef`.
+Evidence-коммит: `git log -1 --format=%H -- docs/diploma-evidence/ai-evaluation-stage9/README.md`.
+
+Runtime: только `app/services/{strict_json.py,openai_provider.py,ai.py,extraction_grounding.py}`.
+Дубликаты ключей проверяются по HTTP bytes и inner JSON до OpenAI
+json.loads/json.dumps-нормализации; parsed dict не выдаётся за исходный JSON.
+Неожиданные extraction-поля по-прежнему запрещены схемой. Исправлены bounded
+падежные формы имён, явное получение оплаты, полная и нулевая оплата с защитой
+от отрицаний/вопросов/неопределённости. Ledger, Auth, API и frontend не изменены.
+
+На известном frozen Stage 8 наборе 104/120 → 118/120: исправлены все 12 регрессий
+и ещё 2 случая, новых регрессий нет. S8-080/084 остаются wrong against gold:
+повторяющееся «мың» не разрешено выбором произвольного вхождения. Stage 7 — 99/100,
+Stage 1 — TP18/TN24/FP0/FN0. Это offline engineering evidence, не live AI accuracy.
+
+Финальные проверки: pytest 723 passed с отдельной PostgreSQL; Vitest 639 passed;
+Chrome/API/SQL 8 passed, retries 0; Ruff/format/export_contracts/check:api/
+typecheck/lint/build прошли. Сохранены первоначальные 21 supplementary failure,
+ошибка настройки browser fixture и timeouts при одновременных тяжёлых прогонах.
+Последовательный повтор прошёл без увеличения timeout и без исключения тестов.
+
+Команды: apps/api — `python -m tools.stage9_eval.evaluate --output ../../tmp/stage9-repro`;
+apps/web — `npx playwright test -c e2e/stage9.playwright.config.ts` с НОВОЙ ПУСТОЙ
+loopback `qadam_research_browser_*_test` базой. API 8321 / Vite 4302.
+Подробные команды, actual logs, raw cases, source hashes, диаграммы и screenshots:
+`docs/diploma-evidence/ai-evaluation-stage9/README.md`.
+
+Независимая разметка, adjudication и consent — только подготовленный протокол,
+участников и реальных записей нет. Live runner по умолчанию dry, budget 0,
+вызовов 0; старые презентационные бюджеты не дают разрешения на новый эксперимент.
+Следующий этап: независимый blind corpus, отдельное согласование live AI/ASR
+и анализ repeated-number spans. Push, PR #100, main, shared DB и deploy не менялись.

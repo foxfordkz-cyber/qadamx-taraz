@@ -1,0 +1,1 @@
+run_id,sample_id,modality,provider,requested_model,resolved_model,api_version,executed_at_utc,source_commit,prompt_sha256,dataset_sha256,locale,audio_sha256,consent_ref,latency_seconds,status,error_code,input_tokens,output_tokens,actual_cost_usd,billing_ref

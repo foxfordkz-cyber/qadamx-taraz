@@ -1,0 +1,22 @@
+[
+  {
+    "task": "check:api",
+    "exit": 0
+  },
+  {
+    "task": "typecheck",
+    "exit": 0
+  },
+  {
+    "task": "lint",
+    "exit": 0
+  },
+  {
+    "task": "format:check",
+    "exit": 0
+  },
+  {
+    "task": "build",
+    "exit": 0
+  }
+]

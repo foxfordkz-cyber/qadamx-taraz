@@ -352,3 +352,23 @@ exact-plan owner approval, private local artifacts and no financial API. No live
 request or ASR measurement occurred. Local SQL/Chrome integration is synthetic
 acceptance, not production, Supabase or physical-device acceptance.
 Evidence and reproducible commands: `docs/diploma-evidence/ai-evaluation-stage8/`.
+
+## 2026-10-25 — Stage 9: inspect raw JSON before normalization
+
+Strict duplicate detection now runs on HTTP bytes and inner extraction text before
+OpenAI re-encoding; Gemini/common extraction share the same raw decoder.
+Already-parsed objects cannot establish key uniqueness and are refused at this
+boundary. Envelope metadata remains supported; extraction extra fields remain
+forbidden. Public API and financial confirmation/idempotency rules are unchanged.
+
+Source-supported RU/KK receipt and name grammar repairs all twelve recorded Stage 8
+regressions while retaining unknown payment and original-sale clarification.
+The frozen corpus is now an exposed regression set, not a new independent holdout:
+104→118/120, two remaining failures, zero new regressions. All prior gold stays fixed.
+Strict raw transport and local SQL/browser tests are separate evidence from
+deterministic fixture metrics; neither measures live provider/ASR accuracy.
+
+Independent annotation/privacy/adjudication templates and a disabled live plan
+are prepared only. No participants, consent, WER, actual billing or live accuracy
+are invented. New owner approval is required for any paid execution or audio.
+Evidence: `docs/diploma-evidence/ai-evaluation-stage9/`.
