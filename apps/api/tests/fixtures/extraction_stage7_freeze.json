@@ -1,0 +1,13 @@
+{
+  "dataset_id": "QADAM-EXTRACTION-SYNTHETIC-100-v1",
+  "frozen_at_utc": "2026-10-25T07:41:51.004538+00:00",
+  "case_count": 100,
+  "dataset_sha256_lf": "8d913f0f8f564678f54a33118cac0f665048dae5f78c654546ac78c70fc0d3d2",
+  "baseline_commit": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+  "baseline_path": "app/services/ai.py",
+  "baseline_sha256_lf": "c80096f9850c5e97557731526f0623d7074c852276f09d98c2aba87c0f328087",
+  "provider": "frozen authored output doubles, max_attempts=1",
+  "live_provider_calls": 0,
+  "annotation": "Author-annotated intent and safe clarification; not independently adjudicated; no model training or merchant conversations",
+  "scope": "Deterministic post-provider extraction only; not end-to-end LLM accuracy"
+}
