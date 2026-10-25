@@ -4,14 +4,16 @@ import { fileURLToPath } from "node:url";
 import { mkdir, writeFile } from "node:fs/promises";
 import { navigateSeller } from "./helpers";
 
-const api = "http://127.0.0.1:8316";
+const api = process.env.QADAM_QA_API_ORIGIN ?? "http://127.0.0.1:8316";
 const apiDir = fileURLToPath(new URL("../../api", import.meta.url));
-const evidence = fileURLToPath(
-  new URL(
-    "../../../docs/diploma-evidence/integration/screenshots",
-    import.meta.url,
-  ),
-);
+const evidence =
+  process.env.QADAM_QA_EVIDENCE_DIR ??
+  fileURLToPath(
+    new URL(
+      "../../../docs/diploma-evidence/integration/screenshots",
+      import.meta.url,
+    ),
+  );
 function sql() {
   return JSON.parse(
     execFileSync(
@@ -310,6 +312,7 @@ test("combined SQL research remains readable on mobile and desktop in RU/KZ", as
   request,
 }) => {
   const info = await (await request.get(`${api}/__qa/info`)).json();
+  const before = sql().all_business_ledger_sha256;
   await login(page);
   await page.getByLabel("Торговая точка").selectOption(info.business);
   await navigateSeller(page, "research");
@@ -322,6 +325,14 @@ test("combined SQL research remains readable on mobile and desktop in RU/KZ", as
           exact: true,
         })
         .click();
+      await expect(page.locator("#risk")).toContainText(
+        locale === "ru"
+          ? "Правила, не обученная модель."
+          : "оқытылған модель емес",
+      );
+      await expect(
+        page.locator(".research-risk-list li").first(),
+      ).toBeVisible();
       for (const days of ["7", "30"]) {
         await page
           .getByLabel(locale === "ru" ? "Горизонт прогноза" : "Болжам мерзімі")
@@ -342,4 +353,5 @@ test("combined SQL research remains readable on mobile and desktop in RU/KZ", as
       });
     }
   }
+  expect(sql().all_business_ledger_sha256).toBe(before);
 });

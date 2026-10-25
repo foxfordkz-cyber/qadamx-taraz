@@ -4,16 +4,18 @@ import { fileURLToPath } from "node:url";
 import { mkdir, writeFile } from "node:fs/promises";
 import { navigateSeller } from "./helpers";
 
-const api = "http://127.0.0.1:8317";
+const api = process.env.QADAM_QA_API_ORIGIN ?? "http://127.0.0.1:8317";
 // Control GETs do not reuse an idle keep-alive socket across SQL probes.
 const control = { headers: { Connection: "close" } };
 const apiDir = fileURLToPath(new URL("../../api", import.meta.url));
-const evidence = fileURLToPath(
-  new URL(
-    "../../../docs/diploma-evidence/ai-extraction/screenshots",
-    import.meta.url,
-  ),
-);
+const evidence =
+  process.env.QADAM_QA_EVIDENCE_DIR ??
+  fileURLToPath(
+    new URL(
+      "../../../docs/diploma-evidence/ai-extraction/screenshots",
+      import.meta.url,
+    ),
+  );
 function sql() {
   return JSON.parse(
     execFileSync(
