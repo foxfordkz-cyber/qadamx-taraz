@@ -1,0 +1,103 @@
+{
+  "source": "Synthetic local SQL, actual browser request loss",
+  "attempts": [
+    {
+      "key": "4eb52507-d049-4433-9f41-76084fe8e3ee",
+      "body": "{\"kind\":\"sale\",\"draft_id\":null,\"description\":\"Synthetic Stage10 response loss\",\"customer_id\":null,\"total_minor\":340000,\"received_minor\":340000}",
+      "operation": "120a9a9b-d88e-4e8d-9db8-592b4c98c080"
+    },
+    {
+      "key": "4eb52507-d049-4433-9f41-76084fe8e3ee",
+      "body": "{\"kind\":\"sale\",\"draft_id\":null,\"description\":\"Synthetic Stage10 response loss\",\"customer_id\":null,\"total_minor\":340000,\"received_minor\":340000}",
+      "operation": "120a9a9b-d88e-4e8d-9db8-592b4c98c080"
+    }
+  ],
+  "before": {
+    "source": "isolated synthetic fixture; not merchant/participant data",
+    "all_business_ledger_sha256": "42036f81094f9db7f4f2b9ce7b27a31bd1c382db9a8c1a24db6afa07296e3495",
+    "operations": [
+      {
+        "id": "e8547a0e-195b-42d5-946a-bae1c9000e00",
+        "kind": "sale",
+        "sales": 300000,
+        "receipts": 100000
+      },
+      {
+        "id": "52327e34-e5a9-4a39-ab43-097fd3388d75",
+        "kind": "repayment",
+        "sales": 0,
+        "receipts": 50000
+      },
+      {
+        "id": "b1a9b0d0-89d9-4905-9260-8704a4320396",
+        "kind": "reversal",
+        "sales": 0,
+        "receipts": -50000
+      },
+      {
+        "id": "ba8a553c-be85-460f-8fd1-507d73bbcd02",
+        "kind": "sale",
+        "sales": 120000,
+        "receipts": 120000
+      },
+      {
+        "id": "a953fa8f-0e6e-4246-9b8f-64991a752e6f",
+        "kind": "sale",
+        "sales": 300000,
+        "receipts": 100000
+      }
+    ],
+    "sales": 720000,
+    "receipts": 320000,
+    "debt": 400000,
+    "customers": 6,
+    "feedback": 1
+  },
+  "after": {
+    "source": "isolated synthetic fixture; not merchant/participant data",
+    "all_business_ledger_sha256": "bd6c2a045acbe974101343b6480bb5d23824aa4f4bdb61a5eeefc9f35df11e25",
+    "operations": [
+      {
+        "id": "e8547a0e-195b-42d5-946a-bae1c9000e00",
+        "kind": "sale",
+        "sales": 300000,
+        "receipts": 100000
+      },
+      {
+        "id": "52327e34-e5a9-4a39-ab43-097fd3388d75",
+        "kind": "repayment",
+        "sales": 0,
+        "receipts": 50000
+      },
+      {
+        "id": "b1a9b0d0-89d9-4905-9260-8704a4320396",
+        "kind": "reversal",
+        "sales": 0,
+        "receipts": -50000
+      },
+      {
+        "id": "ba8a553c-be85-460f-8fd1-507d73bbcd02",
+        "kind": "sale",
+        "sales": 120000,
+        "receipts": 120000
+      },
+      {
+        "id": "a953fa8f-0e6e-4246-9b8f-64991a752e6f",
+        "kind": "sale",
+        "sales": 300000,
+        "receipts": 100000
+      },
+      {
+        "id": "120a9a9b-d88e-4e8d-9db8-592b4c98c080",
+        "kind": "sale",
+        "sales": 340000,
+        "receipts": 340000
+      }
+    ],
+    "sales": 1060000,
+    "receipts": 660000,
+    "debt": 400000,
+    "customers": 6,
+    "feedback": 1
+  }
+}

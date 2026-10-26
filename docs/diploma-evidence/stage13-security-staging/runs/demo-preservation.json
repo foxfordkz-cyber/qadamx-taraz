@@ -1,0 +1,7 @@
+{
+  "read_only_sql_unchanged": true,
+  "stage12_endpoints": {
+    "http://127.0.0.1:4303/login": 200,
+    "http://127.0.0.1:8322/__qa/info": 200
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "backend": {
+    "tests": 782,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "tests": 639,
+    "failed": 1,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend-targeted": {
+    "tests": 6,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "frontend-serial": {
+    "tests": 639,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "tests": 19,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "seller": {
+    "tests": 8,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

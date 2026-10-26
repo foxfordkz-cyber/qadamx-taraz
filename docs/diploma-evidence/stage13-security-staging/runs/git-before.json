@@ -1,0 +1,57 @@
+{
+  "refs": {
+    "main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "integration/team-mvp": "ABSENT after fetch --prune; not recreated",
+    "integration/local-combined-check": "ABSENT after fetch --prune; not recreated",
+    "feature/seller-design-integration": "ABSENT after fetch --prune; not recreated",
+    "feature/seller-analytics": "ABSENT after fetch --prune; not recreated",
+    "fix/seller-auth-unicode": "28960f21e13c9c38077bf68b7bb5449eb9aa824d",
+    "feature/ml-sales-debt-research": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+    "integration/qadam-diploma-v1": "55b39549bc52e767616763e0e1b5e8ab102c78e8"
+  },
+  "prs": [
+    {
+      "number": 100,
+      "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100",
+      "state": "open",
+      "draft": true,
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "merged": false,
+      "updated_at": "2026-10-24T10:17:49Z",
+      "head_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+      "head_ref": "feature/ml-sales-debt-research",
+      "base_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+      "base_ref": "main"
+    },
+    {
+      "number": 101,
+      "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/101",
+      "state": "open",
+      "draft": true,
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "merged": false,
+      "updated_at": "2026-10-26T10:51:36Z",
+      "head_sha": "55b39549bc52e767616763e0e1b5e8ab102c78e8",
+      "head_ref": "integration/qadam-diploma-v1",
+      "base_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+      "base_ref": "feature/ml-sales-debt-research"
+    }
+  ],
+  "counts_main_to_100": "0\t11",
+  "counts_100_to_101": "0\t23",
+  "shared_files": [
+    "README.md",
+    "docs/DECISIONS.md",
+    "docs/handoffs/seller-web.md"
+  ],
+  "diff_main_100": "76 files changed, 11180 insertions(+), 1400 deletions(-)",
+  "diff_100_101": "599 files changed, 84019 insertions(+), 190 deletions(-)",
+  "stage12_web": {
+    "status": 200
+  },
+  "stage12_api": {
+    "status": 200
+  }
+}

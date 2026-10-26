@@ -1,0 +1,326 @@
+{
+  "implementation_commit": "9afb7ed65c4dae7dd2c2702029983932b3041466",
+  "hash_basis": "Canonical Git index blob bytes; text line endings normalized by repository attributes",
+  "files": {
+    "apps/api/tests/stage13_browser_server.py": {
+      "bytes": 1203,
+      "sha256": "11d02b869917008b70fde5bb3c0cd91a3d774c27c347a3a4c406b3665b5522c8"
+    },
+    "apps/api/tests/test_stage13_staging.py": {
+      "bytes": 2065,
+      "sha256": "750d6a5768aa4deb22152953bdc0384724823e7a108203ca0d6f2d3872d070f0"
+    },
+    "apps/api/tools/stage13_staging/__init__.py": {
+      "bytes": 88,
+      "sha256": "f161f906c3e8b3cc758f83188ffe491c5533e044e8a4e3e3d5258b1b1f2d0d85"
+    },
+    "apps/api/tools/stage13_staging/demo.py": {
+      "bytes": 5749,
+      "sha256": "c231e52f90658dd526a40e21c52e266adf80f534f861ce971f5c8f062f3c427a"
+    },
+    "apps/web/e2e/staging-seller.playwright.config.ts": {
+      "bytes": 437,
+      "sha256": "6a772b0b8d276dc8745db93a033e78a69e7a251b3738e5e081cc1d86f1ed4b45"
+    },
+    "apps/web/e2e/staging.playwright.config.ts": {
+      "bytes": 1429,
+      "sha256": "c62ea1143414c536a99bd84dbf182461b95155a9fc0fc5ef107f3caf3e3d2aed"
+    },
+    "apps/web/package-lock.json": {
+      "bytes": 193840,
+      "sha256": "1e79b46a2e50d54354c8911e8898656f7342d8707d6ee7e5ea50d104a26e73fb"
+    },
+    "apps/web/package.json": {
+      "bytes": 1642,
+      "sha256": "da655c775482f4fc004b56216139a2185cbf471793fe78b96d03f33d3909c6e8"
+    },
+    "docs/DECISIONS.md": {
+      "bytes": 67795,
+      "sha256": "ae8ed6972315f70bbb915146a466522e1a43a8eb41176eb8fe41f991979017f1"
+    },
+    "docs/diploma-evidence/stage13-security-staging/README.md": {
+      "bytes": 3171,
+      "sha256": "33065c9d88c0ba419166e6d89b54a05dd2712e80520cb27c67abea6b632a4d8b"
+    },
+    "docs/diploma-evidence/stage13-security-staging/backup-restore-report.md": {
+      "bytes": 1439,
+      "sha256": "2ee8947a2c0e62e411c53e1878348ee92bb810d6668605133b3ad50de0d20073"
+    },
+    "docs/diploma-evidence/stage13-security-staging/blockers.md": {
+      "bytes": 3042,
+      "sha256": "60dab2b41766349d30b2c836d7043b8c9f3e0a6cea65875eab306630297d00a7"
+    },
+    "docs/diploma-evidence/stage13-security-staging/changed-files.md": {
+      "bytes": 12479,
+      "sha256": "dda7e9d9ca69b0483230b7931788feacca073695f5ddf1e2e509d520ad287b69"
+    },
+    "docs/diploma-evidence/stage13-security-staging/configuration/.env.example": {
+      "bytes": 1207,
+      "sha256": "d1188b3fe097ef070f88a85cbb1150da790aab312d911ca9cd6b2e071ae7bcf8"
+    },
+    "docs/diploma-evidence/stage13-security-staging/demo-verification.md": {
+      "bytes": 3452,
+      "sha256": "5eddb04162f805bf588511d50a7d06689562aebb1ba759e6ef3107d7cfc86095"
+    },
+    "docs/diploma-evidence/stage13-security-staging/dependency-audit.md": {
+      "bytes": 2038,
+      "sha256": "167de86b2657710ad50998b3082b3fbf41cc19a408f1d5777fe6725fbb1ca960"
+    },
+    "docs/diploma-evidence/stage13-security-staging/dependency-fix-report.md": {
+      "bytes": 1943,
+      "sha256": "1385fd7b3d199c8941d18efcb889cbf3e42bab4e028be8fd196d310283956a38"
+    },
+    "docs/diploma-evidence/stage13-security-staging/full-test-results.md": {
+      "bytes": 6114,
+      "sha256": "bc6f8d4c5abfab2d596413be93820efaba09b5f6a6115c8f9e24e82901c42602"
+    },
+    "docs/diploma-evidence/stage13-security-staging/live-auth-ai-test-plan.md": {
+      "bytes": 4125,
+      "sha256": "d43ad4c769068deddf81e5c22bc3b0c984340a9505e257beda15e697b7b3f482"
+    },
+    "docs/diploma-evidence/stage13-security-staging/migration-0009-verification.md": {
+      "bytes": 2377,
+      "sha256": "33823aeb22fd6a1712d27c573735e03ef8aabaf30a4b27680e27aede7f6f31ba"
+    },
+    "docs/diploma-evidence/stage13-security-staging/pr-integration-plan.md": {
+      "bytes": 3344,
+      "sha256": "c24c5e9d768efc8657fc11b6cc6fb53ce4f225de8d14337427f8f7e5ffab7be4"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/api-contract.txt": {
+      "bytes": 19,
+      "sha256": "9322b2210b567263402ef90c903c2d825682ee518d650480eebe2b46e9cb0455"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/audit-after.json": {
+      "bytes": 364,
+      "sha256": "a5b82f0499a1ac4921309d966c9bae116ed90e318a5217eb4c3c1d90f41a57c3"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/audit-before.json": {
+      "bytes": 4225,
+      "sha256": "c7b184ed19f428d0d070376e0bfecff9da91d2237aa36cb0c680fefad46737b2"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/audit-production-after.json": {
+      "bytes": 364,
+      "sha256": "a5b82f0499a1ac4921309d966c9bae116ed90e318a5217eb4c3c1d90f41a57c3"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/audit-production-before.json": {
+      "bytes": 364,
+      "sha256": "2b9d6ce787790bb80e838310f78c16f2a04dcc2dacc79570621272becebae066"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/backend-static.json": {
+      "bytes": 1283,
+      "sha256": "d1014d25454d77bdbd2de2127cd80ee23cc9fe8cfc0ca4a2247408d9da19a324"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/backend.txt": {
+      "bytes": 1428,
+      "sha256": "8063aae52062f5233a3a6c3d69b1678bc901cd0eb0e7c72b879ea7edbd1ccc5e"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/backend.xml": {
+      "bytes": 159125,
+      "sha256": "3de55652eabeb6fb8d906f4d08b970522667331b30bd365a7fe6288dea20aa11"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/browser.txt": {
+      "bytes": 14671,
+      "sha256": "4b7ee62185d27285ac3f9a5fba0c9afe03ee6b8c88aa04065745d664c541a717"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/browser.xml": {
+      "bytes": 3552,
+      "sha256": "4f57b229ea1acedb006eccf35976444fa4b57e4e8f8c4b3e211eb308955e2558"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/config-probe.json": {
+      "bytes": 862,
+      "sha256": "2047547aa38eb574eee2c3008a3cf0f19dcb67ff99c0c9519f4f1eed42855fdb"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/customer-recovery-sql.json": {
+      "bytes": 120,
+      "sha256": "f8946c9015819aef4e088205351cc0a07d9ae231fa5b1be6a55fa05ba6c36250"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/demo-initial-sql.json": {
+      "bytes": 257,
+      "sha256": "a9183f64fd7bf96b4c839e80e2c51f63d934e0bf1d582028737507a708b058b1"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/demo-preservation.json": {
+      "bytes": 151,
+      "sha256": "997b1284fde7246adea4a42984d1a5023c08ba266f7f712160c9269d60ab5a4e"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/demo-ready.json": {
+      "bytes": 315,
+      "sha256": "35c92b0d9ea8db9b929a96628b3a3c2871ba5a7b189fbbdb54be6cedd10b9ded"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/demo-smoke-provenance.json": {
+      "bytes": 431,
+      "sha256": "241a6ee62c9d97d804cf671e5990366d306bc2a169ada77cbcb7654f7aa098fc"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/demo-smoke.json": {
+      "bytes": 508,
+      "sha256": "864e64fac91a417794851bec4d3576112b08758de964130e73ba32d923d4970e"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/dependency-changes.json": {
+      "bytes": 2903,
+      "sha256": "05bf5981fe4232367df718ce26b7f501a56667e9cc63487d258ac92169f735fa"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/final-config-format.txt": {
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/final-config-lint.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/final-sql.json": {
+      "bytes": 875,
+      "sha256": "7cb55436ec9e968ebdf8b27bb245dc27f076978da243c2c18dd0ca0d5486498e"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/final-static.json": {
+      "bytes": 96,
+      "sha256": "18fb756f0bc5802316e93899d8b21e9a209803162ea67cfd0470bd4656d720f9"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/final-typecheck.txt": {
+      "bytes": 39,
+      "sha256": "4f915e6bb78007a874d25e41fede75a408b7fcdce6691abf178dada981902b4b"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/frontend-serial.txt": {
+      "bytes": 19213,
+      "sha256": "0a2238f4d0b808aeeaf80a868fb8ccfed138a28c62ea8664289d665f069cdc78"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/frontend-serial.xml": {
+      "bytes": 157410,
+      "sha256": "1aa0d21c2c34bf7281e41f894d5024b301789d986763dd8c8204c4464ab3b626"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/frontend-targeted.txt": {
+      "bytes": 1038,
+      "sha256": "0e66a0c0fc21c22ea56b151f74532163f95f4b891eb2be11a82939dad80f2a48"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/frontend-targeted.xml": {
+      "bytes": 1761,
+      "sha256": "3f3084e78ab881297dfb3576336a009818310586933ef501eb64b409706b7fca"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/frontend.txt": {
+      "bytes": 28063,
+      "sha256": "756927b3491f9b4783bea6944f3d8352b0eb3daf72dbe35f54854ede8b271be3"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/frontend.xml": {
+      "bytes": 184880,
+      "sha256": "a88d55c962d6d0e95c66350f71e666264a099e1d71228279a5cfdac91a18ffa8"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/git-before.json": {
+      "bytes": 2045,
+      "sha256": "da6ca7666afeb995d3e478cb0ad74f80e194d13b7c61d8b65a2bc59818377512"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/migration-a.json": {
+      "bytes": 10751,
+      "sha256": "b08ea8f74d106e2c8fc7ea62d5977edd39570a34f8da7f365d1e9e16ef719eb8"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/migration-b.json": {
+      "bytes": 10751,
+      "sha256": "868e8c17f742bfcf7ac2648747d6cff0fbd30ace20f86e0329a8e60555fb2aeb"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/npm-ci.txt": {
+      "bytes": 702,
+      "sha256": "8c5ccb0dff2186f1c1ef6c496c5577bb177ae0f50a85e2039772cf3f3b70aa84"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/postgres-collection.txt": {
+      "bytes": 36542,
+      "sha256": "a4b263de868940f79d785c3252ac5b1f5211476a5dc2a81a2ac7d0f6e78cc409"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/research-30-response.json": {
+      "bytes": 17590,
+      "sha256": "b9ca3d9ad6f575b8464b5ad27b813f00e9c7f79c2cf05c6301a4d835af39d08a"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/response-loss-sql.json": {
+      "bytes": 2952,
+      "sha256": "c695eed136e8eef0c96bb82291962a765a3749f8c730b664e86b643417cbf678"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/ruff-format.txt": {
+      "bytes": 28,
+      "sha256": "e8a753af63ae08bac9cbbfb14aaed366e221bfb2644e4888525d063ecd9b2f20"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/ruff.txt": {
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/security-scan.json": {
+      "bytes": 476,
+      "sha256": "e4afff75925aedbf80df2edf8d1ad6ab5bc1e3bf87a6889a47308d430832fb05"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/seller.txt": {
+      "bytes": 1262,
+      "sha256": "cbaa6715d74bf0a8ac372f4e9bdd131e70932b6c76a3886fb658129b70dfd120"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/seller.xml": {
+      "bytes": 1348,
+      "sha256": "bce6e73da45be34cd96152a669d9f10d84bd8e75035c422b9935b827535af335"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/sql-confirmation.json": {
+      "bytes": 261,
+      "sha256": "7f966d28db253ddcb2e64070c2017b2f72e3ce7d407526278b57a69af955e604"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/sql-migration.json": {
+      "bytes": 91,
+      "sha256": "7c36256f3b2ee4d0b2ffae30c6b2a56b81ffcff2f79c20e83ee7e13d48f35aff"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/test-counts.json": {
+      "bytes": 550,
+      "sha256": "81d2a84a908f785758be3f2c06456f531482876509641e71df0c28b4d75ed594"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/verified-inputs.json": {
+      "bytes": 1418,
+      "sha256": "5a8629f641519d721d3a7fab05f704fc6fe9f891604a6a08d23eb219d7864f53"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/web-build.txt": {
+      "bytes": 922,
+      "sha256": "bb75e479854374ac4145d914f33f818747608ab5068e5394e7e9b1dbbf7bfa15"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/web-check-api.txt": {
+      "bytes": 121,
+      "sha256": "c68aee9d6d658f85d30855650ac3ae3e7323df400962e086970bc39749a5cc56"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/web-format-check.txt": {
+      "bytes": 163,
+      "sha256": "02f7660f12978af53c552b01d551afafe0a8d135a8d986795360fb42e7a8eb4d"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/web-lint.txt": {
+      "bytes": 53,
+      "sha256": "dc49b4be45e2c9c4fda6ad84b2d6059c7dae3f3cebb4761e218f866a1706c80e"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/web-static.json": {
+      "bytes": 277,
+      "sha256": "1f18cf92e7a9b7cf5d5d7fb648ad892a2787c5ddf879abd6eccc5a1ea9f582e7"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/web-typecheck.txt": {
+      "bytes": 39,
+      "sha256": "4f915e6bb78007a874d25e41fede75a408b7fcdce6691abf178dada981902b4b"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/workflow-sql.json": {
+      "bytes": 830,
+      "sha256": "96cf164ff073a002174275b1e28f2eabf78dd668396e4495af2e112b9abad479"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/worktree-preservation.json": {
+      "bytes": 3896,
+      "sha256": "a5a724896ccb65972bdc676b1d1095c7d8c02c41bce0c72686908383879ba521"
+    },
+    "docs/diploma-evidence/stage13-security-staging/runs/worktrees-before.json": {
+      "bytes": 6356,
+      "sha256": "2af08a10d6dd0a34e09fb3b0686e3868ad7b431cd9c57d86d3c37e2188e00897"
+    },
+    "docs/diploma-evidence/stage13-security-staging/screenshots/grounded-kazakh-1280.png": {
+      "bytes": 141920,
+      "sha256": "a77db1868c01f283f14c99f7bbb95f57351e23802fc30bf11faae4328fd5607f"
+    },
+    "docs/diploma-evidence/stage13-security-staging/screenshots/research-sql-kk-360.png": {
+      "bytes": 347229,
+      "sha256": "aea28fcaa4b02c3d9b74f39d7397f138d70cd53860019cfd046519612b42fabc"
+    },
+    "docs/diploma-evidence/stage13-security-staging/staging-architecture.md": {
+      "bytes": 2004,
+      "sha256": "0503ff441608060ccb9389297822354092680bb11aa1e9e09339e35dbf4bd909"
+    },
+    "docs/diploma-evidence/stage13-security-staging/staging-configuration.md": {
+      "bytes": 5919,
+      "sha256": "d730b41bcf2a50162e92533ed168a7fc8090a96739e5409154f04012f82d1334"
+    },
+    "docs/handoffs/backend.md": {
+      "bytes": 272790,
+      "sha256": "e8da1a9ad072037c2cc022452647c133f58bf1b3daf4750560b6a5e4d1c8aa80"
+    }
+  }
+}

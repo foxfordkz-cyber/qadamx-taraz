@@ -1,0 +1,11 @@
+{
+  "template": "apps/api/tools/stage11_release/demo-smoke.mjs",
+  "template_sha256": "073d2d26abc1daff22483f346dfa48d626884395b4cce31a775bb87c19d32183",
+  "copied_script_sha256": "bcd402cde2932e10632b5ded2870962e56bcf879adf8778be9d8efa892310f6b",
+  "changes": [
+    "8322 -> 8333 API origin",
+    "4303 -> 4313 web origin",
+    "source label -> actual ready.json SHA"
+  ],
+  "source": "9afb7ed65c4dae7dd2c2702029983932b3041466"
+}

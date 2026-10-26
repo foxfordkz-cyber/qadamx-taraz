@@ -1,0 +1,9 @@
+{
+  "url": "http://127.0.0.1:4313/login",
+  "api": "http://127.0.0.1:8333",
+  "database": "qadam_research_browser_stage13_ready_test",
+  "source": "9afb7ed65c4dae7dd2c2702029983932b3041466",
+  "mode": "OFFLINE AI / synthetic SQL / local signed JWT; NOT live Supabase or AI",
+  "api_pid": 26868,
+  "web_pid": 7576
+}
