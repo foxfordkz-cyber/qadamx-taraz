@@ -1,0 +1,773 @@
+{
+  "execution_commit": "9946ce34c996d1dd7027ec19e1fef2a85a6a01eb",
+  "baseline_commit": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+  "source_hashes_lf": {
+    "apps/api/app/services/ai.py": "de373d9f5e56655ac8a1689e72ce1f73fcd8c9fec5276b5bdd1da6942ce57e2b",
+    "apps/api/app/services/extraction_grounding.py": "fa01588fbab4930a4965a44384f0c97254d893c1408eb1348b7ddeb7d3b19ebb",
+    "apps/api/app/services/openai_provider.py": "8779e0803ca56e2326ad9fe19cbbbc41a041ea986e8bb2b004c11918d6885b05",
+    "apps/api/app/services/strict_json.py": "75d62514d9c7005247b69508d7722a30a256acc0b8bf454f489019a219f4aaee"
+  },
+  "dataset": {
+    "version": "qadam-stage8-constructed-holdout-v1",
+    "frozen_at_utc": "2026-10-25T08:50:22.025853+00:00",
+    "case_count": 120,
+    "implementation": "b84b4c70b58c21465705f1dc8c3ca31657054fce",
+    "baseline": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+    "hashes_lf": {
+      "docs/diploma-evidence/ai-evaluation-stage8/dataset.jsonl": "dab90ae87f7dc8e25a1d07de20dc5ae6bd8536943641975a368125807e1229e5",
+      "docs/diploma-evidence/ai-evaluation-stage8/dataset.csv": "f81de3882a3669dff4bd0cd33b82b69b941894f289452a4b0d49c95b714b2d32",
+      "docs/diploma-evidence/ai-evaluation-stage8/evaluation-protocol.md": "27ad91c13e493b3536ec9f61d90d499f29e8ebcf30d990efebcd53f5dc765c6a",
+      "apps/api/tools/stage8_eval/build_corpus.py": "7f32be3268fdbfde0d18aa399f0a2e629f884bfb8b76259eaddca72ce2f09361"
+    },
+    "live_calls": 0,
+    "independence": "Unseen during Stage7 development; same exposed Codex author, not blind or independently adjudicated"
+  },
+  "python": "3.12.14",
+  "configuration": {
+    "provider": "identical authored response",
+    "max_attempts": 1,
+    "paid_calls": 0
+  },
+  "baseline_reproduced_for_all_cases": true,
+  "scientific_status": "Known development/regression set after Stage8 exposure, not independent test accuracy",
+  "before": {
+    "transaction_type": {
+      "numerator": 108,
+      "denominator": 108,
+      "rate": 1.0
+    },
+    "sales_amount": {
+      "numerator": 82,
+      "denominator": 84,
+      "rate": 0.9761904761904762
+    },
+    "received_amount": {
+      "numerator": 73,
+      "denominator": 84,
+      "rate": 0.8690476190476191
+    },
+    "repayment_amount": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "customer_query": {
+      "numerator": 58,
+      "denominator": 63,
+      "rate": 0.9206349206349206
+    },
+    "customer_candidates": {
+      "numerator": 58,
+      "denominator": 63,
+      "rate": 0.9206349206349206
+    },
+    "clarification": {
+      "numerator": 92,
+      "denominator": 108,
+      "rate": 0.8518518518518519
+    },
+    "full_valid": {
+      "numerator": 92,
+      "denominator": 108,
+      "rate": 0.8518518518518519
+    },
+    "full_all": {
+      "numerator": 104,
+      "denominator": 120,
+      "rate": 0.8666666666666667
+    },
+    "invalid_rejected": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "false_output_acceptance": {
+      "numerator": 0,
+      "denominator": 12,
+      "rate": 0.0
+    },
+    "false_output_rejection": {
+      "numerator": 0,
+      "denominator": 108,
+      "rate": 0.0
+    },
+    "unsafe_ready": {
+      "numerator": 0,
+      "denominator": 84,
+      "rate": 0.0
+    },
+    "error_ids": [
+      "S8-003",
+      "S8-006",
+      "S8-011",
+      "S8-013",
+      "S8-016",
+      "S8-018",
+      "S8-030",
+      "S8-034",
+      "S8-036",
+      "S8-050",
+      "S8-056",
+      "S8-080",
+      "S8-084",
+      "S8-086",
+      "S8-090",
+      "S8-094"
+    ]
+  },
+  "after": {
+    "transaction_type": {
+      "numerator": 108,
+      "denominator": 108,
+      "rate": 1.0
+    },
+    "sales_amount": {
+      "numerator": 82,
+      "denominator": 84,
+      "rate": 0.9761904761904762
+    },
+    "received_amount": {
+      "numerator": 82,
+      "denominator": 84,
+      "rate": 0.9761904761904762
+    },
+    "repayment_amount": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "customer_query": {
+      "numerator": 63,
+      "denominator": 63,
+      "rate": 1.0
+    },
+    "customer_candidates": {
+      "numerator": 63,
+      "denominator": 63,
+      "rate": 1.0
+    },
+    "clarification": {
+      "numerator": 106,
+      "denominator": 108,
+      "rate": 0.9814814814814815
+    },
+    "full_valid": {
+      "numerator": 106,
+      "denominator": 108,
+      "rate": 0.9814814814814815
+    },
+    "full_all": {
+      "numerator": 118,
+      "denominator": 120,
+      "rate": 0.9833333333333333
+    },
+    "invalid_rejected": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "false_output_acceptance": {
+      "numerator": 0,
+      "denominator": 12,
+      "rate": 0.0
+    },
+    "false_output_rejection": {
+      "numerator": 0,
+      "denominator": 108,
+      "rate": 0.0
+    },
+    "unsafe_ready": {
+      "numerator": 0,
+      "denominator": 84,
+      "rate": 0.0
+    },
+    "error_ids": [
+      "S8-080",
+      "S8-084"
+    ]
+  },
+  "by_language": {
+    "ru": {
+      "before": {
+        "transaction_type": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "sales_amount": {
+          "numerator": 28,
+          "denominator": 28,
+          "rate": 1.0
+        },
+        "received_amount": {
+          "numerator": 24,
+          "denominator": 28,
+          "rate": 0.8571428571428571
+        },
+        "repayment_amount": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "customer_query": {
+          "numerator": 20,
+          "denominator": 21,
+          "rate": 0.9523809523809523
+        },
+        "customer_candidates": {
+          "numerator": 20,
+          "denominator": 21,
+          "rate": 0.9523809523809523
+        },
+        "clarification": {
+          "numerator": 31,
+          "denominator": 36,
+          "rate": 0.8611111111111112
+        },
+        "full_valid": {
+          "numerator": 31,
+          "denominator": 36,
+          "rate": 0.8611111111111112
+        },
+        "full_all": {
+          "numerator": 35,
+          "denominator": 40,
+          "rate": 0.875
+        },
+        "invalid_rejected": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "false_output_acceptance": {
+          "numerator": 0,
+          "denominator": 4,
+          "rate": 0.0
+        },
+        "false_output_rejection": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0.0
+        },
+        "unsafe_ready": {
+          "numerator": 0,
+          "denominator": 28,
+          "rate": 0.0
+        },
+        "error_ids": [
+          "S8-003",
+          "S8-013",
+          "S8-016",
+          "S8-050",
+          "S8-086"
+        ]
+      },
+      "after": {
+        "transaction_type": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "sales_amount": {
+          "numerator": 28,
+          "denominator": 28,
+          "rate": 1.0
+        },
+        "received_amount": {
+          "numerator": 28,
+          "denominator": 28,
+          "rate": 1.0
+        },
+        "repayment_amount": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "customer_query": {
+          "numerator": 21,
+          "denominator": 21,
+          "rate": 1.0
+        },
+        "customer_candidates": {
+          "numerator": 21,
+          "denominator": 21,
+          "rate": 1.0
+        },
+        "clarification": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "full_valid": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "full_all": {
+          "numerator": 40,
+          "denominator": 40,
+          "rate": 1.0
+        },
+        "invalid_rejected": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "false_output_acceptance": {
+          "numerator": 0,
+          "denominator": 4,
+          "rate": 0.0
+        },
+        "false_output_rejection": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0.0
+        },
+        "unsafe_ready": {
+          "numerator": 0,
+          "denominator": 28,
+          "rate": 0.0
+        },
+        "error_ids": []
+      }
+    },
+    "kk": {
+      "before": {
+        "transaction_type": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "sales_amount": {
+          "numerator": 27,
+          "denominator": 28,
+          "rate": 0.9642857142857143
+        },
+        "received_amount": {
+          "numerator": 24,
+          "denominator": 28,
+          "rate": 0.8571428571428571
+        },
+        "repayment_amount": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "customer_query": {
+          "numerator": 19,
+          "denominator": 21,
+          "rate": 0.9047619047619048
+        },
+        "customer_candidates": {
+          "numerator": 19,
+          "denominator": 21,
+          "rate": 0.9047619047619048
+        },
+        "clarification": {
+          "numerator": 30,
+          "denominator": 36,
+          "rate": 0.8333333333333334
+        },
+        "full_valid": {
+          "numerator": 30,
+          "denominator": 36,
+          "rate": 0.8333333333333334
+        },
+        "full_all": {
+          "numerator": 34,
+          "denominator": 40,
+          "rate": 0.85
+        },
+        "invalid_rejected": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "false_output_acceptance": {
+          "numerator": 0,
+          "denominator": 4,
+          "rate": 0.0
+        },
+        "false_output_rejection": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0.0
+        },
+        "unsafe_ready": {
+          "numerator": 0,
+          "denominator": 28,
+          "rate": 0.0
+        },
+        "error_ids": [
+          "S8-006",
+          "S8-018",
+          "S8-030",
+          "S8-056",
+          "S8-080",
+          "S8-090"
+        ]
+      },
+      "after": {
+        "transaction_type": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "sales_amount": {
+          "numerator": 27,
+          "denominator": 28,
+          "rate": 0.9642857142857143
+        },
+        "received_amount": {
+          "numerator": 27,
+          "denominator": 28,
+          "rate": 0.9642857142857143
+        },
+        "repayment_amount": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "customer_query": {
+          "numerator": 21,
+          "denominator": 21,
+          "rate": 1.0
+        },
+        "customer_candidates": {
+          "numerator": 21,
+          "denominator": 21,
+          "rate": 1.0
+        },
+        "clarification": {
+          "numerator": 35,
+          "denominator": 36,
+          "rate": 0.9722222222222222
+        },
+        "full_valid": {
+          "numerator": 35,
+          "denominator": 36,
+          "rate": 0.9722222222222222
+        },
+        "full_all": {
+          "numerator": 39,
+          "denominator": 40,
+          "rate": 0.975
+        },
+        "invalid_rejected": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "false_output_acceptance": {
+          "numerator": 0,
+          "denominator": 4,
+          "rate": 0.0
+        },
+        "false_output_rejection": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0.0
+        },
+        "unsafe_ready": {
+          "numerator": 0,
+          "denominator": 28,
+          "rate": 0.0
+        },
+        "error_ids": [
+          "S8-080"
+        ]
+      }
+    },
+    "mixed": {
+      "before": {
+        "transaction_type": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "sales_amount": {
+          "numerator": 27,
+          "denominator": 28,
+          "rate": 0.9642857142857143
+        },
+        "received_amount": {
+          "numerator": 25,
+          "denominator": 28,
+          "rate": 0.8928571428571429
+        },
+        "repayment_amount": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "customer_query": {
+          "numerator": 19,
+          "denominator": 21,
+          "rate": 0.9047619047619048
+        },
+        "customer_candidates": {
+          "numerator": 19,
+          "denominator": 21,
+          "rate": 0.9047619047619048
+        },
+        "clarification": {
+          "numerator": 31,
+          "denominator": 36,
+          "rate": 0.8611111111111112
+        },
+        "full_valid": {
+          "numerator": 31,
+          "denominator": 36,
+          "rate": 0.8611111111111112
+        },
+        "full_all": {
+          "numerator": 35,
+          "denominator": 40,
+          "rate": 0.875
+        },
+        "invalid_rejected": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "false_output_acceptance": {
+          "numerator": 0,
+          "denominator": 4,
+          "rate": 0.0
+        },
+        "false_output_rejection": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0.0
+        },
+        "unsafe_ready": {
+          "numerator": 0,
+          "denominator": 28,
+          "rate": 0.0
+        },
+        "error_ids": [
+          "S8-011",
+          "S8-034",
+          "S8-036",
+          "S8-084",
+          "S8-094"
+        ]
+      },
+      "after": {
+        "transaction_type": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "sales_amount": {
+          "numerator": 27,
+          "denominator": 28,
+          "rate": 0.9642857142857143
+        },
+        "received_amount": {
+          "numerator": 27,
+          "denominator": 28,
+          "rate": 0.9642857142857143
+        },
+        "repayment_amount": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "customer_query": {
+          "numerator": 21,
+          "denominator": 21,
+          "rate": 1.0
+        },
+        "customer_candidates": {
+          "numerator": 21,
+          "denominator": 21,
+          "rate": 1.0
+        },
+        "clarification": {
+          "numerator": 35,
+          "denominator": 36,
+          "rate": 0.9722222222222222
+        },
+        "full_valid": {
+          "numerator": 35,
+          "denominator": 36,
+          "rate": 0.9722222222222222
+        },
+        "full_all": {
+          "numerator": 39,
+          "denominator": 40,
+          "rate": 0.975
+        },
+        "invalid_rejected": {
+          "numerator": 4,
+          "denominator": 4,
+          "rate": 1.0
+        },
+        "false_output_acceptance": {
+          "numerator": 0,
+          "denominator": 4,
+          "rate": 0.0
+        },
+        "false_output_rejection": {
+          "numerator": 0,
+          "denominator": 36,
+          "rate": 0.0
+        },
+        "unsafe_ready": {
+          "numerator": 0,
+          "denominator": 28,
+          "rate": 0.0
+        },
+        "error_ids": [
+          "S8-084"
+        ]
+      }
+    }
+  },
+  "pairs": {
+    "improved": [
+      "S8-003",
+      "S8-006",
+      "S8-011",
+      "S8-013",
+      "S8-016",
+      "S8-018",
+      "S8-030",
+      "S8-034",
+      "S8-036",
+      "S8-050",
+      "S8-056",
+      "S8-086",
+      "S8-090",
+      "S8-094"
+    ],
+    "regressed": [],
+    "more_conservative": [],
+    "both_correct": [
+      "S8-001",
+      "S8-002",
+      "S8-004",
+      "S8-005",
+      "S8-007",
+      "S8-008",
+      "S8-009",
+      "S8-010",
+      "S8-012",
+      "S8-014",
+      "S8-015",
+      "S8-017",
+      "S8-019",
+      "S8-020",
+      "S8-021",
+      "S8-022",
+      "S8-023",
+      "S8-024",
+      "S8-025",
+      "S8-026",
+      "S8-027",
+      "S8-028",
+      "S8-029",
+      "S8-031",
+      "S8-032",
+      "S8-033",
+      "S8-035",
+      "S8-037",
+      "S8-038",
+      "S8-039",
+      "S8-040",
+      "S8-041",
+      "S8-042",
+      "S8-043",
+      "S8-044",
+      "S8-045",
+      "S8-046",
+      "S8-047",
+      "S8-048",
+      "S8-049",
+      "S8-051",
+      "S8-052",
+      "S8-053",
+      "S8-054",
+      "S8-055",
+      "S8-057",
+      "S8-058",
+      "S8-059",
+      "S8-060",
+      "S8-061",
+      "S8-062",
+      "S8-063",
+      "S8-064",
+      "S8-065",
+      "S8-066",
+      "S8-067",
+      "S8-068",
+      "S8-069",
+      "S8-070",
+      "S8-071",
+      "S8-072",
+      "S8-073",
+      "S8-074",
+      "S8-075",
+      "S8-076",
+      "S8-077",
+      "S8-078",
+      "S8-079",
+      "S8-081",
+      "S8-082",
+      "S8-083",
+      "S8-085",
+      "S8-087",
+      "S8-088",
+      "S8-089",
+      "S8-091",
+      "S8-092",
+      "S8-093",
+      "S8-095",
+      "S8-096",
+      "S8-097",
+      "S8-098",
+      "S8-099",
+      "S8-100",
+      "S8-101",
+      "S8-102",
+      "S8-103",
+      "S8-104",
+      "S8-105",
+      "S8-106",
+      "S8-107",
+      "S8-108",
+      "S8-109",
+      "S8-110",
+      "S8-111",
+      "S8-112",
+      "S8-113",
+      "S8-114",
+      "S8-115",
+      "S8-116",
+      "S8-117",
+      "S8-118",
+      "S8-119",
+      "S8-120"
+    ],
+    "both_correct_rejection": [
+      "S8-109",
+      "S8-110",
+      "S8-111",
+      "S8-112",
+      "S8-113",
+      "S8-114",
+      "S8-115",
+      "S8-116",
+      "S8-117",
+      "S8-118",
+      "S8-119",
+      "S8-120"
+    ]
+  },
+  "regressions_by_language": {
+    "ru": [],
+    "kk": [],
+    "mixed": []
+  }
+}

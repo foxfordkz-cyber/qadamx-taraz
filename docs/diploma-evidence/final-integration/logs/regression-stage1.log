@@ -1,0 +1,65 @@
+{
+  "configuration": {
+    "dataset_id": "DS-B-LOCKED-42-v1",
+    "fixture_sha256": "46732cf49f163a0b571019c32ea44e9910c6e46d96a65f961786e0db66988700",
+    "positive_class": "gold_valid",
+    "protocol": "paired-encodings-v1",
+    "note": "Same semantic intents and snapshots; distinct legacy-prose and structured-ID encodings frozen before implementation. Strict protocol-policy failures are included; not a population/model accuracy benchmark.",
+    "python": "3.12.14",
+    "run_utc": "2026-10-25T12:06:14.874272+00:00",
+    "baseline_source_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "live_provider_calls": 0,
+    "checkout_head_sha": "9946ce34c996d1dd7027ec19e1fef2a85a6a01eb",
+    "implementation_commit_sha": "9946ce34c996d1dd7027ec19e1fef2a85a6a01eb",
+    "implementation_tree_dirty": false,
+    "implementation_files_sha256": {
+      "app/services/assistant.py": "150fe0403950fabdc8741e91f677d3d1a62f5897c3a22f76fae2e29a89bf3a2e",
+      "app/services/assistant_structured.py": "6863e7d29dce87d7fbc030417e27a9c4a3557e4c277e792dc020d3ccd8589081",
+      "tests/test_assistant.py": "fb14e21c1c0d05772f23e1464532e903098f79df3a6313b88de17b430b8eb0bc",
+      "tests/test_assistant_semantics.py": "8f33451f07ecffd87ab23304656b4d99d15ff5bca38547c61832e4636fff4e20",
+      "tests/fixtures/assistant_stage1_cases.json": "1ae46abeb313140c24475e5896b5d78362280f948022dabe63d0d95035781ccf",
+      "tests/fixtures/assistant_stage1_freeze.json": "64d47350f5c8a2c31d135f306a009eeee9178a58941c35237bee8709548ce656",
+      "tests/evaluation_baselines/assistant_numeric_v1.py": "60d9cd5bdee04aa5e6261cda8d31fa784ebbf3dd577ae2473d70e255d2056647",
+      "tools/diploma_eval/evaluate_stage1.py": "dded39393431da933d4cbc9e6b6b488bf1b5cd79002888bf129a1c0655397d71"
+    },
+    "fixture_content_lf_sha256": "1ae46abeb313140c24475e5896b5d78362280f948022dabe63d0d95035781ccf",
+    "baseline_content_lf_sha256": "60d9cd5bdee04aa5e6261cda8d31fa784ebbf3dd577ae2473d70e255d2056647",
+    "hash_policy": "Only LF/CRLF normalization; original Windows byte hashes also retained",
+    "implementation_files_lf_sha256": {
+      "app/services/assistant.py": "150fe0403950fabdc8741e91f677d3d1a62f5897c3a22f76fae2e29a89bf3a2e",
+      "app/services/assistant_structured.py": "6863e7d29dce87d7fbc030417e27a9c4a3557e4c277e792dc020d3ccd8589081",
+      "tests/test_assistant.py": "fb14e21c1c0d05772f23e1464532e903098f79df3a6313b88de17b430b8eb0bc",
+      "tests/test_assistant_semantics.py": "8f33451f07ecffd87ab23304656b4d99d15ff5bca38547c61832e4636fff4e20",
+      "tests/fixtures/assistant_stage1_cases.json": "1ae46abeb313140c24475e5896b5d78362280f948022dabe63d0d95035781ccf",
+      "tests/fixtures/assistant_stage1_freeze.json": "64d47350f5c8a2c31d135f306a009eeee9178a58941c35237bee8709548ce656",
+      "tests/evaluation_baselines/assistant_numeric_v1.py": "60d9cd5bdee04aa5e6261cda8d31fa784ebbf3dd577ae2473d70e255d2056647",
+      "tools/diploma_eval/evaluate_stage1.py": "dded39393431da933d4cbc9e6b6b488bf1b5cd79002888bf129a1c0655397d71"
+    }
+  },
+  "n": 42,
+  "valid": 18,
+  "invalid": 24,
+  "original": {
+    "tp": 18,
+    "fp": 19,
+    "tn": 5,
+    "fn": 0,
+    "false_acceptance_rate": 0.7916666666666666,
+    "false_rejection_rate": 0.0,
+    "precision": 0.4864864864864865,
+    "recall": 1.0,
+    "f1": 0.6545454545454545
+  },
+  "improved": {
+    "tp": 18,
+    "fp": 0,
+    "tn": 24,
+    "fn": 0,
+    "false_acceptance_rate": 0.0,
+    "false_rejection_rate": 0.0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "limitation": "Finite constructed paired protocols, not real-world model accuracy"
+}

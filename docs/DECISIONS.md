@@ -372,3 +372,22 @@ Independent annotation/privacy/adjudication templates and a disabled live plan
 are prepared only. No participants, consent, WER, actual billing or live accuracy
 are invented. New owner approval is required for any paid execution or audio.
 Evidence: `docs/diploma-evidence/ai-evaluation-stage9/`.
+
+## 2026-10-25 — Stage 10: preserve integrated source and verify the real local path
+
+Stage 9 already contains main and Stages 6–8; the separate final-candidate
+worktree is based on it without duplicate merges. No confirmed integration
+defect justified a production rewrite. New code is isolated acceptance tooling
+and a guarded offline academic launcher, with real API/SQL and visible synthetic
+labels. Source/test/evidence commits are distinguished in the provenance report.
+
+Fresh 42-case gold was frozen before execution. The same exposed author and
+eleven aligned semantic families across languages prevent a blind independent
+accuracy claim. Known frozen ambiguities remain errors; no gold is retuned.
+Financial writes still require explicit confirmation and exact idempotency reuse;
+read-only AI/Research actions preserve the journal. Physical/live/staging boundaries
+are not inferred from desktop Chrome or local signed JWT tests.
+
+Local demonstration is distinct from staging GO. No automatic push/PR/deployment,
+shared migration or paid AI is authorized. Evidence and next acceptance gates:
+`docs/diploma-evidence/final-integration/`.

@@ -1,0 +1,6 @@
+{
+  "scenario": "Stop own Vite child after ready",
+  "initial_launcher_exit": 0,
+  "remaining_listeners": [],
+  "limitation": "Initial Windows venv redirector cleanup needs descendant handling if listener remains"
+}

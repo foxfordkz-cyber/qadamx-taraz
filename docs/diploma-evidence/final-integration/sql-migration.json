@@ -1,0 +1,6 @@
+{
+  "database": "qadam_research_browser_stage10_final_test",
+  "migration": "0009_research_feedback",
+  "consent_true": 1,
+  "source": "Independent read-only SQL after the complete 19-case browser run; synthetic data only"
+}

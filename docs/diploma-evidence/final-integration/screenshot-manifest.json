@@ -1,0 +1,356 @@
+{
+  "origin": "Actual installed Chrome, local React/FastAPI/PostgreSQL; synthetic data/offline AI",
+  "capture_suite": "apps/web/e2e/final.playwright.config.ts",
+  "run": "19 passed, retries 0; browser-final.log",
+  "count": 58,
+  "images": [
+    {
+      "file": "screenshots/analytics-sql-after-retry.png",
+      "width": 1280,
+      "height": 1597,
+      "sha256": "470928a01f69dfa98aee313286fa3b405c12e3a6cb40305e3817005affbad458"
+    },
+    {
+      "file": "screenshots/assistant-sql-ru-1280.png",
+      "width": 1280,
+      "height": 1687,
+      "sha256": "8bd715842901fc5ad3d6c61591b6740bf576d5a398d688f2628e41ac71b2f756"
+    },
+    {
+      "file": "screenshots/dashboard-sql-after-retry.png",
+      "width": 1280,
+      "height": 1023,
+      "sha256": "adf4b3ea866724dffedda383a4183534b5a453bd69dbc61d71046bb7d37661bb"
+    },
+    {
+      "file": "screenshots/feedback-sql-ru-1280.png",
+      "width": 1280,
+      "height": 2654,
+      "sha256": "5e08f25fdb096266d08467ca8171f453ffcd7fba0c0274c76fc58c69fe51eade"
+    },
+    {
+      "file": "screenshots/final-analytics-kk-1440.png",
+      "width": 1440,
+      "height": 1597,
+      "sha256": "a940bdb52a22b07a3c8bee93b99362d76f6d082673787e5c417887917bcedf84"
+    },
+    {
+      "file": "screenshots/final-analytics-kk-360.png",
+      "width": 360,
+      "height": 2629,
+      "sha256": "5f90844b37ecea1e77afeb0209ef62b9dec8cd6b1f0a6e263d87c44b23c041ea"
+    },
+    {
+      "file": "screenshots/final-analytics-kk-390.png",
+      "width": 390,
+      "height": 2363,
+      "sha256": "24a0788c91700f312115d8d935a7c03452c752058a18e71eee16dcd660f1dfbe"
+    },
+    {
+      "file": "screenshots/final-analytics-kk-768.png",
+      "width": 768,
+      "height": 2130,
+      "sha256": "6ff041941e2fe7f8bf805123c610292bfeceb2aeb74ab94c7dfe246d65495469"
+    },
+    {
+      "file": "screenshots/final-analytics-ru-1440.png",
+      "width": 1440,
+      "height": 1687,
+      "sha256": "4fe2819b22729ef5b7b7b0e3ebc513aefe25075cf3a50b5bccd5ad105770ccbc"
+    },
+    {
+      "file": "screenshots/final-analytics-ru-360.png",
+      "width": 360,
+      "height": 2473,
+      "sha256": "76d6142e0da50188c1377a7b0be897b2005bcff04534f8e10501e00244455ae3"
+    },
+    {
+      "file": "screenshots/final-analytics-ru-390.png",
+      "width": 390,
+      "height": 2394,
+      "sha256": "0b36c2ecfc0dbcf84dec1f8e584ad5f8c2d1aa52539c7b5d3015ccfa76d03211"
+    },
+    {
+      "file": "screenshots/final-analytics-ru-768.png",
+      "width": 768,
+      "height": 2130,
+      "sha256": "3cf8681098d8bd5e0c778702ff9f6f1acf794ae2b6fd74a9fbe61bd238281e19"
+    },
+    {
+      "file": "screenshots/final-dashboard-kk-1440.png",
+      "width": 1440,
+      "height": 960,
+      "sha256": "6ec57387fc866ea1f999bbafba4e244cb8f8ee45626f627b65e0b70acdc4c92e"
+    },
+    {
+      "file": "screenshots/final-dashboard-kk-360.png",
+      "width": 360,
+      "height": 1420,
+      "sha256": "eb474ea65e2975507d40bd24bf9c46488fcb3e3f68d7183e42f9c0981180acc1"
+    },
+    {
+      "file": "screenshots/final-dashboard-kk-390.png",
+      "width": 390,
+      "height": 1346,
+      "sha256": "912bfae7eb9f5cede00c00d0635a5448c146b17ee1f24119aa81ffa3c5a4deb1"
+    },
+    {
+      "file": "screenshots/final-dashboard-kk-768.png",
+      "width": 768,
+      "height": 1105,
+      "sha256": "32268bc6eedf0ae966a6c49fac738e50361df4f41b441fa4e1c5b71811fbe3ca"
+    },
+    {
+      "file": "screenshots/final-dashboard-ru-1440.png",
+      "width": 1440,
+      "height": 960,
+      "sha256": "7eced276417f3cc81071db2a4109363c1b636ce5395fa67c8242ead890681c25"
+    },
+    {
+      "file": "screenshots/final-dashboard-ru-360.png",
+      "width": 360,
+      "height": 1326,
+      "sha256": "e22d860b1c87dceff2f5c28b1d0f6518878fd1703acc3fb9995d64ec775c7bc2"
+    },
+    {
+      "file": "screenshots/final-dashboard-ru-390.png",
+      "width": 390,
+      "height": 1282,
+      "sha256": "b783eb8881a7e22c44a3ec799aed0903faf0eac348500c0eaf42355f7ee25ba8"
+    },
+    {
+      "file": "screenshots/final-dashboard-ru-768.png",
+      "width": 768,
+      "height": 1082,
+      "sha256": "4bc47a11d49cede000013f2c56409bc7e4bc825784f35da98ed2e88a8cea1879"
+    },
+    {
+      "file": "screenshots/final-research-kk-1440.png",
+      "width": 1440,
+      "height": 3450,
+      "sha256": "74bd66c11bfbb9a27f77378aaaf73fc9cbf47a3c9604921433b10968bbe80080"
+    },
+    {
+      "file": "screenshots/final-research-kk-360.png",
+      "width": 360,
+      "height": 5131,
+      "sha256": "2192d07ec05d0b4bb71515c410340a0f27778cbb12051e5f04bb8f10af9e8fe8"
+    },
+    {
+      "file": "screenshots/final-research-kk-390.png",
+      "width": 390,
+      "height": 4879,
+      "sha256": "3b3b05dd781f8c85d9eebd8825ff2948e4cbefa576b2ae7587a768ab539e7eef"
+    },
+    {
+      "file": "screenshots/final-research-kk-768.png",
+      "width": 768,
+      "height": 3779,
+      "sha256": "2fbf37373f852cbf5a01131c00d2c58af0f283900133b9c544264b8d2065b2b4"
+    },
+    {
+      "file": "screenshots/final-research-ru-1440.png",
+      "width": 1440,
+      "height": 3456,
+      "sha256": "d8c3e0f735d87752073a473ee47767c1ac70a04e38699ad73c2cba3bf5934e57"
+    },
+    {
+      "file": "screenshots/final-research-ru-360.png",
+      "width": 360,
+      "height": 5062,
+      "sha256": "3c3b7c43e581115c5ceee3d628ffb8cc923854f1978e1bf31d1ec3ed33db0cea"
+    },
+    {
+      "file": "screenshots/final-research-ru-390.png",
+      "width": 390,
+      "height": 4736,
+      "sha256": "3f5dba58faa8f37bfe55caa885ebf5b0fd3d01594425e9ae56578a8aafdf7ab3"
+    },
+    {
+      "file": "screenshots/final-research-ru-768.png",
+      "width": 768,
+      "height": 3697,
+      "sha256": "4b80b43e45350f63a72d0d49f3b29486fd2895e8081b758ba5b0a0b2a6619ccf"
+    },
+    {
+      "file": "screenshots/final-sale-kk-1440.png",
+      "width": 1440,
+      "height": 960,
+      "sha256": "3c9161473f0074648fd857ac50c7032288735fc3393415809c0d3d049ffac821"
+    },
+    {
+      "file": "screenshots/final-sale-kk-360.png",
+      "width": 360,
+      "height": 2629,
+      "sha256": "ff687a8fb6e651248248b9211b51b20e149b4cdb10c1d9090f406a8610ee3efe"
+    },
+    {
+      "file": "screenshots/final-sale-kk-390.png",
+      "width": 390,
+      "height": 1665,
+      "sha256": "31909ef281bb02979a1139e257222cbe4ca5d8e61e2eb60c896b6357613b49f7"
+    },
+    {
+      "file": "screenshots/final-sale-kk-768.png",
+      "width": 768,
+      "height": 1557,
+      "sha256": "d5c6a1d15195f1871ed43184f043169012e86a4f2d89c5976ee65d295d9483fc"
+    },
+    {
+      "file": "screenshots/final-sale-ru-1440.png",
+      "width": 1440,
+      "height": 960,
+      "sha256": "d4f6490362ff3edbd89c64250df1970350b44257b4d51e91b127157758589495"
+    },
+    {
+      "file": "screenshots/final-sale-ru-360.png",
+      "width": 360,
+      "height": 1704,
+      "sha256": "af5e642a20dc192a1351d10f9701ca06ebcf32c25b8a958c8d7c35727a5979e1"
+    },
+    {
+      "file": "screenshots/final-sale-ru-390.png",
+      "width": 390,
+      "height": 2573,
+      "sha256": "b3b7c50e8eaa0813243d73765d247eb9173985e408b55ac3861d453660ca8483"
+    },
+    {
+      "file": "screenshots/final-sale-ru-768.png",
+      "width": 768,
+      "height": 1557,
+      "sha256": "87000ef04d08cc2dbc6ba2e08bba6e1146f7962d669ce31b6260ed99986e5261"
+    },
+    {
+      "file": "screenshots/font200-kk-1440.png",
+      "width": 1440,
+      "height": 5887,
+      "sha256": "8cee5433075e549fa61a29a464b2578357665321f606e25d42fb17f6312f885c"
+    },
+    {
+      "file": "screenshots/font200-kk-360.png",
+      "width": 360,
+      "height": 13893,
+      "sha256": "d0ad452d49fd7de15136411b943dd5cc49a72a4e0a7fb4d8f169b031596f23c6"
+    },
+    {
+      "file": "screenshots/font200-kk-390.png",
+      "width": 390,
+      "height": 12589,
+      "sha256": "27370d7d9263460fc64439e90e21896e071f4dcf55d9a92fed1638d9e6fa9932"
+    },
+    {
+      "file": "screenshots/font200-kk-768.png",
+      "width": 768,
+      "height": 8556,
+      "sha256": "b963c234b3ea52f965fb645a3c1545e246b6a2bcc34c1330868d93b46b475cff"
+    },
+    {
+      "file": "screenshots/font200-ru-1440.png",
+      "width": 1440,
+      "height": 5678,
+      "sha256": "8df124ecb618b807ce35f1bd50e5f7c42fb9a49580ace526bdf1a93d0e496617"
+    },
+    {
+      "file": "screenshots/font200-ru-360.png",
+      "width": 360,
+      "height": 13265,
+      "sha256": "91219eb9b23a0afa772982263ef9afe9316a3c151cd01055a92a41b1cc2ffeb2"
+    },
+    {
+      "file": "screenshots/font200-ru-390.png",
+      "width": 390,
+      "height": 12086,
+      "sha256": "63d8b8b5632793dc54790ffac200af53c2c755f334f9bff1ee2adc148c3c8675"
+    },
+    {
+      "file": "screenshots/font200-ru-768.png",
+      "width": 768,
+      "height": 8429,
+      "sha256": "ef8d514fc9d00d769875bf3d2c8b34d36bf3d41ff75eb0f9c63fa7908d737e5a"
+    },
+    {
+      "file": "screenshots/grounded-kazakh-1280.png",
+      "width": 1280,
+      "height": 1163,
+      "sha256": "2a4c299e40eb5df41fe15fccbd53354189396f4ca6a0e31bd3136ee80af57bf0"
+    },
+    {
+      "file": "screenshots/invalid-provider-fallback-1280.png",
+      "width": 1280,
+      "height": 1081,
+      "sha256": "479f8453b0d542e20289d0d1b5f70a187d73ee9a73598daeecc17e2fda3b9469"
+    },
+    {
+      "file": "screenshots/lost-response-unknown.png",
+      "width": 1280,
+      "height": 939,
+      "sha256": "7ef718d1e08e3c99f7b1295e3278ba0bd07b3cc340ba290b41d3e1d36d898beb"
+    },
+    {
+      "file": "screenshots/research-30-days.png",
+      "width": 1280,
+      "height": 3500,
+      "sha256": "c283a8ce41fce713129819253e36ed9f2e50a46d0d132406041d931d69a52801"
+    },
+    {
+      "file": "screenshots/research-7-days.png",
+      "width": 1280,
+      "height": 3500,
+      "sha256": "0cdb8c8a2ddfa0249c6455c76df3f617683c8126dac87c3863297d013f21ae89"
+    },
+    {
+      "file": "screenshots/research-error.png",
+      "width": 1280,
+      "height": 2510,
+      "sha256": "da0702fdf9563b21ed874ad4f8e1c93639baf56220e06e4adb0bba8c1491f1b8"
+    },
+    {
+      "file": "screenshots/research-loading.png",
+      "width": 1280,
+      "height": 2245,
+      "sha256": "049dfa381ef962f7513fb27bfb6f2e013f96c0ec3cb05d8f6788adc93d707ffd"
+    },
+    {
+      "file": "screenshots/research-sql-kk-1440.png",
+      "width": 1440,
+      "height": 3450,
+      "sha256": "c05bf2693b8d5301c0c4bb93840b20abe5d0f59dd8eb4d97c7ac1f289cb81f4a"
+    },
+    {
+      "file": "screenshots/research-sql-kk-360.png",
+      "width": 360,
+      "height": 5113,
+      "sha256": "08ad85d664aac2b26f5beb66cd1105123aab0890535907e73717bacdc39693d6"
+    },
+    {
+      "file": "screenshots/research-sql-ru-1440.png",
+      "width": 1440,
+      "height": 3456,
+      "sha256": "40a7aca3aabdfd6a4748e1a6b882976bcb1dec0ed1baf334821ccfcf0f0b762f"
+    },
+    {
+      "file": "screenshots/research-sql-ru-360.png",
+      "width": 360,
+      "height": 5063,
+      "sha256": "c9cd61a676d749c78ec1eaeb6c2ff5c3c6fe08d68102790a05d2c07c6c8caff6"
+    },
+    {
+      "file": "screenshots/stage9-openai-duplicate-fallback.png",
+      "width": 1280,
+      "height": 1081,
+      "sha256": "d180a6d0da56f296b4e8b3f16755839f4bc1c5bde4e6382a7d750381cafd3368"
+    },
+    {
+      "file": "screenshots/stage9-receipt-customer-choice.png",
+      "width": 1280,
+      "height": 1163,
+      "sha256": "c233c2c3d51a1413f0307227265b02ea12ec99f765fb974e6fc63286745e2078"
+    },
+    {
+      "file": "screenshots/unknown-payment-kk-390.png",
+      "width": 390,
+      "height": 1837,
+      "sha256": "a8f590784634060a24649601bff8181fa07e6eda0a82785c9ff92ef4115f5946"
+    }
+  ]
+}

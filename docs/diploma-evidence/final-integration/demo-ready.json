@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-26T12:39:16.3034463+05:00",
+  "url": "http://127.0.0.1:4303/login",
+  "source": "49832f828c890fb5346eaa0de06baf849bc3f4b0",
+  "mode": "OFFLINE AI / synthetic SQL / local JWT issuer; not Supabase or live AI",
+  "database": "qadam_research_browser_stage10_ready_20261026_test",
+  "frontend_status": 200,
+  "api_status": 200,
+  "note": "Readiness only; full browser workflow is a separate 19-case run on 2026-10-25"
+}

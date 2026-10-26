@@ -1,0 +1,1324 @@
+{
+  "execution_commit": "49832f828c890fb5346eaa0de06baf849bc3f4b0",
+  "baseline": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+  "source_hashes_lf": {
+    "apps/api/app/services/ai.py": "de373d9f5e56655ac8a1689e72ce1f73fcd8c9fec5276b5bdd1da6942ce57e2b",
+    "apps/api/app/services/extraction_grounding.py": "fa01588fbab4930a4965a44384f0c97254d893c1408eb1348b7ddeb7d3b19ebb",
+    "apps/api/app/services/openai_provider.py": "8779e0803ca56e2326ad9fe19cbbbc41a041ea986e8bb2b004c11918d6885b05",
+    "apps/api/app/services/strict_json.py": "75d62514d9c7005247b69508d7722a30a256acc0b8bf454f489019a219f4aaee"
+  },
+  "freeze": {
+    "version": "stage10-new-author-challenge-v1",
+    "count": 42,
+    "semantics_count": 33,
+    "structured_invalid_count": 9,
+    "frozen_at_utc": "2026-10-25T11:31:46.123057+00:00",
+    "base": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+    "hashes_lf": {
+      "challenge.jsonl": "d0de52d049b5d4a2b17e8a4c658e4ee83b10f9931080f63bb8c87aeff3f939e4",
+      "independent-qa-methodology.md": "1b8b615eb4946032afbc36df310ddbee255df49b8900f22690ff3fb6dd6fba3d"
+    },
+    "review": "Same exposed Codex author; new texts, not blinded human independence",
+    "paid_calls": 0
+  },
+  "status": "New authored cases; same exposed author; not independent human or live LLM accuracy",
+  "paid_calls": 0,
+  "before": {
+    "transaction_type": {
+      "numerator": 33,
+      "denominator": 33,
+      "rate": 1.0
+    },
+    "sales_amount": {
+      "numerator": 27,
+      "denominator": 27,
+      "rate": 1.0
+    },
+    "received_amount": {
+      "numerator": 27,
+      "denominator": 27,
+      "rate": 1.0
+    },
+    "repayment_amount": {
+      "numerator": 3,
+      "denominator": 3,
+      "rate": 1.0
+    },
+    "customer_query": {
+      "numerator": 15,
+      "denominator": 15,
+      "rate": 1.0
+    },
+    "customer_candidates": {
+      "numerator": 15,
+      "denominator": 15,
+      "rate": 1.0
+    },
+    "clarification": {
+      "numerator": 33,
+      "denominator": 33,
+      "rate": 1.0
+    },
+    "full_valid": {
+      "numerator": 33,
+      "denominator": 33,
+      "rate": 1.0
+    },
+    "full_all": {
+      "numerator": 42,
+      "denominator": 42,
+      "rate": 1.0
+    },
+    "invalid_rejected": {
+      "numerator": 9,
+      "denominator": 9,
+      "rate": 1.0
+    },
+    "false_output_acceptance": {
+      "numerator": 0,
+      "denominator": 9,
+      "rate": 0.0
+    },
+    "false_output_rejection": {
+      "numerator": 0,
+      "denominator": 33,
+      "rate": 0.0
+    },
+    "unsafe_ready": {
+      "numerator": 0,
+      "denominator": 33,
+      "rate": 0.0
+    },
+    "error_ids": []
+  },
+  "after": {
+    "transaction_type": {
+      "numerator": 33,
+      "denominator": 33,
+      "rate": 1.0
+    },
+    "sales_amount": {
+      "numerator": 27,
+      "denominator": 27,
+      "rate": 1.0
+    },
+    "received_amount": {
+      "numerator": 27,
+      "denominator": 27,
+      "rate": 1.0
+    },
+    "repayment_amount": {
+      "numerator": 3,
+      "denominator": 3,
+      "rate": 1.0
+    },
+    "customer_query": {
+      "numerator": 15,
+      "denominator": 15,
+      "rate": 1.0
+    },
+    "customer_candidates": {
+      "numerator": 15,
+      "denominator": 15,
+      "rate": 1.0
+    },
+    "clarification": {
+      "numerator": 33,
+      "denominator": 33,
+      "rate": 1.0
+    },
+    "full_valid": {
+      "numerator": 33,
+      "denominator": 33,
+      "rate": 1.0
+    },
+    "full_all": {
+      "numerator": 42,
+      "denominator": 42,
+      "rate": 1.0
+    },
+    "invalid_rejected": {
+      "numerator": 9,
+      "denominator": 9,
+      "rate": 1.0
+    },
+    "false_output_acceptance": {
+      "numerator": 0,
+      "denominator": 9,
+      "rate": 0.0
+    },
+    "false_output_rejection": {
+      "numerator": 0,
+      "denominator": 33,
+      "rate": 0.0
+    },
+    "unsafe_ready": {
+      "numerator": 0,
+      "denominator": 33,
+      "rate": 0.0
+    },
+    "error_ids": []
+  },
+  "by_language": {
+    "ru": {
+      "transaction_type": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "customer_query": {
+        "numerator": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 14,
+        "denominator": 14,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 11,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 11,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "kk": {
+      "transaction_type": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "customer_query": {
+        "numerator": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 14,
+        "denominator": 14,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 11,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 11,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "mixed": {
+      "transaction_type": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 9,
+        "denominator": 9,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "customer_query": {
+        "numerator": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 5,
+        "denominator": 5,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 11,
+        "denominator": 11,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 14,
+        "denominator": 14,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 11,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 11,
+        "rate": 0.0
+      },
+      "error_ids": []
+    }
+  },
+  "by_category": {
+    "contradictory_receipt": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "decimal_receipt": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "duplicate_customer": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "duplicate_nested": {
+      "transaction_type": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "sales_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "received_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "full_valid": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "explicit_debt": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "error_ids": []
+    },
+    "foreign_customer_only": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "full_receipt": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "error_ids": []
+    },
+    "malformed": {
+      "transaction_type": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "sales_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "received_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "full_valid": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "missing_payment": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "non_transaction": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "received_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "partial_receipt": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "error_ids": []
+    },
+    "repayment": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "received_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "repayment_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "customer_query": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "customer_candidates": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "unknown_field": {
+      "transaction_type": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "sales_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "received_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "full_valid": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    },
+    "unresolved_alternatives": {
+      "transaction_type": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "sales_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "received_amount": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "repayment_amount": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_query": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "customer_candidates": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "clarification": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_valid": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "full_all": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "invalid_rejected": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_acceptance": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "false_output_rejection": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "unsafe_ready": {
+        "numerator": 0,
+        "denominator": 3,
+        "rate": 0.0
+      },
+      "error_ids": []
+    }
+  },
+  "improved_ids": [],
+  "regressed_ids": []
+}

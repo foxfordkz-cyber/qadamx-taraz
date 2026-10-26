@@ -1316,3 +1316,41 @@ loopback `qadam_research_browser_*_test` базой. API 8321 / Vite 4302.
 вызовов 0; старые презентационные бюджеты не дают разрешения на новый эксперимент.
 Следующий этап: независимый blind corpus, отдельное согласование live AI/ASR
 и анализ repeated-number spans. Push, PR #100, main, shared DB и deploy не менялись.
+
+## 2026-10-25 — Stage 10: локальный интеграционный кандидат
+
+Ветка `integration/diploma-final-candidate`, база Stage 9
+`a921b3f4d6d45a44d4529fb3045888f850cf9018`. Проверено происхождение main и Stage
+6/7/8/9: все уже входят в историю, повторных merge/cherry-pick нет. Исходные
+worktree и чужие незакоммиченные файлы сохранены. Production app, ledger, Auth,
+frontend src, contracts и миграции не изменены.
+
+Freeze нового challenge: `9946ce34c996d1dd7027ec19e1fef2a85a6a01eb`.
+Код acceptance/demo: `49832f828c890fb5346eaa0de06baf849bc3f4b0`.
+Добавлены `apps/api/tools/stage10_eval`, final browser fixture и тесты,
+`apps/web/e2e/final.*`; Stage 9 browser test принимает локальный API origin.
+Доказательства: `docs/diploma-evidence/final-integration/README.md`.
+
+Фактически: backend 764 passed (включая 211 postgres-marked), frontend 639 passed,
+Chrome/API/SQL 19 passed без retries; Ruff, полный Python format, API export,
+check:api, typecheck, lint, Prettier и build прошли. Первые 2 browser-падения
+оказались ошибками новых тестов (ранняя проверка pending и неверный HTTP 200
+вместо 201/lookup path); логи сохранены, полный повтор — на новой БД.
+
+Новый frozen challenge: 42/42 до и после, точный повтор после commit. Это 11
+семантических семей × 3 языка и 9 invalid replies, автор прежний, независимого
+human review/live AI нет. Stage 7 остаётся 99/100; Stage 8/9 — 118/120 с S8-080/084;
+Stage 1 — TP18/TN24/FP0/FN0. Gold и старые evidence не менялись.
+
+Демо: `python apps/api/tools/stage10_eval/demo.py --database-url <NEW EMPTY
+loopback qadam_research_browser_*_test URL> --output tmp/<new-output>`.
+Точные PowerShell-команды и локальный synthetic login — в demo-guide.md.
+API 8322 / React 4303, реальные routes/SQL, offline provider/local JWT issuer.
+Launcher отказывается использовать непустую/неподходящую БД и занятые порты.
+58 настоящих browser screenshots; initial/final SQL, consent/reload, потеря
+ответа и идемпотентное восстановление проверены. No physical-device claim.
+
+Staging NO-GO до согласованного rollout, backup/restore/0009 rehearsal,
+live Supabase/AI и physical acceptance. Paid calls 0. Публикация запрещена ТЗ:
+push, PR #100, main, deploy и общая БД не менялись. Следующий этап — независимая
+разметка и разрешённая staging-приёмка, не очередной merge того же кода.
