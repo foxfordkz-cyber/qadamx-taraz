@@ -1,0 +1,182 @@
+{
+  "shas": {
+    "main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "stage6": "eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd",
+    "stage7": "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1",
+    "stage8": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+    "stage9": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+    "implementation": "fa73fe4999c0201626643be7eaf9d2667dc328ef"
+  },
+  "ancestors_of_stage9": {
+    "main": true,
+    "stage6": true,
+    "stage7": true,
+    "stage8": true,
+    "stage9": true,
+    "implementation": true
+  },
+  "worktrees": [
+    {
+      "directory": "qadamx-taraz",
+      "head": "a77f1a02b240dbf9e8c627937a5cb6445d92fb51",
+      "status": ""
+    },
+    {
+      "directory": "qadam-ai-assistant-final-acceptance",
+      "head": "aa0ce33c970277ea525616a202773a6582604d87",
+      "status": "M apps/web/e2e/assistant-fixtures.ts\n M apps/web/e2e/assistant-qa.acceptance.ts\n M apps/web/e2e/assistant-qa.playwright.config.ts\n M apps/web/e2e/assistant-release-surfaces.acceptance.ts\n M apps/web/e2e/assistant-release-surfaces.playwright.config.ts\n M apps/web/e2e/assistant.spec.ts\n M apps/web/e2e/cabinet-ai-first.spec.ts\n M apps/web/e2e/public-design.spec.ts\n?? docs/qa/AI_ASSISTANT_FINAL_ACCEPTANCE.md\n?? docs/qa/ai-assistant-final/"
+    },
+    {
+      "directory": "qadam-customer-post",
+      "head": "99ed2c03c8c4d75987ad5e41119055c2bb5142c6",
+      "status": ""
+    },
+    {
+      "directory": "qadam-customer-recovery-safe",
+      "head": "2058b914fc084ac1237ac805ce053d6ac9c8ddac",
+      "status": ""
+    },
+    {
+      "directory": "qadam-diploma-integration",
+      "head": "eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd",
+      "status": "M docs/diploma-evidence/integration/demo-scenarios.md"
+    },
+    {
+      "directory": "qadam-final-qa-main-check",
+      "head": "2ba2c09ea2e5d154c8f9b305614d9da33c462b83",
+      "status": "M docs/screenshots/ai-assistant/kk-1440.png\n M docs/screenshots/ai-assistant/kk-390.png\n M docs/screenshots/ai-assistant/ru-1440.png\n M docs/screenshots/ai-assistant/ru-390.png"
+    },
+    {
+      "directory": "qadam-final-voice-presentation",
+      "head": "94b4374e9895b176624490a03f458ea8713147ad",
+      "status": ""
+    },
+    {
+      "directory": "qadam-live-measurement-operator",
+      "head": "ab473f145c33686d23bb03b0aaab18cbabc963b4",
+      "status": "M docs/pitch/PITCH.md\n?? docs/qa/MEASUREMENT_20261018.md"
+    },
+    {
+      "directory": "qadam-live-microphone-pitch-qa",
+      "head": "28c1becef8394ee0d17e798486c8a29adf681e29",
+      "status": ""
+    },
+    {
+      "directory": "qadam-mic-audit",
+      "head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "status": ""
+    },
+    {
+      "directory": "qadam-mic-browser-tests",
+      "head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "status": "?? apps/web/e2e/microphone.acceptance.ts\n?? apps/web/e2e/microphone.playwright.config.ts"
+    },
+    {
+      "directory": "qadam-mic-component-tests",
+      "head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "status": "?? apps/web/src/test/microphone-acceptance.test.tsx\n?? apps/web/src/test/microphone-fixtures.tsx\n?? apps/web/src/test/microphone-known-gaps.test.tsx"
+    },
+    {
+      "directory": "qadam-microphone-acceptance",
+      "head": "39a730e63e43bb8487ed2f9afb1ead7762737314",
+      "status": ""
+    },
+    {
+      "directory": "qadam-ml-sales-debt-research",
+      "head": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+      "status": ""
+    },
+    {
+      "directory": "qadam-multilingual-extraction",
+      "head": "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1",
+      "status": ""
+    },
+    {
+      "directory": "qadam-recovery-browser",
+      "head": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "status": "?? apps/web/e2e/customer-recovery.acceptance.ts\n?? apps/web/e2e/customer-recovery.playwright.config.ts\n?? apps/web/src/test/customer-recovery-forms.test.tsx"
+    },
+    {
+      "directory": "qadam-recovery-coordinator",
+      "head": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "status": "M apps/web/src/features/seller/queries.ts\n M apps/web/src/shared/api/bindings.ts\n M apps/web/src/shared/api/gateway.ts\n?? apps/web/src/features/seller/customer-recovery.ts"
+    },
+    {
+      "directory": "qadam-recovery-regressions",
+      "head": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "status": "M apps/web/src/features/seller/Customers.tsx\n M apps/web/src/features/seller/index.ts\n M apps/web/src/features/seller/queries.ts\n M apps/web/src/shared/api/bindings.ts\n M apps/web/src/shared/api/gateway.ts\n M apps/web/src/shared/i18n/kk.ts\n M apps/web/src/shared/i18n/ru.ts\n M apps/web/src/test/qa-customers-regression.test.tsx\n M apps/web/src/test/qa-fixtures.tsx\n M apps/web/src/test/setup.ts\n?? apps/web/src/features/seller/customer-recovery.ts\n?? apps/web/src/test/customer-recovery-coordinator.test.tsx\n?? apps/web/src/test/web-locks.ts"
+    },
+    {
+      "directory": "qadam-registration-deploy-review",
+      "head": "eba0f911682e03ce2207c9d71eb4939b236a5ea9",
+      "status": ""
+    },
+    {
+      "directory": "qadam-research-baseline-check",
+      "head": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+      "status": "?? apps/web/e2e/baseline.local.config.ts"
+    },
+    {
+      "directory": "qadam-seller-analytics",
+      "head": "ce68f01e3fe4a6b9898fd68be8e3ef2e4c467ad1",
+      "status": ""
+    },
+    {
+      "directory": "qadam-seller-design",
+      "head": "c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b",
+      "status": ""
+    },
+    {
+      "directory": "qadam-seller-fixes",
+      "head": "28960f21e13c9c38077bf68b7bb5449eb9aa824d",
+      "status": ""
+    },
+    {
+      "directory": "qadam-seller-qa",
+      "head": "abee31fd5a1be2c2be06e3132fe7f42c90adac5d",
+      "status": ""
+    },
+    {
+      "directory": "qadam-seller-registration",
+      "head": "6f808677c067cc00fb6b6b9eb26384f68c3d1e38",
+      "status": ""
+    },
+    {
+      "directory": "qadam-share-day-summary",
+      "head": "8228e25d530e2a2fffcedfdc0d0adafe4de75883",
+      "status": ""
+    },
+    {
+      "directory": "qadam-stage8-ai-evaluation",
+      "head": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+      "status": ""
+    },
+    {
+      "directory": "qadam-stage9-extraction-hardening",
+      "head": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+      "status": ""
+    },
+    {
+      "directory": "qadam-voice-integration-check",
+      "head": "5591e057b4e137bd3e1d7137d607d3e1b8331825",
+      "status": ""
+    },
+    {
+      "directory": "qadam-voice-playback-cancel",
+      "head": "ae98f263b69cf06466ecc0ddca54f547c7cafb2b",
+      "status": ""
+    }
+  ],
+  "production_tree_ids": {
+    "apps/api/app": "e53de5e8618074d879a4e1d46236c9e05fd142a2",
+    "apps/web/src": "92e9dbe8961abfe0875e51cca31d4b9890975d4a",
+    "packages/contracts": "69f62b64933249b9afc5ede31fe19e27222d4903"
+  },
+  "stage8_to_stage9_production_changes": [
+    "apps/api/app/services/ai.py",
+    "apps/api/app/services/extraction_grounding.py",
+    "apps/api/app/services/openai_provider.py",
+    "apps/api/app/services/strict_json.py"
+  ],
+  "stage9_implementation_to_evidence_production_diff": ""
+}

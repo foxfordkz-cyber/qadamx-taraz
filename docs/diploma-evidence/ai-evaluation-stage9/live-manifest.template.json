@@ -1,0 +1,29 @@
+{
+  "provider": "openai",
+  "model": "",
+  "transcription_model": "",
+  "timeout_seconds": 25,
+  "max_requests": 18,
+  "max_budget_usd": "0.00",
+  "reserve_usd_per_request": "0.00",
+  "items": [
+    {"id":"text-01","case_id":"S8-001","mode":"text"},
+    {"id":"text-02","case_id":"S8-002","mode":"text"},
+    {"id":"text-03","case_id":"S8-005","mode":"text"},
+    {"id":"text-04","case_id":"S8-006","mode":"text"},
+    {"id":"text-05","case_id":"S8-009","mode":"text"},
+    {"id":"text-06","case_id":"S8-010","mode":"text"},
+    {"id":"text-07","case_id":"S8-013","mode":"text"},
+    {"id":"text-08","case_id":"S8-016","mode":"text"},
+    {"id":"text-09","case_id":"S8-017","mode":"text"},
+    {"id":"text-10","case_id":"S8-020","mode":"text"},
+    {"id":"text-11","case_id":"S8-021","mode":"text"},
+    {"id":"text-12","case_id":"S8-024","mode":"text"},
+    {"id":"text-13","case_id":"S8-025","mode":"text"},
+    {"id":"text-14","case_id":"S8-028","mode":"text"},
+    {"id":"text-15","case_id":"S8-029","mode":"text"},
+    {"id":"text-16","case_id":"S8-032","mode":"text"},
+    {"id":"text-17","case_id":"S8-033","mode":"text"},
+    {"id":"text-18","case_id":"S8-036","mode":"text"}
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "first_execution_commit": "071ae3ef7b0a1db0091c31ff6b762d16226f91b8",
+  "replay_execution_commit": "92aba501844d777fd7a2175b8a7e72a82ffb09bf",
+  "all_metrics_equal": true,
+  "case_outputs_byte_identical": true,
+  "difference": "execution_commit metadata only; no label, case, configuration or production change",
+  "case_sha256_lf": {
+    "cases.jsonl": "b7fd6a1a28db8bf4a2b83efbbe1b37b29fd992f4166f35b32232d929d796cf95",
+    "cases.csv": "06753aafa38f3cbcf91775d3102bbb1f764d5b62cf012ed4b8e2879fea5c8862"
+  }
+}

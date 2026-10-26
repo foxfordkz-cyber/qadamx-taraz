@@ -1,0 +1,286 @@
+E501 Line too long (103 > 100)
+  --> apps\api\tests\test_stage10_challenge.py:45:101
+   |
+43 |             refs[str(ident)] = c["ref"]
+44 |             db.add(Customer(id=ident, display_name=c["name"],
+45 |                             business_id=api["business"] if c["business"] == "local" else api["other"]))
+   |                                                                                                     ^^^
+46 |     provider = StubProvider(case["provider_raw"])
+47 |     provider.max_attempts = 1
+   |
+
+E501 Line too long (131 > 100)
+  --> apps\api\tests\test_stage10_challenge.py:51:101
+   |
+49 |     offline = project(value, case)
+50 |     with Session(api["engine"]) as db:
+51 |         draft = save_draft(db, api["business"], api["owner_a"], value, case["language"] if case["language"] != "mixed" else "auto")
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+52 |         assert sorted(refs[str(c.id)] for c in draft.customer_candidates) == offline["customer_refs"]
+53 |         assert sorted(draft.missing_fields) == offline["clarification_fields"]
+   |
+
+E501 Line too long (101 > 100)
+  --> apps\api\tests\test_stage10_challenge.py:52:101
+   |
+50 |     with Session(api["engine"]) as db:
+51 |         draft = save_draft(db, api["business"], api["owner_a"], value, case["language"] if case["language"] != "mixed" else "auto")
+52 |         assert sorted(refs[str(c.id)] for c in draft.customer_candidates) == offline["customer_refs"]
+   |                                                                                                     ^
+53 |         assert sorted(draft.missing_fields) == offline["clarification_fields"]
+54 |         assert db.scalar(select(func.count()).select_from(Operation)) == 0
+   |
+
+E501 Line too long (105 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:24:101
+   |
+22 |             for i, (business, name) in enumerate(names)
+23 |         ]
+24 |         refs = [c["ref"] for c in customers if c["business"] == "local" and query and query in c["name"]]
+   |                                                                                                     ^^^^^
+25 |         expected = {
+26 |             "outcome": "draft", "kind": kind, "total_minor": total,
+   |
+
+E501 Line too long (101 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:62:101
+   |
+60 |         "kk": [
+61 |             "Қалам салғышты 1690 теңгеге саттым. Картаға 1690 төледі.",
+62 |             "Нұрсұлуға қаптамасымен тапсырыс 7400 теңге. Әзірге 1950 төледі, қалдығын кейін береді.",
+   |                                                                                                     ^
+63 |             "Телефон қабын 3250 теңгеге бердік. Қанша төлегені әлі жазылмады.",
+64 |             "Гүлжанға жиынтық 2870 теңге, бәрі қарызға.",
+   |
+
+E501 Line too long (129 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:91:101
+   |
+89 | …     g = "Гульжан" if lang == "ru" else "Гүлжан"
+90 | …     pay = {
+91 | …         "ru": ["получил 1690", "получила 1950", "всё в долг", "внесла 1360", "внесла 1100", "получил 6000", "Получил 84,50"],
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+92 | …         "kk": ["1690 төледі", "1950 төледі", "бәрі қарызға", "1360 төледі", "1100 төледі", "6000 алдым", "84,50 төледі"],
+93 | …         "mixed": ["получил по карте 1690", "Получил 1950", "всё в долг", "внесла 1360", "1100 төледі", "получил 6000", "Получил 84,5…
+   |
+
+E501 Line too long (125 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:92:101
+   |
+90 | …     pay = {
+91 | …         "ru": ["получил 1690", "получила 1950", "всё в долг", "внесла 1360", "внесла 1100", "получил 6000", "Получил 84,50"],
+92 | …         "kk": ["1690 төледі", "1950 төледі", "бәрі қарызға", "1360 төледі", "1100 төледі", "6000 алдым", "84,50 төледі"],
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+93 | …         "mixed": ["получил по карте 1690", "Получил 1950", "всё в долг", "внесла 1360", "1100 төледі", "получил 6000", "Получил 84,5…
+94 | …     }[lang]
+   |
+
+E501 Line too long (140 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:93:101
+   |
+91 | …сё в долг", "внесла 1360", "внесла 1100", "получил 6000", "Получил 84,50"],
+92 | … қарызға", "1360 төледі", "1100 төледі", "6000 алдым", "84,50 төледі"],
+93 | …л 1950", "всё в долг", "внесла 1360", "1100 төледі", "получил 6000", "Получил 84,50"],
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+94 | …
+95 | …received=169000, payment="paid", total_quote="1690", pay_quote=pay[0])
+   |
+
+E501 Line too long (124 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:95:101
+   |
+93 | …         "mixed": ["получил по карте 1690", "Получил 1950", "всё в долг", "внесла 1360", "1100 төледі", "получил 6000", "Получил 84,5…
+94 | …     }[lang]
+95 | …     add(lang, "full_receipt", t[0], total=169000, received=169000, payment="paid", total_quote="1690", pay_quote=pay[0])
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^
+96 | …     add(lang, "partial_receipt", t[1], total=740000, received=195000, query=n, names=[("local", n)], payment="partial", total_quote=…
+97 | …     add(lang, "missing_payment", t[2], total=325000, total_quote="3250", missing=["customer_id", "received_minor"])
+   |
+
+E501 Line too long (161 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:96:101
+   |
+94 | …
+95 | …69000, payment="paid", total_quote="1690", pay_quote=pay[0])
+96 | …d=195000, query=n, names=[("local", n)], payment="partial", total_quote="7400", pay_quote=pay[1])
+   |                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+97 | …uote="3250", missing=["customer_id", "received_minor"])
+98 | …0, query=g, names=[("local", g)], payment="debt", total_quote="2870", pay_quote=pay[2])
+   |
+
+E501 Line too long (119 > 100)
+  --> apps\api\tools\stage10_eval\build_challenge.py:97:101
+   |
+95 | …     add(lang, "full_receipt", t[0], total=169000, received=169000, payment="paid", total_quote="1690", pay_quote=pay[0])
+96 | …     add(lang, "partial_receipt", t[1], total=740000, received=195000, query=n, names=[("local", n)], payment="partial", total_quote=…
+97 | …     add(lang, "missing_payment", t[2], total=325000, total_quote="3250", missing=["customer_id", "received_minor"])
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^
+98 | …     add(lang, "explicit_debt", t[3], total=287000, received=0, query=g, names=[("local", g)], payment="debt", total_quote="2870", pa…
+99 | …     add(lang, "repayment", t[4], kind="repayment", amount=85000, query=n, names=[("local", n)], amount_quote="850", missing=["sale_i…
+   |
+
+E501 Line too long (151 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:98:101
+    |
+ 96 | …eived=195000, query=n, names=[("local", n)], payment="partial", total_quote="7400", pay_quote=pay[1])
+ 97 | …al_quote="3250", missing=["customer_id", "received_minor"])
+ 98 | …ved=0, query=g, names=[("local", g)], payment="debt", total_quote="2870", pay_quote=pay[2])
+    |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 99 | …t=85000, query=n, names=[("local", n)], amount_quote="850", missing=["sale_id"])
+100 | …received=136000, query="Марина", names=[("local", "Марина"), ("local", "Марина"), ("foreign", "Марина")], payment="partial", total_q…
+    |
+
+E501 Line too long (140 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:99:101
+    |
+ 97 | …0, total_quote="3250", missing=["customer_id", "received_minor"])
+ 98 | … received=0, query=g, names=[("local", g)], payment="debt", total_quote="2870", pay_quote=pay[2])
+ 99 | … amount=85000, query=n, names=[("local", n)], amount_quote="850", missing=["sale_id"])
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+100 | …6000, received=136000, query="Марина", names=[("local", "Марина"), ("local", "Марина"), ("foreign", "Марина")], payment="partial", t…
+101 | …=510000, received=110000, query="Таисия", names=[("foreign", "Таисия")], payment="partial", total_quote="5100", pay_quote=pay[4], mi…
+    |
+
+E501 Line too long (247 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:100:101
+    |
+ 98 | …], payment="debt", total_quote="2870", pay_quote=pay[2])
+ 99 | …n)], amount_quote="850", missing=["sale_id"])
+100 | …mes=[("local", "Марина"), ("local", "Марина"), ("foreign", "Марина")], payment="partial", total_quote="4360", pay_quote=pay[3], missing=["customer_id"])
+    |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+101 | … names=[("foreign", "Таисия")], payment="partial", total_quote="5100", pay_quote=pay[4], missing=["customer_id"])
+102 | …l", total_quote="5900", pay_quote=pay[5], expected_received=None, missing=["customer_id", "received_minor"])
+    |
+
+E501 Line too long (208 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:101:101
+    |
+ 99 | …ocal", n)], amount_quote="850", missing=["sale_id"])
+100 | …на", names=[("local", "Марина"), ("local", "Марина"), ("foreign", "Марина")], payment="partial", total_quote="4360", pay_quote=pay[3…
+101 | …аисия", names=[("foreign", "Таисия")], payment="partial", total_quote="5100", pay_quote=pay[4], missing=["customer_id"])
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+102 | …"partial", total_quote="5900", pay_quote=pay[5], expected_received=None, missing=["customer_id", "received_minor"])
+103 | …sing=["customer_id", "received_minor"], uncertain=["received_minor"])
+    |
+
+E501 Line too long (203 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:102:101
+    |
+100 | …рина", names=[("local", "Марина"), ("local", "Марина"), ("foreign", "Марина")], payment="partial", total_quote="4360", pay_quote=pay…
+101 | …"Таисия", names=[("foreign", "Таисия")], payment="partial", total_quote="5100", pay_quote=pay[4], missing=["customer_id"])
+102 | …t="partial", total_quote="5900", pay_quote=pay[5], expected_received=None, missing=["customer_id", "received_minor"])
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+103 | …issing=["customer_id", "received_minor"], uncertain=["received_minor"])
+104 | …
+    |
+
+E501 Line too long (157 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:103:101
+    |
+101 | …received=110000, query="Таисия", names=[("foreign", "Таисия")], payment="partial", total_quote="5100", pay_quote=pay[4], missing=["c…
+102 | …received=600000, payment="partial", total_quote="5900", pay_quote=pay[5], expected_received=None, missing=["customer_id", "received_…
+103 | …, total_quote="7600", missing=["customer_id", "received_minor"], uncertain=["received_minor"])
+    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+104 | …ing=["kind"])
+105 | …ed=8450, payment="partial", total_quote="184,50", pay_quote=pay[6], missing=["customer_id"])
+    |
+
+E501 Line too long (155 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:105:101
+    |
+103 | …0, total_quote="7600", missing=["customer_id", "received_minor"], uncertain=["received_minor"])
+104 | …sing=["kind"])
+105 | …ved=8450, payment="partial", total_quote="184,50", pay_quote=pay[6], missing=["customer_id"])
+    |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+106 | …
+107 | …atum, not clean-text accuracy.
+    |
+
+E501 Line too long (106 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:131:101
+    |
+129 |     rows = build()
+130 |     old = [ROOT / "docs/diploma-evidence/ai-evaluation-stage8/dataset.jsonl"]
+131 |     seen = {json.loads(line)["input"] for f in old for line in f.read_text(encoding="utf-8").splitlines()}
+    |                                                                                                     ^^^^^^
+132 |     assert not {r["input"] for r in rows} & seen
+133 |     DATA.mkdir(parents=True, exist_ok=True)
+    |
+
+E501 Line too long (108 > 100)
+   --> apps\api\tools\stage10_eval\build_challenge.py:137:101
+    |
+135 |     (DATA / "challenge.jsonl").write_text(text, encoding="utf-8")
+136 |     names = ["challenge.jsonl", "independent-qa-methodology.md"]
+137 |     hashes = {n: hashlib.sha256((DATA / n).read_bytes().replace(b"\r\n", b"\n")).hexdigest() for n in names}
+    |                                                                                                     ^^^^^^^^
+138 |     freeze = {
+139 |         "version": "stage10-new-author-challenge-v1", "count": len(rows),
+    |
+
+E501 Line too long (109 > 100)
+  --> apps\api\tools\stage10_eval\evaluate.py:23:101
+   |
+21 |         if digest(DATA / name) != expected:
+22 |             raise ValueError(f"Frozen challenge changed: {name}")
+23 |     rows = [json.loads(line) for line in (DATA / "challenge.jsonl").read_text(encoding="utf-8").splitlines()]
+   |                                                                                                     ^^^^^^^^^
+24 |     assert len(rows) == freeze["count"] == 42
+25 |     return rows, freeze
+   |
+
+E501 Line too long (107 > 100)
+  --> apps\api\tools\stage10_eval\evaluate.py:31:101
+   |
+29 |     modules = {}
+30 |     for name in ("strict_json", "extraction_grounding", "ai"):
+31 |         raw = subprocess.check_output(["git", "show", f"{BASE}:apps/api/app/services/{name}.py"], cwd=ROOT)
+   |                                                                                                     ^^^^^^^
+32 |         m = ModuleType(f"_stage10_baseline_{name}")
+33 |         m.__file__ = f"<{BASE}:{name}>"
+   |
+
+E501 Line too long (104 > 100)
+  --> apps\api\tools\stage10_eval\evaluate.py:57:101
+   |
+55 |         "execution_commit": git("rev-parse", "HEAD"), "baseline": BASE,
+56 |         "source_hashes_lf": source_hashes(), "freeze": freeze,
+57 |         "status": "New authored cases; same exposed author; not independent human or live LLM accuracy",
+   |                                                                                                     ^^^^
+58 |         "paid_calls": 0,
+59 |         "before": summarize(rows, "before"), "after": summarize(rows, "after"),
+   |
+
+E501 Line too long (128 > 100)
+  --> apps\api\tools\stage10_eval\evaluate.py:60:101
+   |
+58 |         "paid_calls": 0,
+59 |         "before": summarize(rows, "before"), "after": summarize(rows, "after"),
+60 |         "by_language": {lang: summarize([r for r in rows if r["language"] == lang], "after") for lang in ("ru", "kk", "mixed")},
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+61 |         "improved_ids": [r["id"] for r in rows if r["analysis"]["improved"]],
+62 |         "regressed_ids": [r["id"] for r in rows if r["analysis"]["regressed"]],
+   |
+
+E501 Line too long (120 > 100)
+  --> apps\api\tools\stage10_eval\evaluate.py:65:101
+   |
+63 |     }
+64 |     output.mkdir(parents=True)
+65 |     (output / "cases.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False)+"\n" for r in rows), encoding="utf-8")
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^
+66 |     (output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+67 |     print(json.dumps(summary, ensure_ascii=False, indent=2))
+   |
+
+E501 Line too long (114 > 100)
+  --> apps\api\tools\stage10_eval\evaluate.py:66:101
+   |
+64 |     output.mkdir(parents=True)
+65 |     (output / "cases.jsonl").write_text("".join(json.dumps(r, ensure_ascii=False)+"\n" for r in rows), encoding="utf-8")
+66 |     (output / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2)+"\n", encoding="utf-8")
+   |                                                                                                     ^^^^^^^^^^^^^^
+67 |     print(json.dumps(summary, ensure_ascii=False, indent=2))
+   |
+
+Found 26 errors.

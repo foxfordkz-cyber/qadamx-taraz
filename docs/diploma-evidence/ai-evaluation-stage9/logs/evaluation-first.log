@@ -1,0 +1,346 @@
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+{
+  "before": {
+    "transaction_type": {
+      "numerator": 108,
+      "denominator": 108,
+      "rate": 1.0
+    },
+    "sales_amount": {
+      "numerator": 82,
+      "denominator": 84,
+      "rate": 0.9761904761904762
+    },
+    "received_amount": {
+      "numerator": 73,
+      "denominator": 84,
+      "rate": 0.8690476190476191
+    },
+    "repayment_amount": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "customer_query": {
+      "numerator": 58,
+      "denominator": 63,
+      "rate": 0.9206349206349206
+    },
+    "customer_candidates": {
+      "numerator": 58,
+      "denominator": 63,
+      "rate": 0.9206349206349206
+    },
+    "clarification": {
+      "numerator": 92,
+      "denominator": 108,
+      "rate": 0.8518518518518519
+    },
+    "full_valid": {
+      "numerator": 92,
+      "denominator": 108,
+      "rate": 0.8518518518518519
+    },
+    "full_all": {
+      "numerator": 104,
+      "denominator": 120,
+      "rate": 0.8666666666666667
+    },
+    "invalid_rejected": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "false_output_acceptance": {
+      "numerator": 0,
+      "denominator": 12,
+      "rate": 0.0
+    },
+    "false_output_rejection": {
+      "numerator": 0,
+      "denominator": 108,
+      "rate": 0.0
+    },
+    "unsafe_ready": {
+      "numerator": 0,
+      "denominator": 84,
+      "rate": 0.0
+    },
+    "error_ids": [
+      "S8-003",
+      "S8-006",
+      "S8-011",
+      "S8-013",
+      "S8-016",
+      "S8-018",
+      "S8-030",
+      "S8-034",
+      "S8-036",
+      "S8-050",
+      "S8-056",
+      "S8-080",
+      "S8-084",
+      "S8-086",
+      "S8-090",
+      "S8-094"
+    ]
+  },
+  "after": {
+    "transaction_type": {
+      "numerator": 108,
+      "denominator": 108,
+      "rate": 1.0
+    },
+    "sales_amount": {
+      "numerator": 82,
+      "denominator": 84,
+      "rate": 0.9761904761904762
+    },
+    "received_amount": {
+      "numerator": 82,
+      "denominator": 84,
+      "rate": 0.9761904761904762
+    },
+    "repayment_amount": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "customer_query": {
+      "numerator": 63,
+      "denominator": 63,
+      "rate": 1.0
+    },
+    "customer_candidates": {
+      "numerator": 63,
+      "denominator": 63,
+      "rate": 1.0
+    },
+    "clarification": {
+      "numerator": 106,
+      "denominator": 108,
+      "rate": 0.9814814814814815
+    },
+    "full_valid": {
+      "numerator": 106,
+      "denominator": 108,
+      "rate": 0.9814814814814815
+    },
+    "full_all": {
+      "numerator": 118,
+      "denominator": 120,
+      "rate": 0.9833333333333333
+    },
+    "invalid_rejected": {
+      "numerator": 12,
+      "denominator": 12,
+      "rate": 1.0
+    },
+    "false_output_acceptance": {
+      "numerator": 0,
+      "denominator": 12,
+      "rate": 0.0
+    },
+    "false_output_rejection": {
+      "numerator": 0,
+      "denominator": 108,
+      "rate": 0.0
+    },
+    "unsafe_ready": {
+      "numerator": 0,
+      "denominator": 84,
+      "rate": 0.0
+    },
+    "error_ids": [
+      "S8-080",
+      "S8-084"
+    ]
+  },
+  "pairs": {
+    "improved": [
+      "S8-003",
+      "S8-006",
+      "S8-011",
+      "S8-013",
+      "S8-016",
+      "S8-018",
+      "S8-030",
+      "S8-034",
+      "S8-036",
+      "S8-050",
+      "S8-056",
+      "S8-086",
+      "S8-090",
+      "S8-094"
+    ],
+    "regressed": [],
+    "more_conservative": [],
+    "both_correct": [
+      "S8-001",
+      "S8-002",
+      "S8-004",
+      "S8-005",
+      "S8-007",
+      "S8-008",
+      "S8-009",
+      "S8-010",
+      "S8-012",
+      "S8-014",
+      "S8-015",
+      "S8-017",
+      "S8-019",
+      "S8-020",
+      "S8-021",
+      "S8-022",
+      "S8-023",
+      "S8-024",
+      "S8-025",
+      "S8-026",
+      "S8-027",
+      "S8-028",
+      "S8-029",
+      "S8-031",
+      "S8-032",
+      "S8-033",
+      "S8-035",
+      "S8-037",
+      "S8-038",
+      "S8-039",
+      "S8-040",
+      "S8-041",
+      "S8-042",
+      "S8-043",
+      "S8-044",
+      "S8-045",
+      "S8-046",
+      "S8-047",
+      "S8-048",
+      "S8-049",
+      "S8-051",
+      "S8-052",
+      "S8-053",
+      "S8-054",
+      "S8-055",
+      "S8-057",
+      "S8-058",
+      "S8-059",
+      "S8-060",
+      "S8-061",
+      "S8-062",
+      "S8-063",
+      "S8-064",
+      "S8-065",
+      "S8-066",
+      "S8-067",
+      "S8-068",
+      "S8-069",
+      "S8-070",
+      "S8-071",
+      "S8-072",
+      "S8-073",
+      "S8-074",
+      "S8-075",
+      "S8-076",
+      "S8-077",
+      "S8-078",
+      "S8-079",
+      "S8-081",
+      "S8-082",
+      "S8-083",
+      "S8-085",
+      "S8-087",
+      "S8-088",
+      "S8-089",
+      "S8-091",
+      "S8-092",
+      "S8-093",
+      "S8-095",
+      "S8-096",
+      "S8-097",
+      "S8-098",
+      "S8-099",
+      "S8-100",
+      "S8-101",
+      "S8-102",
+      "S8-103",
+      "S8-104",
+      "S8-105",
+      "S8-106",
+      "S8-107",
+      "S8-108",
+      "S8-109",
+      "S8-110",
+      "S8-111",
+      "S8-112",
+      "S8-113",
+      "S8-114",
+      "S8-115",
+      "S8-116",
+      "S8-117",
+      "S8-118",
+      "S8-119",
+      "S8-120"
+    ],
+    "both_correct_rejection": [
+      "S8-109",
+      "S8-110",
+      "S8-111",
+      "S8-112",
+      "S8-113",
+      "S8-114",
+      "S8-115",
+      "S8-116",
+      "S8-117",
+      "S8-118",
+      "S8-119",
+      "S8-120"
+    ]
+  }
+}

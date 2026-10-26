@@ -1,0 +1,21 @@
+sequenceDiagram
+    actor Seller
+    participant UI as React seller UI
+    participant API as FastAPI authenticated API
+    participant SQL as Isolated PostgreSQL
+    Seller->>UI: Enter text and request draft
+    UI->>API: Extract (offline provider in academic demo)
+    API-->>UI: Grounded draft or clarification/fallback
+    Note over API,SQL: No money operation before explicit confirmation
+    Seller->>UI: Review and explicitly confirm
+    UI->>API: POST operation with idempotency key
+    API->>SQL: Atomic ownership check + ledger insert
+    SQL-->>API: Committed operation
+    API--xUI: Response lost (injected test)
+    UI-->>Seller: Result unknown; original request retained
+    Seller->>UI: Check result explicitly
+    UI->>API: Same key and same body
+    API->>SQL: Resolve prior operation
+    SQL-->>API: Same operation; no duplicate
+    API-->>UI: Confirmed result
+    UI-->>Seller: Saved; dashboard values match SQL

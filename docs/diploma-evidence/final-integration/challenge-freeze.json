@@ -1,0 +1,14 @@
+{
+  "version": "stage10-new-author-challenge-v1",
+  "count": 42,
+  "semantics_count": 33,
+  "structured_invalid_count": 9,
+  "frozen_at_utc": "2026-10-25T11:31:46.123057+00:00",
+  "base": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+  "hashes_lf": {
+    "challenge.jsonl": "d0de52d049b5d4a2b17e8a4c658e4ee83b10f9931080f63bb8c87aeff3f939e4",
+    "independent-qa-methodology.md": "1b8b615eb4946032afbc36df310ddbee255df49b8900f22690ff3fb6dd6fba3d"
+  },
+  "review": "Same exposed Codex author; new texts, not blinded human independence",
+  "paid_calls": 0
+}

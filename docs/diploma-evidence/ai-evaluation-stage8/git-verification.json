@@ -1,0 +1,26 @@
+{
+  "checked_date": "2026-10-25",
+  "branch": "feature/diploma-stage8-ai-evaluation",
+  "tool_commit": "92aba501844d777fd7a2175b8a7e72a82ffb09bf",
+  "origin_main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "fetch_prune": "succeeded; origin/main unchanged",
+  "pull": "not applicable: new local branch has no published upstream",
+  "push": "not executed by instruction",
+  "production_vs_stage7": "identical",
+  "pr100": {
+    "state": "open",
+    "draft": true,
+    "base": "main",
+    "base_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "head": "feature/ml-sales-debt-research",
+    "head_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+    "mergeable": true,
+    "action": "GET only; unchanged"
+  },
+  "preserved_worktrees": {
+    "stage6_head": "eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd",
+    "stage6_dirty_file": "docs/diploma-evidence/integration/demo-scenarios.md",
+    "stage7_head": "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1",
+    "research_head": "1ece13a1a255e301526af93bb7ac38faeba0b047"
+  }
+}

@@ -1,0 +1,139 @@
+[WebServer] INFO:     Started server process [20764]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8322 (Press CTRL+C to quit)
+[WebServer] (node:4268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 19 tests using 1 worker
+
+(node:28352) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "71d7367b-8e58-4146-b0d6-8b79939e2413", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 47, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "71d7367b-8e58-4146-b0d6-8b79939e2413", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 63, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "71d7367b-8e58-4146-b0d6-8b79939e2413", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 62, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "71d7367b-8e58-4146-b0d6-8b79939e2413", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 172, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "8cbec474-778e-4e4a-9110-faed0ebc26bb", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 28, "validation_reason": null}
+  ok  1 e2e\diploma.acceptance.ts:58:1 › complete seller workflow uses real SQL and explicit offline AI boundaries (1.7m)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "9046c4cc-9ae0-4c5c-b70a-475741ddb0e6", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 11, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "287a8ef9-c5da-4a62-b6ff-89fb2dd7c86f", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 12, "validation_reason": "JSONDecodeError"}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "5419e40c-eb0e-4c47-a2e9-30f7675901b9", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 17, "validation_reason": "ValueError"}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "086e678a-45e2-4103-aea2-41ad1e1a62c0", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 11, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "f583e9bb-163c-4269-a9ad-c2613a4a699c", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 12, "validation_reason": "JSONDecodeError"}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "a139a47c-7412-4af1-a46a-3d97395435e1", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 17, "validation_reason": "ValueError"}
+  ok  2 e2e\diploma.acceptance.ts:258:1 › structured assistant uses current SQL facts, RU/KZ and fallback without financial writes (9.4s)
+  ok  3 e2e\diploma.acceptance.ts:310:1 › combined SQL research remains readable on mobile and desktop in RU/KZ (17.1s)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "f244e434-529e-4a96-b895-6ad68b02bcf9", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "f244e434-529e-4a96-b895-6ad68b02bcf9", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "f244e434-529e-4a96-b895-6ad68b02bcf9", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 62, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "f244e434-529e-4a96-b895-6ad68b02bcf9", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 94, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok  4 e2e\extraction.acceptance.ts:58:1 › Kazakh partial payment overrides faulty paid label; only confirmation writes SQL (17.9s)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "529c6cb2-760d-44df-bb07-962a278993b0", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "529c6cb2-760d-44df-bb07-962a278993b0", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "529c6cb2-760d-44df-bb07-962a278993b0", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 94, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "529c6cb2-760d-44df-bb07-962a278993b0", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 125, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok  5 e2e\extraction.acceptance.ts:115:1 › unknown mixed-language payment stays empty with clarification on mobile KZ (20.8s)
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "9bfd2d2b-2772-4502-b766-838ec006a4dd", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "9bfd2d2b-2772-4502-b766-838ec006a4dd", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "9bfd2d2b-2772-4502-b766-838ec006a4dd", "stage": "draft_request", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 15, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok  6 e2e\extraction.acceptance.ts:151:1 › duplicate JSON uses manual fallback and preserves input without ledger writes (11.6s)
+  x   7 e2e\final.acceptance.ts:51:1 › lost financial response: SQL commits once and explicit retry reuses exact key and body (7.2s)
+(node:28032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x   8 e2e\final.acceptance.ts:127:1 › lost customer response resolves through real request lookup without a duplicate POST (13.9s)
+(node:11104) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  9 e2e\final.acceptance.ts:184:1 › Research renders loading error retry 7/30 success and empty-business state with SQL unchanged (20.5s)
+  ok 10 e2e\final.acceptance.ts:266:5 › candidate layouts ru 360px and keyboard/font stress (17.7s)
+  ok 11 e2e\final.acceptance.ts:266:5 › candidate layouts kk 360px and keyboard/font stress (19.2s)
+  ok 12 e2e\final.acceptance.ts:266:5 › candidate layouts ru 390px and keyboard/font stress (18.1s)
+  ok 13 e2e\final.acceptance.ts:266:5 › candidate layouts kk 390px and keyboard/font stress (19.5s)
+  ok 14 e2e\final.acceptance.ts:266:5 › candidate layouts ru 768px and keyboard/font stress (19.5s)
+  ok 15 e2e\final.acceptance.ts:266:5 › candidate layouts kk 768px and keyboard/font stress (18.6s)
+  ok 16 e2e\final.acceptance.ts:266:5 › candidate layouts ru 1440px and keyboard/font stress (16.0s)
+  ok 17 e2e\final.acceptance.ts:266:5 › candidate layouts kk 1440px and keyboard/font stress (18.2s)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "b223b3ae-8b25-401e-86b0-7350df467832", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "b223b3ae-8b25-401e-86b0-7350df467832", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 1625, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "b223b3ae-8b25-401e-86b0-7350df467832", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 47, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "b223b3ae-8b25-401e-86b0-7350df467832", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 1688, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 18 e2e\stage9.acceptance.ts:43:1 › Stage9 receipt and genitive render correctly but ambiguous customer still needs selection (15.3s)
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "9679cc15-a7a7-4d61-91b4-534548c7b517", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 78, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "9679cc15-a7a7-4d61-91b4-534548c7b517", "stage": "draft_request", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 78, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 19 e2e\stage9.acceptance.ts:77:1 › Stage9 OpenAI duplicate receipt falls back without draft success or financial write (11.2s)
+
+
+  1) e2e\final.acceptance.ts:51:1 › lost financial response: SQL commits once and explicit retry reuses exact key and body
+
+    Error: expect(received).toHaveLength(expected)
+
+    Expected length: 1
+    Received length: 0
+    Received array:  []
+
+      88 |     page.getByText("Запись сохранена сервером", { exact: true }),
+      89 |   ).toHaveCount(0);
+    > 90 |   expect(attempts).toHaveLength(1);
+         |                    ^
+      91 |   expect(sql().operations.length).toBe(before.operations.length + 1);
+      92 |   await page.screenshot({
+      93 |     path: evidence + "/lost-response-unknown.png",
+        at C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\web\e2e\final.acceptance.ts:90:20
+
+    Error: apiResponse.json: Response has been disposed
+
+      71 |     const response = await route.fetch();
+      72 |     expect(response.status()).toBe(200);
+    > 73 |     const body = await response.json();
+         |                                 ^
+      74 |     attempts.push({
+      75 |       key: route.request().headers()["idempotency-key"],
+      76 |       body: route.request().postData(),
+        at C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\web\e2e\final.acceptance.ts:73:33
+
+    Error Context: test-results\final\final.acceptance.ts-lost-f-00cb0-y-reuses-exact-key-and-body\error-context.md
+
+  2) e2e\final.acceptance.ts:127:1 › lost customer response resolves through real request lookup without a duplicate POST
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 201
+
+      142 |     posts++;
+      143 |     const response = await route.fetch();
+    > 144 |     expect(response.status()).toBe(200);
+          |                               ^
+      145 |     await route.abort("failed");
+      146 |   });
+      147 |   await page.getByRole("button", { name: /Новый клиент/ }).click();
+        at C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\web\e2e\final.acceptance.ts:144:31
+
+    Error: expect(locator).not.toBeVisible() failed
+
+    Locator:  getByRole('dialog', { name: 'Новый клиент' })
+    Expected: not visible
+    Received: visible
+
+    Call log:
+      - Expect "not toBeVisible" getByRole('dialog', { name: 'Новый клиент' }) with timeout 15000ms
+      - waiting for getByRole('dialog', { name: 'Новый клиент' })
+        4 × locator resolved to <dialog open="" class="" role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="_r_7_">…</dialog>
+          - unexpected value "visible"
+      - Test ended.
+
+
+      153 |     .getByRole("button", { name: "Создать клиента", exact: true })
+      154 |     .click();
+    > 155 |   await expect(form).not.toBeVisible();
+          |                          ^
+      156 |   await expect(
+      157 |     page.getByRole("heading", {
+      158 |       name: "Synthetic Stage10 recovery",
+        at C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\web\e2e\final.acceptance.ts:155:26
+
+    Error Context: test-results\final\final.acceptance.ts-lost-c-c18b8-up-without-a-duplicate-POST\error-context.md
+
+  2 failed
+    e2e\final.acceptance.ts:51:1 › lost financial response: SQL commits once and explicit retry reuses exact key and body
+    e2e\final.acceptance.ts:127:1 › lost customer response resolves through real request lookup without a duplicate POST
+  17 passed (7.6m)

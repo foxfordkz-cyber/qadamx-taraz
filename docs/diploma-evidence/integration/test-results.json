@@ -1,0 +1,136 @@
+{
+  "date": "2026-10-25",
+  "application_sha": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+  "test_harness_sha": "3c9ed301a0e0d087298b0fb80b558f527d8b75d3",
+  "environment": {
+    "os": "Windows",
+    "python": "3.12.14",
+    "node": "24.21.0",
+    "npm": "11.19.0",
+    "postgres": "17.11",
+    "chrome": "156.0.8078.47"
+  },
+  "backend": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "526",
+    "time": "300.438",
+    "timestamp": "2026-10-25T11:48:17.523062+05:00",
+    "hostname": "vivobook"
+  },
+  "backend_by_module": {
+    "tests.test_ai": 23,
+    "tests.test_ai_diagnostics": 9,
+    "tests.test_analytics": 12,
+    "tests.test_app": 11,
+    "tests.test_assistant": 24,
+    "tests.test_assistant_semantics": 89,
+    "tests.test_audio": 25,
+    "tests.test_auth": 21,
+    "tests.test_canonical_markets": 11,
+    "tests.test_contracts": 4,
+    "tests.test_customer_ids": 19,
+    "tests.test_customer_recovery": 17,
+    "tests.test_customer_rollout": 1,
+    "tests.test_debt_risk": 12,
+    "tests.test_drafts": 15,
+    "tests.test_forecasting": 13,
+    "tests.test_ledger": 21,
+    "tests.test_legacy_customer_guard": 6,
+    "tests.test_livestock": 34,
+    "tests.test_localization": 7,
+    "tests.test_market_upgrade": 2,
+    "tests.test_openai": 39,
+    "tests.test_photo_adapter": 4,
+    "tests.test_postgres": 1,
+    "tests.test_public": 3,
+    "tests.test_research_api": 6,
+    "tests.test_research_feedback": 16,
+    "tests.test_schema_validation": 80,
+    "tests.test_seed": 1
+  },
+  "frontend_unit": {
+    "passed": 639,
+    "failed": 0,
+    "skipped": 0,
+    "files": 47
+  },
+  "e2e": [
+    {
+      "log": "e2e-general.log",
+      "passed": 44,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "4.6m"
+    },
+    {
+      "log": "e2e-research.log",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "34.0s"
+    },
+    {
+      "log": "e2e-assistant.log",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "40.4s"
+    },
+    {
+      "log": "e2e-assistant-qa.log",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "1.3m"
+    },
+    {
+      "log": "e2e-cabinet-ai-first.log",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "36.1s"
+    },
+    {
+      "log": "research-postgres.log",
+      "passed": 4,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "2.3m"
+    },
+    {
+      "log": "diploma-final.log",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "duration": "2.4m"
+    }
+  ],
+  "static": [
+    {
+      "exit": 0,
+      "command": "check:api"
+    },
+    {
+      "exit": 0,
+      "command": "typecheck"
+    },
+    {
+      "exit": 0,
+      "command": "lint"
+    },
+    {
+      "exit": 0,
+      "command": "format:check"
+    },
+    {
+      "exit": 0,
+      "command": "build"
+    }
+  ],
+  "live_ai_calls": 0,
+  "physical_device_acceptance": "Not Run",
+  "e2e_total_passed": 86
+}

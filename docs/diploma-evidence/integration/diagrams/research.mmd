@@ -1,0 +1,16 @@
+flowchart TD
+  UI["Research page + selected business"] --> API["JWT / membership checked research routes"]
+  API --> SQL["Authoritative SQL daily history; closed-day snapshot"]
+  SQL --> Enough{"98 days for 7 / 144 for 30?"}
+  Enough -->|no| Empty["insufficient_data; no invented metrics"]
+  Enough -->|yes| Split["Chronological train / validation / test"]
+  Split --> Tune["Train-only scaling; validation picks baseline and ridge alpha"]
+  Tune --> Test["Held-out MAE / RMSE; no test-driven selection"]
+  Test --> Future["Refit available history; recursive 7/30 forecast"]
+  Future --> UI
+  API --> Risk["Open-sales SQL + explainable rule-based review priority"]
+  Risk --> UI
+  UI --> Consent["Explicit feedback consent + client_request_id"]
+  Consent --> Store[("0009 research_feedback; author/business isolation")]
+  Store --> Receipt["Receipt / reload retrieval / safe retry"]
+  Receipt --> UI

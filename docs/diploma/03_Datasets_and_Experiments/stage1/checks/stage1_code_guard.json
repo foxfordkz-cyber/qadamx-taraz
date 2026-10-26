@@ -1,0 +1,33 @@
+{
+  "base": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "candidate": "b7c4750b158a6b1fc747e63a68ae7b2d078b5107",
+  "implementation_commit": "6ac5266abddffa7f1278d403ece55cc3eba457a1",
+  "freeze_commit": "3cb1ee19cc43a4b9fe5fcfd8436503cc864dbf8d",
+  "changed_existing_files": [
+    "apps/api/app/services/assistant.py",
+    "apps/api/tests/test_assistant.py",
+    "packages/contracts/ASSISTANT_API.md"
+  ],
+  "unchanged_tracked_files": 827,
+  "preserved_ast": [
+    "collect_facts",
+    "fallback",
+    "DailyLimit",
+    "ask_openai",
+    "ask_gemini",
+    "response",
+    "tenge",
+    "reminder_text"
+  ],
+  "frozen_data_unchanged": true,
+  "public_schema_and_generated_clients_unchanged": true,
+  "changed_code_files": [
+    "apps/api/app/services/assistant.py",
+    "apps/api/app/services/assistant_structured.py",
+    "apps/api/tests/test_assistant.py",
+    "apps/api/tests/test_assistant_semantics.py",
+    "apps/api/tools/diploma_eval/evaluate_stage1.py",
+    "packages/contracts/ASSISTANT_API.md"
+  ],
+  "student_identity": "not established; commits authored by Codex AI assistant"
+}

@@ -1,0 +1,222 @@
+{
+  "verified_utc": "2026-10-26T07:46:59.956454+00:00",
+  "branch": "integration/diploma-final-candidate",
+  "implementation_commit": "49832f828c890fb5346eaa0de06baf849bc3f4b0",
+  "freeze_commit": "9946ce34c996d1dd7027ec19e1fef2a85a6a01eb",
+  "source_base": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+  "origin_main_after_fetch": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "production_trees_unchanged": {
+    "apps/api/app": "e53de5e8618074d879a4e1d46236c9e05fd142a2",
+    "apps/web/src": "92e9dbe8961abfe0875e51cca31d4b9890975d4a",
+    "packages/contracts": "69f62b64933249b9afc5ede31fe19e27222d4903"
+  },
+  "migrations_unchanged": true,
+  "old_worktree_head_status_comparison": [
+    {
+      "directory": "qadamx-taraz",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "a77f1a02b240dbf9e8c627937a5cb6445d92fb51"
+    },
+    {
+      "directory": "qadam-ai-assistant-final-acceptance",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "aa0ce33c970277ea525616a202773a6582604d87"
+    },
+    {
+      "directory": "qadam-customer-post",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "99ed2c03c8c4d75987ad5e41119055c2bb5142c6"
+    },
+    {
+      "directory": "qadam-customer-recovery-safe",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "2058b914fc084ac1237ac805ce053d6ac9c8ddac"
+    },
+    {
+      "directory": "qadam-diploma-integration",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd"
+    },
+    {
+      "directory": "qadam-final-qa-main-check",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "2ba2c09ea2e5d154c8f9b305614d9da33c462b83"
+    },
+    {
+      "directory": "qadam-final-voice-presentation",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "94b4374e9895b176624490a03f458ea8713147ad"
+    },
+    {
+      "directory": "qadam-live-measurement-operator",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "ab473f145c33686d23bb03b0aaab18cbabc963b4"
+    },
+    {
+      "directory": "qadam-live-microphone-pitch-qa",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "28c1becef8394ee0d17e798486c8a29adf681e29"
+    },
+    {
+      "directory": "qadam-mic-audit",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76"
+    },
+    {
+      "directory": "qadam-mic-browser-tests",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76"
+    },
+    {
+      "directory": "qadam-mic-component-tests",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76"
+    },
+    {
+      "directory": "qadam-microphone-acceptance",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "39a730e63e43bb8487ed2f9afb1ead7762737314"
+    },
+    {
+      "directory": "qadam-ml-sales-debt-research",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "1ece13a1a255e301526af93bb7ac38faeba0b047"
+    },
+    {
+      "directory": "qadam-multilingual-extraction",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1"
+    },
+    {
+      "directory": "qadam-recovery-browser",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "07197bec0a8ac331714eea3036f3af6eac939e7e"
+    },
+    {
+      "directory": "qadam-recovery-coordinator",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "07197bec0a8ac331714eea3036f3af6eac939e7e"
+    },
+    {
+      "directory": "qadam-recovery-regressions",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "07197bec0a8ac331714eea3036f3af6eac939e7e"
+    },
+    {
+      "directory": "qadam-registration-deploy-review",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "eba0f911682e03ce2207c9d71eb4939b236a5ea9"
+    },
+    {
+      "directory": "qadam-research-baseline-check",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "2518b2e80b8c8ef881063a968645382d61aeb37e"
+    },
+    {
+      "directory": "qadam-seller-analytics",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "ce68f01e3fe4a6b9898fd68be8e3ef2e4c467ad1"
+    },
+    {
+      "directory": "qadam-seller-design",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b"
+    },
+    {
+      "directory": "qadam-seller-fixes",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "28960f21e13c9c38077bf68b7bb5449eb9aa824d"
+    },
+    {
+      "directory": "qadam-seller-qa",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "abee31fd5a1be2c2be06e3132fe7f42c90adac5d"
+    },
+    {
+      "directory": "qadam-seller-registration",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "6f808677c067cc00fb6b6b9eb26384f68c3d1e38"
+    },
+    {
+      "directory": "qadam-share-day-summary",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "8228e25d530e2a2fffcedfdc0d0adafe4de75883"
+    },
+    {
+      "directory": "qadam-stage8-ai-evaluation",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "08fd3eef541c6ab47f1d44e79d38778eefd2c784"
+    },
+    {
+      "directory": "qadam-stage9-extraction-hardening",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "a921b3f4d6d45a44d4529fb3045888f850cf9018"
+    },
+    {
+      "directory": "qadam-voice-integration-check",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "5591e057b4e137bd3e1d7137d607d3e1b8331825"
+    },
+    {
+      "directory": "qadam-voice-playback-cancel",
+      "head_same": true,
+      "status_same": true,
+      "current_head": "ae98f263b69cf06466ecc0ddca54f547c7cafb2b"
+    }
+  ],
+  "preexisting_untracked_content_note": "Initial inventory recorded HEAD/status, not byte hashes of every untracked file; no writes were made to those worktrees",
+  "code_files_sha256_lf": {
+    "apps/api/tests/final_browser_server.py": "c7bf938e4821e98cb5b8a1f83c3d14aae3cc26b384896e979f6a9b909d561e12",
+    "apps/api/tests/test_final_demo_guard.py": "470b90ce2b3b00bf3e745f6be0f4ec42ccbfeb6a27cc22104861a03b35640506",
+    "apps/api/tests/test_stage10_challenge.py": "d4068965a8328e4ef7000ff9360d65124e4502a6bccf1a0727881bf2095753b0",
+    "apps/api/tools/stage10_eval/build_challenge.py": "29566b9ac8b3bcfc2d7998ab7d15ada44b03250cdf485b87a4941a59e3955ea9",
+    "apps/api/tools/stage10_eval/demo.py": "339fe4cd8076bc55b64be2862a2adc48beba6b2fd220f3f066054b7f5f5ef069",
+    "apps/api/tools/stage10_eval/evaluate.py": "ac229f8ef9eeedc8268800d1def8a7a43bc9990a919d4a179d3e90e029e2ede2",
+    "apps/web/e2e/final.acceptance.ts": "b808c7fd8a7fd3def7f460861339ceb45342fc28224328ffb24063047df4ba93",
+    "apps/web/e2e/final.playwright.config.ts": "0f0cef53d2daeecc05284ba156c7ee592d8cff5f90610236a969573e95961f53",
+    "apps/web/e2e/stage9.acceptance.ts": "45cfe655a8c0dbac92a1a4fd5421906697671aff5427127a42fb52f77ed5a49f"
+  },
+  "challenge_replayed_identically": 42,
+  "frozen_hashes_verified": {
+    "challenge.jsonl": "d0de52d049b5d4a2b17e8a4c658e4ee83b10f9931080f63bb8c87aeff3f939e4",
+    "independent-qa-methodology.md": "1b8b615eb4946032afbc36df310ddbee255df49b8900f22690ff3fb6dd6fba3d"
+  },
+  "publication": {
+    "pushed": false,
+    "pr_created": false,
+    "pr100_modified": false,
+    "merged": false,
+    "deployed": false,
+    "shared_database_changed": false
+  },
+  "documentation_commit": "Read git log after the implementation commit; this file cannot contain its own future commit hash"
+}

@@ -800,3 +800,55 @@ Fetch/prune и ff-only pull успешны; main остался 2518b2e. Пер�
 собственный hash доступен через `git log -1 --format=%H`. Код после тестов не менялся.
 Продолжение — только review и согласование release dependencies из отчёта,
 не автоматический merge или production rollout.
+
+## Stage 6 — локальная интеграция Research и factual validation, 2026-10-25
+
+Отдельный worktree `work/qadam-diploma-integration`, ветка
+`integration/diploma-research-ai-validation`, без upstream и без push.
+Research PR100/head `1ece13a1a255e301526af93bb7ac38faeba0b047` и исходные
+ветки не изменены. Main по финальному fetch: `2518b2e80b8c8ef881063a968645382d61aeb37e`.
+Проверенный локальный Stage1 bundle: delivery `17f6f6037d6bcc2eadb9711aa2d04f275833a751`,
+implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1`.
+Merge только в локальную integration: `ae43dc25543ab261511c8b5f5982c7dfe8112da8`.
+Единственный конфликт в DECISIONS: сохранены обе добавленные секции.
+
+Новые harness/E2E: `3c9ed301a0e0d087298b0fb80b558f527d8b75d3`.
+Пути: `apps/api/tests/diploma_browser_server.py`,
+`apps/web/e2e/diploma.acceptance.ts`, `apps/web/e2e/diploma.playwright.config.ts`.
+Production Auth/ledger/UI, generated contracts и frozen 42 не редактировались
+поверх исходных реализаций. Новых production-дефектов в combined-прогонах не выявлено.
+
+Фактически прошли 526 backend, 639 frontend unit/component и 86 E2E;
+typecheck/lint/format/build/check:api/Ruff — passed. Первый backend запуск
+потребовал исправления только shell isolation variables, второй — pytest basetemp;
+полный повтор прошёл без пропусков. Детали, команды и ограничения:
+`docs/diploma-evidence/integration/combined-test-report.md`.
+
+Полный seller SQL-сценарий: клиент → продажа 3000/1000 → доплата 500 → reversal
+доплаты → текстовый offline AI draft 1200/1200 → явное сохранение → analytics,
+assistant, Research, risk/open-sales, feedback/reload/account switch. Итог SQL:
+4200₸ продаж, 2200₸ поступлений, 2000₸ долга; повтор не создаёт дубль.
+Assistant read-only проверен fingerprint всех journal rows. Stage1 comparison:
+старый валидатор 19 false accepts из 24 invalid, новый 0; все 18 valid сохранены.
+Это 42 синтетических paired cases, не показатель качества живой модели.
+
+19 реальных browser screenshots, пять editable Mermaid, test/experiment results,
+release/readiness и границы авторства: `docs/diploma-evidence/integration/`.
+Тестовые перезаписи старых screenshot-документов сохранены в `tmp/stage6/`
+и восстановлены в исходных путях; новые доказательства лежат отдельно.
+
+Новая демонстрация этого этапа: http://127.0.0.1:4297/login, API 8316,
+новая disposable БД `qadam_research_browser_stage6_demo_test` на loopback 55439.
+Это **локальный synthetic JWT issuer + OFFLINE AI stub**, не Supabase live.
+Тестовый вход и точные команды: `docs/diploma-evidence/integration/demo-scenarios.md`.
+PID текущего запуска/логи только локально: `tmp/stage6/demo-processes.json`.
+Предыдущий адрес 4298 выше относится к прошлому этапу и этим запуском не проверялся.
+
+GO для локального командного review/учебной демонстрации; NO-GO для production.
+PR100 остаётся Draft/mergeable, Vercel status success только для Research.
+Preview требует Vercel login, новый hosted OpenAPI probe завершился timeout 40s;
+предыдущее наблюдение 0.7.2 не считается свежей проверкой. Live AI, hosted auth,
+физические устройства, реальные исследования и shared migration — не запускались.
+Следующий шаг: review капитана и отдельное разрешение на публикацию integration,
+затем staging rollout/0009/backup и live acceptance. Main merge/deploy не выполнялись.
+Финальный docs commit этого этапа: `git log -1 --format=%H` в integration worktree.

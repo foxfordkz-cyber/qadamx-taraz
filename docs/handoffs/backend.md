@@ -1180,3 +1180,253 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 - Vercel больше не используется: капитан убрал доступ GitHub-приложения Vercel к репозиторию. Последние коммиты получали от `vercel[bot]` статус `failure` («Deployment rate limited»); уже поставленные статусы GitHub удалить не даёт. Сайт размещён только на Cloudflare Pages, упоминание старого адреса убрано из README.
 - Удалены 87 удалённых веток, которые полностью входят в `main`. Список «ветка → SHA» для восстановления лежит у интегратора локально. Оставлены `main`, `deploy/permanent-062`, `deploy-062` и 33 ветки с коммитами, которых нет в `main`.
 - В `main` добавлены слайды защиты `docs/pitch/Qadam-Business-slides-KZ.pdf` и полные имена команды QadamX/QadamK в README и ТЗ.
+
+### 2026-10-24 — Stage1 assistant fact bindings, local feature branch
+
+`feature/stage1-factual-validation` от main `2518b2e80b8c8ef881063a968645382d61aeb37e`. Implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1`;
+freeze `3cb1ee19cc43a4b9fe5fcfd8436503cc864dbf8d`. Модель выбирает только scoped factIDs;сервер пишет
+RU/KK имена,суммы,единицы и reminder. Свободная prose/numeric-membership validation
+убрана из runtime;original сохранён только в tests/evaluation_baselines. Provider transport,
+collector,fallback,лимиты иpublicDTO сохранены. Ledger/models/migrations не менялись.
+
+Frozen42paired syntheticcases:18valid/24invalid;originalTP18/FP19/TN5/FN0,newTP18/FP0/TN24/FN0.
+Это смена protocol representation,не доказательство реальной LLM accuracy. Final pytest
+`-m "not postgres"`:318passed,32skipped,129deselected,1warning;Ruff check/format и
+export_contracts --check passed. Web check:api/typecheck/lint passed;assistant/WhatsApp57tests
+в3files passed. HTTP/providers stubbed. Initial103pass/1fail escape assertion log сохранён.
+
+Docs: `docs/diploma/04_Implementation_Evidence/stage1_implementation_report.md`,
+`03_Datasets_and_Experiments/stage1_experiment_results.md`,editable08diagram;raw/config/logs
+вstage1/. Git LF/WindowsCRLF hashes portable,fixture/gold неизменны. Source/treehash guard827
+прочих apps/packages файлов unchanged;publicOpenAPI/examples/generatedTS unchanged.
+
+Нет Postgres daemon;realDB suite/Flutter/liveAI не запускались. No push/PR/merge/deploy,
+sharedDB/serviceconfig не трогали. Latercandidate `b7c4750b158a6b1fc747e63a68ae7b2d078b5107` untouched. Следующий шаг:
+captain review,isolatedDB acceptance ипоследующийStage2;не возвращать unsafelegacy parser.
+CodexAI assistance раскрыта,студент/личный вклад не установлены;teamcode не присвоен студенту.
+
+## 2026-10-25 — Stage 7: RU/KK extraction grounding (local feature branch)
+
+Ветка `feature/multilingual-ai-extraction`, отдельный worktree от Stage 6
+`eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd`; application baseline
+`ae43dc25543ab261511c8b5f5982c7dfe8112da8`. Чужие ветки и незавершённое
+изменение Stage 6 demo-scenarios.md сохранены.
+
+Изменены только production `app/services/ai.py` и новый
+`app/services/extraction_grounding.py`: проверка duplicate JSON keys, ограниченная
+нормализация RU/KK сумм по цитате, сохранение неизвестной оплаты, проверка названного
+клиента, противоречий и границ чисел. AI сохраняет лишь Draft; подтверждение,
+идемпотентность и ledger остаются существующими. API, миграции, Auth, Stage 1 и
+Research не менялись.
+
+100 синтетических примеров и provider doubles заморожены commit
+`0313038e33b3f518b777682b7006c82f448ac483` до изменений. Offline full match:
+71/100 → 99/100; 29 улучшений, один сохранённый регресс-уточнение S7-090.
+Это проверка post-provider validation, не live LLM/ASR accuracy.
+Stage 1 frozen corpus не менялся.
+
+Проверено: полный pytest с отдельной PostgreSQL — 615 passed, без skips;
+Ruff/format, export_contracts --check; web check:api/typecheck/lint/format/build;
+82 frontend-теста в шести связанных файлах; 3 Chrome→API→SQL сценария.
+Синтетическая продажа 3000/1000 даёт долг 2000, до подтверждения ledger неизменен,
+двойной клик создаёт одну операцию. Неизвестная оплата остаётся null; ошибка JSON
+оставляет ввод и ручное продолжение. Скриншоты содержат только тестовые данные.
+
+Команды, полные результаты, файлы и source SHA:
+`docs/diploma-evidence/ai-extraction/`, особенно `reproduction.md`,
+`test-report.md`, `comparison/summary.json`, `implementation-report.md`.
+Из apps/api: `python tools/extraction_eval/evaluate.py --output ../../tmp/stage7-replay`.
+Browser: из apps/web `npx playwright test -c e2e/extraction.playwright.config.ts`;
+требуется новый пустой loopback RESEARCH_TEST_DATABASE_URL, см. reproduction.
+
+Ограничения: ноль платных/live provider запросов; нет проверки ASR, физических
+устройств, production Supabase и независимого holdout. Парсер намеренно ограничен,
+может запросить лишнее уточнение; выбор семантической роли цитаты остаётся
+провайдеру и человеку. Следующий Stage 8: независимая разметка/holdout и отдельно
+согласованный live-provider/ASR бюджет. Shared DB, merge и deploy не выполнялись.
+
+## 2026-10-25 — Stage 8: интеграция и constructed held-out evaluation
+
+Локальная ветка `feature/diploma-stage8-ai-evaluation`, отдельный worktree.
+Stage 6 eb954bf7 → fast-forward Stage 7 11ee40a; исходные коммиты сохранены,
+production-код Stage 7 не менялся. Новое: frozen 120-case corpus, paired evaluator,
+SQL parity, combined Chrome/API/PostgreSQL acceptance и отключённый по умолчанию
+live evaluation runner. Freeze: 071ae3ef7b0a1db0091c31ff6b762d16226f91b8.
+Tool/test commit: 92aba501844d777fd7a2175b8a7e72a82ffb09bf.
+
+Полное совпадение 75/120 → 104/120; RU 35/40, KZ 34/40, mixed 35/40.
+41 улучшение и 12 новых консервативных регрессий; все 16 оставшихся ошибок сохранены.
+Это authored provider fixtures, не измерение live LLM/ASR. Набор новый, но тот же
+Codex-автор знал Stage 7: независимой слепой разметки/реальных разговоров нет.
+Gold и frozen Stage 1/7 не менялись.
+
+Найдено ограничение: OpenAI adapter json.loads/json.dumps может удалить duplicate
+keys до общего validator. Characterization test воспроизводит это; 12/12 offline
+rejection нельзя выдавать за проверку всей OpenAI-цепочки. Исправление и новый
+набор для разработки — отдельный Stage 9, без подгонки текущего holdout.
+
+Проверки: полный pytest 647 passed (отдельная PostgreSQL), Vitest 639/47 files,
+combined Chrome E2E 6 passed, retries 0; Ruff, export_contracts, check:api,
+typecheck, lint, format, build passed. Stage 1: TP18/TN24/FP0/FN0; Stage 7: 71→99.
+Начальные ошибки TEMP и неверного Stage 1 флага сохранены в evidence/logs.
+Paid requests 0; live ASR/WER, physical devices и Supabase acceptance не выполнены.
+
+Команды: apps/api — python -m tools.stage8_eval.evaluate --output ../../tmp/stage8-repro;
+apps/web — npx playwright test -c e2e/stage8.playwright.config.ts с новой пустой
+loopback RESEARCH_TEST_DATABASE_URL. Подробные безопасные команды, файлы,
+скриншоты, raw results и методика: docs/diploma-evidence/ai-evaluation-stage8/README.md.
+Доказательства зафиксированы отдельным docs-коммитом; точный SHA:
+git log -1 --format=%H -- docs/diploma-evidence/ai-evaluation-stage8/README.md.
+Push, изменение PR #100, main merge, deploy и shared DB не выполнялись.
+
+## 2026-10-25 — Stage 9: strict JSON и исправление регрессий извлечения
+
+Отдельная локальная ветка `feature/diploma-stage9-extraction-hardening` от
+`08fd3eef541c6ab47f1d44e79d38778eefd2c784`.
+Baseline/protocol до правок: `fe4e73f5723c46d6b308c6b1115327d881611db9`.
+Код и тесты: `fa73fe4999c0201626643be7eaf9d2667dc328ef`.
+Evidence-коммит: `git log -1 --format=%H -- docs/diploma-evidence/ai-evaluation-stage9/README.md`.
+
+Runtime: только `app/services/{strict_json.py,openai_provider.py,ai.py,extraction_grounding.py}`.
+Дубликаты ключей проверяются по HTTP bytes и inner JSON до OpenAI
+json.loads/json.dumps-нормализации; parsed dict не выдаётся за исходный JSON.
+Неожиданные extraction-поля по-прежнему запрещены схемой. Исправлены bounded
+падежные формы имён, явное получение оплаты, полная и нулевая оплата с защитой
+от отрицаний/вопросов/неопределённости. Ledger, Auth, API и frontend не изменены.
+
+На известном frozen Stage 8 наборе 104/120 → 118/120: исправлены все 12 регрессий
+и ещё 2 случая, новых регрессий нет. S8-080/084 остаются wrong against gold:
+повторяющееся «мың» не разрешено выбором произвольного вхождения. Stage 7 — 99/100,
+Stage 1 — TP18/TN24/FP0/FN0. Это offline engineering evidence, не live AI accuracy.
+
+Финальные проверки: pytest 723 passed с отдельной PostgreSQL; Vitest 639 passed;
+Chrome/API/SQL 8 passed, retries 0; Ruff/format/export_contracts/check:api/
+typecheck/lint/build прошли. Сохранены первоначальные 21 supplementary failure,
+ошибка настройки browser fixture и timeouts при одновременных тяжёлых прогонах.
+Последовательный повтор прошёл без увеличения timeout и без исключения тестов.
+
+Команды: apps/api — `python -m tools.stage9_eval.evaluate --output ../../tmp/stage9-repro`;
+apps/web — `npx playwright test -c e2e/stage9.playwright.config.ts` с НОВОЙ ПУСТОЙ
+loopback `qadam_research_browser_*_test` базой. API 8321 / Vite 4302.
+Подробные команды, actual logs, raw cases, source hashes, диаграммы и screenshots:
+`docs/diploma-evidence/ai-evaluation-stage9/README.md`.
+
+Независимая разметка, adjudication и consent — только подготовленный протокол,
+участников и реальных записей нет. Live runner по умолчанию dry, budget 0,
+вызовов 0; старые презентационные бюджеты не дают разрешения на новый эксперимент.
+Следующий этап: независимый blind corpus, отдельное согласование live AI/ASR
+и анализ repeated-number spans. Push, PR #100, main, shared DB и deploy не менялись.
+
+## 2026-10-25 — Stage 10: локальный интеграционный кандидат
+
+Ветка `integration/diploma-final-candidate`, база Stage 9
+`a921b3f4d6d45a44d4529fb3045888f850cf9018`. Проверено происхождение main и Stage
+6/7/8/9: все уже входят в историю, повторных merge/cherry-pick нет. Исходные
+worktree и чужие незакоммиченные файлы сохранены. Production app, ledger, Auth,
+frontend src, contracts и миграции не изменены.
+
+Freeze нового challenge: `9946ce34c996d1dd7027ec19e1fef2a85a6a01eb`.
+Код acceptance/demo: `49832f828c890fb5346eaa0de06baf849bc3f4b0`.
+Добавлены `apps/api/tools/stage10_eval`, final browser fixture и тесты,
+`apps/web/e2e/final.*`; Stage 9 browser test принимает локальный API origin.
+Доказательства: `docs/diploma-evidence/final-integration/README.md`.
+
+Фактически: backend 764 passed (включая 211 postgres-marked), frontend 639 passed,
+Chrome/API/SQL 19 passed без retries; Ruff, полный Python format, API export,
+check:api, typecheck, lint, Prettier и build прошли. Первые 2 browser-падения
+оказались ошибками новых тестов (ранняя проверка pending и неверный HTTP 200
+вместо 201/lookup path); логи сохранены, полный повтор — на новой БД.
+
+Новый frozen challenge: 42/42 до и после, точный повтор после commit. Это 11
+семантических семей × 3 языка и 9 invalid replies, автор прежний, независимого
+human review/live AI нет. Stage 7 остаётся 99/100; Stage 8/9 — 118/120 с S8-080/084;
+Stage 1 — TP18/TN24/FP0/FN0. Gold и старые evidence не менялись.
+
+Демо: `python apps/api/tools/stage10_eval/demo.py --database-url <NEW EMPTY
+loopback qadam_research_browser_*_test URL> --output tmp/<new-output>`.
+Точные PowerShell-команды и локальный synthetic login — в demo-guide.md.
+API 8322 / React 4303, реальные routes/SQL, offline provider/local JWT issuer.
+Launcher отказывается использовать непустую/неподходящую БД и занятые порты.
+58 настоящих browser screenshots; initial/final SQL, consent/reload, потеря
+ответа и идемпотентное восстановление проверены. No physical-device claim.
+
+Staging NO-GO до согласованного rollout, backup/restore/0009 rehearsal,
+live Supabase/AI и physical acceptance. Paid calls 0. Публикация запрещена ТЗ:
+push, PR #100, main, deploy и общая БД не менялись. Следующий этап — независимая
+разметка и разрешённая staging-приёмка, не очередной merge того же кода.
+
+## 2026-10-26 — Stage11 release-readiness review (local only)
+
+Ветка `review/diploma-stage11-readiness`, база Stage10
+`e825dd9a9568dda33a9226e1941e789fd21d2175`. Tooling commit:
+`2073960792067f392e7938f733a75ae652116c9f`.
+Поправка переносимости ZIP: `31cba2d5e0c0e3b0d9ce4d2159a2357005d954c3`;
+регрессия воспроизведена (1fail/5pass), после фикса LF/ZIP metadata6pass.
+Production, миграции, OpenAPI/generated.ts и frozen datasets не менялись.
+Повторяемые утилиты: `apps/api/tools/stage11_release/`; тесты:
+`apps/api/tests/test_stage11_release.py`. Полная передача:
+`docs/diploma-evidence/stage11-release-readiness/README.md`.
+
+Проверки:210selected tests и отдельно25tool/live-guard tests (6повторяются),
+9config probes,21migration/backup/restore checks на НОВОМ локальном PG17.11:55441.
+0009 сохраняет прежние строки; восстановление всех таблиц и остатка1500 ₸ прошло;
+downgrade только восстановленной копии подтвердил потерю feedback. Старые БД не
+удалялись. Initial failures сохранены. Ruff/format/API check прошли.
+Stage10полные764/639/19 являются inherited evidence, не повторным Stage11результатом.
+
+Рабочее локальное демо:4303/login, API8322, новая
+`qadam_research_browser_stage11_ready_test`, исходник e825dd9a, syntheticJWT/offlineAI.
+Read-only Chrome smoke прошёл:7/30,риск,empty,390px,logout;2скриншота;денежных writes0.
+Точные команды в test-execution.md;5/3минутные сценарии — план показа, не замер.
+
+Прежние31worktree сохранили HEAD/status. origin/main2518b2e неизменён;
+Stage10ahead30,behind0,19commits local-only относительно всехoriginrefs.
+PR100openDraft не менялся. Публикация отдельного Draft технически возможна, но
+запрещена текущим ТЗ до отдельного разрешения и решения о пересечении сPR100.
+
+Staging NO-GO: нет согласованной среды/realAuth; callback production жёстко Pages;
+нет liveAI бюджета/моделей и подтверждённого retention/withdrawal процесса.
+Blind60packet готов, humanreviewers0. Code review выполнен AI, не независимым
+человеком. Следующий шаг капитана:назначить reviewers,точную staging/Auth конфигурацию
+и отдельно разрешить публикацию/live acceptance. Push/PR/merge/deploy/paid/sharedDB0.
+
+## 2026-10-26 — Stage 12: публикация в существующий репозиторий
+
+Новая база: `integration/qadam-diploma-v1`, [Draft PR #101](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/101)
+в `feature/ml-sales-debt-research`. PR #100 не изменён. Первый опубликованный
+source: `e94d9a71ded625881e94f8747430348a81e13e5f`, включая Stage10
+`e825dd9a9568dda33a9226e1941e789fd21d2175` и всю историю Stage1–11.
+Main: `2518b2e80b8c8ef881063a968645382d61aeb37e`, без изменения.
+32 прежних worktree сохранили HEAD/status; полный локальный Git backup проверен.
+Перенос в личный репозиторий отменён. История и авторство команды сохранены.
+
+Stage12 добавляет два publication Playwright config в apps/web/e2e, новые отчёты,
+SQL/metrics/screenshots в `docs/diploma-evidence/stage12-publication/`, ссылки в
+README/DECISIONS и эту передачу. Production/backend, ledger, Auth, контракты,
+миграции и frozen datasets не изменены. Последний SHA документации — в PR #101.
+
+Свежие проверки: 770 backend (в том числе 211 PostgreSQL), 639 frontend,
+19 Chrome/API/SQL E2E и 8 Chrome Seller/Demo E2E — прошли, без failures/skips/retries.
+Ruff, Python format, API check, TypeScript, ESLint, Prettier и build прошли.
+SQL подтвердил 0009/consent; итог отдельных сценариев: 10600/6600/4000 ₸,
+6 операций, 7 клиентов и 1 feedback. Потеря ответа не создаёт дублей.
+Stage1: TP18/TN24/FP0/FN0; Stage7: 99/100; исходный Stage8: 104/120;
+Stage9: 118/120; Stage10 challenge: 42/42. S7-090 и S8-080/084 сохранены.
+Это synthetic regression evidence, не точность live AI.
+
+Демо: http://127.0.0.1:4303/login, API8322, новая локальная
+`qadam_research_browser_stage12_ready_test`, offline AI/synthetic JWTs.
+Начальная чистая точка: 0 операций/сумм/feedback, 5 учебных клиентов.
+Отдельный read-only Chrome smoke прошёл; начальная ошибка UTF-8 локальной копии
+скрипта, uv setup и пути JUnit сохранены в отчёте, исходные логи не удалены.
+
+Локальное академическое демо GO; staging/production NO-GO. npm audit: Vitest/
+tinypool critical, @vitest/mocker moderate (dev dependencies), без force-upgrade.
+Общие 0009/roles, real Auth/callback, privacy owners и независимая live AI/ASR/
+device acceptance остаются отдельными этапами. После push Vercel автоматически
+сообщил success; live acceptance этим не подтверждается. Merge, намеренного deploy,
+платных AI-запросов и изменений общей БД не было.
+
+Продолжение — отдельная ветка от origin/integration/qadam-diploma-v1; сначала
+review #100/#101, затем dependency findings и согласованные staging gates.
+Команды: `docs/diploma-evidence/stage12-publication/development-workflow.md`.

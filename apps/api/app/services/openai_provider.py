@@ -9,6 +9,7 @@ import httpx
 from app.errors import APIError
 from app.services.ai import SYSTEM_PROMPT, Extraction
 from app.services.ai_diagnostics import ai_stage
+from app.services.strict_json import strict_json_object
 
 OPENAI_SEMANTICS = """
 Preserve negations, currency, numeric precision and sale versus repayment meaning.
@@ -95,9 +96,8 @@ class OpenAIProvider:
             response = await client.send(request)
             diagnostic.provider_status = response.status_code
             response.raise_for_status()
-            body = response.json()
-            if not isinstance(body, dict):
-                raise ValueError("Expected provider object")
+            # Inspect HTTP bytes before a standard decoder silently drops duplicates.
+            body = strict_json_object(response.content)
             usage_metadata(diagnostic, body, model)
             if model == "gpt-transcribe" and audio_seconds is not None:
                 diagnostic.cost_estimate_usd = round(audio_seconds * 0.0045 / 60, 9)
@@ -183,9 +183,8 @@ class OpenAIProvider:
         raw = content[0].get("text")
         if not isinstance(raw, str) or len(raw) > 32_000:
             raise ValueError("Invalid extraction size")
-        extracted = json.loads(raw)
-        if not isinstance(extracted, dict):
-            raise ValueError("Invalid extraction object")
+        # This inner JSON string is a separate trust boundary from the HTTP envelope.
+        extracted = strict_json_object(raw)
         # The STT output, like original text input, is authoritative over an LLM rewrite.
         extracted["transcript"] = text
         return json.dumps(extracted, ensure_ascii=False)

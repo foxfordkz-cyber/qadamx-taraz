@@ -1,0 +1,39 @@
+{
+  "scope": "candidate blobs not reachable from origin/main; heuristic text scan, not certified secret detection",
+  "blob_count": 596,
+  "binary_skipped": 111,
+  "patterns": [
+    "private-key body",
+    "Supabase secret",
+    "GitHub token",
+    "sk token"
+  ],
+  "matches_requiring_review": [],
+  "largest_blobs": [
+    {
+      "oid": "7ffd4453968539e27ddbe2fda95744407fb068e4",
+      "path": "docs/diploma-evidence/final-integration/screenshots/font200-kk-360.png",
+      "bytes": 766157
+    },
+    {
+      "oid": "84825096f37ba66375a17c75dfaee92715672e6e",
+      "path": "docs/diploma-evidence/final-integration/screenshots/font200-kk-768.png",
+      "bytes": 765447
+    },
+    {
+      "oid": "5aa868efa9b317ab73a7e726d77ebff229343134",
+      "path": "docs/diploma-evidence/final-integration/screenshots/font200-kk-390.png",
+      "bytes": 757548
+    },
+    {
+      "oid": "b28d1b1319d7cd6c4945e312d0f1e3eb4210d63d",
+      "path": "docs/diploma-evidence/final-integration/screenshots/font200-ru-768.png",
+      "bytes": 738475
+    },
+    {
+      "oid": "370ccd30e5b81332ce1236db0f818558dc2e0cae",
+      "path": "docs/diploma-evidence/final-integration/screenshots/font200-ru-360.png",
+      "bytes": 734827
+    }
+  ]
+}

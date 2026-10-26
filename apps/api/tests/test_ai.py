@@ -123,9 +123,11 @@ def test_retry_does_not_reset_total_deadline():
         ({"payment_status": "unknown"}, None),
         ({"payment_evidence": None}, None),
         ({"uncertain_fields": ["received_minor"]}, None),
-        ({"received_minor": 400000}, None),
-        ({"payment_status": "paid"}, 300000),
-        ({"payment_status": "debt"}, 0),
+        # The exact source says paid 1000. Neither a conflicting amount nor a
+        # paid/debt label may replace that receipt with total or zero.
+        ({"received_minor": 400000}, 100000),
+        ({"payment_status": "paid"}, 100000),
+        ({"payment_status": "debt"}, 100000),
     ],
 )
 def test_conservative_payment(changes, received):

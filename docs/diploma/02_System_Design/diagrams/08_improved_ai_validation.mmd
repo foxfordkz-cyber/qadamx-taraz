@@ -1,0 +1,25 @@
+%% Local implementation 6ac5266abddffa7f1278d403ece55cc3eba457a1; editable source; ai=false and quota retained.
+flowchart TD
+  Auth[JWT және owner membership] --> Snapshot[Business-scoped facts және as_of жинау]
+  Snapshot --> Mode{ai параметрі}
+  Mode -->|false| Free[Existing server summary: source facts]
+  Mode -->|true| Quota{Күндік limit}
+  Quota -->|Таусылды| Limit[429 ASSISTANT_LIMIT]
+  Quota -->|Рұқсат| Catalog[Request-local fact IDs және snapshot shape]
+  Catalog -->|Ambiguous server snapshot| Closed[Fail closed: model шақырылмайды]
+  Catalog --> Provider[Model selects IDs only]
+  Provider -->|Timeout немесе provider error| Fallback[Existing RU/KK fallback]
+  Provider --> JSON[Size bound, duplicate-aware JSON parse]
+  JSON --> Shape[Strict version, claims және actions schema]
+  Shape --> Bind[Unique known IDs: metric және customer balance]
+  Bind --> Action[Reminder debtor positive balance; navigation null]
+  Action --> Render[Server names, labels, integer minor, KZT және RU/KK templates]
+  Render --> Response[Unchanged AssistantResponse: source ai]
+  JSON -->|Invalid| Fallback
+  Shape -->|Invalid немесе prose override| Fallback
+  Bind -->|Unknown, foreign немесе duplicate| Fallback
+  Action -->|Wrong recipient немесе duplicate| Fallback
+  Fallback --> Safe[Unchanged AssistantResponse: source fallback]
+  Response --> Readonly[Ledger write және message send жоқ]
+  Safe --> Readonly
+  Free --> Readonly

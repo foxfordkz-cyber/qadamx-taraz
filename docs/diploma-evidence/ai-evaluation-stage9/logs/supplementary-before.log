@@ -1,0 +1,140 @@
+FFFF......FFFF.FFFFFFFF.............F..FF.FF.......                      [100%]
+================================== FAILURES ===================================
+_ test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"received_minor":100000}] _
+tests\test_stage9_extraction.py:41: in test_openai_inner_output_rejected_before_reencoding
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+_ test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"total_minor":900000}] _
+tests\test_stage9_extraction.py:41: in test_openai_inner_output_rejected_before_reencoding
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+_ test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"\\u0072eceived_minor":100000}] _
+tests\test_stage9_extraction.py:41: in test_openai_inner_output_rejected_before_reencoding
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+_ test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"transcript":"overwritten"}] _
+tests\test_stage9_extraction.py:41: in test_openai_inner_output_rejected_before_reencoding
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+___ test_raw_http_envelope_is_checked_before_dictionary_conversion[status] ____
+tests\test_stage9_extraction.py:57: in test_raw_http_envelope_is_checked_before_dictionary_conversion
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+_ test_raw_http_envelope_is_checked_before_dictionary_conversion[nested_usage] _
+tests\test_stage9_extraction.py:57: in test_raw_http_envelope_is_checked_before_dictionary_conversion
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+__ test_raw_http_envelope_is_checked_before_dictionary_conversion[nonfinite] __
+tests\test_stage9_extraction.py:57: in test_raw_http_envelope_is_checked_before_dictionary_conversion
+    with pytest.raises(APIError) as exc:
+         ^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE <class 'app.errors.APIError'>
+____________ test_duplicate_transcription_stops_before_extraction _____________
+tests\test_stage9_extraction.py:70: in test_duplicate_transcription_stops_before_extraction
+    assert len(calls) == 1 and calls[0].url.path.endswith("/transcriptions")
+E   AssertionError: assert (2 == 1)
+E    +  where 2 = len([<Request('POST', 'https://api.openai.com/v1/audio/transcriptions')>, <Request('POST', 'https://api.openai.com/v1/responses')>])
+------------------------------ Captured log call ------------------------------
+WARNING  uvicorn.error.qadam.ai:ai_diagnostics.py:99 {"event": "ai_stage", "request_id": "-", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+_ test_explicit_receipt_grammar_on_new_amounts[\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u043e 2715-\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u043e 2715] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='������� 2715. �������� 2715.', kind='sale', customer_query=None, description='�����', total_min...n', total_evidence='2715', payment_evidence='�������� 2715', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[2715 \u043e\u043f\u043b\u0430\u0447\u0435\u043d\u044b-2715 \u043e\u043f\u043b\u0430\u0447\u0435\u043d\u044b] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='������� 2715. 2715 ��������.', kind='sale', customer_query=None, description='�����', total_min...n', total_evidence='2715', payment_evidence='2715 ��������', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[\u041f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e 2715-\u041f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e 2715] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='������� 2715. ��������� 2715.', kind='sale', customer_query=None, description='�����', total_mi...', total_evidence='2715', payment_evidence='��������� 2715', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[\u041a\u0430\u0441\u0441\u0430\u0493\u0430 2715 \u0442\u04af\u0441\u0442\u0456-2715 \u0442\u04af\u0441\u0442\u0456] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='\u041f\u0440\u043e\u0434\u0430\u0436\u0430 2715. \u041a\u0430\u0441\u0441\u0430\u0493\u0430 2715 \u0442\u04af\u0441\u0442\u0456.', kind='sale', customer_query=None, description='\u0442\u043e\u0432\u0430\u0440', tota...nown', total_evidence='2715', payment_evidence='2715 \u0442\u04af\u0441\u0442\u0456', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[\u0414\u0435\u043d\u044c\u0433\u0438 \u0432\u0441\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043b\u0438-\u0414\u0435\u043d\u044c\u0433\u0438 \u0432\u0441\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043b\u0438] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='������� 2715. ������ ��� ��������.', kind='sale', customer_query=None, description='�����', tot...tal_evidence='2715', payment_evidence='������ ��� ��������', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[\u0410\u049b\u0448\u0430\u043d\u044b \u0442\u043e\u043b\u044b\u049b \u0431\u0435\u0440\u0434\u0456-\u0410\u049b\u0448\u0430\u043d\u044b \u0442\u043e\u043b\u044b\u049b \u0431\u0435\u0440\u0434\u0456] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='\u041f\u0440\u043e\u0434\u0430\u0436\u0430 2715. \u0410\u049b\u0448\u0430\u043d\u044b \u0442\u043e\u043b\u044b\u049b \u0431\u0435\u0440\u0434\u0456.', kind='sale', customer_query=None, description='\u0442\u043e\u0432\u0430\u0440', tota...otal_evidence='2715', payment_evidence='\u0410\u049b\u0448\u0430\u043d\u044b \u0442\u043e\u043b\u044b\u049b \u0431\u0435\u0440\u0434\u0456', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[\u0410\u049b\u0448\u0430\u0441\u044b\u043d \u0442\u04af\u0433\u0435\u043b\u0434\u0435\u0439 \u04b1\u0441\u0442\u0430\u0442\u0442\u044b-\u0410\u049b\u0448\u0430\u0441\u044b\u043d \u0442\u04af\u0433\u0435\u043b\u0434\u0435\u0439 \u04b1\u0441\u0442\u0430\u0442\u0442\u044b] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='\u041f\u0440\u043e\u0434\u0430\u0436\u0430 2715. \u0410\u049b\u0448\u0430\u0441\u044b\u043d \u0442\u04af\u0433\u0435\u043b\u0434\u0435\u0439 \u04b1\u0441\u0442\u0430\u0442\u0442\u044b.', kind='sale', customer_query=None, description='\u0442\u043e\u0432\u0430\u0440'...vidence='2715', payment_evidence='\u0410\u049b\u0448\u0430\u0441\u044b\u043d \u0442\u04af\u0433\u0435\u043b\u0434\u0435\u0439 \u04b1\u0441\u0442\u0430\u0442\u0442\u044b', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_receipt_grammar_on_new_amounts[\u0414\u0435\u043d\u0435\u0436\u043a\u0443 \u0432\u0441\u044e \u04b1\u0441\u0442\u0430\u0442\u0442\u044b-\u0414\u0435\u043d\u0435\u0436\u043a\u0443 \u0432\u0441\u044e \u04b1\u0441\u0442\u0430\u0442\u0442\u044b] _
+tests\test_stage9_extraction.py:102: in test_explicit_receipt_grammar_on_new_amounts
+    assert result.received_minor == 271500
+E   AssertionError: assert None == 271500
+E    +  where None = Extraction(transcript='\u041f\u0440\u043e\u0434\u0430\u0436\u0430 2715. \u0414\u0435\u043d\u0435\u0436\u043a\u0443 \u0432\u0441\u044e \u04b1\u0441\u0442\u0430\u0442\u0442\u044b.', kind='sale', customer_query=None, description='\u0442\u043e\u0432\u0430\u0440', tot...tal_evidence='2715', payment_evidence='\u0414\u0435\u043d\u0435\u0436\u043a\u0443 \u0432\u0441\u044e \u04b1\u0441\u0442\u0430\u0442\u0442\u044b', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+_ test_explicit_nonpayment_does_not_negate_the_next_zero_clause[\u041f\u0440\u043e\u0434\u0430\u0436\u0430 2715. \u041d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u0437\u0430\u043f\u043b\u0430\u0442\u0438\u043b; \u0432\u0441\u0451 \u0432 \u0434\u043e\u043b\u0433.-0] _
+tests\test_stage9_extraction.py:130: in test_explicit_nonpayment_does_not_negate_the_next_zero_clause
+    assert receipt(text, "�� � ����", status="debt").received_minor == expected
+E   AssertionError: assert None == 0
+E    +  where None = Extraction(transcript='������� 2715. ������ �� ��������; �� � ����.', kind='sale', customer_query=None, description='...nown', total_evidence='2715', payment_evidence='�� � ����', amount_evidence=None, uncertain_fields=['received_minor']).received_minor
+E    +    where Extraction(transcript='������� 2715. ������ �� ��������; �� � ����.', kind='sale', customer_query=None, description='...nown', total_evidence='2715', payment_evidence='�� � ����', amount_evidence=None, uncertain_fields=['received_minor']) = receipt('������� 2715. ������ �� ��������; �� � ����.', '�� � ����', status='debt')
+_ test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u0421\u0430\u043c\u0430\u0442-\u0421\u0430\u043c\u0430\u0442\u0442\u044b\u04a3 \u0442\u04e9\u043b\u0435\u043c\u0456-True] _
+tests\test_stage9_extraction.py:146: in test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity
+    assert customer_in_source(name, source) is expected
+E   AssertionError: assert False is True
+E    +  where False = customer_in_source('\u0421\u0430\u043c\u0430\u0442', '\u0421\u0430\u043c\u0430\u0442\u0442\u044b\u04a3 \u0442\u04e9\u043b\u0435\u043c\u0456')
+_ test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u0421\u0435\u0440\u0456\u043a-\u0421\u0435\u0440\u0456\u043a\u0442\u0456\u04a3 \u049b\u0430\u0440\u044b\u0437\u044b-True] _
+tests\test_stage9_extraction.py:146: in test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity
+    assert customer_in_source(name, source) is expected
+E   AssertionError: assert False is True
+E    +  where False = customer_in_source('\u0421\u0435\u0440\u0456\u043a', '\u0421\u0435\u0440\u0456\u043a\u0442\u0456\u04a3 \u049b\u0430\u0440\u044b\u0437\u044b')
+_ test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u041e\u043b\u044c\u0433\u0430-\u0434\u043b\u044f \u041e\u043b\u044c\u0433\u0438-True] _
+tests\test_stage9_extraction.py:146: in test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity
+    assert customer_in_source(name, source) is expected
+E   AssertionError: assert False is True
+E    +  where False = customer_in_source('�����', '��� �����')
+_ test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u041d\u0430\u0442\u0430\u0448\u0430-\u0434\u043b\u044f \u041d\u0430\u0442\u0430\u0448\u0438-True] _
+tests\test_stage9_extraction.py:146: in test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity
+    assert customer_in_source(name, source) is expected
+E   AssertionError: assert False is True
+E    +  where False = customer_in_source('������', '��� ������')
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\tmp\stage9\supplementary-before.xml -
+=========================== short test summary info ===========================
+FAILED tests/test_stage9_extraction.py::test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"received_minor":100000}]
+FAILED tests/test_stage9_extraction.py::test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"total_minor":900000}]
+FAILED tests/test_stage9_extraction.py::test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"\\u0072eceived_minor":100000}]
+FAILED tests/test_stage9_extraction.py::test_openai_inner_output_rejected_before_reencoding[{"transcript": "\\u041f\\u0440\\u043e\\u0434\\u0430\\u043b \\u0442\\u043e\\u0432\\u0430\\u0440 \\u043d\\u0430 3000, \\u0410\\u0441\\u049b\\u0430\\u0440 \\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "kind": "sale", "customer_query": "\\u0410\\u0441\\u049b\\u0430\\u0440", "description": "\\u0442\\u043e\\u0432\\u0430\\u0440", "total_minor": 300000, "received_minor": 100000, "amount_minor": null, "payment_status": "partial", "total_evidence": "3000", "payment_evidence": "\\u0437\\u0430\\u043f\\u043b\\u0430\\u0442\\u0438\\u043b 1000", "amount_evidence": null, "uncertain_fields": [],"transcript":"overwritten"}]
+FAILED tests/test_stage9_extraction.py::test_raw_http_envelope_is_checked_before_dictionary_conversion[status]
+FAILED tests/test_stage9_extraction.py::test_raw_http_envelope_is_checked_before_dictionary_conversion[nested_usage]
+FAILED tests/test_stage9_extraction.py::test_raw_http_envelope_is_checked_before_dictionary_conversion[nonfinite]
+FAILED tests/test_stage9_extraction.py::test_duplicate_transcription_stops_before_extraction
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u043e 2715-\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u043e 2715]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[2715 \u043e\u043f\u043b\u0430\u0447\u0435\u043d\u044b-2715 \u043e\u043f\u043b\u0430\u0447\u0435\u043d\u044b]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u041f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e 2715-\u041f\u043e\u0441\u0442\u0443\u043f\u0438\u043b\u043e 2715]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u041a\u0430\u0441\u0441\u0430\u0493\u0430 2715 \u0442\u04af\u0441\u0442\u0456-2715 \u0442\u04af\u0441\u0442\u0456]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u0414\u0435\u043d\u044c\u0433\u0438 \u0432\u0441\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043b\u0438-\u0414\u0435\u043d\u044c\u0433\u0438 \u0432\u0441\u0435 \u043f\u0435\u0440\u0435\u0434\u0430\u043b\u0438]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u0410\u049b\u0448\u0430\u043d\u044b \u0442\u043e\u043b\u044b\u049b \u0431\u0435\u0440\u0434\u0456-\u0410\u049b\u0448\u0430\u043d\u044b \u0442\u043e\u043b\u044b\u049b \u0431\u0435\u0440\u0434\u0456]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u0410\u049b\u0448\u0430\u0441\u044b\u043d \u0442\u04af\u0433\u0435\u043b\u0434\u0435\u0439 \u04b1\u0441\u0442\u0430\u0442\u0442\u044b-\u0410\u049b\u0448\u0430\u0441\u044b\u043d \u0442\u04af\u0433\u0435\u043b\u0434\u0435\u0439 \u04b1\u0441\u0442\u0430\u0442\u0442\u044b]
+FAILED tests/test_stage9_extraction.py::test_explicit_receipt_grammar_on_new_amounts[\u0414\u0435\u043d\u0435\u0436\u043a\u0443 \u0432\u0441\u044e \u04b1\u0441\u0442\u0430\u0442\u0442\u044b-\u0414\u0435\u043d\u0435\u0436\u043a\u0443 \u0432\u0441\u044e \u04b1\u0441\u0442\u0430\u0442\u0442\u044b]
+FAILED tests/test_stage9_extraction.py::test_explicit_nonpayment_does_not_negate_the_next_zero_clause[\u041f\u0440\u043e\u0434\u0430\u0436\u0430 2715. \u041d\u0438\u0447\u0435\u0433\u043e \u043d\u0435 \u0437\u0430\u043f\u043b\u0430\u0442\u0438\u043b; \u0432\u0441\u0451 \u0432 \u0434\u043e\u043b\u0433.-0]
+FAILED tests/test_stage9_extraction.py::test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u0421\u0430\u043c\u0430\u0442-\u0421\u0430\u043c\u0430\u0442\u0442\u044b\u04a3 \u0442\u04e9\u043b\u0435\u043c\u0456-True]
+FAILED tests/test_stage9_extraction.py::test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u0421\u0435\u0440\u0456\u043a-\u0421\u0435\u0440\u0456\u043a\u0442\u0456\u04a3 \u049b\u0430\u0440\u044b\u0437\u044b-True]
+FAILED tests/test_stage9_extraction.py::test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u041e\u043b\u044c\u0433\u0430-\u0434\u043b\u044f \u041e\u043b\u044c\u0433\u0438-True]
+FAILED tests/test_stage9_extraction.py::test_bounded_name_forms_do_not_select_ids_or_resolve_ambiguity[\u041d\u0430\u0442\u0430\u0448\u0430-\u0434\u043b\u044f \u041d\u0430\u0442\u0430\u0448\u0438-True]
+21 failed, 30 passed, 1 warning in 4.14s

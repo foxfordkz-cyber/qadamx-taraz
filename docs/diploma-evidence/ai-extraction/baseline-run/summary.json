@@ -1,0 +1,177 @@
+{
+  "dataset": {
+    "dataset_id": "QADAM-EXTRACTION-SYNTHETIC-100-v1",
+    "frozen_at_utc": "2026-10-25T07:41:51.004538+00:00",
+    "case_count": 100,
+    "dataset_sha256_lf": "8d913f0f8f564678f54a33118cac0f665048dae5f78c654546ac78c70fc0d3d2",
+    "baseline_commit": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+    "baseline_path": "app/services/ai.py",
+    "baseline_sha256_lf": "c80096f9850c5e97557731526f0623d7074c852276f09d98c2aba87c0f328087",
+    "provider": "frozen authored output doubles, max_attempts=1",
+    "live_provider_calls": 0,
+    "annotation": "Author-annotated intent and safe clarification; not independently adjudicated; no model training or merchant conversations",
+    "scope": "Deterministic post-provider extraction only; not end-to-end LLM accuracy"
+  },
+  "python": "3.12.14",
+  "source_commit": "0313038e33b3f518b777682b7006c82f448ac483",
+  "source_hashes": {
+    "app/services/ai.py": "c80096f9850c5e97557731526f0623d7074c852276f09d98c2aba87c0f328087"
+  },
+  "before": {
+    "transaction_classification": {
+      "correct": 95,
+      "n": 95,
+      "rate": 1.0
+    },
+    "amount_exact_match": {
+      "correct": 85,
+      "n": 95,
+      "rate": 0.8947368421052632
+    },
+    "payment_exact_match": {
+      "correct": 79,
+      "n": 95,
+      "rate": 0.8315789473684211
+    },
+    "customer_query_association": {
+      "correct": 89,
+      "n": 95,
+      "rate": 0.9368421052631579
+    },
+    "clarification_exact_match": {
+      "correct": 82,
+      "n": 95,
+      "rate": 0.8631578947368421
+    },
+    "full_transaction_exact_match": {
+      "correct": 71,
+      "n": 100,
+      "rate": 0.71
+    },
+    "fallback_cases": 4,
+    "invalid_provider_rejected": {
+      "correct": 4,
+      "n": 5
+    },
+    "failed_by_category": {
+      "paid_sale": 4,
+      "partial_sale": 7,
+      "credit_or_missing": 5,
+      "repayment": 4,
+      "ambiguous_customer": 3,
+      "unspoken_customer": 3,
+      "ambiguous_amount": 2,
+      "invalid_provider": 1
+    },
+    "full_by_language": {
+      "ru": {
+        "correct": 29,
+        "n": 38
+      },
+      "kk": {
+        "correct": 27,
+        "n": 35
+      },
+      "mixed": {
+        "correct": 15,
+        "n": 27
+      }
+    }
+  },
+  "after": {
+    "transaction_classification": {
+      "correct": 95,
+      "n": 95,
+      "rate": 1.0
+    },
+    "amount_exact_match": {
+      "correct": 85,
+      "n": 95,
+      "rate": 0.8947368421052632
+    },
+    "payment_exact_match": {
+      "correct": 79,
+      "n": 95,
+      "rate": 0.8315789473684211
+    },
+    "customer_query_association": {
+      "correct": 89,
+      "n": 95,
+      "rate": 0.9368421052631579
+    },
+    "clarification_exact_match": {
+      "correct": 82,
+      "n": 95,
+      "rate": 0.8631578947368421
+    },
+    "full_transaction_exact_match": {
+      "correct": 71,
+      "n": 100,
+      "rate": 0.71
+    },
+    "fallback_cases": 4,
+    "invalid_provider_rejected": {
+      "correct": 4,
+      "n": 5
+    },
+    "failed_by_category": {
+      "paid_sale": 4,
+      "partial_sale": 7,
+      "credit_or_missing": 5,
+      "repayment": 4,
+      "ambiguous_customer": 3,
+      "unspoken_customer": 3,
+      "ambiguous_amount": 2,
+      "invalid_provider": 1
+    },
+    "full_by_language": {
+      "ru": {
+        "correct": 29,
+        "n": 38
+      },
+      "kk": {
+        "correct": 27,
+        "n": 35
+      },
+      "mixed": {
+        "correct": 15,
+        "n": 27
+      }
+    }
+  },
+  "improved_cases": [],
+  "regressed_cases": [],
+  "remaining_failures": [
+    "S7-003",
+    "S7-006",
+    "S7-011",
+    "S7-012",
+    "S7-021",
+    "S7-022",
+    "S7-023",
+    "S7-025",
+    "S7-027",
+    "S7-030",
+    "S7-034",
+    "S7-053",
+    "S7-054",
+    "S7-055",
+    "S7-056",
+    "S7-060",
+    "S7-062",
+    "S7-063",
+    "S7-067",
+    "S7-071",
+    "S7-081",
+    "S7-082",
+    "S7-083",
+    "S7-084",
+    "S7-085",
+    "S7-086",
+    "S7-087",
+    "S7-088",
+    "S7-096"
+  ],
+  "live_provider_calls": 0,
+  "limitation": "Constructed post-provider fault injection, not live LLM/ASR accuracy; name query is not verified customer identity"
+}

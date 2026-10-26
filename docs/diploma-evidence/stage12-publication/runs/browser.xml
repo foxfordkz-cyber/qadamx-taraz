@@ -1,0 +1,48 @@
+<testsuites id="" name="" tests="19" failures="0" skipped="0" errors="0" time="646.8061329999999">
+<testsuite name="diploma.acceptance.ts" timestamp="2026-10-26T10:21:56.165Z" hostname="" tests="3" failures="0" skipped="0" time="202.285" errors="0">
+<testcase name="complete seller workflow uses real SQL and explicit offline AI boundaries" classname="diploma.acceptance.ts" time="147.504">
+</testcase>
+<testcase name="structured assistant uses current SQL facts, RU/KZ and fallback without financial writes" classname="diploma.acceptance.ts" time="24.43">
+</testcase>
+<testcase name="combined SQL research remains readable on mobile and desktop in RU/KZ" classname="diploma.acceptance.ts" time="30.351">
+</testcase>
+</testsuite>
+<testsuite name="extraction.acceptance.ts" timestamp="2026-10-26T10:21:56.165Z" hostname="" tests="3" failures="0" skipped="0" time="71.789" errors="0">
+<testcase name="Kazakh partial payment overrides faulty paid label; only confirmation writes SQL" classname="extraction.acceptance.ts" time="28.278">
+</testcase>
+<testcase name="unknown mixed-language payment stays empty with clarification on mobile KZ" classname="extraction.acceptance.ts" time="21.906">
+</testcase>
+<testcase name="duplicate JSON uses manual fallback and preserves input without ledger writes" classname="extraction.acceptance.ts" time="21.605">
+</testcase>
+</testsuite>
+<testsuite name="final.acceptance.ts" timestamp="2026-10-26T10:21:56.165Z" hostname="" tests="11" failures="0" skipped="0" time="297.674" errors="0">
+<testcase name="lost financial response: SQL commits once and explicit retry reuses exact key and body" classname="final.acceptance.ts" time="32.003">
+</testcase>
+<testcase name="lost customer response resolves through real request lookup without a duplicate POST" classname="final.acceptance.ts" time="25.902">
+</testcase>
+<testcase name="Research renders loading error retry 7/30 success and empty-business state with SQL unchanged" classname="final.acceptance.ts" time="23.549">
+</testcase>
+<testcase name="candidate layouts ru 360px and keyboard/font stress" classname="final.acceptance.ts" time="25.393">
+</testcase>
+<testcase name="candidate layouts kk 360px and keyboard/font stress" classname="final.acceptance.ts" time="26.907">
+</testcase>
+<testcase name="candidate layouts ru 390px and keyboard/font stress" classname="final.acceptance.ts" time="25.153">
+</testcase>
+<testcase name="candidate layouts kk 390px and keyboard/font stress" classname="final.acceptance.ts" time="27.41">
+</testcase>
+<testcase name="candidate layouts ru 768px and keyboard/font stress" classname="final.acceptance.ts" time="27.535">
+</testcase>
+<testcase name="candidate layouts kk 768px and keyboard/font stress" classname="final.acceptance.ts" time="30.254">
+</testcase>
+<testcase name="candidate layouts ru 1440px and keyboard/font stress" classname="final.acceptance.ts" time="26.284">
+</testcase>
+<testcase name="candidate layouts kk 1440px and keyboard/font stress" classname="final.acceptance.ts" time="27.284">
+</testcase>
+</testsuite>
+<testsuite name="stage9.acceptance.ts" timestamp="2026-10-26T10:21:56.165Z" hostname="" tests="2" failures="0" skipped="0" time="42.826" errors="0">
+<testcase name="Stage9 receipt and genitive render correctly but ambiguous customer still needs selection" classname="stage9.acceptance.ts" time="22.765">
+</testcase>
+<testcase name="Stage9 OpenAI duplicate receipt falls back without draft success or financial write" classname="stage9.acceptance.ts" time="20.061">
+</testcase>
+</testsuite>
+</testsuites>

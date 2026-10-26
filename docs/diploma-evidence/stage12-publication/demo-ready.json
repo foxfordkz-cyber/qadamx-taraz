@@ -1,0 +1,6 @@
+{
+  "url": "http://127.0.0.1:4303/login",
+  "database": "qadam_research_browser_stage12_ready_test",
+  "source": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "mode": "OFFLINE AI / synthetic SQL / local JWT issuer; not Supabase or live AI"
+}

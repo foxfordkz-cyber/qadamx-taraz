@@ -1,0 +1,8 @@
+{
+  "source": "Synthetic local PostgreSQL; frozen OFFLINE provider; explicit UI confirmation",
+  "operation_delta": 1,
+  "sales_delta_minor": 300000,
+  "receipts_delta_minor": 100000,
+  "debt_delta_minor": 200000,
+  "duplicate_click_created_duplicate": false
+}

@@ -302,3 +302,126 @@ test. Статистические ошибки могут быть дробны
 исследовательские данные и участники требуют отдельной подготовки капитаном.
 Научное превосходство ML и завершённое исследование пользователей не заявляются.
 Подробнее: docs/diploma-evidence, docs/ml-evaluation-plan.md, docs/user-research-plan.md.
+
+## 2026-10-24 — Stage1 private ID-only assistant validation (local branch)
+
+Implementation `6ac5266abddffa7f1278d403ece55cc3eba457a1` replaces numeric-membership/free-prose validation with scoped
+fact identifiers and deterministic RU/KK server rendering. Every model-supplied name,
+value,unit,prose field is forbidden;reminder recipient/balance comes from current request.
+PublicRequest/Response/action/source enums andfinancial journal stay unchanged. Legacy
+validator exists only in offline tests. Valid signed daily journal deltas are retained.
+Frozen paired42case comparison passes finite FP0/FN0;not a live LLM accuracy claim.
+Not merged/deployed;laterresearchcandidate untouched;realDB/liveAI acceptance pending.
+
+## 2026-10-25 — Stage 7: source-grounded extraction, unchanged money boundary
+
+The existing private sales/repayment extraction now grounds supported RU/KK/mixed
+numeric evidence in integer tiyn and requires a spoken customer name form.
+Provider paid/debt labels cannot silently replace an explicitly quoted partial receipt.
+Unknown payment stays null; ambiguous source fragments request clarification.
+Duplicate JSON keys are rejected. This is bounded deterministic validation after the
+existing provider/schema checks, not a replacement LLM or learned classifier.
+
+Public contracts, provider configuration/retries, Auth, tenant checks, operation
+confirmation/idempotency, ledger, Research and Stage 1 factual assistant remain unchanged.
+No AI output writes money automatically. Unsupported grammar is handled conservatively,
+including one recorded over-clarification regression rather than a benchmark-specific fix.
+
+Frozen synthetic 100-case comparison: 71→99 full matches, 29 improved and 1 regressed.
+These injected-response results do not measure live LLM/ASR performance.
+Dataset, raw results, PostgreSQL/browser checks and limitations:
+`docs/diploma-evidence/ai-extraction/`. No deployment/shared DB modification.
+
+## 2026-10-25 — Stage 8: freeze before evaluation; preserve negative evidence
+
+Stage 7 is integrated unchanged onto the verified Stage 6 history in a separate
+local branch. Stage 8 adds tooling/tests/evidence, not another production parser.
+The 120-case constructed holdout and protocol were committed before comparison.
+The same exposed Codex author generated it; no blind independence or live provider
+accuracy is claimed. Same authored replies produce 75→104 exact matches, with
+12 new conservative regressions preserved. Stage 1/7 frozen corpora are unchanged.
+
+The common validator rejects duplicate JSON keys, but the existing OpenAI adapter
+may canonicalize them first. A new characterization test records this gap.
+Direct-fixture 12/12 rejection must not be promoted to complete adapter protection.
+Any fix requires a separately reviewed change and fresh development/validation
+evidence; do not relabel the holdout or weaken financial checks to raise its score.
+
+The opt-in live tool defaults to zero-budget dry planning, sequential single attempts,
+exact-plan owner approval, private local artifacts and no financial API. No live
+request or ASR measurement occurred. Local SQL/Chrome integration is synthetic
+acceptance, not production, Supabase or physical-device acceptance.
+Evidence and reproducible commands: `docs/diploma-evidence/ai-evaluation-stage8/`.
+
+## 2026-10-25 — Stage 9: inspect raw JSON before normalization
+
+Strict duplicate detection now runs on HTTP bytes and inner extraction text before
+OpenAI re-encoding; Gemini/common extraction share the same raw decoder.
+Already-parsed objects cannot establish key uniqueness and are refused at this
+boundary. Envelope metadata remains supported; extraction extra fields remain
+forbidden. Public API and financial confirmation/idempotency rules are unchanged.
+
+Source-supported RU/KK receipt and name grammar repairs all twelve recorded Stage 8
+regressions while retaining unknown payment and original-sale clarification.
+The frozen corpus is now an exposed regression set, not a new independent holdout:
+104→118/120, two remaining failures, zero new regressions. All prior gold stays fixed.
+Strict raw transport and local SQL/browser tests are separate evidence from
+deterministic fixture metrics; neither measures live provider/ASR accuracy.
+
+Independent annotation/privacy/adjudication templates and a disabled live plan
+are prepared only. No participants, consent, WER, actual billing or live accuracy
+are invented. New owner approval is required for any paid execution or audio.
+Evidence: `docs/diploma-evidence/ai-evaluation-stage9/`.
+
+## 2026-10-25 — Stage 10: preserve integrated source and verify the real local path
+
+Stage 9 already contains main and Stages 6–8; the separate final-candidate
+worktree is based on it without duplicate merges. No confirmed integration
+defect justified a production rewrite. New code is isolated acceptance tooling
+and a guarded offline academic launcher, with real API/SQL and visible synthetic
+labels. Source/test/evidence commits are distinguished in the provenance report.
+
+Fresh 42-case gold was frozen before execution. The same exposed author and
+eleven aligned semantic families across languages prevent a blind independent
+accuracy claim. Known frozen ambiguities remain errors; no gold is retuned.
+Financial writes still require explicit confirmation and exact idempotency reuse;
+read-only AI/Research actions preserve the journal. Physical/live/staging boundaries
+are not inferred from desktop Chrome or local signed JWT tests.
+
+Local demonstration is distinct from staging GO. No automatic push/PR/deployment,
+shared migration or paid AI is authorized. Evidence and next acceptance gates:
+`docs/diploma-evidence/final-integration/`.
+
+## 2026-10-26 — Stage11 separates local proof from release approval
+
+Review branch starts at verified Stage10 e825dd9a; no production rebuild or merge.
+New tooling2073960 rehearses0009 and restores synthetic data into NEW loopback DBs;
+destructive downgrade is demonstrated only on the restored copy and is not the
+default release rollback. Raw backup files remain local, checksums are evidence.
+
+The current exact Pages callback intentionally blocks registration on arbitrary
+staging production origins. Staging requires an approved Auth origin/callback
+decision, managed DB/role review, independent human review and bounded liveAI
+acceptance; local tests do not satisfy these gates. Feedback collection awaits
+assigned retention/withdrawal operations. No production guard was weakened.
+
+The60-case blind packet is unannotated and uses developer-exposed synthetic texts;
+it is preparation for human label review, not independent model performance.
+Publication, PR100 changes, deploy and paid calls remain prohibited in this stage.
+Evidence: `docs/diploma-evidence/stage11-release-readiness/`.
+
+## 2026-10-26 — Stage 12 publishes into the existing repository
+
+The owner cancelled personal-repository migration and authorized publication of
+Stage 1–11 into `foxfordkz-cyber/qadamx-taraz`, branch
+`integration/qadam-diploma-v1`. Preserve history and authorship. Use one stacked
+Draft over Research PR #100 to avoid repeating its eleven commits in the review
+diff; do not change #100, merge or deploy. Source is Stage11 `e94d9a71`, containing
+Stage10 `e825dd9a`. A verified full local Git backup protects the original sources.
+
+Fresh tests and synthetic local demonstration are separate from live acceptance.
+Only test-output isolation and publication/development evidence are added; product
+source, contracts and frozen datasets are unchanged. Newly reported npm development
+dependency advisories are retained as an unresolved release-review item, without
+an unreviewed major upgrade. Local academic demo remains distinct from production
+approval. Details: `docs/diploma-evidence/stage12-publication/`.

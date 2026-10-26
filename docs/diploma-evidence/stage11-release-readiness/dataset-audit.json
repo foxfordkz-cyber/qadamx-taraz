@@ -1,0 +1,145 @@
+{
+  "normalization": "NFKC + casefold + whitespace collapse; not semantic equivalence",
+  "sources": {
+    "stage7": {
+      "file": "apps/api/tests/fixtures/extraction_stage7.json",
+      "sha256_lf": "8d913f0f8f564678f54a33118cac0f665048dae5f78c654546ac78c70fc0d3d2",
+      "count": 100,
+      "languages": {
+        "ru": 38,
+        "kk": 35,
+        "mixed": 27
+      },
+      "categories": {
+        "paid_sale": 20,
+        "partial_sale": 20,
+        "credit_or_missing": 20,
+        "repayment": 20,
+        "ambiguous_customer": 3,
+        "unspoken_customer": 3,
+        "ambiguous_amount": 2,
+        "contradictory_payment": 2,
+        "non_transaction_or_multiple": 5,
+        "invalid_provider": 5
+      }
+    },
+    "stage8": {
+      "file": "docs/diploma-evidence/ai-evaluation-stage8/dataset.jsonl",
+      "sha256_lf": "dab90ae87f7dc8e25a1d07de20dc5ae6bd8536943641975a368125807e1229e5",
+      "count": 120,
+      "languages": {
+        "ru": 40,
+        "kk": 40,
+        "mixed": 40
+      },
+      "categories": {
+        "multi_sentence_sale": 12,
+        "payment_context": 12,
+        "repayment_context": 12,
+        "customer_context": 12,
+        "number_formats": 12,
+        "correction_or_conflict": 12,
+        "repeated_numbers": 12,
+        "informal_or_missing": 12,
+        "non_transaction": 12,
+        "malformed_provider": 12
+      }
+    },
+    "stage10": {
+      "file": "docs/diploma-evidence/final-integration/challenge.jsonl",
+      "sha256_lf": "d0de52d049b5d4a2b17e8a4c658e4ee83b10f9931080f63bb8c87aeff3f939e4",
+      "count": 42,
+      "languages": {
+        "ru": 14,
+        "kk": 14,
+        "mixed": 14
+      },
+      "categories": {
+        "full_receipt": 3,
+        "partial_receipt": 3,
+        "missing_payment": 3,
+        "explicit_debt": 3,
+        "repayment": 3,
+        "duplicate_customer": 3,
+        "foreign_customer_only": 3,
+        "contradictory_receipt": 3,
+        "unresolved_alternatives": 3,
+        "non_transaction": 3,
+        "decimal_receipt": 3,
+        "duplicate_nested": 3,
+        "unknown_field": 3,
+        "malformed": 3
+      }
+    }
+  },
+  "rows": 262,
+  "unique_normalized_inputs": 252,
+  "exact_duplicate_groups": [
+    {
+      "ids": [
+        "S7-096",
+        "S7-099"
+      ],
+      "different_expected_objects": false,
+      "categories": [
+        "invalid_provider",
+        "invalid_provider"
+      ],
+      "interpretation": "Review context/provider fault before calling this a label inconsistency"
+    },
+    {
+      "ids": [
+        "S10-001",
+        "S10-034",
+        "S10-035",
+        "S10-036"
+      ],
+      "different_expected_objects": true,
+      "categories": [
+        "full_receipt",
+        "duplicate_nested",
+        "unknown_field",
+        "malformed"
+      ],
+      "interpretation": "Review context/provider fault before calling this a label inconsistency"
+    },
+    {
+      "ids": [
+        "S10-012",
+        "S10-037",
+        "S10-038",
+        "S10-039"
+      ],
+      "different_expected_objects": true,
+      "categories": [
+        "full_receipt",
+        "duplicate_nested",
+        "unknown_field",
+        "malformed"
+      ],
+      "interpretation": "Review context/provider fault before calling this a label inconsistency"
+    },
+    {
+      "ids": [
+        "S10-023",
+        "S10-040",
+        "S10-041",
+        "S10-042"
+      ],
+      "different_expected_objects": true,
+      "categories": [
+        "full_receipt",
+        "duplicate_nested",
+        "unknown_field",
+        "malformed"
+      ],
+      "interpretation": "Review context/provider fault before calling this a label inconsistency"
+    }
+  ],
+  "near_duplicate_threshold": 0.9,
+  "near_duplicate_pairs": [],
+  "mechanical_label_issues": [],
+  "stage9": "Reuses Stage8; not counted as another 120 independent examples",
+  "human_reviewers": 0,
+  "live_provider_calls": 0
+}

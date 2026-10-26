@@ -1,0 +1,13 @@
+flowchart TD
+  Request["Authorized question + locale + business"] --> Snapshot["collect_facts: scoped SQL snapshot"]
+  Snapshot --> Catalog["Server metric IDs and debtor UUID/balance IDs"]
+  Catalog --> Mode{"AI enabled and requested?"}
+  Mode -->|no| Facts["Facts-only server summary"]
+  Mode -->|yes| Provider["Provider selects fact_id claims/actions; no money prose"]
+  Provider --> Strict["Strict private fact-bindings-v1 validation"]
+  Strict -->|invalid / unavailable| Fallback["Server fallback from same snapshot"]
+  Strict -->|valid| Render["Deterministic RU/KZ rendering from server facts"]
+  Render --> Response["Existing public AssistantResponse"]
+  Facts --> Response
+  Fallback --> Response
+  Response --> UI["Answer + navigation / reminder draft"]

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\apps\api\tools\stage11_release\rehearsal.py", line 194, in <module>
+    main()
+  File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\apps\api\tools\stage11_release\rehearsal.py", line 106, in main
+    kind="repayment", draft_id=None, sale_id=sale.id, description="Synthetic repayment", amount_minor=50000))
+                                             ^^^^^^^
+  File "C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pydantic\main.py", line 1105, in __getattr__
+    raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+AttributeError: 'OperationResponse' object has no attribute 'id'

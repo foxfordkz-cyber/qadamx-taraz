@@ -1,0 +1,35 @@
+{
+  "source": "isolated synthetic fixture; not merchant/participant data",
+  "all_business_ledger_sha256": "14de6467cabe3e25befdd596c9778dc638e531bf1269c58c9d06afa052cf1fcd",
+  "operations": [
+    {
+      "id": "7a3916d1-c7c1-4f66-aff6-70c25e1733fa",
+      "kind": "sale",
+      "sales": 300000,
+      "receipts": 100000
+    },
+    {
+      "id": "3002e2d0-2837-4327-98e8-21f4af1dde1f",
+      "kind": "repayment",
+      "sales": 0,
+      "receipts": 50000
+    },
+    {
+      "id": "f34a337f-c351-4364-a6b3-e921b26763c8",
+      "kind": "reversal",
+      "sales": 0,
+      "receipts": -50000
+    },
+    {
+      "id": "06e719c0-9e02-4692-ae9e-6d633d654662",
+      "kind": "sale",
+      "sales": 120000,
+      "receipts": 120000
+    }
+  ],
+  "sales": 420000,
+  "receipts": 220000,
+  "debt": 200000,
+  "customers": 2,
+  "feedback": 1
+}

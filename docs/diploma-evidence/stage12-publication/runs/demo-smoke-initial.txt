@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+locator.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for getByLabel('Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°', { exact: true })
+
+    at CHECKOUT\tmp\stage12\demo-smoke.mjs:43:6 {
+  log: [
+    "  - waiting for getByLabel('Р­Р»РµРєС‚СЂРѕРЅРЅР°СЏ РїРѕС‡С‚Р°', { exact: true })"
+  ],
+  name: 'TimeoutError'
+}
+
+Node.js v24.21.0

@@ -1,0 +1,194 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Qadam independent semantic annotation v1",
+  "description": "Empty research template; no human annotations collected. Does not authorize financial operations. receipt<=total requires semantic review beyond schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "qadam-independent-annotation-v1"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^IND-[A-Z0-9-]+$"
+    },
+    "language": {
+      "enum": [
+        "ru",
+        "kk",
+        "mixed"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "sale",
+        "repayment",
+        "unknown"
+      ]
+    },
+    "customer_query": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "candidate_aliases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^C-[A-Z0-9-]+$"
+      },
+      "uniqueItems": true
+    },
+    "total_minor": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000000
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "received_minor": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000000000
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "repayment_minor": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000000000
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "clarification_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "kind",
+          "customer_id",
+          "description",
+          "total_minor",
+          "received_minor",
+          "amount_minor",
+          "sale_id"
+        ]
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000
+    },
+    "reviewer_ref": {
+      "type": "string",
+      "pattern": "^R-[A-Z0-9-]+$"
+    },
+    "reviewed_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "sale"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "repayment_minor": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "repayment"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "total_minor": {
+            "type": "null"
+          },
+          "received_minor": {
+            "type": "null"
+          },
+          "clarification_fields": {
+            "contains": {
+              "const": "sale_id"
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "unknown"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "total_minor": {
+            "type": "null"
+          },
+          "received_minor": {
+            "type": "null"
+          },
+          "repayment_minor": {
+            "type": "null"
+          },
+          "clarification_fields": {
+            "contains": {
+              "const": "kind"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "required": [
+    "schema_version",
+    "sample_id",
+    "language",
+    "kind",
+    "customer_query",
+    "candidate_aliases",
+    "total_minor",
+    "received_minor",
+    "repayment_minor",
+    "clarification_fields",
+    "rationale",
+    "reviewer_ref",
+    "reviewed_at_utc"
+  ]
+}

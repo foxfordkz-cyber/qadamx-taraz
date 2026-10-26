@@ -1,0 +1,836 @@
+{
+  "dataset_id": "DS-B-LOCKED-42-v1",
+  "origin": "synthetic_engineering",
+  "protocol_version": "paired-encodings-v1",
+  "freeze_utc": "2026-10-24T09:15:11.696504+00:00",
+  "original_source_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "research_candidate_sha": "b7c4750b158a6b1fc747e63a68ae7b2d078b5107",
+  "scope_note": "Same semantic intents and snapshots; distinct legacy-prose and structured-ID encodings frozen before implementation. Strict protocol-policy failures are included; not a population/model accuracy benchmark.",
+  "snapshots": {
+    "default": [
+      {
+        "key": "sales",
+        "label": "sales",
+        "value_minor": 300000
+      },
+      {
+        "key": "sales_previous",
+        "label": "sales_previous",
+        "value_minor": 350000
+      },
+      {
+        "key": "sales_change",
+        "label": "sales_change",
+        "value_minor": -50000
+      },
+      {
+        "key": "receipts",
+        "label": "receipts",
+        "value_minor": 150050
+      },
+      {
+        "key": "outstanding",
+        "label": "outstanding",
+        "value_minor": 200000
+      },
+      {
+        "key": "average_ticket",
+        "label": "average_ticket",
+        "value_minor": 150000
+      },
+      {
+        "key": "today_sales",
+        "label": "today_sales",
+        "value_minor": 0
+      },
+      {
+        "key": "today_receipts",
+        "label": "today_receipts",
+        "value_minor": 0
+      },
+      {
+        "key": "debtors",
+        "label": "debtors",
+        "count": 2
+      },
+      {
+        "key": "sales_count",
+        "label": "sales_count",
+        "count": 2
+      },
+      {
+        "key": "debtor",
+        "label": "Демо Асқар",
+        "value_minor": 150000,
+        "customer_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "key": "debtor",
+        "label": "Демо Айгүл",
+        "value_minor": 50000,
+        "customer_id": "00000000-0000-4000-8000-000000000002"
+      }
+    ],
+    "zero": [
+      {
+        "key": "sales",
+        "label": "sales",
+        "value_minor": 0
+      },
+      {
+        "key": "sales_previous",
+        "label": "sales_previous",
+        "value_minor": 0
+      },
+      {
+        "key": "sales_change",
+        "label": "sales_change",
+        "value_minor": 0
+      },
+      {
+        "key": "receipts",
+        "label": "receipts",
+        "value_minor": 0
+      },
+      {
+        "key": "outstanding",
+        "label": "outstanding",
+        "value_minor": 0
+      },
+      {
+        "key": "today_sales",
+        "label": "today_sales",
+        "value_minor": 0
+      },
+      {
+        "key": "today_receipts",
+        "label": "today_receipts",
+        "value_minor": 0
+      },
+      {
+        "key": "debtors",
+        "label": "debtors",
+        "count": 0
+      },
+      {
+        "key": "sales_count",
+        "label": "sales_count",
+        "count": 0
+      }
+    ],
+    "without_average": [
+      {
+        "key": "sales",
+        "label": "sales",
+        "value_minor": 300000
+      },
+      {
+        "key": "sales_previous",
+        "label": "sales_previous",
+        "value_minor": 350000
+      },
+      {
+        "key": "sales_change",
+        "label": "sales_change",
+        "value_minor": -50000
+      },
+      {
+        "key": "receipts",
+        "label": "receipts",
+        "value_minor": 150050
+      },
+      {
+        "key": "outstanding",
+        "label": "outstanding",
+        "value_minor": 200000
+      },
+      {
+        "key": "today_sales",
+        "label": "today_sales",
+        "value_minor": 0
+      },
+      {
+        "key": "today_receipts",
+        "label": "today_receipts",
+        "value_minor": 0
+      },
+      {
+        "key": "debtors",
+        "label": "debtors",
+        "count": 2
+      },
+      {
+        "key": "sales_count",
+        "label": "sales_count",
+        "count": 2
+      },
+      {
+        "key": "debtor",
+        "label": "Демо Асқар",
+        "value_minor": 150000,
+        "customer_id": "00000000-0000-4000-8000-000000000001"
+      },
+      {
+        "key": "debtor",
+        "label": "Демо Айгүл",
+        "value_minor": 50000,
+        "customer_id": "00000000-0000-4000-8000-000000000002"
+      }
+    ],
+    "original_pilot": [
+      {
+        "key": "sales",
+        "label": "sales",
+        "value_minor": 300000
+      },
+      {
+        "key": "outstanding",
+        "label": "outstanding",
+        "value_minor": 150000
+      },
+      {
+        "key": "debtor",
+        "label": "DEMO Asqar",
+        "value_minor": 150000,
+        "customer_id": "00000000-0000-4000-8000-000000000001"
+      }
+    ]
+  },
+  "cases": [
+    {
+      "case_id": "V01_sales_ru",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 3 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "V02_sales_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Сатылым 3 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "V03_receipts_decimal",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Поступления 1 500,50 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:receipts\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:receipts"
+      ]
+    },
+    {
+      "case_id": "V04_outstanding_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Жалпы қарыз 2 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:outstanding\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:outstanding"
+      ]
+    },
+    {
+      "case_id": "V05_customer_a",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Демо Асқар должен 1 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance"
+      ]
+    },
+    {
+      "case_id": "V06_customer_b_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Демо Айгүл қарызы 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000002:balance\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000002:balance"
+      ]
+    },
+    {
+      "case_id": "V07_sales_count",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Количество продаж 2.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales_count\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales_count"
+      ]
+    },
+    {
+      "case_id": "V08_debtors_count_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Қарызы бар клиенттер 2.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:debtors\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:debtors"
+      ]
+    },
+    {
+      "case_id": "V09_two_metrics",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 3 000 ₸, поступления 1 500,50 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}, {\"fact_id\": \"metric:receipts\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales",
+        "metric:receipts"
+      ]
+    },
+    {
+      "case_id": "V10_previous_period_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Өткен сатылым 3 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales_previous\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales_previous"
+      ]
+    },
+    {
+      "case_id": "V11_signed_change",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Изменение продаж -500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales_change\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales_change"
+      ]
+    },
+    {
+      "case_id": "V12_today_zero_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Бүгінгі сатылым 0 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:today_sales\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:today_sales"
+      ]
+    },
+    {
+      "case_id": "V13_today_receipts_zero",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Поступления сегодня 0 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:today_receipts\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:today_receipts"
+      ]
+    },
+    {
+      "case_id": "V14_average_ticket_kk",
+      "expected_valid": true,
+      "category": "valid_binding",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Орташа чек 1 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:average_ticket\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:average_ticket"
+      ]
+    },
+    {
+      "case_id": "V15_reminder_a",
+      "expected_valid": true,
+      "category": "valid_reminder",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Демо Асқар должен 1 500 ₸.\", \"actions\": [{\"kind\": \"reminder_draft\", \"customer_id\": \"00000000-0000-4000-8000-000000000001\", \"text\": \"Здравствуйте! Напоминаем о долге 1 500 ₸.\"}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\"}], \"actions\": [{\"kind\": \"reminder_draft\", \"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\"}]}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance"
+      ]
+    },
+    {
+      "case_id": "V16_reminder_b_kk",
+      "expected_valid": true,
+      "category": "valid_reminder",
+      "locale": "kk",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Демо Айгүл қарызы 500 ₸.\", \"actions\": [{\"kind\": \"reminder_draft\", \"customer_id\": \"00000000-0000-4000-8000-000000000002\", \"text\": \"Қарызыңыз 500 ₸.\"}, {\"kind\": \"open_debts\", \"customer_id\": null, \"text\": null}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000002:balance\"}], \"actions\": [{\"kind\": \"reminder_draft\", \"fact_id\": \"debtor:00000000-0000-4000-8000-000000000002:balance\"}, {\"kind\": \"open_debts\", \"fact_id\": null}]}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000002:balance"
+      ]
+    },
+    {
+      "case_id": "V17_no_debt",
+      "expected_valid": true,
+      "category": "zero_snapshot",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "zero",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 0 ₸, долг 0 ₸, должников 0.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}, {\"fact_id\": \"metric:outstanding\"}, {\"fact_id\": \"metric:debtors\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales",
+        "metric:outstanding",
+        "metric:debtors"
+      ]
+    },
+    {
+      "case_id": "V18_navigation_kk",
+      "expected_valid": true,
+      "category": "valid_navigation",
+      "locale": "kk",
+      "days": 30,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Сатылым 3 000 ₸.\", \"actions\": [{\"kind\": \"open_history\", \"customer_id\": null, \"text\": null}, {\"kind\": \"open_analytics\", \"customer_id\": null, \"text\": null}, {\"kind\": \"new_sale\", \"customer_id\": null, \"text\": null}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}], \"actions\": [{\"kind\": \"open_history\", \"fact_id\": null}, {\"kind\": \"open_analytics\", \"fact_id\": null}, {\"kind\": \"new_sale\", \"fact_id\": null}]}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I01_wrong_metric_value",
+      "expected_valid": false,
+      "category": "metric_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 1 500,50 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\", \"value_minor\": 150050}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales",
+        "metric:receipts"
+      ]
+    },
+    {
+      "case_id": "I02_wrong_customer_value",
+      "expected_valid": false,
+      "category": "customer_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Демо Асқар должен 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\", \"value_minor\": 50000}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance",
+        "debtor:00000000-0000-4000-8000-000000000002:balance"
+      ]
+    },
+    {
+      "case_id": "I03_invented_name",
+      "expected_valid": false,
+      "category": "customer_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Выдуманный Клиент должен 1 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\", \"label\": \"Выдуманный Клиент\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance"
+      ]
+    },
+    {
+      "case_id": "I04_wrong_sign",
+      "expected_valid": false,
+      "category": "sign",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи -3 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\", \"value_minor\": -300000}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I05_wrong_currency",
+      "expected_valid": false,
+      "category": "unit",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 3 000 USD.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\", \"currency\": \"USD\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I06_wrong_minor_unit",
+      "expected_valid": false,
+      "category": "unit",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 3 000 тиын.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\", \"value_minor\": 3000}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I07_unknown_metric",
+      "expected_valid": false,
+      "category": "unknown_fact",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Прибыль 3 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:profit\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:profit"
+      ]
+    },
+    {
+      "case_id": "I08_missing_fact",
+      "expected_valid": false,
+      "category": "missing_fact",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "without_average",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Средний чек 1 500 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:average_ticket\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:average_ticket"
+      ]
+    },
+    {
+      "case_id": "I09_foreign_customer",
+      "expected_valid": false,
+      "category": "tenant",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Долг 1 500 ₸.\", \"actions\": [{\"kind\": \"reminder_draft\", \"customer_id\": \"00000000-0000-4000-8000-000000000099\", \"text\": \"Долг 1 500 ₸.\"}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000099:balance\"}], \"actions\": [{\"kind\": \"reminder_draft\", \"fact_id\": \"debtor:00000000-0000-4000-8000-000000000099:balance\"}]}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000099:balance"
+      ]
+    },
+    {
+      "case_id": "I10_wrong_recipient",
+      "expected_valid": false,
+      "category": "customer_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Долг 1 500 ₸.\", \"actions\": [{\"kind\": \"reminder_draft\", \"customer_id\": \"00000000-0000-4000-8000-000000000002\", \"text\": \"Демо Асқар, верните 1 500 ₸.\"}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\"}], \"actions\": [{\"kind\": \"reminder_draft\", \"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\", \"customer_id\": \"00000000-0000-4000-8000-000000000002\"}]}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance",
+        "debtor:00000000-0000-4000-8000-000000000002:balance"
+      ]
+    },
+    {
+      "case_id": "I11_duplicate_claim",
+      "expected_valid": false,
+      "category": "duplicate_policy",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 3 000 ₸. Продажи 3 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}, {\"fact_id\": \"metric:sales\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I12_contradictory_claim",
+      "expected_valid": false,
+      "category": "contradiction",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи 3 000 ₸. Продажи 0 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\"}, {\"fact_id\": \"metric:sales\", \"value_minor\": 0}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I13_unrestricted_prose",
+      "expected_valid": false,
+      "category": "prose_bypass",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Поступления 3 000 ₸.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:receipts\"}], \"actions\": [], \"answer\": \"Поступления 3 000 ₸.\"}",
+      "relevant_fact_ids": [
+        "metric:receipts",
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "I14_invalid_json",
+      "expected_valid": false,
+      "category": "malformed",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\":",
+      "structured_output": "{\"version\":",
+      "relevant_fact_ids": []
+    },
+    {
+      "case_id": "I15_duplicate_json_key",
+      "expected_valid": false,
+      "category": "duplicate_policy",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\":\"Продажи 3 000 ₸.\",\"answer\":\"Продажи 1 500 ₸.\",\"actions\":[]}",
+      "structured_output": "{\"version\":\"fact-bindings-v1\",\"claims\":[{\"fact_id\":\"metric:sales\"}],\"claims\":[{\"fact_id\":\"metric:receipts\"}],\"actions\":[]}",
+      "relevant_fact_ids": [
+        "metric:sales",
+        "metric:receipts"
+      ]
+    },
+    {
+      "case_id": "I16_missing_claims",
+      "expected_valid": false,
+      "category": "malformed",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"actions\": []}",
+      "relevant_fact_ids": []
+    },
+    {
+      "case_id": "I17_unknown_action",
+      "expected_valid": false,
+      "category": "unsupported_action",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Долг 2 000 ₸.\", \"actions\": [{\"kind\": \"send_sms\", \"customer_id\": null, \"text\": null}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:outstanding\"}], \"actions\": [{\"kind\": \"send_sms\", \"fact_id\": null}]}",
+      "relevant_fact_ids": [
+        "metric:outstanding"
+      ]
+    },
+    {
+      "case_id": "I18_fact_id_boolean",
+      "expected_valid": false,
+      "category": "strict_type",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Продажи есть.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": true}], \"actions\": []}",
+      "relevant_fact_ids": []
+    },
+    {
+      "case_id": "I19_metric_reminder",
+      "expected_valid": false,
+      "category": "action_binding",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Общий долг 2 000 ₸.\", \"actions\": [{\"kind\": \"reminder_draft\", \"customer_id\": \"00000000-0000-4000-8000-000000000001\", \"text\": \"Ваш долг 2 000 ₸.\"}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:outstanding\"}], \"actions\": [{\"kind\": \"reminder_draft\", \"fact_id\": \"metric:outstanding\"}]}",
+      "relevant_fact_ids": [
+        "metric:outstanding",
+        "debtor:00000000-0000-4000-8000-000000000001:balance"
+      ]
+    },
+    {
+      "case_id": "I20_duplicate_action",
+      "expected_valid": false,
+      "category": "duplicate_policy",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "default",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Долг 2 000 ₸.\", \"actions\": [{\"kind\": \"open_debts\", \"customer_id\": null, \"text\": null}, {\"kind\": \"open_debts\", \"customer_id\": null, \"text\": null}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:outstanding\"}], \"actions\": [{\"kind\": \"open_debts\", \"fact_id\": null}, {\"kind\": \"open_debts\", \"fact_id\": null}]}",
+      "relevant_fact_ids": [
+        "metric:outstanding"
+      ]
+    },
+    {
+      "case_id": "P01_invented_customer",
+      "expected_valid": false,
+      "category": "original_counterexample",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "original_pilot",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"DEMO Nonexistent owes 1 500 tenge.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\", \"label\": \"DEMO Nonexistent\"}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance"
+      ]
+    },
+    {
+      "case_id": "P02_wrong_fact_binding",
+      "expected_valid": false,
+      "category": "original_counterexample",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "original_pilot",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Sales are 1 500 tenge.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:sales\", \"value_minor\": 150000}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:sales",
+        "metric:outstanding"
+      ]
+    },
+    {
+      "case_id": "P03_wrong_debtor_amount",
+      "expected_valid": false,
+      "category": "original_counterexample",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "original_pilot",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Debt summary.\", \"actions\": [{\"kind\": \"reminder_draft\", \"customer_id\": \"00000000-0000-4000-8000-000000000001\", \"text\": \"Please repay 3 000 tenge.\"}]}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\"}], \"actions\": [{\"kind\": \"reminder_draft\", \"fact_id\": \"debtor:00000000-0000-4000-8000-000000000001:balance\", \"value_minor\": 300000}]}",
+      "relevant_fact_ids": [
+        "debtor:00000000-0000-4000-8000-000000000001:balance",
+        "metric:sales"
+      ]
+    },
+    {
+      "case_id": "P04_new_number_control",
+      "expected_valid": false,
+      "category": "original_counterexample",
+      "locale": "ru",
+      "days": 7,
+      "snapshot": "original_pilot",
+      "question": "Кто должен? / Кім қарыз?",
+      "shop": "Демо MART",
+      "legacy_output": "{\"answer\": \"Debt is 9 999 tenge.\", \"actions\": []}",
+      "structured_output": "{\"version\": \"fact-bindings-v1\", \"claims\": [{\"fact_id\": \"metric:outstanding\", \"value_minor\": 999900}], \"actions\": []}",
+      "relevant_fact_ids": [
+        "metric:outstanding"
+      ]
+    }
+  ]
+}

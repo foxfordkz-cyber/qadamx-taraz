@@ -13,6 +13,8 @@ from app.config import Settings
 from app.errors import APIError
 from app.schemas import Contract, Description, NonnegativeMoney, PositiveMoney
 from app.services.ai_diagnostics import ai_stage
+from app.services.extraction_grounding import ground_extraction
+from app.services.strict_json import strict_json_object
 
 FieldName = Literal[
     "kind", "customer_query", "description", "total_minor", "received_minor", "amount_minor"
@@ -152,7 +154,7 @@ class GeminiProvider:
             response.raise_for_status()
         with ai_stage("provider_json") as diagnostic:
             diagnostic.provider_status = response.status_code
-            body = response.json()
+            body = strict_json_object(response.content)
             # Gemini billing depends on the project tier; record tokens, never invent a cost.
             usage = body.get("usageMetadata", {}) if isinstance(body, dict) else {}
             if not isinstance(usage, dict):
@@ -208,9 +210,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         if len(raw) > 32_000:
                             raise ValueError("Output too long")
                         # Text transcript is authoritative, not an AI rewrite.
-                        data = json.loads(raw)
-                        if not isinstance(data, dict):
-                            raise ValueError("Expected object")
+                        data = strict_json_object(raw)
                         if text is not None:
                             data["transcript"] = text
                         result = Extraction.model_validate(data)
@@ -221,7 +221,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         ):
                             if quote and quote not in result.transcript:
                                 raise ValueError("Evidence is not in source")
-                        return result
+                        return ground_extraction(result)
                 except (ValueError, ValidationError, RecursionError):
                     if getattr(provider, "fallback_used", False):
                         break  # One fallback pipeline, never a paid parsing retry.

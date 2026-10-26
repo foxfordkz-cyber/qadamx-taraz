@@ -1,0 +1,13 @@
+apps/api/tests/final_browser_server.py
+apps/api/tests/test_final_demo_guard.py
+apps/api/tests/test_stage10_challenge.py
+apps/api/tools/stage10_eval/build_challenge.py
+apps/api/tools/stage10_eval/demo.py
+apps/api/tools/stage10_eval/evaluate.py
+apps/web/e2e/final.acceptance.ts
+apps/web/e2e/final.playwright.config.ts
+apps/web/e2e/stage9.acceptance.ts
+docs/diploma-evidence/final-integration/challenge-freeze.json
+docs/diploma-evidence/final-integration/challenge.jsonl
+docs/diploma-evidence/final-integration/independent-qa-methodology.md
+docs/diploma-evidence/final-integration/source-provenance.json

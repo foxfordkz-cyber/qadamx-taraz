@@ -1,0 +1,21 @@
+Listing tests:
+  diploma.acceptance.ts:58:1 › complete seller workflow uses real SQL and explicit offline AI boundaries
+  diploma.acceptance.ts:258:1 › structured assistant uses current SQL facts, RU/KZ and fallback without financial writes
+  diploma.acceptance.ts:310:1 › combined SQL research remains readable on mobile and desktop in RU/KZ
+  extraction.acceptance.ts:58:1 › Kazakh partial payment overrides faulty paid label; only confirmation writes SQL
+  extraction.acceptance.ts:115:1 › unknown mixed-language payment stays empty with clarification on mobile KZ
+  extraction.acceptance.ts:151:1 › duplicate JSON uses manual fallback and preserves input without ledger writes
+  final.acceptance.ts:51:1 › lost financial response: SQL commits once and explicit retry reuses exact key and body
+  final.acceptance.ts:144:1 › lost customer response resolves through real request lookup without a duplicate POST
+  final.acceptance.ts:201:1 › Research renders loading error retry 7/30 success and empty-business state with SQL unchanged
+  final.acceptance.ts:283:5 › candidate layouts ru 360px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts kk 360px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts ru 390px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts kk 390px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts ru 768px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts kk 768px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts ru 1440px and keyboard/font stress
+  final.acceptance.ts:283:5 › candidate layouts kk 1440px and keyboard/font stress
+  stage9.acceptance.ts:43:1 › Stage9 receipt and genitive render correctly but ambiguous customer still needs selection
+  stage9.acceptance.ts:77:1 › Stage9 OpenAI duplicate receipt falls back without draft success or financial write
+Total: 19 tests in 4 files

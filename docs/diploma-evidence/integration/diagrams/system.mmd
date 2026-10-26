@@ -1,0 +1,14 @@
+flowchart LR
+  Seller["Seller / React + Vite"] --> Auth["AuthProvider / Supabase SDK"]
+  Auth --> Identity["Supabase in hosted mode; ephemeral local issuer in QA"]
+  Seller -->|"Bearer token, business ID"| API["FastAPI 0.8.0"]
+  API --> Guard["TokenVerifier + membership / entity checks"]
+  Guard --> Ledger["Ledger services"]
+  Guard --> Research["Forecast / risk / feedback"]
+  Guard --> Assistant["Assistant: collect scoped facts"]
+  Ledger --> SQL[("PostgreSQL; Alembic 0009")]
+  Research --> SQL
+  Assistant -->|"read only"| SQL
+  Assistant --> Bind["Structured fact binding + RU/KZ renderer"]
+  Bind <--> Provider["External provider; explicit offline double in QA"]
+  API -->|"validated DTOs"| Seller

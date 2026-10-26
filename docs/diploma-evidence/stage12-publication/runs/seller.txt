@@ -1,0 +1,17 @@
+[WebServer] (node:28452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:30476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\seller.spec.ts:4:1 › protected routes redirect to login; explicit demo has no writes or backend traffic (7.2s)
+  ok 2 e2e\seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 360px (6.1s)
+  ok 3 e2e\seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 390px (5.8s)
+  ok 4 e2e\seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 768px (5.0s)
+  ok 5 e2e\seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 1440px (5.9s)
+  ok 6 e2e\seller.spec.ts:95:1 › catalog and duplicate customers, language persistence and real reload protection (4.1s)
+  ok 7 e2e\seller.spec.ts:123:1 › mobile inquiry filter and customer search work in RU and KZ (3.9s)
+  ok 8 e2e\seller.spec.ts:162:1 › mobile menu supports keyboard dismissal, direct navigation and touch targets (3.7s)
+
+  8 passed (57.0s)

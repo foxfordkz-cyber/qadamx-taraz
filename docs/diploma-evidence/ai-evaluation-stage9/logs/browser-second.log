@@ -1,0 +1,74 @@
+[WebServer] INFO:     Started server process [20336]
+[WebServer] INFO:     Waiting for application startup.
+[WebServer] INFO:     Application startup complete.
+[WebServer] INFO:     Uvicorn running on http://127.0.0.1:8321 (Press CTRL+C to quit)
+[WebServer] (node:12908) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:21904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "9575a482-b40a-42fe-9511-dd07c8fca1f0", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 31, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "9575a482-b40a-42fe-9511-dd07c8fca1f0", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 172, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "9575a482-b40a-42fe-9511-dd07c8fca1f0", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 63, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "9575a482-b40a-42fe-9511-dd07c8fca1f0", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 328, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "24455b9c-2265-4b9f-ad96-76eafb0ec63a", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 31, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 28, "validation_reason": null}
+  x  1 e2e\diploma.acceptance.ts:58:1 › complete seller workflow uses real SQL and explicit offline AI boundaries (3.0m)
+(node:15960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "2940f64b-46eb-44d3-8c55-fddad8597acb", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 11, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "f30e58b3-7caa-43ea-bdff-6485171556fa", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 12, "validation_reason": "JSONDecodeError"}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "157d97e1-379b-46d7-bcd7-3036e7b1be27", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 17, "validation_reason": "ValueError"}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "6f9f9ca4-2f7d-4d16-b11e-c3417e4cef6a", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 11, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "14e928e6-7032-4f86-81b6-8bc212d0f466", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 12, "validation_reason": "JSONDecodeError"}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "892f498f-840e-4b82-889c-fef103a45018", "stage": "assistant", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": 17, "validation_reason": "ValueError"}
+  ok 2 e2e\diploma.acceptance.ts:258:1 › structured assistant uses current SQL facts, RU/KZ and fallback without financial writes (28.7s)
+  ok 3 e2e\diploma.acceptance.ts:310:1 › combined SQL research remains readable on mobile and desktop in RU/KZ (21.0s)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "7b78a57e-e39e-454f-a259-0d2364e37c27", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "7b78a57e-e39e-454f-a259-0d2364e37c27", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "7b78a57e-e39e-454f-a259-0d2364e37c27", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 172, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "7b78a57e-e39e-454f-a259-0d2364e37c27", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 219, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 4 e2e\extraction.acceptance.ts:58:1 › Kazakh partial payment overrides faulty paid label; only confirmation writes SQL (18.1s)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "5fa9732b-983b-4c2f-b036-87d185e9745e", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 15, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "5fa9732b-983b-4c2f-b036-87d185e9745e", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 15, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "5fa9732b-983b-4c2f-b036-87d185e9745e", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 63, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "5fa9732b-983b-4c2f-b036-87d185e9745e", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 94, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 5 e2e\extraction.acceptance.ts:115:1 › unknown mixed-language payment stays empty with clarification on mobile KZ (11.6s)
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "415b2b13-3991-471d-a42e-1f783157e5cd", "stage": "validation", "provider_status": null, "error_type": "ValidationError", "error_code": null, "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "415b2b13-3991-471d-a42e-1f783157e5cd", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 16, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "415b2b13-3991-471d-a42e-1f783157e5cd", "stage": "draft_request", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 78, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 6 e2e\extraction.acceptance.ts:151:1 › duplicate JSON uses manual fallback and preserves input without ledger writes (12.6s)
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "22531993-d0f9-4142-8b5b-d62490a6af78", "stage": "validation", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 0, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "22531993-d0f9-4142-8b5b-d62490a6af78", "stage": "extraction", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 515, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "22531993-d0f9-4142-8b5b-d62490a6af78", "stage": "draft_save", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 47, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] INFO:     {"event": "ai_stage", "request_id": "22531993-d0f9-4142-8b5b-d62490a6af78", "stage": "draft_request", "provider_status": null, "error_type": null, "error_code": null, "duration_ms": 578, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 7 e2e\stage9.acceptance.ts:43:1 › Stage9 receipt and genitive render correctly but ambiguous customer still needs selection (11.9s)
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "91f7f785-1f08-49eb-88f1-00d536e10a5b", "stage": "extraction", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 78, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+[WebServer] WARNING:  {"event": "ai_stage", "request_id": "91f7f785-1f08-49eb-88f1-00d536e10a5b", "stage": "draft_request", "provider_status": null, "error_type": "APIError", "error_code": "AI_UNAVAILABLE", "duration_ms": 94, "provider": null, "model": null, "input_tokens": null, "output_tokens": null, "cost_estimate_usd": null, "audio_seconds": null, "request_body_bytes": null, "input_chars": null, "validation_reason": null}
+  ok 8 e2e\stage9.acceptance.ts:77:1 › Stage9 OpenAI duplicate receipt falls back without draft success or financial write (10.6s)
+
+
+  1) e2e\diploma.acceptance.ts:58:1 › complete seller workflow uses real SQL and explicit offline AI boundaries
+
+    Test timeout of 180000ms exceeded.
+
+    Error: page.reload: net::ERR_ABORTED; maybe frame was detached?
+    Call log:
+      - waiting for navigation until "load"
+
+
+      232 |   await expect(page.getByText(/Ответ сохранён сервером/)).toBeVisible();
+      233 |   expect(sql().feedback).toBe(1);
+    > 234 |   await page.reload();
+          |              ^
+      235 |   await expect(page.getByLabel("Торговая точка")).toHaveValue(info.empty);
+      236 |   await page.getByText("Мои сохранённые ответы", { exact: true }).click();
+      237 |   await page
+        at C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage9-extraction-hardening\apps\web\e2e\diploma.acceptance.ts:234:14
+
+    Error Context: test-results\stage9\diploma.acceptance.ts-comp-0f909-licit-offline-AI-boundaries\error-context.md
+
+  1 failed
+    e2e\diploma.acceptance.ts:58:1 › complete seller workflow uses real SQL and explicit offline AI boundaries
+  7 passed (6.3m)

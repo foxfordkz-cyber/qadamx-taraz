@@ -1,0 +1,10 @@
+Listing tests:
+  seller.spec.ts:4:1 › protected routes redirect to login; explicit demo has no writes or backend traffic
+  seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 360px
+  seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 390px
+  seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 768px
+  seller.spec.ts:38:3 › seller navigation and no horizontal overflow at 1440px
+  seller.spec.ts:95:1 › catalog and duplicate customers, language persistence and real reload protection
+  seller.spec.ts:123:1 › mobile inquiry filter and customer search work in RU and KZ
+  seller.spec.ts:162:1 › mobile menu supports keyboard dismissal, direct navigation and touch targets
+Total: 8 tests in 1 file

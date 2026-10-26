@@ -1,0 +1,17 @@
+{
+  "implementation_commit": "fa73fe4999c0201626643be7eaf9d2667dc328ef",
+  "baseline_commit": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+  "freeze_commit": "fe4e73f5723c46d6b308c6b1115327d881611db9",
+  "source_hashes_lf": {
+    "apps/api/app/services/ai.py": "de373d9f5e56655ac8a1689e72ce1f73fcd8c9fec5276b5bdd1da6942ce57e2b",
+    "apps/api/app/services/extraction_grounding.py": "fa01588fbab4930a4965a44384f0c97254d893c1408eb1348b7ddeb7d3b19ebb",
+    "apps/api/app/services/openai_provider.py": "8779e0803ca56e2326ad9fe19cbbbc41a041ea986e8bb2b004c11918d6885b05",
+    "apps/api/app/services/strict_json.py": "75d62514d9c7005247b69508d7722a30a256acc0b8bf454f489019a219f4aaee"
+  },
+  "prechange_baseline_reproduced_all_120": true,
+  "first_and_exact_commit_cases_identical": true,
+  "first_and_exact_commit_metrics_identical": true,
+  "first_and_exact_commit_source_hashes_identical": true,
+  "paid_calls": 0,
+  "protected_hashes_command": "python -c \"from tools.stage9_eval.evaluate import verify_baseline; verify_baseline()\""
+}

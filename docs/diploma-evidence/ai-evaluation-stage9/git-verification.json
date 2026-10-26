@@ -1,0 +1,29 @@
+{
+  "base": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+  "branch": "feature/diploma-stage9-extraction-hardening",
+  "implementation_head": "fa73fe4999c0201626643be7eaf9d2667dc328ef",
+  "fetch_origin_prune": "succeeded before and after work",
+  "remote_heads": {
+    "main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "integration/team-mvp": "not present after fetch --prune",
+    "integration/local-combined-check": "not present after fetch --prune",
+    "feature/seller-design-integration": "not present after fetch --prune",
+    "feature/seller-analytics": "not present after fetch --prune",
+    "fix/seller-auth-unicode": "28960f21e13c9c38077bf68b7bb5449eb9aa824d",
+    "feature/diploma-stage9-extraction-hardening": "not present after fetch --prune"
+  },
+  "push": "not performed: explicitly prohibited for Stage9",
+  "pull": "not applicable: Stage9 branch is unpublished",
+  "pr100": {
+    "state": "open",
+    "draft": true,
+    "base": "main",
+    "base_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "head": "feature/ml-sales-debt-research",
+    "head_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+    "operation": "GET only, unchanged"
+  },
+  "original_stage8_head": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+  "original_stage8_status": "",
+  "preserved_other_worktree_change": "qadam-diploma-integration: docs/diploma-evidence/integration/demo-scenarios.md"
+}

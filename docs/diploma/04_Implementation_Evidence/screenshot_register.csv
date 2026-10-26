@@ -1,0 +1,2 @@
+﻿screenshot_id,file,status,source_sha,scenario,limitations,thesis_section,capture,fixture_date
+SS01,evidence/screenshots/dashboard-demo-kk-1440.png,Evidence collected,2518b2e80b8c8ef881063a968645382d61aeb37e,Main local synthetic seller demo; /seller; kk; viewport1440x900; full-page capture,Нақты бизнес не live AI емес; screenshot өзі functional test емес,3.1,Previous audit run,2026-10-16 (экрандағы fixture күні; capture күні емес)

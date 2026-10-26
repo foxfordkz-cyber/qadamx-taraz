@@ -1,0 +1,38 @@
+.....F                                                                   [100%]
+================================== FAILURES ===================================
+___________ test_blind_packet_is_reproducible_and_contains_no_gold ____________
+
+tmp_path = WindowsPath('C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-stage11-readiness/tmp/pytest-stage11-portability-before/test_blind_packet_is_reproduci0')
+
+    def test_blind_packet_is_reproducible_and_contains_no_gold(tmp_path):
+        first, second = tmp_path / "first", tmp_path / "second"
+        build(first)
+        build(second)
+        assert (first / "blind-review-only.zip").read_bytes() == (
+            second / "blind-review-only.zip"
+        ).read_bytes()
+        with zipfile.ZipFile(first / "blind-review-only.zip") as archive:
+            assert set(archive.namelist()) == {
+                "INSTRUCTIONS.md",
+                "cases.jsonl",
+                "reviewer-A.jsonl",
+                "reviewer-B.jsonl",
+                "gold.schema.json",
+            }
+            cards = [json.loads(line) for line in archive.read("cases.jsonl").splitlines()]
+>           assert b"\r\n" not in archive.read("cases.jsonl"), "Freeze portable LF inside ZIP"
+E           AssertionError: Freeze portable LF inside ZIP
+E           assert b'\r\n' not in b'{"sample_id": "IND-S11-001", "language": "ru", "text": "\xd0\xa2\xd0\xb5\xd1\x80\xd0\xbc\xd0\xbe\xd1\x81 \xd0\xb4\xd...\xbb\xd0\xb8 \xd0\xb7\xd0\xb4\xd0\xb5\xd1\x81\xd1\x8c \xd1\x81\xd0\xb4\xd0\xb0\xd1\x87\xd0\xb0.", "customers": []}\r\n'
+E            +  where b'{"sample_id": "IND-S11-001", "language": "ru", "text": "\xd0\xa2\xd0\xb5\xd1\x80\xd0\xbc\xd0\xbe\xd1\x81 \xd0\xb4\xd...\xbb\xd0\xb8 \xd0\xb7\xd0\xb4\xd0\xb5\xd1\x81\xd1\x8c \xd1\x81\xd0\xb4\xd0\xb0\xd1\x87\xd0\xb0.", "customers": []}\r\n' = read('cases.jsonl')
+E            +    where read = <zipfile.ZipFile filename='C:\\Users\\user\\Documents\\Codex\\2026-10-15\\github-plugin-github-openai-curated-remote\\...iness\\tmp\\pytest-stage11-portability-before\\test_blind_packet_is_reproduci0\\first\\blind-review-only.zip' mode='r'>.read
+
+tests\test_stage11_release.py:36: AssertionError
+============================== warnings summary ===============================
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_stage11_release.py::test_blind_packet_is_reproducible_and_contains_no_gold
+1 failed, 5 passed, 1 warning in 9.21s

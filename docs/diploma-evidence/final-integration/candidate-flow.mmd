@@ -1,0 +1,19 @@
+flowchart TD
+    A[React RU/KZ application] --> B[FastAPI JWT verification and business membership]
+    B --> C[Customer search and idempotent creation]
+    B --> D[Offline provider adapter for academic demo]
+    D --> E[Stage 9 raw JSON and Stage 7 source grounding]
+    E --> F[Draft and required clarification]
+    F --> G[Seller explicit confirmation]
+    G --> H[Existing idempotent financial ledger]
+    H --> I[(Isolated synthetic PostgreSQL)]
+    I --> J[Dashboard / analytics / balances]
+    I --> K[Chronological 7/30-day forecast and rule-based debt priority]
+    I --> L[Stage 1 fact-ID assistant]
+    L -. no financial write .-> A
+    K --> A
+    J --> A
+    B --> M[Consented feedback and owner-scoped read-back]
+    M --> I
+    N[Local test JWT issuer] --> B
+    O[Real Supabase / provider / physical microphone] -. requires separate acceptance .-> A

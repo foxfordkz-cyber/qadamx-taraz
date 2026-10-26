@@ -1,0 +1,13 @@
+flowchart LR
+  Owner[Сатушы: owner] --> Web[Qadam React Web]
+  Owner --> Mobile[Qadam Flutter]
+  Visitor[Келуші] --> Web
+  Web -->|JSON немесе multipart| API[FastAPI main]
+  Mobile -->|Бір ортақ API| API
+  Web --> Auth[Supabase Auth]
+  Mobile --> Auth
+  API -->|JWKS тексеру| Auth
+  API --> DB[(PostgreSQL qadam)]
+  API --> AI[OpenAI немесе Gemini]
+  API --> Storage[Supabase Storage: мал фотолары]
+  Web -->|Сатушы ашатын deep link| WA[WhatsApp]

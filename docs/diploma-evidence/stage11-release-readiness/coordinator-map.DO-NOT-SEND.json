@@ -1,0 +1,440 @@
+[
+  {
+    "sample_id": "IND-S11-001",
+    "source_id": "S8-013",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-013-local": "C1",
+      "S8-013-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-002",
+    "source_id": "S8-070",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-070-local": "C1",
+      "S8-070-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-003",
+    "source_id": "S10-019",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-004",
+    "source_id": "S8-019",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-019-local": "C1",
+      "S8-019-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-005",
+    "source_id": "S8-107",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-006",
+    "source_id": "S8-054",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-007",
+    "source_id": "S10-002",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-002-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-008",
+    "source_id": "S8-059",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-009",
+    "source_id": "S8-064",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-064-local": "C1",
+      "S8-064-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-010",
+    "source_id": "S8-068",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-068-local": "C1",
+      "S8-068-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-011",
+    "source_id": "S8-034",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-034-local": "C1",
+      "S8-034-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-012",
+    "source_id": "S10-020",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-013",
+    "source_id": "S10-016",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-016-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-014",
+    "source_id": "S8-030",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-030-local": "C1",
+      "S8-030-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-015",
+    "source_id": "S10-027",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-027-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-016",
+    "source_id": "S10-031",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-017",
+    "source_id": "S10-012",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-018",
+    "source_id": "S10-021",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-019",
+    "source_id": "S10-003",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-020",
+    "source_id": "S8-005",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-021",
+    "source_id": "S10-011",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-022",
+    "source_id": "S10-028",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-028-c0": "C1",
+      "S10-028-c1": "C2",
+      "S10-028-c2": "C3"
+    }
+  },
+  {
+    "sample_id": "IND-S11-023",
+    "source_id": "S10-029",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-029-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-024",
+    "source_id": "S10-017",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-017-c0": "C1",
+      "S10-017-c1": "C2",
+      "S10-017-c2": "C3"
+    }
+  },
+  {
+    "sample_id": "IND-S11-025",
+    "source_id": "S10-007",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-007-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-026",
+    "source_id": "S10-010",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-027",
+    "source_id": "S10-030",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-028",
+    "source_id": "S10-033",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-029",
+    "source_id": "S8-046",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-046-foreign": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-030",
+    "source_id": "S10-025",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-031",
+    "source_id": "S10-005",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-005-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-032",
+    "source_id": "S8-051",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-033",
+    "source_id": "S8-074",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-074-local": "C1",
+      "S8-074-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-034",
+    "source_id": "S8-099",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-035",
+    "source_id": "S8-104",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-036",
+    "source_id": "S10-014",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-037",
+    "source_id": "S10-004",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-004-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-038",
+    "source_id": "S10-024",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-024-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-039",
+    "source_id": "S8-092",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-040",
+    "source_id": "S8-081",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-081-local": "C1",
+      "S8-081-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-041",
+    "source_id": "S10-018",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-018-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-042",
+    "source_id": "S8-085",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-043",
+    "source_id": "S8-026",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-026-local": "C1",
+      "S8-026-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-044",
+    "source_id": "S10-013",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-013-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-045",
+    "source_id": "S8-080",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-080-local": "C1",
+      "S8-080-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-046",
+    "source_id": "S10-022",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-047",
+    "source_id": "S10-023",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-048",
+    "source_id": "S8-003",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-049",
+    "source_id": "S8-096",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-050",
+    "source_id": "S10-001",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-051",
+    "source_id": "S10-006",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-006-c0": "C1",
+      "S10-006-c1": "C2",
+      "S10-006-c2": "C3"
+    }
+  },
+  {
+    "sample_id": "IND-S11-052",
+    "source_id": "S8-037",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-037-local": "C1",
+      "S8-037-foreign": "C2",
+      "S8-037-twin": "C3"
+    }
+  },
+  {
+    "sample_id": "IND-S11-053",
+    "source_id": "S10-026",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-026-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-054",
+    "source_id": "S10-032",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-055",
+    "source_id": "S8-022",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-056",
+    "source_id": "S10-009",
+    "source": "stage10",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-057",
+    "source_id": "S8-044",
+    "source": "stage8",
+    "customer_ref_map": {
+      "S8-044-local": "C1",
+      "S8-044-foreign": "C2"
+    }
+  },
+  {
+    "sample_id": "IND-S11-058",
+    "source_id": "S10-015",
+    "source": "stage10",
+    "customer_ref_map": {
+      "S10-015-c0": "C1"
+    }
+  },
+  {
+    "sample_id": "IND-S11-059",
+    "source_id": "S8-009",
+    "source": "stage8",
+    "customer_ref_map": {}
+  },
+  {
+    "sample_id": "IND-S11-060",
+    "source_id": "S10-008",
+    "source": "stage10",
+    "customer_ref_map": {}
+  }
+]

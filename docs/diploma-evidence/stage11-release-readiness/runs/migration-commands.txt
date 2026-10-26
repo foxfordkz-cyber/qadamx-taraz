@@ -1,0 +1,10 @@
+alembic upgrade 0008_canonical_markets: qadam_stage11_r20261026final_source_test: PASS
+..\..\..\qadam-research-tools\pgsql\bin\pg_dump.exe -h 127.0.0.1 -p 55441 -U qadam_research -Fc -f C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\tmp\stage11-rehearsal-final\before-0009.dump qadam_stage11_r20261026final_source_test
+
+alembic upgrade head: qadam_stage11_r20261026final_source_test: PASS
+..\..\..\qadam-research-tools\pgsql\bin\pg_dump.exe -h 127.0.0.1 -p 55441 -U qadam_research -Fc -f C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\tmp\stage11-rehearsal-final\after-0009.dump qadam_stage11_r20261026final_source_test
+
+..\..\..\qadam-research-tools\pgsql\bin\pg_restore.exe -h 127.0.0.1 -p 55441 -U qadam_research --exit-on-error --single-transaction -d qadam_stage11_r20261026final_restore_test C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\tmp\stage11-rehearsal-final\after-0009.dump
+
+alembic downgrade 0008_canonical_markets: qadam_stage11_r20261026final_restore_test: PASS
+..\..\..\qadam-research-tools\pgsql\bin\pg_restore.exe -h 127.0.0.1 -p 55441 -U qadam_research --exit-on-error --single-transaction -d qadam_stage11_r20261026final_recover_test C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\tmp\stage11-rehearsal-final\after-0009.dump

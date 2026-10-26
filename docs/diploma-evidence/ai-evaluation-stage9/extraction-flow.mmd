@@ -1,0 +1,19 @@
+flowchart TD
+    A[Authorized seller: text or consented audio] --> B[Existing membership and input checks]
+    B --> C[Provider HTTP response bytes]
+    C --> D{Strict raw JSON object: unique keys and finite numbers}
+    D -- invalid --> F[Existing AI_UNAVAILABLE and manual fallback]
+    D -- valid envelope --> E[Existing status / content / transcription checks]
+    E --> G[Inner extraction JSON text]
+    G --> H{Strict raw JSON before normalization}
+    H -- invalid --> F
+    H -- valid --> I[Authoritative input or STT transcript]
+    I --> J[Existing Pydantic schema: reject extra fields]
+    J --> K[Source amounts / receipt grammar / bounded name forms]
+    K --> L[Unknown or contradictory evidence stays uncertain]
+    L --> M[Business-scoped candidate lookup and draft]
+    M --> N[Seller reviews fields and selects customer / original sale]
+    N --> O[Explicit confirmation]
+    O --> P[Unchanged idempotent ledger / ownership checks]
+    P --> Q[SQL operation and balances]
+    J -- invalid --> F

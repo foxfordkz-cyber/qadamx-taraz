@@ -1,0 +1,59 @@
+{
+  "executed_date_local": "2026-10-25",
+  "packaged_utc": "2026-10-26T07:46:42.653616+00:00",
+  "backend": {
+    "tests": 764,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "postgres_marked_subset": 211,
+  "frontend": {
+    "tests": 639,
+    "files": 47,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "tests": 19,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "retries": 0,
+    "workers": 1
+  },
+  "browser_first": {
+    "tests": 19,
+    "passed": 17,
+    "failed": 2
+  },
+  "api_static": {
+    "ruff": 0,
+    "format_full": 0,
+    "format_changed": 0,
+    "contracts_api": 0
+  },
+  "web_static": {
+    "check:api": 0,
+    "typecheck": 0,
+    "lint": 0,
+    "format:check": 0,
+    "build": 0
+  },
+  "regression_commands": {
+    "stage9": 0,
+    "stage7": 0,
+    "stage1": 0
+  },
+  "unexecuted": [
+    "live Supabase",
+    "paid/live AI",
+    "ASR",
+    "physical devices",
+    "shared DB migration",
+    "target backup/restore",
+    "staging deploy",
+    "blind human annotation",
+    "unrelated standalone Playwright configurations"
+  ]
+}
