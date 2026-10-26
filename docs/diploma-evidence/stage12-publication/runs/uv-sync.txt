@@ -1,0 +1,3 @@
+Downloading cpython-3.12.15-windows-x86_64-none (download) (21.0MiB)
+ Downloaded cpython-3.12.15-windows-x86_64-none (download)
+error: Missing expected target directory for Python minor version link at `<local-uv-install>\python\cpython-3.12.15-windows-x86_64-none`

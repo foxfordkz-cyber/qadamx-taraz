@@ -1,0 +1,8 @@
+{
+  "check:api": 0,
+  "build": 0,
+  "lint": 0,
+  "unit": 0,
+  "typecheck": 0,
+  "format:check": 0
+}

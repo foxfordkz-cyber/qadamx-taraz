@@ -1,0 +1,6 @@
+{
+  "original_tool": "apps/api/tools/stage11_release/demo-smoke.mjs",
+  "change": "UTF-8 copied unchanged assertions; only report source label replaced with ready.json. First copy used platform encoding, causing mojibake locator and recorded failure.",
+  "actual_source": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "script_sha256_lf": "dab700a609240383d6fcadb114dc56f88b4f5203469565a3bac8206297d13b5d"
+}

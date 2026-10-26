@@ -1,0 +1,16 @@
+{
+  "source_bundle": "complete-source.bundle",
+  "bytes": 149079156,
+  "sha256": "9d5281c50b5b500279aaf134e5746672848d8b0f0a72964ee1bae961cdb431fc",
+  "ref_count": 75,
+  "all_refs_match": true,
+  "all_worktree_commits_present": true,
+  "source_fsck_exit": 0,
+  "restored_fsck_exit": 0,
+  "supplemental": [],
+  "source_commit": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "created_utc": "2026-10-26T09:56:12.314012+00:00",
+  "scope": "Git reachable refs and detached worktree commits; no ignored databases, dependencies or .env copied. Local backup only, not a GitHub artifact.",
+  "sha256_reverified": true,
+  "publish_bundle": false
+}

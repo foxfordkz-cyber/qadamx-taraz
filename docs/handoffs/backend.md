@@ -1389,3 +1389,44 @@ Staging NO-GO: нет согласованной среды/realAuth; callback p
 Blind60packet готов, humanreviewers0. Code review выполнен AI, не независимым
 человеком. Следующий шаг капитана:назначить reviewers,точную staging/Auth конфигурацию
 и отдельно разрешить публикацию/live acceptance. Push/PR/merge/deploy/paid/sharedDB0.
+
+## 2026-10-26 — Stage 12: публикация в существующий репозиторий
+
+Новая база: `integration/qadam-diploma-v1`, [Draft PR #101](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/101)
+в `feature/ml-sales-debt-research`. PR #100 не изменён. Первый опубликованный
+source: `e94d9a71ded625881e94f8747430348a81e13e5f`, включая Stage10
+`e825dd9a9568dda33a9226e1941e789fd21d2175` и всю историю Stage1–11.
+Main: `2518b2e80b8c8ef881063a968645382d61aeb37e`, без изменения.
+32 прежних worktree сохранили HEAD/status; полный локальный Git backup проверен.
+Перенос в личный репозиторий отменён. История и авторство команды сохранены.
+
+Stage12 добавляет два publication Playwright config в apps/web/e2e, новые отчёты,
+SQL/metrics/screenshots в `docs/diploma-evidence/stage12-publication/`, ссылки в
+README/DECISIONS и эту передачу. Production/backend, ledger, Auth, контракты,
+миграции и frozen datasets не изменены. Последний SHA документации — в PR #101.
+
+Свежие проверки: 770 backend (в том числе 211 PostgreSQL), 639 frontend,
+19 Chrome/API/SQL E2E и 8 Chrome Seller/Demo E2E — прошли, без failures/skips/retries.
+Ruff, Python format, API check, TypeScript, ESLint, Prettier и build прошли.
+SQL подтвердил 0009/consent; итог отдельных сценариев: 10600/6600/4000 ₸,
+6 операций, 7 клиентов и 1 feedback. Потеря ответа не создаёт дублей.
+Stage1: TP18/TN24/FP0/FN0; Stage7: 99/100; исходный Stage8: 104/120;
+Stage9: 118/120; Stage10 challenge: 42/42. S7-090 и S8-080/084 сохранены.
+Это synthetic regression evidence, не точность live AI.
+
+Демо: http://127.0.0.1:4303/login, API8322, новая локальная
+`qadam_research_browser_stage12_ready_test`, offline AI/synthetic JWTs.
+Начальная чистая точка: 0 операций/сумм/feedback, 5 учебных клиентов.
+Отдельный read-only Chrome smoke прошёл; начальная ошибка UTF-8 локальной копии
+скрипта, uv setup и пути JUnit сохранены в отчёте, исходные логи не удалены.
+
+Локальное академическое демо GO; staging/production NO-GO. npm audit: Vitest/
+tinypool critical, @vitest/mocker moderate (dev dependencies), без force-upgrade.
+Общие 0009/roles, real Auth/callback, privacy owners и независимая live AI/ASR/
+device acceptance остаются отдельными этапами. После push Vercel автоматически
+сообщил success; live acceptance этим не подтверждается. Merge, намеренного deploy,
+платных AI-запросов и изменений общей БД не было.
+
+Продолжение — отдельная ветка от origin/integration/qadam-diploma-v1; сначала
+review #100/#101, затем dependency findings и согласованные staging gates.
+Команды: `docs/diploma-evidence/stage12-publication/development-workflow.md`.

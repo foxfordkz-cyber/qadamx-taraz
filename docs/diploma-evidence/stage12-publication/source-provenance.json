@@ -1,0 +1,317 @@
+{
+  "recorded_utc": "2026-10-26T10:05:57.495684+00:00",
+  "source": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "pr100_head": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+  "stages": {
+    "stage1": {
+      "sha": "6ac5266abddffa7f1278d403ece55cc3eba457a1",
+      "ancestor": true
+    },
+    "stage6": {
+      "sha": "ae43dc25543ab261511c8b5f5982c7dfe8112da8",
+      "ancestor": true
+    },
+    "stage7": {
+      "sha": "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1",
+      "ancestor": true
+    },
+    "stage8": {
+      "sha": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+      "ancestor": true
+    },
+    "stage9": {
+      "sha": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+      "ancestor": true
+    },
+    "stage10": {
+      "sha": "e825dd9a9568dda33a9226e1941e789fd21d2175",
+      "ancestor": true
+    },
+    "stage11": {
+      "sha": "e94d9a71ded625881e94f8747430348a81e13e5f",
+      "ancestor": true
+    }
+  },
+  "ahead_behind_main": "0\t33",
+  "ahead_behind_pr100": "0\t22",
+  "local_only": [
+    "80887e9802c8d56cf291a042c60109bbfcf457b1|Codex|2026-10-24T14:13:18+05:00|docs(diploma): preserve verified research workspace before stage 1",
+    "3cb1ee19cc43a4b9fe5fcfd8436503cc864dbf8d|Codex|2026-10-24T14:20:03+05:00|test(assistant): freeze paired semantic cases and original validator baseline",
+    "6ac5266abddffa7f1278d403ece55cc3eba457a1|Codex|2026-10-24T14:53:36+05:00|fix(assistant): bind financial claims and reminders to server facts",
+    "17f6f6037d6bcc2eadb9711aa2d04f275833a751|Codex|2026-10-24T15:47:54+05:00|docs(diploma): record stage 1 comparison and actual verification",
+    "ae43dc25543ab261511c8b5f5982c7dfe8112da8|Bekzat|2026-10-25T11:36:20+05:00|merge: assemble Research and Stage 1 in local diploma integration",
+    "3c9ed301a0e0d087298b0fb80b558f527d8b75d3|Bekzat|2026-10-25T11:58:15+05:00|test(integration): verify seller workflow against isolated PostgreSQL and fact binding",
+    "eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd|Bekzat|2026-10-25T12:07:29+05:00|docs(integration): record combined acceptance and reproducible diploma demo",
+    "0313038e33b3f518b777682b7006c82f448ac483|Bekzat|2026-10-25T12:44:34+05:00|test(extraction): freeze 100 synthetic multilingual cases and Stage 6 baseline",
+    "b84b4c70b58c21465705f1dc8c3ca31657054fce|Bekzat|2026-10-25T13:31:12+05:00|fix(ai): ground multilingual draft amounts and customer evidence",
+    "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1|Bekzat|2026-10-25T13:34:18+05:00|docs(ai): record frozen before-after extraction evidence and acceptance",
+    "071ae3ef7b0a1db0091c31ff6b762d16226f91b8|Bekzat|2026-10-25T13:52:09+05:00|test(ai): freeze Stage 8 constructed holdout and evaluation protocol",
+    "92aba501844d777fd7a2175b8a7e72a82ffb09bf|Bekzat|2026-10-25T14:19:49+05:00|test(ai): add paired holdout evaluation and guarded live readiness tooling",
+    "08fd3eef541c6ab47f1d44e79d38778eefd2c784|Bekzat|2026-10-25T14:34:52+05:00|docs(ai): preserve Stage 8 held-out results integration evidence and limits",
+    "fe4e73f5723c46d6b308c6b1115327d881611db9|Bekzat|2026-10-25T15:02:55+05:00|test(ai): preserve Stage 9 pre-change baseline and evaluation protocol",
+    "fa73fe4999c0201626643be7eaf9d2667dc328ef|Bekzat|2026-10-25T15:35:33+05:00|fix(ai): reject lossy JSON and preserve source-supported RU KK extraction",
+    "a921b3f4d6d45a44d4529fb3045888f850cf9018|Bekzat|2026-10-25T15:42:27+05:00|docs(ai): record Stage 9 regression evidence and independent evaluation protocol",
+    "9946ce34c996d1dd7027ec19e1fef2a85a6a01eb|Bekzat|2026-10-25T16:31:48+05:00|test(qa): freeze fresh Stage 10 challenge and integration provenance",
+    "49832f828c890fb5346eaa0de06baf849bc3f4b0|Bekzat|2026-10-25T17:21:25+05:00|test(integration): verify final candidate recovery and guarded local demo",
+    "e825dd9a9568dda33a9226e1941e789fd21d2175|Bekzat|2026-10-26T12:48:36+05:00|docs(diploma): record final candidate SQL QA and demo evidence",
+    "2073960792067f392e7938f733a75ae652116c9f|Bekzat|2026-10-26T14:14:32+05:00|test(release): add isolated migration rehearsal and blind review tooling",
+    "31cba2d5e0c0e3b0d9ce4d2159a2357005d954c3|Bekzat|2026-10-26T14:29:52+05:00|fix(release): make blind review archive line endings portable",
+    "e94d9a71ded625881e94f8747430348a81e13e5f|Bekzat|2026-10-26T14:32:52+05:00|docs(release): record Stage11 review evidence and staging acceptance gates"
+  ],
+  "worktrees": [
+    {
+      "name": "qadamx-taraz",
+      "head": "a77f1a02b240dbf9e8c627937a5cb6445d92fb51",
+      "branch": "feature/seller-dashboard",
+      "status": []
+    },
+    {
+      "name": "qadam-ai-assistant-final-acceptance",
+      "head": "aa0ce33c970277ea525616a202773a6582604d87",
+      "branch": "test/ai-assistant-final-acceptance",
+      "status": [
+        "M apps/web/e2e/assistant-fixtures.ts",
+        " M apps/web/e2e/assistant-qa.acceptance.ts",
+        " M apps/web/e2e/assistant-qa.playwright.config.ts",
+        " M apps/web/e2e/assistant-release-surfaces.acceptance.ts",
+        " M apps/web/e2e/assistant-release-surfaces.playwright.config.ts",
+        " M apps/web/e2e/assistant.spec.ts",
+        " M apps/web/e2e/cabinet-ai-first.spec.ts",
+        " M apps/web/e2e/public-design.spec.ts",
+        "?? docs/qa/AI_ASSISTANT_FINAL_ACCEPTANCE.md",
+        "?? docs/qa/ai-assistant-final/"
+      ]
+    },
+    {
+      "name": "qadam-customer-post",
+      "head": "99ed2c03c8c4d75987ad5e41119055c2bb5142c6",
+      "branch": "fix/customer-post-unknown-result",
+      "status": []
+    },
+    {
+      "name": "qadam-customer-recovery-safe",
+      "head": "2058b914fc084ac1237ac805ce053d6ac9c8ddac",
+      "branch": "fix/seller-customer-recovery-safe",
+      "status": []
+    },
+    {
+      "name": "qadam-diploma-integration",
+      "head": "eb954bf7c2c6b1d18bf360e436ccf12bdbde30dd",
+      "branch": "integration/diploma-research-ai-validation",
+      "status": [
+        "M docs/diploma-evidence/integration/demo-scenarios.md"
+      ]
+    },
+    {
+      "name": "qadam-diploma-v1",
+      "head": "e94d9a71ded625881e94f8747430348a81e13e5f",
+      "branch": "integration/qadam-diploma-v1",
+      "status": []
+    },
+    {
+      "name": "qadam-final-candidate",
+      "head": "e825dd9a9568dda33a9226e1941e789fd21d2175",
+      "branch": "integration/diploma-final-candidate",
+      "status": []
+    },
+    {
+      "name": "qadam-final-qa-main-check",
+      "head": "2ba2c09ea2e5d154c8f9b305614d9da33c462b83",
+      "branch": "",
+      "status": [
+        "M docs/screenshots/ai-assistant/kk-1440.png",
+        " M docs/screenshots/ai-assistant/kk-390.png",
+        " M docs/screenshots/ai-assistant/ru-1440.png",
+        " M docs/screenshots/ai-assistant/ru-390.png"
+      ]
+    },
+    {
+      "name": "qadam-final-voice-presentation",
+      "head": "94b4374e9895b176624490a03f458ea8713147ad",
+      "branch": "docs/final-voice-qa-presentation-20261018",
+      "status": []
+    },
+    {
+      "name": "qadam-live-measurement-operator",
+      "head": "ab473f145c33686d23bb03b0aaab18cbabc963b4",
+      "branch": "qa/live-measurement-operator",
+      "status": [
+        "M docs/pitch/PITCH.md",
+        "?? docs/qa/MEASUREMENT_20261018.md"
+      ]
+    },
+    {
+      "name": "qadam-live-microphone-pitch-qa",
+      "head": "28c1becef8394ee0d17e798486c8a29adf681e29",
+      "branch": "docs/live-microphone-pitch-qa",
+      "status": []
+    },
+    {
+      "name": "qadam-mic-audit",
+      "head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "branch": "",
+      "status": []
+    },
+    {
+      "name": "qadam-mic-browser-tests",
+      "head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "branch": "",
+      "status": [
+        "?? apps/web/e2e/microphone.acceptance.ts",
+        "?? apps/web/e2e/microphone.playwright.config.ts"
+      ]
+    },
+    {
+      "name": "qadam-mic-component-tests",
+      "head": "58d4eb47e0d5e6d06c8d4af1e56eedbe2fd65f76",
+      "branch": "",
+      "status": [
+        "?? apps/web/src/test/microphone-acceptance.test.tsx",
+        "?? apps/web/src/test/microphone-fixtures.tsx",
+        "?? apps/web/src/test/microphone-known-gaps.test.tsx"
+      ]
+    },
+    {
+      "name": "qadam-microphone-acceptance",
+      "head": "39a730e63e43bb8487ed2f9afb1ead7762737314",
+      "branch": "test/mobile-microphone-acceptance",
+      "status": []
+    },
+    {
+      "name": "qadam-ml-sales-debt-research",
+      "head": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+      "branch": "feature/ml-sales-debt-research",
+      "status": []
+    },
+    {
+      "name": "qadam-multilingual-extraction",
+      "head": "11ee40a77a2ff8de3c64818af9d9438b9e23fdf1",
+      "branch": "feature/multilingual-ai-extraction",
+      "status": []
+    },
+    {
+      "name": "qadam-recovery-browser",
+      "head": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "branch": "",
+      "status": [
+        "?? apps/web/e2e/customer-recovery.acceptance.ts",
+        "?? apps/web/e2e/customer-recovery.playwright.config.ts",
+        "?? apps/web/src/test/customer-recovery-forms.test.tsx"
+      ]
+    },
+    {
+      "name": "qadam-recovery-coordinator",
+      "head": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "branch": "",
+      "status": [
+        "M apps/web/src/features/seller/queries.ts",
+        " M apps/web/src/shared/api/bindings.ts",
+        " M apps/web/src/shared/api/gateway.ts",
+        "?? apps/web/src/features/seller/customer-recovery.ts"
+      ]
+    },
+    {
+      "name": "qadam-recovery-regressions",
+      "head": "07197bec0a8ac331714eea3036f3af6eac939e7e",
+      "branch": "",
+      "status": [
+        "M apps/web/src/features/seller/Customers.tsx",
+        " M apps/web/src/features/seller/index.ts",
+        " M apps/web/src/features/seller/queries.ts",
+        " M apps/web/src/shared/api/bindings.ts",
+        " M apps/web/src/shared/api/gateway.ts",
+        " M apps/web/src/shared/i18n/kk.ts",
+        " M apps/web/src/shared/i18n/ru.ts",
+        " M apps/web/src/test/qa-customers-regression.test.tsx",
+        " M apps/web/src/test/qa-fixtures.tsx",
+        " M apps/web/src/test/setup.ts",
+        "?? apps/web/src/features/seller/customer-recovery.ts",
+        "?? apps/web/src/test/customer-recovery-coordinator.test.tsx",
+        "?? apps/web/src/test/web-locks.ts"
+      ]
+    },
+    {
+      "name": "qadam-registration-deploy-review",
+      "head": "eba0f911682e03ce2207c9d71eb4939b236a5ea9",
+      "branch": "integration/seller-registration-deploy-review",
+      "status": []
+    },
+    {
+      "name": "qadam-research-baseline-check",
+      "head": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+      "branch": "",
+      "status": [
+        "?? apps/web/e2e/baseline.local.config.ts"
+      ]
+    },
+    {
+      "name": "qadam-seller-analytics",
+      "head": "ce68f01e3fe4a6b9898fd68be8e3ef2e4c467ad1",
+      "branch": "feature/seller-analytics",
+      "status": []
+    },
+    {
+      "name": "qadam-seller-design",
+      "head": "c9e099e2ce2b0d5c25552542f72b9b369f5d7b5b",
+      "branch": "feature/seller-design-integration",
+      "status": []
+    },
+    {
+      "name": "qadam-seller-fixes",
+      "head": "28960f21e13c9c38077bf68b7bb5449eb9aa824d",
+      "branch": "fix/seller-auth-unicode",
+      "status": []
+    },
+    {
+      "name": "qadam-seller-qa",
+      "head": "abee31fd5a1be2c2be06e3132fe7f42c90adac5d",
+      "branch": "test/seller-regression",
+      "status": []
+    },
+    {
+      "name": "qadam-seller-registration",
+      "head": "6f808677c067cc00fb6b6b9eb26384f68c3d1e38",
+      "branch": "feature/seller-registration-onboarding",
+      "status": []
+    },
+    {
+      "name": "qadam-share-day-summary",
+      "head": "8228e25d530e2a2fffcedfdc0d0adafe4de75883",
+      "branch": "feature/share-day-summary",
+      "status": []
+    },
+    {
+      "name": "qadam-stage11-readiness",
+      "head": "e94d9a71ded625881e94f8747430348a81e13e5f",
+      "branch": "review/diploma-stage11-readiness",
+      "status": []
+    },
+    {
+      "name": "qadam-stage8-ai-evaluation",
+      "head": "08fd3eef541c6ab47f1d44e79d38778eefd2c784",
+      "branch": "feature/diploma-stage8-ai-evaluation",
+      "status": []
+    },
+    {
+      "name": "qadam-stage9-extraction-hardening",
+      "head": "a921b3f4d6d45a44d4529fb3045888f850cf9018",
+      "branch": "feature/diploma-stage9-extraction-hardening",
+      "status": []
+    },
+    {
+      "name": "qadam-voice-integration-check",
+      "head": "5591e057b4e137bd3e1d7137d607d3e1b8331825",
+      "branch": "test/voice-integration-acceptance",
+      "status": []
+    },
+    {
+      "name": "qadam-voice-playback-cancel",
+      "head": "ae98f263b69cf06466ecc0ddca54f547c7cafb2b",
+      "branch": "feature/voice-playback-cancel",
+      "status": []
+    }
+  ],
+  "diff_main": "594 files changed, 81321 insertions(+), 1590 deletions(-)",
+  "diff_pr100": "520 files changed, 70141 insertions(+), 190 deletions(-)"
+}

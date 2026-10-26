@@ -409,3 +409,19 @@ The60-case blind packet is unannotated and uses developer-exposed synthetic text
 it is preparation for human label review, not independent model performance.
 Publication, PR100 changes, deploy and paid calls remain prohibited in this stage.
 Evidence: `docs/diploma-evidence/stage11-release-readiness/`.
+
+## 2026-10-26 — Stage 12 publishes into the existing repository
+
+The owner cancelled personal-repository migration and authorized publication of
+Stage 1–11 into `foxfordkz-cyber/qadamx-taraz`, branch
+`integration/qadam-diploma-v1`. Preserve history and authorship. Use one stacked
+Draft over Research PR #100 to avoid repeating its eleven commits in the review
+diff; do not change #100, merge or deploy. Source is Stage11 `e94d9a71`, containing
+Stage10 `e825dd9a`. A verified full local Git backup protects the original sources.
+
+Fresh tests and synthetic local demonstration are separate from live acceptance.
+Only test-output isolation and publication/development evidence are added; product
+source, contracts and frozen datasets are unchanged. Newly reported npm development
+dependency advisories are retained as an unresolved release-review item, without
+an unreviewed major upgrade. Local academic demo remains distinct from production
+approval. Details: `docs/diploma-evidence/stage12-publication/`.

@@ -1,0 +1,6 @@
+{
+  "original_tool": "apps/api/tools/stage11_release/demo-smoke.mjs",
+  "change": "Only the report source label was replaced with actual ready.json source; browser assertions unchanged. Original tracked tool untouched.",
+  "actual_source": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "script_sha256_lf": "20cb3286e179e7f8a40c59b92c3e40876dddeb3af871014f53aa949fc628b935"
+}

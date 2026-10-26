@@ -1,0 +1,6 @@
+{
+  "database": "qadam_research_browser_stage12_full_test",
+  "migration": "0009_research_feedback",
+  "consent_true": 1,
+  "source": "Independent read-only SQL after fresh Stage12 full Chrome suite; synthetic data only"
+}

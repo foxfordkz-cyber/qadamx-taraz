@@ -1,0 +1,50 @@
+{
+  "main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "pr100": {
+    "number": 100,
+    "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100",
+    "state": "open",
+    "draft": true,
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merged": false,
+    "updated_at": "2026-10-24T10:17:49Z",
+    "head_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+    "head_ref": "feature/ml-sales-debt-research",
+    "base_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "base_ref": "main"
+  },
+  "pr101": {
+    "number": 101,
+    "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/101",
+    "state": "open",
+    "draft": true,
+    "mergeable": true,
+    "mergeable_state": "clean",
+    "merged": false,
+    "updated_at": "2026-10-26T10:39:15Z",
+    "head_sha": "e94d9a71ded625881e94f8747430348a81e13e5f",
+    "head_ref": "integration/qadam-diploma-v1",
+    "base_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+    "base_ref": "feature/ml-sales-debt-research"
+  },
+  "status": {
+    "state": "success",
+    "statuses": [
+      {
+        "context": "Vercel",
+        "state": "success",
+        "description": "Deployment has completed",
+        "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/H9AYLvmotRNt4GMZ2vFXGLs8siy7"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "Vercel Preview Comments",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/runs/121525448343"
+    }
+  ]
+}

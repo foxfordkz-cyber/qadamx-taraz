@@ -1,0 +1,19 @@
+{
+  "mode": "Synthetic read-only Chrome smoke; NOT physical microphone or Supabase",
+  "frontend_source": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "browser": "156.0.8078.47",
+  "url": "http://127.0.0.1:4303/login",
+  "status": "passed",
+  "page_errors": [],
+  "blocked_writes": [],
+  "research": {
+    "observed_days": 179,
+    "horizons": [
+      7,
+      30
+    ],
+    "provenance": "demo_business_ledger",
+    "selected_method7": "seasonal_naive_7",
+    "selected_method30": "seasonal_naive_7"
+  }
+}

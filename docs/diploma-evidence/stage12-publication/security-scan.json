@@ -1,0 +1,12 @@
+{
+  "scope": "All outgoing source history blobs not reachable from existing origin refs; patterns produce review candidates, not a proof of no secrets.",
+  "blob_count": 517,
+  "forbidden_paths": [],
+  "large_blobs_over_1MB": [],
+  "pattern_candidates": [],
+  "source": "e94d9a71ded625881e94f8747430348a81e13e5f",
+  "binary_artifacts": {
+    "png": 94,
+    "zip": 1
+  }
+}

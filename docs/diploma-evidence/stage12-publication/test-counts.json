@@ -1,0 +1,31 @@
+{
+  "backend": {
+    "passed": 770,
+    "failed": 0,
+    "skipped": 0
+  },
+  "frontend": {
+    "passed": 639,
+    "failed": 0,
+    "skipped": 0
+  },
+  "browser": {
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "seller": {
+    "passed": 8,
+    "failed": 0,
+    "skipped": 0
+  },
+  "demo_smoke_final": {
+    "passed": 1,
+    "failed": 0
+  },
+  "demo_smoke_initial": {
+    "passed": 0,
+    "failed": 1,
+    "reason": "Windows default-encoding copy corrupted Cyrillic locators; explicitly UTF-8 copy then passed"
+  }
+}
