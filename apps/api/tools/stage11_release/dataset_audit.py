@@ -25,7 +25,9 @@ def normalize(value):
 
 
 def write(path, value):
-    path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.write_text(
+        json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n"
+    )
 
 
 def build(output):
@@ -175,7 +177,9 @@ def build(output):
         ("reviewer-B.jsonl", worksheet),
     ):
         (reviewer / name).write_text(
-            "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in records), encoding="utf-8"
+            "".join(json.dumps(r, ensure_ascii=False) + "\n" for r in records),
+            encoding="utf-8",
+            newline="\n",
         )
     write(output / "coordinator-map.DO-NOT-SEND.json", mapping)
     instructions = """# Blind semantic annotation — NOT completed research
@@ -229,7 +233,7 @@ retention/withdrawal owner and deletion date BEFORE recruiting. No real merchant
 audio/text should be added to this packet. Do not upload private filled worksheets
 or identifying consent receipts to Git. Agreement is NOT calculated in this packet.
 """
-    (reviewer / "INSTRUCTIONS.md").write_text(instructions, encoding="utf-8")
+    (reviewer / "INSTRUCTIONS.md").write_text(instructions, encoding="utf-8", newline="\n")
     properties = {
         "schema_version": {"const": "stage11-human-gold-v1"},
         "sample_id": {"type": "string", "pattern": "^IND-S11-[0-9]{3}$"},
@@ -273,6 +277,8 @@ or identifying consent receipts to Git. Agreement is NOT calculated in this pack
     ) as archive:
         for path in sorted(reviewer.iterdir()):
             info = zipfile.ZipInfo(path.name, date_time=(2026, 10, 26, 0, 0, 0))
+            info.create_system = 3
+            info.external_attr = 0o100644 << 16
             info.compress_type = zipfile.ZIP_DEFLATED
             archive.writestr(info, path.read_bytes())
     write(

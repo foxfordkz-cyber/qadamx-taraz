@@ -33,6 +33,7 @@ def test_blind_packet_is_reproducible_and_contains_no_gold(tmp_path):
             "gold.schema.json",
         }
         cards = [json.loads(line) for line in archive.read("cases.jsonl").splitlines()]
+        assert b"\r\n" not in archive.read("cases.jsonl"), "Freeze portable LF inside ZIP"
         assert len(cards) == 60
         for card in cards:
             assert set(card) == {"sample_id", "language", "text", "customers"}
