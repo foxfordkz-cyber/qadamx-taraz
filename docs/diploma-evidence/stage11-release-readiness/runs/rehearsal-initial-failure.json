@@ -1,0 +1,20 @@
+{
+  "started_utc": "2026-10-26T08:52:27.848875+00:00",
+  "source_commit": "e825dd9a9568dda33a9226e1941e789fd21d2175",
+  "databases": [
+    "qadam_stage11_r20261026b_source_test",
+    "qadam_stage11_r20261026b_restore_test",
+    "qadam_stage11_r20261026b_recover_test"
+  ],
+  "host": "127.0.0.1",
+  "port": 55441,
+  "checks": [],
+  "status": "failed",
+  "postgres": "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35229, 64-bit",
+  "local_role": [
+    true,
+    true
+  ],
+  "failure_type": "AttributeError",
+  "duration_seconds": 3.313
+}

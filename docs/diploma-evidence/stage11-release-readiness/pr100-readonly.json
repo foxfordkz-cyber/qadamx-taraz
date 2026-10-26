@@ -1,0 +1,12 @@
+{
+  "number": 100,
+  "state": "open",
+  "draft": true,
+  "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100",
+  "head": "feature/ml-sales-debt-research",
+  "head_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+  "base": "main",
+  "base_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "mergeable": true,
+  "mergeable_state": "clean"
+}

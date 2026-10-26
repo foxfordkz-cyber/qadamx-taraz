@@ -1,0 +1,13 @@
+{
+  "cases": 60,
+  "languages": {
+    "ru": 20,
+    "kk": 20,
+    "mixed": 20
+  },
+  "reviewers": 0,
+  "completed_annotations": 0,
+  "seed": 20261026,
+  "selection": "All 33 Stage10 semantic cases plus 9/category-distinct Stage8 cases per language, ordered by salted SHA256 then seeded shuffle",
+  "zip_sha256": "8272eaf1f578f330814f4dc0fc4ad5f1eef235476872dda2153c4772fd65b18f"
+}

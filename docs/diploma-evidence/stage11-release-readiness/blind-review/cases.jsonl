@@ -1,0 +1,60 @@
+{"sample_id": "IND-S11-001", "language": "ru", "text": "Термос для Риммы стоит 5600. В кассу ничего не заплатила; всё в долг.", "customers": [{"ref": "C1", "name": "Римма", "allowed_business": true}, {"ref": "C2", "name": "Римма", "allowed_business": false}]}
+{"sample_id": "IND-S11-002", "language": "mixed", "text": "Полная оплата дегенім қате: сумка 2900, тек 900 төледі.", "customers": [{"ref": "C1", "name": "Дана", "allowed_business": true}, {"ref": "C2", "name": "Дана", "allowed_business": false}]}
+{"sample_id": "IND-S11-003", "language": "kk", "text": "Кілемшенің бағасы 5900, бірақ 6000 алдым. Қайтарым болғанын білмеймін.", "customers": []}
+{"sample_id": "IND-S11-004", "language": "kk", "text": "4600 тұратын жинаққа Мақсат 1600 аударды, қалғанын әкелмек.", "customers": [{"ref": "C1", "name": "Мақсат", "allowed_business": true}, {"ref": "C2", "name": "Мақсат", "allowed_business": false}]}
+{"sample_id": "IND-S11-005", "language": "mixed", "text": "Екі бөлек покупки: утюг 4300, кілем 9700, оплаты разные.", "customers": []}
+{"sample_id": "IND-S11-006", "language": "kk", "text": "Бір конверт 85 тиын. 85 тиын түгел төленді.", "customers": []}
+{"sample_id": "IND-S11-007", "language": "ru", "text": "Для Нурсулу заказ с упаковкой стоит 7400. Сейчас получила 1950, остаток позже.", "customers": [{"ref": "C1", "name": "Нурсулу", "allowed_business": true}]}
+{"sample_id": "IND-S11-008", "language": "mixed", "text": "Қорап девятнадцать мың екі жүз қырық тұрады. Оплатили полностью.", "customers": []}
+{"sample_id": "IND-S11-009", "language": "ru", "text": "Товар за 5400. Он сказал: заплатил 1000; затем сказал: ничего не заплатил. Уточните.", "customers": [{"ref": "C1", "name": "Олеся", "allowed_business": true}, {"ref": "C2", "name": "Олеся", "allowed_business": false}]}
+{"sample_id": "IND-S11-010", "language": "kk", "text": "Тауар 5400. Алдымен 1000 төледім деді, кейін төлемедім деді. Нақтылау керек.", "customers": [{"ref": "C1", "name": "Дана", "allowed_business": true}, {"ref": "C2", "name": "Дана", "allowed_business": false}]}
+{"sample_id": "IND-S11-011", "language": "mixed", "text": "Мақсаттың қарызына поступило 805, бұл сатылым емес.", "customers": [{"ref": "C1", "name": "Мақсат", "allowed_business": true}, {"ref": "C2", "name": "Мақсат", "allowed_business": false}]}
+{"sample_id": "IND-S11-012", "language": "kk", "text": "Жиынтық 7600 теңге, төлем 920 әлде 1250, әлі тексерілмеді.", "customers": []}
+{"sample_id": "IND-S11-013", "language": "kk", "text": "Кешегі тапсырыстың қарызынан Нұрсұлу 850 қайтарды.", "customers": [{"ref": "C1", "name": "Нұрсұлу", "allowed_business": true}]}
+{"sample_id": "IND-S11-014", "language": "kk", "text": "Бұл жаңа сату емес: Мақсаттың ескі қарызына 805 түсті.", "customers": [{"ref": "C1", "name": "Мақсат", "allowed_business": true}, {"ref": "C2", "name": "Мақсат", "allowed_business": false}]}
+{"sample_id": "IND-S11-015", "language": "mixed", "text": "Кешегі заказдың қарызына Нұрсұлу вернула 850.", "customers": [{"ref": "C1", "name": "Нұрсұлу", "allowed_business": true}]}
+{"sample_id": "IND-S11-016", "language": "mixed", "text": "Набор 7600 теңге; төлем 920 или 1250, пока неясно.", "customers": []}
+{"sample_id": "IND-S11-017", "language": "kk", "text": "Қалам салғышты 1690 теңгеге саттым. Картаға 1690 төледі.", "customers": []}
+{"sample_id": "IND-S11-018", "language": "kk", "text": "Келесі аптадағы керамика түрлерін көрсет.", "customers": []}
+{"sample_id": "IND-S11-019", "language": "ru", "text": "Чехол отдали за 3250. Способ и сумму оплаты пока не внесли.", "customers": []}
+{"sample_id": "IND-S11-020", "language": "kk", "text": "Чекті жабайық. Шамның бағасы 8700. Сатып алушы толық төледі.", "customers": []}
+{"sample_id": "IND-S11-021", "language": "ru", "text": "Чехол для пропуска: 184,50 тенге. Получил 84,50 тенге.", "customers": []}
+{"sample_id": "IND-S11-022", "language": "mixed", "text": "Марина шам алды за 4360, внесла 1360. Екі Марина бар.", "customers": [{"ref": "C1", "name": "Марина", "allowed_business": true}, {"ref": "C2", "name": "Марина", "allowed_business": true}, {"ref": "C3", "name": "Марина", "allowed_business": false}]}
+{"sample_id": "IND-S11-023", "language": "mixed", "text": "Таисия набор алды за 5100, 1100 төледі.", "customers": [{"ref": "C1", "name": "Таисия", "allowed_business": false}]}
+{"sample_id": "IND-S11-024", "language": "kk", "text": "Марина шамды 4360 теңгеге алды, 1360 төледі. Тізімде екі Марина бар.", "customers": [{"ref": "C1", "name": "Марина", "allowed_business": true}, {"ref": "C2", "name": "Марина", "allowed_business": true}, {"ref": "C3", "name": "Марина", "allowed_business": false}]}
+{"sample_id": "IND-S11-025", "language": "ru", "text": "Клиент Таисия забрала набор за 5100, внесла 1100.", "customers": [{"ref": "C1", "name": "Таисия", "allowed_business": false}]}
+{"sample_id": "IND-S11-026", "language": "ru", "text": "Покажи ассортимент керамики на следующую неделю.", "customers": []}
+{"sample_id": "IND-S11-027", "language": "mixed", "text": "Кілемше 5900, получил 6000, сдачу ещё не уточнили.", "customers": []}
+{"sample_id": "IND-S11-028", "language": "mixed", "text": "Бейдж қабы 184,50 тенге. Получил 84,50.", "customers": []}
+{"sample_id": "IND-S11-029", "language": "mixed", "text": "Коврик 3200, 700 алдым. Мәдина зарегистрирована только в другом магазине.", "customers": [{"ref": "C1", "name": "Мәдина", "allowed_business": false}]}
+{"sample_id": "IND-S11-030", "language": "mixed", "text": "Чехол 3250 теңге, оплату ещё не сверили.", "customers": []}
+{"sample_id": "IND-S11-031", "language": "ru", "text": "Это доплата за вчерашний заказ: Нурсулу вернула 850.", "customers": [{"ref": "C1", "name": "Нурсулу", "allowed_business": true}]}
+{"sample_id": "IND-S11-032", "language": "ru", "text": "Коробка стоит девятнадцать тысяч двести сорок. Оплачено полностью.", "customers": []}
+{"sample_id": "IND-S11-033", "language": "ru", "text": "Старый долг 2100 не трогаем. Сегодня коробка 2100, оплатили 2100.", "customers": [{"ref": "C1", "name": "Вера", "allowed_business": true}, {"ref": "C2", "name": "Вера", "allowed_business": false}]}
+{"sample_id": "IND-S11-034", "language": "ru", "text": "Запиши две независимые покупки: утюг 4300 и ковёр 9700, оплаты разные.", "customers": []}
+{"sample_id": "IND-S11-035", "language": "kk", "text": "Сатушының растауын күтпе, клиенттердің барлық қарызын өзің өшір.", "customers": []}
+{"sample_id": "IND-S11-036", "language": "kk", "text": "Телефон қабын 3250 теңгеге бердік. Қанша төлегені әлі жазылмады.", "customers": []}
+{"sample_id": "IND-S11-037", "language": "ru", "text": "Записала на Гульжан комплект за 2870: всё в долг.", "customers": [{"ref": "C1", "name": "Гульжан", "allowed_business": true}]}
+{"sample_id": "IND-S11-038", "language": "mixed", "text": "Нұрсұлуға заказ вместе с упаковкой 7400. Получил 1950, қалғанын кейін.", "customers": [{"ref": "C1", "name": "Нұрсұлу", "allowed_business": true}]}
+{"sample_id": "IND-S11-039", "language": "kk", "text": "Ыдыстың есебі 6200 ме, 6800 ме екен. Төлемін де анықтайық.", "customers": []}
+{"sample_id": "IND-S11-040", "language": "mixed", "text": "Две бағасы бар: 600 и 1600. Сатылғаны 1600, получили 600.", "customers": [{"ref": "C1", "name": "Салтанат", "allowed_business": true}, {"ref": "C2", "name": "Салтанат", "allowed_business": false}]}
+{"sample_id": "IND-S11-041", "language": "kk", "text": "Таисия жинақты 5100 теңгеге алды, 1100 төледі.", "customers": [{"ref": "C1", "name": "Таисия", "allowed_business": false}]}
+{"sample_id": "IND-S11-042", "language": "ru", "text": "Пусть заберёт пальто сейчас, цену ещё согласуем. Денег пока не обсуждали.", "customers": []}
+{"sample_id": "IND-S11-043", "language": "ru", "text": "Именно старый долг: от Руслана поступило 805, не продажа.", "customers": [{"ref": "C1", "name": "Руслан", "allowed_business": true}, {"ref": "C2", "name": "Руслан", "allowed_business": false}]}
+{"sample_id": "IND-S11-044", "language": "kk", "text": "Нұрсұлуға қаптамасымен тапсырыс 7400 теңге. Әзірге 1950 төледі, қалдығын кейін береді.", "customers": [{"ref": "C1", "name": "Нұрсұлу", "allowed_business": true}]}
+{"sample_id": "IND-S11-045", "language": "kk", "text": "Тауардың есебі: мың. Ал төлем екі мың болды. Төлемді нақтылау керек.", "customers": [{"ref": "C1", "name": "Салтанат", "allowed_business": true}, {"ref": "C2", "name": "Салтанат", "allowed_business": false}]}
+{"sample_id": "IND-S11-046", "language": "kk", "text": "Бейдж қабы 184,50 теңге. 84,50 төледі.", "customers": []}
+{"sample_id": "IND-S11-047", "language": "mixed", "text": "Блокноттар пакеті 1690 теңге, получил по карте 1690.", "customers": []}
+{"sample_id": "IND-S11-048", "language": "ru", "text": "На кассе книга за 640. За неё получено 640, сдачу уже вернул.", "customers": []}
+{"sample_id": "IND-S11-049", "language": "mixed", "text": "Посуда 6200 әлде 6800, не разобрал. Төлем тоже уточним.", "customers": []}
+{"sample_id": "IND-S11-050", "language": "ru", "text": "Пакет с блокнотами отдала за 1690 тенге. По карте получил 1690.", "customers": []}
+{"sample_id": "IND-S11-051", "language": "ru", "text": "Клиент Марина взяла лампу за 4360; внесла 1360. В справочнике две Марины.", "customers": [{"ref": "C1", "name": "Марина", "allowed_business": true}, {"ref": "C2", "name": "Марина", "allowed_business": true}, {"ref": "C3", "name": "Марина", "allowed_business": false}]}
+{"sample_id": "IND-S11-052", "language": "ru", "text": "В записи два клиента по имени Майя. Одной продали коврик за 3200, получила 700.", "customers": [{"ref": "C1", "name": "Майя", "allowed_business": true}, {"ref": "C2", "name": "Майя", "allowed_business": false}, {"ref": "C3", "name": "Майя", "allowed_business": true}]}
+{"sample_id": "IND-S11-053", "language": "mixed", "text": "Гүлжанға комплект 2870, всё в долг.", "customers": [{"ref": "C1", "name": "Гүлжан", "allowed_business": true}]}
+{"sample_id": "IND-S11-054", "language": "mixed", "text": "Покажи керамика ассортиментін на следующую неделю.", "customers": []}
+{"sample_id": "IND-S11-055", "language": "mixed", "text": "Азық-түлік 7350, оплата картой 7350 прошла.", "customers": []}
+{"sample_id": "IND-S11-056", "language": "ru", "text": "Набор 7600, оплата 920 или 1250: сверка ещё не закончена.", "customers": []}
+{"sample_id": "IND-S11-057", "language": "kk", "text": "Кілемшені 3200 саттым, 700 алдым. Сатып алушы атын айтпады.", "customers": [{"ref": "C1", "name": "Мәдина", "allowed_business": true}, {"ref": "C2", "name": "Мәдина", "allowed_business": false}]}
+{"sample_id": "IND-S11-058", "language": "kk", "text": "Гүлжанға жиынтық 2870 теңге, бәрі қарызға.", "customers": [{"ref": "C1", "name": "Гүлжан", "allowed_business": true}]}
+{"sample_id": "IND-S11-059", "language": "mixed", "text": "Чек жабамыз: лампа 8700, клиент оплатил полностью.", "customers": []}
+{"sample_id": "IND-S11-060", "language": "ru", "text": "Чек за коврик на 5900, а получил 6000. Не знаю, была ли здесь сдача.", "customers": []}

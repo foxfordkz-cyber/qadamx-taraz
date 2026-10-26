@@ -1,0 +1,25 @@
+{
+  "required_documents": 14,
+  "relative_links_checked": 30,
+  "artifact_count": 52,
+  "static_checks": [
+    {
+      "command": "python -m ruff check tools/stage11_release tests/test_stage11_release.py",
+      "exit": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "command": "python -m ruff format --check tools/stage11_release tests/test_stage11_release.py",
+      "exit": 0,
+      "output": "5 files already formatted\n"
+    },
+    {
+      "command": "python -m app.export_contracts --check",
+      "exit": 0,
+      "output": "Contracts verified\n"
+    }
+  ],
+  "status": "passed",
+  "stage10_application_unchanged": true,
+  "git_index_hashes_checked": 58
+}

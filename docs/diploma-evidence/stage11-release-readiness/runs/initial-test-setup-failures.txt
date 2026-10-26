@@ -1,0 +1,1167 @@
+.....................EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE........ [ 35%]
+............................................E........................... [ 70%]
+............................................................             [100%]
+=================================== ERRORS ====================================
+_____ ERROR at setup of test_operation_and_idempotency_roll_back_together _____
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___________ ERROR at setup of test_sale_repayment_summary_and_retry ___________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_________ ERROR at setup of test_concurrent_repayments_do_not_overpay _________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+______ ERROR at setup of test_concurrent_same_key_creates_one_operation _______
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__________ ERROR at setup of test_customer_and_sale_tenant_isolation __________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_____ ERROR at setup of test_customers_history_open_sales_and_pagination ______
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes0] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes1] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes2] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes3] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes4] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes5] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes6] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes7] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes8] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_invalid_requests_create_no_journal_rows[changes9] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_missing_idempotency_key_and_unauthenticated_write ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+______ ERROR at setup of test_reverse_preserves_history_and_idempotency _______
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___________ ERROR at setup of test_local_midnight_and_current_debt ____________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___________ ERROR at setup of test_seed_twice_and_real_foreign_keys ___________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_________ ERROR at setup of test_customer_unicode_codepoint_boundary __________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_persistence_replay_conflict_and_no_money_mutation ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_______ ERROR at setup of test_validation_no_persistence[consent-False] _______
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_________ ERROR at setup of test_validation_no_persistence[consent-1] _________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+__ ERROR at setup of test_validation_no_persistence[sales_debt_clarity-True] __
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+______ ERROR at setup of test_validation_no_persistence[risk_clarity-6] _______
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___ ERROR at setup of test_validation_no_persistence[forecast_usefulness-0] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+________ ERROR at setup of test_validation_no_persistence[language-en] ________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___ ERROR at setup of test_validation_no_persistence[features_used-value6] ____
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___ ERROR at setup of test_validation_no_persistence[features_used-value7] ____
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_____ ERROR at setup of test_validation_no_persistence[improve_first-   ] _____
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_validation_no_persistence[improve_first-\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400] _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_validation_no_persistence[suggestion-\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8] _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___ ERROR at setup of test_validation_no_persistence[contact-not requested] ___
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+______ ERROR at setup of test_unicode_boundaries_and_no_rating_supported ______
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_auth_tenant_and_same_business_other_author_isolation _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___________ ERROR at setup of test_concurrent_retry_and_pagination ____________
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_openai_invalid_raw_response_never_persists_draft_or_money[duplicate_inner] _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_openai_invalid_raw_response_never_persists_draft_or_money[duplicate_envelope] _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_openai_invalid_raw_response_never_persists_draft_or_money[unexpected] _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_openai_invalid_raw_response_never_persists_draft_or_money[malformed] _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_repaired_genitive_retains_customer_choice_and_tenant_scope _
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+___ ERROR at setup of test_validation_error_does_not_trigger_paid_fallback ____
+
+    @pytest.fixture(scope="session")
+    def pg_engine():
+        value = os.environ.get("TEST_DATABASE_URL")
+        if not value:
+            pytest.skip("TEST_DATABASE_URL required for real PostgreSQL tests")
+        url = make_url(value)
+        assert url.database and url.database.endswith("_test"), "Use a dedicated *_test database"
+>       main_url = Settings().postgres_url()
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\conftest.py:81:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = Settings(database_url=None, supabase_url='', jwt_issuer='', jwt_audience='', allowed_origins=[], demo_owner_a_sub='', ..._key=None, livestock_demo_mode=True, storage_bucket='', ai_model='', assistant_enabled=False, assistant_daily_limit=20)
+
+    def postgres_url(self):
+        if not self.database_url:
+>           raise ValueError("DATABASE_URL is required")
+E           ValueError: DATABASE_URL is required
+
+app\config.py:66: ValueError
+_ ERROR at setup of test_offline_evaluation_is_portable_to_a_git_lf_checkout __
+
+cls = <class '_pytest.runner.CallInfo'>
+func = <function call_and_report.<locals>.<lambda> at 0x000001704877AF20>
+when = 'setup'
+reraise = (<class '_pytest.outcomes.Exit'>, <class 'KeyboardInterrupt'>)
+
+    @classmethod
+    def from_call(
+        cls,
+        func: Callable[[], TResult],
+        when: Literal["collect", "setup", "call", "teardown"],
+        reraise: type[BaseException] | tuple[type[BaseException], ...] | None = None,
+    ) -> CallInfo[TResult]:
+        """Call func, wrapping the result in a CallInfo.
+
+        :param func:
+            The function to call. Called without arguments.
+        :type func: Callable[[], _pytest.runner.TResult]
+        :param when:
+            The phase in which the function is called.
+        :param reraise:
+            Exception or exceptions that shall propagate if raised by the
+            function, instead of being wrapped in the CallInfo.
+        """
+        excinfo = None
+        instant = timing.Instant()
+        try:
+>           result: TResult | None = func()
+                                     ^^^^^^
+
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\runner.py:344:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\runner.py:246: in <lambda>
+    lambda: runtest_hook(item=item, **kwds), when=when, reraise=reraise
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\logging.py:843: in pytest_runtest_setup
+    yield
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\capture.py:895: in pytest_runtest_setup
+    return (yield)
+            ^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\runner.py:164: in pytest_runtest_setup
+    item.session._setupstate.setup(item)
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\runner.py:514: in setup
+    col.setup()
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\python.py:1674: in setup
+    self._request._fillfixtures()
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\fixtures.py:720: in _fillfixtures
+    item.funcargs[argname] = self.getfixturevalue(argname)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\fixtures.py:549: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\fixtures.py:640: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\fixtures.py:1128: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pluggy\_caller.py:197: in __call__
+    return self._hookexec(
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pluggy\_manager.py:183: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pluggy\_execution.py:64: in run_old_style_hookwrapper
+    return result.get_result()
+           ^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\pluggy\_execution.py:49: in run_old_style_hookwrapper
+    res = yield
+          ^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+            ^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\fixtures.py:1196: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\fixtures.py:923: in call_fixture_func
+    fixture_result = next(generator)
+                     ^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\tmpdir.py:264: in tmp_path
+    path = _mk_tmp(request, tmp_path_factory)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\tmpdir.py:251: in _mk_tmp
+    return factory.mktemp(name, numbered=True)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\tmpdir.py:130: in mktemp
+    basename = self._ensure_relative_to_basetemp(basename)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\tmpdir.py:111: in _ensure_relative_to_basetemp
+    if (self.getbasetemp() / basename).resolve().parent != self.getbasetemp():
+        ^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\tmpdir.py:186: in getbasetemp
+    basetemp = make_numbered_dir_with_cleanup(
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\pathlib.py:407: in make_numbered_dir_with_cleanup
+    raise e
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\pathlib.py:388: in make_numbered_dir_with_cleanup
+    p = make_numbered_dir(root, prefix, mode)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\pathlib.py:229: in make_numbered_dir
+    max_existing = max(map(parse_num, find_suffixes(root, prefix)), default=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\pathlib.py:188: in extract_suffixes
+    for entry in iter:
+                 ^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = WindowsPath('C:/Users/user/AppData/Local/Temp/pytest-of-user')
+prefix = 'pytest-'
+
+    def find_prefixed(root: Path, prefix: str) -> Iterator[os.DirEntry[str]]:
+        """Find all elements in root that begin with the prefix, case-insensitive."""
+        l_prefix = prefix.lower()
+>       for x in os.scandir(root):
+                 ^^^^^^^^^^^^^^^^
+E       PermissionError: [WinError 5] �������� � �������: 'C:\\Users\\user\\AppData\\Local\\Temp\\pytest-of-user'
+
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\_pytest\pathlib.py:176: PermissionError
+============================== warnings summary ===============================
+..\..\..\qadam-final-candidate\apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-final-candidate\apps\api\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: C:\Users\user\Documents\Codex\2026-10-15\github-plugin-github-openai-curated-remote\work\qadam-stage11-readiness\tmp\stage11-review-junit.xml -
+=========================== short test summary info ===========================
+ERROR tests/test_ledger.py::test_operation_and_idempotency_roll_back_together
+ERROR tests/test_ledger.py::test_sale_repayment_summary_and_retry - ValueErro...
+ERROR tests/test_ledger.py::test_concurrent_repayments_do_not_overpay - Value...
+ERROR tests/test_ledger.py::test_concurrent_same_key_creates_one_operation - ...
+ERROR tests/test_ledger.py::test_customer_and_sale_tenant_isolation - ValueEr...
+ERROR tests/test_ledger.py::test_customers_history_open_sales_and_pagination
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes0]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes1]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes2]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes3]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes4]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes5]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes6]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes7]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes8]
+ERROR tests/test_ledger.py::test_invalid_requests_create_no_journal_rows[changes9]
+ERROR tests/test_ledger.py::test_missing_idempotency_key_and_unauthenticated_write
+ERROR tests/test_ledger.py::test_reverse_preserves_history_and_idempotency - ...
+ERROR tests/test_ledger.py::test_local_midnight_and_current_debt - ValueError...
+ERROR tests/test_ledger.py::test_seed_twice_and_real_foreign_keys - ValueErro...
+ERROR tests/test_ledger.py::test_customer_unicode_codepoint_boundary - ValueE...
+ERROR tests/test_research_feedback.py::test_persistence_replay_conflict_and_no_money_mutation
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[consent-False]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[consent-1]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[sales_debt_clarity-True]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[risk_clarity-6]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[forecast_usefulness-0]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[language-en]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[features_used-value6]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[features_used-value7]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[improve_first-   ]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[improve_first-\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400\U00010400]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[suggestion-\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8\u04d8]
+ERROR tests/test_research_feedback.py::test_validation_no_persistence[contact-not requested]
+ERROR tests/test_research_feedback.py::test_unicode_boundaries_and_no_rating_supported
+ERROR tests/test_research_feedback.py::test_auth_tenant_and_same_business_other_author_isolation
+ERROR tests/test_research_feedback.py::test_concurrent_retry_and_pagination
+ERROR tests/test_stage9_postgres.py::test_openai_invalid_raw_response_never_persists_draft_or_money[duplicate_inner]
+ERROR tests/test_stage9_postgres.py::test_openai_invalid_raw_response_never_persists_draft_or_money[duplicate_envelope]
+ERROR tests/test_stage9_postgres.py::test_openai_invalid_raw_response_never_persists_draft_or_money[unexpected]
+ERROR tests/test_stage9_postgres.py::test_openai_invalid_raw_response_never_persists_draft_or_money[malformed]
+ERROR tests/test_stage9_postgres.py::test_repaired_genitive_retains_customer_choice_and_tenant_scope
+ERROR tests/test_stage9_postgres.py::test_validation_error_does_not_trigger_paid_fallback
+ERROR tests/test_assistant_semantics.py::test_offline_evaluation_is_portable_to_a_git_lf_checkout
+160 passed, 1 warning, 44 errors in 5.87s

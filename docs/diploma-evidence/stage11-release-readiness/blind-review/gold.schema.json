@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sample_id",
+    "language",
+    "kind",
+    "customer_query",
+    "total_minor",
+    "received_minor",
+    "amount_minor",
+    "customer_refs",
+    "clarification_fields",
+    "reviewer_codes",
+    "adjudication_status",
+    "rationale",
+    "adjudicator_code",
+    "annotation_date"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "stage11-human-gold-v1"
+    },
+    "sample_id": {
+      "type": "string",
+      "pattern": "^IND-S11-[0-9]{3}$"
+    },
+    "language": {
+      "enum": [
+        "ru",
+        "kk",
+        "mixed"
+      ]
+    },
+    "kind": {
+      "enum": [
+        "sale",
+        "repayment",
+        "unknown"
+      ]
+    },
+    "customer_query": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "total_minor": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "received_minor": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "amount_minor": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "customer_refs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "clarification_fields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "reviewer_codes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "adjudication_status": {
+      "enum": [
+        "agreed",
+        "adjudicated",
+        "disputed"
+      ]
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "adjudicator_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "annotation_date": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

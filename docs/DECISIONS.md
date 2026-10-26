@@ -391,3 +391,21 @@ are not inferred from desktop Chrome or local signed JWT tests.
 Local demonstration is distinct from staging GO. No automatic push/PR/deployment,
 shared migration or paid AI is authorized. Evidence and next acceptance gates:
 `docs/diploma-evidence/final-integration/`.
+
+## 2026-10-26 — Stage11 separates local proof from release approval
+
+Review branch starts at verified Stage10 e825dd9a; no production rebuild or merge.
+New tooling2073960 rehearses0009 and restores synthetic data into NEW loopback DBs;
+destructive downgrade is demonstrated only on the restored copy and is not the
+default release rollback. Raw backup files remain local, checksums are evidence.
+
+The current exact Pages callback intentionally blocks registration on arbitrary
+staging production origins. Staging requires an approved Auth origin/callback
+decision, managed DB/role review, independent human review and bounded liveAI
+acceptance; local tests do not satisfy these gates. Feedback collection awaits
+assigned retention/withdrawal operations. No production guard was weakened.
+
+The60-case blind packet is unannotated and uses developer-exposed synthetic texts;
+it is preparation for human label review, not independent model performance.
+Publication, PR100 changes, deploy and paid calls remain prohibited in this stage.
+Evidence: `docs/diploma-evidence/stage11-release-readiness/`.

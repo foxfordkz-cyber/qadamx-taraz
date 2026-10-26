@@ -1,0 +1,179 @@
+{
+  "recorded_utc": "2026-10-26T09:31:20.719763+00:00",
+  "review_tools_commit": "31cba2d5e0c0e3b0d9ce4d2159a2357005d954c3",
+  "application_source": "e825dd9a9568dda33a9226e1941e789fd21d2175",
+  "branch": "review/diploma-stage11-readiness",
+  "remote_main_after_fetch": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "initial_worktree_count": 32,
+  "preserved_other_worktrees": [
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadamx-taraz",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-ai-assistant-final-acceptance",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-customer-post",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-customer-recovery-safe",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-diploma-integration",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-final-candidate",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-final-qa-main-check",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-final-voice-presentation",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-live-measurement-operator",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-live-microphone-pitch-qa",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-mic-audit",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-mic-browser-tests",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-mic-component-tests",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-microphone-acceptance",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-ml-sales-debt-research",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-multilingual-extraction",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-recovery-browser",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-recovery-coordinator",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-recovery-regressions",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-registration-deploy-review",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-research-baseline-check",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-seller-analytics",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-seller-design",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-seller-fixes",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-seller-qa",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-seller-registration",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-share-day-summary",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-stage8-ai-evaluation",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-stage9-extraction-hardening",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-voice-integration-check",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "path": "C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-voice-playback-cancel",
+      "head_unchanged": true,
+      "status_unchanged": true
+    }
+  ],
+  "protected_paths_unchanged": [
+    "apps/api/app",
+    "apps/api/migrations",
+    "apps/web/src",
+    "packages/contracts",
+    "apps/api/tests/fixtures",
+    "docs/diploma-evidence/ai-evaluation-stage8",
+    "docs/diploma-evidence/ai-evaluation-stage9",
+    "docs/diploma-evidence/final-integration"
+  ],
+  "push": "NOT RUN: prohibited by Stage11 task",
+  "pr_mutations": 0,
+  "paid_ai_calls": 0,
+  "shared_database_changes": 0
+}

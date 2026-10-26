@@ -1354,3 +1354,38 @@ Staging NO-GO до согласованного rollout, backup/restore/0009 reh
 live Supabase/AI и physical acceptance. Paid calls 0. Публикация запрещена ТЗ:
 push, PR #100, main, deploy и общая БД не менялись. Следующий этап — независимая
 разметка и разрешённая staging-приёмка, не очередной merge того же кода.
+
+## 2026-10-26 — Stage11 release-readiness review (local only)
+
+Ветка `review/diploma-stage11-readiness`, база Stage10
+`e825dd9a9568dda33a9226e1941e789fd21d2175`. Tooling commit:
+`2073960792067f392e7938f733a75ae652116c9f`.
+Поправка переносимости ZIP: `31cba2d5e0c0e3b0d9ce4d2159a2357005d954c3`;
+регрессия воспроизведена (1fail/5pass), после фикса LF/ZIP metadata6pass.
+Production, миграции, OpenAPI/generated.ts и frozen datasets не менялись.
+Повторяемые утилиты: `apps/api/tools/stage11_release/`; тесты:
+`apps/api/tests/test_stage11_release.py`. Полная передача:
+`docs/diploma-evidence/stage11-release-readiness/README.md`.
+
+Проверки:210selected tests и отдельно25tool/live-guard tests (6повторяются),
+9config probes,21migration/backup/restore checks на НОВОМ локальном PG17.11:55441.
+0009 сохраняет прежние строки; восстановление всех таблиц и остатка1500 ₸ прошло;
+downgrade только восстановленной копии подтвердил потерю feedback. Старые БД не
+удалялись. Initial failures сохранены. Ruff/format/API check прошли.
+Stage10полные764/639/19 являются inherited evidence, не повторным Stage11результатом.
+
+Рабочее локальное демо:4303/login, API8322, новая
+`qadam_research_browser_stage11_ready_test`, исходник e825dd9a, syntheticJWT/offlineAI.
+Read-only Chrome smoke прошёл:7/30,риск,empty,390px,logout;2скриншота;денежных writes0.
+Точные команды в test-execution.md;5/3минутные сценарии — план показа, не замер.
+
+Прежние31worktree сохранили HEAD/status. origin/main2518b2e неизменён;
+Stage10ahead30,behind0,19commits local-only относительно всехoriginrefs.
+PR100openDraft не менялся. Публикация отдельного Draft технически возможна, но
+запрещена текущим ТЗ до отдельного разрешения и решения о пересечении сPR100.
+
+Staging NO-GO: нет согласованной среды/realAuth; callback production жёстко Pages;
+нет liveAI бюджета/моделей и подтверждённого retention/withdrawal процесса.
+Blind60packet готов, humanreviewers0. Code review выполнен AI, не независимым
+человеком. Следующий шаг капитана:назначить reviewers,точную staging/Auth конфигурацию
+и отдельно разрешить публикацию/live acceptance. Push/PR/merge/deploy/paid/sharedDB0.

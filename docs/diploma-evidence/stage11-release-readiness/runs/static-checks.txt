@@ -1,0 +1,8 @@
+python -m ruff check tools/stage11_release tests/test_stage11_release.py
+All checks passed!
+
+python -m ruff format --check tools/stage11_release tests/test_stage11_release.py
+5 files already formatted
+
+python -m app.export_contracts --check
+Contracts verified

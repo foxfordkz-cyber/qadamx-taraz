@@ -1,0 +1,42 @@
+{
+  "node": "v24.21.0",
+  "live_requests": 0,
+  "checks": [
+    {
+      "name": "exact production origin permits registration",
+      "pass": true
+    },
+    {
+      "name": "arbitrary staging production bundle refuses registration",
+      "pass": true
+    },
+    {
+      "name": "production build refuses loopback registration",
+      "pass": true
+    },
+    {
+      "name": "development permits explicit loopback only",
+      "pass": true
+    },
+    {
+      "name": "unapproved callback is refused",
+      "pass": true
+    },
+    {
+      "name": "synthetic HTTPS public configuration accepted",
+      "pass": true
+    },
+    {
+      "name": "plain HTTP API rejected",
+      "pass": true
+    },
+    {
+      "name": "wrong API suffix rejected",
+      "pass": true
+    },
+    {
+      "name": "server secret variable name rejected",
+      "pass": true
+    }
+  ]
+}
