@@ -1,0 +1,2113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="639" failures="1" errors="0" time="160.6629907">
+    <testsuite name="src/features/inquiry/InquiryForm.accessibility.test.tsx" timestamp="2026-10-26T11:26:41.675Z" hostname="vivobook" tests="5" failures="0" errors="0" skipped="0" time="3.9860049">
+        <testcase classname="src/features/inquiry/InquiryForm.accessibility.test.tsx" name="requires the agreed recipient props, without external callbacks" time="0.0157135">
+        </testcase>
+        <testcase classname="src/features/inquiry/InquiryForm.accessibility.test.tsx" name="focuses the first invalid field in order and links visible errors" time="1.8965157">
+        </testcase>
+        <testcase classname="src/features/inquiry/InquiryForm.accessibility.test.tsx" name="keeps accessible IDs local to each mounted form" time="0.1410251">
+        </testcase>
+        <testcase classname="src/features/inquiry/InquiryForm.accessibility.test.tsx" name="moves focus to API-confirmed success, then back to a new empty form" time="1.2994557">
+        </testcase>
+        <testcase classname="src/features/inquiry/InquiryForm.accessibility.test.tsx" name="keeps general contacts editable without mobile autocorrection and localizes errors" time="0.6198607">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/analytics-collection.test.tsx" timestamp="2026-10-26T11:26:42.017Z" hostname="vivobook" tests="29" failures="0" errors="0" skipped="0" time="3.1389192">
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; shows the same demo amounts, a rounded percentage and accessible bars in ru" time="2.6375433">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; shows the same demo amounts, a rounded percentage and accessible bars in kk" time="0.0593207">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; rounds collection for 7000000/4000000/800000 to 69 percent independently of period receipts" time="0.018253">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; rounds collection for 200/1/0 to 1 percent independently of period receipts" time="0.0189671">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; rounds collection for 200/0/0 to 0 percent independently of period receipts" time="0.0218186">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; rounds collection for 200/100/100 to 100 percent independently of period receipts" time="0.0236952">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; rounds collection for 300/100/100 to 67 percent independently of period receipts" time="0.0248466">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; shows explicit zero states and no meaningless bars in ru" time="0.011977">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; shows explicit zero states and no meaningless bars in kk" time="0.0115174">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; hides unavailable blocks (null), without synthesizing them from receipts" time="0.0039832">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; hides unavailable blocks (undefined), without synthesizing them from receipts" time="0.0031911">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; shows each optional block independently and does not warn for a zero older bucket" time="0.022804">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="collection and debt aging presentation &gt; does not conflate a period without sales with old outstanding debt" time="0.0237073">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; accepts the captain&apos;s published API 0.7.2 example" time="0.2278609">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; keeps both demo invariants for 7 days" time="0.0029759">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; keeps both demo invariants for 30 days" time="0.0025173">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; keeps zero collection and aging for demo empty" time="0.0025747">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; keeps zero collection and aging for demo reversal" time="0.0018787">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; accepts legacy responses with null optional values" time="0.0015572">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; accepts legacy responses with undefined optional values" time="0.0012191">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: collection total" time="0.0025607">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: collection scope" time="0.001195">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: negative collection" time="0.0011252">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: fractional collection" time="0.0009915">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: aging total" time="0.0010091">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: duplicate bucket" time="0.0009534">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: missing bucket" time="0.0010377">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: invalid count" time="0.0010909">
+        </testcase>
+        <testcase classname="src/test/analytics-collection.test.tsx" name="optional analytics contract fields &gt; rejects malformed new data: unsafe money" time="0.0010477">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/analytics-data.test.tsx" timestamp="2026-10-26T11:26:42.037Z" hostname="vivobook" tests="48" failures="0" errors="0" skipped="0" time="1.7781577">
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; accepts captain example empty" time="0.7826664">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; accepts captain example sale_and_repayment" time="0.0029668">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; accepts captain example old_sale_reversed_today" time="0.0046083">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; returns exactly 7 local calendar days and 24 hours" time="0.0192663">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; returns exactly 30 local calendar days and 24 hours" time="0.0042624">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; uses distinct period fixtures without recalculating current debt" time="0.0019226">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; keeps an empty period distinct from unavailable average ticket" time="0.0035442">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; preserves current debt from earlier dates even when the selected period is empty" time="0.0015026">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; keeps the second permitted Demo business empty and denies arbitrary IDs" time="0.0058065">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; preserves negative receipts from old-sale reversal without negative sales" time="0.0080979">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; reads the supplied integer average ticket and never substitutes receipts" time="0.0045793">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; validates today in Asia/Almaty across local midnight without a client date parameter" time="0.0043379">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects a different business" time="0.0013934">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects a different period" time="0.0008593">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects unsafe money" time="0.0012547">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects fractional money" time="0.0014675">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects negative sales" time="0.0015359">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects missing average" time="0.0012787">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects negative count" time="0.0009203">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects missing day" time="0.0008213">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects unordered dates" time="0.000826">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects invalid calendar date" time="0.0004573">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects wrong local today" time="0.0007457">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects wrong partial day" time="0.0008442">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects missing hour" time="0.0007766">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects duplicate hour" time="0.0008395">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects disagreeing totals" time="0.0010734">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="approved analytics DTO, frontend validation only &gt; rejects disagreeing counts" time="0.0016777">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="explicit Demo analytics adapter and scope isolation &gt; does not request an unconfigured live endpoint or substitute Demo on refetch" time="0.0154409">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="explicit Demo analytics adapter and scope isolation &gt; disables expired identity requests even when explicitly refetched" time="0.0036241">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="explicit Demo analytics adapter and scope isolation &gt; shows the selected Demo failure once and retries explicitly without a network request" time="0.0227496">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="explicit Demo analytics adapter and scope isolation &gt; aborts before fixture resolution and rejects a resolver that ignores cancellation" time="0.0035379">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="explicit Demo analytics adapter and scope isolation &gt; cancels the synthetic loading timer" time="0.0062436">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="explicit Demo analytics adapter and scope isolation &gt; never displays another business, period, or old identity epoch while requests finish late" time="0.676362">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; requests the approved 7-day URL with Bearer and AbortSignal" time="0.1174235">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; requests the approved 30-day URL with Bearer and AbortSignal" time="0.0036235">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; rejects invalid periods and IDs before calling transport" time="0.0059863">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; preserves HTTP 401 without retries or Demo fallback" time="0.0037">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; preserves HTTP 403 without retries or Demo fallback" time="0.0019994">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; preserves HTTP 404 without retries or Demo fallback" time="0.0019544">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; preserves HTTP 422 without retries or Demo fallback" time="0.0019414">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; preserves HTTP 503 without retries or Demo fallback" time="0.0018887">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; keeps network failure visible without synthetic substitution" time="0.0017261">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; does not fetch for guest even when an API client is available" time="0.0013801">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; rejects malformed or mismatched live snapshots through the shared reader" time="0.001453">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; classifies an ignored late response after cancellation as AbortError" time="0.0014718">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; classifies an ignored late 401 after cancellation as AbortError" time="0.0008072">
+        </testcase>
+        <testcase classname="src/test/analytics-data.test.tsx" name="published 0.6.0 live analytics binding using synthetic HTTP only &gt; refetches active analytics on the existing money-write scope/business invalidation" time="0.0376015">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/analytics-redesign.test.tsx" timestamp="2026-10-26T11:26:42.076Z" hostname="vivobook" tests="8" failures="0" errors="0" skipped="0" time="4.9853653">
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="Analytics 0.7.1 summary &gt; loads server facts on entry, period, language and business change; AI requires the button" time="3.9897333">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="Analytics 0.7.1 summary &gt; hides assistant summary and reminder actions for ASSISTANT_DISABLED" time="0.3526133">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="Analytics 0.7.1 summary &gt; ignores a late summary from the old period" time="0.6199126">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="one coherent demo dataset &gt; ru 7: cards, daily totals, facts, debtors and four answers agree" time="0.006797">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="one coherent demo dataset &gt; ru 30: cards, daily totals, facts, debtors and four answers agree" time="0.0039476">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="one coherent demo dataset &gt; kk 7: cards, daily totals, facts, debtors and four answers agree" time="0.003198">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="one coherent demo dataset &gt; kk 30: cards, daily totals, facts, debtors and four answers agree" time="0.0035477">
+        </testcase>
+        <testcase classname="src/test/analytics-redesign.test.tsx" name="one coherent demo dataset &gt; empty business and reversal scenario do not reuse active demo debts" time="0.0016852">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/analytics-ui.test.tsx" timestamp="2026-10-26T11:26:42.081Z" hostname="vivobook" tests="20" failures="0" errors="0" skipped="0" time="12.9079525">
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; uses readable Kazakh calendar dates independently of Chromium&apos;s incomplete ICU month names" time="0.1179805">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; protects its direct route before any Analytics adapter request" time="0.2433803">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; labels Demo, formats integer tiyn as ₸ and exposes every day/hour with the incomplete current day" time="0.9544896">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; switches 7/30 days, preserves the selected period across RU/KZ and keeps server scope unchanged" time="1.7410121">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; keeps three main metrics, details and unfiltered debt links in both languages" time="1.4875949">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; keeps zero days/hours and presents null average as no sales rather than zero or NaN" time="0.9874666">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; keeps a pre-existing debt visible when the selected period has no sales or net receipts" time="0.4799503">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; shows an old reversal as signed receipts while sales stay zero, including in the table and chart" time="0.9473406">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; keeps offsetting receipts visible even when the period net is zero" time="0.4812083">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; provides exact chart values and roving keyboard focus without requiring a pointer" time="0.868183">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; replaces a report with loading state and keeps failure retry explicit" time="0.540193">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; switches only permitted businesses and drops the previous report while the next loads" time="0.55663">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics through the existing App, Auth, business and RU/KZ providers &gt; leaves a signed-in seller waiting when its API URL is unconfigured and never implicitly enters Demo" time="0.1591441">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; loads 7/30-day snapshots with Bearer and ignores a foreign business URL parameter" time="1.1168153">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; renders live HTTP 404 as an error, retries only on request and never reads Demo" time="0.4371301">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; renders live HTTP 503 as an error, retries only on request and never reads Demo" time="0.3909526">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; expires the current session on an actual Analytics HTTP 401 without displaying private cards or Demo" time="0.1552171">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; rejects a successful Analytics response from another business without showing any of its money" time="0.0833361">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; requests only the selected membership and clears old live cards while the next business is pending" time="0.6907479">
+        </testcase>
+        <testcase classname="src/test/analytics-ui.test.tsx" name="Analytics UI using the published 0.6 contract and the real authenticated API client &gt; does not let a late Analytics 401 from the first A session expire a fresh A session after A/B/A" time="0.461556">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/assistant.test.tsx" timestamp="2026-10-26T11:26:42.278Z" hostname="vivobook" tests="28" failures="0" errors="0" skipped="0" time="12.7478703">
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; accepts published ai responses and exact integer tiyn" time="0.0090422">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; accepts published fallback responses and exact integer tiyn" time="0.001451">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; accepts published facts responses and exact integer tiyn" time="0.0010683">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;business_id&quot;:&quot;10000000-0000-4000-8000-000000000003&quot;}" time="0.0033134">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;days&quot;:30}" time="0.0021677">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;locale&quot;:&quot;kk&quot;}" time="0.0010747">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;source&quot;:&quot;made-up&quot;}" time="0.0007542">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;facts&quot;:[{&quot;key&quot;:&quot;sales&quot;,&quot;label&quot;:&quot;Sales&quot;,&quot;value_minor&quot;:1.5}]}" time="0.0006711">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;facts&quot;:[{&quot;key&quot;:&quot;sales&quot;,&quot;label&quot;:&quot;Sales&quot;,&quot;value_minor&quot;:9007199254740992}]}" time="0.0008122">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;actions&quot;:[{&quot;kind&quot;:&quot;reminder_draft&quot;,&quot;customer_id&quot;:&quot;20000000-0000-4000-8000-000000000001&quot;,&quot;text&quot;:&quot;Unknown customer&quot;}]}" time="0.0023068">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant contract validation &gt; rejects unsafe or mismatched envelope {&quot;actions&quot;:[{&quot;kind&quot;:&quot;external_link&quot;,&quot;text&quot;:&quot;https://example.com&quot;}]}" time="0.0007927">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; loads only facts and opens the panel without a paid request" time="1.6560489">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; submits one authenticated question and copies the reminder without writing money" time="0.8006853">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; opens a debtor reminder with that name and ai=true only on click" time="0.5974428">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; prevents repeat submissions and retains typed input while pending" time="1.0448708">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; times out without retry and ignores a late answer" time="0.4989511">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; expires the session on a paid request&apos;s 401 and hides private data" time="0.5017411">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; renders allowed navigation kinds only as local links" time="0.5190095">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; labels fallback, zero and empty facts without pretending that AI succeeded" time="0.4842137">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; shows the paid daily limit but retains the free period summary" time="0.5844107">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; hides all assistant affordances after the panel reports ASSISTANT_DISABLED" time="0.5644068">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; retries a failed paid question explicitly with the same body" time="0.6224854">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; uses the chosen 30-day period and Kazakh in the panel" time="1.5083903">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; aborts and ignores a pending paid response after an identity change" time="0.4671423">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; rejects a foreign successful response" time="0.4534889">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; supports manual copying if clipboard access fails" time="0.4972832">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; stays off when the build flag is false" time="0.195099">
+        </testcase>
+        <testcase classname="src/test/assistant.test.tsx" name="assistant panel through real Auth/runtime/API providers &gt; uses demo facts and four distinct answers without any assistant POST" time="1.7230763">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth-callback-config.test.ts" timestamp="2026-10-26T11:26:42.292Z" hostname="vivobook" tests="19" failures="0" errors="0" skipped="0" time="0.0209908">
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; accepts only the agreed HTTPS origin in a production bundle" time="0.0026557">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://qadamx-taraz.vercel.app even in development" time="0.0005043">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://pr43.qadamx-taraz.pages.dev even in development" time="0.0002873">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://hash.qadamx-taraz.pages.dev even in development" time="0.0002004">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://qadamx-taraz.pages.dev.evil.invalid even in development" time="0.0001835">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://qadamx-taraz.pages.dev:444 even in development" time="0.0001424">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects http://qadamx-taraz.pages.dev even in development" time="0.0001486">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://attacker.invalid even in development" time="0.0001259">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://attacker.invalid@qadamx-taraz.pages.dev even in development" time="0.0001571">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects null even in development" time="0.0002261">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects not-a-url even in development" time="0.0001637">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; permits loopback http://localhost:5173 only for isolated development" time="0.0001792">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; permits loopback http://127.0.0.1:4203 only for isolated development" time="0.0001104">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; permits loopback http://[::1]:5173 only for isolated development" time="0.0112384">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://unapproved.invalid/auth/callback" time="0.0003814">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.pages.dev/auth/callback?next=https://unapproved.invalid" time="0.0001971">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.pages.dev/auth/callback/" time="0.0002539">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.pages.dev/seller" time="0.0001897">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.vercel.app/auth/callback" time="0.0001246">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth-callback.test.tsx" timestamp="2026-10-26T11:26:42.301Z" hostname="vivobook" tests="21" failures="0" errors="0" skipped="0" time="2.5126438">
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; exchanges once across StrictMode and identity remount, validates /me, then shows empty membership state" time="0.3660416">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; does not navigate while /me is pending" time="0.1122347">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 401 failure never becomes empty membership or Demo" time="0.0691055">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 403 failure never becomes empty membership or Demo" time="0.1718511">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 404 failure never becomes empty membership or Demo" time="0.1223121">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 500 failure never becomes empty membership or Demo" time="0.1270891">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 200 failure never becomes empty membership or Demo" time="0.1532557">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; uses an existing valid session and does not exchange a reopened link or replace identity" time="0.0785387">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback ?error=access_denied&amp;error_code=otp_expired&amp;error_description=PRIVATE_TEXT without exchange, private text, or automatic email" time="0.2216083">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback ?code=one&amp;code=two without exchange, private text, or automatic email" time="0.1365745">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback #access_token=PRIVATE_TOKEN without exchange, private text, or automatic email" time="0.112147">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback ?next=https://evil.invalid without exchange, private text, or automatic email" time="0.1371261">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; recovers SDK session after a lost exchange response without a second exchange" time="0.0763724">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; unknown exchange with no session permits explicit recovery actions only" time="0.1433843">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; missing verifier explains the original browser or password login" time="0.0411225">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; late exchange cannot navigate as A or sign out a newer B session" time="0.1267704">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; logout during exchange invalidates its eventual result" time="0.1412097">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; retains a shared promise for remounts and consumes the code only once" time="0.0065801">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; captures the URL only in memory and returns the same attempt after URL cleanup" time="0.0024009">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; blocks a second callback attempt while the first exchange is pending" time="0.0829812">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; rejects a superseded HTTP response before the SDK can save its session" time="0.0795204">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth-deploy-integration.test.tsx" timestamp="2026-10-26T11:26:42.324Z" hostname="vivobook" tests="23" failures="0" errors="0" skipped="0" time="5.9920353">
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; does not construct an SDK client for the reported REST URL configuration" time="0.0961491">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: https://project.supabase.co/rest/v1" time="0.016076">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: https://project.supabase.co/auth/v1/" time="0.0081829">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: https://project.supabase.co/storage/v1/object" time="0.0096603">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: https://project.supabase.co/?apikey=private-placeholder" time="0.0042586">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: https://user:private-placeholder@project.supabase.co" time="0.0045544">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: https://project.supabase.co/#access_token=private-placeholder" time="0.0149014">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: not a URL" time="0.0078831">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; rejects an invalid project URL without repairing it: javascript:alert(1)" time="0.0097062">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; preserves valid project/proxy URL or missing-config handling: undefined" time="0.0084167">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; preserves valid project/proxy URL or missing-config handling: https://project.supabase.co" time="0.0055368">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; preserves valid project/proxy URL or missing-config handling: https://project.supabase.co/" time="0.0008508">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; preserves valid project/proxy URL or missing-config handling: http://127.0.0.1:54321" time="0.0019486">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; preserves valid project/proxy URL or missing-config handling: http://127.0.0.1:5198/__qa_supabase" time="0.0015762">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; shows a safe RU/KZ configuration notice and prevents Auth calls on /login" time="2.499674">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="registration deployment configuration boundaries &gt; shows a safe RU/KZ configuration notice and prevents Auth calls on /register" time="0.4796973">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; keeps HTTP 403 as an error without granting Demo or access" time="0.3014362">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; keeps HTTP 404 as an error without granting Demo or access" time="0.0728292">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; keeps HTTP 500 as an error without granting Demo or access" time="1.0708029">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; keeps a network/CORS failure distinct, then allows explicit retry to a validated empty state" time="1.1743953">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; does not turn a malformed 200 response into empty membership or expose it" time="0.0630433">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; marks a rejected JWT as expired and never creates memberships" time="0.0636607">
+        </testcase>
+        <testcase classname="src/test/auth-deploy-integration.test.tsx" name="GET /me error is never a successful zero-membership response &gt; reports missing API configuration without making a network call or assuming zero memberships" time="0.043889">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth-onboarding-readiness.test.tsx" timestamp="2026-10-26T11:26:42.349Z" hostname="vivobook" tests="12" failures="0" errors="0" skipped="0" time="4.0569339">
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller" time="0.4980855">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/customers" time="0.1451699">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/sale" time="0.1282104">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/debts" time="0.1602956">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/history" time="0.1333491">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/summary" time="0.1414931">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/analytics" time="0.1319202">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; refetches only /me on request and unlocks only server-assigned memberships" time="0.7771798">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; lets a zero-membership user log out without manufacturing access" time="0.1628226">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; drops the empty user&apos;s scope when an existing owner signs in" time="0.1667583">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; describes Demo in RU/KZ and keeps financial confirmation read-only without auth or API requests" time="0.7913697">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; submits Login only once for synchronous duplicate submits while authentication is pending" time="0.8153085">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth.test.tsx" timestamp="2026-10-26T11:26:42.362Z" hostname="vivobook" tests="6" failures="0" errors="0" skipped="0" time="0.2541607">
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; restores initial session and obtains its token" time="0.0311321">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; clears cached data on user switch and invalidates old token callbacks" time="0.0062481">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; does not clear cache for refresh of the same identity" time="0.0040506">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; logout clears data and removes the session" time="0.1472609">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; retains session if signout fails, rather than claiming success" time="0.0600407">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; unsubscribes on unmount" time="0.0031213">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/bindings.test.ts" timestamp="2026-10-26T11:26:42.367Z" hostname="vivobook" tests="17" failures="0" errors="0" skipped="0" time="0.3797624">
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; requires a fresh token and signals reauthentication before any fetch" time="0.1120175">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; reads memberships without inventing is_demo" time="0.0086974">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects malformed identity" time="0.0177354">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects malformed identity" time="0.0052383">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects malformed identity" time="0.0071316">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects malformed identity" time="0.0046666">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; reads the server balance and accepts duplicate names with different IDs" time="0.0195848">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects invalid balances -1" time="0.0077343">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects invalid balances 1.5" time="0.0094272">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects invalid balances 150000" time="0.0054959">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects invalid balances 9007199254740992" time="0.0124576">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; validates cursor and OpenAPI defaults" time="0.0163375">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; builds exactly CustomerCreate with optional null contact" time="0.0134866">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; keeps missing inquiries/catalog unbound and customer writes independent" time="0.0137784">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects a /me belonging to another identity" time="0.0050125">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; rejects customer responses from a different business for GET and POST" time="0.0155768">
+        </testcase>
+        <testcase classname="src/test/bindings.test.ts" name="approved 193f6e5 response bindings (contract fixtures, not a database) &gt; sends documented URLs, query, Bearer and POST payload through the real transport" time="0.0577587">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/business-selection.test.tsx" timestamp="2026-10-26T11:26:42.453Z" hostname="vivobook" tests="6" failures="0" errors="0" skipped="0" time="0.6777572">
+        <testcase classname="src/test/business-selection.test.tsx" name="tab-local authorized business preference &gt; restores a selected membership after remount, storing only its ID" time="0.113283">
+        </testcase>
+        <testcase classname="src/test/business-selection.test.tsx" name="tab-local authorized business preference &gt; rejects tampered/foreign IDs and ignores unauthorized selection" time="0.0093198">
+        </testcase>
+        <testcase classname="src/test/business-selection.test.tsx" name="tab-local authorized business preference &gt; drops revoked and empty memberships without resurrecting them" time="0.0110611">
+        </testcase>
+        <testcase classname="src/test/business-selection.test.tsx" name="tab-local authorized business preference &gt; separates identities and API environments, even when provider is reused" time="0.028095">
+        </testcase>
+        <testcase classname="src/test/business-selection.test.tsx" name="tab-local authorized business preference &gt; keeps working if browser storage is unavailable" time="0.0138029">
+        </testcase>
+        <testcase classname="src/test/business-selection.test.tsx" name="tab-local authorized business preference &gt; restores only after /me across full App reload and A → B → A generations" time="0.4984736">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/client.test.ts" timestamp="2026-10-26T11:26:42.457Z" hostname="vivobook" tests="20" failures="0" errors="0" skipped="0" time="0.5500793">
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; adds a fresh token, prefix, abort signal and JSON headers" time="0.0478693">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; rejects unsafe path https://evil.test/path before token lookup" time="0.013304">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; rejects unsafe path //evil.test before token lookup" time="0.0040383">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; rejects unsafe path /../../secret before token lookup" time="0.0016979">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; never uses fixtures as fallback when API is unavailable" time="0.0022572">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; handles HTTP 401 without exposing response text" time="0.0085997">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; handles HTTP 403 without exposing response text" time="0.0045972">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; handles HTTP 404 without exposing response text" time="0.0029609">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; handles HTTP 500 without exposing response text" time="0.0022695">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; distinguishes aborted requests and network failure" time="0.011442">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="authorized HTTP transport &gt; rejects malformed successful JSON" time="0.0028598">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; does not send unconfirmed customer writes" time="0.0086876">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; demo cannot write or return another business data" time="0.0082712">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; clears private cache and cancels in-flight queries" time="0.0259052">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; localizes HTTP 401" time="0.0008197">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; localizes HTTP 403" time="0.000651">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; localizes HTTP 404" time="0.0005393">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="contract safety and demo isolation &gt; localizes HTTP 500" time="0.00036">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="integer tiyn formatting &gt; formats whole and fractional KZT without losing tiyn" time="0.3873266">
+        </testcase>
+        <testcase classname="src/test/client.test.ts" name="integer tiyn formatting &gt; rejects fractional or unsafe minor units" time="0.0021889">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/customer-ids-contract.test.ts" timestamp="2026-10-26T11:26:42.470Z" hostname="vivobook" tests="9" failures="0" errors="0" skipped="0" time="0.0487641">
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; is unavailable by default and when disabled" time="0.0076796">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; uses repeated ids, Bearer and AbortSignal, preserving the server balance" time="0.0163495">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; does not send an empty batch or an oversized/invalid batch" time="0.0069694">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; accepts missing ids without inventing a name or a balance" time="0.0022652">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; rejects foreign/unrequested/duplicate/paginated/invalid results 0" time="0.0024605">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; rejects foreign/unrequested/duplicate/paginated/invalid results 1" time="0.0014249">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; rejects foreign/unrequested/duplicate/paginated/invalid results 2" time="0.0017358">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; rejects foreign/unrequested/duplicate/paginated/invalid results 3" time="0.0022092">
+        </testcase>
+        <testcase classname="src/test/customer-ids-contract.test.ts" name="PR61/f6b3a9 customer ids contract (synthetic responses only) &gt; rejects foreign/unrequested/duplicate/paginated/invalid results 4" time="0.002554">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/customer-recovery-coordinator.test.tsx" timestamp="2026-10-26T11:26:42.474Z" hostname="vivobook" tests="37" failures="0" errors="0" skipped="0" time="1.9175119">
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; persists only a new random key and body hash before POST, then clears on confirmed success" time="0.1306612">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; blocks a synchronous double submit before hashing or the first network response" time="0.0793534">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; coordinates simultaneous CustomerPicker and Customers hook instances in the same scope" time="0.0789745">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; shares completion status without selecting or clearing another mounted form&apos;s customer" time="0.0809137">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; separate tab coordinators claim one durable key with same body even before storage events arrive" time="0.0756459">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; separate tab coordinators claim one durable key with different bodies even before storage events arrive" time="0.094067">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; keeps an unknown intent after not_observed and retries only the original key and exact body" time="0.0114679">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not assign a new key or send a changed body after an unknown result" time="0.0077978">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; recovers a simulated lost acknowledgement after commit using GET without another POST" time="0.0065818">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not bypass 409 by making a fresh key" time="0.0083059">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; treats a confirmed initial POST 401 rejection separately from unknown" time="0.0076609">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; treats a confirmed initial POST 404 rejection separately from unknown" time="0.0065699">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; treats a confirmed initial POST 422 rejection separately from unknown" time="0.0064044">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not clear an earlier unknown intent when retry/lookup fails with 404" time="0.0060335">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not clear an earlier unknown intent when retry/lookup fails with 422" time="0.0066132">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not clear an earlier unknown intent when retry/lookup fails with 503" time="0.0064914">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; reload checks the saved key, and not_observed leaves it unresolved without automatically posting" time="0.0859018">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; reload recovers a completed receipt and clears only that saved intent without a POST" time="0.0757269">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; K2 remains recoverable after late K1 success and a full hook remount" time="0.2354022">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; leaves an unknown-origin legacy marker untouched and sends no GET or POST to the configured server" time="0.0057857">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not transfer a pending receipt to a different API origin" time="0.003809">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; a storage event replacing the key prevents a late 201 from clearing another tab&apos;s intent" time="0.0841444">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; a storage event replacing the bodyHash prevents a late 201 from clearing another tab&apos;s intent" time="0.0769246">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; an unmounted form&apos;s late 201 neither clears its unresolved marker nor invalidates a new UI" time="0.1551376">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; an external removeItem is not confirmation and cannot unlock a fresh key" time="0.0099068">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; an external clear is not confirmation and cannot unlock a fresh key" time="0.0090013">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; rejects a malformed cross-tab marker without deleting it or sending a new request" time="0.0068056">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; A → B → A with a new session epoch ignores the old A response and retains its recoverable marker" time="0.1633468">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; logout during POST hides all late data and preserves the original account&apos;s recovery marker" time="0.0815883">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not start a request when the session changes while preparing its body hash" time="0.0779794">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; a request queued for another tab&apos;s storage lock cannot write after logout" time="0.0037295">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; business change isolates the form, and a foreign-business completion never becomes success" time="0.0784736">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; a completed GET for another business cannot clear the current intent or select a customer" time="0.0583949">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; fails closed before POST when Web Locks are unavailable" time="0.0066016">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; does not POST when the recovery marker cannot be persisted" time="0.0053383">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; turns a hanging POST into unknown at the deadline without an automatic retry" time="0.0688839">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-coordinator.test.tsx" name="customer recovery coordinator — synthetic gateway, no server idempotency claim &gt; a hanging lookup stops checking at the deadline and preserves the unresolved key" time="0.0066851">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/customer-recovery-forms.test.tsx" timestamp="2026-10-26T11:26:42.599Z" hostname="vivobook" tests="2" failures="0" errors="0" skipped="0" time="1.0374608">
+        <testcase classname="src/test/customer-recovery-forms.test.tsx" name="real customer forms share recovery without inheriting another form&apos;s completion &gt; unmounting the submitting form cancels its ownership even while the parent observer stays mounted" time="0.7748476">
+        </testcase>
+        <testcase classname="src/test/customer-recovery-forms.test.tsx" name="real customer forms share recovery without inheriting another form&apos;s completion &gt; completing form A calls only A and preserves form B&apos;s distinct fields and shared draft through B remount" time="0.2554507">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/dashboard-demo.test.tsx" timestamp="2026-10-26T11:26:42.602Z" hostname="vivobook" tests="3" failures="0" errors="0" skipped="0" time="2.9595081">
+        <testcase classname="src/test/dashboard-demo.test.tsx" name="cabinet teaching snapshot &gt; shows analytics&apos; last day, all-date debt and three named examples in ru without HTTP" time="1.0992957">
+        </testcase>
+        <testcase classname="src/test/dashboard-demo.test.tsx" name="cabinet teaching snapshot &gt; shows analytics&apos; last day, all-date debt and three named examples in kk without HTTP" time="0.6945624">
+        </testcase>
+        <testcase classname="src/test/dashboard-demo.test.tsx" name="cabinet teaching snapshot &gt; does not substitute demo amounts when a live overview fails" time="1.16018">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/debounce.test.ts" timestamp="2026-10-26T11:26:42.669Z" hostname="vivobook" tests="2" failures="0" errors="0" skipped="0" time="0.0832214">
+        <testcase classname="src/test/debounce.test.ts" name="customer search debounce &gt; settles only the last input after 250 ms" time="0.0701132">
+        </testcase>
+        <testcase classname="src/test/debounce.test.ts" name="customer search debounce &gt; cancels pending work on unmount" time="0.0093272">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/errors.test.ts" timestamp="2026-10-26T11:26:42.672Z" hostname="vivobook" tests="8" failures="0" errors="0" skipped="0" time="0.02711">
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; propagates validated metadata through the shared HTTP transport" time="0.014045">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; reads the captain&apos;s checked-in example and keeps no raw server message" time="0.0020975">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; retains validated field codes in a synthetic validation error" time="0.0006088">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; uses a valid request header if the JSON response is absent" time="0.0003198">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; does not expose arbitrary request IDs, fields or malformed codes" time="0.0039714">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; localizes HTTP 409" time="0.0008557">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; localizes HTTP 422" time="0.0004738">
+        </testcase>
+        <testcase classname="src/test/errors.test.ts" name="published error envelope (approved contract, not a live response) &gt; localizes HTTP 429" time="0.0003376">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/home-purpose.test.tsx" timestamp="2026-10-26T11:26:42.679Z" hostname="vivobook" tests="4" failures="0" errors="0" skipped="0" time="0.3742076">
+        <testcase classname="src/test/home-purpose.test.tsx" name="Главная: цель продукта &gt; names the product in the hero, with the cabinet first and the shop search second" time="0.1905769">
+        </testcase>
+        <testcase classname="src/test/home-purpose.test.tsx" name="Главная: цель продукта &gt; explains the flow in three ordered steps without new figures" time="0.0571889">
+        </testcase>
+        <testcase classname="src/test/home-purpose.test.tsx" name="Главная: цель продукта &gt; switches the hero and the steps to Kazakh" time="0.0788483">
+        </testcase>
+        <testcase classname="src/test/home-purpose.test.tsx" name="Главная: цель продукта &gt; keeps Mal bazar compact: concept mark and links, no poster on the home page" time="0.0444259">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/inquiry-transport.test.tsx" timestamp="2026-10-26T11:26:42.682Z" hostname="vivobook" tests="8" failures="0" errors="0" skipped="0" time="0.4638352">
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="rejects an invalid success receipt without claiming rejection of the POST: {&quot;id&quot;:&quot;not-a-uuid&quot;,&quot;created_at&quot;:&quot;2026-10-17T08:00:00Z&quot;}" time="0.0301008">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="rejects an invalid success receipt without claiming rejection of the POST: {&quot;id&quot;:&quot;20000000-0000-4000-8000-000000000001&quot;,&quot;created_at&quot;:&quot;tomorrow&quot;}" time="0.0058099">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="rejects an invalid success receipt without claiming rejection of the POST: {&quot;id&quot;:&quot;20000000-0000-4000-8000-000000000001&quot;,&quot;created_at&quot;:&quot;2026-10-17T08:00:00&quot;}" time="0.0039239">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="rejects an invalid success receipt without claiming rejection of the POST: {&quot;id&quot;:&quot;20000000-0000-4000-8000-000000000001&quot;,&quot;created_at&quot;:&quot;2026-99-17T08:00:00Z&quot;}" time="0.003117">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="rejects an invalid success receipt without claiming rejection of the POST: null" time="0.0027387">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="rejects an invalid success receipt without claiming rejection of the POST: undefined" time="0.0027762">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="accepts an API receipt, clears its deadline and sends no seller credentials" time="0.0087964">
+        </testcase>
+        <testcase classname="src/test/inquiry-transport.test.tsx" name="deadline unlocks explicit retry while preserving the exact request after unknown outcome" time="0.403018">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/inquiry.test.tsx" timestamp="2026-10-26T11:26:42.700Z" hostname="vivobook" tests="14" failures="0" errors="0" skipped="0" time="12.6672993">
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; validates every contract-required field and accepts free-form contacts" time="1.5334093">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; locks duplicate submits and retries an uncertain result with the same request" time="1.0670086">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; keeps entered values editable after a definitive API rejection" time="0.8785538">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; shows Kazakh labels when the shared language is switched" time="0.1351582">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 400; only a receipt unlocks it" time="1.0255778">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 401; only a receipt unlocks it" time="0.9061462">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 403; only a receipt unlocks it" time="0.9034473">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 404; only a receipt unlocks it" time="0.9962376">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 409; only a receipt unlocks it" time="0.9793288">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 422; only a receipt unlocks it" time="0.9167965">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; retains the original intent after unknown then 429; only a receipt unlocks it" time="0.9417373">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; isolates the new shop from an old request&apos;s late resolve, without relying on a parent key" time="1.0818113">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; isolates the new shop from an old request&apos;s late reject, without relying on a parent key" time="1.1250199">
+        </testcase>
+        <testcase classname="src/test/inquiry.test.tsx" name="public shop inquiry form &gt; validates Unicode code points like Pydantic, including upper limits" time="0.170157">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/ios-compatibility.test.tsx" timestamp="2026-10-26T11:26:42.723Z" hostname="vivobook" tests="4" failures="0" errors="0" skipped="0" time="0.3515756">
+        <testcase classname="src/test/ios-compatibility.test.tsx" name="keeps the menu usable without native dialog methods and removes its backdrop on close" time="0.2043621">
+        </testcase>
+        <testcase classname="src/test/ios-compatibility.test.tsx" name="uses the emitted MP4 type for the file instead of a pre-start MIME hint" time="0.0566639">
+        </testcase>
+        <testcase classname="src/test/ios-compatibility.test.tsx" name="rejects unaccepted emitted types instead of relabeling bytes as WebM" time="0.0327342">
+        </testcase>
+        <testcase classname="src/test/ios-compatibility.test.tsx" name="can record after permission was denied and then explicitly allowed" time="0.0556043">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/ledger-reading.test.tsx" timestamp="2026-10-26T11:26:42.731Z" hostname="vivobook" tests="23" failures="0" errors="0" skipped="0" time="3.3298314">
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; announces initial loading and shows empty only after a successful response" time="0.2892912">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; explains a successful empty history in Kazakh" time="0.0517601">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; keeps an initial failure separate from empty and retries the read" time="0.1121045">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; retains rows and disables the pagination action while the next page is pending" time="0.4440786">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; retries a failed next page with the same cursor without refetching or hiding the first" time="0.0790325">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; does not call a disabled demo query an empty API history" time="0.0083126">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; hides cached rows and names when the business changes" time="0.0642063">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; hides cached rows and names when the user changes" time="0.0621691">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; keeps server amounts visible if customer names fail to load" time="0.032033">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; shows loading instead of a cached empty result during refetch" time="0.0908455">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; ignores a late name response after the business changes" time="0.0630254">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="history request states &gt; ignores a late name response after the user changes" time="0.0602252">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="debt amounts while customer names are unavailable &gt; keeps server debt rows and payment navigation on /seller/debts when names fail" time="0.0937167">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="debt amounts while customer names are unavailable &gt; keeps server debt rows and payment navigation on /seller/debts?customer_id=customer-51 when names fail" time="0.0624229">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; resolves the name on direct opening /seller/debts with an empty cache" time="0.1094108">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; resolves the name on direct opening /seller/debts?customer_id=customer-51 with an empty cache" time="0.1668502">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; resolves the name on direct opening /seller/history with an empty cache" time="0.1033754">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; ignores a late ids response after business changes" time="0.1147587">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; ignores a late ids response after user changes" time="0.0631914">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; requests more than 100 unique row/filter ids in bounded batches" time="1.1123316">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; does not fetch an empty batch and resolves a filter even without rows" time="0.0732783">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; preserves server amounts when ids lookup is missing" time="0.0323783">
+        </testcase>
+        <testcase classname="src/test/ledger-reading.test.tsx" name="customer outside the first directory page &gt; preserves server amounts when ids lookup is error" time="0.0352692">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/ledger.test.tsx" timestamp="2026-10-26T11:26:42.755Z" hostname="vivobook" tests="8" failures="0" errors="0" skipped="0" time="0.0585219">
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; parses decimal tenge without rounding or accepting exponent/negative/blank" time="0.0029573">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; rejects malformed AI values" time="0.0021908">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; retains exact body/key on unknown result" time="0.0246713">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; retains exact body/key on unknown result" time="0.0039054">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; retains exact body/key on unknown result" time="0.0052048">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; keeps pending per business and drops it at a different identity runtime" time="0.0095796">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; blocks duplicate click while in-flight" time="0.0047944">
+        </testcase>
+        <testcase classname="src/test/ledger.test.tsx" name="ledger transport with stubbed API (not live money) &gt; rejects a success response from another business and retains the attempt" time="0.003066">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/mal-bazar.test.tsx" timestamp="2026-10-26T11:26:42.761Z" hostname="vivobook" tests="4" failures="0" errors="0" skipped="0" time="4.6767229">
+        <testcase classname="src/test/mal-bazar.test.tsx" name="Мал базар &gt; has its own concept page beside the venues, without venue or shop requests" time="0.5819683">
+        </testcase>
+        <testcase classname="src/test/mal-bazar.test.tsx" name="Мал базар &gt; explains what works and shows no listings, stock or prices" time="0.0792765">
+        </testcase>
+        <testcase classname="src/test/mal-bazar.test.tsx" name="Мал базар &gt; keeps the poster when the concept model descriptor cannot be loaded" time="0.0329461">
+        </testcase>
+        <testcase classname="src/test/mal-bazar.test.tsx" name="Мал базар &gt; links the home section to the page and the app, with the concept mark" time="0.0306445">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/microphone-acceptance.test.tsx" timestamp="2026-10-26T11:26:42.764Z" hostname="vivobook" tests="22" failures="0" errors="0" skipped="0" time="1.0133792">
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; does not ask permission or emit a file before an explicit user action" time="0.1788135">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; keeps recording and file selection disabled while the parent is busy" time="0.1757957">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; selects the first supported MIME among [&quot;audio/webm;codecs=opus&quot;,&quot;audio/mp4&quot;,&quot;audio/ogg;codecs=opus&quot;] and emits only the stopped recording" time="0.1046418">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; selects the first supported MIME among [&quot;audio/mp4&quot;,&quot;audio/ogg;codecs=opus&quot;] and emits only the stopped recording" time="0.0678446">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; selects the first supported MIME among [&quot;audio/ogg;codecs=opus&quot;] and emits only the stopped recording" time="0.0418283">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; falls back to file input when no recorder MIME is supported" time="0.032854">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; falls back without a permission request when MediaRecorder is absent" time="0.0271368">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; falls back when mediaDevices is unavailable, as in an unsupported/insecure context" time="0.0335946">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; keeps file fallback after permission/device failure NotAllowedError" time="0.0213313">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; keeps file fallback after permission/device failure NotFoundError" time="0.0167577">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; keeps file fallback after permission/device failure NotReadableError" time="0.0158358">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; does not request permission twice while the first permission prompt is pending" time="0.03146">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; releases a late permission stream after unmount without starting or emitting" time="0.0163075">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; stops at 30 seconds and releases tracks without emitting before the stop event" time="0.0406957">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; cancels the duration timer after an explicit stop" time="0.0315942">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; cleans up active recorder, tracks and timer on unmount and suppresses late callbacks" time="0.0232054">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; accepts an uploaded audio file of 8388607 bytes without starting capture" time="0.025924">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; accepts an uploaded audio file of 8388608 bytes without starting capture" time="0.0229946">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; rejects an uploaded audio file one byte above 8 MiB without a callback" time="0.0244102">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; releases the granted stream if recorder constructor fails" time="0.0214058">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; releases the granted stream if recorder start fails" time="0.030468">
+        </testcase>
+        <testcase classname="src/test/microphone-acceptance.test.tsx" name="microphone acceptance: real AudioInput with synthetic browser boundaries &gt; keeps the permission-error fallback readable in Kazakh" time="0.022496">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/microphone-known-gaps.test.tsx" timestamp="2026-10-26T11:26:42.779Z" hostname="vivobook" tests="5" failures="0" errors="0" skipped="0" time="0.3292607">
+        <testcase classname="src/test/microphone-known-gaps.test.tsx" name="microphone safety regressions — ordinary assertions &gt; MIC-01: must not start a late permission stream after the parent becomes disabled" time="0.1689527">
+        </testcase>
+        <testcase classname="src/test/microphone-known-gaps.test.tsx" name="microphone safety regressions — ordinary assertions &gt; MIC-02: becoming disabled during capture must release tracks and discard the clip" time="0.03598">
+        </testcase>
+        <testcase classname="src/test/microphone-known-gaps.test.tsx" name="microphone safety regressions — ordinary assertions &gt; MIC-05a: must reject a recorded clip larger than 8 MiB before onFile" time="0.0526421">
+        </testcase>
+        <testcase classname="src/test/microphone-known-gaps.test.tsx" name="microphone safety regressions — ordinary assertions &gt; MIC-05b: must not forward an empty recording as an audio file" time="0.0384641">
+        </testcase>
+        <testcase classname="src/test/microphone-known-gaps.test.tsx" name="microphone safety regressions — ordinary assertions &gt; MIC-04: recorder error must release microphone tracks and duration timer" time="0.0300375">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/qa-auth-regression.test.tsx" timestamp="2026-10-26T11:26:42.783Z" hostname="vivobook" tests="18" failures="0" errors="0" skipped="0" time="7.1364197">
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; signs in with the mock Supabase client and loads memberships using Bearer" time="2.2745568">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; keeps failed login on the login screen without enabling Demo" time="0.833341">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller with no session" time="0.0731463">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/customers with no session" time="0.0396008">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/inquiries with no session" time="0.0514816">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/catalog with no session" time="0.0449992">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/sale with no session" time="0.0432096">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/debts with no session" time="0.0445101">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/history with no session" time="0.04506">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/summary with no session" time="0.0391066">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; restores INITIAL_SESSION and ignores a foreign business query parameter" time="0.9198425">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; rejects a missing JWT before HTTP and enters reauthentication" time="0.0331181">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; clears cached customers and private drafts on logout then account B" time="1.0265988">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; drops a late successful A response after switching to B even if transport ignores abort" time="0.2007909">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; does not expire B when a pending A request returns 401" time="0.2728874">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; uses separate business query keys and restores only that business&apos;s draft" time="0.9691201">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; ignores direct foreign selection and removes a revoked selected membership" time="0.1192993">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="document title &gt; names the cabinet only on login and seller routes" time="0.1003568">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/qa-contract-regression.test.ts" timestamp="2026-10-26T11:26:42.803Z" hostname="vivobook" tests="9" failures="0" errors="0" skipped="0" time="1.5679999">
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; requires Bearer for every published private operation" time="0.2254329">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; resolves every local reference and rejects external schema dependencies" time="0.0270732">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; pins UUID path parameters and customer pagination limits to the accepted schema" time="0.0021377">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; preserves nullable contact, optional note and server integer balance" time="0.0224899">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; money fields stay integer minor units, including nullable and signed deltas" time="0.2229703">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; documented errors reference ErrorResponse; robustness-only statuses are not invented contract responses" time="0.3136175">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; every enabled gateway request maps to an actual accepted path and method" time="0.7140994">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; keeps ambiguous multipart text/audio XOR in OpenAPI for future runtime validation" time="0.0011639">
+        </testcase>
+        <testcase classname="src/test/qa-contract-regression.test.ts" name="QA accepted OpenAPI snapshot — static contract, not live backend &gt; rejects duplicate customer IDs and duplicate memberships instead of silently merging" time="0.0097178">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/qa-customers-regression.test.tsx" timestamp="2026-10-26T11:26:42.814Z" hostname="vivobook" tests="33" failures="0" errors="0" skipped="0" time="18.8583858">
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; reuses the picker intent when the page form retries an unknown result" time="1.7214816">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; reuses the Customers page intent when CustomerPicker retries an unknown result" time="1.5120043">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; GET 403 is an error, never empty data or automatic Demo" time="0.1662802">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; GET 404 is an error, never empty data or automatic Demo" time="0.2536902">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; GET 409 is an error, never empty data or automatic Demo" time="0.2013214">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; GET 422 is an error, never empty data or automatic Demo" time="0.2144652">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; GET 429 is an error, never empty data or automatic Demo" time="0.1935704">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; GET 500 is an error, never empty data or automatic Demo" time="1.1642839">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST 403 preserves fields, avoids success and never retries the mutation" time="0.8744557">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST 404 preserves fields, avoids success and never retries the mutation" time="0.7831647">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST 409 preserves fields, avoids success and never retries the mutation" time="0.9334807">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST 422 preserves fields, avoids success and never retries the mutation" time="0.8303599">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST 429 preserves fields, avoids success and never retries the mutation" time="0.7666254">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST 500 preserves fields, avoids success and never retries the mutation" time="0.7982136">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; 401 POST clears private queries, requests login and preserves the same user&apos;s draft" time="1.1554171">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; does not show success before POST; invalidates only the current business after 201" time="0.9732892">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; paginates with the same normalized q and distinct IDs for duplicate names" time="0.8027763">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST malformed success response cannot produce false success" time="0.8437632">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; POST foreign success response cannot produce false success" time="0.8272692">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; rejects empty name in the form without a POST" time="0.2747657">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; a mocked transport timeout remains unknown and offers a safe same-key retry" time="0.9745224">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; recovers a saved result after reload without posting again" time="0.2169359">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; shows an unresolved saved result in Kazakh after the customer page reloads" time="0.3397551">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; creates a customer through the sale CustomerPicker using the recovery flow" time="0.9937067">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; enforces the display_name request limit at the boundary" time="0.0045354">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; enforces the note request limit at the boundary" time="0.0009362">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; enforces the contact request limit at the boundary" time="0.0010871">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; validates customer input limits by Unicode code points before any POST" time="0.9971631">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; rejects malformed membership and customer UUID bad-uuid" time="0.0017555">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; rejects malformed membership and customer UUID ../../other" time="0.0012218">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; rejects malformed membership and customer UUID " time="0.0008483">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; rejects malformed membership and customer UUID null" time="0.000985">
+        </testcase>
+        <testcase classname="src/test/qa-customers-regression.test.tsx" name="QA Customers — real bindings, hooks and HTTP transport with mock responses &gt; supports a caller deadline via AbortSignal without mapping cancellation to success" time="0.0281453">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/qa-known-defects.test.tsx" timestamp="2026-10-26T11:26:42.855Z" hostname="vivobook" tests="3" failures="0" errors="0" skipped="0" time="1.4977038">
+        <testcase classname="src/test/qa-known-defects.test.tsx" name="QA known defects — desired behaviour, production unchanged &gt; QA-001: a late 401 from the first A session cannot expire a new A session after A/B/A" time="1.4864266">
+        </testcase>
+        <testcase classname="src/test/qa-known-defects.test.tsx" name="QA known defects — desired behaviour, production unchanged &gt; QA-002: response next_cursor must declare the same UUID constraint as request cursor" time="0.0061514">
+        </testcase>
+        <testcase classname="src/test/qa-known-defects.test.tsx" name="QA known defects — desired behaviour, production unchanged &gt; QA-003: CustomerCreate accepts 200 Unicode code points within OpenAPI maxLength" time="0.0018644">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/recovery-late-review.test.tsx" timestamp="2026-10-26T11:26:42.861Z" hostname="vivobook" tests="1" failures="0" errors="0" skipped="0" time="0.1826449">
+        <testcase classname="src/test/recovery-late-review.test.tsx" name="late success from an unmounted form must not erase a newer unresolved intent" time="0.1812866">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/registration.test.tsx" timestamp="2026-10-26T11:26:42.863Z" hostname="vivobook" tests="24" failures="0" errors="0" skipped="0" time="3.5854687">
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; blocks signup and resend at the provider boundary on an unapproved origin" time="0.2446276">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; keeps null-session signup anonymous, forgets passwords, supports RU/KZ and only explicit resend" time="0.4835022">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; validates email &quot;invalid-email&quot; without calling the SDK" time="0.1191118">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; validates email &quot;&quot; without calling the SDK" time="0.1129369">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; rejects too-short and mismatched passwords before SDK, focuses confirmation" time="0.2136567">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; handles SDK weak_password without logging/rendering its payload" time="0.1238178">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; handles SDK validation_failed without logging/rendering its payload" time="0.1375789">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; handles SDK over_email_send_rate_limit without logging/rendering its payload" time="0.1535793">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; handles SDK signup_disabled without logging/rendering its payload" time="0.1267171">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; handles SDK unexpected_failure without logging/rendering its payload" time="0.1224418">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; masks explicit duplicate user_already_exists like the ordinary confirmation response" time="0.1102279">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; masks explicit duplicate email_exists like the ordinary confirmation response" time="0.1234173">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; handles network failure and malformed success without claiming creation" time="0.1846683">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; blocks synchronous duplicate signup and provider-level resend while pending" time="0.0949489">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; shows explicit resend network failure, never retries automatically" time="0.1718325">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; shows explicit resend rate failure, never retries automatically" time="0.1886282">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; shows explicit resend invalid failure, never retries automatically" time="0.1988136">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; deduplicates a pending resend and keeps the neutral success message" time="0.1393909">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; restores only waiting state on remount, asks for email and sends nothing" time="0.0234261">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; uses SDK session events and /me, never manufactured memberships, when a session really exists" time="0.1156335">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; ignores a late registration UI result after another account establishes its session" time="0.2376416">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="approved registration MVP through the existing AuthProvider (synthetic SDK) &gt; works without sessionStorage and does not persist email/password" time="0.1196533">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="prepared callback notices only — no callback route or token exchange approved &gt; renders a localized expired notice without any auth/network side effect" time="0.0199507">
+        </testcase>
+        <testcase classname="src/test/registration.test.tsx" name="prepared callback notices only — no callback route or token exchange approved &gt; renders a localized invalid notice without any auth/network side effect" time="0.0141384">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/research-data.test.tsx" timestamp="2026-10-26T11:26:42.879Z" hostname="vivobook" tests="9" failures="0" errors="0" skipped="0" time="1.566601">
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; preserves positive held-out errors smaller than a tiyn" time="1.0510495">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; offers a read-only link to the existing customer&apos;s open sales" time="0.374101">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; reads reproducible 7-day Demo only with explicit provenance" time="0.0204816">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; reads reproducible 30-day Demo only with explicit provenance" time="0.008616">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; rejects malformed money, missing days and a future-leaking split" time="0.0104559">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; shows insufficient history without a graph or fabricated comparison" time="0.0268486">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; makes rule status explicit and rejects inconsistent financial facts" time="0.0288777">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; never substitutes Demo data when a live request fails or automatically retries" time="0.0172717">
+        </testcase>
+        <testcase classname="src/test/research-data.test.tsx" name="research contract and isolation &gt; keys by session epoch and business; cancellation rejects late responses" time="0.0214123">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/research-feedback.test.tsx" timestamp="2026-10-26T11:26:42.885Z" hostname="vivobook" tests="14" failures="0" errors="0" skipped="0" time="2.2589518">
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; requires consent and counts Unicode code points" time="0.0113581">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; does not send an invalid form or Demo response" time="0.3709033">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; disables persistence in Demo" time="0.0697345">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; blocks double submission and accepts only a matching receipt" time="0.2204545">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; preserves exact body and key after a lost response; no automatic retry" time="0.2471626">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; keeps editable fields after server validation rejection" time="0.1134345">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; leaves loading on timeout even if transport ignores abort and ignores its late receipt" time="0.1303617">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; aborts pending work on session/business unmount" time="0.1381788">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; restores fields and consent within the same session without Web Storage or POST" time="0.1693866">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; never shows a draft in another business or authentication generation" time="0.1473678">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; retains the same immutable intent when a retry rejects after unknown result" time="0.1923139">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; preserves aborted POST intent across navigation and ignores its late response" time="0.1514229">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; retains confirmed receipt across navigation and prevents another POST" time="0.1329328">
+        </testcase>
+        <testcase classname="src/test/research-feedback.test.tsx" name="consented research feedback &gt; discards an unsubmitted draft only after explicit confirmation" time="0.154261">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/sale-debts-polish.test.tsx" timestamp="2026-10-26T11:26:42.900Z" hostname="vivobook" tests="8" failures="0" errors="0" skipped="0" time="5.1801628">
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Мне должны &gt; shows who owes and the server balance without internal ids" time="4.421259">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Мне должны &gt; takes the total from the server summary, not from the loaded page" time="0.0337916">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Мне должны &gt; shows the filtered customer&apos;s own server balance" time="0.0315622">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Мне должны &gt; says so when nobody owes" time="0.0453375">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Новая запись &gt; opens a repayment from the debt list without ids in the sale choice" time="0.2379114">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Новая запись &gt; shows one AI error with retry and manual actions, then clears it for manual input" time="0.1857441">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Новая запись &gt; moves through input, review and confirmation with one primary action" time="0.0948461">
+        </testcase>
+        <testcase classname="src/test/sale-debts-polish.test.tsx" name="Новая запись &gt; falls back to the general AI message for unknown server failures" time="0.1248818">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/screens.test.tsx" timestamp="2026-10-26T11:26:42.907Z" hostname="vivobook" tests="21" failures="0" errors="0" skipped="0" time="13.5222956">
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; navigates through the mobile menu and closes it after selecting a section" time="1.2230918">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; filters loaded catalog items locally and preserves filters across languages" time="0.7924163">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; resets catalog search and availability after a no-results state" time="0.7477079">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; searches inquiry text locally and keeps the search across language changes" time="0.7532337">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; filters inquiries locally and preserves the selected status across languages" time="0.6794827">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; does not claim no results in unrequested inquiry pages" time="0.5450631">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; waits for the settled customer search and hides stale results" time="1.1024216">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; retains form fields when changing language and disables demo saves" time="0.8797205">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; keeps duplicate names as distinct selectable customers" time="0.4969765">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows empty states after selecting a different allowed business" time="0.4017686">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 401 as error instead of empty/success" time="0.3213912">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 403 as error instead of empty/success" time="0.2945167">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 404 as error instead of empty/success" time="0.2956772">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 409 as error instead of empty/success" time="0.3116865">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 422 as error instead of empty/success" time="0.2972482">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 429 as error instead of empty/success" time="0.3720754">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows HTTP 500 as error instead of empty/success" time="1.3291278">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; shows a support reference without rendering backend messages" time="0.4263091">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; preserves customer fields after a rejected write and allows optional contact" time="0.9600822">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; selects a newly created customer through the shared picker (test gateway only)" time="0.7681312">
+        </testcase>
+        <testcase classname="src/test/screens.test.tsx" name="seller UI using explicitly injected test/demo gateways &gt; updates inquiry display only after the mutation resolves" time="0.5172833">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/seller-navigation.test.tsx" timestamp="2026-10-26T11:26:42.923Z" hostname="vivobook" tests="4" failures="0" errors="0" skipped="0" time="3.0066026">
+        <testcase classname="src/test/seller-navigation.test.tsx" name="seller navigation priority &gt; keeps five main destinations in the same order on desktop and mobile" time="0.9720374">
+        </testcase>
+        <testcase classname="src/test/seller-navigation.test.tsx" name="seller navigation priority &gt; groups only secondary tools under More and closes after a navigation" time="0.6840562">
+        </testcase>
+        <testcase classname="src/test/seller-navigation.test.tsx" name="seller navigation priority &gt; restores focus to More after closing without navigating" time="0.4086009">
+        </testcase>
+        <testcase classname="src/test/seller-navigation.test.tsx" name="seller navigation priority &gt; preserves language, permitted business selection and logout" time="0.9359287">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/shop-page.test.tsx" timestamp="2026-10-26T11:26:42.926Z" hostname="vivobook" tests="3" failures="0" errors="0" skipped="0" time="0.3889342">
+        <testcase classname="src/test/shop-page.test.tsx" name="Страница магазина &gt; shows venue, point on the scheme, stock and demo marks from the API only" time="0.3230738">
+        </testcase>
+        <testcase classname="src/test/shop-page.test.tsx" name="Страница магазина &gt; does not mark live data as demo" time="0.0308819">
+        </testcase>
+        <testcase classname="src/test/shop-page.test.tsx" name="Страница магазина &gt; wires the inquiry form with the current shop id and name" time="0.0304854">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/summary-share.test.tsx" timestamp="2026-10-26T11:26:42.930Z" hostname="vivobook" tests="22" failures="0" errors="0" skipped="0" time="2.0871709">
+        <testcase classname="src/test/summary-share.test.tsx" name="summary message and URL &gt; formats exact ru copy, date, name, count and fractional tenge" time="0.0401387">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary message and URL &gt; formats exact kk copy, date, name, count and fractional tenge" time="0.0016999">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary message and URL &gt; keeps integer, zero and negative server amounts without recalculating debt" time="0.0009771">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary message and URL &gt; uses the encoded text as the only WhatsApp query, without recipient or raw currency" time="0.0097554">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary message and URL &gt; uses Taraz day at the UTC midnight boundary" time="0.0324601">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; disables all actions while loading and does not build a WhatsApp link" time="0.3268273">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; keeps errors unavailable, without zero or Demo fallback" time="0.0801899">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; rejects a missing server field rather than sharing an invented count" time="0.0415357">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; enables the loaded message without extra requests or financial POST" time="0.1398129">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; reports Clipboard rejection honestly and retains amounts" time="0.1226214">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; handles an unavailable Clipboard API without a false success" time="0.1081408">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; hides native share without capability" time="0.063558">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; opens native sharing only on a click with the current text" time="0.1087442">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; does not show an error for native cancellation" time="0.1046873">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; shows a native failure and leaves WhatsApp and copy available" time="0.116533">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; updates RU/KZ text, labels and copy feedback without a fetch" time="0.2303194">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; uses only the selected date and disables sharing during date changes" time="0.1031392">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; disables stale cached data after a failed refresh" time="0.084571">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; does not expose an old message after business switch" time="0.0764082">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; does not expose an old message after account switch" time="0.0862498">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; does not display late Clipboard feedback for a different business" time="0.1280545">
+        </testcase>
+        <testcase classname="src/test/summary-share.test.tsx" name="summary sharing states and isolation &gt; shares the approved, fixed-date Demo example without any API request" time="0.0760498">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/venue-showcase.test.tsx" timestamp="2026-10-26T11:26:42.980Z" hostname="vivobook" tests="3" failures="0" errors="0" skipped="0" time="0.3587795">
+        <testcase classname="src/test/venue-showcase.test.tsx" name="Обзор площадок на главной &gt; starts with the first venue and its poster when WebGL is unavailable" time="0.2289888">
+        </testcase>
+        <testcase classname="src/test/venue-showcase.test.tsx" name="Обзор площадок на главной &gt; switches the card, the point count and the link with the chosen venue" time="0.0805011">
+        </testcase>
+        <testcase classname="src/test/venue-showcase.test.tsx" name="Обзор площадок на главной &gt; shows no point count or categories that the data does not have" time="0.0468757">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/voice-adaptation.test.tsx" timestamp="2026-10-26T11:26:42.986Z" hostname="vivobook" tests="19" failures="0" errors="0" skipped="0" time="5.7020563">
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; ru text uses one source and cannot create debt without a selected customer" time="2.016982">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; kk text uses one source and cannot create debt without a selected customer" time="0.4977661">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; auto text uses one source and cannot create debt without a selected customer" time="0.4484827">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; clarification includes original transcript, replaces only the draft and blocks stale confirmation" time="0.3193821">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; a cancelled clarification keeps the checked fields but cannot confirm the old draft" time="0.3485844">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; rejects combined clarification over the API limit without a request" time="0.1759313">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; AI error 429 preserves input, offers manual/retry and never invents an answer" time="0.2143785">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; AI error 503 preserves input, offers manual/retry and never invents an answer" time="0.2121753">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; AI error 0 preserves input, offers manual/retry and never invents an answer" time="0.2194557">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; AI error 503 preserves input, offers manual/retry and never invents an answer" time="0.2048428">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="archive AI flow adapted to the shared contract &gt; normalizes missing picker MIME without admitting arbitrary files or unsupported AAC" time="0.0086794">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="supported recorder controls &gt; offers pause/resume only with browser support and cancel stops a paused recorder" time="0.109355">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="supported recorder controls &gt; does not offer pause when recorder pause/resume are absent" time="0.0259323">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="supported recorder controls &gt; uses the browser default recorder when MIME probing is unavailable" time="0.0222869">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="AI request lifecycle with stub transport that deliberately ignores abort &gt; cancel aborts the signal, preserves input and ignores a late successful draft" time="0.1481316">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="AI request lifecycle with stub transport that deliberately ignores abort &gt; a cancelled old result cannot overwrite a newer successful request" time="0.201559">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="AI request lifecycle with stub transport that deliberately ignores abort &gt; timeout leaves finite loading and manual input, even if transport never settles" time="0.1755048">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="AI request lifecycle with stub transport that deliberately ignores abort &gt; account switch aborts old analysis and never exposes its draft in new context" time="0.1739509">
+        </testcase>
+        <testcase classname="src/test/voice-adaptation.test.tsx" name="AI request lifecycle with stub transport that deliberately ignores abort &gt; point switch aborts old analysis and never exposes its draft in new context" time="0.166791">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/voice.test.tsx" timestamp="2026-10-26T11:26:43.002Z" hostname="vivobook" tests="4" failures="0" errors="0" skipped="0" time="3.7792816">
+        <testcase classname="src/test/voice.test.tsx" name="voice form with stub provider responses &gt; keeps text and manual inputs after timeout" time="1.3462851">
+        </testcase>
+        <testcase classname="src/test/voice.test.tsx" name="voice form with stub provider responses &gt; keeps text and manual inputs after invalid-json" time="0.836429">
+        </testcase>
+        <testcase classname="src/test/voice.test.tsx" name="voice form with stub provider responses &gt; keeps text and manual inputs after rate-limit" time="0.7876259">
+        </testcase>
+        <testcase classname="src/test/voice.test.tsx" name="voice form with stub provider responses &gt; keeps text and manual inputs after provider-unavailable" time="0.804255">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/whatsapp-components.test.tsx" timestamp="2026-10-26T11:26:43.006Z" hostname="vivobook" tests="6" failures="1" errors="0" skipped="0" time="6.6075392">
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; uses the server sale balance, resolved name and point for debts in ru" time="1.5555449">
+            <failure message="Unable to find role=&quot;heading&quot; and name &quot;Асқар&quot;
+
+Ignored nodes: comments, script, style
+[36m&lt;body&gt;[39m
+  [36m&lt;div&gt;[39m
+    [36m&lt;div[39m
+      [33mclass[39m=[32m&quot;app-shell&quot;[39m
+    [36m&gt;[39m
+      [36m&lt;a[39m
+        [33mclass[39m=[32m&quot;skip-link&quot;[39m
+        [33mhref[39m=[32m&quot;#main-content&quot;[39m
+      [36m&gt;[39m
+        [0mПерейти к содержимому[0m
+      [36m&lt;/a&gt;[39m
+      [36m&lt;aside[39m
+        [33mclass[39m=[32m&quot;sidebar&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;a[39m
+          [33maria-label[39m=[32m&quot;Qadam Business&quot;[39m
+          [33mclass[39m=[32m&quot;brand qadam-brand&quot;[39m
+          [33mdata-discover[39m=[32m&quot;true&quot;[39m
+          [33mhref[39m=[32m&quot;/seller&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;svg[39m
+            [33maria-hidden[39m=[32m&quot;true&quot;[39m
+            [33mclass[39m=[32m&quot;qadam-mark&quot;[39m
+            [33mviewBox[39m=[32m&quot;0 0 40 40&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;path[39m
+              [33md[39m=[32m&quot;M8 30h8v-8h8v-8h8&quot;[39m
+            [36m/&gt;[39m
+            [36m&lt;circle[39m
+              [33mcx[39m=[32m&quot;32&quot;[39m
+              [33mcy[39m=[32m&quot;14&quot;[39m
+              [33mr[39m=[32m&quot;2.25&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/svg&gt;[39m
+          [36m&lt;span[39m
+            [33mclass[39m=[32m&quot;qadam-wordmark&quot;[39m
+          [36m&gt;[39m
+            [0mqadam[0m
+            [36m&lt;span&gt;[39m
+              [0mbusiness[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/span&gt;[39m
+        [36m&lt;/a&gt;[39m
+        [36m&lt;p[39m
+          [33mclass[39m=[32m&quot;sidebar-label&quot;[39m
+        [36m&gt;[39m
+          [0mКабинет продавца[0m
+        [36m&lt;/p&gt;[39m
+        [36m&lt;nav[39m
+          [33maria-label[39m=[32m&quot;Кабинет продавца&quot;[39m
+          [33mclass[39m=[32m&quot;seller-primary-nav&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mГлавная[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/sale&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M12 5v14M5 12h14&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mПродажа[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33maria-current[39m=[32m&quot;page&quot;[39m
+            [33mclass[39m=[32m&quot;active&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/debts&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mМне должны[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/analytics&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M4 20h17M7 16V9m5 7V4m5 12v-5&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mАналитика[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/inquiries&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M4 4h16v12H9l-5 5V4Zm4 4h8m-8 4h5&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mЗаявки[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+        [36m&lt;/nav&gt;[39m
+        [36m&lt;details[39m
+          [33mclass[39m=[32m&quot;seller-secondary-nav&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;summary&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;...
+
+Ignored nodes: comments, script, style
+[36m&lt;body&gt;[39m
+  [36m&lt;div&gt;[39m
+    [36m&lt;div[39m
+      [33mclass[39m=[32m&quot;app-shell&quot;[39m
+    [36m&gt;[39m
+      [36m&lt;a[39m
+        [33mclass[39m=[32m&quot;skip-link&quot;[39m
+        [33mhref[39m=[32m&quot;#main-content&quot;[39m
+      [36m&gt;[39m
+        [0mПерейти к содержимому[0m
+      [36m&lt;/a&gt;[39m
+      [36m&lt;aside[39m
+        [33mclass[39m=[32m&quot;sidebar&quot;[39m
+      [36m&gt;[39m
+        [36m&lt;a[39m
+          [33maria-label[39m=[32m&quot;Qadam Business&quot;[39m
+          [33mclass[39m=[32m&quot;brand qadam-brand&quot;[39m
+          [33mdata-discover[39m=[32m&quot;true&quot;[39m
+          [33mhref[39m=[32m&quot;/seller&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;svg[39m
+            [33maria-hidden[39m=[32m&quot;true&quot;[39m
+            [33mclass[39m=[32m&quot;qadam-mark&quot;[39m
+            [33mviewBox[39m=[32m&quot;0 0 40 40&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;path[39m
+              [33md[39m=[32m&quot;M8 30h8v-8h8v-8h8&quot;[39m
+            [36m/&gt;[39m
+            [36m&lt;circle[39m
+              [33mcx[39m=[32m&quot;32&quot;[39m
+              [33mcy[39m=[32m&quot;14&quot;[39m
+              [33mr[39m=[32m&quot;2.25&quot;[39m
+            [36m/&gt;[39m
+          [36m&lt;/svg&gt;[39m
+          [36m&lt;span[39m
+            [33mclass[39m=[32m&quot;qadam-wordmark&quot;[39m
+          [36m&gt;[39m
+            [0mqadam[0m
+            [36m&lt;span&gt;[39m
+              [0mbusiness[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/span&gt;[39m
+        [36m&lt;/a&gt;[39m
+        [36m&lt;p[39m
+          [33mclass[39m=[32m&quot;sidebar-label&quot;[39m
+        [36m&gt;[39m
+          [0mКабинет продавца[0m
+        [36m&lt;/p&gt;[39m
+        [36m&lt;nav[39m
+          [33maria-label[39m=[32m&quot;Кабинет продавца&quot;[39m
+          [33mclass[39m=[32m&quot;seller-primary-nav&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mГлавная[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/sale&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M12 5v14M5 12h14&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mПродажа[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33maria-current[39m=[32m&quot;page&quot;[39m
+            [33mclass[39m=[32m&quot;active&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/debts&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mМне должны[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/analytics&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M4 20h17M7 16V9m5 7V4m5 12v-5&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mАналитика[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+          [36m&lt;a[39m
+            [33mclass[39m=[32m&quot;&quot;[39m
+            [33mdata-discover[39m=[32m&quot;true&quot;[39m
+            [33mhref[39m=[32m&quot;/seller/inquiries&quot;[39m
+          [36m&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;[39m
+              [33mheight[39m=[32m&quot;24&quot;[39m
+              [33mstroke[39m=[32m&quot;currentColor&quot;[39m
+              [33mstroke-linecap[39m=[32m&quot;round&quot;[39m
+              [33mstroke-linejoin[39m=[32m&quot;round&quot;[39m
+              [33mstroke-width[39m=[32m&quot;1.7&quot;[39m
+              [33mviewBox[39m=[32m&quot;0 0 24 24&quot;[39m
+              [33mwidth[39m=[32m&quot;24&quot;[39m
+            [36m&gt;[39m
+              [36m&lt;path[39m
+                [33md[39m=[32m&quot;M4 4h16v12H9l-5 5V4Zm4 4h8m-8 4h5&quot;[39m
+              [36m/&gt;[39m
+            [36m&lt;/svg&gt;[39m
+            [36m&lt;span&gt;[39m
+              [0mЗаявки[0m
+            [36m&lt;/span&gt;[39m
+          [36m&lt;/a&gt;[39m
+        [36m&lt;/nav&gt;[39m
+        [36m&lt;details[39m
+          [33mclass[39m=[32m&quot;seller-secondary-nav&quot;[39m
+        [36m&gt;[39m
+          [36m&lt;summary&gt;[39m
+            [36m&lt;svg[39m
+              [33maria-hidden[39m=[32m&quot;true&quot;[39m
+              [33mfill[39m=[32m&quot;none&quot;..." type="TestingLibraryElementError">
+TestingLibraryElementError: Unable to find role=&quot;heading&quot; and name &quot;Асқар&quot;
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;div
+      class=&quot;app-shell&quot;
+    &gt;
+      &lt;a
+        class=&quot;skip-link&quot;
+        href=&quot;#main-content&quot;
+      &gt;
+        Перейти к содержимому
+      &lt;/a&gt;
+      &lt;aside
+        class=&quot;sidebar&quot;
+      &gt;
+        &lt;a
+          aria-label=&quot;Qadam Business&quot;
+          class=&quot;brand qadam-brand&quot;
+          data-discover=&quot;true&quot;
+          href=&quot;/seller&quot;
+        &gt;
+          &lt;svg
+            aria-hidden=&quot;true&quot;
+            class=&quot;qadam-mark&quot;
+            viewBox=&quot;0 0 40 40&quot;
+          &gt;
+            &lt;path
+              d=&quot;M8 30h8v-8h8v-8h8&quot;
+            /&gt;
+            &lt;circle
+              cx=&quot;32&quot;
+              cy=&quot;14&quot;
+              r=&quot;2.25&quot;
+            /&gt;
+          &lt;/svg&gt;
+          &lt;span
+            class=&quot;qadam-wordmark&quot;
+          &gt;
+            qadam
+            &lt;span&gt;
+              business
+            &lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/a&gt;
+        &lt;p
+          class=&quot;sidebar-label&quot;
+        &gt;
+          Кабинет продавца
+        &lt;/p&gt;
+        &lt;nav
+          aria-label=&quot;Кабинет продавца&quot;
+          class=&quot;seller-primary-nav&quot;
+        &gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Главная
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/sale&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M12 5v14M5 12h14&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Продажа
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            aria-current=&quot;page&quot;
+            class=&quot;active&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/debts&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Мне должны
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/analytics&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M4 20h17M7 16V9m5 7V4m5 12v-5&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Аналитика
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/inquiries&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M4 4h16v12H9l-5 5V4Zm4 4h8m-8 4h5&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Заявки
+            &lt;/span&gt;
+          &lt;/a&gt;
+        &lt;/nav&gt;
+        &lt;details
+          class=&quot;seller-secondary-nav&quot;
+        &gt;
+          &lt;summary&gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;...
+
+Ignored nodes: comments, script, style
+&lt;body&gt;
+  &lt;div&gt;
+    &lt;div
+      class=&quot;app-shell&quot;
+    &gt;
+      &lt;a
+        class=&quot;skip-link&quot;
+        href=&quot;#main-content&quot;
+      &gt;
+        Перейти к содержимому
+      &lt;/a&gt;
+      &lt;aside
+        class=&quot;sidebar&quot;
+      &gt;
+        &lt;a
+          aria-label=&quot;Qadam Business&quot;
+          class=&quot;brand qadam-brand&quot;
+          data-discover=&quot;true&quot;
+          href=&quot;/seller&quot;
+        &gt;
+          &lt;svg
+            aria-hidden=&quot;true&quot;
+            class=&quot;qadam-mark&quot;
+            viewBox=&quot;0 0 40 40&quot;
+          &gt;
+            &lt;path
+              d=&quot;M8 30h8v-8h8v-8h8&quot;
+            /&gt;
+            &lt;circle
+              cx=&quot;32&quot;
+              cy=&quot;14&quot;
+              r=&quot;2.25&quot;
+            /&gt;
+          &lt;/svg&gt;
+          &lt;span
+            class=&quot;qadam-wordmark&quot;
+          &gt;
+            qadam
+            &lt;span&gt;
+              business
+            &lt;/span&gt;
+          &lt;/span&gt;
+        &lt;/a&gt;
+        &lt;p
+          class=&quot;sidebar-label&quot;
+        &gt;
+          Кабинет продавца
+        &lt;/p&gt;
+        &lt;nav
+          aria-label=&quot;Кабинет продавца&quot;
+          class=&quot;seller-primary-nav&quot;
+        &gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Главная
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/sale&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M12 5v14M5 12h14&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Продажа
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            aria-current=&quot;page&quot;
+            class=&quot;active&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/debts&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Мне должны
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/analytics&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M4 20h17M7 16V9m5 7V4m5 12v-5&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Аналитика
+            &lt;/span&gt;
+          &lt;/a&gt;
+          &lt;a
+            class=&quot;&quot;
+            data-discover=&quot;true&quot;
+            href=&quot;/seller/inquiries&quot;
+          &gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;
+              height=&quot;24&quot;
+              stroke=&quot;currentColor&quot;
+              stroke-linecap=&quot;round&quot;
+              stroke-linejoin=&quot;round&quot;
+              stroke-width=&quot;1.7&quot;
+              viewBox=&quot;0 0 24 24&quot;
+              width=&quot;24&quot;
+            &gt;
+              &lt;path
+                d=&quot;M4 4h16v12H9l-5 5V4Zm4 4h8m-8 4h5&quot;
+              /&gt;
+            &lt;/svg&gt;
+            &lt;span&gt;
+              Заявки
+            &lt;/span&gt;
+          &lt;/a&gt;
+        &lt;/nav&gt;
+        &lt;details
+          class=&quot;seller-secondary-nav&quot;
+        &gt;
+          &lt;summary&gt;
+            &lt;svg
+              aria-hidden=&quot;true&quot;
+              fill=&quot;none&quot;...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/test/whatsapp-components.test.tsx:99:20
+            </failure>
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; uses the server sale balance, resolved name and point for debts in kk" time="0.921441">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; keeps the assistant draft text and resolves its exact customer contact +77011234567" time="0.6453876">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; keeps the assistant draft text and resolves its exact customer contact null" time="0.5389416">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; removes A&apos;s links immediately when the account changes to B" time="0.5634718">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; supports demo debts without HTTP and keeps the second demo point empty" time="2.3725552">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/whatsapp.test.ts" timestamp="2026-10-26T11:26:43.025Z" hostname="vivobook" tests="23" failures="0" errors="0" skipped="0" time="0.049149">
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp reminder text &gt; uses the agreed RU template and integer tiyn formatter" time="0.0228091">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp reminder text &gt; uses the agreed KZ template and preserves fractional tenge" time="0.0009031">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp reminder text &gt; preserves names and shop text, including ampersands" time="0.0011136">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp reminder text &gt; rejects non-integer money through the shared formatter" time="0.0008961">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; recognizes +77011234567 without leaking other contact text" time="0.0034559">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; recognizes 87011234567 without leaking other contact text" time="0.0005007">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; recognizes +7 (701) 123-45-67 without leaking other contact text" time="0.0004001">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; recognizes 8 (701) 123 45 67 without leaking other contact text" time="0.0002993">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; recognizes Телефон: +7 701 123-45-67 without leaking other contact text" time="0.0028759">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact undefined" time="0.0015498">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact null" time="0.0012355">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact " time="0.000639">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact demo@example.test" time="0.0002261">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact @87011234567" time="0.0002889">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact 87011234567@example.test" time="0.0002017">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact +1 202 555 0123" time="0.0003567">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact 77011234567" time="0.0002609">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact 870112345678" time="0.0002046">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact 8 701 123 45 678" time="0.0001371">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact +7 701 123 45" time="0.0003971">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact code87011234567" time="0.0005909">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; uses the contact chooser for absent, invalid or ambiguous contact +77011234567 / +77017654321" time="0.0008402">
+        </testcase>
+        <testcase classname="src/test/whatsapp.test.ts" name="WhatsApp URLs &gt; round trips Cyrillic, tenge, punctuation and newlines in the text query" time="0.0046008">
+        </testcase>
+    </testsuite>
+</testsuites>

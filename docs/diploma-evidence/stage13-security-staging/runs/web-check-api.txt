@@ -1,0 +1,5 @@
+
+> @qadam/web@0.1.0 check:api
+> node scripts/generate-api.mjs --check
+
+Generated API types match the checked-in OpenAPI.

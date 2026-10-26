@@ -1,0 +1,20 @@
+{
+  "patterns": [
+    "private_key",
+    "github_token",
+    "provider_token",
+    "jwt",
+    "database_password"
+  ],
+  "findings": [],
+  "manual_review": "Stage13 diff and two synthetic screenshots reviewed; no tokens, real customer data or dumps included",
+  "protected_production_paths_unchanged": [
+    "apps/api/app",
+    "apps/api/migrations",
+    "apps/web/src",
+    "packages/contracts",
+    "apps/mobile",
+    "apps/api/uv.lock",
+    "apps/web/vite.config.ts"
+  ]
+}

@@ -1,0 +1,240 @@
+
+> @qadam/web@0.1.0 test
+> vitest run --maxWorkers=1 --reporter=default --reporter=junit --outputFile=../../tmp/stage13/frontend-serial.xml
+
+
+ RUN  v4.1.12 <repo>/apps/web
+
+ ✓ src/test/qa-customers-regression.test.tsx (33 tests) 21862ms
+     ✓ reuses the picker intent when the page form retries an unknown result  2559ms
+     ✓ reuses the Customers page intent when CustomerPicker retries an unknown result  1628ms
+     ✓ GET 500 is an error, never empty data or automatic Demo  1191ms
+     ✓ POST 403 preserves fields, avoids success and never retries the mutation  992ms
+     ✓ POST 404 preserves fields, avoids success and never retries the mutation  1073ms
+     ✓ POST 409 preserves fields, avoids success and never retries the mutation  1036ms
+     ✓ POST 422 preserves fields, avoids success and never retries the mutation  1035ms
+     ✓ POST 429 preserves fields, avoids success and never retries the mutation  1003ms
+     ✓ POST 500 preserves fields, avoids success and never retries the mutation  1082ms
+     ✓ 401 POST clears private queries, requests login and preserves the same user's draft  1374ms
+     ✓ does not show success before POST; invalidates only the current business after 201  1042ms
+     ✓ paginates with the same normalized q and distinct IDs for duplicate names  836ms
+     ✓ POST malformed success response cannot produce false success  936ms
+     ✓ POST foreign success response cannot produce false success  966ms
+     ✓ rejects empty name in the form without a POST  366ms
+     ✓ a mocked transport timeout remains unknown and offers a safe same-key retry  1136ms
+     ✓ shows an unresolved saved result in Kazakh after the customer page reloads  338ms
+     ✓ creates a customer through the sale CustomerPicker using the recovery flow  948ms
+     ✓ validates customer input limits by Unicode code points before any POST  1133ms
+ ✓ src/test/screens.test.tsx (21 tests) 27448ms
+     ✓ navigates through the mobile menu and closes it after selecting a section  1534ms
+     ✓ filters loaded catalog items locally and preserves filters across languages  1046ms
+     ✓ resets catalog search and availability after a no-results state  1080ms
+     ✓ searches inquiry text locally and keeps the search across language changes  974ms
+     ✓ filters inquiries locally and preserves the selected status across languages  885ms
+     ✓ does not claim no results in unrequested inquiry pages  727ms
+     ✓ waits for the settled customer search and hides stale results  1357ms
+     ✓ retains form fields when changing language and disables demo saves  1695ms
+     ✓ keeps duplicate names as distinct selectable customers  961ms
+     ✓ shows empty states after selecting a different allowed business  1165ms
+     ✓ shows HTTP 401 as error instead of empty/success  1218ms
+     ✓ shows HTTP 403 as error instead of empty/success  916ms
+     ✓ shows HTTP 404 as error instead of empty/success  1298ms
+     ✓ shows HTTP 409 as error instead of empty/success  1186ms
+     ✓ shows HTTP 422 as error instead of empty/success  1355ms
+     ✓ shows HTTP 429 as error instead of empty/success  1004ms
+     ✓ shows HTTP 500 as error instead of empty/success  2791ms
+     ✓ shows a support reference without rendering backend messages  917ms
+     ✓ preserves customer fields after a rejected write and allows optional contact  2272ms
+     ✓ selects a newly created customer through the shared picker (test gateway only)  1780ms
+     ✓ updates inquiry display only after the mutation resolves  1273ms
+ ✓ src/test/analytics-ui.test.tsx (20 tests) 13431ms
+     ✓ protects its direct route before any Analytics adapter request  609ms
+     ✓ labels Demo, formats integer tiyn as ₸ and exposes every day/hour with the incomplete current day  1634ms
+     ✓ switches 7/30 days, preserves the selected period across RU/KZ and keeps server scope unchanged  1740ms
+     ✓ keeps three main metrics, details and unfiltered debt links in both languages  2558ms
+     ✓ keeps zero days/hours and presents null average as no sales rather than zero or NaN  816ms
+     ✓ keeps a pre-existing debt visible when the selected period has no sales or net receipts  359ms
+     ✓ shows an old reversal as signed receipts while sales stay zero, including in the table and chart  757ms
+     ✓ keeps offsetting receipts visible even when the period net is zero  460ms
+     ✓ provides exact chart values and roving keyboard focus without requiring a pointer  678ms
+     ✓ replaces a report with loading state and keeps failure retry explicit  753ms
+     ✓ switches only permitted businesses and drops the previous report while the next loads  651ms
+     ✓ loads 7/30-day snapshots with Bearer and ignores a foreign business URL parameter  792ms
+     ✓ requests only the selected membership and clears old live cards while the next business is pending  375ms
+     ✓ does not let a late Analytics 401 from the first A session expire a fresh A session after A/B/A  353ms
+ ✓ src/test/assistant.test.tsx (28 tests) 17382ms
+     ✓ loads only facts and opens the panel without a paid request  2457ms
+     ✓ submits one authenticated question and copies the reminder without writing money  1205ms
+     ✓ opens a debtor reminder with that name and ai=true only on click  1088ms
+     ✓ prevents repeat submissions and retains typed input while pending  2089ms
+     ✓ times out without retry and ignores a late answer  526ms
+     ✓ expires the session on a paid request's 401 and hides private data  507ms
+     ✓ renders allowed navigation kinds only as local links  453ms
+     ✓ labels fallback, zero and empty facts without pretending that AI succeeded  485ms
+     ✓ shows the paid daily limit but retains the free period summary  628ms
+     ✓ hides all assistant affordances after the panel reports ASSISTANT_DISABLED  723ms
+     ✓ retries a failed paid question explicitly with the same body  1046ms
+     ✓ uses the chosen 30-day period and Kazakh in the panel  2156ms
+     ✓ aborts and ignores a pending paid response after an identity change  814ms
+     ✓ rejects a foreign successful response  681ms
+     ✓ supports manual copying if clipboard access fails  845ms
+     ✓ stays off when the build flag is false  309ms
+     ✓ uses demo facts and four distinct answers without any assistant POST  1330ms
+ ✓ src/test/inquiry.test.tsx (14 tests) 11937ms
+     ✓ validates every contract-required field and accepts free-form contacts  1259ms
+     ✓ locks duplicate submits and retries an uncertain result with the same request  1023ms
+     ✓ keeps entered values editable after a definitive API rejection  888ms
+     ✓ retains the original intent after unknown then 400; only a receipt unlocks it  881ms
+     ✓ retains the original intent after unknown then 401; only a receipt unlocks it  911ms
+     ✓ retains the original intent after unknown then 403; only a receipt unlocks it  868ms
+     ✓ retains the original intent after unknown then 404; only a receipt unlocks it  901ms
+     ✓ retains the original intent after unknown then 409; only a receipt unlocks it  884ms
+     ✓ retains the original intent after unknown then 422; only a receipt unlocks it  928ms
+     ✓ retains the original intent after unknown then 429; only a receipt unlocks it  923ms
+     ✓ isolates the new shop from an old request's late resolve, without relying on a parent key  1070ms
+     ✓ isolates the new shop from an old request's late reject, without relying on a parent key  1102ms
+ ✓ src/test/qa-auth-regression.test.tsx (18 tests) 8269ms
+     ✓ signs in with the mock Supabase client and loads memberships using Bearer  2185ms
+     ✓ keeps failed login on the login screen without enabling Demo  941ms
+     ✓ restores INITIAL_SESSION and ignores a foreign business query parameter  336ms
+     ✓ clears cached customers and private drafts on logout then account B  1382ms
+     ✓ drops a late successful A response after switching to B even if transport ignores abort  317ms
+     ✓ does not expire B when a pending A request returns 401  575ms
+     ✓ uses separate business query keys and restores only that business's draft  1460ms
+ ✓ src/test/auth-deploy-integration.test.tsx (23 tests) 3528ms
+     ✓ shows a safe RU/KZ configuration notice and prevents Auth calls on /login  676ms
+     ✓ keeps HTTP 500 as an error without granting Demo or access  1077ms
+     ✓ keeps a network/CORS failure distinct, then allows explicit retry to a validated empty state  1151ms
+ ✓ src/test/voice-adaptation.test.tsx (19 tests) 6235ms
+     ✓ ru text uses one source and cannot create debt without a selected customer  1484ms
+     ✓ kk text uses one source and cannot create debt without a selected customer  708ms
+     ✓ auto text uses one source and cannot create debt without a selected customer  622ms
+     ✓ clarification includes original transcript, replaces only the draft and blocks stale confirmation  456ms
+     ✓ a cancelled clarification keeps the checked fields but cannot confirm the old draft  431ms
+     ✓ AI error 503 preserves input, offers manual/retry and never invents an answer  303ms
+ ✓ src/test/sale-debts-polish.test.tsx (8 tests) 1767ms
+     ✓ shows who owes and the server balance without internal ids  562ms
+     ✓ opens a repayment from the debt list without ids in the sale choice  366ms
+     ✓ shows one AI error with retry and manual actions, then clears it for manual input  311ms
+ ✓ src/test/analytics-redesign.test.tsx (8 tests) 5852ms
+     ✓ loads server facts on entry, period, language and business change; AI requires the button  4944ms
+     ✓ hides assistant summary and reminder actions for ASSISTANT_DISABLED  337ms
+     ✓ ignores a late summary from the old period  541ms
+(node:29584) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (<repo>\apps\web\node_modules\jsdom\lib\jsdom\browser\not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\nodes\HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\generated\HTMLCanvasElement.js:131:58)
+    at <repo>/apps/web/src/features/explore/VenueScene.tsx:122:16
+    at mountStateImpl (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8650:24)
+    at mountState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8671:22)
+    at Object.useState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28913:18)
+    at process.env.NODE_ENV.exports.useState (<repo>\apps\web\node_modules\react\cjs\react.development.js:1309:34)
+    at VenueScene (<repo>/apps/web/src/features/explore/VenueScene.tsx:119:23)
+    at Object.react_stack_bottom_frame (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28571:20) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (<repo>\apps\web\node_modules\jsdom\lib\jsdom\browser\not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\nodes\HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\generated\HTMLCanvasElement.js:131:58)
+    at <repo>/apps/web/src/features/explore/VenueScene.tsx:122:16
+    at mountStateImpl (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8650:24)
+    at mountState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8671:22)
+    at Object.useState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28913:18)
+    at process.env.NODE_ENV.exports.useState (<repo>\apps\web\node_modules\react\cjs\react.development.js:1309:34)
+    at VenueScene (<repo>/apps/web/src/features/explore/VenueScene.tsx:119:23)
+    at Object.react_stack_bottom_frame (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28571:20) undefined
+ ✓ src/test/mal-bazar.test.tsx (4 tests) 4436ms
+     ✓ has its own concept page beside the venues, without venue or shop requests  550ms
+ ✓ src/test/auth-onboarding-readiness.test.tsx (12 tests) 5621ms
+     ✓ keeps an authenticated zero-membership user on an empty state at /seller  749ms
+     ✓ refetches only /me on request and unlocks only server-assigned memberships  443ms
+     ✓ describes Demo in RU/KZ and keeps financial confirmation read-only without auth or API requests  978ms
+     ✓ submits Login only once for synchronous duplicate submits while authentication is pending  1678ms
+ ✓ src/features/inquiry/InquiryForm.accessibility.test.tsx (5 tests) 3361ms
+   ✓ focuses the first invalid field in order and links visible errors  1504ms
+   ✓ moves focus to API-confirmed success, then back to a new empty form  1227ms
+   ✓ keeps general contacts editable without mobile autocorrection and localizes errors  504ms
+ ✓ src/test/voice.test.tsx (4 tests) 5982ms
+     ✓ keeps text and manual inputs after timeout  2013ms
+     ✓ keeps text and manual inputs after invalid-json  1357ms
+     ✓ keeps text and manual inputs after rate-limit  1298ms
+     ✓ keeps text and manual inputs after provider-unavailable  1307ms
+ ✓ src/test/registration.test.tsx (24 tests) 5694ms
+     ✓ blocks signup and resend at the provider boundary on an unapproved origin  449ms
+     ✓ keeps null-session signup anonymous, forgets passwords, supports RU/KZ and only explicit resend  798ms
+     ✓ rejects too-short and mismatched passwords before SDK, focuses confirmation  323ms
+     ✓ ignores a late registration UI result after another account establishes its session  374ms
+ ✓ src/test/ledger-reading.test.tsx (23 tests) 3862ms
+     ✓ announces initial loading and shows empty only after a successful response  459ms
+     ✓ requests more than 100 unique row/filter ids in bounded batches  1409ms
+ ✓ src/test/analytics-collection.test.tsx (29 tests) 1363ms
+     ✓ shows the same demo amounts, a rounded percentage and accessible bars in ru  807ms
+ ✓ src/test/whatsapp-components.test.tsx (6 tests) 3948ms
+     ✓ uses the server sale balance, resolved name and point for debts in ru  1029ms
+     ✓ uses the server sale balance, resolved name and point for debts in kk  511ms
+     ✓ keeps the assistant draft text and resolves its exact customer contact +77011234567  547ms
+     ✓ keeps the assistant draft text and resolves its exact customer contact null  457ms
+     ✓ removes A's links immediately when the account changes to B  401ms
+     ✓ supports demo debts without HTTP and keeps the second demo point empty  995ms
+ ✓ src/test/seller-navigation.test.tsx (4 tests) 3042ms
+     ✓ keeps five main destinations in the same order on desktop and mobile  924ms
+     ✓ groups only secondary tools under More and closes after a navigation  743ms
+     ✓ restores focus to More after closing without navigating  428ms
+     ✓ preserves language, permitted business selection and logout  940ms
+ ✓ src/test/dashboard-demo.test.tsx (3 tests) 3432ms
+     ✓ shows analytics' last day, all-date debt and three named examples in ru without HTTP  1366ms
+     ✓ shows analytics' last day, all-date debt and three named examples in kk without HTTP  791ms
+     ✓ does not substitute demo amounts when a live overview fails  1266ms
+ ✓ src/test/auth-callback.test.tsx (21 tests) 4018ms
+     ✓ exchanges once across StrictMode and identity remount, validates /me, then shows empty membership state  709ms
+     ✓ /me 403 failure never becomes empty membership or Demo  330ms
+ ✓ src/test/research-feedback.test.tsx (14 tests) 2797ms
+     ✓ does not send an invalid form or Demo response  567ms
+     ✓ preserves exact body and key after a lost response; no automatic retry  306ms
+ ✓ src/test/summary-share.test.tsx (22 tests) 3217ms
+     ✓ disables all actions while loading and does not build a WhatsApp link  615ms
+ ✓ src/test/customer-recovery-coordinator.test.tsx (37 tests) 2145ms
+ ✓ src/test/analytics-data.test.tsx (48 tests) 977ms
+     ✓ never displays another business, period, or old identity epoch while requests finish late  664ms
+ ✓ src/test/qa-contract-regression.test.ts (9 tests) 53ms
+ ✓ src/test/research-data.test.tsx (9 tests) 444ms
+ ✓ src/test/qa-known-defects.test.tsx (3 tests) 2036ms
+     ✓ QA-001: a late 401 from the first A session cannot expire a new A session after A/B/A  2021ms
+ ✓ src/test/customer-recovery-forms.test.tsx (2 tests) 1499ms
+     ✓ unmounting the submitting form cancels its ownership even while the parent observer stays mounted  1004ms
+     ✓ completing form A calls only A and preserves form B's distinct fields and shared draft through B remount  491ms
+ ✓ src/test/microphone-acceptance.test.tsx (22 tests) 2361ms
+     ✓ keeps recording and file selection disabled while the parent is busy  341ms
+ ✓ src/test/business-selection.test.tsx (6 tests) 2161ms
+     ✓ restores a selected membership after remount, storing only its ID  334ms
+     ✓ restores only after /me across full App reload and A → B → A generations  1653ms
+ ✓ src/test/client.test.ts (20 tests) 382ms
+ ✓ src/test/inquiry-transport.test.tsx (8 tests) 828ms
+   ✓ deadline unlocks explicit retry while preserving the exact request after unknown outcome  730ms
+ ✓ src/test/shop-page.test.tsx (3 tests) 804ms
+     ✓ shows venue, point on the scheme, stock and demo marks from the API only  644ms
+ ✓ src/test/bindings.test.ts (17 tests) 245ms
+ ✓ src/test/home-purpose.test.tsx (4 tests) 911ms
+     ✓ names the product in the hero, with the cabinet first and the shop search second  477ms
+ ✓ src/test/venue-showcase.test.tsx (3 tests) 388ms
+ ✓ src/test/ios-compatibility.test.tsx (4 tests) 683ms
+   ✓ keeps the menu usable without native dialog methods and removes its backdrop on close  371ms
+ ✓ src/test/microphone-known-gaps.test.tsx (5 tests) 289ms
+ ✓ src/test/auth.test.tsx (6 tests) 313ms
+ ✓ src/test/recovery-late-review.test.tsx (1 test) 193ms
+ ✓ src/test/debounce.test.ts (2 tests) 107ms
+ ✓ src/test/ledger.test.tsx (8 tests) 97ms
+ ✓ src/test/whatsapp.test.ts (23 tests) 373ms
+     ✓ uses the agreed RU template and integer tiyn formatter  346ms
+ ✓ src/test/customer-ids-contract.test.ts (9 tests) 55ms
+ ✓ src/test/errors.test.ts (8 tests) 38ms
+ ✓ src/test/auth-callback-config.test.ts (19 tests) 25ms
+
+ Test Files  47 passed (47)
+      Tests  639 passed (639)
+   Start at  16:35:16
+   Duration  558.85s (transform 25.68s, setup 68.84s, import 81.98s, tests 185.89s, environment 155.85s)
+
+JUNIT report written to <repo>/tmp/stage13/frontend-serial.xml

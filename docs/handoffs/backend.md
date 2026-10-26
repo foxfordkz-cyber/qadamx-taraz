@@ -1430,3 +1430,37 @@ device acceptance остаются отдельными этапами. Посл
 Продолжение — отдельная ветка от origin/integration/qadam-diploma-v1; сначала
 review #100/#101, затем dependency findings и согласованные staging gates.
 Команды: `docs/diploma-evidence/stage12-publication/development-workflow.md`.
+
+## Stage13 — dependency security and isolated staging (2026-10-26)
+
+Branch feature/diploma-stage13-security-staging, base Stage12
+55b39549bc52e767616763e0e1b5e8ab102c78e8. Verified implementation commit:
+9afb7ed65c4dae7dd2c2702029983932b3041466. Final documentation SHA is the branch HEAD.
+Incremental review depends on Draft PR101 and PR100; neither was modified/merged.
+
+Changes: apps/web/package.json + lock (Vitest4.1.12); e2e/staging*.config.ts;
+apps/api/tools/stage13_staging; tests/stage13_browser_server.py and
+ test_stage13_staging.py. Production API/ledger/Auth, migrations, OpenAPI/generated
+and all frozen datasets are unchanged. New dependency audit0, production audit0.
+Fresh backend782/782 including211 PostgreSQL and12 new isolation checks; frontend
+final serial639/639; Chrome/API/SQL19/19; Seller/Demo8/8; TS/lint/format/build/API
+checks pass. Initial full unit638/639 timeout is retained, targeted6/6 and full
+serial rerun pass with no code/timeout change. It is not hidden as a clean first run.
+
+0009 from0008 and backup/restore rehearsed twice in6 NEW disposable local databases:
+21 checks each, restored hashes/rows/feedback/balances match. Downgrade deletes
+feedback, demonstrated only on a new restore copy; no in-place rollback recommended.
+Local role is elevated; cloud roles and real Auth are not certified.
+
+Start new demo from apps/api:
+`.\.venv\Scripts\python.exe -m tools.stage13_staging.demo --database-url <NEW_LOOPBACK_TEST_DB_URL> --output ../../tmp/stage13-new-demo`
+New defaults http://127.0.0.1:4313/login / API8333; original Stage12 remains4303/8322.
+Create an empty qadam_research_browser_*_test DB first; no .env files in fixture
+checkout. Synthetic login a@research.example.test / synthetic-local-only.
+Detailed commands, fresh results, SQL, safe env inventory, diagrams and blockers:
+docs/diploma-evidence/stage13-security-staging/README.md.
+
+Next: owner reviews PR100→101→Stage13 sequence, approves separate staging DB/roles
+and exact Supabase origin/callback policy. Current arbitrary staging registration
+is blocked by the existing Pages guard. No paid AI/ASR, real accounts/customer data,
+physical-device acceptance, shared DB migration or manual deployment was performed.

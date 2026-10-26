@@ -425,3 +425,20 @@ source, contracts and frozen datasets are unchanged. Newly reported npm developm
 dependency advisories are retained as an unresolved release-review item, without
 an unreviewed major upgrade. Local academic demo remains distinct from production
 approval. Details: `docs/diploma-evidence/stage12-publication/`.
+
+## 2026-10-26 — Stage13 security fix and isolated staging candidate
+
+Stage13 branches from verified Stage12 55b39549 on
+feature/diploma-stage13-security-staging. Vitest3.2.7 is replaced with exact4.1.12:
+patched mocker and removal of tinypool reduce fresh npm audit findings3→0;
+production audit remains0. Runtime dependencies, ledger, Auth, migrations and
+contracts remain unchanged. New local fixture/launcher uses4313/8333, strips
+inherited provider credentials and preserves Stage12 on4303/8322. Live provider
+budget remains0; no shared migration/deploy is authorized.
+
+Use an incremental Draft over PR101 only: it contains the new dependency/isolation
+changes and explicitly depends on PR101→PR100. Do not replace, retarget or merge
+those PRs automatically. Future integrations must preserve ancestry. Hosted
+staging remains NO-GO pending exact Auth/callback, managed role/DB/privacy review
+and independently approved live acceptance. Evidence, the initial unit timeout
+and passing serial rerun are in docs/diploma-evidence/stage13-security-staging/.

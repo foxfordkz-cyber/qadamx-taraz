@@ -1,0 +1,20 @@
+<testsuites id="" name="" tests="8" failures="0" skipped="0" errors="0" time="99.27439600000001">
+<testsuite name="seller.spec.ts" timestamp="2026-10-26T11:24:06.184Z" hostname="" tests="8" failures="0" skipped="0" time="78.856" errors="0">
+<testcase name="protected routes redirect to login; explicit demo has no writes or backend traffic" classname="seller.spec.ts" time="25.161">
+</testcase>
+<testcase name="seller navigation and no horizontal overflow at 360px" classname="seller.spec.ts" time="19.96">
+</testcase>
+<testcase name="seller navigation and no horizontal overflow at 390px" classname="seller.spec.ts" time="10.109">
+</testcase>
+<testcase name="seller navigation and no horizontal overflow at 768px" classname="seller.spec.ts" time="6.728">
+</testcase>
+<testcase name="seller navigation and no horizontal overflow at 1440px" classname="seller.spec.ts" time="6.629">
+</testcase>
+<testcase name="catalog and duplicate customers, language persistence and real reload protection" classname="seller.spec.ts" time="4.064">
+</testcase>
+<testcase name="mobile inquiry filter and customer search work in RU and KZ" classname="seller.spec.ts" time="3.136">
+</testcase>
+<testcase name="mobile menu supports keyboard dismissal, direct navigation and touch targets" classname="seller.spec.ts" time="3.069">
+</testcase>
+</testsuite>
+</testsuites>

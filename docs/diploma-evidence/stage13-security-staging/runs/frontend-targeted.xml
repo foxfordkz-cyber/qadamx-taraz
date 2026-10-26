@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="6" failures="0" errors="0" time="3.0592038">
+    <testsuite name="src/test/whatsapp-components.test.tsx" timestamp="2026-10-26T11:28:01.643Z" hostname="vivobook" tests="6" failures="0" errors="0" skipped="0" time="3.0592038">
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; uses the server sale balance, resolved name and point for debts in ru" time="0.6672757">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; uses the server sale balance, resolved name and point for debts in kk" time="0.3401314">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; keeps the assistant draft text and resolves its exact customer contact +77011234567" time="0.438942">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; keeps the assistant draft text and resolves its exact customer contact null" time="0.4491795">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; removes A&apos;s links immediately when the account changes to B" time="0.3425845">
+        </testcase>
+        <testcase classname="src/test/whatsapp-components.test.tsx" name="WhatsApp links in the actual seller components &gt; supports demo debts without HTTP and keeps the second demo point empty" time="0.8162392">
+        </testcase>
+    </testsuite>
+</testsuites>

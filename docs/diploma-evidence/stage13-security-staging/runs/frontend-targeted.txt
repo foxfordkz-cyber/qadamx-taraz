@@ -1,0 +1,21 @@
+
+> @qadam/web@0.1.0 test
+> vitest run src/test/whatsapp-components.test.tsx --maxWorkers=1 --reporter=default --reporter=junit --outputFile=../../tmp/stage13/frontend-targeted.xml
+
+
+ RUN  v4.1.12 <repo>/apps/web
+
+ ✓ src/test/whatsapp-components.test.tsx (6 tests) 3059ms
+     ✓ uses the server sale balance, resolved name and point for debts in ru  667ms
+     ✓ uses the server sale balance, resolved name and point for debts in kk  340ms
+     ✓ keeps the assistant draft text and resolves its exact customer contact +77011234567  439ms
+     ✓ keeps the assistant draft text and resolves its exact customer contact null  449ms
+     ✓ removes A's links immediately when the account changes to B  343ms
+     ✓ supports demo debts without HTTP and keeps the second demo point empty  816ms
+
+ Test Files  1 passed (1)
+      Tests  6 passed (6)
+   Start at  16:27:47
+   Duration  13.93s (transform 4.34s, setup 1.43s, import 5.92s, tests 3.06s, environment 2.64s)
+
+JUNIT report written to <repo>/tmp/stage13/frontend-targeted.xml

@@ -1,0 +1,611 @@
+
+> @qadam/web@0.1.0 test
+> vitest run --maxWorkers=1 --reporter=default --reporter=junit --outputFile=../../tmp/stage13/frontend.xml
+
+
+ RUN  v4.1.12 <repo>/apps/web
+
+ ✓ src/test/customer-recovery-coordinator.test.tsx (37 tests) 1918ms
+ ✓ src/test/analytics-ui.test.tsx (20 tests) 12908ms
+     ✓ labels Demo, formats integer tiyn as ₸ and exposes every day/hour with the incomplete current day  954ms
+     ✓ switches 7/30 days, preserves the selected period across RU/KZ and keeps server scope unchanged  1741ms
+     ✓ keeps three main metrics, details and unfiltered debt links in both languages  1488ms
+     ✓ keeps zero days/hours and presents null average as no sales rather than zero or NaN  987ms
+     ✓ keeps a pre-existing debt visible when the selected period has no sales or net receipts  480ms
+     ✓ shows an old reversal as signed receipts while sales stay zero, including in the table and chart  947ms
+     ✓ keeps offsetting receipts visible even when the period net is zero  481ms
+     ✓ provides exact chart values and roving keyboard focus without requiring a pointer  868ms
+     ✓ replaces a report with loading state and keeps failure retry explicit  540ms
+     ✓ switches only permitted businesses and drops the previous report while the next loads  557ms
+     ✓ loads 7/30-day snapshots with Bearer and ignores a foreign business URL parameter  1117ms
+     ✓ renders live HTTP 404 as an error, retries only on request and never reads Demo  437ms
+     ✓ renders live HTTP 503 as an error, retries only on request and never reads Demo  391ms
+     ✓ requests only the selected membership and clears old live cards while the next business is pending  691ms
+     ✓ does not let a late Analytics 401 from the first A session expire a fresh A session after A/B/A  462ms
+ ✓ src/test/qa-customers-regression.test.tsx (33 tests) 18858ms
+     ✓ reuses the picker intent when the page form retries an unknown result  1721ms
+     ✓ reuses the Customers page intent when CustomerPicker retries an unknown result  1512ms
+     ✓ GET 500 is an error, never empty data or automatic Demo  1164ms
+     ✓ POST 403 preserves fields, avoids success and never retries the mutation  874ms
+     ✓ POST 404 preserves fields, avoids success and never retries the mutation  783ms
+     ✓ POST 409 preserves fields, avoids success and never retries the mutation  933ms
+     ✓ POST 422 preserves fields, avoids success and never retries the mutation  830ms
+     ✓ POST 429 preserves fields, avoids success and never retries the mutation  767ms
+     ✓ POST 500 preserves fields, avoids success and never retries the mutation  798ms
+     ✓ 401 POST clears private queries, requests login and preserves the same user's draft  1155ms
+     ✓ does not show success before POST; invalidates only the current business after 201  973ms
+     ✓ paginates with the same normalized q and distinct IDs for duplicate names  803ms
+     ✓ POST malformed success response cannot produce false success  844ms
+     ✓ POST foreign success response cannot produce false success  827ms
+     ✓ a mocked transport timeout remains unknown and offers a safe same-key retry  975ms
+     ✓ shows an unresolved saved result in Kazakh after the customer page reloads  340ms
+     ✓ creates a customer through the sale CustomerPicker using the recovery flow  994ms
+     ✓ validates customer input limits by Unicode code points before any POST  997ms
+ ✓ src/test/analytics-data.test.tsx (48 tests) 1778ms
+     ✓ accepts captain example empty  783ms
+     ✓ never displays another business, period, or old identity epoch while requests finish late  676ms
+ ✓ src/test/voice-adaptation.test.tsx (19 tests) 5702ms
+     ✓ ru text uses one source and cannot create debt without a selected customer  2017ms
+     ✓ kk text uses one source and cannot create debt without a selected customer  498ms
+     ✓ auto text uses one source and cannot create debt without a selected customer  448ms
+     ✓ clarification includes original transcript, replaces only the draft and blocks stale confirmation  319ms
+     ✓ a cancelled clarification keeps the checked fields but cannot confirm the old draft  349ms
+ ✓ src/test/ledger-reading.test.tsx (23 tests) 3330ms
+     ✓ retains rows and disables the pagination action while the next page is pending  444ms
+     ✓ requests more than 100 unique row/filter ids in bounded batches  1112ms
+ ✓ src/test/screens.test.tsx (21 tests) 13522ms
+     ✓ navigates through the mobile menu and closes it after selecting a section  1223ms
+     ✓ filters loaded catalog items locally and preserves filters across languages  792ms
+     ✓ resets catalog search and availability after a no-results state  748ms
+     ✓ searches inquiry text locally and keeps the search across language changes  753ms
+     ✓ filters inquiries locally and preserves the selected status across languages  679ms
+     ✓ does not claim no results in unrequested inquiry pages  545ms
+     ✓ waits for the settled customer search and hides stale results  1102ms
+     ✓ retains form fields when changing language and disables demo saves  880ms
+     ✓ keeps duplicate names as distinct selectable customers  497ms
+     ✓ shows empty states after selecting a different allowed business  402ms
+     ✓ shows HTTP 401 as error instead of empty/success  321ms
+     ✓ shows HTTP 409 as error instead of empty/success  312ms
+     ✓ shows HTTP 429 as error instead of empty/success  372ms
+     ✓ shows HTTP 500 as error instead of empty/success  1329ms
+     ✓ shows a support reference without rendering backend messages  426ms
+     ✓ preserves customer fields after a rejected write and allows optional contact  960ms
+     ✓ selects a newly created customer through the shared picker (test gateway only)  768ms
+     ✓ updates inquiry display only after the mutation resolves  517ms
+ ✓ src/test/summary-share.test.tsx (22 tests) 2087ms
+     ✓ disables all actions while loading and does not build a WhatsApp link  327ms
+ ✓ src/test/assistant.test.tsx (28 tests) 12748ms
+     ✓ loads only facts and opens the panel without a paid request  1656ms
+     ✓ submits one authenticated question and copies the reminder without writing money  801ms
+     ✓ opens a debtor reminder with that name and ai=true only on click  597ms
+     ✓ prevents repeat submissions and retains typed input while pending  1045ms
+     ✓ times out without retry and ignores a late answer  499ms
+     ✓ expires the session on a paid request's 401 and hides private data  502ms
+     ✓ renders allowed navigation kinds only as local links  519ms
+     ✓ labels fallback, zero and empty facts without pretending that AI succeeded  484ms
+     ✓ shows the paid daily limit but retains the free period summary  584ms
+     ✓ hides all assistant affordances after the panel reports ASSISTANT_DISABLED  564ms
+     ✓ retries a failed paid question explicitly with the same body  622ms
+     ✓ uses the chosen 30-day period and Kazakh in the panel  1508ms
+     ✓ aborts and ignores a pending paid response after an identity change  467ms
+     ✓ rejects a foreign successful response  453ms
+     ✓ supports manual copying if clipboard access fails  497ms
+     ✓ uses demo facts and four distinct answers without any assistant POST  1723ms
+ ✓ src/test/registration.test.tsx (24 tests) 3585ms
+     ✓ keeps null-session signup anonymous, forgets passwords, supports RU/KZ and only explicit resend  484ms
+ ✓ src/test/auth-callback.test.tsx (21 tests) 2513ms
+     ✓ exchanges once across StrictMode and identity remount, validates /me, then shows empty membership state  366ms
+ ✓ src/test/research-feedback.test.tsx (14 tests) 2259ms
+     ✓ does not send an invalid form or Demo response  371ms
+ ✓ src/test/microphone-acceptance.test.tsx (22 tests) 1013ms
+ ✓ src/test/qa-auth-regression.test.tsx (18 tests) 7136ms
+     ✓ signs in with the mock Supabase client and loads memberships using Bearer  2275ms
+     ✓ keeps failed login on the login screen without enabling Demo  833ms
+     ✓ restores INITIAL_SESSION and ignores a foreign business query parameter  920ms
+     ✓ clears cached customers and private drafts on logout then account B  1027ms
+     ✓ uses separate business query keys and restores only that business's draft  969ms
+ ✓ src/test/customer-recovery-forms.test.tsx (2 tests) 1037ms
+     ✓ unmounting the submitting form cancels its ownership even while the parent observer stays mounted  775ms
+ ✓ src/test/inquiry.test.tsx (14 tests) 12667ms
+     ✓ validates every contract-required field and accepts free-form contacts  1533ms
+     ✓ locks duplicate submits and retries an uncertain result with the same request  1067ms
+     ✓ keeps entered values editable after a definitive API rejection  879ms
+     ✓ retains the original intent after unknown then 400; only a receipt unlocks it  1026ms
+     ✓ retains the original intent after unknown then 401; only a receipt unlocks it  906ms
+     ✓ retains the original intent after unknown then 403; only a receipt unlocks it  903ms
+     ✓ retains the original intent after unknown then 404; only a receipt unlocks it  996ms
+     ✓ retains the original intent after unknown then 409; only a receipt unlocks it  979ms
+     ✓ retains the original intent after unknown then 422; only a receipt unlocks it  917ms
+     ✓ retains the original intent after unknown then 429; only a receipt unlocks it  942ms
+     ✓ isolates the new shop from an old request's late resolve, without relying on a parent key  1082ms
+     ✓ isolates the new shop from an old request's late reject, without relying on a parent key  1125ms
+ ✓ src/test/analytics-collection.test.tsx (29 tests) 3139ms
+     ✓ shows the same demo amounts, a rounded percentage and accessible bars in ru  2638ms
+ ✓ src/test/qa-contract-regression.test.ts (9 tests) 1568ms
+     ✓ documented errors reference ErrorResponse; robustness-only statuses are not invented contract responses  314ms
+     ✓ every enabled gateway request maps to an actual accepted path and method  714ms
+ ✓ src/test/sale-debts-polish.test.tsx (8 tests) 5180ms
+     ✓ shows who owes and the server balance without internal ids  4421ms
+ ✓ src/test/analytics-redesign.test.tsx (8 tests) 4985ms
+     ✓ loads server facts on entry, period, language and business change; AI requires the button  3990ms
+     ✓ hides assistant summary and reminder actions for ASSISTANT_DISABLED  353ms
+     ✓ ignores a late summary from the old period  620ms
+ ✓ src/test/auth-onboarding-readiness.test.tsx (12 tests) 4057ms
+     ✓ keeps an authenticated zero-membership user on an empty state at /seller  498ms
+     ✓ refetches only /me on request and unlocks only server-assigned memberships  777ms
+     ✓ describes Demo in RU/KZ and keeps financial confirmation read-only without auth or API requests  791ms
+     ✓ submits Login only once for synchronous duplicate submits while authentication is pending  815ms
+ ✓ src/test/auth-deploy-integration.test.tsx (23 tests) 5992ms
+     ✓ shows a safe RU/KZ configuration notice and prevents Auth calls on /login  2500ms
+     ✓ shows a safe RU/KZ configuration notice and prevents Auth calls on /register  480ms
+     ✓ keeps HTTP 403 as an error without granting Demo or access  301ms
+     ✓ keeps HTTP 500 as an error without granting Demo or access  1071ms
+     ✓ keeps a network/CORS failure distinct, then allows explicit retry to a validated empty state  1174ms
+ ❯ src/test/whatsapp-components.test.tsx (6 tests | 1 failed) 6608ms
+     × uses the server sale balance, resolved name and point for debts in ru 1556ms
+     ✓ uses the server sale balance, resolved name and point for debts in kk  921ms
+     ✓ keeps the assistant draft text and resolves its exact customer contact +77011234567  645ms
+     ✓ keeps the assistant draft text and resolves its exact customer contact null  539ms
+     ✓ removes A's links immediately when the account changes to B  563ms
+     ✓ supports demo debts without HTTP and keeps the second demo point empty  2373ms
+ ✓ src/test/bindings.test.ts (17 tests) 380ms
+ ✓ src/test/client.test.ts (20 tests) 550ms
+     ✓ formats whole and fractional KZT without losing tiyn  387ms
+ ✓ src/test/research-data.test.tsx (9 tests) 1567ms
+     ✓ preserves positive held-out errors smaller than a tiyn  1051ms
+     ✓ offers a read-only link to the existing customer's open sales  374ms
+ ✓ src/features/inquiry/InquiryForm.accessibility.test.tsx (5 tests) 3986ms
+   ✓ focuses the first invalid field in order and links visible errors  1897ms
+   ✓ moves focus to API-confirmed success, then back to a new empty form  1299ms
+   ✓ keeps general contacts editable without mobile autocorrection and localizes errors  620ms
+ ✓ src/test/seller-navigation.test.tsx (4 tests) 3007ms
+     ✓ keeps five main destinations in the same order on desktop and mobile  972ms
+     ✓ groups only secondary tools under More and closes after a navigation  684ms
+     ✓ restores focus to More after closing without navigating  409ms
+     ✓ preserves language, permitted business selection and logout  936ms
+(node:32268) [THREE_CJS_DEPRECATED] DeprecationWarning: `require("three")` is deprecated and will be removed.
+Replace `const THREE = require("three")` with `import * as THREE from "three"`.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (<repo>\apps\web\node_modules\jsdom\lib\jsdom\browser\not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\nodes\HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\generated\HTMLCanvasElement.js:131:58)
+    at <repo>/apps/web/src/features/explore/VenueScene.tsx:122:16
+    at mountStateImpl (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8650:24)
+    at mountState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8671:22)
+    at Object.useState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28913:18)
+    at process.env.NODE_ENV.exports.useState (<repo>\apps\web\node_modules\react\cjs\react.development.js:1309:34)
+    at VenueScene (<repo>/apps/web/src/features/explore/VenueScene.tsx:119:23)
+    at Object.react_stack_bottom_frame (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28571:20) undefined
+Error: Not implemented: HTMLCanvasElement.prototype.getContext (without installing the canvas npm package)
+    at module.exports (<repo>\apps\web\node_modules\jsdom\lib\jsdom\browser\not-implemented.js:9:17)
+    at HTMLCanvasElementImpl.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\nodes\HTMLCanvasElement-impl.js:42:5)
+    at HTMLCanvasElement.getContext (<repo>\apps\web\node_modules\jsdom\lib\jsdom\living\generated\HTMLCanvasElement.js:131:58)
+    at <repo>/apps/web/src/features/explore/VenueScene.tsx:122:16
+    at mountStateImpl (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8650:24)
+    at mountState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:8671:22)
+    at Object.useState (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28913:18)
+    at process.env.NODE_ENV.exports.useState (<repo>\apps\web\node_modules\react\cjs\react.development.js:1309:34)
+    at VenueScene (<repo>/apps/web/src/features/explore/VenueScene.tsx:119:23)
+    at Object.react_stack_bottom_frame (<repo>\apps\web\node_modules\react-dom\cjs\react-dom-client.development.js:28571:20) undefined
+ ✓ src/test/mal-bazar.test.tsx (4 tests) 4677ms
+     ✓ has its own concept page beside the venues, without venue or shop requests  582ms
+ ✓ src/test/auth.test.tsx (6 tests) 254ms
+ ✓ src/test/ledger.test.tsx (8 tests) 59ms
+ ✓ src/test/shop-page.test.tsx (3 tests) 389ms
+     ✓ shows venue, point on the scheme, stock and demo marks from the API only  323ms
+ ✓ src/test/venue-showcase.test.tsx (3 tests) 359ms
+ ✓ src/test/business-selection.test.tsx (6 tests) 678ms
+     ✓ restores only after /me across full App reload and A → B → A generations  498ms
+ ✓ src/test/home-purpose.test.tsx (4 tests) 374ms
+ ✓ src/test/ios-compatibility.test.tsx (4 tests) 352ms
+ ✓ src/test/microphone-known-gaps.test.tsx (5 tests) 329ms
+ ✓ src/test/inquiry-transport.test.tsx (8 tests) 464ms
+   ✓ deadline unlocks explicit retry while preserving the exact request after unknown outcome  403ms
+ ✓ src/test/dashboard-demo.test.tsx (3 tests) 2960ms
+     ✓ shows analytics' last day, all-date debt and three named examples in ru without HTTP  1099ms
+     ✓ shows analytics' last day, all-date debt and three named examples in kk without HTTP  695ms
+     ✓ does not substitute demo amounts when a live overview fails  1160ms
+ ✓ src/test/customer-ids-contract.test.ts (9 tests) 49ms
+ ✓ src/test/qa-known-defects.test.tsx (3 tests) 1498ms
+     ✓ QA-001: a late 401 from the first A session cannot expire a new A session after A/B/A  1486ms
+ ✓ src/test/voice.test.tsx (4 tests) 3779ms
+     ✓ keeps text and manual inputs after timeout  1346ms
+     ✓ keeps text and manual inputs after invalid-json  836ms
+     ✓ keeps text and manual inputs after rate-limit  788ms
+     ✓ keeps text and manual inputs after provider-unavailable  804ms
+ ✓ src/test/recovery-late-review.test.tsx (1 test) 183ms
+ ✓ src/test/errors.test.ts (8 tests) 27ms
+ ✓ src/test/whatsapp.test.ts (23 tests) 49ms
+ ✓ src/test/auth-callback-config.test.ts (19 tests) 21ms
+ ✓ src/test/debounce.test.ts (2 tests) 83ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/test/whatsapp-components.test.tsx > WhatsApp links in the actual seller components > uses the server sale balance, resolved name and point for debts in ru
+TestingLibraryElementError: Unable to find role="heading" and name "Асқар"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="app-shell"
+    >
+      <a
+        class="skip-link"
+        href="#main-content"
+      >
+        Перейти к содержимому
+      </a>
+      <aside
+        class="sidebar"
+      >
+        <a
+          aria-label="Qadam Business"
+          class="brand qadam-brand"
+          data-discover="true"
+          href="/seller"
+        >
+          <svg
+            aria-hidden="true"
+            class="qadam-mark"
+            viewBox="0 0 40 40"
+          >
+            <path
+              d="M8 30h8v-8h8v-8h8"
+            />
+            <circle
+              cx="32"
+              cy="14"
+              r="2.25"
+            />
+          </svg>
+          <span
+            class="qadam-wordmark"
+          >
+            qadam
+            <span>
+              business
+            </span>
+          </span>
+        </a>
+        <p
+          class="sidebar-label"
+        >
+          Кабинет продавца
+        </p>
+        <nav
+          aria-label="Кабинет продавца"
+          class="seller-primary-nav"
+        >
+          <a
+            class=""
+            data-discover="true"
+            href="/seller"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7"
+              />
+            </svg>
+            <span>
+              Главная
+            </span>
+          </a>
+          <a
+            class=""
+            data-discover="true"
+            href="/seller/sale"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M12 5v14M5 12h14"
+              />
+            </svg>
+            <span>
+              Продажа
+            </span>
+          </a>
+          <a
+            aria-current="page"
+            class="active"
+            data-discover="true"
+            href="/seller/debts"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5"
+              />
+            </svg>
+            <span>
+              Мне должны
+            </span>
+          </a>
+          <a
+            class=""
+            data-discover="true"
+            href="/seller/analytics"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M4 20h17M7 16V9m5 7V4m5 12v-5"
+              />
+            </svg>
+            <span>
+              Аналитика
+            </span>
+          </a>
+          <a
+            class=""
+            data-discover="true"
+            href="/seller/inquiries"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M4 4h16v12H9l-5 5V4Zm4 4h8m-8 4h5"
+              />
+            </svg>
+            <span>
+              Заявки
+            </span>
+          </a>
+        </nav>
+        <details
+          class="seller-secondary-nav"
+        >
+          <summary>
+            <svg
+              aria-hidden="true"
+              fill="none"...
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <div
+      class="app-shell"
+    >
+      <a
+        class="skip-link"
+        href="#main-content"
+      >
+        Перейти к содержимому
+      </a>
+      <aside
+        class="sidebar"
+      >
+        <a
+          aria-label="Qadam Business"
+          class="brand qadam-brand"
+          data-discover="true"
+          href="/seller"
+        >
+          <svg
+            aria-hidden="true"
+            class="qadam-mark"
+            viewBox="0 0 40 40"
+          >
+            <path
+              d="M8 30h8v-8h8v-8h8"
+            />
+            <circle
+              cx="32"
+              cy="14"
+              r="2.25"
+            />
+          </svg>
+          <span
+            class="qadam-wordmark"
+          >
+            qadam
+            <span>
+              business
+            </span>
+          </span>
+        </a>
+        <p
+          class="sidebar-label"
+        >
+          Кабинет продавца
+        </p>
+        <nav
+          aria-label="Кабинет продавца"
+          class="seller-primary-nav"
+        >
+          <a
+            class=""
+            data-discover="true"
+            href="/seller"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M3 10 12 3l9 7v10H3V10Zm6 10v-7h6v7"
+              />
+            </svg>
+            <span>
+              Главная
+            </span>
+          </a>
+          <a
+            class=""
+            data-discover="true"
+            href="/seller/sale"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M12 5v14M5 12h14"
+              />
+            </svg>
+            <span>
+              Продажа
+            </span>
+          </a>
+          <a
+            aria-current="page"
+            class="active"
+            data-discover="true"
+            href="/seller/debts"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M4 5h16v15H4V5Zm4-2v4m8-4v4M8 12h8m-8 4h5"
+              />
+            </svg>
+            <span>
+              Мне должны
+            </span>
+          </a>
+          <a
+            class=""
+            data-discover="true"
+            href="/seller/analytics"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M4 20h17M7 16V9m5 7V4m5 12v-5"
+              />
+            </svg>
+            <span>
+              Аналитика
+            </span>
+          </a>
+          <a
+            class=""
+            data-discover="true"
+            href="/seller/inquiries"
+          >
+            <svg
+              aria-hidden="true"
+              fill="none"
+              height="24"
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.7"
+              viewBox="0 0 24 24"
+              width="24"
+            >
+              <path
+                d="M4 4h16v12H9l-5 5V4Zm4 4h8m-8 4h5"
+              />
+            </svg>
+            <span>
+              Заявки
+            </span>
+          </a>
+        </nav>
+        <details
+          class="seller-secondary-nav"
+        >
+          <summary>
+            <svg
+              aria-hidden="true"
+              fill="none"...
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/test/whatsapp-components.test.tsx:99:20
+     97|     it(`uses the server sale balance, resolved name and point for debt…
+     98|       const view = setup();
+     99|       await screen.findByRole("heading", { name: "Асқар" });
+       |                    ^
+    100|       if (locale === "kk")
+    101|         await userEvent.click(screen.getByRole("button", { name: "KZ" …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 46 passed (47)
+      Tests  1 failed | 638 passed (639)
+   Start at  16:14:09
+   Duration  752.30s (transform 29.25s, setup 94.88s, import 138.90s, tests 160.66s, environment 286.46s)
+
+JUNIT report written to <repo>/tmp/stage13/frontend.xml

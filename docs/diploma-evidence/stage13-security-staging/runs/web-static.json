@@ -1,0 +1,22 @@
+[
+  {
+    "name": "check:api",
+    "exit": 0,
+    "seconds": 5.16
+  },
+  {
+    "name": "lint",
+    "exit": 0,
+    "seconds": 26.45
+  },
+  {
+    "name": "format:check",
+    "exit": 0,
+    "seconds": 19.25
+  },
+  {
+    "name": "build",
+    "exit": 0,
+    "seconds": 119.17
+  }
+]

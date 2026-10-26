@@ -1,0 +1,170 @@
+{
+  "other_worktrees": 33,
+  "checks": [
+    {
+      "name": "qadamx-taraz",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-ai-assistant-final-acceptance",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-customer-post",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-customer-recovery-safe",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-diploma-integration",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-diploma-v1",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-final-candidate",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-final-qa-main-check",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-final-voice-presentation",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-live-measurement-operator",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-live-microphone-pitch-qa",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-mic-audit",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-mic-browser-tests",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-mic-component-tests",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-microphone-acceptance",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-ml-sales-debt-research",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-multilingual-extraction",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-recovery-browser",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-recovery-coordinator",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-recovery-regressions",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-registration-deploy-review",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-research-baseline-check",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-seller-analytics",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-seller-design",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-seller-fixes",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-seller-qa",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-seller-registration",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-share-day-summary",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-stage11-readiness",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-stage8-ai-evaluation",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-stage9-extraction-hardening",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-voice-integration-check",
+      "head_unchanged": true,
+      "status_unchanged": true
+    },
+    {
+      "name": "qadam-voice-playback-cancel",
+      "head_unchanged": true,
+      "status_unchanged": true
+    }
+  ]
+}

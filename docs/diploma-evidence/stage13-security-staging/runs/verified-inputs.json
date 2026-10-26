@@ -1,0 +1,21 @@
+{
+  "base": "55b39549bc52e767616763e0e1b5e8ab102c78e8",
+  "sha256": {
+    "apps/web/package.json": "da655c775482f4fc004b56216139a2185cbf471793fe78b96d03f33d3909c6e8",
+    "apps/web/package-lock.json": "1e79b46a2e50d54354c8911e8898656f7342d8707d6ee7e5ea50d104a26e73fb",
+    "apps/api/tools/stage13_staging/__init__.py": "f161f906c3e8b3cc758f83188ffe491c5533e044e8a4e3e3d5258b1b1f2d0d85",
+    "apps/api/tools/stage13_staging/demo.py": "c231e52f90658dd526a40e21c52e266adf80f534f861ce971f5c8f062f3c427a",
+    "apps/api/tests/stage13_browser_server.py": "11d02b869917008b70fde5bb3c0cd91a3d774c27c347a3a4c406b3665b5522c8",
+    "apps/api/tests/test_stage13_staging.py": "750d6a5768aa4deb22152953bdc0384724823e7a108203ca0d6f2d3872d070f0",
+    "apps/web/e2e/staging.playwright.config.ts": "c62ea1143414c536a99bd84dbf182461b95155a9fc0fc5ef107f3caf3e3d2aed",
+    "apps/web/e2e/staging-seller.playwright.config.ts": "6a772b0b8d276dc8745db93a033e78a69e7a251b3738e5e081cc1d86f1ed4b45"
+  },
+  "implementation_commit": "9afb7ed65c4dae7dd2c2702029983932b3041466",
+  "unchanged_production_trees": {
+    "apps/api/app": "e53de5e8618074d879a4e1d46236c9e05fd142a2",
+    "apps/api/migrations": "4631564cf67922641c9a1280c35072232a788026",
+    "apps/web/src": "92e9dbe8961abfe0875e51cca31d4b9890975d4a",
+    "packages/contracts": "69f62b64933249b9afc5ede31fe19e27222d4903",
+    "apps/mobile": "ef83369b7ec6abda4016044cff2eba69d6fce1a1"
+  }
+}
