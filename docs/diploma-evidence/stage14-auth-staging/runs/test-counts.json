@@ -1,0 +1,34 @@
+{
+  "backend-unit": {
+    "cases": 109,
+    "failures": 0,
+    "skipped": [
+      "test_http_error_correlates_audio_stage_with_response_id"
+    ]
+  },
+  "backend-pg": {
+    "cases": 61,
+    "failures": 0,
+    "skipped": []
+  },
+  "frontend-auth": {
+    "cases": 76,
+    "failures": 0,
+    "skipped": []
+  },
+  "readiness": {
+    "cases": 46,
+    "failures": 1,
+    "skipped": []
+  },
+  "readiness-final": {
+    "cases": 47,
+    "failures": 0,
+    "skipped": []
+  },
+  "readiness-release": {
+    "cases": 48,
+    "failures": 0,
+    "skipped": []
+  }
+}

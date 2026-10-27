@@ -442,3 +442,19 @@ those PRs automatically. Future integrations must preserve ancestry. Hosted
 staging remains NO-GO pending exact Auth/callback, managed role/DB/privacy review
 and independently approved live acceptance. Evidence, the initial unit timeout
 and passing serial rerun are in docs/diploma-evidence/stage13-security-staging/.
+
+## 2026-10-27 — Stage14 Auth/staging preparation, no hosted authorization
+
+Stage14 starts from a42c72d7 in feature/diploma-stage14-auth-staging-readiness,
+stacked over PR102. Offline inventory validation rejects unsafe targets, callbacks,
+public secrets, live keys/budgets and fixture entrypoints without connecting.
+Fresh isolated Auth/SQL/restore and synthetic response evidence is separate from
+real Supabase and paid AI/ASR, which remain NOT RUN. Hosted/production NO-GO.
+
+Vercel Git integration automatically builds prior PRs. Versioned git.deploymentEnabled
+false is scoped only to the new Stage14 branch (root and apps/web config), preserving
+all other branches and cloud protection settings. Its purpose is Git-only publication,
+not a preview rollout. No production Auth/ledger/API/migration change. Staging email
+still requires an owner-approved callback decision; zero-provider hosted startup,
+managed DB roles/RLS, privacy retention and a hard provider budget need approval.
+Evidence: docs/diploma-evidence/stage14-auth-staging/README.md.
