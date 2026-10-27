@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-27",
+  "refs": {
+    "origin/main": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+    "origin/feature/ml-sales-debt-research": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+    "origin/integration/qadam-diploma-v1": "55b39549bc52e767616763e0e1b5e8ab102c78e8",
+    "origin/feature/diploma-stage13-security-staging": "a42c72d7b954f5fe7ea8f780e7cb587639000419"
+  },
+  "stack_counts": [
+    "0\t11",
+    "0\t23",
+    "0\t2"
+  ],
+  "adjacent_overlap": [
+    [
+      "README.md",
+      "docs/DECISIONS.md",
+      "docs/handoffs/seller-web.md"
+    ],
+    [
+      "docs/DECISIONS.md",
+      "docs/handoffs/backend.md"
+    ]
+  ],
+  "other_worktree_count": 34
+}

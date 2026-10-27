@@ -1,0 +1,153 @@
+{
+  "evidence_level": "offline-provider-response-validation",
+  "live_provider_calls": 0,
+  "asr_calls": 0,
+  "dataset_sha256": "5caf7725c1c17ed19ecd04785222a030f707a4bf2f0c13bb817aa9742d4bca6e",
+  "passed": 14,
+  "total": 14,
+  "cases": [
+    {
+      "id": "S14-01",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": "Асқар",
+        "total_minor": 300000,
+        "received_minor": 100000,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-02",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": "Асқар",
+        "total_minor": 300000,
+        "received_minor": 100000,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-03",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": "Айгуль",
+        "total_minor": 450000,
+        "received_minor": 200000,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-04",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": null,
+        "total_minor": 120000,
+        "received_minor": 120000,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-05",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": "Ерлан",
+        "total_minor": 200000,
+        "received_minor": 0,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-06",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": "Ерлан",
+        "total_minor": 200000,
+        "received_minor": null,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-07",
+      "pass": true,
+      "actual": {
+        "kind": "repayment",
+        "customer_query": "Асқар",
+        "total_minor": null,
+        "received_minor": null,
+        "amount_minor": 50000
+      }
+    },
+    {
+      "id": "S14-08",
+      "pass": true,
+      "actual": {
+        "kind": "repayment",
+        "customer_query": "Гүлнар",
+        "total_minor": null,
+        "received_minor": null,
+        "amount_minor": 70000
+      }
+    },
+    {
+      "id": "S14-09",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": "Алия",
+        "total_minor": 300000,
+        "received_minor": 100000,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-10",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": null,
+        "total_minor": 100000,
+        "received_minor": null,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-11",
+      "pass": true,
+      "actual": {
+        "kind": "sale",
+        "customer_query": null,
+        "total_minor": null,
+        "received_minor": null,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-12",
+      "pass": true,
+      "actual": {
+        "kind": "unknown",
+        "customer_query": null,
+        "total_minor": null,
+        "received_minor": null,
+        "amount_minor": null
+      }
+    },
+    {
+      "id": "S14-13",
+      "pass": true,
+      "error": "AI_UNAVAILABLE"
+    },
+    {
+      "id": "S14-14",
+      "pass": true,
+      "source": "fallback",
+      "answer": "За последние 7 дней продажи 3 000 ₸, поступления 1 500 ₸. Сейчас клиенты должны 1 500 ₸, должников: 1."
+    }
+  ]
+}

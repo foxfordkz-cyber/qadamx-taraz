@@ -1,0 +1,361 @@
+{
+  "started_utc": "2026-10-27T09:56:16.296798+00:00",
+  "source_commit": "a42c72d7b954f5fe7ea8f780e7cb587639000419",
+  "databases": [
+    "qadam_stage11_s14_20261027_source_test",
+    "qadam_stage11_s14_20261027_restore_test",
+    "qadam_stage11_s14_20261027_recover_test"
+  ],
+  "host": "127.0.0.1",
+  "port": 55442,
+  "checks": [
+    {
+      "check": "pg_dump exit",
+      "pass": true
+    },
+    {
+      "check": "0009 preserves every existing table's rows",
+      "pass": true
+    },
+    {
+      "check": "only feedback table added",
+      "pass": true
+    },
+    {
+      "check": "feedback same-key replay",
+      "pass": true
+    },
+    {
+      "check": "feedback changed-body conflict",
+      "pass": true
+    },
+    {
+      "check": "feedback other author invisible",
+      "pass": true
+    },
+    {
+      "check": "DB rejects false consent",
+      "pass": true
+    },
+    {
+      "check": "DB rejects duplicate request",
+      "pass": true
+    },
+    {
+      "check": "unprivileged role sees no feedback via RLS",
+      "pass": true
+    },
+    {
+      "check": "feedback persistence across connections",
+      "pass": true
+    },
+    {
+      "check": "journal has sale and repayment",
+      "pass": true
+    },
+    {
+      "check": "pg_dump exit",
+      "pass": true
+    },
+    {
+      "check": "pg_restore exit",
+      "pass": true
+    },
+    {
+      "check": "restored feedback RLS enabled",
+      "pass": true
+    },
+    {
+      "check": "all restored row counts and hashes equal",
+      "pass": true
+    },
+    {
+      "check": "downgrade deletes feedback (data-loss warning)",
+      "pass": true
+    },
+    {
+      "check": "downgrade preserves all other rows",
+      "pass": true
+    },
+    {
+      "check": "pg_restore exit",
+      "pass": true
+    },
+    {
+      "check": "recovery into second new target restores all rows",
+      "pass": true
+    },
+    {
+      "check": "recovered financial balance",
+      "pass": true
+    },
+    {
+      "check": "recovered receipt replay",
+      "pass": true
+    }
+  ],
+  "status": "passed",
+  "postgres": "PostgreSQL 17.11 on x86_64-windows, compiled by msvc-19.44.35229, 64-bit",
+  "local_role": [
+    true,
+    true
+  ],
+  "feedback_rls": [
+    true,
+    false
+  ],
+  "revision": "0009_research_feedback",
+  "snapshots": {
+    "before_0009": {
+      "businesses": {
+        "rows": 9,
+        "sha256": "fe88cc4f02fa1ca91b33f5c88b597463aacdac7a4cbee5f2e5491ec2ed4bd2b9"
+      },
+      "catalog_items": {
+        "rows": 9,
+        "sha256": "6160db64dc5393e7ea2cafd63a8595b55935d023d8b79e51f690ec78b1894ef4"
+      },
+      "customer_creation_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "customers": {
+        "rows": 9,
+        "sha256": "7c83cf3fd335aeaad8778b59e0185190c0f365536c838f71ad2ff0f48354c609"
+      },
+      "drafts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "idempotency_records": {
+        "rows": 2,
+        "sha256": "c288cddaefee97dcec7c9817903b34d92dd277ddf05b511725e473c9cf13eff8"
+      },
+      "inquiries": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_listings": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_markets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_photos": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "memberships": {
+        "rows": 9,
+        "sha256": "2f32cbe72716f280dd3005c0dfcc0455f69039f5c194215e91719da1a7cdd679"
+      },
+      "operations": {
+        "rows": 2,
+        "sha256": "337659fec2dd0d18f8097abbb2338b6fc2bf196cf3e38d23c4bac9b99883a415"
+      },
+      "venues": {
+        "rows": 3,
+        "sha256": "c1b5ac754de03c4dd52795c29c56931e5452eb271d77c683422b331a13cf81da"
+      }
+    },
+    "after_0009": {
+      "businesses": {
+        "rows": 9,
+        "sha256": "fe88cc4f02fa1ca91b33f5c88b597463aacdac7a4cbee5f2e5491ec2ed4bd2b9"
+      },
+      "catalog_items": {
+        "rows": 9,
+        "sha256": "6160db64dc5393e7ea2cafd63a8595b55935d023d8b79e51f690ec78b1894ef4"
+      },
+      "customer_creation_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "customers": {
+        "rows": 9,
+        "sha256": "7c83cf3fd335aeaad8778b59e0185190c0f365536c838f71ad2ff0f48354c609"
+      },
+      "drafts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "idempotency_records": {
+        "rows": 2,
+        "sha256": "c288cddaefee97dcec7c9817903b34d92dd277ddf05b511725e473c9cf13eff8"
+      },
+      "inquiries": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_listings": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_markets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_photos": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "memberships": {
+        "rows": 9,
+        "sha256": "2f32cbe72716f280dd3005c0dfcc0455f69039f5c194215e91719da1a7cdd679"
+      },
+      "operations": {
+        "rows": 2,
+        "sha256": "337659fec2dd0d18f8097abbb2338b6fc2bf196cf3e38d23c4bac9b99883a415"
+      },
+      "research_feedback": {
+        "rows": 1,
+        "sha256": "c955758ea7a54a16527a636f1995e57b3d0de1bb804e6ff06c505828540d8f4e"
+      },
+      "venues": {
+        "rows": 3,
+        "sha256": "c1b5ac754de03c4dd52795c29c56931e5452eb271d77c683422b331a13cf81da"
+      }
+    },
+    "restore": {
+      "businesses": {
+        "rows": 9,
+        "sha256": "fe88cc4f02fa1ca91b33f5c88b597463aacdac7a4cbee5f2e5491ec2ed4bd2b9"
+      },
+      "catalog_items": {
+        "rows": 9,
+        "sha256": "6160db64dc5393e7ea2cafd63a8595b55935d023d8b79e51f690ec78b1894ef4"
+      },
+      "customer_creation_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "customers": {
+        "rows": 9,
+        "sha256": "7c83cf3fd335aeaad8778b59e0185190c0f365536c838f71ad2ff0f48354c609"
+      },
+      "drafts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "idempotency_records": {
+        "rows": 2,
+        "sha256": "c288cddaefee97dcec7c9817903b34d92dd277ddf05b511725e473c9cf13eff8"
+      },
+      "inquiries": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_listings": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_markets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_photos": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "memberships": {
+        "rows": 9,
+        "sha256": "2f32cbe72716f280dd3005c0dfcc0455f69039f5c194215e91719da1a7cdd679"
+      },
+      "operations": {
+        "rows": 2,
+        "sha256": "337659fec2dd0d18f8097abbb2338b6fc2bf196cf3e38d23c4bac9b99883a415"
+      },
+      "research_feedback": {
+        "rows": 1,
+        "sha256": "c955758ea7a54a16527a636f1995e57b3d0de1bb804e6ff06c505828540d8f4e"
+      },
+      "venues": {
+        "rows": 3,
+        "sha256": "c1b5ac754de03c4dd52795c29c56931e5452eb271d77c683422b331a13cf81da"
+      }
+    },
+    "downgrade": {
+      "businesses": {
+        "rows": 9,
+        "sha256": "fe88cc4f02fa1ca91b33f5c88b597463aacdac7a4cbee5f2e5491ec2ed4bd2b9"
+      },
+      "catalog_items": {
+        "rows": 9,
+        "sha256": "6160db64dc5393e7ea2cafd63a8595b55935d023d8b79e51f690ec78b1894ef4"
+      },
+      "customer_creation_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "customers": {
+        "rows": 9,
+        "sha256": "7c83cf3fd335aeaad8778b59e0185190c0f365536c838f71ad2ff0f48354c609"
+      },
+      "drafts": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "idempotency_records": {
+        "rows": 2,
+        "sha256": "c288cddaefee97dcec7c9817903b34d92dd277ddf05b511725e473c9cf13eff8"
+      },
+      "inquiries": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_listings": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_markets": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_photos": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "livestock_requests": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "memberships": {
+        "rows": 9,
+        "sha256": "2f32cbe72716f280dd3005c0dfcc0455f69039f5c194215e91719da1a7cdd679"
+      },
+      "operations": {
+        "rows": 2,
+        "sha256": "337659fec2dd0d18f8097abbb2338b6fc2bf196cf3e38d23c4bac9b99883a415"
+      },
+      "venues": {
+        "rows": 3,
+        "sha256": "c1b5ac754de03c4dd52795c29c56931e5452eb271d77c683422b331a13cf81da"
+      }
+    }
+  },
+  "backups": {
+    "after-0009.dump": {
+      "bytes": 51693,
+      "sha256": "871d4f689ac21434051791d04a70ea13ab735248d47e30c6ad749c537d9cc0a6"
+    },
+    "before-0009.dump": {
+      "bytes": 48536,
+      "sha256": "37b7c31bb2e8eaf53ff0c778a89adf2708d422ed7ce0492cc72099584a5cf0da"
+    }
+  },
+  "duration_seconds": 12.562
+}

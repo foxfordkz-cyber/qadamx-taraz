@@ -1464,3 +1464,34 @@ Next: owner reviews PR100→101→Stage13 sequence, approves separate staging DB
 and exact Supabase origin/callback policy. Current arbitrary staging registration
 is blocked by the existing Pages guard. No paid AI/ASR, real accounts/customer data,
 physical-device acceptance, shared DB migration or manual deployment was performed.
+
+## Stage14 — Auth, staging and live AI readiness (2026-10-27)
+
+Branch feature/diploma-stage14-auth-staging-readiness, base
+ a42c72d7b954f5fe7ea8f780e7cb587639000419 (PR102). Final SHA: branch HEAD.
+Added apps/api/tools/stage14_readiness, tests/test_stage14_readiness.py, exact
+own-branch Vercel no-deploy guards and docs/diploma-evidence/stage14-auth-staging.
+No product runtime, ledger, Auth, API contracts, migrations or dependencies changed.
+
+Fresh checks: readiness48/48; initial backend108 pass/1 PG-dependent skip;
+PG-focused61/61 includes the skipped case; frontend Auth76/76; offline packet14/14;
+new PostgreSQL17.11 cluster55442 migration/restore21/21; npm audit0; locked installs,
+Ruff, contract checks, build/TypeScript and new JSON formatting passed. New harness
+initial45/46 failure was Windows asyncio loopback IPC, corrected without changing
+application assertions; later47/47 and final48/48 retained. Stage13's historical
+unit timeout remains disclosed. Full old E2E suites not repeated for tooling/docs.
+
+Existing Vercel Preview /login and /seller/research redirect to Vercel login in a
+fresh Chrome context. Protected deployment env/backend/bytes unverified. Local
+bundle canaries/fixture markers absent. No real Supabase/AI/ASR/physical-device
+acceptance. No hosted staging launch, production deploy, merge or shared migration.
+New local synthetic databases/dumps retained under this worktree tmp/stage14.
+
+Commands from apps/api: uv run pytest tests/test_stage14_readiness.py -q;
+uv run python -m tools.stage14_readiness.validator --config
+../../docs/diploma-evidence/stage14-auth-staging/staging-configuration-template.example.json
+(expected exit2 until owner inventory); offline evaluation command and safe PG
+reproduction in stage14-test-results.md. Next: approve independent inventory,
+callback/startup contract, DB roles/RLS and privacy ownership, then real Auth;
+separately authorize capped AI/ASR. Stage implementation COMPLETE, local PASS,
+hosted and production NO-GO. Do not turn a metadata-validator PASS into deployment approval.

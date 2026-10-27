@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-10-27T09:50:03.015Z",
+  "browser": "156.0.8078.48",
+  "freshContext": true,
+  "credentialsUsed": false,
+  "rows": [
+    {
+      "requested": "https://qadamx-taraz-git-feature-diploma-stage13-secu-0b9ac0-p-it-chers.vercel.app/login",
+      "status": 200,
+      "finalOrigin": "https://vercel.com",
+      "finalPath": "/login",
+      "title": "Login – Vercel",
+      "vercelLoginVisible": false,
+      "blockedRequests": [
+        {
+          "host": "accounts.google.com",
+          "method": "GET"
+        }
+      ]
+    },
+    {
+      "requested": "https://qadamx-taraz-git-feature-diploma-stage13-secu-0b9ac0-p-it-chers.vercel.app/seller/research",
+      "status": 200,
+      "finalOrigin": "https://vercel.com",
+      "finalPath": "/login",
+      "title": "Login – Vercel",
+      "vercelLoginVisible": true,
+      "blockedRequests": [
+        {
+          "host": "accounts.google.com",
+          "method": "GET"
+        }
+      ]
+    }
+  ]
+}

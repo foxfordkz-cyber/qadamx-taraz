@@ -1,0 +1,7 @@
+{
+  "scope": "staged Stage14 diff",
+  "pattern_scan_findings": [],
+  "manual_review": "Only synthetic fixtures/canaries, placeholder inventory and sanitized evidence; no real keys/tokens/customer data",
+  "production_subtrees_unchanged": true,
+  "other_worktrees_unchanged": 34
+}

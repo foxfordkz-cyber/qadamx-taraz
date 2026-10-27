@@ -1,0 +1,28 @@
+
+> @qadam/web@0.1.0 test
+> vitest run src/test/auth.test.tsx src/test/qa-auth-regression.test.tsx src/test/auth-callback.test.tsx src/test/auth-callback-config.test.ts src/test/auth-onboarding-readiness.test.tsx --maxWorkers=1 --reporter=default --reporter=junit --outputFile=../../tmp/stage14/frontend-auth.xml
+
+
+ RUN  v4.1.12 C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-stage14-auth-staging/apps/web
+
+ ✓ src/test/auth-callback.test.tsx (21 tests) 3383ms
+     ✓ exchanges once across StrictMode and identity remount, validates /me, then shows empty membership state  678ms
+ ✓ src/test/qa-auth-regression.test.tsx (18 tests) 6871ms
+     ✓ signs in with the mock Supabase client and loads memberships using Bearer  1346ms
+     ✓ keeps failed login on the login screen without enabling Demo  937ms
+     ✓ clears cached customers and private drafts on logout then account B  1336ms
+     ✓ does not expire B when a pending A request returns 401  441ms
+     ✓ uses separate business query keys and restores only that business's draft  1291ms
+ ✓ src/test/auth-onboarding-readiness.test.tsx (12 tests) 3645ms
+     ✓ refetches only /me on request and unlocks only server-assigned memberships  431ms
+     ✓ describes Demo in RU/KZ and keeps financial confirmation read-only without auth or API requests  758ms
+     ✓ submits Login only once for synchronous duplicate submits while authentication is pending  937ms
+ ✓ src/test/auth.test.tsx (6 tests) 246ms
+ ✓ src/test/auth-callback-config.test.ts (19 tests) 12ms
+
+ Test Files  5 passed (5)
+      Tests  76 passed (76)
+   Start at  14:56:18
+   Duration  34.45s (transform 5.94s, setup 2.66s, import 9.20s, tests 14.16s, environment 5.74s)
+
+JUNIT report written to C:/Users/user/Documents/Codex/2026-10-15/github-plugin-github-openai-curated-remote/work/qadam-stage14-auth-staging/tmp/stage14/frontend-auth.xml

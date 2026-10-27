@@ -1,0 +1,53 @@
+{
+  "environment": "isolated-staging",
+  "live_provider_call_budget": 0,
+  "inventory": {
+    "classification": "dedicated-synthetic-only",
+    "approval_reference": "<OWNER_APPROVAL_REFERENCE>",
+    "frontend_origin": "<STAGING_FRONTEND_ORIGIN>",
+    "api_origin": "<STAGING_API_ORIGIN>",
+    "supabase_origin": "<STAGING_SUPABASE_URL>",
+    "auth_redirect_url": "<STAGING_AUTH_REDIRECT_URL>",
+    "redirect_allowlist": [
+      "<STAGING_AUTH_REDIRECT_URL>"
+    ],
+    "auth_flow": "pkce",
+    "auth_scope": "existing-test-users-login-only",
+    "api_entrypoint": "app.main:app",
+    "web_output": "apps/web/dist",
+    "storage_classification": "dedicated-synthetic-only",
+    "storage_bucket": "<STAGING_STORAGE_BUCKET>",
+    "log_namespace": "qadam-isolated-staging",
+    "database_role_review": "<LEAST_PRIVILEGE_REVIEW>",
+    "database": {
+      "host": "<STAGING_DATABASE_HOST>",
+      "port": 5432,
+      "name": "<STAGING_DATABASE_NAME>",
+      "role": "<STAGING_DATABASE_APP_ROLE>"
+    }
+  },
+  "server": {
+    "DATABASE_URL": "<STAGING_DATABASE_URL_WITH_VERIFY_FULL>",
+    "SUPABASE_URL": "<STAGING_SUPABASE_URL>",
+    "JWT_ISSUER": "<STAGING_JWT_ISSUER>",
+    "JWT_AUDIENCE": "authenticated",
+    "ALLOWED_ORIGINS": [
+      "<STAGING_FRONTEND_ORIGIN>"
+    ],
+    "AI_PROVIDER": "openai",
+    "AI_API_KEY": "",
+    "OPENAI_API_KEY": "",
+    "AI_FALLBACK_OPENAI": false,
+    "ASSISTANT_ENABLED": false,
+    "STORAGE_SERVICE_KEY": "",
+    "STORAGE_BUCKET": "<STAGING_STORAGE_BUCKET>",
+    "LIVESTOCK_DEMO_MODE": true
+  },
+  "frontend": {
+    "VITE_API_BASE_URL": "<STAGING_API_ORIGIN>/api/v1",
+    "VITE_SUPABASE_URL": "<STAGING_SUPABASE_URL>",
+    "VITE_SUPABASE_PUBLISHABLE_KEY": "<STAGING_SUPABASE_ANON_KEY>",
+    "VITE_ASSISTANT_ENABLED": "false",
+    "VITE_CUSTOMER_IDS_ENABLED": "true"
+  }
+}

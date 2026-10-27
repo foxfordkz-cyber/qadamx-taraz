@@ -1,0 +1,129 @@
+{
+  "prs": {
+    "100": {
+      "number": 100,
+      "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100",
+      "state": "open",
+      "draft": true,
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "merged": false,
+      "updated_at": "2026-10-24T10:17:49Z",
+      "head_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+      "head_ref": "feature/ml-sales-debt-research",
+      "base_sha": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+      "base_ref": "main",
+      "deployment_comments": [
+        {
+          "url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100#issuecomment-6381778159"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Vercel Preview Comments",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://vercel.com/github"
+        }
+      ],
+      "statuses": [
+        {
+          "context": "Vercel",
+          "state": "success",
+          "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/HKPMmfTMwGgUeQgghNcFqvzzpicQ",
+          "description": "Deployment has completed"
+        }
+      ]
+    },
+    "101": {
+      "number": 101,
+      "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/101",
+      "state": "open",
+      "draft": true,
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "merged": false,
+      "updated_at": "2026-10-26T10:51:36Z",
+      "head_sha": "55b39549bc52e767616763e0e1b5e8ab102c78e8",
+      "head_ref": "integration/qadam-diploma-v1",
+      "base_sha": "1ece13a1a255e301526af93bb7ac38faeba0b047",
+      "base_ref": "feature/ml-sales-debt-research",
+      "deployment_comments": [
+        {
+          "url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/101#issuecomment-6413994030"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Vercel Preview Comments",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://vercel.com/github"
+        }
+      ],
+      "statuses": [
+        {
+          "context": "Vercel",
+          "state": "success",
+          "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/B61hVWYfMonVAEXK76rVJtC3NnjT",
+          "description": "Deployment has completed"
+        }
+      ]
+    },
+    "102": {
+      "number": 102,
+      "html_url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/102",
+      "state": "open",
+      "draft": true,
+      "mergeable": true,
+      "mergeable_state": "clean",
+      "merged": false,
+      "updated_at": "2026-10-26T12:00:53Z",
+      "head_sha": "a42c72d7b954f5fe7ea8f780e7cb587639000419",
+      "head_ref": "feature/diploma-stage13-security-staging",
+      "base_sha": "55b39549bc52e767616763e0e1b5e8ab102c78e8",
+      "base_ref": "integration/qadam-diploma-v1",
+      "deployment_comments": [
+        {
+          "url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/102#issuecomment-6415483408"
+        },
+        {
+          "url": "https://github.com/foxfordkz-cyber/qadamx-taraz/pull/102#issuecomment-6415483838"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Vercel Preview Comments",
+          "status": "completed",
+          "conclusion": "success",
+          "details_url": "https://vercel.com/github"
+        }
+      ],
+      "statuses": [
+        {
+          "context": "Vercel",
+          "state": "success",
+          "target_url": "https://vercel.com/p-it-chers/qadamx-taraz/Ctum8pC45YKss7GQqXTCUg3m4BWR",
+          "description": "Deployment has completed"
+        }
+      ]
+    }
+  },
+  "ci": {
+    "workflows": {
+      "http": 200,
+      "total_count": 0,
+      "workflows": []
+    },
+    "deployments": {
+      "http": 200,
+      "deployments": []
+    },
+    "protection": {
+      "http": 404,
+      "required_status_checks": null,
+      "required_pull_request_reviews": null,
+      "message": "Not Found"
+    }
+  }
+}

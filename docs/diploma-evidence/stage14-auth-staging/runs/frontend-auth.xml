@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="76" failures="0" errors="0" time="14.1567101">
+    <testsuite name="src/test/auth-callback-config.test.ts" timestamp="2026-10-27T09:56:53.394Z" hostname="vivobook" tests="19" failures="0" errors="0" skipped="0" time="0.0116482">
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; accepts only the agreed HTTPS origin in a production bundle" time="0.0027632">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://qadamx-taraz.vercel.app even in development" time="0.0005816">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://pr43.qadamx-taraz.pages.dev even in development" time="0.0003376">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://hash.qadamx-taraz.pages.dev even in development" time="0.0002359">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://qadamx-taraz.pages.dev.evil.invalid even in development" time="0.0002759">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://qadamx-taraz.pages.dev:444 even in development" time="0.0002039">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects http://qadamx-taraz.pages.dev even in development" time="0.0001692">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://attacker.invalid even in development" time="0.0001364">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects https://attacker.invalid@qadamx-taraz.pages.dev even in development" time="0.0001674">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects null even in development" time="0.0002874">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects not-a-url even in development" time="0.0002246">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; permits loopback http://localhost:5173 only for isolated development" time="0.0001984">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; permits loopback http://127.0.0.1:4203 only for isolated development" time="0.0001439">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; permits loopback http://[::1]:5173 only for isolated development" time="0.002756">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://unapproved.invalid/auth/callback" time="0.0002393">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.pages.dev/auth/callback?next=https://unapproved.invalid" time="0.0001472">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.pages.dev/auth/callback/" time="0.0002077">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.pages.dev/seller" time="0.0000831">
+        </testcase>
+        <testcase classname="src/test/auth-callback-config.test.ts" name="exact Cloudflare callback scope &gt; rejects substituted callback https://qadamx-taraz.vercel.app/auth/callback" time="0.0000729">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth-callback.test.tsx" timestamp="2026-10-27T09:56:53.416Z" hostname="vivobook" tests="21" failures="0" errors="0" skipped="0" time="3.3830291">
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; exchanges once across StrictMode and identity remount, validates /me, then shows empty membership state" time="0.6781356">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; does not navigate while /me is pending" time="0.1372082">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 401 failure never becomes empty membership or Demo" time="0.1279781">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 403 failure never becomes empty membership or Demo" time="0.2755258">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 404 failure never becomes empty membership or Demo" time="0.2066625">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 500 failure never becomes empty membership or Demo" time="0.1889082">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; /me 200 failure never becomes empty membership or Demo" time="0.1886535">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; uses an existing valid session and does not exchange a reopened link or replace identity" time="0.0853252">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback ?error=access_denied&amp;error_code=otp_expired&amp;error_description=PRIVATE_TEXT without exchange, private text, or automatic email" time="0.1846245">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback ?code=one&amp;code=two without exchange, private text, or automatic email" time="0.167731">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback #access_token=PRIVATE_TOKEN without exchange, private text, or automatic email" time="0.1591644">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; cleans invalid callback ?next=https://evil.invalid without exchange, private text, or automatic email" time="0.1708226">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; recovers SDK session after a lost exchange response without a second exchange" time="0.1019113">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; unknown exchange with no session permits explicit recovery actions only" time="0.1397266">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; missing verifier explains the original browser or password login" time="0.0677859">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; late exchange cannot navigate as A or sign out a newer B session" time="0.1435431">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; logout during exchange invalidates its eventual result" time="0.1771062">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; retains a shared promise for remounts and consumes the code only once" time="0.0077885">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; captures the URL only in memory and returns the same attempt after URL cleanup" time="0.0028328">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; blocks a second callback attempt while the first exchange is pending" time="0.0804666">
+        </testcase>
+        <testcase classname="src/test/auth-callback.test.tsx" name="PKCE confirmation boundaries (isolated SDK/API) &gt; rejects a superseded HTTP response before the SDK can save its session" time="0.0836278">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth-onboarding-readiness.test.tsx" timestamp="2026-10-27T09:56:53.434Z" hostname="vivobook" tests="12" failures="0" errors="0" skipped="0" time="3.6451469">
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller" time="0.2501523">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/customers" time="0.1240238">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/sale" time="0.1098618">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/debts" time="0.1207854">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/history" time="0.1372145">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/summary" time="0.1469645">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; keeps an authenticated zero-membership user on an empty state at /seller/analytics" time="0.1687967">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; refetches only /me on request and unlocks only server-assigned memberships" time="0.4308822">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; lets a zero-membership user log out without manufacturing access" time="0.2197276">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; drops the empty user&apos;s scope when an existing owner signs in" time="0.238224">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; describes Demo in RU/KZ and keeps financial confirmation read-only without auth or API requests" time="0.7578216">
+        </testcase>
+        <testcase classname="src/test/auth-onboarding-readiness.test.tsx" name="existing Auth onboarding boundaries — synthetic SDK/HTTP &gt; submits Login only once for synchronous duplicate submits while authentication is pending" time="0.9373891">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/auth.test.tsx" timestamp="2026-10-27T09:56:53.446Z" hostname="vivobook" tests="6" failures="0" errors="0" skipped="0" time="0.2459176">
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; restores initial session and obtains its token" time="0.0413922">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; clears cached data on user switch and invalidates old token callbacks" time="0.0073312">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; does not clear cache for refresh of the same identity" time="0.0056107">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; logout clears data and removes the session" time="0.1128642">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; retains session if signout fails, rather than claiming success" time="0.0729275">
+        </testcase>
+        <testcase classname="src/test/auth.test.tsx" name="authentication identity boundaries (test auth client, no live Supabase) &gt; unsubscribes on unmount" time="0.0034189">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/test/qa-auth-regression.test.tsx" timestamp="2026-10-27T09:56:53.452Z" hostname="vivobook" tests="18" failures="0" errors="0" skipped="0" time="6.8709683">
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; signs in with the mock Supabase client and loads memberships using Bearer" time="1.3456856">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; keeps failed login on the login screen without enabling Demo" time="0.9369045">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller with no session" time="0.0962859">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/customers with no session" time="0.0749453">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/inquiries with no session" time="0.1014269">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/catalog with no session" time="0.0749539">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/sale with no session" time="0.0846771">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/debts with no session" time="0.0796099">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/history with no session" time="0.0845161">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; protects /seller/summary with no session" time="0.0619456">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; restores INITIAL_SESSION and ignores a foreign business query parameter" time="0.2533412">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; rejects a missing JWT before HTTP and enters reauthentication" time="0.0364736">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; clears cached customers and private drafts on logout then account B" time="1.3356856">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; drops a late successful A response after switching to B even if transport ignores abort" time="0.2922601">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; does not expire B when a pending A request returns 401" time="0.4414953">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; uses separate business query keys and restores only that business&apos;s draft" time="1.2914628">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="QA auth and isolation — mock transport through production App &gt; ignores direct foreign selection and removes a revoked selected membership" time="0.1300481">
+        </testcase>
+        <testcase classname="src/test/qa-auth-regression.test.tsx" name="document title &gt; names the cabinet only on login and seller routes" time="0.1435735">
+        </testcase>
+    </testsuite>
+</testsuites>
