@@ -154,6 +154,10 @@ export function EmptyState({
 }
 export function errorKey(error: unknown): TranslationKey {
   if (!(error instanceof ApiError)) return "invalidResponse";
+  if (error.code === "AUTH_UNAVAILABLE")
+    return navigator.onLine ? "authRestoreUnavailable" : "authOffline";
+  if (error.code === "DATABASE_UNAVAILABLE") return "databaseUnavailable";
+  if (error.code === "BACKEND_TIMEOUT") return "backendTimeout";
   if (error.status === 401) return "unauthorized";
   if (error.status === 403) return "forbidden";
   if (error.status === 404) return "notFound";
@@ -164,7 +168,8 @@ export function errorKey(error: unknown): TranslationKey {
   if (error.code === "CONTRACT_PENDING") return "contractPending";
   if (error.code === "API_UNCONFIGURED") return "apiUnavailable";
   if (error.code === "DEMO_READ_ONLY") return "demoWrites";
-  if (error.code === "NETWORK_ERROR") return "network";
+  if (error.code === "NETWORK_ERROR")
+    return navigator.onLine ? "backendConnection" : "authOffline";
   if (error.code === "INVALID_RESPONSE") return "invalidResponse";
   return "saveFailed";
 }

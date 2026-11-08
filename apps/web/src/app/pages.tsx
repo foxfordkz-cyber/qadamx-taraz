@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "./auth";
+import { AuthRecovery } from "./AuthRecovery";
+import { loginErrorKey } from "./login-errors";
 import { LanguageSwitch, useI18n, type TranslationKey } from "../shared/i18n";
 import {
   Alert,
@@ -21,8 +23,9 @@ export function LoginPage() {
   const [show, setShow] = useState(false);
   const [pending, setPending] = useState(false);
   const submitLock = useRef(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<TranslationKey | null>(null);
   if (auth.loading) return <Spinner />;
+  if (auth.restoreFailed) return <AuthRecovery />;
   if ((auth.session || auth.demo) && !auth.expired)
     return <Navigate to="/seller" replace />;
   return (
@@ -64,13 +67,13 @@ export function LoginPage() {
               if (!auth.configured || submitLock.current) return;
               submitLock.current = true;
               setPending(true);
-              setError(false);
+              setError(null);
               try {
                 await auth.signIn(email.trim(), password);
                 setPassword("");
                 navigate("/seller", { replace: true });
-              } catch {
-                setError(true);
+              } catch (cause) {
+                setError(loginErrorKey(cause));
               } finally {
                 submitLock.current = false;
                 setPending(false);
@@ -101,7 +104,7 @@ export function LoginPage() {
               />
               {t("passwordShow")}
             </label>
-            {error && <Alert tone="error">{t("authError")}</Alert>}
+            {error && <Alert tone="error">{t(error)}</Alert>}
             <Button type="submit" disabled={!auth.configured || pending}>
               {t(pending ? "loading" : "login")}
             </Button>

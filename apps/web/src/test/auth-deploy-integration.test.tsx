@@ -124,7 +124,8 @@ describe("GET /me error is never a successful zero-membership response", () => {
       .fn<typeof fetch>()
       .mockRejectedValue(new TypeError("private-placeholder"));
     const qa = renderQa({ route: "/seller", fetcher });
-    await screen.findByText(ru.network, {}, { timeout: 3000 });
+    await screen.findByText(ru.backendConnection, {}, { timeout: 3000 });
+    expect(fetcher).toHaveBeenCalledTimes(1);
     expect(screen.queryByText(ru.noBusiness)).not.toBeInTheDocument();
     fetcher.mockResolvedValue(json({ id: ids.a, businesses: [] }));
     await userEvent.click(screen.getByRole("button", { name: ru.retry }));

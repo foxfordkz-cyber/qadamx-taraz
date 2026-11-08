@@ -450,7 +450,9 @@ describe("published 0.6.0 live analytics binding using synthetic HTTP only", () 
       expect(url).toBe(
         `https://api.example.test/api/v1/businesses/${businessId}/analytics?days=${days}`,
       );
-      expect(init?.signal).toBe(signal);
+      // The client combines caller cancellation with its read deadline.
+      expect(init?.signal).toBeInstanceOf(AbortSignal);
+      expect(init?.signal?.aborted).toBe(false);
       expect(new Headers(init?.headers).get("Authorization")).toBe(
         "Bearer synthetic-access-token",
       );

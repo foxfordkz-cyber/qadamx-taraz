@@ -4,6 +4,8 @@ export function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
+        // Offline reads must reach an error state, not a permanently paused spinner.
+        networkMode: "always",
         staleTime: 30_000,
         refetchOnWindowFocus: true,
         retry: (count, error) =>

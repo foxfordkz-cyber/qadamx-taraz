@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useAuth } from "./auth";
+import { AuthRecovery } from "./AuthRecovery";
 import { RegistrationPage } from "./registration";
 import { AuthCallbackPage } from "./auth-callback";
 import { BusinessProvider, RuntimeProvider, useMemberships } from "./runtime";
@@ -28,6 +29,7 @@ function ProtectedSeller() {
   const { t } = useI18n();
   const me = useMemberships();
   if (auth.loading) return <Spinner />;
+  if (auth.restoreFailed) return <AuthRecovery />;
   if (!auth.demo && !auth.session) return <Navigate to="/login" replace />;
   if (auth.expired)
     return <ErrorState error={new ApiError(401, "AUTH_REQUIRED")} />;

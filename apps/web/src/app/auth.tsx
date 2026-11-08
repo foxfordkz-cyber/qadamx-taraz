@@ -13,6 +13,9 @@ import {
 } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { clearPrivateCache } from "./query";
+import { withinDeadline } from "../shared/api/deadline";
+import { ApiError } from "../shared/api/errors";
+import { boundedAuthFetch } from "./auth-transport";
 import { isExistingEmail, rememberConfirmation } from "./registration-model";
 import { supabaseProjectUrlIssue } from "./auth-config";
 import { registrationOriginAllowed } from "./auth-callback-config";
@@ -37,7 +40,7 @@ function makeSupabase(): SupabaseClient | null {
       if (payload.role !== "anon") return null;
     }
     const client: SupabaseClient = createClient(url, key, {
-      global: { fetch: callbackAwareFetch(() => client) },
+      global: { fetch: boundedAuthFetch(callbackAwareFetch(() => client)) },
       auth: {
         persistSession: true,
         autoRefreshToken: true,
@@ -54,6 +57,7 @@ export const supabase = makeSupabase();
 type AuthContextValue = {
   session: Session | null;
   loading: boolean;
+  restoreFailed: boolean;
   demo: boolean;
   expired: boolean;
   configured: boolean;
@@ -82,6 +86,8 @@ export function AuthProvider({
   const queryClient = useQueryClient();
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(!!client);
+  const [restoreFailed, setRestoreFailed] = useState(false);
+  const restoreTimedOut = useRef(false);
   const [demo, setDemo] = useState(false);
   const [expired, setExpired] = useState(false);
   const identity = useRef<string | null>(null);
@@ -91,8 +97,24 @@ export function AuthProvider({
   const registrationPending = useRef(false);
   useEffect(() => {
     if (!client) return;
+    // INITIAL_SESSION can be blocked by refresh/network/SDK lock acquisition.
+    // End the UI wait without inventing a session or deleting stored credentials.
+    const timer = setTimeout(() => {
+      restoreTimedOut.current = true;
+      setLoading(false);
+      setRestoreFailed(true);
+      // A manual reload retries initialization; do not keep periodic refresh
+      // attempts running after the initialization deadline.
+      void client.auth.stopAutoRefresh?.().catch(() => {});
+    }, 10_000);
     // Synchronous callback: never await another Supabase call inside the auth lock.
     const { data } = client.auth.onAuthStateChange((_event, next) => {
+      clearTimeout(timer);
+      // Recovery requires an explicit reload. A late SDK response cannot reopen
+      // the cabinet after this initialization attempt has already failed.
+      if (restoreTimedOut.current) return;
+      restoreTimedOut.current = false;
+      setRestoreFailed(false);
       if (identity.current !== (next?.user.id ?? null)) {
         identity.current = next?.user.id ?? null;
         clearPrivateCache(queryClient);
@@ -105,11 +127,27 @@ export function AuthProvider({
       }
       setLoading(false);
     });
-    return () => data.subscription.unsubscribe();
+    return () => {
+      clearTimeout(timer);
+      data.subscription.unsubscribe();
+    };
   }, [client, queryClient]);
   async function signIn(email: string, password: string) {
     if (!client) throw new Error("Auth unconfigured");
-    const result = await client.auth.signInWithPassword({ email, password });
+    const result = await withinDeadline(
+      () => client.auth.signInWithPassword({ email, password }),
+      10_000,
+      () => new ApiError(0, "AUTH_UNAVAILABLE"),
+    ).catch((error: unknown) => {
+      if (error instanceof ApiError && error.code === "AUTH_UNAVAILABLE") {
+        // An SDK lock may ignore cancellation. Do not allow another login to
+        // race this attempt; reload creates a fresh SDK before the next attempt.
+        restoreTimedOut.current = true;
+        setRestoreFailed(true);
+        void client.auth.stopAutoRefresh?.().catch(() => {});
+      }
+      throw error;
+    });
     if (result.error) throw result.error;
     demoRef.current = false;
     setDemo(false);
@@ -177,23 +215,37 @@ export function AuthProvider({
       return Promise.resolve({ issue: "changed" });
     const start = generationRef.current;
     const initialId = identity.current;
-    return completeAuthCallback(client, attempt, {
-      current: () => generationRef.current === start && !demoRef.current,
-      accept: (userId, exchanged) => {
-        const expectedGeneration = start + (exchanged && !initialId ? 1 : 0);
-        if (
-          demoRef.current ||
-          identity.current !== userId ||
-          generationRef.current !== expectedGeneration
-        )
-          return null;
-        return `${userId}:${generationRef.current}`;
-      },
-    });
+    return withinDeadline(
+      (signal) =>
+        completeAuthCallback(client, attempt, {
+          current: () =>
+            !signal.aborted &&
+            generationRef.current === start &&
+            !demoRef.current,
+          accept: (userId, exchanged) => {
+            const expectedGeneration =
+              start + (exchanged && !initialId ? 1 : 0);
+            if (
+              signal.aborted ||
+              demoRef.current ||
+              identity.current !== userId ||
+              generationRef.current !== expectedGeneration
+            )
+              return null;
+            return `${userId}:${generationRef.current}`;
+          },
+        }),
+      20_000,
+      () => new ApiError(0, "AUTH_UNAVAILABLE"),
+    ).catch(() => ({ issue: "unknown" }));
   }
   async function signOut() {
     if (!demo && client) {
-      const { error } = await client.auth.signOut({ scope: "local" });
+      const { error } = await withinDeadline(
+        () => client.auth.signOut({ scope: "local" }),
+        10_000,
+        () => new ApiError(0, "AUTH_UNAVAILABLE"),
+      );
       if (error) throw error;
     }
     clearPrivateCache(queryClient);
@@ -217,7 +269,13 @@ export function AuthProvider({
     if (demoRef.current || !client || generationRef.current !== generation)
       return null;
     const expectedId = session?.user.id;
-    const { data, error } = await client.auth.getSession();
+    const { data, error } = await withinDeadline(
+      () => client.auth.getSession(),
+      10_000,
+      () => new ApiError(0, "AUTH_UNAVAILABLE"),
+    );
+    if (error && ![400, 401, 403].includes(error.status ?? 0))
+      throw new ApiError(0, "AUTH_UNAVAILABLE");
     if (
       error ||
       demoRef.current ||
@@ -234,6 +292,7 @@ export function AuthProvider({
       value={{
         session,
         loading,
+        restoreFailed,
         demo,
         expired,
         configured: !!client,

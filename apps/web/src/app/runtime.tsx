@@ -96,6 +96,7 @@ export function useMemberships() {
   return useQuery({
     queryKey: [scope, "me"],
     queryFn: ({ signal }) => gateway.me(signal),
+    retry: false,
     enabled: (auth.demo || !!auth.session) && !auth.expired,
   });
 }
