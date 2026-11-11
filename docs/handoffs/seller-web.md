@@ -1,5 +1,30 @@
 # Seller web — главная кабинета и помощник, 2026-10-18
 
+## Critical stability — 2026-11-11
+
+Новая ветка `fix/qadam-critical-stability` от актуального main `2518b2e`,
+с прежним локальным Auth fix `229ffd2`. Старые PR #100–103 не объединялись.
+Исправления: конечное ожидание Auth/GET, честная RU/KZ причина ограничения AI,
+Retry-After без автоматического повтора, сохранение выбранной разрешённой точки
+после Reload в sessionStorage отдельно для каждого пользователя. JWT, Membership,
+ledger, миграции и OpenAPI не изменены. Backend передаёт только безопасный
+Retry-After и разрешает чтение заголовка через CORS.
+
+Реальный Chrome → FastAPI → отдельная PostgreSQL подтвердили финансовую цепочку
+4200 / 2200 / 2000 ₸ через UI/API/SQL и четыре строки журнала. Выдача Auth-сессии
+синтетическая; проверка JWT настоящая. Живой Gemini и физический микрофон не
+проверялись. Четыре новых PNG содержат только синтетические тестовые данные.
+Работающий native QadamX и его БД/ai.env не менялись; временный тестовый кластер
+после проверки остановлен, исходные данные не удалялись.
+
+Полные команды, SHA/PR/CI и результаты: [QADAM_CRITICAL_BUGFIX](../qa/QADAM_CRITICAL_BUGFIX.md).
+Матрица 21 группы: [QADAM_FULL_FUNCTION_AUDIT](../qa/QADAM_FULL_FUNCTION_AUDIT.md).
+AI/voice: [QADAM_AI_VOICE_ACCEPTANCE](../ai/QADAM_AI_VOICE_ACCEPTANCE.md).
+Следующие функции: [QADAM_NEW_FEATURES_ROADMAP](../product/QADAM_NEW_FEATURES_ROADMAP.md).
+Render при новой проверке не ответил за 12 секунд; Supabase Auth settings — 200.
+Для staging/production нужны диагностика владельцем Render, review и отдельная
+live-приёмка. Не считать UI timeout исправлением инфраструктуры.
+
 ## Public loading recovery — 2026-11-08
 
 Локальная ветка `fix/public-auth-loading`, база `origin/main:2518b2e`.
