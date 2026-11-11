@@ -6,6 +6,7 @@ export default defineConfig({
   testDir: fileURLToPath(new URL(".", import.meta.url)),
   testMatch: [
     "loading-recovery.acceptance.ts",
+    "ai-rate-limit.acceptance.ts",
     "auth-onboarding.acceptance.ts",
     "registration.acceptance.ts",
     "auth-callback.acceptance.ts",

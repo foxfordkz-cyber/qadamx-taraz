@@ -103,11 +103,24 @@ export function useMemberships() {
 export function BusinessProvider({
   children,
   businesses,
+  userId,
 }: {
   children: ReactNode;
   businesses: Business[];
+  userId?: string;
 }) {
-  const [selected, setSelected] = useState<string | null>(null);
+  const selectionKey = userId ? `qadam:selected-business:${userId}` : null;
+  const [selection, setSelection] = useState(() => {
+    try {
+      return {
+        key: selectionKey,
+        id: selectionKey ? sessionStorage.getItem(selectionKey) : null,
+      };
+    } catch {
+      return { key: selectionKey, id: null };
+    }
+  });
+  const selected = selection.key === selectionKey ? selection.id : null;
   // Validate on every render so a revoked membership cannot remain selected.
   const business =
     businesses.find((item) => item.id === selected) ?? businesses[0];
@@ -118,7 +131,17 @@ export function BusinessProvider({
         business,
         businesses,
         selectBusiness: (id) => {
-          if (businesses.some((item) => item.id === id)) setSelected(id);
+          if (!businesses.some((item) => item.id === id)) return;
+          setSelection({ key: selectionKey, id });
+          // Preference only, never authority: the current /me list is checked above.
+          // Storage denial must not break the seller's in-memory selection.
+          if (selectionKey) {
+            try {
+              sessionStorage.setItem(selectionKey, id);
+            } catch {
+              /* Storage disabled. */
+            }
+          }
         },
       }}
     >

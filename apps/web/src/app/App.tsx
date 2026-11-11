@@ -66,7 +66,10 @@ function ProtectedSeller() {
       </div>
     );
   return (
-    <BusinessProvider businesses={me.data.businesses}>
+    <BusinessProvider
+      businesses={me.data.businesses}
+      userId={auth.session?.user.id}
+    >
       <SellerLayout />
     </BusinessProvider>
   );

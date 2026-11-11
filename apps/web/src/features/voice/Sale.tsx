@@ -93,6 +93,18 @@ function SaleForm() {
   const parseLock = useRef(false),
     write = useWrite(),
     sales = useLedgerList<OpenSale>("outstanding_only=true");
+  const retryAt = useRef(0);
+  const [retrySeconds, setRetrySeconds] = useState(0);
+  const waitingToRetry = retrySeconds > 0;
+  useEffect(() => {
+    if (!waitingToRetry) return;
+    const timer = setInterval(() => {
+      setRetrySeconds(
+        Math.max(0, Math.ceil((retryAt.current - Date.now()) / 1000)),
+      );
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [waitingToRetry]);
   const activeParse = useRef<{
     controller: AbortController;
     timer?: ReturnType<typeof setTimeout>;
@@ -130,6 +142,7 @@ function SaleForm() {
     const sourceText = override ?? text;
     if (
       parseLock.current ||
+      Date.now() < retryAt.current ||
       disabled ||
       capturing ||
       (!sourceFile && !sourceText.trim())
@@ -184,7 +197,15 @@ function SaleForm() {
       setSaleId("");
       showReview();
     } catch (e) {
-      if (activeParse.current === request) setParseError(e);
+      if (activeParse.current === request) {
+        setParseError(e);
+        if (e instanceof ApiError && e.metadata.retryAt) {
+          retryAt.current = e.metadata.retryAt;
+          setRetrySeconds(
+            Math.max(0, Math.ceil((retryAt.current - Date.now()) / 1000)),
+          );
+        }
+      }
     } finally {
       clearTimeout(request.timer);
       if (activeParse.current === request) {
@@ -206,7 +227,7 @@ function SaleForm() {
     setParseNotice("cancelled");
   }
   function clarify() {
-    if (!draft || disabled || capturing) return;
+    if (!draft || disabled || capturing || Date.now() < retryAt.current) return;
     const combined = clarifiedText(draft.transcript, clarification);
     if (!combined) {
       setTextInvalid(true);
@@ -413,7 +434,12 @@ function SaleForm() {
                 <Button
                   variant={primary === "prepare" ? "primary" : "secondary"}
                   onClick={() => void parse()}
-                  disabled={disabled || capturing || (!file && !text.trim())}
+                  disabled={
+                    disabled ||
+                    capturing ||
+                    waitingToRetry ||
+                    (!file && !text.trim())
+                  }
                 >
                   {l("prepare")}
                 </Button>
@@ -434,6 +460,11 @@ function SaleForm() {
               {parseNotice && !parseError && (
                 <p role="status">{v(parseNotice)}</p>
               )}
+              {waitingToRetry && (
+                <p role="status">
+                  {v("retryWait")} {retrySeconds}
+                </p>
+              )}
               {parseError ? (
                 <div className="alert alert-error ledger-alert" role="alert">
                   <AnalysisError
@@ -443,7 +474,10 @@ function SaleForm() {
                   <div className="actions">
                     <Button
                       disabled={
-                        disabled || capturing || (!file && !text.trim())
+                        disabled ||
+                        capturing ||
+                        waitingToRetry ||
+                        (!file && !text.trim())
                       }
                       onClick={() => void parse()}
                     >
@@ -511,7 +545,10 @@ function SaleForm() {
                         <Button
                           variant="secondary"
                           disabled={
-                            disabled || capturing || !clarification.trim()
+                            disabled ||
+                            capturing ||
+                            waitingToRetry ||
+                            !clarification.trim()
                           }
                           onClick={clarify}
                         >

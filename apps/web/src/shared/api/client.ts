@@ -62,6 +62,7 @@ export function createApiClient(options: {
             response.status,
             payload,
             response.headers.get("X-Request-ID"),
+            response.headers.get("Retry-After"),
           );
         }
         if (response.status === 204) return null;
