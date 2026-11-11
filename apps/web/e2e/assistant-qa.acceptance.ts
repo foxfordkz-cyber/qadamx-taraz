@@ -115,8 +115,16 @@ for (const locale of ["ru", "kk"] as const) {
             ),
         ).toEqual(["/seller/debts", "/seller/sale", "/seller/history"]);
         await expect
-          .poll(() => page.evaluate(() => document.documentElement.scrollWidth))
-          .toBe(width);
+          .poll(() =>
+            page.evaluate(
+              // Windows reserves width for a vertical scrollbar. Test overflow,
+              // not equality with the outer viewport or overlay-scrollbar policy.
+              () =>
+                document.documentElement.scrollWidth <=
+                document.documentElement.clientWidth,
+            ),
+          )
+          .toBe(true);
         await info.attach("assistant-actions", {
           body: await page.screenshot({ fullPage: true }),
           contentType: "image/png",

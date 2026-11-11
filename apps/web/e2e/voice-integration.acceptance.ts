@@ -211,13 +211,29 @@ async function report(page: Page, receipts: string, debt: string) {
   await expect(
     page.locator(".analytics-main-kpis .analytics-kpi-value"),
   ).toHaveText(["3 000 ₸", receipts, debt]);
+  await detailMetrics(page, "3 000 ₸", "1");
+  await expect(page.locator(".analytics-hourly-bars button")).toHaveCount(24);
+}
+
+async function detailMetrics(page: Page, average: string, count: string) {
+  // Verify each metric's meaning, not the obsolete pre-redesign card order.
   const details = page.locator(".analytics-details");
   if ((await details.getAttribute("open")) === null)
     await details.locator(":scope > summary").click();
-  await expect(
-    page.locator(".analytics-details .analytics-kpi-value"),
-  ).toHaveText(["1", "3 000 ₸", "1"]);
-  await expect(page.locator(".analytics-hourly-bars button")).toHaveCount(24);
+  for (const [label, value] of [
+    ["Количество продаж", count],
+    ["Средний чек", average],
+    ["Количество должников", count],
+  ]) {
+    await expect(
+      details
+        .getByRole("article")
+        .filter({
+          has: page.getByRole("heading", { name: label, exact: true }),
+        })
+        .locator(".analytics-kpi-value"),
+    ).toHaveText(value!);
+  }
 }
 
 test("verified voice build preserves customer, money retry and Analytics refresh through real UI writes", async ({
@@ -339,14 +355,10 @@ test("verified voice build preserves customer, money retry and Analytics refresh
   await page
     .getByLabel("Торговая точка", { exact: true })
     .selectOption(qaIds.shopA2);
-  await expect(page.locator(".analytics-kpi-value")).toHaveText([
-    "0 ₸",
-    "0 ₸",
-    "0 ₸",
-    "0",
-    "Нет продаж",
-    "0",
-  ]);
+  await expect(
+    page.locator(".analytics-main-kpis .analytics-kpi-value"),
+  ).toHaveText(["0 ₸", "0 ₸", "0 ₸"]);
+  await detailMetrics(page, "Нет продаж", "0");
   await page
     .getByLabel("Торговая точка", { exact: true })
     .selectOption(qaIds.shopA);

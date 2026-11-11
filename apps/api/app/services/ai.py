@@ -13,7 +13,10 @@ from app.config import Settings
 from app.errors import APIError
 from app.schemas import Contract, Description, NonnegativeMoney, PositiveMoney
 from app.services.ai_diagnostics import ai_stage
+from app.services.extraction_grounding import ground_extraction
+from app.services.provider_errors import limit_reason
 from app.services.retry_after import retry_after_seconds
+from app.services.strict_json import strict_json_object
 
 FieldName = Literal[
     "kind", "customer_query", "description", "total_minor", "received_minor", "amount_minor"
@@ -153,7 +156,7 @@ class GeminiProvider:
             response.raise_for_status()
         with ai_stage("provider_json") as diagnostic:
             diagnostic.provider_status = response.status_code
-            body = response.json()
+            body = strict_json_object(response.content)
             # Gemini billing depends on the project tier; record tokens, never invent a cost.
             usage = body.get("usageMetadata", {}) if isinstance(body, dict) else {}
             if not isinstance(usage, dict):
@@ -195,7 +198,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
     cancellation_count = asyncio.current_task().cancelling()
     try:
         async with asyncio.timeout(timeout_seconds):
-            for attempt in range(getattr(provider, "max_attempts", 2)):
+            for attempt in range(1):
                 raw = await provider.generate(
                     text=text, audio=audio, locale=locale, retry=bool(attempt)
                 )
@@ -209,9 +212,7 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         if len(raw) > 32_000:
                             raise ValueError("Output too long")
                         # Text transcript is authoritative, not an AI rewrite.
-                        data = json.loads(raw)
-                        if not isinstance(data, dict):
-                            raise ValueError("Expected object")
+                        data = strict_json_object(raw)
                         if text is not None:
                             data["transcript"] = text
                         result = Extraction.model_validate(data)
@@ -222,11 +223,11 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
                         ):
                             if quote and quote not in result.transcript:
                                 raise ValueError("Evidence is not in source")
-                        return result
+                        return ground_extraction(result)
                 except (ValueError, ValidationError, RecursionError):
                     if getattr(provider, "fallback_used", False):
                         break  # One fallback pipeline, never a paid parsing retry.
-                    # Gemini keeps its existing one parsing retry; OpenAI has one attempt.
+                    # Invalid output is not permission for another paid request.
     except (TimeoutError, httpx.TimeoutException):
         raise APIError(504, "AI_TIMEOUT", "AI timed out; use manual input") from None
     except APIError:
@@ -235,11 +236,17 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
         if error.response.status_code == 429:
             # Both providers keep HTTP 503, with a safe actionable quota code.
             # Do not retry a quota rejection or expose the provider response/key.
+            reason = limit_reason(error.response)
             raise APIError(
                 503,
                 "AI_QUOTA_EXCEEDED",
                 "AI request limited; retry later or use manual input",
+                fields={"provider_reason": [reason]} if reason else None,
                 retry_after=retry_after_seconds(error.response.headers.get("Retry-After")),
+            ) from None
+        if error.response.status_code == 502:
+            raise APIError(
+                502, "AI_PROVIDER_ERROR", "AI provider failed; use manual input"
             ) from None
         raise APIError(503, "AI_UNAVAILABLE", "AI unavailable; use manual input") from None
     except (httpx.HTTPError, ValueError):

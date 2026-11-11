@@ -40,11 +40,11 @@ class StubProvider:
         return response
 
 
-def test_invalid_json_retries_once_within_same_extraction():
+def test_invalid_json_does_not_automatically_request_a_second_completion():
     stub = StubProvider("not JSON", json.dumps(VALID))
-    result = asyncio.run(extract(stub, text=TEXT))
-    assert result.total_minor == 300000 and result.received_minor == 100000
-    assert [call["retry"] for call in stub.calls] == [False, True]
+    with pytest.raises(APIError):
+        asyncio.run(extract(stub, text=TEXT))
+    assert [call["retry"] for call in stub.calls] == [False]
 
 
 @pytest.mark.parametrize("status,code", [(429, "AI_QUOTA_EXCEEDED"), (503, "AI_UNAVAILABLE")])
@@ -80,7 +80,7 @@ def test_invalid_output_never_becomes_a_draft(raw):
     with pytest.raises(APIError) as error:
         asyncio.run(extract(stub, text=TEXT))
     assert (error.value.status, error.value.code) == (503, "AI_UNAVAILABLE")
-    assert len(stub.calls) == 2
+    assert len(stub.calls) == 1
 
 
 def test_timeout_cancels_and_does_not_retry():
@@ -102,7 +102,7 @@ def test_timeout_cancels_and_does_not_retry():
     assert stub.calls == 1 and stub.cancelled
 
 
-def test_retry_does_not_reset_total_deadline():
+def test_invalid_output_finishes_without_retry_or_resetting_deadline():
     class SlowInvalid:
         calls = 0
 
@@ -114,7 +114,7 @@ def test_retry_does_not_reset_total_deadline():
     stub = SlowInvalid()
     with pytest.raises(APIError) as error:
         asyncio.run(extract(stub, text=TEXT, timeout_seconds=1))
-    assert error.value.code == "AI_TIMEOUT" and stub.calls == 2
+    assert error.value.code == "AI_UNAVAILABLE" and stub.calls == 1
 
 
 @pytest.mark.parametrize(
@@ -124,8 +124,9 @@ def test_retry_does_not_reset_total_deadline():
         ({"payment_evidence": None}, None),
         ({"uncertain_fields": ["received_minor"]}, None),
         ({"received_minor": 400000}, None),
-        ({"payment_status": "paid"}, 300000),
-        ({"payment_status": "debt"}, 0),
+        # An unsupported status must not override explicit "заплатил 1000".
+        ({"payment_status": "paid"}, 100000),
+        ({"payment_status": "debt"}, 100000),
     ],
 )
 def test_conservative_payment(changes, received):

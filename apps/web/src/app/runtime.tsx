@@ -51,7 +51,12 @@ export function RuntimeProvider({
   const drafts = useRef(new Map<string, unknown>()).current;
   useEffect(() => {
     const guard = (event: BeforeUnloadEvent) => {
-      if ([...drafts.keys()].some((key) => key.endsWith(":money-pending"))) {
+      if (
+        [...drafts.keys()].some(
+          (key) =>
+            key.endsWith(":money-pending") || key.includes(":voice-input:"),
+        )
+      ) {
         event.preventDefault();
         event.returnValue = "";
       }

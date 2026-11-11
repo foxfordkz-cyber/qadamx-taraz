@@ -94,6 +94,82 @@ beforeEach(() => {
 });
 
 describe("archive AI flow adapted to the shared contract", () => {
+  it("offers source customer candidates only for explicit selection", async () => {
+    answerWith({
+      ...draft,
+      customer_candidates: [{ id: "candidate-A", display_name: "Айжан" }],
+    });
+    renderSale();
+    await prepare();
+    expect(document.querySelector(".ledger-customer strong")).toHaveTextContent(
+      "—",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "Айжан" }));
+    expect(document.querySelector(".ledger-customer strong")).toHaveTextContent(
+      "Айжан",
+    );
+    expect(financialCalls()).toHaveLength(0);
+    expect(draftCalls()).toHaveLength(1);
+  });
+  it("rejects malformed candidate names instead of crashing the review", async () => {
+    answerWith({
+      ...draft,
+      customer_candidates: [{ id: "candidate-A", display_name: {} }],
+    });
+    renderSale();
+    await prepare();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "не вернул надёжный черновик",
+    );
+    expect(financialCalls()).toHaveLength(0);
+  });
+  it("restores edited inputs on route return, without persistent customer storage or resubmission", async () => {
+    answerWith();
+    const view = renderSale();
+    await prepare();
+    fireEvent.change(screen.getByLabelText("Получено, ₸"), {
+      target: { value: "1500" },
+    });
+    view.unmount();
+    renderSale();
+    expect(screen.getByLabelText("Получено, ₸")).toHaveValue("1500");
+    expect(screen.getByLabelText("Текст для AI")).toHaveValue(
+      "Продал на 3000, получил 1000",
+    );
+    expect(draftCalls()).toHaveLength(1);
+    expect(financialCalls()).toHaveLength(0);
+    expect(JSON.stringify(localStorage)).not.toContain("Продал");
+    expect(JSON.stringify(sessionStorage)).not.toContain("Продал");
+  });
+  it("full session loss does not pretend to restore a private draft", async () => {
+    answerWith();
+    const view = renderSale();
+    await prepare();
+    view.unmount();
+    state.drafts.clear();
+    renderSale();
+    expect(screen.getByLabelText("Текст для AI")).toHaveValue("");
+    expect(screen.getByLabelText("Сумма продажи, ₸")).toHaveValue("");
+    expect(screen.getByText(/только в памяти этой сессии/)).toBeVisible();
+  });
+  it("route return cannot bypass provider Retry-After", async () => {
+    state.api.request.mockImplementation(async (path: string) => {
+      if (path.endsWith("/drafts"))
+        throw new ApiError(429, "RATE_LIMITED", {
+          retryAt: Date.now() + 60_000,
+        });
+      return { items: [], next_cursor: null };
+    });
+    const view = renderSale();
+    await prepare();
+    view.unmount();
+    renderSale();
+    expect(
+      screen.getByRole("button", { name: "Подготовить черновик" }),
+    ).toBeDisabled();
+    expect(draftCalls()).toHaveLength(1);
+    expect(financialCalls()).toHaveLength(0);
+  });
   function answerWith(value: unknown = draft) {
     const fallback = state.api.request.getMockImplementation()!;
     state.api.request.mockImplementation(

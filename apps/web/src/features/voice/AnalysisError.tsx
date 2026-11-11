@@ -26,22 +26,28 @@ export function AnalysisError({
     );
   if (!(error instanceof ApiError)) return generic;
   const key =
-    error.status === 429 || error.code === "AI_QUOTA_EXCEEDED"
-      ? "quotaError"
-      : error.code === "AI_TIMEOUT" || error.status === 504
-        ? "timeout"
-        : error.code === "NETWORK_ERROR"
-          ? "networkError"
-          : error.status === 413 ||
-              error.status === 415 ||
-              error.code.startsWith("AUDIO_")
-            ? "audioError"
-            : error.code === "INVALID_RESPONSE" ||
-                error.code === "AI_INVALID_RESPONSE"
-              ? "invalidResponse"
-              : error.code.startsWith("AI_")
-                ? "providerError"
-                : null;
+    error.metadata.fields?.provider_reason?.[0] === "QUOTA_EXHAUSTED" &&
+    error.code === "AI_QUOTA_EXCEEDED"
+      ? "confirmedQuotaError"
+      : error.metadata.fields?.provider_reason?.[0] === "RATE_LIMITED" &&
+          error.code === "AI_QUOTA_EXCEEDED"
+        ? "rateError"
+        : error.status === 429 || error.code === "AI_QUOTA_EXCEEDED"
+          ? "quotaError"
+          : error.code === "AI_TIMEOUT" || error.status === 504
+            ? "timeout"
+            : error.code === "NETWORK_ERROR"
+              ? "networkError"
+              : error.status === 413 ||
+                  error.status === 415 ||
+                  error.code.startsWith("AUDIO_")
+                ? "audioError"
+                : error.code === "INVALID_RESPONSE" ||
+                    error.code === "AI_INVALID_RESPONSE"
+                  ? "invalidResponse"
+                  : error.code.startsWith("AI_")
+                    ? "providerError"
+                    : null;
   return key ? (
     <>
       <p>{v(key)}</p>

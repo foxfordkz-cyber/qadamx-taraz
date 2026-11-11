@@ -41,6 +41,8 @@ const openSale = {
 };
 let openSales: (typeof openSale)[] = [];
 beforeEach(() => {
+  // Each case represents a fresh authenticated runtime, not a route return.
+  state.drafts.clear();
   openSales = [openSale];
   state.gateway.customers.mockReset().mockResolvedValue({
     items: [
