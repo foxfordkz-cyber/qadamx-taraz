@@ -1,5 +1,65 @@
 # Seller web — главная кабинета и помощник, 2026-10-18
 
+## Critical stability — 2026-11-11
+
+Опубликован [Draft PR #104](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/104)
+в main; конфликтов при проверке нет, merge не выполнялся. Code SHA:
+`87d42c7bf2dc6f55fda68ae9c395cc9e59d6538f`. Первый опубликованный HEAD с отчётами:
+`d0607bbfa6dc4c9f8a84f43a77971bfd2c297a33`; local/remote совпали.
+401 backend + 648 frontend + 40 Chrome-сценариев прошли (один с настоящей
+изолированной PostgreSQL). Vercel status/Preview Comments — success;
+GitHub Actions runs — 0. Полный format:check по-прежнему отмечает два старых
+неизменённых тестовых файла; формат изменённых файлов проходит.
+
+Новая ветка `fix/qadam-critical-stability` от актуального main `2518b2e`,
+с прежним локальным Auth fix `229ffd2`. Старые PR #100–103 не объединялись.
+Исправления: конечное ожидание Auth/GET, честная RU/KZ причина ограничения AI,
+Retry-After без автоматического повтора, сохранение выбранной разрешённой точки
+после Reload в sessionStorage отдельно для каждого пользователя. JWT, Membership,
+ledger, миграции и OpenAPI не изменены. Backend передаёт только безопасный
+Retry-After и разрешает чтение заголовка через CORS.
+
+Реальный Chrome → FastAPI → отдельная PostgreSQL подтвердили финансовую цепочку
+4200 / 2200 / 2000 ₸ через UI/API/SQL и четыре строки журнала. Выдача Auth-сессии
+синтетическая; проверка JWT настоящая. Живой Gemini и физический микрофон не
+проверялись. Четыре новых PNG содержат только синтетические тестовые данные.
+Работающий native QadamX и его БД/ai.env не менялись; временный тестовый кластер
+после проверки остановлен, исходные данные не удалялись.
+
+Полные команды, SHA/PR/CI и результаты: [QADAM_CRITICAL_BUGFIX](../qa/QADAM_CRITICAL_BUGFIX.md).
+Матрица 21 группы: [QADAM_FULL_FUNCTION_AUDIT](../qa/QADAM_FULL_FUNCTION_AUDIT.md).
+AI/voice: [QADAM_AI_VOICE_ACCEPTANCE](../ai/QADAM_AI_VOICE_ACCEPTANCE.md).
+Следующие функции: [QADAM_NEW_FEATURES_ROADMAP](../product/QADAM_NEW_FEATURES_ROADMAP.md).
+Render при новой проверке не ответил за 12 секунд; Supabase Auth settings — 200.
+Для staging/production нужны диагностика владельцем Render, review и отдельная
+live-приёмка. Не считать UI timeout исправлением инфраструктуры.
+
+## Public loading recovery — 2026-11-08
+
+Локальная ветка `fix/public-auth-loading`, база `origin/main:2518b2e`.
+Устранены бесконечные ожидания инициализации Auth, получения токена и GET `/me`;
+добавлены RU/KZ ошибки, ручной Retry, защита от поздних ответов после timeout.
+JWT, Membership, RLS, backend, финансовые записи и API-контракт не изменены.
+Существующая локальная QadamX-ветка и её данные сохранены отдельно.
+
+Проверки поведения: `npm test -- --maxWorkers=1 --hookTimeout=30000` — 630/630;
+`npx playwright test -c e2e/loading-recovery.playwright.config.ts` — 37/37 в
+установленном Chrome. SDK и компоненты настоящие, ответы Auth/API синтетические.
+Покрыты вход/reload/refresh, ошибки сервисов, пустой Membership, регистрация,
+PKCE, RU/KZ и 360–1440 px. Это не подтверждение живого production-входа.
+TypeScript, lint, build, check:api и форматирование изменённых файлов прошли.
+Общий format:check сообщает старые отличия в двух неизменённых тестах;
+точные файлы и ограничения приведены в отчёте.
+
+Публичный Supabase Auth settings отвечает 200; Render с этого ноутбука не
+ответил даже за 75 секунд. Внутренняя причина Render и реальная пользовательская
+сессия не подтверждены. Исправление не опубликовано. Подробности и команды:
+[PUBLIC_LOADING_20261108.md](../qa/PUBLIC_LOADING_20261108.md).
+Последний commit исправления: `git log -1 fix/public-auth-loading`; полный hash
+передаётся в итоговом отчёте (документ включён в этот commit).
+
+Ниже сохранён предыдущий handoff без изменения его результатов.
+
 Ветка `feature/cabinet-ai-first`, [PR #88](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/88).
 Проверенный source с галереей: **ca55c6ece79fdcd68210be7b3e89bb0a344804f9**.
 База `origin/main`: `b0f0ea010bcab498cf7cc5e0e6c449a6bdbcf17d`;

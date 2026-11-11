@@ -13,6 +13,7 @@ from app.config import Settings
 from app.errors import APIError
 from app.schemas import Contract, Description, NonnegativeMoney, PositiveMoney
 from app.services.ai_diagnostics import ai_stage
+from app.services.retry_after import retry_after_seconds
 
 FieldName = Literal[
     "kind", "customer_query", "description", "total_minor", "received_minor", "amount_minor"
@@ -234,7 +235,12 @@ async def _extract(provider, *, text, audio, locale, timeout_seconds):
         if error.response.status_code == 429:
             # Both providers keep HTTP 503, with a safe actionable quota code.
             # Do not retry a quota rejection or expose the provider response/key.
-            raise APIError(503, "AI_QUOTA_EXCEEDED", "AI quota exceeded; retry later") from None
+            raise APIError(
+                503,
+                "AI_QUOTA_EXCEEDED",
+                "AI request limited; retry later or use manual input",
+                retry_after=retry_after_seconds(error.response.headers.get("Retry-After")),
+            ) from None
         raise APIError(503, "AI_UNAVAILABLE", "AI unavailable; use manual input") from None
     except (httpx.HTTPError, ValueError):
         raise APIError(503, "AI_UNAVAILABLE", "AI unavailable; use manual input") from None

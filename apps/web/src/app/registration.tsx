@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./auth";
+import { AuthRecovery } from "./AuthRecovery";
 import { EMAIL_CALLBACK_URL } from "./auth-callback-model";
 import {
   PRODUCTION_EMAIL_CALLBACK_URL,
@@ -68,6 +69,7 @@ export function RegistrationPage() {
     heading.current?.focus();
   }, [waiting, auth.loading]);
   if (auth.loading) return <Spinner />;
+  if (auth.restoreFailed) return <AuthRecovery />;
   if ((auth.session || auth.demo) && !auth.expired)
     return <Navigate to="/seller" replace />;
 

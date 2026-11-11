@@ -21,7 +21,7 @@ describe("authorized HTTP transport", () => {
     const [url, init] = fetcher.mock.calls[0];
     expect(url).toBe("https://example.test/api/v1/me");
     expect(init.headers.get("Authorization")).toBe("Bearer test-access");
-    expect(init.signal).toBe(controller.signal);
+    expect(init.signal.aborted).toBe(false);
     expect(init.redirect).toBe("error");
   });
   it.each(["https://evil.test/path", "//evil.test", "/../../secret"])(
@@ -84,7 +84,7 @@ describe("authorized HTTP transport", () => {
     });
     await expect(
       api.request("/me", { signal: controller.signal }),
-    ).rejects.toBe(aborted);
+    ).rejects.toMatchObject({ name: "AbortError" });
     await expect(api.request("/me")).rejects.toMatchObject({
       code: "NETWORK_ERROR",
     });

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "./auth";
+import { AuthRecovery } from "./AuthRecovery";
 import {
   captureAuthCallback,
   type CallbackResult,
@@ -21,7 +22,7 @@ export function AuthCallbackPage() {
   const me = useMemberships();
   const heading = useRef<HTMLHeadingElement>(null);
   useEffect(() => {
-    if (auth.loading || !auth.configured) return;
+    if (auth.loading || auth.restoreFailed || !auth.configured) return;
     let active = true;
     void latest.current.confirmEmail(attempt).then((next) => {
       if (active) setResult(next);
@@ -29,7 +30,7 @@ export function AuthCallbackPage() {
     return () => {
       active = false;
     };
-  }, [attempt, auth.loading, auth.configured]);
+  }, [attempt, auth.loading, auth.restoreFailed, auth.configured]);
   useEffect(() => {
     heading.current?.focus();
   }, [result]);
@@ -39,6 +40,7 @@ export function AuthCallbackPage() {
     result.userId === auth.session?.user.id &&
     result.scope === auth.scope &&
     !auth.demo;
+  if (auth.restoreFailed) return <AuthRecovery />;
   if (matches && !auth.expired && me.isSuccess && me.data.id === result.userId)
     return <Navigate to="/seller" replace />;
   const issue = result && "issue" in result ? result.issue : "changed";

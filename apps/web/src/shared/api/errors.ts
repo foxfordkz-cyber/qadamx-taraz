@@ -4,6 +4,23 @@ type ErrorFields = NonNullable<components["schemas"]["ErrorDetail"]["fields"]>;
 export interface ErrorMetadata {
   requestId?: string;
   fields?: ErrorFields;
+  retryAt?: number;
+}
+/** Seconds or an HTTP date. Invalid/unbounded values never become a timer. */
+export function retryDeadline(
+  value: string | null,
+  now = Date.now(),
+): number | undefined {
+  if (!value || value.length > 128) return undefined;
+  const trimmed = value.trim();
+  const delay = /^[0-9]{1,10}$/.test(trimmed)
+    ? Number(trimmed) * 1000
+    : /^[A-Za-z]{3}, /.test(trimmed)
+      ? Date.parse(trimmed) - now
+      : NaN;
+  return Number.isFinite(delay) && delay <= 2_147_483_647_000
+    ? now + Math.max(0, delay)
+    : undefined;
 }
 export class ApiError extends Error {
   constructor(
@@ -25,6 +42,7 @@ export function parseApiError(
   status: number,
   payload: unknown,
   headerId: string | null,
+  retryAfter: string | null = null,
 ): ApiError {
   const requestId =
     record(payload) && uuid(payload.request_id)
@@ -55,5 +73,12 @@ export function parseApiError(
       }
     }
   }
-  return new ApiError(status, code, { requestId, fields });
+  return new ApiError(status, code, {
+    requestId,
+    fields,
+    retryAt:
+      status === 429 || code === "AI_QUOTA_EXCEEDED"
+        ? retryDeadline(retryAfter)
+        : undefined,
+  });
 }

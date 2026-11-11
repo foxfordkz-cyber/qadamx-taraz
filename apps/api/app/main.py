@@ -82,7 +82,7 @@ def create_app(settings: Settings | None = None):
         allow_origins=settings.allowed_origins,
         allow_methods=["GET", "POST", "PUT", "PATCH", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type", "Idempotency-Key"],
-        expose_headers=["X-Request-ID"],
+        expose_headers=["X-Request-ID", "Retry-After"],
     )
     app.add_middleware(PhotoBodyLimit)
 
@@ -97,7 +97,10 @@ def create_app(settings: Settings | None = None):
 
     @app.exception_handler(APIError)
     async def api_error(request, exc):
-        return error_response(request, exc.status, exc.code, exc.message, exc.fields)
+        response = error_response(request, exc.status, exc.code, exc.message, exc.fields)
+        if exc.retry_after is not None:
+            response.headers["Retry-After"] = str(exc.retry_after)
+        return response
 
     @app.exception_handler(HTTPException)
     async def http_error(request, exc):

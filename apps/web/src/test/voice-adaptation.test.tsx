@@ -252,8 +252,8 @@ describe("archive AI flow adapted to the shared contract", () => {
   });
 
   it.each([
-    [429, "AI_QUOTA_EXCEEDED", "Лимит AI"],
-    [503, "AI_QUOTA_EXCEEDED", "Лимит AI"],
+    [429, "AI_QUOTA_EXCEEDED", "AI ограничил запросы"],
+    [503, "AI_QUOTA_EXCEEDED", "AI ограничил запросы"],
     [0, "NETWORK_ERROR", "Проверьте интернет"],
     [503, "AI_UNAVAILABLE", "не смог обработать"],
   ])(
@@ -419,6 +419,45 @@ describe("supported recorder controls", () => {
 });
 
 describe("AI request lifecycle with stub transport that deliberately ignores abort", () => {
+  it.each([429, 503])(
+    "honours Retry-After for %s without auto-retry, losing input or blocking manual entry",
+    async (status) => {
+      vi.useFakeTimers();
+      state.api.request.mockImplementation(async (path: string) => {
+        if (path.endsWith("/drafts"))
+          throw new ApiError(status, "AI_QUOTA_EXCEEDED", {
+            retryAt: Date.now() + 3000,
+          });
+        return { items: [], next_cursor: null };
+      });
+      renderSale();
+      await prepare();
+      const retry = screen.getByRole("button", { name: "Повторить" });
+      expect(retry).toBeDisabled();
+      fireEvent.click(retry);
+      expect(draftCalls()).toHaveLength(1);
+      expect(screen.getByLabelText("Текст для AI")).toHaveValue(
+        "Продал на 3000, получил 1000",
+      );
+      fireEvent.click(
+        screen.getByRole("button", { name: "Заполнить вручную" }),
+      );
+      expect(screen.getByLabelText("Сумма продажи, ₸")).toBeEnabled();
+      fireEvent.change(screen.getByLabelText("Текст для AI"), {
+        target: { value: "Уточнение 3500" },
+      });
+      const prepareButton = screen.getByRole("button", {
+        name: "Подготовить черновик",
+      });
+      expect(prepareButton).toBeDisabled();
+      await act(async () => vi.advanceTimersByTime(3000));
+      expect(prepareButton).toBeEnabled();
+      expect(draftCalls()).toHaveLength(1);
+      expect(financialCalls()).toHaveLength(0);
+      await act(async () => fireEvent.click(prepareButton));
+      expect(draftCalls()).toHaveLength(2);
+    },
+  );
   it("cancel aborts the signal, preserves input and ignores a late successful draft", async () => {
     const pending = holdAnalysis();
     renderSale();
