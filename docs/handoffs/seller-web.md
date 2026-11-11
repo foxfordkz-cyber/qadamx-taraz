@@ -2,6 +2,15 @@
 
 ## Critical stability — 2026-11-11
 
+Опубликован [Draft PR #104](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/104)
+в main; конфликтов при проверке нет, merge не выполнялся. Code SHA:
+`87d42c7bf2dc6f55fda68ae9c395cc9e59d6538f`. Первый опубликованный HEAD с отчётами:
+`d0607bbfa6dc4c9f8a84f43a77971bfd2c297a33`; local/remote совпали.
+401 backend + 648 frontend + 40 Chrome-сценариев прошли (один с настоящей
+изолированной PostgreSQL). Vercel status/Preview Comments — success;
+GitHub Actions runs — 0. Полный format:check по-прежнему отмечает два старых
+неизменённых тестовых файла; формат изменённых файлов проходит.
+
 Новая ветка `fix/qadam-critical-stability` от актуального main `2518b2e`,
 с прежним локальным Auth fix `229ffd2`. Старые PR #100–103 не объединялись.
 Исправления: конечное ожидание Auth/GET, честная RU/KZ причина ограничения AI,

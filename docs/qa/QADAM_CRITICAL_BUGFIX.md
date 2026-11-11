@@ -6,6 +6,27 @@ Branch `fix/qadam-critical-stability`, base `main` at
 are recorded below. No production deployment or shared database
 change. The native local QadamX worktree/configuration/data were not modified.
 
+## Publication and CI
+
+[Draft PR #104](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/104),
+base `main`, head `fix/qadam-critical-stability`. Ordinary push succeeded;
+local/remote SHA matched `d0607bbfa6dc4c9f8a84f43a77971bfd2c297a33` at initial
+publication. This subsequent documentation-only commit records that outcome;
+the implementation remains `87d42c7bf2dc6f55fda68ae9c395cc9e59d6538f`.
+Use `git rev-parse HEAD` for the latest documentation commit.
+
+GitHub reported open/Draft, `merged=false`, `mergeable=true`. On the initial
+publication SHA, Vercel status and Vercel Preview Comments were successful;
+GitHub Actions returned zero runs. These integration statuses do **not** mean
+pytest/Playwright ran in CI or that the hosted backend works. Test results below
+were obtained locally. Existing Vercel automation reacted to the branch push;
+no manual deployment or production merge was performed.
+
+The GitHub connector could read but returned 403 when creating the PR. The same
+repository's existing authorized Git Credential Manager session successfully
+created it via the official API. No credential was printed, stored in Git or
+given additional permissions. The worktree remains separate from the running app.
+
 ## Changes and root causes
 
 1. **C1: indefinite loading.** Includes previously unpublished commit
