@@ -44,6 +44,16 @@ export function readDraft(raw: unknown): Draft {
   for (const key of ["total_minor", "received_minor", "amount_minor"])
     if (d[key] !== null && money(d[key]) < 0)
       throw new ApiError(0, "INVALID_RESPONSE");
+  for (const candidate of d.customer_candidates) {
+    const row = record(candidate);
+    if (
+      typeof row.id !== "string" ||
+      typeof row.display_name !== "string" ||
+      !row.display_name.trim() ||
+      Array.from(row.display_name).length > 200
+    )
+      throw new ApiError(0, "INVALID_RESPONSE");
+  }
   return d as Draft;
 }
 export function useLedgerList<T extends Sale | Operation>(query: string) {

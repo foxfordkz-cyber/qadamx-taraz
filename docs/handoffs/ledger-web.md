@@ -448,3 +448,33 @@ Vercel build success для ca45a53; анонимные `/`, `/login`, `/seller/
 Demo отдельно согласован пользователем: существующий `examples.json/SummaryResponse`, фиксированная дата 15.10.2026, явная учебная пометка. Общий WhatsApp helper не создавался; функция локальна в `features/summary/share.ts`. Изменения production ограничены `features/summary/**`; backend, contracts, Auth, ledger, assistant, seller и gateway не изменены.
 
 [Описание, команды, 22 regression tests и скриншоты](../SHARE_DAY_SUMMARY.md). Проверки: 552/552 unit, 7/7 E2E, check:api/typecheck/build, lint новых файлов и diff-check — PASS. Общие lint/format имеют прежние ошибки в неизменённых manual-entry-timing.acceptance.ts/dashboard-demo.test.tsx (подробности в отчёте). Main обновился параллельно; чужие изменения не объединялись. Реальная доставка WhatsApp и системное меню физического телефона не подтверждены. Следующий шаг: review капитана; merge/deploy самостоятельно не выполняются.
+
+## 2026-11-11 — Stage 2: Voice recovery / customer selection
+
+Ветка `feature/qadam-stage2-ai-voice` от Stage 1
+`d382e80164fb2ec559db88001ba05d73fc831731`; отдельный PR поверх #104.
+Проверенный implementation commit: `17d2d01554682f770877acfbff4f7b1f94870ea1`.
+[Draft PR #105](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/105)
+в `fix/qadam-critical-stability`; обычный push успешен.
+По прямому full-stack заданию изменены `features/voice/Sale.tsx`,
+`draftMemory.ts`, `AnalysisError.tsx`, RU/KZ, проверка имени кандидата в
+`features/ledger/data.ts` и beforeunload в `app/runtime.tsx`.
+Финансовые endpoints/формулы и Auth не менялись.
+
+Переход внутри SPA сохраняет текст/файл/поля/Retry-After только в памяти
+данной сессии и точки. Полный reload теряет ввод с предупреждением.
+Logout/смена аккаунта изолируют runtime. Кандидаты клиента из существующего
+backend-ответа видны кнопками, выбор требует действия пользователя.
+При 429 причина остаётся нейтральной, кроме подтверждённых machine codes.
+Нет автоматического анализа/сохранения/повтора; ручной ввод доступен.
+
+Frontend: **660/660** unit/component, typecheck/lint/build/check:api проходят.
+Backend: **463/463** с настоящей новой PostgreSQL.
+Отдельный headed Chrome → FastAPI → PostgreSQL сценарий прошёл: редактируемый
+черновик из WAV, ручной выбор клиента, double click, доплата/отмена, reload,
+**4200 / 2200 / 2000 ₸** в UI/API/SQL. Внешняя генерация полностью mocked.
+
+Полные команды, browser suites, ограничения форматирования baseline, screenshot
+с подписями, publication SHA/PR: [Stage 2 report](../ai/QADAM_STAGE2_AI_VOICE_REPORT.md).
+Следующий шаг: review; реальный provider и физический RU/KZ микрофон требуют
+отдельной приёмки. Полный live AI demo/hosted staging/production — NO-GO.

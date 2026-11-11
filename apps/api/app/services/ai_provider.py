@@ -24,7 +24,7 @@ class ProviderPlan:
 
 
 class LimitedFallback:
-    max_attempts = 2  # Existing Gemini parse retry; fallback itself never retries.
+    max_attempts = 1  # No automatic parse retry; fallback itself never retries.
 
     def __init__(self, primary, secondary, primary_timeout):
         self.primary, self.secondary = primary, secondary

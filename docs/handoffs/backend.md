@@ -1180,3 +1180,31 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 - Vercel больше не используется: капитан убрал доступ GitHub-приложения Vercel к репозиторию. Последние коммиты получали от `vercel[bot]` статус `failure` («Deployment rate limited»); уже поставленные статусы GitHub удалить не даёт. Сайт размещён только на Cloudflare Pages, упоминание старого адреса убрано из README.
 - Удалены 87 удалённых веток, которые полностью входят в `main`. Список «ветка → SHA» для восстановления лежит у интегратора локально. Оставлены `main`, `deploy/permanent-062`, `deploy-062` и 33 ветки с коммитами, которых нет в `main`.
 - В `main` добавлены слайды защиты `docs/pitch/Qadam-Business-slides-KZ.pdf` и полные имена команды QadamX/QadamK в README и ТЗ.
+
+## 2026-11-11 — Stage 2: AI/Voice, отдельный кандидат на review
+
+Ветка `feature/qadam-stage2-ai-voice` от подтверждённого Stage 1
+`d382e80164fb2ec559db88001ba05d73fc831731`; зависит от Draft PR #104,
+но не меняет его. Работа выполнялась по прямому full-stack заданию пользователя.
+Проверенный implementation commit: `17d2d01554682f770877acfbff4f7b1f94870ea1`.
+[Draft PR #105](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/105)
+в `fix/qadam-critical-stability`; обычный push успешен.
+
+В `app/services` добавлены strict JSON, проверка денежных цитат RU/KK,
+подтверждённые machine-code причины 429 и приватный Assistant fact-binding protocol.
+Модель выбирает идентификаторы фактов; сервер выводит значения и клиента из
+авторизованного снимка. Произвольный текст модели не становится денежным ответом.
+Невалидный результат даёт помеченный fallback. Автоматический parsing retry убран.
+Публичный API 0.7.2, ledger, Auth, миграции и golden fixtures не менялись.
+Портированные helpers и их исходный commit явно отмечены в отчёте.
+
+`pytest -q`: **463 passed, 0 skipped** на новой loopback PostgreSQL
+`qadam_stage2_test`. Ruff/format и export contracts проходят.
+Отдельный Chrome → FastAPI → PostgreSQL сценарий прошёл: UI/API/SQL
+**4200 / 2200 / 2000 ₸**, четыре записи; до подтверждения — ни одной.
+Провайдеры и транскрипция заменены тестовыми реализациями. Живых AI-запросов — **0**.
+
+Точные команды, frontend/browser результаты, SHA/PR, screenshots и ограничения:
+[Stage 2 report](../ai/QADAM_STAGE2_AI_VOICE_REPORT.md).
+Следующий шаг: review после Stage 1, отдельная разрешённая приёмка реальной модели
+и физического RU/KZ микрофона. Hosted/prod readiness не подтверждена.

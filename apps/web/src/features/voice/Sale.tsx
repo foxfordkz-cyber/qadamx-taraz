@@ -34,21 +34,27 @@ import { clarifiedText, validText } from "./draftInput";
 import { AnalysisError } from "./AnalysisError";
 import { useVoiceText } from "./i18n";
 import { ApiError } from "../../shared/api/client";
+import { restoreVoiceMemory, type VoiceMemory } from "./draftMemory";
 import "../ledger/ledger.css";
 export function Sale() {
   const { scope } = useRuntime(),
     { business } = useBusiness();
-  return <SaleForm key={`${scope}:${business.id}`} />;
+  const [params] = useSearchParams();
+  return (
+    <SaleForm key={`${scope}:${business.id}:${params.get("sale") ?? "new"}`} />
+  );
 }
 function SaleForm() {
   const textLabelId = useId(),
     reviewId = useId();
-  const { api, gateway } = useRuntime(),
+  const { api, gateway, scope, drafts } = useRuntime(),
     { business } = useBusiness(),
     { l, locale } = useLedgerText(),
     [params] = useSearchParams(),
     { v } = useVoiceText(),
     { t } = useI18n();
+  const memoryKey = `${scope}:${business.id}:voice-input:${params.get("sale") ?? "new"}`;
+  const [restored] = useState(() => restoreVoiceMemory(drafts, memoryKey));
   // Cabinet entry focuses the existing control. Permission and recording still require a click.
   useEffect(() => {
     if (params.get("entry") !== "voice") return;
@@ -69,32 +75,91 @@ function SaleForm() {
       null,
     );
   const [inputLocale, setInputLocale] = useState<"ru" | "kk" | "auto" | null>(
-      null,
+      restored?.inputLocale ?? null,
     ),
-    [clarification, setClarification] = useState(""),
-    [needsAnalysis, setNeedsAnalysis] = useState(false),
+    [clarification, setClarification] = useState(restored?.clarification ?? ""),
+    [needsAnalysis, setNeedsAnalysis] = useState(
+      restored?.needsAnalysis ?? false,
+    ),
     [textInvalid, setTextInvalid] = useState(false);
-  const [kind, setKind] = useState(params.get("sale") ? "repayment" : "sale"),
-    [saleId, setSaleId] = useState(params.get("sale") ?? "");
-  const [total, setTotal] = useState(""),
-    [paid, setPaid] = useState(""),
-    [amount, setAmount] = useState(""),
-    [description, setDescription] = useState("");
-  const [customer, setCustomer] = useState<Customer | null>(null),
+  const [kind, setKind] = useState(
+      restored?.kind ?? (params.get("sale") ? "repayment" : "sale"),
+    ),
+    [saleId, setSaleId] = useState(
+      restored?.saleId ?? params.get("sale") ?? "",
+    );
+  const [total, setTotal] = useState(restored?.total ?? ""),
+    [paid, setPaid] = useState(restored?.paid ?? ""),
+    [amount, setAmount] = useState(restored?.amount ?? ""),
+    [description, setDescription] = useState(restored?.description ?? "");
+  const [customer, setCustomer] = useState<Customer | null>(
+      restored?.customer ?? null,
+    ),
     [picker, setPicker] = useState(false),
-    [text, setText] = useState(""),
-    [file, setFile] = useState<File | null>(null);
-  const [draft, setDraft] = useState<Draft | null>(null),
+    [text, setText] = useState(restored?.text ?? ""),
+    [file, setFile] = useState<File | null>(restored?.file ?? null);
+  const [draft, setDraft] = useState<Draft | null>(restored?.draft ?? null),
     [parsing, setParsing] = useState(false),
     [parseError, setParseError] = useState<unknown>(null),
     [saved, setSaved] = useState(false),
     [invalid, setInvalid] = useState(false),
-    [manual, setManual] = useState(!!params.get("sale"));
+    [manual, setManual] = useState(restored?.manual ?? !!params.get("sale"));
   const parseLock = useRef(false),
     write = useWrite(),
     sales = useLedgerList<OpenSale>("outstanding_only=true");
-  const retryAt = useRef(0);
-  const [retrySeconds, setRetrySeconds] = useState(0);
+  const retryAt = useRef(restored?.retryAt ?? 0);
+  const [retrySeconds, setRetrySeconds] = useState(
+    Math.max(0, Math.ceil((retryAt.current - Date.now()) / 1000)),
+  );
+  useEffect(() => {
+    if (
+      saved ||
+      !(text || file || total || paid || amount || description || customer)
+    ) {
+      drafts.delete(memoryKey);
+      return;
+    }
+    const snapshot: VoiceMemory = {
+      text,
+      file,
+      inputLocale,
+      kind,
+      saleId,
+      total,
+      paid,
+      amount,
+      description,
+      customer,
+      draft,
+      clarification,
+      needsAnalysis,
+      manual,
+      retryAt: retryAt.current,
+      expiresAt: draft
+        ? Date.parse(draft.expires_at)
+        : Date.now() + 30 * 60_000,
+    };
+    drafts.set(memoryKey, snapshot);
+  }, [
+    drafts,
+    memoryKey,
+    saved,
+    text,
+    file,
+    inputLocale,
+    kind,
+    saleId,
+    total,
+    paid,
+    amount,
+    description,
+    customer,
+    draft,
+    clarification,
+    needsAnalysis,
+    manual,
+    retrySeconds,
+  ]);
   const waitingToRetry = retrySeconds > 0;
   useEffect(() => {
     if (!waitingToRetry) return;
@@ -379,6 +444,7 @@ function SaleForm() {
           >
             <Card>
               <h2>{l("aiTitle")}</h2>
+              <p className="ledger-hint">{v("memoryOnly")}</p>
               <fieldset disabled={disabled} className="ledger-stack">
                 <label className="field">
                   <span id={textLabelId}>{l("text")}</span>
@@ -517,6 +583,28 @@ function SaleForm() {
                   {draft && (
                     <div className="ledger-draft">
                       <blockquote>{draft.transcript}</blockquote>
+                      {draft.customer_candidates.length > 0 && (
+                        <div className="field">
+                          <span>{v("matchedCustomer")}</span>
+                          {draft.customer_candidates.map((candidate) => (
+                            <Button
+                              key={candidate.id}
+                              variant="secondary"
+                              disabled={disabled || capturing}
+                              onClick={() =>
+                                setCustomer({
+                                  ...candidate,
+                                  business_id: business.id,
+                                  note: null,
+                                  contact: null,
+                                })
+                              }
+                            >
+                              {candidate.display_name}
+                            </Button>
+                          ))}
+                        </div>
+                      )}
                       {draft.questions.length > 0 && (
                         <ul>
                           {draft.questions.map((q, i) => (
