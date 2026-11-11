@@ -453,6 +453,9 @@ Demo отдельно согласован пользователем: суще�
 
 Ветка `feature/qadam-stage2-ai-voice` от Stage 1
 `d382e80164fb2ec559db88001ba05d73fc831731`; отдельный PR поверх #104.
+Проверенный implementation commit: `17d2d01554682f770877acfbff4f7b1f94870ea1`.
+[Draft PR #105](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/105)
+в `fix/qadam-critical-stability`; обычный push успешен.
 По прямому full-stack заданию изменены `features/voice/Sale.tsx`,
 `draftMemory.ts`, `AnalysisError.tsx`, RU/KZ, проверка имени кандидата в
 `features/ledger/data.ts` и beforeunload в `app/runtime.tsx`.

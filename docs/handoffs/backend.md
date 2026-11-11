@@ -1186,6 +1186,9 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 Ветка `feature/qadam-stage2-ai-voice` от подтверждённого Stage 1
 `d382e80164fb2ec559db88001ba05d73fc831731`; зависит от Draft PR #104,
 но не меняет его. Работа выполнялась по прямому full-stack заданию пользователя.
+Проверенный implementation commit: `17d2d01554682f770877acfbff4f7b1f94870ea1`.
+[Draft PR #105](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/105)
+в `fix/qadam-critical-stability`; обычный push успешен.
 
 В `app/services` добавлены strict JSON, проверка денежных цитат RU/KK,
 подтверждённые machine-code причины 429 и приватный Assistant fact-binding protocol.

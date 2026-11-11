@@ -3,7 +3,10 @@
 Date: 2026-11-11. Branch: `feature/qadam-stage2-ai-voice`.
 Base: **d382e80164fb2ec559db88001ba05d73fc831731**, Stage 1,
 [Draft PR #104](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/104).
-Publication SHA/PR are recorded below; final suite results follow.
+Verified implementation: **17d2d01554682f770877acfbff4f7b1f94870ea1**.
+[Draft PR #105](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/105),
+base `fix/qadam-critical-stability`, head `feature/qadam-stage2-ai-voice`.
+The stacked base keeps Stage 1 changes in #104 separate; #104 is still unmerged.
 This report does not certify a real model, physical microphone or production deployment.
 
 ## Existing functionality preserved
@@ -231,3 +234,25 @@ Remaining follow-up: review this stacked PR after Stage 1; authorize a bounded r
 evaluation separately; confirm compatible model IDs with the owner; perform physical
 RU/KZ/mixed speech tests; design private server-side draft recovery if required.
 No inventory, CRM, WhatsApp automation, financial tables, real-data migration or deployment.
+
+## Publication and handoff
+
+Ordinary push of the implementation succeeded; local/remote SHA matched.
+Draft #105 was confirmed open, Draft and conflict-free against its Stage 1 base.
+Main and #104 retain their original heads. The subsequent publication commit contains
+only report/handoff metadata; obtain that latest documentation HEAD with `git rev-parse HEAD`.
+
+GitHub checks observed on implementation SHA `17d2d01554682f770877acfbff4f7b1f94870ea1`:
+**Vercel status success**, **Vercel Preview Comments success**, **zero GitHub Actions runs**.
+The repository's existing Preview automation is not a backend/AI acceptance test.
+No manual deploy, production release or hosted database migration was initiated.
+Connector PR creation returned 403; the existing authorized Git credential successfully
+created the Draft through the official GitHub API, without printing or saving the credential.
+
+Scope: 8 backend service files; 5 backend test/harness files; 6 frontend runtime/voice
+files; 3 frontend test files; 5 E2E files; this report, two role handoffs, DECISIONS
+and four reviewed screenshots. Full paths are available in the PR's 35-file diff.
+No package lock, generated type, financial ledger, migration or frozen fixture changed.
+Test API/Vite processes and only the newly created test PostgreSQL cluster were stopped.
+Test-cluster files and logs remain under ignored `tmp/`; existing local Qadam services
+and user databases were not restarted or altered.
