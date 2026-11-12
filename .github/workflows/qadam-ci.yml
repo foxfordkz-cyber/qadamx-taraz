@@ -1,0 +1,135 @@
+name: Qadam CI
+
+on:
+  pull_request:
+    # No base filter: stacked PRs and later retargets must both be checked.
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+  push:
+    branches: [main, ci/qadam-stage5-release-readiness]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qadam-ci-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend / PostgreSQL / contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: qadam_ci
+          # Disposable runner-only service credential, not a hosted secret.
+          POSTGRES_PASSWORD: synthetic-ci-only
+          POSTGRES_DB: qadam_ci_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U qadam_ci -d qadam_ci_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://qadam_ci:synthetic-ci-only@127.0.0.1:5432/qadam_ci_test
+      # Deliberately different/unreachable; the fixture migrates only *_test.
+      DATABASE_URL: postgresql+psycopg://unused@127.0.0.1:1/unconnected
+      AI_API_KEY: ""
+      OPENAI_API_KEY: ""
+      AI_FALLBACK_OPENAI: "false"
+      ASSISTANT_ENABLED: "false"
+      PYTHONIOENCODING: utf-8
+    defaults:
+      run:
+        working-directory: apps/api
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Record tested merge/head provenance
+        env:
+          PR_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_BASE: ${{ github.event.pull_request.base.sha || '' }}
+        run: |
+          mkdir -p ../../artifacts
+          { git show -s --format='tested=%H parents=%P'; printf 'head=%s\nbase=%s\n' "$PR_HEAD" "$PR_BASE"; } > ../../artifacts/backend-source.txt
+          cat ../../artifacts/backend-source.txt
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@94527f2e458b27549849d47d273a16bec83a01e9 # v7
+        with:
+          version: "0.13.7"
+          enable-cache: false
+      - name: Install locked backend dependencies
+        run: uv sync --locked
+      - name: Backend lint and format
+        run: |
+          uv run --no-sync ruff check app tests
+          uv run --no-sync ruff format --check app tests
+      - name: Exported OpenAPI must match backend
+        run: uv run --no-sync python -m app.export_contracts --check
+      - name: Full tests with isolated PostgreSQL
+        run: uv run --no-sync pytest -q --tb=short --junitxml=../../artifacts/backend.xml
+      - name: Reject empty, skipped or failing test reports
+        run: python ../../scripts/ci/verify_junit.py ../../artifacts/backend.xml
+      - name: Preserve synthetic test evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: backend-evidence
+          path: artifacts/backend*
+          retention-days: 7
+
+  frontend:
+    name: Frontend / tests / build / contracts
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/web
+        shell: bash
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Record tested merge/head provenance
+        env:
+          PR_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          PR_BASE: ${{ github.event.pull_request.base.sha || '' }}
+        run: |
+          mkdir -p ../../artifacts
+          { git show -s --format='tested=%H parents=%P'; printf 'head=%s\nbase=%s\n' "$PR_HEAD" "$PR_BASE"; } > ../../artifacts/frontend-source.txt
+          cat ../../artifacts/frontend-source.txt
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: "24"
+      - name: Install locked frontend dependencies
+        run: npm ci
+      - name: Generated TypeScript must match OpenAPI
+        run: npm run check:api
+      - name: TypeScript
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Full formatting check
+        run: npm run format:check
+      - name: Full unit and component suite (no retries)
+        run: npm test -- --maxWorkers=1 --no-file-parallelism --testTimeout=15000 --hookTimeout=60000 --reporter=default --reporter=junit --outputFile=../../artifacts/frontend-unit.xml
+      - name: Strict microphone lifecycle (synthetic devices)
+        run: node node_modules/vitest/vitest.mjs run --config vitest.microphone.config.ts --maxWorkers=1 --no-file-parallelism --testTimeout=15000 --hookTimeout=60000 --reporter=default --reporter=junit --outputFile=../../artifacts/frontend-microphone.xml
+      - name: Reject empty, skipped or failing test reports
+        run: python3 ../../scripts/ci/verify_junit.py ../../artifacts/frontend-unit.xml ../../artifacts/frontend-microphone.xml
+      - name: Build (no hosted credentials, no deployment)
+        run: npm run build
+      - name: Preserve synthetic test evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        with:
+          name: frontend-evidence
+          path: artifacts/frontend*
+          retention-days: 7
