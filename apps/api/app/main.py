@@ -82,7 +82,7 @@ def create_app(settings: Settings | None = None):
         allow_origins=settings.allowed_origins,
         allow_methods=["GET", "POST", "PUT", "PATCH", "OPTIONS"],
         allow_headers=["Authorization", "Content-Type", "Idempotency-Key"],
-        expose_headers=["X-Request-ID", "Retry-After"],
+        expose_headers=["X-Request-ID", "Retry-After", "X-Qadam-API-Version"],
     )
     app.add_middleware(PhotoBodyLimit)
 
@@ -91,6 +91,7 @@ def create_app(settings: Settings | None = None):
         request.state.request_id = uuid4()
         response = await call_next(request)
         response.headers["X-Request-ID"] = str(request.state.request_id)
+        response.headers["X-Qadam-API-Version"] = app.version
         if private_response(request):
             response.headers["Cache-Control"] = "no-store"
         return response

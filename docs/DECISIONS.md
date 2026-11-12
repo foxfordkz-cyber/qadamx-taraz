@@ -323,3 +323,24 @@ closing balance обозначены отдельно. Возраст — кал
 отправки без подтверждаемого транспорта не создаётся. API 0.8.0 добавляет
 BusinessReport и AgedOpenSale, не меняя AI OpenSale/Stage 2 validation.
 Детали и результаты: [Stage 3 report](product/QADAM_STAGE3_BUSINESS_REPORT.md).
+
+## 2026-11-12 — Stage 4: fail-closed business read compatibility
+
+Старый backend может молча игнорировать новые query-фильтры. Поэтому новые
+filtered operations и business/customer report требуют подтверждённый response
+header `X-Qadam-API-Version: 0.8.0`, доступный через CORS. Отсутствующий или иной
+header даёт RU/KZ ошибку с явным Retry, а не неверно подписанные финансовые строки.
+HTTP 401/404/503 сохраняют свою семантику. OpenAPI/generated.ts обновлены вместе;
+схемы денежных записей, Auth, Membership, RLS и миграции не меняются.
+
+Backend с header должен предшествовать выпуску нового frontend. API 0.8.0 без
+header также требует обновления. Новая версия API потребует отдельной проверки
+совместимости, а не автоматического принятия любого номера.
+
+Чистый install выявил critical transitive dev-advisories: Vitest обновлён до
+4.1.12, tinypool отсутствует. Production dependencies не изменены. Семь умеренных
+предупреждений ESLint/minimatch остаются на review владельца безопасности;
+несовместимый major override не применён. Полные результаты, безопасный порядок
+stacked merge и ограничения: [Stage 4 audit](release/QADAM_STAGE4_INTEGRATION_AUDIT.md)
+и [checklist](release/QADAM_STAGE4_RELEASE_CHECKLIST.md). Автоматического merge,
+hosted migration или production deploy нет.

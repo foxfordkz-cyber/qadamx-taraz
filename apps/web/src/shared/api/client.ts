@@ -1,8 +1,9 @@
 import { ApiError, parseApiError } from "./errors";
 import { withinDeadline } from "./deadline";
 export { ApiError } from "./errors";
+export type ApiRequestInit = RequestInit & { expectedApiVersion?: string };
 export interface ApiClient {
-  request: (path: string, init?: RequestInit) => Promise<unknown>;
+  request: (path: string, init?: ApiRequestInit) => Promise<unknown>;
 }
 
 export function createApiClient(options: {
@@ -15,6 +16,7 @@ export function createApiClient(options: {
 }): ApiClient {
   return {
     async request(path, init = {}) {
+      const { expectedApiVersion, ...fetchInit } = init;
       if (!options.baseUrl) throw new ApiError(0, "API_UNCONFIGURED");
       // Prevent external URLs from receiving a seller token.
       if (!path.startsWith("/") || path.startsWith("//") || path.includes(".."))
@@ -41,7 +43,7 @@ export function createApiClient(options: {
         try {
           response = await (options.fetcher ?? fetch)(
             `${options.baseUrl.replace(/\/$/, "")}${path}`,
-            { ...init, signal, headers, redirect: "error" },
+            { ...fetchInit, signal, headers, redirect: "error" },
           );
         } catch (error) {
           if (signal?.aborted) throw error;
@@ -65,6 +67,11 @@ export function createApiClient(options: {
             response.headers.get("Retry-After"),
           );
         }
+        if (
+          expectedApiVersion &&
+          response.headers.get("X-Qadam-API-Version") !== expectedApiVersion
+        )
+          throw new ApiError(0, "API_INCOMPATIBLE");
         if (response.status === 204) return null;
         try {
           return await response.json();

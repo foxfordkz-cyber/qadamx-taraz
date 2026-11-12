@@ -13,7 +13,7 @@ export default defineConfig({
   use: {
     baseURL: "http://127.0.0.1:4338",
     channel: "chrome",
-    headless: false,
+    headless: process.env.QADAM_QA_HEADED !== "1",
     serviceWorkers: "block",
     screenshot: "only-on-failure",
     trace: "off",
