@@ -327,3 +327,22 @@ availability were not evaluated. No paid calls or shared-DB writes were made.
 
 See the [release checklist](QADAM_STAGE4_RELEASE_CHECKLIST.md) for exact merge
 order, dependencies, migration/rollback plans and mandatory approvals.
+
+## Publication
+
+Implementation and all test-bearing changes: **`91efcd9e98ca0de2b5f715f07bdb81dbe5baa533`**.
+Ordinary push succeeded and the remote/local hashes matched. A final follow-up
+commit records this publication only; its exact SHA is available from the PR head
+and `git rev-parse HEAD`, without changing the verified implementation.
+
+[Draft PR #107](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/107):
+`review/qadam-stage4-integration` → `feature/qadam-stage3-business`
+(`6898faa55a8c9be2c4241da7816b849d311402aa`). GitHub reported mergeable, no conflicts.
+Fresh fetch confirmed main and #104–106 unchanged. A first pull was inapplicable
+because the new branch had no remote; subsequent synchronization uses ff-only.
+
+On the implementation commit, Vercel reported success and GitHub Actions returned
+zero runs. This is existing Preview automation, not a backend/financial regression
+CI gate or authenticated staging acceptance. The PR description records checks
+for the final documentation head. No hosting setting or deployment was manually
+changed; no merge or shared-database action was performed.

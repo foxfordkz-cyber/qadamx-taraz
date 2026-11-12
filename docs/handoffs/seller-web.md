@@ -740,3 +740,15 @@ Render read-only: первый health 43.218 с, тёплый 0.385 с; OpenAPI 
 Dashboard Render требует входа: логов нет. Hosted staging/production остаются
 NO-GO до owner review и реальной приёмки. Семь moderate dev-findings — отдельное
 security review; npm audit --omit=dev — 0 findings. Не повторять hosted миграции.
+
+Публикация Stage 4: [Draft PR #107](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/107),
+head `review/qadam-stage4-integration`, base `feature/qadam-stage3-business`
+(`6898faa55a8c9be2c4241da7816b849d311402aa`). Код и проверки зафиксированы в
+`91efcd9e98ca0de2b5f715f07bdb81dbe5baa533`; normal push успешен, local/remote совпали.
+Заключительный commit меняет только этот handoff и audit; точный финальный SHA —
+в head PR / `git rev-parse HEAD`. На code commit Vercel success, Actions 0 runs;
+финальный статус проверок указан в PR. Это не hosted financial acceptance.
+Конфликтов с base нет, #104–106 не изменены. Следующий шаг капитана: owner review,
+затем согласованная последовательность #104 → #105 → #106 → #107 с проверкой
+diff/CI после каждого retarget. Не объединять автоматически и не выпускать
+новый frontend против текущего Render API 0.7.2.
