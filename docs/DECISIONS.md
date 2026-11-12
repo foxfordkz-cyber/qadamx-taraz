@@ -344,3 +344,23 @@ header также требует обновления. Новая версия A
 stacked merge и ограничения: [Stage 4 audit](release/QADAM_STAGE4_INTEGRATION_AUDIT.md)
 и [checklist](release/QADAM_STAGE4_RELEASE_CHECKLIST.md). Автоматического merge,
 hosted migration или production deploy нет.
+
+
+## 2026-11-12 — Stage 5: CI до release и раздельные approvals
+
+Добавлен кандидат CI с реальной disposable PostgreSQL и полными frontend/backend
+тестами. Тесты исполняются без hosted credentials на read-only GitHub runner;
+пустые/пропущенные JUnit отвергаются. Он не деплоит и не включает платный AI.
+Первый run 43209502658 успешен: 482 backend, 686 frontend, 35 strict microphone.
+Предыдущие Stage 4 результаты остаются локальными, не переименованы в CI.
+
+Main сейчас не защищён required checks; менять настройки может только owner.
+CI нужно отдельно reviewed bootstrap-PR до merge #104, включая согласованный
+ремонт старых format failures. Нельзя сливать весь стек ради появления workflow.
+Каждый PR требует собственного review, новых checks после retarget и отдельного
+разрешения на merge commit. Squash, auto-merge и production deploy не разрешены.
+
+Hosted API 0.7.2 не совместим с guarded reads 0.8.0. Отдельные staging Auth/DB,
+callback и AI-disabled startup решения, backup/rollback и физическая приёмка
+обязательны. План и ограничения: [Stage 5 readiness](release/QADAM_STAGE5_MERGE_READINESS.md)
+и [staging](release/QADAM_STAGE5_STAGING_PLAN.md). Production остаётся NO-GO.

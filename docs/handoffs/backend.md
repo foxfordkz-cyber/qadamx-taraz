@@ -1208,3 +1208,40 @@ Release **a8e358f9d3f555bb1456847f980e931597bfd6a6** в deploy-062; Vercel event
 [Stage 2 report](../ai/QADAM_STAGE2_AI_VOICE_REPORT.md).
 Следующий шаг: review после Stage 1, отдельная разрешённая приёмка реальной модели
 и физического RU/KZ микрофона. Hosted/prod readiness не подтверждена.
+
+
+## 2026-11-12 — Stage 5: CI и merge/staging readiness
+
+Ветка `ci/qadam-stage5-release-readiness` от #107
+`a4b9da868e9f4a7ccbbbd9529834bf1e7885ca19`. Все десять commits main → #104–107
+сохранены; все четыре PR Draft/mergeable, formal approvals отсутствуют.
+Main без required checks; merge commits разрешены, настройки не менялись.
+[Draft PR #108](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/108) направлен
+в `review/qadam-stage4-integration`. Описания #104–107 дополнены review notes,
+Research claim #106 исправлен; их bases/Draft/история не менялись.
+
+Новый CI-only commit `eb5d8702e521165134f7666aa760b27d25431eaa` содержит
+`.github/workflows/qadam-ci.yml` и `scripts/ci/verify_junit.py`. Нет application,
+Auth, ledger, migration или deploy изменений. CI: Python 3.12/Node 24,
+PostgreSQL 17 service в disposable *_test, locked installs, read-only token,
+без hosted secrets/AI/deploy. Guard отклоняет пустые/failed/skipped JUnit.
+
+Настоящий [GitHub Actions run 43209502658](https://github.com/foxfordkz-cyber/qadamx-taraz/actions/runs/43209502658)
+успешен на CI commit: backend 482, frontend 686, microphone 35, zero skips;
+TypeScript/lint/format/build/оба contract checks PASS. Это уже CI, в отличие
+от отдельно сохранённых локальных результатов Stage 4. Physical/hosted не проверены.
+
+[Merge readiness](../release/QADAM_STAGE5_MERGE_READINESS.md) описывает
+CI bootstrap до #104 и необходимость отдельно reviewed format-only repair
+двух старых файлов. Не выключать format ради зелёного CI. Наличие workflow
+в потомке не добавляет старым PR checks задним числом. Следующий шаг owner:
+bootstrap/required checks/approvals, затем отдельно разрешённые merge commits
+#104 → retarget #105 → #106 → #107 с повторным diff/CI.
+
+[Staging plan](../release/QADAM_STAGE5_STAGING_PLAN.md): отдельные Auth/DB/HTTPS,
+backup, migration 0008, rollback, monitoring и 4200/2200/2000 acceptance.
+Новая hosted диагностика: первый health 522/39.594 с, затем timeouts, позднее
+warm health 200/0.594 с; API всё ещё 0.7.2. Public DB и JWKS ES256 доступны,
+но реальный login/refresh/schema не подтверждены. Startup требует AI/Storage,
+registration callback фиксирован на production Pages: оба решения нужны owner.
+Ни merge, ни deploy, ни hosted migration/secret/billing change не выполнялись.
