@@ -98,9 +98,7 @@ describe("WhatsApp links in the actual seller components", () => {
       const view = setup();
       await screen.findByRole("heading", { name: "Асқар" });
       if (locale === "kk")
-        await userEvent.click(
-          screen.getByRole("button", { name: "KZ" }),
-        );
+        await userEvent.click(screen.getByRole("button", { name: "KZ" }));
       const link = await screen.findByRole("link", {
         name:
           locale === "ru"
@@ -179,9 +177,7 @@ describe("WhatsApp links in the actual seller components", () => {
       await screen.findByRole("button", { name: "Посмотреть демо" }),
     );
     await screen.findByRole("heading", { name: "Хорошего рабочего дня!" });
-    await userEvent.click(
-      screen.getByRole("link", { name: "Все долги" }),
-    );
+    await userEvent.click(screen.getByRole("link", { name: "Все долги" }));
     const links = await screen.findAllByRole("link", {
       name: "Напомнить в WhatsApp",
     });

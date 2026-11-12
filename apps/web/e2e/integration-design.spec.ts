@@ -72,13 +72,24 @@ for (const width of [360, 390, 768, 1440]) {
         ),
       ).toBe(true);
     }
-    await page
-      .getByLabel("Дата (Asia/Almaty)", { exact: true })
-      .fill("2026-10-15");
+    // Demo Summary uses the approved, fixed contract example; date is not editable.
+    await expect(
+      page.getByLabel("Дата (Asia/Almaty)", { exact: true }),
+    ).toBeDisabled();
     await expect(
       page.getByLabel("Дата (Asia/Almaty)", { exact: true }),
     ).toHaveValue("2026-10-15");
-    await expect(page.locator(".ledger-stats .card")).toHaveCount(0);
+    await expect(page.locator(".ledger-stats strong")).toHaveText([
+      "3 000 ₸",
+      "1 500 ₸",
+      "1 500 ₸",
+      "0",
+    ]);
+    await expect(
+      page.getByText("Учебный пример. Это не реальные итоги торговой точки.", {
+        exact: true,
+      }),
+    ).toBeVisible();
     expect(backendTraffic).toEqual([]);
     expect(errors).toEqual([]);
   });

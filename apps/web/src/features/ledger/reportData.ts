@@ -103,6 +103,7 @@ export function useBusinessReport(
       return readBusinessReport(
         await api.request(`/businesses/${business.id}/report?${params}`, {
           signal,
+          expectedApiVersion: "0.8.0",
         }),
         business.id,
         customerId,

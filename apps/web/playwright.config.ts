@@ -20,6 +20,8 @@ export default defineConfig({
     url: "http://127.0.0.1:4173",
     // Public browser fixtures intercept this address; no credentials are used.
     env: {
+      // Analytics includes the existing fact-only Assistant surfaces.
+      VITE_ASSISTANT_ENABLED: "true",
       // The suite includes ledger-reading's IDs contract scenarios, as in Pages.
       VITE_CUSTOMER_IDS_ENABLED: "true",
       VITE_API_BASE_URL: "http://127.0.0.1:8000/api/v1",

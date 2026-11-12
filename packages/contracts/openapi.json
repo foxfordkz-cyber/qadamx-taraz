@@ -1002,6 +1002,17 @@
                   "title": "Response Get Operations Api V1 Businesses  Id  Operations Get"
                 }
               }
+            },
+            "headers": {
+              "X-Qadam-API-Version": {
+                "description": "Required for business reads; never silently ignore new filters",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "0.8.0"
+                  ]
+                }
+              }
             }
           },
           "401": {
@@ -1259,6 +1270,17 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BusinessReport"
+                }
+              }
+            },
+            "headers": {
+              "X-Qadam-API-Version": {
+                "description": "Required for business reads; never silently ignore new filters",
+                "schema": {
+                  "type": "string",
+                  "enum": [
+                    "0.8.0"
+                  ]
                 }
               }
             }

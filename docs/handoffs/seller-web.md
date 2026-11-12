@@ -703,3 +703,52 @@ base `feature/qadam-stage2-ai-voice`; PR #104/#105 сохранены.
 первоначальных таймаутов; 15 уникальных Chrome E2E passed. UI/API/SQL совпали:
 4200/2200/2000 ₸. Vercel/Preview Comments на code commit — success, это не hosted
 backend acceptance. Текущий HEAD после документационного commit: `git log -1 --format=%H`.
+
+## Stage 4 integration audit — 12.11.2026
+
+Отдельный worktree/ветка `review/qadam-stage4-integration` от Stage 3
+`6898faa55a8c9be2c4241da7816b849d311402aa`. PR #104–106 содержатся в истории,
+не менялись и остаются Draft. Main/production/hosted DB не изменены.
+
+Добавлен fail-closed header `X-Qadam-API-Version: 0.8.0` для новых бизнес-фильтров
+и report, RU/KZ ошибка + Retry; OpenAPI/generated.ts согласованы. Backend с header
+должен быть выпущен до нового web после отдельного разрешения. Денежные write
+функции, Auth, Membership и миграции не менялись. В этом стеке head — 0008;
+Research/0009/0010 из иных diploma-веток сюда не входят.
+
+Чистые зависимости: Vitest 4.1.12 устраняет critical dev-advisories, production
+зависимости прежние. Полный backend: 482 passed, zero skips. Полный frontend:
+686 passed/0 failed/0 skipped, 50 файлов одной командой. Строгий microphone suite:
+35/35 (8 дополнительных lifecycle cases). Три настоящих Chrome → FastAPI/JWT →
+изолированная PostgreSQL сценария Stage 1/2/3 прошли; UI/API/SQL:
+4200/2200/2000 ₸, четыре строки, double click/reversal/isolation/reload.
+Supabase transport, AI/STT синтетические; физические устройства не проверялись.
+
+Браузерная регрессия: 231/231 запусков, 19 полных suites без retries,
+217 уникальных file/title/browser сочетаний. С тремя PG-сценариями — 234 запуска.
+Старые ожидания Analytics/Demo исправлены; финальный public suite 43/43.
+Первые неудачные прогоны сохранены и объяснены в отчёте; один первоначальный
+login timeout не имеет доказанной первопричины. Desktop WebKit — не iPhone.
+TypeScript/lint/build/API/format PASS; старые два format warnings устранены.
+Финальные результаты и статус публикации находятся в
+[Stage 4 audit](../release/QADAM_STAGE4_INTEGRATION_AUDIT.md).
+[Release checklist](../release/QADAM_STAGE4_RELEASE_CHECKLIST.md) содержит команды,
+зависимости, approvals, migration/rollback и безопасную последовательность merge.
+
+Render read-only: первый health 43.218 с, тёплый 0.385 с; OpenAPI 0.7.2 без report.
+Публичный DB-read прошёл, но это не проверка приватного ledger/Auth/schema.
+Dashboard Render требует входа: логов нет. Hosted staging/production остаются
+NO-GO до owner review и реальной приёмки. Семь moderate dev-findings — отдельное
+security review; npm audit --omit=dev — 0 findings. Не повторять hosted миграции.
+
+Публикация Stage 4: [Draft PR #107](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/107),
+head `review/qadam-stage4-integration`, base `feature/qadam-stage3-business`
+(`6898faa55a8c9be2c4241da7816b849d311402aa`). Код и проверки зафиксированы в
+`91efcd9e98ca0de2b5f715f07bdb81dbe5baa533`; normal push успешен, local/remote совпали.
+Заключительный commit меняет только этот handoff и audit; точный финальный SHA —
+в head PR / `git rev-parse HEAD`. На code commit Vercel success, Actions 0 runs;
+финальный статус проверок указан в PR. Это не hosted financial acceptance.
+Конфликтов с base нет, #104–106 не изменены. Следующий шаг капитана: owner review,
+затем согласованная последовательность #104 → #105 → #106 → #107 с проверкой
+diff/CI после каждого retarget. Не объединять автоматически и не выпускать
+новый frontend против текущего Render API 0.7.2.

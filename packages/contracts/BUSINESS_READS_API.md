@@ -8,6 +8,16 @@ Do not release the filter UI alone: older FastAPI versions may ignore unknown
 query parameters and therefore return unfiltered pages. Staging must verify
 the 0.8.0 OpenAPI and these filters against its own matching backend.
 
+Stage 4 adds a fail-closed transport check: successful report responses and
+operations requests containing the new filter parameters require the response
+header `X-Qadam-API-Version: 0.8.0`, exposed through CORS. Missing/different
+versions are rejected with a local `API_INCOMPATIBLE` error and explicit RU/KZ
+Retry UI. Existing unfiltered/legacy date/customer reads and financial writes
+do not require this header. A 401/404/503 keeps its actual error semantics.
+Stage 3's pre-header server must be updated with this candidate before using
+the guarded client. A version header is compatibility metadata, not authorization;
+JWT, membership and response-schema validation remain required.
+
 ## Authorization and data source
 
 Every endpoint uses existing JWT verification and `require_membership`.

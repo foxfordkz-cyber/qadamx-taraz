@@ -28,6 +28,16 @@ OptionalKey = Annotated[
     Header(alias="Idempotency-Key", min_length=1, max_length=200, pattern=r"^[!-~]+$"),
 ]
 Limit = Annotated[int, Query(ge=1, le=100)]
+BUSINESS_READ_RESPONSE = {
+    200: {
+        "headers": {
+            "X-Qadam-API-Version": {
+                "description": "Required for business reads; never silently ignore new filters",
+                "schema": {"type": "string", "enum": ["0.8.0"]},
+            }
+        }
+    }
+}
 
 
 @router.get("/me", response_model=schemas.MeResponse, tags=["auth"])
@@ -135,6 +145,7 @@ def reverse_operation(
 @router.get(
     "/businesses/{id}/operations",
     response_model=schemas.Page[schemas.Operation] | schemas.Page[AgedOpenSale],
+    responses=BUSINESS_READ_RESPONSE,
     tags=["ledger"],
 )
 def get_operations(
@@ -173,7 +184,12 @@ def get_operations(
     )
 
 
-@router.get("/businesses/{id}/report", response_model=BusinessReport, tags=["ledger"])
+@router.get(
+    "/businesses/{id}/report",
+    response_model=BusinessReport,
+    responses=BUSINESS_READ_RESPONSE,
+    tags=["ledger"],
+)
 def get_business_report(
     id: UUID,
     db: DB,

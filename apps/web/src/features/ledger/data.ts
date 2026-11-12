@@ -68,9 +68,20 @@ export function useLedgerList<T extends Sale | Operation>(query: string) {
       const params = new URLSearchParams(query);
       params.set("limit", "50");
       if (pageParam) params.set("cursor", pageParam);
+      // Old servers ignore unknown query parameters. Never display such pages as filtered.
+      const needsBusinessContract = [
+        "date_from",
+        "date_to",
+        "kind",
+        "min_amount_minor",
+        "max_amount_minor",
+        "payment_status",
+        "age_bucket",
+      ].some((key) => params.has(key));
       const page = record(
         await api.request(`/businesses/${business.id}/operations?${params}`, {
           signal,
+          ...(needsBusinessContract ? { expectedApiVersion: "0.8.0" } : {}),
         }),
       );
       if (

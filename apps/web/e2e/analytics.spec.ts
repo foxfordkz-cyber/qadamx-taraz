@@ -150,7 +150,9 @@ async function demoReport(page: Page) {
   await enterDemo(page);
   await navigateSeller(page, "analytics");
   await expect(page.locator(".analytics-main-kpis")).toBeVisible();
-  await expect(page.getByText("Демо-данные", { exact: true })).toBeVisible();
+  await expect(page.locator(".analytics-page > .badge")).toHaveText(
+    "Демо-данные",
+  );
   await page.locator(".analytics-details > summary").click();
   return traffic;
 }
@@ -442,20 +444,16 @@ test("direct route/reload show the active membership and links add no period fil
     .selectOption(qaIds.shopA2);
   await expect(page.locator(".analytics-empty")).toBeVisible();
   await page.reload();
-  // BusinessProvider intentionally keeps selection in memory; a reload chooses
-  // the first /me membership. The report must match that visible selection.
+  // Stage 1 preserves the same account's allowed selection across reload.
+  // Assert that the earlier shop's amounts never replace the empty active shop.
   await expect(page.getByLabel("Торговая точка", { exact: true })).toHaveValue(
-    qaIds.shopA,
+    qaIds.shopA2,
   );
   await expect(
     page
       .getByLabel("Торговая точка", { exact: true })
       .locator("option:checked"),
-  ).toContainText("QA MART");
-  await expect(page.locator(".analytics-main-kpis")).toContainText("3 000 ₸");
-  await page
-    .getByLabel("Торговая точка", { exact: true })
-    .selectOption(qaIds.shopA2);
+  ).toContainText("QA Кайкармет");
   await expect(page.locator(".analytics-main-kpis")).not.toContainText(
     "3 000 ₸",
   );

@@ -2062,6 +2062,8 @@ export interface operations {
       /** @description Successful Response */
       200: {
         headers: {
+          /** @description Required for business reads; never silently ignore new filters */
+          "X-Qadam-API-Version"?: "0.8.0";
           [name: string]: unknown;
         };
         content: {
@@ -2284,6 +2286,8 @@ export interface operations {
       /** @description Successful Response */
       200: {
         headers: {
+          /** @description Required for business reads; never silently ignore new filters */
+          "X-Qadam-API-Version"?: "0.8.0";
           [name: string]: unknown;
         };
         content: {

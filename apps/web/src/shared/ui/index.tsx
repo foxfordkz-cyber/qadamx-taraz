@@ -158,6 +158,7 @@ export function errorKey(error: unknown): TranslationKey {
     return navigator.onLine ? "authRestoreUnavailable" : "authOffline";
   if (error.code === "DATABASE_UNAVAILABLE") return "databaseUnavailable";
   if (error.code === "BACKEND_TIMEOUT") return "backendTimeout";
+  if (error.code === "API_INCOMPATIBLE") return "apiIncompatible";
   if (error.status === 401) return "unauthorized";
   if (error.status === 403) return "forbidden";
   if (error.status === 404) return "notFound";
