@@ -3,7 +3,7 @@
   "info": {
     "title": "Qadam Business API",
     "description": "Authenticated manual ledger and optional Gemini drafts. AI never writes money. Public catalog and private seller inquiries.",
-    "version": "0.7.2"
+    "version": "0.8.0"
   },
   "paths": {
     "/api/v1/health": {
@@ -849,6 +849,140 @@
               ],
               "title": "Cursor"
             }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            }
+          },
+          {
+            "name": "kind",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "sale",
+                    "repayment",
+                    "reversal"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Kind"
+            }
+          },
+          {
+            "name": "min_amount_minor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 10000000000,
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Amount Minor"
+            }
+          },
+          {
+            "name": "max_amount_minor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "maximum": 10000000000,
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Max Amount Minor"
+            }
+          },
+          {
+            "name": "payment_status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "unpaid",
+                    "partial",
+                    "paid",
+                    "cancelled"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Payment Status"
+            }
+          },
+          {
+            "name": "age_bucket",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "0_7",
+                    "8_30",
+                    "31_plus"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Age Bucket"
+            }
           }
         ],
         "responses": {
@@ -862,7 +996,7 @@
                       "$ref": "#/components/schemas/Page_Operation_"
                     },
                     {
-                      "$ref": "#/components/schemas/Page_OpenSale_"
+                      "$ref": "#/components/schemas/Page_AgedOpenSale_"
                     }
                   ],
                   "title": "Response Get Operations Api V1 Businesses  Id  Operations Get"
@@ -986,6 +1120,145 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/OperationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unauthorized"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Conflict"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/api/v1/businesses/{id}/report": {
+      "get": {
+        "tags": [
+          "ledger"
+        ],
+        "summary": "Get Business Report",
+        "operationId": "get_business_report_api_v1_businesses__id__report_get",
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Id"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date From"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date To"
+            }
+          },
+          {
+            "name": "customer_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Customer Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BusinessReport"
                 }
               }
             }
@@ -3703,6 +3976,71 @@
   },
   "components": {
     "schemas": {
+      "AgedOpenSale": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "description": {
+            "type": "string",
+            "title": "Description"
+          },
+          "total_minor": {
+            "type": "integer",
+            "maximum": 10000000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Total Minor"
+          },
+          "received_minor": {
+            "type": "integer",
+            "maximum": 10000000000.0,
+            "minimum": 0.0,
+            "title": "Received Minor"
+          },
+          "balance_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Balance Minor"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "age_days": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Age Days"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "customer_id",
+          "description",
+          "total_minor",
+          "received_minor",
+          "balance_minor",
+          "created_at",
+          "age_days"
+        ],
+        "title": "AgedOpenSale"
+      },
       "AnalyticsCards": {
         "properties": {
           "sales_minor": {
@@ -4284,6 +4622,145 @@
         ],
         "title": "BusinessMembership"
       },
+      "BusinessReport": {
+        "properties": {
+          "business_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Business Id"
+          },
+          "customer_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "date_from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date From"
+          },
+          "date_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date To"
+          },
+          "timezone": {
+            "type": "string",
+            "const": "Asia/Almaty",
+            "title": "Timezone",
+            "default": "Asia/Almaty"
+          },
+          "currency": {
+            "type": "string",
+            "const": "KZT",
+            "title": "Currency",
+            "default": "KZT"
+          },
+          "as_of": {
+            "type": "string",
+            "format": "date-time",
+            "title": "As Of"
+          },
+          "sales_minor": {
+            "type": "integer",
+            "title": "Sales Minor"
+          },
+          "receipts_minor": {
+            "type": "integer",
+            "title": "Receipts Minor"
+          },
+          "outstanding_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Outstanding Minor"
+          },
+          "opening_balance_minor": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Opening Balance Minor"
+          },
+          "closing_balance_minor": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Closing Balance Minor"
+          },
+          "operation_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Operation Count"
+          },
+          "last_operation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Operation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "debt_aging": {
+            "items": {
+              "$ref": "#/components/schemas/DebtAge"
+            },
+            "type": "array",
+            "title": "Debt Aging"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "business_id",
+          "customer_id",
+          "date_from",
+          "date_to",
+          "as_of",
+          "sales_minor",
+          "receipts_minor",
+          "outstanding_minor",
+          "opening_balance_minor",
+          "closing_balance_minor",
+          "operation_count",
+          "last_operation",
+          "debt_aging"
+        ],
+        "title": "BusinessReport"
+      },
       "CatalogResponse": {
         "properties": {
           "name_i18n": {
@@ -4488,6 +4965,37 @@
           "balance_minor"
         ],
         "title": "CustomerResponse"
+      },
+      "DebtAge": {
+        "properties": {
+          "bucket": {
+            "type": "string",
+            "enum": [
+              "0_7",
+              "8_30",
+              "31_plus"
+            ],
+            "title": "Bucket"
+          },
+          "balance_minor": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Balance Minor"
+          },
+          "sales_count": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Sales Count"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "bucket",
+          "balance_minor",
+          "sales_count"
+        ],
+        "title": "DebtAge"
       },
       "DraftResponse": {
         "additionalProperties": false,
@@ -5438,6 +5946,35 @@
         ],
         "title": "OwnerListing"
       },
+      "Page_AgedOpenSale_": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AgedOpenSale"
+            },
+            "type": "array",
+            "title": "Items"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "items"
+        ],
+        "title": "Page[AgedOpenSale]"
+      },
       "Page_CustomerResponse_": {
         "properties": {
           "items": {
@@ -5524,35 +6061,6 @@
           "items"
         ],
         "title": "Page[MarketResponse]"
-      },
-      "Page_OpenSale_": {
-        "properties": {
-          "items": {
-            "items": {
-              "$ref": "#/components/schemas/OpenSale"
-            },
-            "type": "array",
-            "title": "Items"
-          },
-          "next_cursor": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Next Cursor"
-          }
-        },
-        "additionalProperties": false,
-        "type": "object",
-        "required": [
-          "items"
-        ],
-        "title": "Page[OpenSale]"
       },
       "Page_Operation_": {
         "properties": {
