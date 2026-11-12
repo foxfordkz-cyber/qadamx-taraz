@@ -695,3 +695,11 @@ npm audit сообщает 3 унаследованных dev findings в Vitest
 группы списка — только загруженные страницы. Возраст долга не означает просрочку.
 Нельзя запускать тестовые миграции на общей БД. Следующий шаг — командное review
 stacked Draft PR и отдельная staging-проверка с настоящим Supabase.
+
+Проверенная реализация Stage 3: `3afc4e37692c2e27697315d18be277d5359e3a61`,
+обычный push успешен, local/remote совпали. [Draft PR #106](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/106),
+base `feature/qadam-stage2-ai-voice`; PR #104/#105 сохранены.
+480 backend passed; 677 уникальных frontend-проверок прошли с повторами после
+первоначальных таймаутов; 15 уникальных Chrome E2E passed. UI/API/SQL совпали:
+4200/2200/2000 ₸. Vercel/Preview Comments на code commit — success, это не hosted
+backend acceptance. Текущий HEAD после документационного commit: `git log -1 --format=%H`.
