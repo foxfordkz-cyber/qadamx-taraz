@@ -1389,5 +1389,60 @@
       "fields": {}
     },
     "request_id": "00000000-0000-4000-8000-000000000001"
+  },
+  "AgedOpenSale": {
+    "id": "30000000-0000-4000-8000-000000000001",
+    "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+    "description": "Учебная продажа",
+    "total_minor": 300000,
+    "received_minor": 150000,
+    "balance_minor": 150000,
+    "created_at": "2026-10-15T10:00:00Z",
+    "age_days": 7
+  },
+  "BusinessReport": {
+    "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+    "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+    "date_from": "2026-10-15",
+    "date_to": "2026-10-15",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "as_of": "2026-10-15T10:00:00Z",
+    "sales_minor": 300000,
+    "receipts_minor": 100000,
+    "outstanding_minor": 200000,
+    "opening_balance_minor": 0,
+    "closing_balance_minor": 200000,
+    "operation_count": 1,
+    "last_operation": {
+      "id": "30000000-0000-4000-8000-000000000001",
+      "business_id": "ad6203bc-7320-5b36-982b-135504c5af68",
+      "customer_id": "f156d6e2-d862-5d02-bcbe-0fcbff9cb8a0",
+      "sale_id": "30000000-0000-4000-8000-000000000001",
+      "kind": "sale",
+      "sales_delta_minor": 300000,
+      "receipts_delta_minor": 100000,
+      "reversal_of": null,
+      "description": "Учебная продажа",
+      "created_at": "2026-10-15T10:00:00Z",
+      "created_by": "50000000-0000-4000-8000-000000000001"
+    },
+    "debt_aging": [
+      {
+        "bucket": "0_7",
+        "balance_minor": 200000,
+        "sales_count": 1
+      },
+      {
+        "bucket": "8_30",
+        "balance_minor": 0,
+        "sales_count": 0
+      },
+      {
+        "bucket": "31_plus",
+        "balance_minor": 0,
+        "sales_count": 0
+      }
+    ]
   }
 }

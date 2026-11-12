@@ -4,7 +4,8 @@ import { useBusiness, useRuntime } from "../../app/runtime";
 import { ApiError } from "../../shared/api/client";
 import type { components } from "../../shared/api/generated";
 export type Schemas = components["schemas"];
-export type Sale = Schemas["OpenSale"];
+export type Sale = Schemas["OpenSale"] &
+  Partial<Pick<Schemas["AgedOpenSale"], "age_days">>;
 export type Operation = Schemas["Operation"];
 export type Draft = Schemas["DraftResponse"];
 export type Pending = { path: string; key: string; body: string };
@@ -83,6 +84,8 @@ export function useLedgerList<T extends Sale | Operation>(query: string) {
           typeof row.id !== "string" ||
           ("business_id" in row && row.business_id !== business.id)
         )
+          throw new ApiError(0, "INVALID_RESPONSE");
+        if ("age_days" in row && money(row.age_days) < 0)
           throw new ApiError(0, "INVALID_RESPONSE");
         if ("balance_minor" in row) money(row.balance_minor);
         else {

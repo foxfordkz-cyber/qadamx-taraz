@@ -16,6 +16,8 @@ import { useLedgerText } from "../ledger/i18n";
 import { ShareSummary } from "./ShareSummary";
 import { shareLabels, summaryShareText, type SummaryValues } from "./share";
 import { demoSummary, demoSummaryDate } from "./demo";
+import { PeriodReport } from "../ledger/BusinessReport";
+import { useBusinessText } from "../ledger/businessText";
 export const localDate = () =>
   new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Almaty",
@@ -80,6 +82,8 @@ export function Summary() {
 function SummaryPage() {
   const { gateway } = useRuntime();
   const demo = gateway.mode === "demo";
+  const { b } = useBusinessText();
+  const [periodOpen, setPeriodOpen] = useState(false);
   const [date, setDate] = useState(demo ? demoSummaryDate : localDate()),
     { l, locale } = useLedgerText();
   const { business } = useBusiness();
@@ -117,6 +121,13 @@ function SummaryPage() {
         text={text}
         locale={locale}
       />
+      <details
+        className="business-filters"
+        onToggle={(e) => setPeriodOpen(e.currentTarget.open)}
+      >
+        <summary>{b("openReport")}</summary>
+        {periodOpen && <PeriodReport />}
+      </details>
     </>
   );
 }

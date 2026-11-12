@@ -1,0 +1,70 @@
+.business-filters {
+  margin-block: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.business-filters > summary {
+  cursor: pointer;
+  min-height: 44px;
+  font-weight: 600;
+}
+.business-filter-form,
+.business-report,
+.business-profile {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.business-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+  gap: 0.75rem;
+  align-items: end;
+}
+.business-values {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr));
+}
+.business-profile li {
+  margin-block: 0.75rem;
+  overflow-wrap: anywhere;
+}
+.business-copy {
+  max-width: 100%;
+}
+.business-copy textarea {
+  width: 100%;
+  min-height: 100px;
+}
+.business-print-sheet {
+  overflow-wrap: anywhere;
+}
+.business-debt-group {
+  list-style: none;
+  padding-top: 0.5rem;
+}
+@media print {
+  body.qadam-print-report {
+    background: white;
+  }
+  body.qadam-print-report * {
+    visibility: hidden;
+  }
+  body.qadam-print-report .business-print-sheet,
+  body.qadam-print-report .business-print-sheet * {
+    visibility: visible;
+  }
+  body.qadam-print-report .business-print-sheet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 12mm;
+    color: black;
+    background: white;
+  }
+  body.qadam-print-report .business-print-sheet .card {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}

@@ -59,7 +59,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.7.2",
+        version="0.8.0",
         lifespan=lifespan,
         description="Authenticated manual ledger and optional Gemini drafts. "
         "AI never writes money. Public catalog and private seller inquiries.",

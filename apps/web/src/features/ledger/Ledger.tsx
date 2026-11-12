@@ -1,5 +1,5 @@
 // Debt/history/reversal flow adapted from PR #7. Balances are exclusively server values.
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useBusiness, useRuntime } from "../../app/runtime";
 import { useI18n } from "../../shared/i18n";
@@ -24,15 +24,31 @@ import { formatKZT } from "../../shared/format";
 import { useLedgerList, useWrite, type Operation, type Sale } from "./data";
 import { operationTime, saleDate, useLedgerText } from "./i18n";
 import "./ledger.css";
+import { BusinessFilters } from "./BusinessFilters";
+import { CopyReminder } from "./BusinessReport";
+import { useBusinessText, type BusinessLabel } from "./businessText";
+
+function debtGroup(row: Sale): BusinessLabel {
+  const age = row.age_days;
+  return age === undefined || age === null
+    ? "unknownAge"
+    : age <= 7
+      ? "0_7"
+      : age <= 30
+        ? "8_30"
+        : "31_plus";
+}
 export function Debts() {
   const [sp] = useSearchParams(),
     { l, locale } = useLedgerText(),
     { gateway } = useRuntime();
   const { business } = useBusiness();
   const { t } = useI18n();
+  const { b } = useBusinessText();
   const demo = gateway.mode === "demo";
   const customerId = sp.get("customer_id");
-  const params = new URLSearchParams({ outstanding_only: "true" });
+  const params = new URLSearchParams(sp);
+  params.set("outstanding_only", "true");
   if (customerId) params.set("customer_id", customerId);
   const q = useLedgerList<Sale>(params.toString());
   // Names only decorate rows; the debt list never waits for or depends on them.
@@ -41,6 +57,11 @@ export function Debts() {
         (row) => !customerId || row.customer_id === customerId,
       )
     : (q.data?.pages.flatMap((p) => p.items) ?? []);
+  const grouped = [...rows].sort(
+    (a, z) =>
+      ["0_7", "8_30", "31_plus", "unknownAge"].indexOf(debtGroup(a)) -
+      ["0_7", "8_30", "31_plus", "unknownAge"].indexOf(debtGroup(z)),
+  );
   const known = useLedgerCustomers([
     ...rows.map((row) => row.customer_id),
     customerId,
@@ -71,6 +92,9 @@ export function Debts() {
         }
       />
       {gateway.mode === "demo" && <p>{l("demo")}</p>}
+      {!demo && <BusinessFilters debts />}
+      <p>{b("ageHint")}</p>
+      {!demo && <p className="muted">{b("groupHint")}</p>}
       {total !== undefined && (
         <p className="debt-total">
           <span>
@@ -86,57 +110,80 @@ export function Debts() {
       )}
       {!demo && q.isLoading && <Spinner />}
       {(demo || q.isSuccess) && rows.length === 0 && (
-        <EmptyState title={l("noDebts")} description={l("noDebtsHint")} />
+        <EmptyState
+          title={sp.size > 0 ? b("noMatches") : l("noDebts")}
+          description={sp.size > 0 ? b("clear") : l("noDebtsHint")}
+        />
       )}
       <ul className="debt-list">
-        {rows.map((s) => (
-          <li key={s.id}>
-            <Card className="debt-row">
-              <div className="debt-main">
-                <h2>
-                  {s.customer_id
-                    ? (known.get(s.customer_id.toLowerCase())?.display_name ??
-                      l("customerUnavailable"))
-                    : l("noCustomer")}
-                </h2>
-                <p>
-                  {s.description} · {saleDate(s.created_at)} · {l("soldFor")}{" "}
-                  <span className="money">
-                    {formatKZT(s.total_minor, locale)}
-                  </span>
-                </p>
-              </div>
-              <div className="debt-side">
-                <p className="debt-balance">
-                  <span>{l("left")}:</span>{" "}
-                  <strong>{formatKZT(s.balance_minor, locale)}</strong>
-                </p>
-                <div className="debt-reminder-actions">
-                  <Link
-                    className="button button-secondary"
-                    to={`/seller/sale?sale=${s.id}`}
-                  >
-                    {l("payDebt")}
-                  </Link>
-                  {s.balance_minor > 0 && (
-                    <WhatsAppLink
-                      reminder
-                      text={reminderText(
-                        known.get(s.customer_id?.toLowerCase() ?? "")
-                          ?.display_name ?? t("whatsappCustomer"),
-                        s.balance_minor,
-                        business.name,
-                        locale,
-                      )}
-                      contact={
-                        known.get(s.customer_id?.toLowerCase() ?? "")?.contact
-                      }
-                    />
-                  )}
+        {grouped.map((s, index) => (
+          <Fragment key={s.id}>
+            {(index === 0 ||
+              debtGroup(grouped[index - 1]!) !== debtGroup(s)) && (
+              <li className="business-debt-group">
+                <h3>{b(debtGroup(s))}</h3>
+              </li>
+            )}
+            <li>
+              <Card className="debt-row">
+                <div className="debt-main">
+                  <h2>
+                    {s.customer_id
+                      ? (known.get(s.customer_id.toLowerCase())?.display_name ??
+                        l("customerUnavailable"))
+                      : l("noCustomer")}
+                  </h2>
+                  <p>
+                    {s.description} · {saleDate(s.created_at)} · {l("soldFor")}{" "}
+                    <span className="money">
+                      {formatKZT(s.total_minor, locale)}
+                    </span>
+                  </p>
                 </div>
-              </div>
-            </Card>
-          </li>
+                <div className="debt-side">
+                  <p className="debt-balance">
+                    <span>{l("left")}:</span>{" "}
+                    <strong>{formatKZT(s.balance_minor, locale)}</strong>
+                  </p>
+                  <div className="debt-reminder-actions">
+                    <Link
+                      className="button button-secondary"
+                      to={`/seller/sale?sale=${s.id}`}
+                    >
+                      {l("payDebt")}
+                    </Link>
+                    {s.balance_minor > 0 && (
+                      <WhatsAppLink
+                        reminder
+                        text={reminderText(
+                          known.get(s.customer_id?.toLowerCase() ?? "")
+                            ?.display_name ?? t("whatsappCustomer"),
+                          s.balance_minor,
+                          business.name,
+                          locale,
+                        )}
+                        contact={
+                          known.get(s.customer_id?.toLowerCase() ?? "")?.contact
+                        }
+                      />
+                    )}
+                    {s.balance_minor > 0 && (
+                      <CopyReminder
+                        key={`${locale}:${s.balance_minor}:${s.id}`}
+                        text={reminderText(
+                          known.get(s.customer_id?.toLowerCase() ?? "")
+                            ?.display_name ?? t("whatsappCustomer"),
+                          s.balance_minor,
+                          business.name,
+                          locale,
+                        )}
+                      />
+                    )}
+                  </div>
+                </div>
+              </Card>
+            </li>
+          </Fragment>
         ))}
       </ul>
       {q.hasNextPage && (
@@ -152,7 +199,8 @@ export function Debts() {
   );
 }
 export function History() {
-  const q = useLedgerList<Operation>(""),
+  const [params] = useSearchParams();
+  const q = useLedgerList<Operation>(params.toString()),
     { l, locale } = useLedgerText(),
     [selected, setSelected] = useState<string | null>(null),
     write = useWrite();
@@ -172,6 +220,7 @@ export function History() {
   return (
     <>
       <PageHeader title={l("history")} />
+      <BusinessFilters />
       {q.isError && !q.isFetchNextPageError && (
         <ErrorState
           error={q.error}

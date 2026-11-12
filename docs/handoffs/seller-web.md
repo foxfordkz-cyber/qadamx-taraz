@@ -678,3 +678,28 @@ npm audit сообщает 3 унаследованных dev findings в Vitest
 ## Опубликовано
 
 Проверенный code commit **3faa4b23e6c973836ba1099e7695546ec427eb65**, push успешен и local/remote hash совпал; fetch/pull --ff-only своей ветки — Already up to date. Base повторно проверен:3d009dc86c93debcab05dedda530b7d1fe62a304. Новый **open Draft PR #11**: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/11, base integration/team-mvp. Эта запись отдельным docs commit дополняет проверенный код; актуальный итоговый HEAD — git log -1 --format=%H. Новому Codex продолжать только feature/seller-design-integration. Merge не выполнялся.
+
+## Stage 3 Business — 12.11.2026
+
+Ветка `feature/qadam-stage3-business`, база Stage 2 `7a5e1b775a5290ba282b78cba708849b3e0dc20a`.
+Новая read-only API 0.8.0: полный клиентский/периодный report, фильтры operations,
+серверный возраст долгов. Карточка клиента, RU/KZ reminder copy, CSV и печать
+встроены в существующие Customers/Ledger/Summary. Нет новых денежных записывающих
+методов, миграций, Auth-правок, внешних AI-вызовов или автоматической отправки.
+
+Контракт: [BUSINESS_READS_API](../../packages/contracts/BUSINESS_READS_API.md).
+Реализация, проверенные сценарии, точные результаты и ограничения:
+[Stage 3 report](../product/QADAM_STAGE3_BUSINESS_REPORT.md).
+Обновлять frontend и backend этой ветки вместе после review. Новый отчёт не
+подменяет ошибку старого backend учебными цифрами. Суммы из всего server ledger;
+группы списка — только загруженные страницы. Возраст долга не означает просрочку.
+Нельзя запускать тестовые миграции на общей БД. Следующий шаг — командное review
+stacked Draft PR и отдельная staging-проверка с настоящим Supabase.
+
+Проверенная реализация Stage 3: `3afc4e37692c2e27697315d18be277d5359e3a61`,
+обычный push успешен, local/remote совпали. [Draft PR #106](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/106),
+base `feature/qadam-stage2-ai-voice`; PR #104/#105 сохранены.
+480 backend passed; 677 уникальных frontend-проверок прошли с повторами после
+первоначальных таймаутов; 15 уникальных Chrome E2E passed. UI/API/SQL совпали:
+4200/2200/2000 ₸. Vercel/Preview Comments на code commit — success, это не hosted
+backend acceptance. Текущий HEAD после документационного commit: `git log -1 --format=%H`.

@@ -1,6 +1,6 @@
 from datetime import date as Date
 from datetime import datetime
-from typing import Annotated
+from typing import Annotated, Literal
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Header, Query, Request, Response
@@ -10,11 +10,12 @@ from sqlalchemy.orm import Session
 from app import schemas
 from app.analytics_schemas import AnalyticsResponse
 from app.auth import current_user
+from app.business_schemas import AgedOpenSale, BusinessReport
 from app.db import session_for_request
 from app.errors import APIError
 from app.localization import Language, localized
 from app.models import Business, Membership
-from app.services import analytics, customers, ledger
+from app.services import analytics, business_reads, customers, ledger
 
 router = APIRouter(prefix="/api/v1")
 DB = Annotated[Session, Depends(session_for_request)]
@@ -133,7 +134,7 @@ def reverse_operation(
 
 @router.get(
     "/businesses/{id}/operations",
-    response_model=schemas.Page[schemas.Operation] | schemas.Page[schemas.OpenSale],
+    response_model=schemas.Page[schemas.Operation] | schemas.Page[AgedOpenSale],
     tags=["ledger"],
 )
 def get_operations(
@@ -145,9 +146,46 @@ def get_operations(
     outstanding_only: bool = False,
     limit: Limit = 50,
     cursor: UUID | None = None,
+    date_from: Date | None = None,
+    date_to: Date | None = None,
+    kind: Literal["sale", "repayment", "reversal"] | None = None,
+    min_amount_minor: Annotated[int | None, Query(ge=0, le=schemas.MAX_OPERATION_MINOR)] = None,
+    max_amount_minor: Annotated[int | None, Query(ge=0, le=schemas.MAX_OPERATION_MINOR)] = None,
+    payment_status: Literal["unpaid", "partial", "paid", "cancelled"] | None = None,
+    age_bucket: Literal["0_7", "8_30", "31_plus"] | None = None,
 ):
     ledger.require_membership(db, id, user)
-    return ledger.history(db, id, date, customer_id, outstanding_only, limit, cursor)
+    return ledger.history(
+        db,
+        id,
+        date,
+        customer_id,
+        outstanding_only,
+        limit,
+        cursor,
+        date_from=date_from,
+        date_to=date_to,
+        kind=kind,
+        min_amount_minor=min_amount_minor,
+        max_amount_minor=max_amount_minor,
+        payment_status=payment_status,
+        age_bucket=age_bucket,
+    )
+
+
+@router.get("/businesses/{id}/report", response_model=BusinessReport, tags=["ledger"])
+def get_business_report(
+    id: UUID,
+    db: DB,
+    user: User,
+    response: Response,
+    date_from: Date | None = None,
+    date_to: Date | None = None,
+    customer_id: UUID | None = None,
+):
+    ledger.require_membership(db, id, user)
+    response.headers["Cache-Control"] = "no-store"
+    return business_reads.report(db, id, date_from, date_to, customer_id)
 
 
 @router.get("/businesses/{id}/summary", response_model=schemas.SummaryResponse, tags=["ledger"])

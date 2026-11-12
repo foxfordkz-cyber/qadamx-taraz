@@ -256,7 +256,39 @@ def customers(session, business_id, q, limit, cursor, *, ids: list[UUID] | None 
     )
 
 
-def history(session, business_id, day, customer_id, outstanding_only, limit, cursor):
+def history(
+    session,
+    business_id,
+    day,
+    customer_id,
+    outstanding_only,
+    limit,
+    cursor,
+    *,
+    date_from=None,
+    date_to=None,
+    kind=None,
+    min_amount_minor=None,
+    max_amount_minor=None,
+    payment_status=None,
+    age_bucket=None,
+):
+    from app.business_schemas import AgedOpenSale
+    from app.services import business_reads
+
+    business_reads.validate_dates(date_from, date_to)
+    if day and (date_from or date_to):
+        raise APIError(422, "VALIDATION_ERROR", "date and date range are mutually exclusive")
+    if (
+        min_amount_minor is not None
+        and max_amount_minor is not None
+        and min_amount_minor > max_amount_minor
+    ):
+        raise APIError(422, "VALIDATION_ERROR", "Minimum exceeds maximum")
+    if age_bucket and not outstanding_only:
+        raise APIError(422, "VALIDATION_ERROR", "Age applies only to open debts")
+    if outstanding_only and kind not in (None, "sale"):
+        raise APIError(422, "VALIDATION_ERROR", "Open debts are sales")
     query = select(Operation).where(Operation.business_id == business_id)
     if customer_id:
         get_customer(session, business_id, customer_id)
@@ -264,32 +296,50 @@ def history(session, business_id, day, customer_id, outstanding_only, limit, cur
     if day:
         start, end = day_bounds(day)
         query = query.where(Operation.created_at >= start, Operation.created_at < end)
+    if date_from:
+        query = query.where(Operation.created_at >= day_bounds(date_from)[0])
+    if date_to:
+        query = query.where(Operation.created_at < day_bounds(date_to)[1])
+    if kind:
+        query = query.where(Operation.kind == kind)
+    size = func.abs(
+        case(
+            (Operation.sales_delta_minor != 0, Operation.sales_delta_minor),
+            else_=Operation.receipts_delta_minor,
+        )
+    )
+    if min_amount_minor is not None:
+        query = query.where(size >= min_amount_minor)
+    if max_amount_minor is not None:
+        query = query.where(size <= max_amount_minor)
+    if age_bucket:
+        query = query.where(business_reads.age_condition(age_bucket))
     if cursor:
         last = operation_in_business(session, business_id, cursor)
         query = query.where(
             tuple_(Operation.created_at, Operation.id) < tuple_(last.created_at, last.id)
         )
+    if outstanding_only or payment_status:
+        totals = business_reads.sale_totals(business_id)
+        query = query.join(totals, totals.c.sale_id == Operation.sale_id)
+        if payment_status:
+            remaining = totals.c.sales - totals.c.receipts
+            status = {
+                "cancelled": totals.c.sales == 0,
+                "paid": (totals.c.sales > 0) & (remaining == 0),
+                "unpaid": (totals.c.sales > 0) & (totals.c.receipts == 0),
+                "partial": (totals.c.receipts > 0) & (remaining > 0),
+            }
+            query = query.where(status[payment_status])
     if outstanding_only:
-        totals = (
-            select(
-                Operation.sale_id,
-                func.sum(Operation.sales_delta_minor).label("sales"),
-                func.sum(Operation.receipts_delta_minor).label("receipts"),
-            )
-            .where(Operation.business_id == business_id)
-            .group_by(Operation.sale_id)
-            .subquery()
-        )
-        query = (
-            query.add_columns(totals.c.receipts, (totals.c.sales - totals.c.receipts))
-            .join(totals, totals.c.sale_id == Operation.id)
-            .where(Operation.kind == "sale", totals.c.sales > totals.c.receipts)
-        )
+        query = query.add_columns(
+            totals.c.receipts, (totals.c.sales - totals.c.receipts), business_reads.age_days()
+        ).where(Operation.kind == "sale", totals.c.sales > totals.c.receipts)
     query = query.order_by(Operation.created_at.desc(), Operation.id.desc()).limit(limit + 1)
     if outstanding_only:
         rows = session.execute(query).all()
         items = [
-            schemas.OpenSale(
+            AgedOpenSale(
                 id=row.id,
                 customer_id=row.customer_id,
                 description=row.description,
@@ -297,10 +347,11 @@ def history(session, business_id, day, customer_id, outstanding_only, limit, cur
                 total_minor=row.sales_delta_minor,
                 received_minor=int(received),
                 balance_minor=int(debt),
+                age_days=int(age),
             )
-            for row, received, debt in rows[:limit]
+            for row, received, debt, age in rows[:limit]
         ]
-        return schemas.Page[schemas.OpenSale](
+        return schemas.Page[AgedOpenSale](
             items=items, next_cursor=str(items[-1].id) if len(rows) > limit else None
         )
     rows = session.scalars(query).all()

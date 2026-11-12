@@ -5,6 +5,7 @@ from datetime import date, timedelta
 from app import livestock_schemas, schemas
 from app.analytics_schemas import AnalyticsResponse
 from app.assistant_schemas import AssistantRequest, AssistantResponse
+from app.business_schemas import AgedOpenSale, BusinessReport
 from app.seed import demo_id
 
 BUSINESS = str(demo_id("mart-demo-clothes"))
@@ -274,6 +275,10 @@ EXAMPLES["CustomerIdsEmptyPage"] = {"items": [], "next_cursor": None}
 
 
 def model_for_example(name):
+    if name == "AgedOpenSale":
+        return AgedOpenSale
+    if name == "BusinessReport":
+        return BusinessReport
     if name == "CanonicalMarketPriceStats":
         return livestock_schemas.PriceStats
     if name.startswith("LocalizedShop"):
@@ -454,4 +459,28 @@ EXAMPLES["AssistantFactsResponse"] = {
 EXAMPLES["AssistantDisabledErrorResponse"] = {
     "error": {"code": "ASSISTANT_DISABLED", "message": "Assistant is not enabled", "fields": {}},
     "request_id": "00000000-0000-4000-8000-000000000001",
+}
+
+EXAMPLES["AgedOpenSale"] = {**EXAMPLES["OpenSale"], "age_days": 7}
+
+EXAMPLES["BusinessReport"] = {
+    "business_id": BUSINESS,
+    "customer_id": CUSTOMER,
+    "date_from": "2026-10-15",
+    "date_to": "2026-10-15",
+    "timezone": "Asia/Almaty",
+    "currency": "KZT",
+    "as_of": TIME,
+    "sales_minor": 300000,
+    "receipts_minor": 100000,
+    "outstanding_minor": 200000,
+    "opening_balance_minor": 0,
+    "closing_balance_minor": 200000,
+    "operation_count": 1,
+    "last_operation": SALE_ROW,
+    "debt_aging": [
+        {"bucket": "0_7", "balance_minor": 200000, "sales_count": 1},
+        {"bucket": "8_30", "balance_minor": 0, "sales_count": 0},
+        {"bucket": "31_plus", "balance_minor": 0, "sales_count": 0},
+    ],
 }

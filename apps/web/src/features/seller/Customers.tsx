@@ -21,6 +21,8 @@ import {
 } from "../../shared/ui";
 import { useCustomerCreationRecovery, useCustomers } from "./queries";
 import { Icon } from "../../shared/ui/Icon";
+import { CustomerProfile } from "../ledger/BusinessReport";
+import { useBusinessText } from "../ledger/businessText";
 
 function UnknownResultError({ error }: { error: unknown }) {
   const { t } = useI18n();
@@ -334,6 +336,8 @@ export function CustomersPage() {
   const [creating, setCreating] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [chosen, setChosen] = useState<Customer | null>(null);
+  const [profile, setProfile] = useState<Customer | null>(null);
+  const { b } = useBusinessText();
   const recovery = useCustomerCreationRecovery();
   const customers = useCustomers(search);
   const items =
@@ -477,6 +481,9 @@ export function CustomersPage() {
                 </span>
                 <div>
                   <h2>{customer.display_name}</h2>
+                  <Button variant="ghost" onClick={() => setProfile(customer)}>
+                    {b("profile")}
+                  </Button>
                   <p>{customer.note || t("noNote")}</p>
                 </div>
               </div>
@@ -520,6 +527,18 @@ export function CustomersPage() {
           onCreated={() => setCreating(false)}
           onCancel={() => setCreating(false)}
         />
+      </Dialog>
+      <Dialog
+        title={b("profile")}
+        open={!!profile && profile.business_id === business.id}
+        onClose={() => setProfile(null)}
+      >
+        {profile && profile.business_id === business.id && (
+          <CustomerProfile
+            key={`${business.id}:${profile.id}`}
+            customer={profile}
+          />
+        )}
       </Dialog>
       <Dialog
         title={t("chooseCustomer")}
