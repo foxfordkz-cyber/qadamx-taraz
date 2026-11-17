@@ -19,6 +19,7 @@ from app.draft_routes import router as draft_router
 from app.errors import APIError
 from app.livestock_routes import router as livestock_router
 from app.public_routes import router as public_router
+from app.research_routes import router as research_router
 from app.routers import router
 from app.services.ai_provider import ProviderPlan
 from app.services.assistant import Assistant
@@ -29,6 +30,7 @@ def private_response(request):
     path = request.url.path.rstrip("/")
     return (
         path.startswith("/api/v1/livestock")
+        or (path.startswith("/api/v1/businesses/") and "/research/" in path)
         or path.endswith("/customer-creation-result")
         or (request.method == "POST" and path.endswith("/customers"))
     )
@@ -59,7 +61,7 @@ def create_app(settings: Settings | None = None):
 
     app = FastAPI(
         title="Qadam Business API",
-        version="0.7.2",
+        version="0.8.0",
         lifespan=lifespan,
         description="Authenticated manual ledger and optional Gemini drafts. "
         "AI never writes money. Public catalog and private seller inquiries.",
@@ -147,6 +149,7 @@ def create_app(settings: Settings | None = None):
         return schemas.HealthResponse()
 
     app.include_router(router)
+    app.include_router(research_router)
     app.include_router(draft_router)
     app.include_router(assistant_router)
     app.include_router(public_router)

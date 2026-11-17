@@ -1,0 +1,151 @@
+.research-page {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+.research-page > article {
+  min-width: 0;
+  scroll-margin-top: 5rem;
+}
+.research-heading,
+.research-risk-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.research-report {
+  display: grid;
+  gap: 0.8rem;
+}
+.research-report > p {
+  margin: 0;
+}
+.research-chart-frame {
+  overflow-x: auto;
+  min-width: 0;
+}
+.research-chart {
+  width: 100%;
+  min-width: 560px;
+  max-height: 340px;
+  color: inherit;
+  font-size: 13px;
+}
+.research-line {
+  fill: none;
+  stroke-width: 2.5;
+}
+.history-line {
+  stroke: #184d40;
+}
+.baseline-line {
+  stroke: #805411;
+  stroke-dasharray: 5 4;
+}
+.ml-line {
+  stroke: #4b45a1;
+}
+.research-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.history-key {
+  color: #184d40;
+}
+.baseline-key {
+  color: #805411;
+}
+.ml-key {
+  color: #4b45a1;
+}
+.research-table {
+  overflow-x: auto;
+  max-width: 100%;
+}
+.research-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.research-table th,
+.research-table td {
+  padding: 0.65rem;
+  text-align: start;
+  border-bottom: 1px solid #d9ddd5;
+}
+.research-history {
+  max-height: 420px;
+  overflow: auto;
+}
+.research-fields {
+  display: grid;
+  gap: 0.85rem;
+  border: 0;
+  padding: 0;
+  margin: 1rem 0;
+  min-width: 0;
+}
+.research-checks {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  border: 1px solid #d9ddd5;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  min-width: 0;
+}
+.research-checks label,
+.research-check {
+  display: flex;
+  align-items: start;
+  gap: 0.65rem;
+  min-height: 44px;
+}
+.research-page input[type="checkbox"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: 0 0 auto;
+  margin-top: 0.2rem;
+}
+.research-page textarea {
+  width: 100%;
+  resize: vertical;
+}
+.research-page .badge {
+  white-space: normal;
+}
+.research-page details {
+  margin-top: 1rem;
+}
+.research-page summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 0.6rem 0;
+}
+.research-risk-list {
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+.research-risk-list > li {
+  padding: 1rem;
+  background: #f4f5ee;
+  border-radius: 0.75rem;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 480px) {
+  .research-checks {
+    grid-template-columns: 1fr;
+  }
+  .research-heading > * {
+    width: 100%;
+  }
+  .research-table th,
+  .research-table td {
+    padding: 0.45rem;
+    font-size: 0.85rem;
+  }
+}

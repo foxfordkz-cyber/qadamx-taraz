@@ -1,0 +1,55 @@
+{
+  "status": "experimental",
+  "model_version": "ridge-lags-v1",
+  "horizon": 7,
+  "currency": "KZT",
+  "timezone": "Asia/Almaty",
+  "provenance": "synthetic_deterministic_v1",
+  "dataset_sha256": "fed1df76e184fea875152e6a0d27a862891a4eb04516c7cfcdb950e9329100f6",
+  "observed_days": 180,
+  "required_days": 98,
+  "evaluation": {
+    "train_from": "2025-01-01",
+    "train_to": "2025-06-15",
+    "validation_from": "2025-06-16",
+    "validation_to": "2025-06-22",
+    "test_from": "2025-06-23",
+    "test_to": "2025-06-29",
+    "baseline_method": "seasonal_naive_7",
+    "ridge_alpha": 0.1,
+    "validation_baseline": {
+      "mae_minor": 700.0,
+      "rmse_minor": 700.0
+    },
+    "validation_ml": {
+      "mae_minor": 45.285714285714285,
+      "rmse_minor": 46.581725417347336
+    },
+    "baseline": {
+      "mae_minor": 700.0,
+      "rmse_minor": 700.0
+    },
+    "ml": {
+      "mae_minor": 42.285714285714285,
+      "rmse_minor": 43.4313908859216
+    },
+    "test_winner": "ml",
+    "test_observations": 7
+  },
+  "selected_method": "ridge-lags-v1",
+  "warnings": [
+    "recorded_sales_only",
+    "experimental_not_guaranteed"
+  ],
+  "runtime": "3.12.14",
+  "implementation_sha256": "bfb8f72563a90192ffa145296acdbcf0136199cde7c4bc6cf6fd33df153212b4",
+  "scientific_claim": "none; eligibility and provenance require review",
+  "debt_evaluation": {
+    "status": "insufficient_data",
+    "reason": "No verified outcome labels or due dates",
+    "precision": null,
+    "recall": null,
+    "f1": null,
+    "roc_auc": null
+  }
+}

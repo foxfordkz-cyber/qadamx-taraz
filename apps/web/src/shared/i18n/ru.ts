@@ -1,4 +1,5 @@
 export const ru = {
+  research: "Прогноз и обратная связь",
   whatsappSend: "Отправить в WhatsApp",
   whatsappRemind: "Напомнить в WhatsApp",
   whatsappHint: "Сообщение отправляете вы сами из WhatsApp",
@@ -399,4 +400,6 @@ export const ru = {
   remaining: "Осталось оплатить",
   outstanding: "Мне должны сейчас",
   inquiry: "Заявка",
+  researchUnsavedLogout:
+    "Есть несохранённый отзыв или неизвестный результат отправки. При выходе текст и ключ повтора удалятся из памяти. Остаться — отмена. Выйти без сохранения? После входа сначала проверьте сохранённые ответы.",
 } as const;

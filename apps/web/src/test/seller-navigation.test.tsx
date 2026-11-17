@@ -30,6 +30,7 @@ const secondaryPaths = [
   "/seller/catalog",
   "/seller/history",
   "/seller/summary",
+  "/seller/research",
 ];
 const paths = (node: HTMLElement) =>
   within(node)

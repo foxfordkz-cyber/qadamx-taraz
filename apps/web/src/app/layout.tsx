@@ -7,7 +7,7 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { useAuth } from "./auth";
-import { useBusiness } from "./runtime";
+import { useBusiness, useRuntime, hasUnsavedResearchFeedback } from "./runtime";
 import { LanguageSwitch, useI18n, type TranslationKey } from "../shared/i18n";
 import {
   Alert,
@@ -35,10 +35,12 @@ const secondaryLinks: SellerLink[] = [
   { path: "catalog", label: "catalog", icon: "catalog" },
   { path: "history", label: "history", icon: "history" },
   { path: "summary", label: "summary", icon: "summary" },
+  { path: "research", label: "research", icon: "summary" },
 ];
 export function SellerLayout() {
   const { t } = useI18n();
   const auth = useAuth();
+  const { drafts } = useRuntime();
   const { business, businesses, selectBusiness } = useBusiness();
   const navigate = useNavigate();
   const { pathname, key: locationKey } = useLocation();
@@ -52,6 +54,11 @@ export function SellerLayout() {
   const [logoutPending, setLogoutPending] = useState(false);
   const [logoutError, setLogoutError] = useState(false);
   async function logout() {
+    if (
+      hasUnsavedResearchFeedback(drafts) &&
+      !window.confirm(t("researchUnsavedLogout"))
+    )
+      return;
     setLogoutPending(true);
     setLogoutError(false);
     try {

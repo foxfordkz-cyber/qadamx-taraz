@@ -5,6 +5,7 @@ from pathlib import Path
 from app.config import Settings
 from app.examples import EXAMPLES, model_for_example
 from app.main import create_app
+from app.research_examples import examples as research_examples
 from app.seed import demo_rows
 
 OUTPUT = Path(__file__).resolve().parents[3] / "packages/contracts"
@@ -19,6 +20,7 @@ def artifacts():
     payloads = {
         "openapi.json": app.openapi(),
         "examples.json": EXAMPLES,
+        "research-examples.json": research_examples(),
         "demo-seed.json": {
             "note": "Synthetic fixtures; no Supabase login accounts or memberships.",
             "tables": {model.__tablename__: rows for model, rows in demo_rows().items()},

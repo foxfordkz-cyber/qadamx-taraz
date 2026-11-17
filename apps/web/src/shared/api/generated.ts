@@ -164,6 +164,58 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/businesses/{id}/research/forecast": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Forecast */
+    get: operations["get_forecast_api_v1_businesses__id__research_forecast_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/research/debt-risk": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Debt Risk */
+    get: operations["get_debt_risk_api_v1_businesses__id__research_debt_risk_get"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/businesses/{id}/research/feedback": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    /** Get Feedback */
+    get: operations["get_feedback_api_v1_businesses__id__research_feedback_get"];
+    put?: never;
+    /** Post Feedback */
+    post: operations["post_feedback_api_v1_businesses__id__research_feedback_post"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/businesses/{id}/drafts": {
     parameters: {
       query?: never;
@@ -814,6 +866,78 @@ export interface components {
       /** Balance Minor */
       balance_minor: number;
     };
+    /** DebtRiskItem */
+    DebtRiskItem: {
+      /**
+       * Customer Id
+       * Format: uuid
+       */
+      customer_id: string;
+      /** Display Name */
+      display_name: string;
+      /** Balance Minor */
+      balance_minor: number;
+      /** Initial Debt Minor */
+      initial_debt_minor: number;
+      /** Later Paid Minor */
+      later_paid_minor: number;
+      /** Oldest Open Sale Days */
+      oldest_open_sale_days: number;
+      /** Open Sales */
+      open_sales: number;
+      /** Score */
+      score: number;
+      /**
+       * Category
+       * @enum {string}
+       */
+      category: "low" | "medium" | "high";
+      /** Factors */
+      factors: string[];
+    };
+    /** DebtRiskResponse */
+    DebtRiskResponse: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /**
+       * As Of
+       * Format: date-time
+       */
+      as_of: string;
+      /**
+       * Method
+       * @default rules-v1
+       * @constant
+       */
+      method: "rules-v1";
+      /**
+       * Supervised Status
+       * @default insufficient_data
+       * @constant
+       */
+      supervised_status: "insufficient_data";
+      /**
+       * Overdue Status
+       * @default unknown_no_due_dates
+       * @constant
+       */
+      overdue_status: "unknown_no_due_dates";
+      /** Outcome Metrics */
+      outcome_metrics?: null;
+      /**
+       * Currency
+       * @default KZT
+       * @constant
+       */
+      currency: "KZT";
+      /** Items */
+      items: components["schemas"]["DebtRiskItem"][];
+      /** Next Cursor */
+      next_cursor: string | null;
+    };
     /** DraftResponse */
     DraftResponse: {
       /**
@@ -871,6 +995,291 @@ export interface components {
        * Format: uuid
        */
       request_id: string;
+    };
+    /** FeedbackCreate */
+    FeedbackCreate: {
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /**
+       * Language
+       * @enum {string}
+       */
+      language: "ru" | "kk";
+      /** Consent */
+      consent: boolean;
+      /**
+       * Consent Version
+       * @default v1
+       * @constant
+       */
+      consent_version: "v1";
+      /** Features Used */
+      features_used: (
+        | "sales"
+        | "debts"
+        | "voice"
+        | "analytics"
+        | "forecast"
+        | "risk"
+        | "catalog"
+        | "inquiries"
+      )[];
+      /** Sales Debt Clarity */
+      sales_debt_clarity: number | null;
+      /** Forecast Usefulness */
+      forecast_usefulness: number | null;
+      /** Risk Clarity */
+      risk_clarity: number | null;
+      /**
+       * Unresolved Problem
+       * @default
+       */
+      unresolved_problem: string;
+      /** Improve First */
+      improve_first: string;
+      /**
+       * Suggestion
+       * @default
+       */
+      suggestion: string;
+      /**
+       * Follow Up
+       * @default false
+       */
+      follow_up: boolean;
+    };
+    /** FeedbackPage */
+    FeedbackPage: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /** Items */
+      items: components["schemas"]["FeedbackRecord"][];
+      /** Next Cursor */
+      next_cursor: string | null;
+    };
+    /** FeedbackReceipt */
+    FeedbackReceipt: {
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+    };
+    /** FeedbackRecord */
+    FeedbackRecord: {
+      /**
+       * Client Request Id
+       * Format: uuid
+       */
+      client_request_id: string;
+      /**
+       * Language
+       * @enum {string}
+       */
+      language: "ru" | "kk";
+      /** Consent */
+      consent: boolean;
+      /**
+       * Consent Version
+       * @default v1
+       * @constant
+       */
+      consent_version: "v1";
+      /** Features Used */
+      features_used: (
+        | "sales"
+        | "debts"
+        | "voice"
+        | "analytics"
+        | "forecast"
+        | "risk"
+        | "catalog"
+        | "inquiries"
+      )[];
+      /** Sales Debt Clarity */
+      sales_debt_clarity: number | null;
+      /** Forecast Usefulness */
+      forecast_usefulness: number | null;
+      /** Risk Clarity */
+      risk_clarity: number | null;
+      /**
+       * Unresolved Problem
+       * @default
+       */
+      unresolved_problem: string;
+      /** Improve First */
+      improve_first: string;
+      /**
+       * Suggestion
+       * @default
+       */
+      suggestion: string;
+      /**
+       * Follow Up
+       * @default false
+       */
+      follow_up: boolean;
+      /**
+       * Id
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Created At
+       * Format: date-time
+       */
+      created_at: string;
+    };
+    /** ForecastDay */
+    ForecastDay: {
+      /**
+       * Date
+       * Format: date
+       */
+      date: string;
+      /** Baseline Minor */
+      baseline_minor: number;
+      /** Ml Minor */
+      ml_minor: number;
+      /** Selected Minor */
+      selected_minor: number;
+    };
+    /** ForecastEvaluation */
+    ForecastEvaluation: {
+      /**
+       * Train From
+       * Format: date
+       */
+      train_from: string;
+      /**
+       * Train To
+       * Format: date
+       */
+      train_to: string;
+      /**
+       * Validation From
+       * Format: date
+       */
+      validation_from: string;
+      /**
+       * Validation To
+       * Format: date
+       */
+      validation_to: string;
+      /**
+       * Test From
+       * Format: date
+       */
+      test_from: string;
+      /**
+       * Test To
+       * Format: date
+       */
+      test_to: string;
+      /**
+       * Baseline Method
+       * @enum {string}
+       */
+      baseline_method: "rolling_mean_7" | "seasonal_naive_7";
+      /** Ridge Alpha */
+      ridge_alpha: number;
+      validation_baseline: components["schemas"]["ForecastMetrics"];
+      validation_ml: components["schemas"]["ForecastMetrics"];
+      baseline: components["schemas"]["ForecastMetrics"];
+      ml: components["schemas"]["ForecastMetrics"];
+      /**
+       * Test Winner
+       * @enum {string}
+       */
+      test_winner: "ml" | "baseline" | "tie";
+      /** Test Observations */
+      test_observations: number;
+    };
+    /** ForecastMetrics */
+    ForecastMetrics: {
+      /** Mae Minor */
+      mae_minor: number;
+      /** Rmse Minor */
+      rmse_minor: number;
+    };
+    /** ForecastResponse */
+    ForecastResponse: {
+      /**
+       * Business Id
+       * Format: uuid
+       */
+      business_id: string;
+      /**
+       * As Of
+       * Format: date-time
+       */
+      as_of: string;
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: "insufficient_data" | "experimental";
+      /**
+       * Model Version
+       * @constant
+       */
+      model_version: "ridge-lags-v1";
+      /**
+       * Horizon
+       * @enum {integer}
+       */
+      horizon: 7 | 30;
+      /**
+       * Currency
+       * @constant
+       */
+      currency: "KZT";
+      /**
+       * Timezone
+       * @constant
+       */
+      timezone: "Asia/Almaty";
+      /**
+       * Provenance
+       * @enum {string}
+       */
+      provenance:
+        | "business_ledger"
+        | "demo_business_ledger"
+        | "synthetic_example";
+      /** Dataset Sha256 */
+      dataset_sha256: string;
+      /** Observed Days */
+      observed_days: number;
+      /** Required Days */
+      required_days: number;
+      /** History */
+      history: components["schemas"]["ResearchDay"][];
+      /** Forecast */
+      forecast: components["schemas"]["ForecastDay"][];
+      evaluation: components["schemas"]["ForecastEvaluation"] | null;
+      /** Selected Method */
+      selected_method:
+        | ("ridge-lags-v1" | "rolling_mean_7" | "seasonal_naive_7")
+        | null;
+      /** Warnings */
+      warnings: string[];
     };
     /** HealthResponse */
     HealthResponse: {
@@ -1406,6 +1815,16 @@ export interface components {
       amount_minor: number;
       /** Description */
       description: string;
+    };
+    /** ResearchDay */
+    ResearchDay: {
+      /**
+       * Date
+       * Format: date
+       */
+      date: string;
+      /** Sales Minor */
+      sales_minor: number;
     };
     /** ReverseCreate */
     ReverseCreate: {
@@ -2248,6 +2667,286 @@ export interface operations {
         };
         content: {
           "application/json": components["schemas"]["AnalyticsResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_forecast_api_v1_businesses__id__research_forecast_get: {
+    parameters: {
+      query?: {
+        horizon?: 7 | 30;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ForecastResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_debt_risk_api_v1_businesses__id__research_debt_risk_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["DebtRiskResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  get_feedback_api_v1_businesses__id__research_feedback_get: {
+    parameters: {
+      query?: {
+        limit?: number;
+        cursor?: string | null;
+      };
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["FeedbackPage"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+      /** @description Service Unavailable */
+      503: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["ErrorResponse"];
+        };
+      };
+    };
+  };
+  post_feedback_api_v1_businesses__id__research_feedback_post: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: string;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FeedbackCreate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "application/json": components["schemas"]["FeedbackReceipt"];
         };
       };
       /** @description Unauthorized */

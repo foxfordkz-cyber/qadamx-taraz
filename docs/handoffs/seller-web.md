@@ -618,3 +618,185 @@ npm audit сообщает 3 унаследованных dev findings в Vitest
 ## Опубликовано
 
 Проверенный code commit **3faa4b23e6c973836ba1099e7695546ec427eb65**, push успешен и local/remote hash совпал; fetch/pull --ff-only своей ветки — Already up to date. Base повторно проверен:3d009dc86c93debcab05dedda530b7d1fe62a304. Новый **open Draft PR #11**: https://github.com/foxfordkz-cyber/qadamx-taraz/pull/11, base integration/team-mvp. Эта запись отдельным docs commit дополняет проверенный код; актуальный итоговый HEAD — git log -1 --format=%H. Новому Codex продолжать только feature/seller-design-integration. Merge не выполнялся.
+
+## 2026-10-24 — Diploma extension / feature/ml-sales-debt-research
+
+Текущая задача выполняется в отдельном worktree `work/qadam-ml-sales-debt-research`.
+База — `main:2518b2e80b8c8ef881063a968645382d61aeb37e`. После fetch удалённой
+integration/team-mvp нет; её исторический head 3d009dc входит в main (ещё 344 commit).
+Чужие ветки/PR не объединялись, финансовые команды, Auth, Voice и Flutter сохранены.
+
+Готово: `/seller/research` RU/KZ, прогноз 7/30 с baseline/ridge и MAE/RMSE,
+правила риска долга, анкета с согласием и приватным paged review/export.
+В Demo используются явно обозначенные синтетические примеры; POST выключен.
+Живые endpoints — новые `/businesses/{id}/research/forecast`, `/debt-risk`,
+GET/POST `/feedback` на существующем JWT/membership. Live-развёртывание не проводилось.
+Все прежние paths и schemas OpenAPI структурно совпадают с базой; дополнения — API0.8.0.
+
+Основные новые модули, изменённые файлы, этапы и вклад: `docs/diploma-evidence/contributions.md`.
+Результаты и ограничения проверок: `docs/diploma-evidence/test-execution.md`.
+Архитектура, ER, данные, методы, screenshots и готово/запланировано:
+`docs/diploma-evidence/README.md`. Исследовательские планы —
+`docs/ml-evaluation-plan.md`, `docs/user-research-plan.md`.
+
+Этапы 1–4 опубликованы: 8804795, 6bdaeb6, 45b33ab, b7c4750.
+Итоговый HEAD читать через `git log -1 --format=%H`; финальная публикация
+зафиксирована ниже. Не использовать старые ветки из
+предыдущих разделов этого handoff для продолжения данной задачи.
+
+Команды (Windows: npm.cmd при запрете npm.ps1):
+- API: `cd apps/api`; `uv sync --locked`; `uv run ruff check app tests`;
+  `uv run ruff format --check app tests`; `uv run python -m app.export_contracts --check`.
+- PostgreSQL tests: **отдельная пустая БД с именем *_test**, отличная от DATABASE_URL;
+  `TEST_DATABASE_URL` указывает только на неё; `uv run pytest -q --tb=short`.
+  Fixture применяет/откатывает миграции и очищает только тестовую схему.
+- Web: `cd apps/web`; `npm ci`; `npm run generate:api`; `npm run check:api`;
+  `npm run typecheck`; `npm run lint`; `npm test -- --maxWorkers=1`;
+  `npm run build`; `npm run format:check`; `npm run test:e2e`;
+  `npx playwright test -c e2e/research.playwright.config.ts` (Chrome, localhost:4296).
+- Demo: `npm run dev -- --port 5173 --strictPort`; /login → Посмотреть демо →
+  Ещё → Прогноз и обратная связь. Для Demo реальные ключи не нужны.
+- Вычисления: из API `uv run python -m app.evaluate_research --synthetic --horizon 7
+  --output ../../tmp/research-synthetic-7.json`; реальные экспорты не коммитить.
+
+Новая миграция 0009_research_feedback применялась только в локальной тестовой БД.
+Shared rollout требует капитана, backup/recovery и retention/withdrawal процесса.
+Новых env и зависимостей нет. Прогноз без 98/144 полных дней unavailable; реальные
+данные не получены. Debt rules не являются ML, вероятностью или просрочкой:
+для обучения нужны проверенные сроки/исходы. Реальных участников/анкет/метрик качества
+модели нет. Перед recruitment назначить ответственного, контакт, защищённое хранение
+и удаление за 90 дней; автоматического purge нет. Синтетические результаты не
+подтверждают научную гипотезу. Production rollout и физические устройства не проверялись.
+
+### Публикация diploma extension — 2026-10-24
+
+Проверенный implementation commit: **4021cf2e9796d59d38cf787cc1e8bea2f8f8fea4**.
+`fetch --prune` и `pull --ff-only origin feature/ml-sales-debt-research` прошли;
+push успешен, local/remote HEAD этого commit совпали. Base main остался
+2518b2e80b8c8ef881063a968645382d61aeb37e. Создан
+[Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100),
+base `main`, head `feature/ml-sales-debt-research`. Эта последующая docs-запись
+сохраняет ссылку и проверенный code SHA; её hash — в истории ветки.
+
+Финальные проверки: 437/437 backend на отдельной PostgreSQL, 625/625 unit/component,
+6/6 research E2E. Default E2E: 43 passed/1 failed; после исправления устаревшего
+ожидания навигации отдельный повтор этого теста — 1/1 passed. Полный прогон не
+выдаётся за all-green одной командой. TypeScript/lint/build/format/API generation
+и проверка воспроизводимости — passed. Существующие warning сборки/зависимостей,
+предыдущие падения и ограничения сохранены в test-execution.md.
+
+Продолжение: review PR и миграции 0009 капитаном; согласовать rollout и процедуру
+согласия/удаления, затем получить реальные полные ряды и проверенные debt labels.
+До этого не заявлять научный выигрыш модели, результаты опроса или live-приёмку.
+Merge/deploy не выполнялись. Не переносить работу обратно в старые feature-ветки.
+
+GitHub подтвердил `mergeable: true` (конфликтов с main нет). После push штатная
+Vercel integration автоматически сообщила успешный branch preview; deploy-команды
+агент не запускал. Preview не проверялся с живым backend и не подтверждает rollout
+миграции или production-приёмку. Локальные результаты тестов остаются отдельными
+от этих GitHub/Vercel статусов.
+
+## 2026-10-24 — PR100: проверка от браузера до PostgreSQL
+
+Продолжение только в `feature/ml-sales-debt-research`, исходный HEAD29da962 совпал
+с remote; main2518b2e не изменился. [Полный отчёт и команды](../diploma-evidence/end-to-end-acceptance.md).
+Исправлены дробные MAE/RMSE меньше одного тиына; добавлена ссылка из правил риска
+на существующие открытые продажи клиента. Production Auth/ledger, backend-код,
+миграции и контракты в этом продолжении не изменялись.
+
+Новый `tests/research_browser_server.py` используется только для isolated E2E:
+подписанный тестовый JWT, настоящий FastAPI/SQL, запрет непустой/общей БД, никаких
+mock research-ответов. Новые `research-postgres.acceptance.ts` и config проверяют
+оба прогноза, SQL-суммы, потерю ответа после commit, повтор без дубля, consent422,
+подменённый JWT401, чужую точку404 и сохранность ledger.
+
+Результаты: 627 unit/component, 47 профильных backend, 44 общих E2E, 6 research
+fixture E2E и 3 HTTP/PostgreSQL E2E — все passed. Lint/typecheck/build/format/API
+checks прошли. Предыдущие ошибки запуска/SQL-верификатора и выбора точки после
+reload сохранены в отчёте; они не выдаются за успешные прогоны.
+
+Вручную через browser automation выполнен **настоящий Supabase login**, проверка
+7/30 и RU/KZ, риска400₸ и тестового отзыва: receipt совпал с SQL, одна строка с
+consent=true, текст прочитан после reload. Использованы только синтетические
+данные отдельной локальной PostgreSQL, не реальные записи production-точки.
+Сервер уже переведён на обычный `uvicorn app.main:app`, без test Auth маршрутов.
+
+Оставлены локальные API8320 и web4298: http://127.0.0.1:4298/seller/research.
+Игнорируемые apps/api/.env и apps/web/.env.local содержат только локальные/public
+настройки, не пароль/JWT. БД qadam_research_browser_20261024_manual_test — отдельная
+loopback55439. После reload выбрать QA history point заново: общий BusinessProvider
+не хранит выбор между reload. Unsaved feedback остаётся только в памяти вкладки.
+
+Hosted OpenAPI0.7.2 не имеет research endpoints; Vercel Preview перенаправляет на
+Vercel login. Доступ владельца/защита не обходились и не менялись. Shared migration,
+реальные merchant data и production-приёмка остаются отдельными зависимостями.
+Проверенный код и evidence опубликованы commit
+`9fafacb9243f1569b856dfe953acbc216b7ec561`; push в
+`origin/feature/ml-sales-debt-research` успешен, local/remote HEAD совпали.
+Продолжение остаётся в [Draft PR #100](https://github.com/foxfordkz-cyber/qadamx-taraz/pull/100),
+base `main`. Отдельный documentation follow-up фиксирует публикацию; его SHA можно
+получить через `git log -1 --format=%H`. Merge и production deploy не выполнялись.
+
+## 2026-10-24 — Research stabilization, PR100
+
+Активная ветка `feature/ml-sales-debt-research`; исходный HEAD
+`8bbc0acae75d2fea23c9e95ce4f36f91e9b7b4e4`, base main
+`2518b2e80b8c8ef881063a968645382d61aeb37e`. Ошибочное Stage 1 задание отменено;
+до начала исправленной задачи рабочее дерево было чистым, отменять чужой код не
+потребовалось. Независимая сессия assistant factual validation не затронута.
+
+Эта запись **заменяет прежнее ограничение выбора точки после reload**: выбранный
+ID хранится в sessionStorage отдельно для API/пользователя и восстанавливается
+только из актуального разрешённого списка /me. Отозванная/чужая точка не
+восстанавливается. Auth epoch, права API и финансовые расчёты не менялись.
+
+Отзыв/согласие/исходный idempotency intent сохраняются в памяти Runtime отдельно
+по точке и поколению сессии при SPA-переходах. Добавлены RU/KZ unsaved-состояние,
+предупреждение reload/logout и подтверждённое удаление неотправленного черновика.
+После неизвестного POST сохраняется тот же ключ/тело, даже если повтор вернул 4xx;
+автоматических отправок нет. Успешная квитанция остаётся при SPA-переходах.
+Текст/ключ не сохраняются в Web Storage. При подтверждённом reload/logout, expiry
+или падении процесса они могут потеряться; предупреждение браузера — best effort.
+После потери состояния сначала посмотреть «Мои сохранённые ответы».
+
+Прогноз показывает диапазоны дат, границу история/прогноз и читаемый прокручиваемый
+график; категории долга пояснены как баллы приоритета. Методика, MAE/RMSE, правила
+риска, серверные суммы и API0.8.0 сохранены. Backend, миграции, OpenAPI/generated,
+AuthProvider, Voice и ledger в этой стабилизации не изменены.
+
+Проверки финального кода: **639/639 unit/component**, **47/47 профильных backend**,
+**44/44 общих E2E**, **6/6 Research fixtures**, **4/4 настоящих HTTP/PostgreSQL E2E**.
+TypeScript, lint, build, format, API check, backend ruff/export прошли. Общий E2E
+использовал CLI timeout60s, без retries; SQL — отдельную новую БД loopback55439.
+Предыдущие failures не скрыты: startup timeouts, ожидание отменённого reload,
+переход меню и устаревшее ожидание выбора точки. Команды, длительности, ограничения
+и полный контекст: [stabilization-20261024.md](../diploma-evidence/stabilization-20261024.md).
+
+Изменённые области: app/business-selection.ts (новый), App/runtime/layout;
+features/seller/research; shared/i18n RU/KZ; business-selection/research-feedback
+unit tests; test setup; research-postgres и analytics E2E; Research evidence/docs.
+Точный перечень: `git diff --name-status 8bbc0ac..HEAD`.
+
+Локальный запуск оставлен на http://127.0.0.1:4298/seller/research (обычный API8320,
+реальная Supabase сессия, отдельная **синтетическая** PostgreSQL). Проверены 7/30,
+400₸ риска и сохранение выбора после reload; новые screenshots находятся в
+`docs/diploma-evidence/screenshots/`. Это не проверка реальных merchant данных
+и не результаты участников исследования. Автотесты используют отдельный test issuer.
+
+Hosted backend вновь сообщил 0.7.2 без Research, Preview требует Vercel login.
+Production-ready не заявляется. Нужны review капитана, совместимый backend,
+согласованная миграция0009/backup, доступ Preview, реальные полные данные и
+retention/withdrawal процедура. Rollback: предыдущий frontend/API artifact;
+feedback table не удалять без отдельного решения/backup. PR100 остаётся Draft,
+main/shared DB/deploy не изменены. Публикация и проверенный code SHA — ниже.
+
+### Публикация стабилизации
+
+Проверенный implementation commit: **cc02e75f7d5a12ca8b1d171498f3cc4e513db59f**.
+Fetch/prune и ff-only pull успешны; main остался 2518b2e. Первый push оборвался
+из-за сетевого reset; обычный повтор с HTTP/1.1 завершился успешно. GitHub API
+подтвердил совпадение PR head с локальным cc02e75, Draft=true, mergeable=true.
+Этот последующий docs commit фиксирует code SHA и точный перечень файлов; его
+собственный hash доступен через `git log -1 --format=%H`. Код после тестов не менялся.
+Продолжение — только review и согласование release dependencies из отчёта,
+не автоматический merge или production rollout.

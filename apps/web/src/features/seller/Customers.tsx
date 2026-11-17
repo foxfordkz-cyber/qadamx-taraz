@@ -351,6 +351,9 @@ export function CustomersPage() {
           </Button>
         }
       />
+      <p>
+        <Link to="/seller/research#risk">{t("research")}</Link>
+      </p>
       {recovery.state === "checking" && recovery.record && (
         <Alert>{t("customerRecoveryChecking")}</Alert>
       )}

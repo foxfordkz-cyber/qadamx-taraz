@@ -14,6 +14,16 @@ import { createLiveGateway, type SellerGateway } from "../shared/api/gateway";
 import { backendBindings } from "../shared/api/bindings";
 import type { Business } from "../shared/api/models";
 import { demoGateway } from "../shared/demo/gateway";
+import {
+  readBusinessSelection,
+  writeBusinessSelection,
+} from "./business-selection";
+
+export function hasUnsavedResearchFeedback(drafts: Map<string, unknown>) {
+  return [...drafts.keys()].some((key) =>
+    key.endsWith(":research-feedback-unsaved"),
+  );
+}
 
 const RuntimeContext = createContext<{
   api: ApiClient;
@@ -51,7 +61,10 @@ export function RuntimeProvider({
   const drafts = useRef(new Map<string, unknown>()).current;
   useEffect(() => {
     const guard = (event: BeforeUnloadEvent) => {
-      if ([...drafts.keys()].some((key) => key.endsWith(":money-pending"))) {
+      if (
+        [...drafts.keys()].some((key) => key.endsWith(":money-pending")) ||
+        hasUnsavedResearchFeedback(drafts)
+      ) {
         event.preventDefault();
         event.returnValue = "";
       }
@@ -102,14 +115,48 @@ export function useMemberships() {
 export function BusinessProvider({
   children,
   businesses,
+  persistenceKey,
 }: {
   children: ReactNode;
   businesses: Business[];
+  persistenceKey?: string;
 }) {
-  const [selected, setSelected] = useState<string | null>(null);
+  // A new identity/environment gets fresh state even if a caller reuses the
+  // provider. RuntimeProvider also remounts on every authentication generation.
+  return (
+    <BusinessSelection
+      key={persistenceKey ?? "memory"}
+      businesses={businesses}
+      persistenceKey={persistenceKey}
+    >
+      {children}
+    </BusinessSelection>
+  );
+}
+function BusinessSelection({
+  children,
+  businesses,
+  persistenceKey,
+}: {
+  children: ReactNode;
+  businesses: Business[];
+  persistenceKey?: string;
+}) {
+  const [selected, setSelected] = useState<string | null>(() => {
+    const remembered = readBusinessSelection(persistenceKey);
+    return (
+      (businesses.find((item) => item.id === remembered) ?? businesses[0])
+        ?.id ?? null
+    );
+  });
   // Validate on every render so a revoked membership cannot remain selected.
   const business =
     businesses.find((item) => item.id === selected) ?? businesses[0];
+  useEffect(() => {
+    writeBusinessSelection(persistenceKey, business?.id);
+    // Do not resurrect a revoked selection if it is subsequently re-added.
+    if (selected !== (business?.id ?? null)) setSelected(business?.id ?? null);
+  }, [persistenceKey, business?.id, selected]);
   if (!business) return null;
   return (
     <BusinessContext.Provider

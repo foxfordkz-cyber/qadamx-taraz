@@ -268,6 +268,7 @@ export function AnalyticsPage() {
       <header className="analytics-heading">
         <div>
           <h1>{t("analytics")}</h1>
+          <Link to="/seller/research">{t("research")}</Link>
           {period && <p className="analytics-period-label">{period}</p>}
         </div>
         <div

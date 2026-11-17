@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-24",
+  "branch": "feature/ml-sales-debt-research",
+  "base": "2518b2e80b8c8ef881063a968645382d61aeb37e",
+  "backend": {
+    "tests": "437",
+    "failures": "0",
+    "errors": "0",
+    "skipped": "0",
+    "time": "272.026"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "postgresql": "17.11",
+    "database": "isolated disposable *_test database",
+    "network": "local JWKS/mock providers only"
+  },
+  "scientific_evidence": "engineering tests, not real model performance or user research"
+}
